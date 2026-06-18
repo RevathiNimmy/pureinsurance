@@ -1,0 +1,1237 @@
+export prototype number SetPMDBRegistryInstalledValues();
+export prototype number UpdateDBRegistryEntriesAfterInstallation();
+export prototype number CheckOrCreateRegistrySettingsTable();
+export prototype number GetPMDBRegistryInstalledValuesforUpgradeInstall();
+export prototype number UpdateDBUpgradeInstallationHistory();
+
+prototype CreateRegistrySettingTable();  // this is for creating the Registry Table.
+prototype InsertRegistrySetting(STRING, STRING, STRING, STRING, NUMBER);
+prototype STRING GetFromDBRegistry(STRING, STRING);
+prototype CurrentSystemID();
+prototype CheckAccess();
+prototype CheckOrCreatePMSystemID();
+
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  UpdateRegistryEntriesAfterInstallation                         //                     
+//                                                                           //
+// Purpose:   This function is called to do the registry update operations   //
+//			  after every fresh or upgrade or product upgrade but fresh      //
+//			  installation of Sirius product                                 //
+///////////////////////////////////////////////////////////////////////////////
+
+function number  UpdateDBRegistryEntriesAfterInstallation()
+begin   
+// Splash screen - create
+SdShowMsg ( "Creating registry settings. Please wait..." ,TRUE );
+
+//Sirius Product Upgrade but Fresh Install of this New Installer
+SetPMDBRegistryInstalledValues();
+
+SdShowMsg ( "Registry settings updated",FALSE);
+return 1;
+end;
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetPMDBRegistryInstalledValues                                   //
+//                                                                           //
+// Purpose:   This function writes the installed values and parameters       //
+//			  to the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\PM" folder  //
+//            after every installation                                       //                       
+///////////////////////////////////////////////////////////////////////////////
+
+function number SetPMDBRegistryInstalledValues()
+number nvTARGETDIRLength,nvResult, sSystemIDStr, SystemID; 
+string szMajorVersion1,szMajorVersion2,szCacheLocation,szBriefCaseDir,szCommonCacheLocation,szSiriusEventLog,szMinorVersion;
+STRING szEDIPathName, szFile;
+begin     
+
+szFile = g_InstallLocation +"\\" + "PureConfiguration.xml";  // or INSTALLDIR ^ "PureConfiguration.xml", depending where it is
+
+
+
+
+
+
+SdShowMsg ( "Updating DB Registry . . . please wait." , TRUE );
+
+CheckOrCreatePMSystemID();
+
+SystemID = CurrentSystemID();
+
+
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+//Set the Conventional Product Version after installation
+StrSub(szMajorVersion1,g_szTobeInstalledMajorVersion,0,1);
+StrSub(szMajorVersion2,g_szTobeInstalledMajorVersion,1,2);
+StrSub(szMinorVersion,g_szTobeInstalledMajorVersion,2,1);
+
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Version","String",szMajorVersion1 + "."+ szMajorVersion2 + "." + g_szTobeInstalledSubVersion,SystemID);	
+
+
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","PureReleaseVersion","String",szMajorVersion1 + "."+ szMinorVersion,SystemID);
+SetPureConfig(szFile,"PureReleaseVersion",szMajorVersion1 + "." + szMinorVersion);
+
+//Get the Full Service Release Version Number and Split it up for any product SubVersion Availability
+StrSub(g_szTobeInstalledServiceRelease,g_szTobeInstalledMinorVersion,1,2); 
+
+if(StrFind(g_szTobeInstalledServiceRelease,"0") = 0) then
+	StrSub(g_szTobeInstalledServiceRelease,g_szTobeInstalledServiceRelease,1,1); 	
+endif;
+
+//Set the Build number of the installed product
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Build","String",g_szTobeInstalledBuildNumber,SystemID);
+
+//Set the Service Release Version and Sirius Release Version of the product currently installed              
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Service Release","String",g_szTobeInstalledServiceRelease + "." + g_szTobeInstalledBuildNumber,SystemID);
+SetPureConfig(szFile,"Servicerelease",g_szTobeInstalledServiceRelease + "." + g_szTobeInstalledBuildNumber);
+
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Sirius Release","String",g_szTobeInstalledServiceRelease + "." + g_szTobeInstalledBuildNumber,SystemID);		
+
+
+//Set the Full Version of the Product
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Full Version","String",g_szTobeInstalledFullVersion,SystemID);
+
+//Set the New Product Version after installation
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","New Version","String",IFX_PRODUCT_VERSION,SystemID);
+
+//Set the New Product Version after installation
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Server","Version","String",IFX_PRODUCT_VERSION,SystemID);
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Client","Version","String",IFX_PRODUCT_VERSION,SystemID);
+  
+//Set the New DME Version after installation
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Server","Version","String",IFX_PRODUCT_VERSION,SystemID);
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Client","Version","String",IFX_PRODUCT_VERSION,SystemID);  
+
+//Set the DME Cache location
+szCacheLocation = GetFromRegistry("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Client\\Cache","Cache Location");
+if (szCacheLocation = "") then
+	nvResult = RegDBCreateKeyEx("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Client","Cache");   
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Client\\Cache","Cache Location","String",TARGETDIR ^ "DocuMaster Enterprise\\DME\\Data",SystemID);  
+endif;
+
+// Set BriefcaseDir
+//szBriefCaseDir=GetFromRegistry("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Common","BriefcaseDir",NULL);
+if (szBriefCaseDir = "") then
+	
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Common","BriefcaseDir","String",TARGETDIR ^ "DocuMaster Enterprise\\DME\\Data",SystemID);  
+endif;
+
+// Set Common Cache Location
+szCommonCacheLocation = GetFromRegistry("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Common\\Cache","Cache Location");
+if (szCommonCacheLocation = "") then
+	nvResult = RegDBCreateKeyEx("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Common","Cache");   
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DocuMaster\\Common\\Cache","Cache Location","String",g_szPMPath ^ "\\DocuMaster Cache",SystemID);  
+endif;
+
+//Set for Event Logging
+szSiriusEventLog=GetFromRegistry("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Common","EventLogMessaging");
+if (szSiriusEventLog = "") then
+		InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Common","EventLogMessaging","String","1",SystemID); 
+endif; 
+
+//Create EventLog for Sirius Application
+if(RegDBKeyExist("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius") < 0) then
+	nvResult = RegDBCreateKeyEx("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application","Sirius");   
+	InsertRegistrySetting("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","CategoryCount","Number","4",SystemID); 
+	InsertRegistrySetting("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","TypesSupported","Number","7",SystemID);   
+else
+	InsertRegistrySetting("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","CategoryCount","Number","4",SystemID); 
+	InsertRegistrySetting("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","TypesSupported","Number","7",SystemID);   
+endif;
+
+if(g_bFreshInstaller = TRUE) then           
+	//Set PMDIR Name
+	 WriteToRegistry("SOFTWARE\\Pure","PMDIR",REGDB_STRING,g_szPMPath);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure","PMDIR","String",g_szPMPath,SystemID);
+	//Set PMDIR Name for 32 bit setupdb
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Pure","PMDIR","String",g_szPMPath,SystemID);
+	//Need this to stay because it is required for the 
+	WriteToRegistry("SOFTWARE\\Pure","PMDIR",REGDB_STRING,g_szPMPath);
+	//Set DBServerName  
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server","String",g_szDBServer,SystemID);
+	//Set Sirius DBName
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database","String",g_szSiriusDBName,SystemID);
+	//Set Sirius Installation Folder Name
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Setup","Installation folder","String",g_szPMPath,SystemID);
+	//Set Sirius DB MDF Filename 
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DatabaseInstaller\\Server","DataFilesFolder","String",g_szMDFFileName,SystemID);
+	//Set Sirius DB LDF Filename
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DatabaseInstaller\\Server","LogFilesFolder","String",g_szLDFFileName,SystemID);
+	//Set Sirius DB Backup Filename
+	//InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFileName","String",g_szDBBackupFileName);
+	//Set Sirius DB Backup Foldername
+	//InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFilesFolder","String",g_szDBBackupPath);
+	//Set S4B path in PureInstallation Folder Name
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","S4B Path","String",g_szPMPath,SystemID);
+endif;	
+
+//Update the Product Installation History after installation
+UpdateDBUpgradeInstallationHistory();
+
+//Set the SQL Server Authentication Mode for Windows or SQL Server Authentication
+if(g_bWinLoginAuthenticate = TRUE) then   
+	//Set the Trusted Connection entry to 1(true).
+   	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted","String","1",SystemID);
+else
+    //Remove the Trusted Connection entry if present
+    //nvResult = RegDBDeleteValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted"); 
+    InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted","String","0",SystemID);
+endif;
+
+//Set the SQL Server Authentication Mode for Windows or SQL Server Authentication
+if(g_bWinLoginAuthenticate = TRUE) then   
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\SiriusSolutions","Trusted","String","1",SystemID);
+else
+    InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server\\Databases\\SiriusSolutions","Trusted","String","0",SystemID);
+endif;
+
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server","UserIncorrectAttemptsAllowed","String","3",SystemID);
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server","CachePath","String",TARGETDIR ^ "Cache",SystemID);
+InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Server","SysOptionsCacheFile","String","PureCache",SystemID);
+
+
+//Set the EDIPathName
+szEDIPathName = GetFromRegistry("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Server","EDIPathName");
+if (szEDIPathName = "") then
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Server","EDIPathName","String",TARGETDIR ^ "EDI",SystemID);  
+endif;
+
+WriteToLogFile(INSTALL_LOG,"Setting Pure Registry Completed after installation");
+return 1;
+end;
+
+
+
+
+
+function InsertRegistrySetting(KeyPath, KeyName, KeyType, keydata, system_id)
+    STRING sConnectionString, sSQL, sSystemIDStr,g_nSystemID;
+    OBJECT oConnection;
+    NUMBER bError;
+begin
+    set oConnection = NULL;
+    bError = FALSE;
+SdShowMsg ( "Creating registry settings table" ,TRUE );
+    // === Step 1: Create ADODB.Connection ===
+    try
+        set oConnection = CreateObject("ADODB.Connection");
+        if (IsObject(oConnection) = FALSE) then
+            bError = TRUE;
+        endif;
+    catch
+        bError = TRUE;
+    endcatch;
+
+    if (bError) then
+        goto cleanup;
+    endif;
+
+    // === Step 2: Open Connection ===
+    try
+      sConnectionString = "Provider=SQLOLEDB;Data Source=" + g_szDBServer + 
+                            ";Initial Catalog=" + g_szSiriusDBName;
+                            
+        if g_TrustedSTR = "1" then
+            sConnectionString = sConnectionString + ";Trusted_Connection=yes";
+        else 
+            sConnectionString = sConnectionString + ";User ID=" + g_szMasterUser + 
+                            ";Password=" + g_szMasterPassword;
+        endif;
+        oConnection.Open(sConnectionString);
+    catch
+        bError = TRUE;
+    endcatch;
+
+    if (bError) then
+        goto cleanup;
+    endif;
+
+    // === Step 3: Insert or Update Registry_Setting ===
+    try
+        // Convert number to string
+        NumToStr(sSystemIDStr, system_id);
+
+        // Clean values
+        StrReplace(KeyPath, "HKEY_CURRENT_USER\\", "", 0);
+        StrReplace(KeyPath, "HKEY_LOCAL_MACHINE\\", "", 0);
+        StrReplace(keydata, "\\\\", "\\", 0);
+
+        // SQL: Update if exists, else insert
+        sSQL = "IF EXISTS (SELECT 1 FROM Registry_Setting " +
+               "WHERE KeyPath = '" + KeyPath + "' " +
+               "AND KeyName = '" + KeyName + "' " +
+               "AND System_id = " + sSystemIDStr + ") " +
+               "BEGIN " +
+               "UPDATE Registry_Setting " +
+               "SET KeyType = '" + KeyType + "', " +
+               "keydata = '" + keydata + "' " +
+               "WHERE KeyPath = '" + KeyPath + "' " +
+               "AND KeyName = '" + KeyName + "' " +
+               "AND System_id = " + sSystemIDStr + 
+               " END " +
+               "ELSE " +
+               "INSERT INTO Registry_Setting (KeyPath, KeyName, KeyType, keydata, System_id) " +
+               "VALUES ('" + KeyPath + "', '" + KeyName + "', '" + KeyType + "', '" + keydata + "', " + sSystemIDStr + ")";
+
+        oConnection.Execute(sSQL);
+    catch
+        bError = TRUE;
+    endcatch;
+
+    // === Step 4: Close Connection ===
+    try
+        if (IsObject(oConnection) && oConnection.State = 1) then
+            oConnection.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+
+    return 1;
+
+cleanup:
+    if (IsObject(oConnection)) then
+        try
+            if (oConnection.State = 1) then
+                oConnection.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+end;
+
+
+
+
+
+
+
+
+function STRING GetFromDBRegistry(KeyPath, KeyName)
+    STRING sConnectionString, sSQL, sResult, sSystemIDStr, sErrMsg;
+    OBJECT oConnection, oRecordSet;
+    NUMBER bError, SystemID, nCount;
+begin
+
+
+
+if GlobalSystemID=0 then
+    SystemID = CurrentSystemID();
+    GlobalSystemID = SystemID;
+	
+else
+	  SystemID = GlobalSystemID; 
+endif;
+
+
+    set oConnection = NULL;
+    set oRecordSet = NULL;
+    bError = FALSE;
+    sResult = "";
+    
+    // === Step 1: Create ADODB.Connection ===
+    try
+        set oConnection = CreateObject("ADODB.Connection");
+        if (IsObject(oConnection) = FALSE) then
+            bError = TRUE;
+        endif;
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 2: Open Connection ===
+    try
+        sConnectionString = "Provider=SQLOLEDB;Data Source=" + g_szDBServer + 
+                            ";Initial Catalog=" + g_szSiriusDBName;
+                            
+        if g_TrustedSTR = "1" then
+            sConnectionString = sConnectionString + ";Trusted_Connection=yes";
+        else 
+            sConnectionString = sConnectionString + ";User ID=" + g_szMasterUser + 
+                            ";Password=" + g_szMasterPassword;
+        endif;
+        oConnection.Open(sConnectionString);
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 3: Query Registry_Setting ===
+    try
+        // Set system ID to 0 for now - can be changed to global variable later
+        NumToStr(sSystemIDStr, SystemID);
+        
+        // Clean the KeyPath the same way as in InsertRegistrySetting
+        StrReplace(KeyPath, "HKEY_CURRENT_USER\\", "", 0);
+        
+        // Build SELECT query
+        sSQL = "SELECT keydata FROM Registry_Setting " +
+               "WHERE KeyPath = '" + KeyPath + "' " +
+               "AND KeyName = '" + KeyName + "' " +
+               "AND System_id = " + sSystemIDStr;
+        
+        set oRecordSet = oConnection.Execute(sSQL);
+        
+        // Check if we got results
+        if (IsObject(oRecordSet) && !oRecordSet.EOF) then
+            sResult = oRecordSet.Fields("keydata").Value;
+        endif;
+        
+    catch
+        bError = TRUE;
+        sResult = "";
+        
+     //---------------
+        sErrMsg = "SQL query failed." + "\nQuery: " + sSQL;
+            // Append database error if available
+    if (IsObject(oConnection)) then
+        nCount = oConnection.Errors.Count;
+        if (nCount > 0) then
+            sErrMsg = sErrMsg + "\nDB Error: " + oConnection.Errors.Item(nCount).Description;
+        endif;
+    endif;
+
+    // Try to dig into the ADO error collection
+    if (IsObject(oConnection)) then
+        if (oConnection.Errors.Count > 0) then
+            sErrMsg = sErrMsg + "ADO Error: " +
+                      oConnection.Errors.Item(0).Description;
+        else
+            sErrMsg = sErrMsg + "No detailed error info from ADO provider.";
+        endif;
+    else
+        sErrMsg = sErrMsg + "Connection object is invalid.";
+    endif;
+
+    // Show message box with the error
+    MessageBox(sErrMsg, SEVERE);
+    //--------------
+    endcatch;
+    
+    // === Step 4: Close RecordSet and Connection ===
+    try
+        if (IsObject(oRecordSet)) then
+            oRecordSet.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    try
+        if (IsObject(oConnection) && oConnection.State = 1) then
+            oConnection.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    // Return the result
+    return (sResult);
+    
+cleanup:
+    // Clean up RecordSet
+    if (IsObject(oRecordSet)) then
+        try
+            oRecordSet.Close();
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    // Clean up Connection
+    if (IsObject(oConnection)) then
+        try
+            if (oConnection.State = 1) then
+                oConnection.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    return ("");
+end;
+
+
+function CheckOrCreatePMSystemID()
+    STRING sConnectionString, sSQL;
+    OBJECT oConnection, oRecordSet;
+    NUMBER bError, nSystemID;
+begin
+    set oConnection = NULL;
+    set oRecordSet = NULL;
+    bError = FALSE;
+    nSystemID = 0;
+    
+    // === Step 1: Create ADODB.Connection ===
+    try
+        set oConnection = CreateObject("ADODB.Connection");
+        if (IsObject(oConnection) = FALSE) then
+            bError = TRUE;
+        endif;
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 2: Open Connection ===
+    try
+        sConnectionString = "Provider=SQLOLEDB;Data Source=" + g_szDBServer + 
+                            ";Initial Catalog=" + g_szSiriusDBName;
+                            
+        if g_TrustedSTR = "1" then
+            sConnectionString = sConnectionString + ";Trusted_Connection=yes";
+        else 
+            sConnectionString = sConnectionString + ";User ID=" + g_szMasterUser + 
+                            ";Password=" + g_szMasterPassword;
+        endif;
+        
+        oConnection.Open(sConnectionString);
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 3: Query pmsystem table ===
+    try
+        // Build SELECT query to get system_id for the specific system_name
+        sSQL = "SELECT system_id FROM pmsystem WHERE system_name = '" + g_szHostName + "'";
+        
+        set oRecordSet = oConnection.Execute(sSQL);
+        
+        // Check if we got results
+        if (IsObject(oRecordSet) && !oRecordSet.EOF) then
+            nSystemID = oRecordSet.Fields("system_id").Value;
+        else
+            // No existing record found, create new record
+            oRecordSet.Close();
+            
+            // Get the next available system_id using MAX + 1
+            sSQL = "SELECT ISNULL(MAX(system_id), 0) + 1 AS next_id FROM pmsystem";
+            set oRecordSet = oConnection.Execute(sSQL);
+            
+            if (IsObject(oRecordSet) && !oRecordSet.EOF) then
+                nSystemID = oRecordSet.Fields("next_id").Value;
+            else
+                nSystemID = 1; // Default to 1 if error
+            endif;
+            
+            oRecordSet.Close();
+            
+            // Insert new record
+            // Insert new record
+            Sprintf(sSQL, "INSERT INTO pmsystem (system_id, product_id, system_name, default_source_id, " +
+                   "home_country_id, currency_id, language_id, licence_limit, licence_key, " +
+                   "log_level, pool_size, AD_OU_Path, AD_OU_Domain) VALUES " +
+                   "(%d, 1, '%s', 1, 1, 26, 1, 5, '5TTY3frjRtsEQIIDk', 4, 4, NULL, NULL)", 
+                   nSystemID, g_szHostName);
+            
+            set oRecordSet = oConnection.Execute(sSQL);
+        endif;
+        
+    catch
+        bError = TRUE;
+        nSystemID = 0;
+    endcatch;
+    
+    // === Step 4: Close RecordSet and Connection ===
+    try
+        if (IsObject(oRecordSet)) then
+            oRecordSet.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    try
+        if (IsObject(oConnection) && oConnection.State = 1) then
+            oConnection.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    return nSystemID;
+    
+cleanup:
+    // Clean up RecordSet
+    if (IsObject(oRecordSet)) then
+        try
+            oRecordSet.Close();
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    // Clean up Connection
+    if (IsObject(oConnection)) then
+        try
+            if (oConnection.State = 1) then
+                oConnection.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    return 0;
+end;
+
+
+
+function CurrentSystemID()
+    STRING sConnectionString, sSQL;
+    OBJECT oConnection, oRecordSet;
+    NUMBER bError, nSystemID;
+begin
+    set oConnection = NULL;
+    set oRecordSet = NULL;
+    bError = FALSE;
+    nSystemID = 0;
+    
+    // === Step 1: Create ADODB.Connection ===
+    try
+        set oConnection = CreateObject("ADODB.Connection");
+        if (IsObject(oConnection) = FALSE) then
+            bError = TRUE;
+        endif;
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 2: Open Connection ===
+    try
+sConnectionString = "Provider=SQLOLEDB;Data Source=" + g_szDBServer + 
+                            ";Initial Catalog=" + g_szSiriusDBName;
+                            
+        if g_TrustedSTR = "1" then
+            sConnectionString = sConnectionString + ";Trusted_Connection=yes";
+        else 
+            sConnectionString = sConnectionString + ";User ID=" + g_szMasterUser + 
+                            ";Password=" + g_szMasterPassword;
+        endif;
+        
+        
+        
+        
+        
+        oConnection.Open(sConnectionString);
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 3: Query pmsystem table ===
+    try
+        // Build SELECT query to get system_id for the specific system_name
+        sSQL = "SELECT system_id FROM pmsystem WHERE system_name = '" + g_szHostName + "'";
+        
+        set oRecordSet = oConnection.Execute(sSQL);
+        
+        // Check if we got results
+        if (IsObject(oRecordSet) && !oRecordSet.EOF) then
+            nSystemID = oRecordSet.Fields("system_id").Value;
+        else
+            // No existing record found, get the next available system_id
+            oRecordSet.Close();
+            sSQL = "SELECT COUNT(*) AS total_count FROM pmsystem";
+            set oRecordSet = oConnection.Execute(sSQL);
+            
+            if (IsObject(oRecordSet) && !oRecordSet.EOF) then
+                nSystemID = oRecordSet.Fields("total_count").Value + 1;
+            else
+                nSystemID = 1; // Default to 1 if table is empty or error
+            endif;
+        endif;
+        
+    catch
+        bError = TRUE;
+        nSystemID = 0;
+    endcatch;
+    
+    // === Step 4: Close RecordSet and Connection ===
+    try
+        if (IsObject(oRecordSet)) then
+            oRecordSet.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    try
+        if (IsObject(oConnection) && oConnection.State = 1) then
+            oConnection.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    return nSystemID;
+    
+cleanup:
+    // Clean up RecordSet
+    if (IsObject(oRecordSet)) then
+        try
+            oRecordSet.Close();
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    // Clean up Connection
+    if (IsObject(oConnection)) then
+        try
+            if (oConnection.State = 1) then
+                oConnection.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+if GlobalSystemID=0  then  
+	
+endif;
+    
+    return 0;
+end;
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetPMRegistryInstalledValuesforUpgradeInstall                  //
+//                                                                           //
+// Purpose:   This function get the installed values and parameters          //
+//			  from the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" 	     // 
+//            folder for every upgrade/product upgrade installation          //
+///////////////////////////////////////////////////////////////////////////////
+
+function number GetPMDBRegistryInstalledValuesforUpgradeInstall()
+string szRegFolder; 
+number nvType,nvSize;
+number nvValidateInstallPrerequisite;
+string szMajorVersion1,szMajorVersion2;
+ 
+begin  
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+
+SdShowMsg ( "Getting DB Registry values" ,TRUE );
+
+g_szInstalledProductVersion = GetFromDBRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Version");
+    
+//Checking for 1.12 Product Version Prerequisite in case of Product Upgrade but Fresh Installation    
+if(g_bProductUpgradeNewInstaller = TRUE ) then
+	if(g_szInstalledProductVersion = "") then
+	    MessageBox("Registry Corrupted.Current Product Version cannot be fetched.",INFORMATION);
+	    abort;
+	else
+		nvValidateInstallPrerequisite = ValidateOldProductInstalledVersion();
+		if(nvValidateInstallPrerequisite = -1) then
+			g_bPreRequisiteFailure = TRUE;
+			abort;
+		endif;
+	endif;   
+endif;    
+
+nvSize = -1;          
+szRegFolder ="SOFTWARE\\Pure";  
+
+//This key  will fetch the  Sirius Product Installed Path
+g_szPMPath = GetFromDBRegistry("SOFTWARE\\Pure","PMDIR");
+StrRemoveLastSlash(g_szPMPath); 
+WriteToLogFile(INSTALL_LOG, "PMDIR:" + g_szPMPath);
+//g_szPMInstallPath = g_szPMPath + "\\Pure"; 
+g_szPMInstallPath = g_szPMPath ^ "Pure"; 
+WriteToLogFile(INSTALL_LOG, "Pure Install Path:" + g_szPMInstallPath);
+
+if (StrLength(g_szPMInstallPath) < 3 || g_szPMInstallPath[1] != ':') then
+    g_szPMInstallPath = "C:\\" + g_szPMInstallPath;
+endif;
+
+TARGETDIR = g_szPMInstallPath;
+
+
+WriteToLogFile(INSTALL_LOG, "TARGETDIR:" + TARGETDIR);
+//This code will fetch MDF file name
+g_szMDFFileName = GetFromDBRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","DataFilesFolder");
+//This code will fetch LDF file name
+g_szLDFFileName = GetFromDBRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","LogFilesFolder");
+//This code will fetch DB Backup File Name
+g_szDBBackupFileName = GetFromDBRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFileName");
+//This code will fetch DB Backup  Folder Name
+g_szDBBackupPath = GetFromDBRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFilesFolder");
+//This code will fetch the Sirius Product database name
+//This is not required anymore because we are using the DB.
+//g_szSiriusDBName = GetFromDBRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database");
+//This code will fetch DB server name
+//This is not required anymore because we are using the DB.
+//g_szDBServer =GetFromDBRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server");		
+//This code will fetch whether windows authentication is set or not
+g_szWindowsAuthenticate = GetFromDBRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted");		
+//Set the Windows Authentication flag based on the setting above
+if(g_szWindowsAuthenticate = "1") then
+   g_bWinLoginAuthenticate = TRUE;
+else
+   g_bWinLoginAuthenticate = FALSE;
+endif;
+
+//Get the Product Major Version,Service Release Version and Build Numbers 
+g_szInstalledBuildNumber = GetFromDBRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Build");
+g_szInstalledServiceReleaseAndBuildNumber = GetFromDBRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Service Release"); 
+GetMajorandServiceReleaseVersionandBuildNumberforInstalledProduct(); 
+
+StrSub(szMajorVersion1,g_szInstalledMajorVersion,0,1);
+StrSub(szMajorVersion2,g_szInstalledMajorVersion,1,2);
+
+
+if(g_bUpgradeInstaller = TRUE) then
+	g_szInstalledFullVersion = GetFromDBRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Full Version");
+else
+    if(g_szInstalledSubVersion != "" && g_szInstalledSubVersion != "0") then
+		g_szInstalledFullVersion =  szMajorVersion1 + "." + szMajorVersion2 + "." + g_szInstalledSubVersion + " Service Release " + g_szInstalledServiceRelease + " BuildNumber:"+ g_szInstalledBuildNumber;
+	else
+ 	   g_szInstalledFullVersion =  szMajorVersion1 + "." + szMajorVersion2 + " Service Release " + g_szInstalledServiceRelease + " Build "+ g_szInstalledBuildNumber;
+	endif;
+endif;
+	  
+		                                                             
+return 1;
+end;
+	
+	
+
+
+
+
+function number  CheckAccess()
+number nvResult;
+    STRING sConnectionString, sSQL, szFile;
+    OBJECT oConnection, oRecordSet;
+    NUMBER bError, nSystemID, SystemID;
+
+begin   
+// Splash screen - create
+SdShowMsg ( "Checking DB Access" ,TRUE );
+
+			 	szFile = g_InstallLocation +"\\" + "PureConfiguration.xml";  // or INSTALLDIR ^ "PureConfiguration.xml", depending where it is
+// If it does not exist, create it.			 	
+			 	
+if (Is(FILE_EXISTS, szFile) != TRUE) && (gInstallMode = "Upgrade") then
+
+//CheckOrCreatePureConfig()
+//GetPMRegistryInstalledValuesforUpgradeInstall()
+
+
+
+
+g_szDBServer = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server");
+g_szSiriusDBName = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database");
+g_szMasterUser = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Common","SQLLogin");
+g_szMasterUser= DecryptData(g_szMasterUser);
+g_szMasterPassword = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Common","SecureKey");
+g_szMasterPassword  = DecryptData(g_szMasterPassword);
+					//nvResult=OnSQLServerInitialize(NEXT);
+					CheckOrCreatePureConfig() ;  
+					SystemID = CurrentSystemID();
+					GlobalSystemID = SystemID; 
+
+endif;
+
+g_szDBServer = GetPureConfig(szFile, "Server");
+g_szSiriusDBName = GetPureConfig(szFile, "Database");
+g_TrustedSTR  = GetPureConfig(szFile, "Trusted");
+
+
+
+
+						if g_TrustedSTR = "1" then
+
+						else
+							g_szMasterUser = GetPureConfig(szFile, "SQLLogin");
+							DecryptData(g_szMasterUser);
+							g_szMasterUser = RemoveBOM(DecryptedData);
+							g_szMasterPassword = GetPureConfig(szFile, "SecureKey");
+							DecryptData(g_szMasterPassword);
+							g_szMasterPassword = RemoveBOM(DecryptedData);
+
+						endif;
+
+
+//Sirius Product Upgrade but Fresh Install of this New Installer
+
+
+    SystemID = CurrentSystemID();
+    GlobalSystemID = SystemID;
+
+SdShowMsg ( "Checking DB Access Completed",FALSE);
+
+				if ( (g_szMasterUser == "" || g_szMasterPassword == "") && 
+					 (g_szDBServer != "" && g_szSiriusDBName != "") ) then
+						g_bUpgradeInstaller = TRUE;
+					   nvResult=OnSQLServerInitialize(NEXT);
+					  CheckOrCreatePureConfig() ;  
+					SystemID = CurrentSystemID();
+					GlobalSystemID = SystemID; 
+				endif;
+
+
+				if (g_szDBServer != "" || g_szSiriusDBName != "") then
+					//g_bUpgradeInstaller = TRUE;
+					//  nvResult=OnSQLServerInitialize(NEXT);
+					//  CheckOrCreatePureConfig() ;  
+					//SystemID = CurrentSystemID();
+					//GlobalSystemID = SystemID; 
+				endif;  
+				if GlobalSystemID = 0 then
+				gInstallMode = "Fresh";
+				  //  g_bFreshInstaller = TRUE;
+				  //  g_bAppServerWithDB = TRUE;
+				  
+					//nvResult=OnSQLServerInitialize(NEXT);
+				   //CheckOrCreatePureConfig() ;   
+				endif;
+    
+    
+    return 0;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+function number CheckOrCreateRegistrySettingsTable()
+    STRING sConnectionString, sSQL;
+    OBJECT oConnection, oRecordset;
+    NUMBER bError, bTableExists;
+begin
+    set oConnection = NULL;
+    set oRecordset = NULL;
+    bError = FALSE;
+    bTableExists = FALSE;
+    
+    SdShowMsg("Checking for registry settings table", TRUE);
+    
+    // === Step 1: Create ADODB.Connection ===
+    try
+        set oConnection = CreateObject("ADODB.Connection");
+        if (IsObject(oConnection) = FALSE) then
+            bError = TRUE;
+        endif;
+    catch
+        bError = TRUE;
+    endcatch;
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 2: Open Connection ===
+    try
+      sConnectionString = "Provider=SQLOLEDB;Data Source=" + g_szDBServer + 
+                            ";Initial Catalog=" + g_szSiriusDBName;
+                            
+        if g_TrustedSTR = "1" then
+            sConnectionString = sConnectionString + ";Trusted_Connection=yes";
+        else 
+            sConnectionString = sConnectionString + ";User ID=" + g_szMasterUser + 
+                            ";Password=" + g_szMasterPassword;
+        endif;
+        oConnection.Open(sConnectionString);
+    catch
+        bError = TRUE;
+    endcatch;
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 3: Check if Registry_Setting table exists ===
+    try
+        set oRecordset = CreateObject("ADODB.Recordset");
+        sSQL = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES " +
+               "WHERE TABLE_NAME = 'Registry_Setting'";
+        oRecordset.Open(sSQL, oConnection);
+        
+        if (oRecordset.EOF = FALSE) then
+            if (oRecordset.Fields(0).Value > 0) then
+                bTableExists = TRUE;
+            endif;
+        endif;
+        
+        oRecordset.Close();
+    catch
+        bError = TRUE;
+    endcatch;
+    
+    // === Step 4: Close Connection ===
+    try
+        if (IsObject(oConnection) && oConnection.State = 1) then
+            oConnection.Close();
+        endif;
+    catch
+        // Ignore
+    endcatch;
+    
+    if (bError) then
+        goto cleanup;
+    endif;
+    
+    // === Step 5: Run ExportRegistrySettings.exe if table doesn't exist ===
+    if (bTableExists = FALSE) then
+        SdShowMsg("Registry settings table not found. Creating table...", TRUE);
+        CreateRegistrySettingTable();
+        if (LaunchAppAndWait(SUPPORTDIR ^ "ExportRegistry.exe", "", WAIT) < 0) then
+            MessageBox("Failed to run ExportRegistrySettings.exe", SEVERE);
+            return -1;
+        endif;
+    else
+        SdShowMsg("Registry settings table already exists", TRUE);
+    endif;
+    
+    return 1;
+    
+cleanup:
+    if (IsObject(oRecordset)) then
+        try
+            if (oRecordset.State = 1) then
+                oRecordset.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    if (IsObject(oConnection)) then
+        try
+            if (oConnection.State = 1) then
+                oConnection.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+    
+    MessageBox("Error checking registry settings table", SEVERE);
+    return -1;
+end;
+
+
+
+
+function CreateRegistrySettingTable()
+    STRING sConnectionString, sSQL, sCheckTableSQL;
+    OBJECT oConnection, oRecordSet;
+    NUMBER bError;
+begin
+    // Initialize
+    set oConnection = NULL;
+    set oRecordSet = NULL;
+    bError = FALSE;
+
+    // === Step 1: Create ADODB.Connection ===
+    try
+        set oConnection = CreateObject("ADODB.Connection");
+        if (IsObject(oConnection) = FALSE) then
+            //WriteToLogFile(INSTALL_LOG, "ERROR: Failed to create ADODB.Connection object.");
+            bError = TRUE;
+        endif;
+    catch
+        //WriteToLogFile(INSTALL_LOG, "ERROR: CreateObject failed - " + Err.Description);
+        bError = TRUE;
+    endcatch;
+
+    // If error, skip to cleanup
+    if (bError) then
+        goto cleanup;
+    endif;
+
+    // === Step 2: Open Connection ===
+    try
+        //sConnectionString = "Provider=SQLOLEDB;Data Source=ZAL-5CG3233J0T;Initial Catalog=PureUAT;User ID=sa;Password=P@SSW0RD;";
+sConnectionString = "Provider=SQLOLEDB;Data Source=" + g_szDBServer + 
+                            ";Initial Catalog=" + g_szSiriusDBName;
+                            
+        if g_TrustedSTR = "1" then
+            sConnectionString = sConnectionString + ";Trusted_Connection=yes";
+        else 
+            sConnectionString = sConnectionString + ";User ID=" + g_szMasterUser + 
+                            ";Password=" + g_szMasterPassword;
+        endif;
+              
+      
+      
+      
+      
+        oConnection.ConnectionString = sConnectionString;
+        oConnection.Open();
+    catch
+       // WriteToLogFile(INSTALL_LOG, "ERROR: Failed to open database connection - " + Err.Description);
+        bError = TRUE;
+    endcatch;
+
+    if (bError) then
+        goto cleanup;
+    endif;
+
+    // === Step 3: Check if Table Exists and Create if Needed ===
+    try
+        sCheckTableSQL = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Registry_Setting'";
+        set oRecordSet = oConnection.Execute(sCheckTableSQL);
+
+        if (oRecordSet.EOF) then
+            sSQL = 
+                "CREATE TABLE [dbo].[Registry_Setting] (" +
+                "   [registry_setting_id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY," +
+                "   [KeyPath] [nvarchar](255) NULL," +
+                "   [KeyName] [nvarchar](255) NULL," +
+                "   [KeyType] [nvarchar](MAX) NULL," +
+                "   [keydata] [nvarchar](255) NULL," +
+                "   [System_id] [int] NULL," +
+				"	[System_Logged_in_User] [varchar](255) NULL" +
+                ")";
+
+            oConnection.Execute(sSQL);
+           // WriteToLogFile(INSTALL_LOG, "Registry_Setting table created successfully.");
+        else
+           // WriteToLogFile(INSTALL_LOG, "Registry_Setting table already exists.");
+        endif;
+    catch
+        //WriteToLogFile(INSTALL_LOG, "ERROR: SQL execution failed - " + Err.Description);
+        bError = TRUE;
+    endcatch;
+
+    // === Step 4: Close RecordSet (if open) ===
+    try
+        if (IsObject(oRecordSet) && oRecordSet.State = 1) then
+            oRecordSet.Close();
+        endif;
+    catch
+        // Ignore close errors
+    endcatch;
+
+    // === Step 5: Close Connection (if open) ===
+    try
+        if (IsObject(oConnection) && oConnection.State = 1) then
+            oConnection.Close();
+        endif;
+    catch
+        // Ignore close errors
+    endcatch;
+
+    // === Success — exit ===
+    return 1 ;
+
+    // === Cleanup Label ===
+cleanup:
+    // Close RecordSet if open
+    if (IsObject(oRecordSet)) then
+        try
+            if (oRecordSet.State = 1) then
+                oRecordSet.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+
+    // Close Connection if open
+    if (IsObject(oConnection)) then
+        try
+            if (oConnection.State = 1) then
+                oConnection.Close();
+            endif;
+        catch
+            // Ignore
+        endcatch;
+    endif;
+
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  UpdateUpgradeInstallationHistory                               //
+//                                                                           //
+// Purpose:   This function writes the installed values and parameters       //
+//            to the database under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" folder//
+//            after every upgrade/Productupgrade but Fresh Installation      //                                                        //
+///////////////////////////////////////////////////////////////////////////////
+function number UpdateDBUpgradeInstallationHistory()
+number nvResult,g_nSystemID;
+string szFoldername,szCurrentDate,szCurrentTime,szRegValue; 
+string szProductVersionFolder;  
+string szTempVersion;
+begin 
+
+g_nSystemID = CurrentSystemID();
+
+szFoldername = GetCurrentDateTime("DATETIME");
+szRegValue = "1";
+szProductVersionFolder = IFX_PRODUCT_VERSION;
+//nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\PureInstallation\\Installation History",szProductVersionFolder);
+if(nvResult =0) then  
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Product Version","String",IFX_PRODUCT_VERSION,g_nSystemID);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Full Version","String",g_szTobeInstalledFullVersion,g_nSystemID);
+	if(g_bFreshInstaller = TRUE) then
+		InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Type","String","Fresh",g_nSystemID);
+	else
+		InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Type","String","Upgrade",g_nSystemID);
+	endif;
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Setup","String","SERVER",g_nSystemID);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Product Name","String","PureInstallation",g_nSystemID);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Component Client","String",szRegValue,g_nSystemID);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Component Server","String",szRegValue,g_nSystemID);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Component Update Databases","String",szRegValue,g_nSystemID);
+	//Set the Date and Time for the Product Installation
+	GetSystemInfo(TIME,nvResult,szCurrentTime);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Time","String",szCurrentTime,g_nSystemID);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Time Installed","String",szCurrentTime,g_nSystemID);
+	FormatDate("UK",4,"/",g_szFDate);
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Date","String",g_szFDate,g_nSystemID);    
+	InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\PureInstallation\\Setup","Date Installed","String",g_szFDate,g_nSystemID);    
+	
+	WriteToLogFile(INSTALL_LOG,"Upgrade Installation History updated in the database");
+ endif;     
+ 
+return 1;
+end;

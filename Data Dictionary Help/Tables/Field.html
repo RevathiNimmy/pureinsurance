@@ -1,0 +1,174 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Field</h1>
+<p><span class="autodesc">Field</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="field_id">field_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">field</span></td>
+</tr>
+<tr>
+<td><a class="name" name="name">name</a></td>
+<td>varchar(30)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="locator_type_id">locator_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Locator_Type.html#locator_type_id">Locator_Type.locator_type_id</a> <span class="autodesc">locator type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="core_table">core_table</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">core table</span></td>
+</tr>
+<tr>
+<td><a class="name" name="field_type">field_type</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">field type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_format">default_format</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default format</span></td>
+</tr>
+<tr>
+<td><a class="name" name="length">length</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">length</span></td>
+</tr>
+<tr>
+<td><a class="name" name="validation_id">validation_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Validation.html#validation_id">Validation.validation_id</a> <span class="autodesc">validation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>field_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>locator_type_id</td>
+<td><a href="Locator_Type.html">Locator_Type</a></td>
+<td>locator_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>validation_id</td>
+<td><a href="Validation.html">Validation</a></td>
+<td>validation_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>locator_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>validation_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>field_id</td>
+<td><a href="Field_Usage.html">Field_Usage</a></td>
+<td>field_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

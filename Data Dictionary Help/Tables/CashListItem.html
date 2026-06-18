@@ -1,0 +1,2496 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>CashListItem</h1>
+<p>Items on a Cash List. These will all be going in/out of a particular Bank Account.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="allocationstatus_id">allocationstatus_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="AllocationStatus.html#allocationstatus_id">AllocationStatus.allocationstatus_id</a> <span class="autodesc">allocationstatus</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_id">mediatype_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="MediaType.html#mediatype_id">MediaType.mediatype_id</a> <span class="autodesc">mediatype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlist_id">cashlist_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashList.html#cashlist_id">CashList.cashlist_id</a> <span class="autodesc">cashlist</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_id">account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="media_ref">media_ref</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">media ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="our_ref">our_ref</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">our ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="their_ref">their_ref</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">their ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="amount">amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transdetail_id">transdetail_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="TransDetail.html#transdetail_id">TransDetail.transdetail_id</a> <span class="autodesc">transdetail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="contact_name">contact_name</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>contact name</td>
+</tr>
+<tr>
+<td><a class="name" name="address1">address1</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address1</td>
+</tr>
+<tr>
+<td><a class="name" name="address2">address2</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address2</td>
+</tr>
+<tr>
+<td><a class="name" name="address3">address3</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address3</td>
+</tr>
+<tr>
+<td><a class="name" name="address4">address4</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address4</td>
+</tr>
+<tr>
+<td><a class="name" name="postal_code">postal_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>postal code</td>
+</tr>
+<tr>
+<td><a class="name" name="address_country">address_country</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">address country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_name">payment_name</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_account_code">payment_account_code</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment account code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_branch_code">payment_branch_code</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment branch code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_expiry_date">payment_expiry_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment expiry date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_reference1">payment_reference1</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment reference1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_reference2">payment_reference2</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment reference2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="letter">letter</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">letter</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transaction_date">transaction_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transaction date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_receipt_type_id">cashlistitem_receipt_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem_Receipt_Type.html#cashlistitem_receipt_type_id">CashListItem_Receipt_Type.cashlistitem_receipt_type_id</a> <span class="autodesc">cashlistitem receipt type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_receipt_status_id">cashlistitem_receipt_status_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem_Receipt_Status.html#cashlistitem_receipt_status_id">CashListItem_Receipt_Status.cashlistitem_receipt_status_id</a> <span class="autodesc">cashlistitem receipt status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_payment_type_id">cashlistitem_payment_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem_Payment_Type.html#cashlistitem_payment_type_id">CashListItem_Payment_Type.cashlistitem_payment_type_id</a> <span class="autodesc">cashlistitem payment type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_payment_status_id">cashlistitem_payment_status_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem_Payment_Status.html#cashlistitem_payment_status_id">CashListItem_Payment_Status.cashlistitem_payment_status_id</a> <span class="autodesc">cashlistitem payment status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_bank_id">cashlistitem_bank_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem_Bank.html#cashlistitem_bank_id">CashListItem_Bank.cashlistitem_bank_id</a> <span class="autodesc">cashlistitem bank</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cheque_date">cheque_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cheque date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_number">cc_number</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_expiry_date">cc_expiry_date</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc expiry date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_start_date">cc_start_date</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc start date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_issue">cc_issue</a></td>
+<td>varchar(2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc issue</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_pin">cc_pin</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc pin</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_auth_code">cc_auth_code</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc auth code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="original_amount">original_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">original amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="amount_tendered">amount_tendered</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">amount tendered</span></td>
+</tr>
+<tr>
+<td><a class="name" name="change">change</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">change</span></td>
+</tr>
+<tr>
+<td><a class="name" name="batch_id">batch_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Batch.html#batch_id">Batch.batch_id</a> <span class="autodesc">batch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmuser_id">pmuser_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmuser</span></td>
+</tr>
+<tr>
+<td><a class="name" name="receipt_details">receipt_details</a></td>
+<td>varchar(500)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">receipt details</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_reverse_pmuser_id">cashlistitem_reverse_pmuser_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> <span class="autodesc">cashlistitem reverse pmuser</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_reverse_reason_id">cashlistitem_reverse_reason_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem_Reverse_Reason.html#cashlistitem_reverse_reason_id">CashListItem_Reverse_Reason.cashlistitem_reverse_reason_id</a> <span class="autodesc">cashlistitem reverse reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_presented">date_presented</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">date presented</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cheque_in_possession">cheque_in_possession</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cheque in possession</span></td>
+</tr>
+<tr>
+<td><a class="name" name="stop_requested_date">stop_requested_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">stop requested date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="stop_printed_date">stop_printed_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">stop printed date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="stop_confirmation_date">stop_confirmation_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">stop confirmation date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reason">reason</a></td>
+<td>varchar(500)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="replaces_cashlistitem_id">replaces_cashlistitem_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem.html#cashlistitem_id">CashListItem.cashlistitem_id</a> <span class="autodesc">replaces cashlistitem</span></td>
+</tr>
+<tr>
+<td><a class="name" name="superceded_by_id">superceded_by_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">superceded by</span></td>
+</tr>
+<tr>
+<td><a class="name" name="xml_object">xml_object</a></td>
+<td>text</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">xml object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cheque_reminder_print_date">cheque_reminder_print_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cheque reminder print date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="underwriting_year_id">underwriting_year_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Underwriting_Year.html#underwriting_year_id">Underwriting_Year.underwriting_year_id</a> <span class="autodesc">underwriting year</span></td>
+</tr>
+<tr>
+<td><a class="name" name="exchange_rate_override_reason_id">exchange_rate_override_reason_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Exchange_Rate_Override_Reason.html#exchange_rate_override_reason_id">Exchange_Rate_Override_Reason.exchange_rate_override_reason_id</a> <span class="autodesc">exchange rate override reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="currency_base_xrate">currency_base_xrate</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">currency base xrate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="currency_base_date">currency_base_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">currency base date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_base_xrate">account_base_xrate</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account base xrate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_base_date">account_base_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account base date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="system_base_xrate">system_base_xrate</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">system base xrate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="system_base_date">system_base_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">system base date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_reversed">is_reversed</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is reversed</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_issuer_id">mediatype_issuer_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="MediaType_Issuer.html#MediaType_Issuer_id">MediaType_Issuer.MediaType_Issuer_id</a> <span class="autodesc">mediatype issuer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_name">cc_name</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_customer">cc_customer</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc customer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_manual_auth_code">cc_manual_auth_code</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc manual auth code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_transaction_code">cc_transaction_code</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc transaction code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_exported">is_exported</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is exported</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reversed_date">reversed_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reversed date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_reversal_transdetail_id">cashlistitem_reversal_transdetail_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="TransDetail.html#transdetail_id">TransDetail.transdetail_id</a> <span class="autodesc">cashlistitem reversal transdetail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cashlistitem_id">cashlistitem_id</a></td>
+<td>integer identity</td>
+<td>not null</td>
+<td>PK, FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="CashListItem.html#cashlistitem_id">CashListItem.cashlistitem_id</a> Unique ID - automatically generated by database</td>
+</tr>
+<tr>
+<td><a class="name" name="party_bank_id">party_bank_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party_Bank.html#party_bank_id">Party_Bank.party_bank_id</a> <span class="autodesc">party bank</span></td>
+</tr>
+<tr>
+<td><a class="name" name="collection_date">collection_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">collection date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="comments">comments</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">comments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_tracking_number">cc_tracking_number</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc tracking number</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="cc_tracking_number">tax_band_id</a></td>
+<td>int</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax_band_id</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_lead">is_lead</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is lead</span></td>
+</tr>
+<tr>
+<td><a class="name" name="split_total">split_total</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">split total</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>cashlistitem_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>allocationstatus_id</td>
+<td><a href="AllocationStatus.html">AllocationStatus</a></td>
+<td>allocationstatus_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="Batch.html">Batch</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlist_id</td>
+<td><a href="CashList.html">CashList</a></td>
+<td>cashlist_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>cashlistitem_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>replaces_cashlistitem_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>cashlistitem_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_bank_id</td>
+<td><a href="CashListItem_Bank.html">CashListItem_Bank</a></td>
+<td>cashlistitem_bank_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_payment_status_id</td>
+<td><a href="CashListItem_Payment_Status.html">CashListItem_Payment_Status</a></td>
+<td>cashlistitem_payment_status_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_payment_type_id</td>
+<td><a href="CashListItem_Payment_Type.html">CashListItem_Payment_Type</a></td>
+<td>cashlistitem_payment_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_receipt_status_id</td>
+<td><a href="CashListItem_Receipt_Status.html">CashListItem_Receipt_Status</a></td>
+<td>cashlistitem_receipt_status_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_receipt_type_id</td>
+<td><a href="CashListItem_Receipt_Type.html">CashListItem_Receipt_Type</a></td>
+<td>cashlistitem_receipt_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_reverse_reason_id</td>
+<td><a href="CashListItem_Reverse_Reason.html">CashListItem_Reverse_Reason</a></td>
+<td>cashlistitem_reverse_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>exchange_rate_override_reason_id</td>
+<td><a href="Exchange_Rate_Override_Reason.html">Exchange_Rate_Override_Reason</a></td>
+<td>exchange_rate_override_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="MediaType.html">MediaType</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_issuer_id</td>
+<td><a href="MediaType_Issuer.html">MediaType_Issuer</a></td>
+<td>MediaType_Issuer_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>party_bank_id</td>
+<td><a href="Party_Bank.html">Party_Bank</a></td>
+<td>party_bank_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_reverse_pmuser_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>transdetail_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>transdetail_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_reversal_transdetail_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>transdetail_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="Underwriting_Year.html">Underwriting_Year</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>account_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>allocationstatus_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cashlist_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cashlistitem_payment_status_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cashlistitem_payment_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cashlistitem_receipt_status_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cashlistitem_receipt_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>media_ref</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>their_ref</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>transdetail_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_bank_id</td>
+<td></td>
+<td></td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>cashlistitem_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>replaces_cashlistitem_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cashlistitem_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>cashlistitem_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>cashlistitem_id</td>
+<td><a href="Rep_Cheques.html">Rep_Cheques</a></td>
+<td>cashlistitem_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>allocationstatus_id</td>
+<td>mediatype_id</td>
+<td>cashlist_id</td>
+<td>account_id</td>
+<td>media_ref</td>
+<td>our_ref</td>
+<td>their_ref</td>
+<td>amount</td>
+<td>transdetail_id</td>
+<td>contact_name</td>
+<td>address1</td>
+<td>address2</td>
+<td>address3</td>
+<td>address4</td>
+<td>postal_code</td>
+<td>address_country</td>
+<td>payment_name</td>
+<td>payment_account_code</td>
+<td>payment_branch_code</td>
+<td>payment_expiry_date</td>
+<td>payment_reference1</td>
+<td>payment_reference2</td>
+<td>letter</td>
+<td>transaction_date</td>
+<td>cashlistitem_receipt_type_id</td>
+<td>cashlistitem_receipt_status_id</td>
+<td>cashlistitem_payment_type_id</td>
+<td>cashlistitem_payment_status_id</td>
+<td>cashlistitem_bank_id</td>
+<td>cheque_date</td>
+<td>cc_number</td>
+<td>cc_expiry_date</td>
+<td>cc_start_date</td>
+<td>cc_issue</td>
+<td>cc_pin</td>
+<td>cc_auth_code</td>
+<td>original_amount</td>
+<td>amount_tendered</td>
+<td>change</td>
+<td>batch_id</td>
+<td>pmuser_id</td>
+<td>receipt_details</td>
+<td>cashlistitem_reverse_pmuser_id</td>
+<td>cashlistitem_reverse_reason_id</td>
+<td>date_presented</td>
+<td>cheque_in_possession</td>
+<td>stop_requested_date</td>
+<td>stop_printed_date</td>
+<td>stop_confirmation_date</td>
+<td>reason</td>
+<td>replaces_cashlistitem_id</td>
+<td>superceded_by_id</td>
+<td>xml_object</td>
+<td>cheque_reminder_print_date</td>
+<td>underwriting_year_id</td>
+<td>exchange_rate_override_reason_id</td>
+<td>currency_base_xrate</td>
+<td>currency_base_date</td>
+<td>account_base_xrate</td>
+<td>account_base_date</td>
+<td>system_base_xrate</td>
+<td>system_base_date</td>
+<td>is_reversed</td>
+<td>mediatype_issuer_id</td>
+<td>cc_name</td>
+<td>cc_customer</td>
+<td>cc_manual_auth_code</td>
+<td>cc_transaction_code</td>
+<td>is_exported</td>
+<td>reversed_date</td>
+<td>cashlistitem_reversal_transdetail_id</td>
+<td>cashlistitem_id</td>
+<td>party_bank_id</td>
+<td>collection_date</td>
+<td>comments</td>
+<td>cc_tracking_number</td>
+<td>tax_band_id</td>
+<td>is_lead</td>
+<td>split_total</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>3816</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>326.77</td>
+<td>1</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>Queensland</td>
+<td>4152</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-11-12 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>326.77</td>
+<td>0</td>
+<td>90</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-11-12 00:00:00</td>
+<td>1</td>
+<td>2008-11-12 00:00:00</td>
+<td>1</td>
+<td>2008-11-12 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3816</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>559.24</td>
+<td>9</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>Queensland</td>
+<td>4152</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-11-12 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>559.24</td>
+<td>0</td>
+<td>90</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-11-12 00:00:00</td>
+<td>1</td>
+<td>2008-11-12 00:00:00</td>
+<td>1</td>
+<td>2008-11-12 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>3816</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>450</td>
+<td>15</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>Queensland</td>
+<td>4152</td>
+<td>3</td>
+<td>Mr S MacKenzie</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-11-26 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>450</td>
+<td>0</td>
+<td>90</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-11-26 00:00:00</td>
+<td>1</td>
+<td>2008-11-26 00:00:00</td>
+<td>1</td>
+<td>2008-11-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>9</td>
+<td>6</td>
+<td>3816</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>200</td>
+<td>17</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>Queensland</td>
+<td>4152</td>
+<td>3</td>
+<td>Mr S MacKenzie</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>950120201221</td>
+<td>09/09</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>200</td>
+<td>0</td>
+<td>58</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mr S MacKenzie</td>
+<td>Present</td>
+<td>200</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>9</td>
+<td>7</td>
+<td>3816</td>
+<td>XXXXXXX</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>25</td>
+<td>19</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>Queensland</td>
+<td>4152</td>
+<td>3</td>
+<td>Mr S MacKenzie</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>9402512520102</td>
+<td>09/09</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>25</td>
+<td>0</td>
+<td>58</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mr S MacKenzie</td>
+<td>Not Present</td>
+<td>254</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>9</td>
+<td>8</td>
+<td>3816</td>
+<td>XXXXXX123</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>50</td>
+<td>21</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>Queensland</td>
+<td>4152</td>
+<td>3</td>
+<td>Mr S MacKenzie</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>9502486254</td>
+<td>09/09</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>50</td>
+<td>0</td>
+<td>58</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td>1</td>
+<td>2008-12-08 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mr S MacKenzie</td>
+<td>Not Present</td>
+<td>265</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>9</td>
+<td>3819</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>508.03</td>
+<td>29</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>South Australia</td>
+<td>73360</td>
+<td>3</td>
+<td>Mr RV Moore</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-10 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>9624252556</td>
+<td>09/09</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>508.03</td>
+<td>0</td>
+<td>58</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-10 00:00:00</td>
+<td>1</td>
+<td>2008-12-10 00:00:00</td>
+<td>1</td>
+<td>2008-12-10 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mr RV Moore</td>
+<td>Present</td>
+<td>254</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>7</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>10</td>
+<td>3819</td>
+<td>POLPMO00000040</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>645.57</td>
+<td>45</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-16 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>91545645615</td>
+<td>10/09</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>645.57</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-16 00:00:00</td>
+<td>1</td>
+<td>2008-12-16 00:00:00</td>
+<td>1</td>
+<td>2008-12-16 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>246</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>8</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-16 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>11</td>
+<td>3819</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>-586.88</td>
+<td>47</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-16 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>586.88</td>
+<td>0</td>
+<td>8</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-16 00:00:00</td>
+<td>1</td>
+<td>2008-12-16 00:00:00</td>
+<td>1</td>
+<td>2008-12-16 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-16 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>12</td>
+<td>3816</td>
+<td>POLPMO00000018</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>403.58</td>
+<td>63</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-18 00:00:00</td>
+<td>6</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>95161646318956</td>
+<td>10/10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>403.58</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-18 00:00:00</td>
+<td>1</td>
+<td>2008-12-18 00:00:00</td>
+<td>1</td>
+<td>2008-12-18 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>301</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-18 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>13</td>
+<td>3816</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>-366.89</td>
+<td>65</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-18 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>366.89</td>
+<td>0</td>
+<td>8</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-18 00:00:00</td>
+<td>1</td>
+<td>2008-12-18 00:00:00</td>
+<td>1</td>
+<td>2008-12-18 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-18 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>14</td>
+<td>3819</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>-12.59</td>
+<td>67</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>Roger Moore</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-20 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>12.59</td>
+<td>0</td>
+<td>154</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-20 00:00:00</td>
+<td>1</td>
+<td>2008-12-20 00:00:00</td>
+<td>1</td>
+<td>2008-12-20 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-20 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>16</td>
+<td>3819</td>
+<td>POLPMO00000041</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>96.79</td>
+<td>89</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-20 00:00:00</td>
+<td>6</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>91234567480</td>
+<td>10/10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>96.79</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-20 00:00:00</td>
+<td>1</td>
+<td>2008-12-20 00:00:00</td>
+<td>1</td>
+<td>2008-12-20 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-20 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>17</td>
+<td>3946</td>
+<td>POLPMO00000089</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>21.17</td>
+<td>101</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>951425625521</td>
+<td>10/10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>21.17</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>18</td>
+<td>3819</td>
+<td>POLPMO00000071</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>41.51</td>
+<td>115</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-26 00:00:00</td>
+<td>6</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>9512151051613</td>
+<td>10/11</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>41.51</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>15</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>19</td>
+<td>3819</td>
+<td>POLPMO00000090</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>25.24</td>
+<td>129</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-26 00:00:00</td>
+<td>6</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>94258145320</td>
+<td>10/10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>25.24</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td>1</td>
+<td>2008-12-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>16</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>21</td>
+<td>3819</td>
+<td>POLPMO00000116</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>25.49</td>
+<td>158</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2008-12-31 00:00:00</td>
+<td>6</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>9521546434654</td>
+<td>10/10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>25.49</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2008-12-31 00:00:00</td>
+<td>1</td>
+<td>2008-12-31 00:00:00</td>
+<td>1</td>
+<td>2008-12-31 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>17</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-31 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>22</td>
+<td>3819</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>-553</td>
+<td>162</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2009-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>553</td>
+<td>0</td>
+<td>8</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2009-01-01 00:00:00</td>
+<td>1</td>
+<td>2009-01-01 00:00:00</td>
+<td>1</td>
+<td>2009-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>18</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-01 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>23</td>
+<td>3819</td>
+<td>POLPMO00000124</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>24.98</td>
+<td>183</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2009-01-02 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>95412025645</td>
+<td>10/10</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>24.98</td>
+<td>0</td>
+<td>58</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2009-01-02 00:00:00</td>
+<td>1</td>
+<td>2009-01-02 00:00:00</td>
+<td>1</td>
+<td>2009-01-02 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>Not Present</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>19</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-02 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

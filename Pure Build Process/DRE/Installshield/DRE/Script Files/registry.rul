@@ -1,0 +1,346 @@
+//===========================================================================
+//
+//  File Name:    registry.rul
+//
+//
+//  Comments:     This Rule File (registry.rul) contains all the Registry related functions
+//				  used within the Sirius Product Installation/Uninstallation.
+//
+//
+//===========================================================================
+#include "ifx.h"  //Header File for Built in Installscript function prototypes        
+
+//Global Variables used across the Installer Rule Files	                        
+string g_szPMInstallPath;  	// Variable to hold the TARGETDIR path of the Sirius Product 
+string g_szPMPath;       	 // Variable to hold the PM Dir path of the Sirius Product
+string g_szAppBackupPath;	 // Variable to hold the PM Folder Backup Path
+string g_szDBBackupPath;  	//Variable to hold the backup path of the Sirius Database
+string g_szDBBackupFileName; //Variable to hold the backup file name of the Sirius Database                    
+string g_szInstalledProductVersion;  //Variable to hold the product version with convention of the old installer
+string g_szProductNewInstallerVersion;  //Variable to hold the product version with convention of the new installer                                         
+string g_szSiriusDBName;       //Variable to hold the Sirius Database name
+string g_szSiriusUserName,g_szSiriusPassword;  //Variable to hold Sirius Login/Password used for DB Scripts execution in Sirius DB
+string g_szDBServer;          //Variable to hold the DB Server name
+string g_szMasterUser,g_szMasterPassword;   //Variable to hold the Master Login/Password of the SQL server instance in DB Server
+string g_szMDFFileName,g_szLDFFileName; //Variable to hold the MDF and LDf file names of the Sirius Database
+string g_szFDate;  //Variable to hold the Formatted date used across the installer
+
+BOOL g_bFreshInstaller;	//Flag Variable to identify Fresh Installation
+BOOL g_bUpgradeInstaller; // Flag Variable to identify Upgrade Installation of this new installer
+BOOL g_bDBBackupFlag;  //Flag Variable used to set/Reset the DB Backup 
+BOOL g_bAppBackupFlag; //Flag Variable used to set/Reset the PM Folder Backup  
+
+//Macros for Default Registry Settings across the Installer
+#define PM_DEFAULTPATH   "C:\\Program Files\\PM"
+  
+export prototype number WriteToRegistry(string,string,number,string);
+export prototype string GetFromRegistry(string,string);
+export prototype NUMBER ClearReadOnly(STRING);
+export prototype CreateDRERegistry();
+export prototype number DeleteRegFile();
+export prototype GetDRERegistry();
+export prototype GetPureDBDetailFromRegistry();
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: WriteToRegistry                                                 //
+//                                                                           //
+// Purpose:  This function writes the a registry key with a particular value //
+//			 under the foldername as specified in the function parameters    //
+//                                                                     		 //
+///////////////////////////////////////////////////////////////////////////////
+	
+function number WriteToRegistry(szFolderName,szKey,nvType,szValue)
+number nvResult,nvSize;
+begin   
+try
+	nvResult = RegDBSetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize);
+	if(nvResult < 0) then
+		WriteToLogFile(INSTALL_ERRORLOG,"Not able to set the Registry Value in "+szFolderName+" for "+szKey);
+	else
+		WriteToLogFile(INSTALL_LOG,"The Registry Value in "+szFolderName+" for "+szKey+" has been set successfully");	
+	endif;  
+catch 
+    WriteToLogFile(INSTALL_ERRORLOG,"Error Encountered writing value "+szValue+" to the key"+szKey+" in folder "+szFolderName);
+    return -1;
+endcatch;
+	
+return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetFromRegistry                                                 //
+//                                                                           //
+// Purpose:  This function gets  a particular value for the registry key     //
+//			 under the foldername as specified in the function parameters    //
+//                                                                      	 //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetFromRegistry(szFolderName,szKey)
+number nvResult,nvType,nvSize;
+string szValue;
+begin                         
+nvSize = -1; 
+try 
+	if(RegDBKeyExist(szFolderName) = 1) then
+		if(RegDBGetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize) < 0) then 
+			WriteToLogFile(INSTALL_ERRORLOG,"Not able to fetch the value "+szKey+ " from the folder "+szFolderName+ " registry");
+		else
+			WriteToLogFile(INSTALL_LOG,"Value fetched for "+ szKey + " from the folder "+szFolderName+ " registry");
+		endif;  
+	else
+		WriteToLogFile(INSTALL_ERRORLOG,"The Specified Folder/Key "+szFolderName+ "//" + szKey + " does not exist");
+	endif;
+catch 
+         WriteToLogFile(INSTALL_ERRORLOG,"Error Encountered fetching key value "+szKey+" from folder "+szFolderName);
+         return "";
+endcatch;
+
+return szValue;
+end;  
+       
+ 
+////////////////////////////////////////////////////////////////////////
+// Function: ClearReadOnly
+// Purpose: Clear the Read Only attribute on all files in or below the 
+//          directory passed in
+////////////////////////////////////////////////////////////////////////
+function NUMBER ClearReadOnly(svDirectory)
+ NUMBER nFilesResult;
+ STRING svMatchingFileName;
+ 
+ begin
+  nFilesResult = FindAllFiles(svDirectory, "*.*", svMatchingFileName, RESET);
+  while(nFilesResult = 0)
+   SetFileInfo(svMatchingFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+   nFilesResult = FindAllFiles(svDirectory,"*.*", svMatchingFileName, CONTINUE);
+  endwhile;
+  
+  return nFilesResult;
+ end;
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DeleteRegFile                                                   //
+//                                                                           //
+// Purpose:  This function deletes the PM folder key and its associated      //
+//			 child from the registry                                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number  DeleteRegFile()
+number nvResult;
+begin 
+
+//Delete the Local Machine Software entry for the PM folder 
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+if(RegDBKeyExist ("SOFTWARE\\DRE")) then
+   nvResult = RegDBDeleteKey("SOFTWARE\\DRE");
+   if(nvResult < 0) then
+     WriteToLogFile(UNINSTALL_ERRORLOG,"DRE folder under Local Machine Registry cannot be deleted during Uninstallation");
+   else
+   	 WriteToLogFile(UNINSTALL_LOG,"DRE folder under Local Machine Registry deleted successfully  during Uninstallation");
+   endif;
+else
+	WriteToLogFile(UNINSTALL_ERRORLOG,"DRE folder Information under Local Machine Registry  not available for Deletion");
+endif; 
+
+
+//Delete the Current User Software entry for the PM folder 
+RegDBSetDefaultRoot(HKEY_CURRENT_USER);
+if(RegDBKeyExist ("SOFTWARE\\DRE")) then
+   nvResult = RegDBDeleteKey("SOFTWARE\\DRE");
+   if(nvResult < 0) then
+     WriteToLogFile(UNINSTALL_ERRORLOG,"DRE folder under Current User Registry cannot be deleted during Uninstallation");
+   else
+   	 WriteToLogFile(UNINSTALL_LOG,"DRE folder under Current User Registry deleted successfully  during Uninstallation");
+   endif;
+else
+	WriteToLogFile(UNINSTALL_ERRORLOG,"DRE folder under Current User Registry Information not available for Deletion");
+endif; 
+
+  
+return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CreateDRERegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function create DRERegsitry                                       //
+///////////////////////////////////////////////////////////////////////////////////////
+function CreateDRERegistry()
+STRING szKey,szApplication,szPath,szAppPool;
+NUMBER nSize,nType;
+STRING szDRESiteKey,szDREServicesKey;
+STRING szDREDBServer,szDREDB;
+begin 
+    
+    nSize= -1;
+    
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\DRE";
+	
+	szDRESiteKey=szKey ^ "Site";
+	szDREServicesKey=szKey ^ "Services";
+	
+	szApplication="Application";
+	szPath="Path";
+	szAppPool="AppPool";
+	
+	szDREDBServer="DBServer";
+	szDREDB="DBName";
+	
+	g_szApplicationDRESite="DRESite";
+	g_szPhysicalPathDRESite=TARGETDIR ^ "Site";
+	g_szAppPoolDRESite="DREApplicationPool";
+	
+	g_szApplicationDREServices="DREServices";
+	g_szPhysicalPathDREServices=TARGETDIR ^ "Services";
+	g_szAppPoolDREServices="DREApplicationPool";
+	
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    RegDBCreateKeyEx(szKey, "");
+    RegDBCreateKeyEx(szKey,szDRESiteKey); 
+    RegDBCreateKeyEx(szKey,szDREServicesKey); 
+    
+    //DRESite   
+    RegDBSetKeyValueEx (szDRESiteKey, szApplication, nType, g_szApplicationDRESite, nSize);
+	RegDBSetKeyValueEx (szDRESiteKey, szPath, nType, g_szPhysicalPathDRESite, nSize);
+	RegDBSetKeyValueEx (szDRESiteKey, szAppPool, nType, g_szAppPoolDRESite, nSize);
+	
+	//DREServices
+	RegDBSetKeyValueEx (szDREServicesKey, szApplication, nType, g_szApplicationDREServices, nSize);
+	RegDBSetKeyValueEx (szDREServicesKey, szPath, nType, g_szPhysicalPathDREServices, nSize);
+	RegDBSetKeyValueEx (szDREServicesKey, szAppPool, nType, g_szAppPoolDREServices, nSize);
+
+	//DRE database registry
+	RegDBSetKeyValueEx (szKey, szDREDBServer, nType, g_szDBServer, nSize);
+	RegDBSetKeyValueEx (szKey, szDREDB, nType, g_szSiriusDBName, nSize);
+	
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPortalRegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets PortalRegsitry                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+function GetDRERegistry()
+NUMBER nSize,nType;
+STRING svDREDBServer,svDREDB,svApplication,svPath,svAppPool;
+STRING szKey,szDRESiteKey,szDREServicesKey,szApplication,szPath,szAppPool;
+STRING szDREDBServer,szDREDB;
+
+begin 
+    nSize= -1;
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\DRE";
+	
+	szDRESiteKey=szKey ^ "Site";
+	szDREServicesKey=szKey ^ "Services";
+	
+	szApplication="Application";
+	szPath="Path";
+	szAppPool="AppPool";
+	
+	szDREDBServer="DBServer";
+	szDREDB="DBName";
+	
+	g_szApplicationDRESite="DRESite";
+	g_szPhysicalPathDRESite=TARGETDIR ^ "Site";
+	g_szAppPoolDRESite="DREApplicationPool";
+	
+	g_szApplicationDREServices="DREServices";
+	g_szPhysicalPathDREServices=TARGETDIR ^ "Services";
+	g_szAppPoolDREServices="DREApplicationPool";
+	
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+    if(RegDBKeyExist(szKey)=1) then
+		
+		//DRE DB Server
+		if(RegDBGetKeyValueEx (szKey, szDREDBServer, nType, svDREDBServer, nSize) <0 ) then
+			//
+		else
+			g_szDBServer=svDREDBServer;
+			WriteToLogFile(INSTALL_LOG,"DRE DB Server=" + g_szDBServer);
+		endif;
+		
+		//DRE DB NAME
+		if(RegDBGetKeyValueEx (szKey, szDREDB, nType, svDREDB, nSize) <0 ) then
+			//
+		else
+			g_szSiriusDBName=svDREDB;
+			WriteToLogFile(INSTALL_LOG,"DRE DB=" + g_szSiriusDBName);
+		endif;
+		
+		//DRE Site Application  		
+		if(RegDBGetKeyValueEx (szDRESiteKey, szApplication, nType, svApplication, nSize) <0 ) then
+			//
+		else
+			g_szApplicationDRESite=svApplication;
+			WriteToLogFile(INSTALL_LOG,"DRE Application=" + g_szApplicationDRESite);
+		endif;
+		
+		//DRE Site Path
+		if(RegDBGetKeyValueEx (szDRESiteKey, szPath, nType, svPath, nSize)<0) then
+			//
+		else
+			g_szPhysicalPathDRESite=svPath;
+			WriteToLogFile(INSTALL_LOG,"DRE Path=" + g_szPhysicalPathDRESite);
+		endif;
+		
+		//DRE App Pool
+		if(RegDBGetKeyValueEx (szDRESiteKey, szAppPool, nType, svAppPool, nSize) <0 ) then
+			//
+		else
+			g_szAppPoolDRESite=svAppPool;
+			WriteToLogFile(INSTALL_LOG,"DRE AppPool=" + g_szAppPoolDRESite);
+		endif;
+		
+		
+		//DRE Services Application
+		if(RegDBGetKeyValueEx (szDREServicesKey, szApplication, nType, svApplication, nSize) <0 ) then
+			//
+		else
+			g_szApplicationDREServices=svApplication;
+			WriteToLogFile(INSTALL_LOG,"DRE Application=" + g_szApplicationDRESite);
+		endif;
+		
+		//DRE Services Path
+		if(RegDBGetKeyValueEx (szDREServicesKey, szPath, nType, svPath, nSize)<0) then
+			//
+		else
+			g_szPhysicalPathDREServices=svPath;
+			WriteToLogFile(INSTALL_LOG,"DRE Path=" + g_szPhysicalPathDRESite);
+		endif;
+		
+		
+	else
+		//
+	endif;
+	return 0;
+end;
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPureDBDetailFromRegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets PortalRegsitry                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+
+function GetPureDBDetailFromRegistry()
+
+begin
+
+g_PureDB = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database");
+g_PureDBServer =GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server");
+
+end;
+
+
+
+
+/***********************Registry.rul File Coding Ends*********************************************/

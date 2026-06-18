@@ -1,0 +1,1 @@
+<%@ WebService Language="C#" CodeBehind="RuleEngineManagerService.asmx.cs" Class="RuleEngineManagerService.RuleEngineManagerService" %>

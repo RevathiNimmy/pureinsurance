@@ -1,0 +1,324 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  File Name:    SQLServerSelectLoginDlg.rul
+//
+//  Description:  This file contains the InstallShield script for the 
+//                SQLServerSelectLogin dialog function.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#include "ISRT.h"
+#include "ISRTPriv.h"
+
+#ifdef SQLRT_OBL
+#include "SQLRT.h"
+#elif SQLCONV_OBL
+#include "SQLConv.h"
+#endif
+
+prototype SQLSelectLoginEnableButton( INT, INT, BYREF STRING, BYREF STRING, BOOL );
+
+function SQLServerSelectLogin( svServer, svUser, svPassword, bvWindowsLogin)
+    STRING szDB; 
+begin
+
+    return SQLServerSelectLogin2( "", svServer, svUser, svPassword, bvWindowsLogin, szDB, FALSE, FALSE );
+
+end;
+
+function SQLServerSelectLoginEx( szConnection, svServer, svUser, svPassword, bvWindowsLogin)
+    STRING szDB; 
+begin
+
+    return SQLServerSelectLogin2( szConnection, svServer, svUser, svPassword, bvWindowsLogin, szDB, TRUE, FALSE );
+
+end;
+
+function SQLServerSelectLogin2( szConnection, svServer, svUser, svPassword, bvWindowsLogin, svDB, bShowConnectionName, bShowCatalog)
+    NUMBER nId, nLen, nStyle, nNil, nMessage;
+    STRING szAppKey, szNil, szCaption, szTitle, szServer; 
+    LIST listServers;
+    BOOL bDone, bEnterLogin;
+    HWND hDlg, hEditName, hEditPassword, hWnd, hEditDB, hLableDB, hButtonDB, hLineDB;
+begin
+
+    if (!g_bSQLRTInitialized) then
+        return ISERR_GEN_FAILURE;
+    endif;
+
+    // record data produced by this dialog
+    if (MODE = SILENTMODE) then
+        SdMakeName(szAppKey, DLG_SQLSELECTLOGIN, "", nDlgSQLSELECTLOGIN);
+        SilentReadData(szAppKey, "Result", DATA_NUMBER, szNil, nId);
+        if ((nId != BACK) && (nId != CANCEL)) then
+            SilentReadData( szAppKey, "szUser", DATA_STRING, svUser, nNil );
+            SilentReadData( szAppKey, "szPass", DATA_STRING, svPassword, nNil );
+            SilentReadData( szAppKey, "szServer", DATA_STRING, svServer, nNil );
+            SilentReadData( szAppKey, "szDB", DATA_STRING, svDB, nNil );
+            SilentReadData( szAppKey, "szAuthen", DATA_NUMBER, szNil, bvWindowsLogin );
+        endif;
+        return nId;
+    endif;
+
+    // ensure general initialization is complete
+    if (!bSdInit) then
+      SdInit();
+    endif;
+
+    if (EzDefineDialog(DLG_SQLSELECTLOGIN, "", "", DLG_SQLSELECTLOGIN_ID) = DLG_ERR) then
+        return ISERR_GEN_FAILURE;
+    endif;
+
+    // Loop in dialog until the user selects a standard button
+    bDone = FALSE;
+
+    while (!bDone)
+        nId = WaitOnDialog(DLG_SQLSELECTLOGIN);
+        switch (nId)
+        case DLG_INIT:
+				
+            // Set connection name
+            if( bShowConnectionName = TRUE ) then
+                CtrlSetText( DLG_SQLSELECTLOGIN, STATIC_CONNECTION, szConnection );    
+            else
+                // Hide control
+                CtrlSetText( DLG_SQLSELECTLOGIN, STATIC_CONNECTION_LABEL, "" );
+                CtrlSetText( DLG_SQLSELECTLOGIN, STATIC_CONNECTION, "" );    
+            endif;
+                 
+        	//populate servers list
+        	listServers = SQLRTGetServers2( szConnection, TRUE );
+        	CtrlSetList( DLG_SQLSELECTLOGIN, COMBO_SERVERS, listServers ); 
+            if( svServer = "" ) then
+                ListGetFirstString( listServers, szServer );
+            else
+                szServer = svServer;
+            endif;
+
+        	ListDestroy( listServers );
+        	CtrlSetText( DLG_SQLSELECTLOGIN, COMBO_SERVERS, szServer );
+
+            nLen = StrLengthChars(svUser);
+            if (nLen = 0) then
+                nLen = Resize(svUser, 256);
+            endif;
+            
+            nLen = StrLengthChars(svPassword);
+            if (nLen = 0) then
+                nLen = Resize(svPassword, 256);
+            endif;
+
+
+            hDlg = CmdGetHwndDlg(DLG_SQLSELECTLOGIN);
+            SdGeneralInit(DLG_SQLSELECTLOGIN, hDlg, 0, szSdProduct);
+
+            szTitle = GetDialogTitle(DLG_ASK_TEXT);
+            SdSetDlgTitle(DLG_SQLSELECTLOGIN, hDlg, szTitle);
+            
+            hEditName = CtrlGetDlgItem("", hDlg, SD_EDIT_NAME);
+            if (nLen < 255) then
+                nLen = 255;
+            endif;
+            SendMessage(hEditName, EM_LIMITTEXT, nLen-1, 0);
+
+            hEditPassword = CtrlGetDlgItem("", hDlg, SD_EDIT_PASSWORD);
+            if (nLen < 255) then
+                nLen = 255;
+            endif;
+            SendMessage(hEditPassword, EM_LIMITTEXT, nLen-1, 0);
+
+            nStyle = GetWindowLong(hEditPassword, GWL_STYLE);
+            nStyle = (nStyle & ~ES_OEMCONVERT);
+            SetWindowLong(hEditPassword, GWL_STYLE, nStyle);
+            
+            if( bvWindowsLogin ) then
+
+                CtrlSetState (DLG_SQLSELECTLOGIN, RADIO_WINDOWS, BUTTON_CHECKED);
+                CtrlSetState (DLG_SQLSELECTLOGIN, RADIO_SQL, BUTTON_UNCHECKED);
+                EnableWindow( hEditPassword, FALSE );
+                EnableWindow( hEditName, FALSE );    
+            else
+
+                CtrlSetState (DLG_SQLSELECTLOGIN, RADIO_WINDOWS, BUTTON_UNCHECKED);
+                CtrlSetState (DLG_SQLSELECTLOGIN, RADIO_SQL, BUTTON_CHECKED);
+                EnableWindow( hEditPassword, TRUE );
+                EnableWindow( hEditName, TRUE ); 
+                CtrlSetText( DLG_SQLSELECTLOGIN, SD_EDIT_NAME, szServer );
+                CtrlSetText( DLG_SQLSELECTLOGIN, COMBO_SERVERS, szServer );
+            endif;   
+            
+            bEnterLogin = (CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED);
+            CtrlSetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+            CtrlSetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword); 
+            SQLSelectLoginEnableButton( hDlg, SD_PBUT_CONTINUE, svUser, svServer, bEnterLogin );
+            SQLSelectLoginEnableButton( hDlg, BUTTON_DATABASE_BROWSE, svUser, svServer, bEnterLogin );
+            
+            // Set catalog name
+            if( bShowCatalog = TRUE ) then
+                CtrlSetText( DLG_SQLSELECTLOGIN, EDIT_DATABASE, svDB );    
+            else
+                // Hide control
+                hLableDB = CtrlGetDlgItem("", hDlg, STATIC_DATABASE_LABEL);
+                ShowWindow( hLableDB, FALSE );
+                hEditDB = CtrlGetDlgItem("", hDlg, EDIT_DATABASE);
+                ShowWindow( hEditDB, FALSE );
+                hButtonDB = CtrlGetDlgItem("", hDlg, BUTTON_DATABASE_BROWSE);
+                ShowWindow( hButtonDB, FALSE );
+                hLineDB = CtrlGetDlgItem("", hDlg, LINE_DATABASE_SEPARATOR);
+                ShowWindow( hLineDB, FALSE );
+            endif;
+ 		
+		case RADIO_WINDOWS:
+            if( CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_WINDOWS ) = BUTTON_CHECKED ) then
+                CtrlSetState (DLG_SQLSELECTLOGIN, RADIO_SQL, BUTTON_UNCHECKED);
+                EnableWindow( hEditPassword, FALSE );
+                EnableWindow( hEditName, FALSE );
+            endif;   
+            bEnterLogin = (CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword); 
+            CtrlGetText(DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer); 
+            SQLSelectLoginEnableButton( hDlg, SD_PBUT_CONTINUE, svUser, svServer, bEnterLogin );
+            SQLSelectLoginEnableButton( hDlg, BUTTON_DATABASE_BROWSE, svUser, svServer, bEnterLogin );
+
+        case RADIO_SQL:
+            if( CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED ) then
+                CtrlSetState (DLG_SQLSELECTLOGIN, RADIO_WINDOWS, BUTTON_UNCHECKED);
+                EnableWindow( hEditPassword, TRUE );
+                EnableWindow( hEditName, TRUE );
+            endif;  
+            bEnterLogin = (CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword); 
+            CtrlGetText(DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer); 
+            SQLSelectLoginEnableButton( hDlg, SD_PBUT_CONTINUE, svUser, svServer, bEnterLogin );
+            SQLSelectLoginEnableButton( hDlg, BUTTON_DATABASE_BROWSE, svUser, svServer, bEnterLogin );
+
+        case BUTTON_BROWSE:
+        	if( SQLBrowse2(szConnection, svServer) = NEXT ) then
+        	    CtrlSetText( DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer );
+        	endif;  
+        	bEnterLogin = (CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword); 
+            CtrlGetText(DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer); 
+            SQLSelectLoginEnableButton( hDlg, SD_PBUT_CONTINUE, svUser, svServer, bEnterLogin );
+            SQLSelectLoginEnableButton( hDlg, BUTTON_DATABASE_BROWSE, svUser, svServer, bEnterLogin );
+            
+        case SD_EDIT_NAME:
+		   	nMessage = CtrlGetSubCommand(DLG_SQLSELECTLOGIN);
+		   	if(nMessage = EDITBOX_CHANGE) then	
+	        	bEnterLogin = (CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED);
+	            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+	            CtrlGetText(DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer); 
+	            SQLSelectLoginEnableButton( hDlg, SD_PBUT_CONTINUE, svUser, svServer, bEnterLogin );
+	            SQLSelectLoginEnableButton( hDlg, BUTTON_DATABASE_BROWSE, svUser, svServer, bEnterLogin );
+	        endif;  
+	        
+        case COMBO_SERVERS:
+        	bEnterLogin = (CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+            CtrlGetText(DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer); 
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword); 
+            SQLSelectLoginEnableButton( hDlg, SD_PBUT_CONTINUE, svUser, svServer, bEnterLogin );
+            SQLSelectLoginEnableButton( hDlg, BUTTON_DATABASE_BROWSE, svUser, svServer, bEnterLogin );
+            
+        case SD_PBUT_CONTINUE: 
+            CtrlGetText(DLG_SQLSELECTLOGIN, COMBO_SERVERS, svServer); 
+            if( CtrlGetState( DLG_SQLSELECTLOGIN, RADIO_SQL ) = BUTTON_CHECKED ) then
+                bvWindowsLogin = FALSE;
+                CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+                CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword);
+            else
+                bvWindowsLogin = TRUE;
+                svUser = "";
+                svPassword = "";
+            endif;
+            CtrlGetText(DLG_SQLSELECTLOGIN, EDIT_DATABASE, svDB); 
+            
+			//read server
+
+            nId   = NEXT;
+            bDone = TRUE;
+
+        case SD_PBUT_BACK:
+            nId    = BACK;
+            bDone  = TRUE;
+
+        case DLG_ERR:
+            nId   = ISERR_GEN_FAILURE;
+            SdError(nId, DLG_SQLSELECTLOGIN);
+            bDone = TRUE;
+
+        case DLG_CLOSE:
+            SdCloseDlg(hDlg, nId, bDone);
+
+        case BUTTON_DATABASE_BROWSE:
+        	if( SQLDatabaseBrowse(szConnection, svServer, !bEnterLogin, svUser, svPassword, svDB) = NEXT ) then
+        	    CtrlSetText( DLG_SQLSELECTLOGIN, EDIT_DATABASE, svDB );
+        	endif;  
+
+        case EDIT_DATABASE:
+		   	nMessage = CtrlGetSubCommand(DLG_SQLSELECTLOGIN);
+		   	if(nMessage = EDITBOX_CHANGE) then	
+        	    CtrlGetText( DLG_SQLSELECTLOGIN, EDIT_DATABASE, svDB );
+	        endif;  
+
+        default:
+            // check standard handling
+            if (SdIsStdButton(nId) && SdDoStdButton(nId)) then
+                if ((nId != SD_EDIT_NAME) && (nId != SD_EDIT_PASSWORD)) then
+                    bDone = TRUE;
+                endif;
+            endif;
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_NAME, svUser);
+            CtrlGetText(DLG_SQLSELECTLOGIN, SD_EDIT_PASSWORD, svPassword);
+      	    CtrlGetText( DLG_SQLSELECTLOGIN, EDIT_DATABASE, svDB );
+        endswitch;
+    endwhile;
+
+    EndDialog(DLG_SQLSELECTLOGIN);
+    ReleaseDialog(DLG_SQLSELECTLOGIN);
+
+    SdUnInit();
+
+    // record data produced by this dialog
+    if (MODE = RECORDMODE) then
+        SdMakeName(szAppKey, DLG_SQLSELECTLOGIN, "", nDlgSQLSELECTLOGIN);
+        SilentWriteData( szAppKey, "szUser", DATA_STRING, svUser, nNil );
+        SilentWriteData( szAppKey, "szPass", DATA_STRING, svPassword, nNil );
+        SilentWriteData( szAppKey, "szServer", DATA_STRING, svServer, nNil );
+        SilentWriteData( szAppKey, "szDB", DATA_STRING, svDB, nNil );
+        SilentWriteData( szAppKey, "szAuthen", DATA_NUMBER, szNil, bvWindowsLogin );
+        SilentWriteData( szAppKey, "Result", DATA_NUMBER, szNil, nId );
+    endif;
+
+    return nId;
+end;
+
+function  SQLSelectLoginEnableButton( hwndDlg, nControlID, svName, svServer, bLogin )
+	HWND  hwndItem;
+begin
+
+	hwndItem = CtrlGetDlgItem("",  hwndDlg, nControlID );
+	if (!IsWindow( hwndItem)) then 
+		return FALSE; 
+	endif;
+     
+    StrTrim( svServer ); 
+	StrTrim( svName );
+	
+	if( svServer = "" ) then
+	    EnableWindow( hwndItem, FALSE );
+	else 
+	    if( bLogin ) then
+		    if( svName = "" ) then
+	            EnableWindow( hwndItem, FALSE);
+	        else
+	            EnableWindow( hwndItem, TRUE);
+	        endif;
+	    else
+	        EnableWindow( hwndItem, TRUE );
+	    endif;
+	endif;
+end;

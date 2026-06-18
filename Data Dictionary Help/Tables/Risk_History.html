@@ -1,0 +1,175 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Risk_History</h1>
+<p><span class="autodesc">Risk History</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Risk<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="risk_cnt">risk_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk.html#risk_cnt">Risk.risk_cnt</a> <span class="autodesc">risk</span></td>
+</tr>
+<tr>
+<td><a class="name" name="underwriting_year">underwriting_year</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">underwriting year</span></td>
+</tr>
+<tr>
+<td><a class="name" name="premium_count">premium_count</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">premium count</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gross_premium">gross_premium</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">gross premium</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lead_commission">lead_commission</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lead commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_commission">sub_commission</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sub commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="treaty_ri">treaty_ri</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">treaty ri</span></td>
+</tr>
+<tr>
+<td><a class="name" name="treaty_commission">treaty_commission</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">treaty commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="other_ri">other_ri</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">other ri</span></td>
+</tr>
+<tr>
+<td><a class="name" name="other_commission">other_commission</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">other commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_count">claim_count</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim count</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_outstanding_gross">claim_outstanding_gross</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim outstanding gross</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_outstanding_treaty">claim_outstanding_treaty</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim outstanding treaty</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_outstanding_other">claim_outstanding_other</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim outstanding other</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_paid_gross">claim_paid_gross</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim paid gross</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_paid_treaty">claim_paid_treaty</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim paid treaty</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_paid_other">claim_paid_other</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim paid other</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>risk_cnt, underwriting_year</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_cnt</td>
+<td><a href="Risk.html">Risk</a></td>
+<td>risk_cnt</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

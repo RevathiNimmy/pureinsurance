@@ -1,0 +1,259 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Get_Step_Key</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_map_id">pmnav_map_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">pmnav map</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_step_id">pmnav_step_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">pmnav step</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_key_id">pmnav_key_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Key.html#pmnav_key_id">PMNav_Key.pmnav_key_id</a> <span class="autodesc">pmnav key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sequence_number">sequence_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sequence number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_map_id, pmnav_step_id, pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Key.html">PMNav_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td><a href="PMNav_Step.html">PMNav_Step</a></td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_map_id</td>
+<td>pmnav_step_id</td>
+<td>pmnav_key_id</td>
+<td>sequence_number</td>
+<td>description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>Party Cnt</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>94</td>
+<td>2</td>
+<td>Handler Type</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>Party Cnt</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>94</td>
+<td>2</td>
+<td>Handler Type</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>Party Cnt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>9</td>
+<td>1</td>
+<td>Batch Set ID</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>1</td>
+<td>Allocation ID</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>11</td>
+<td>1</td>
+<td>AllocationIDs</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>5</td>
+<td>1</td>
+<td>Cash List ID</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>7</td>
+<td>2</td>
+<td>Cash List Type ID</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>8</td>
+<td>3</td>
+<td>Branch ID</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>5</td>
+<td>1</td>
+<td>Cash List ID</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>7</td>
+<td>2</td>
+<td>Cash List Type ID</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>8</td>
+<td>3</td>
+<td>Branch ID</td>
+</tr>
+<tr>
+<td>6</td>
+<td>6</td>
+<td>11</td>
+<td>1</td>
+<td>AllocationIDs</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+<td>Cash List ID</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>7</td>
+<td>1</td>
+<td>Cash List Type ID</td>
+</tr>
+<tr>
+<td>8</td>
+<td>5</td>
+<td>5</td>
+<td>1</td>
+<td>Cash List ID</td>
+</tr>
+<tr>
+<td>8</td>
+<td>5</td>
+<td>7</td>
+<td>2</td>
+<td>Cash List Type ID</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

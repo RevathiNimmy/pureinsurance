@@ -1,0 +1,154 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Renewal_Scheme_Risk</h1>
+<p>Underwriting Renewal Scheme Risk</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Renewals<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="gis_scheme_id">gis_scheme_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Scheme.html#gis_scheme_id">GIS_Scheme.gis_scheme_id</a> <span class="autodesc">gis scheme</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_code_id">risk_code_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk_Code.html#risk_code_id">Risk_Code.risk_code_id</a> <span class="autodesc">risk code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pre_selection_day">pre_selection_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pre selection day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="selection_day">selection_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">selection day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="invite_day">invite_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">invite day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="confirm_day">confirm_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">confirm day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lapse_day">lapse_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lapse day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="quote_day">quote_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">quote day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reminder_day">reminder_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reminder day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renew_day">renew_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">renew day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="housekeep_day">housekeep_day</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">housekeep day</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>gis_scheme_id, risk_code_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_scheme_id</td>
+<td><a href="GIS_Scheme.html">GIS_Scheme</a></td>
+<td>gis_scheme_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_code_id</td>
+<td><a href="Risk_Code.html">Risk_Code</a></td>
+<td>risk_code_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_scheme_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>risk_code_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

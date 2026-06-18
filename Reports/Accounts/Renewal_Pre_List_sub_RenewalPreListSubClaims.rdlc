@@ -1,0 +1,902 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <Description>Converted from Crystal Reports by Crystal Reports Migration Services, contact support@crystalmigrater.com</Description>
+
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>ODBC</DataProvider>
+        <ConnectString>Server=SiriusSolutions;Database=Sirius;User ID=sa;</ConnectString>
+      </ConnectionProperties>
+      <rd:SecurityType>DataBase</rd:SecurityType>
+      <rd:DataSourceID>e8f9c503-c087-4b0a-dbc9-029a6075c639</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Insurance_File_Cnt">
+            <Value>=Parameters!Insurance_File_Cnt.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>spu_Report_Ren_Check_For_Claim_SFU</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="claim_number">
+          <DataField>claim_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="claim_status_id">
+          <DataField>claim_status_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="description">
+          <DataField>description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="claim_date">
+          <DataField>claim_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="notified_date">
+          <DataField>notified_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>7.71181in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.17222in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="RectReportHeaderArea1">
+                          <ReportItems>
+                            <Rectangle Name="ReportHeaderSection1Box1LeftSplitLineFillBox">
+                              <ReportItems>
+                                <Textbox Name="Text1">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Claim Number</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Left>0.02292in</Left>
+                                  <Height>0.15069in</Height>
+                                  <Width>0.9375in</Width>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text2">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Description</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Left>0.98611in</Left>
+                                  <Height>0.15069in</Height>
+                                  <Width>1.44306in</Width>
+                                  <ZIndex>1</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text3">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Claim Date</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01042in</Top>
+                                  <Left>2.45486in</Left>
+                                  <Height>0.14028in</Height>
+                                  <Width>0.64583in</Width>
+                                  <ZIndex>2</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text4">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Notified Date</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01042in</Top>
+                                  <Left>3.13194in</Left>
+                                  <Height>0.14028in</Height>
+                                  <Width>0.62014in</Width>
+                                  <ZIndex>3</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text5">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Initial Reserve</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Right</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01042in</Top>
+                                  <Left>3.77778in</Left>
+                                  <Height>0.14028in</Height>
+                                  <Width>0.875in</Width>
+                                  <ZIndex>4</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text6">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Current Reserve</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Right</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01042in</Top>
+                                  <Left>4.69444in</Left>
+                                  <Height>0.15625in</Height>
+                                  <Width>0.88542in</Width>
+                                  <ZIndex>5</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text7">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Paid To Date</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Right</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01042in</Top>
+                                  <Left>5.60625in</Left>
+                                  <Height>0.14028in</Height>
+                                  <Width>0.87986in</Width>
+                                  <ZIndex>6</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Text8">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>Status</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01042in</Top>
+                                  <Left>6.51736in</Left>
+                                  <Height>0.14028in</Height>
+                                  <Width>1.14792in</Width>
+                                  <ZIndex>7</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                              </ReportItems>
+                              <KeepTogether>true</KeepTogether>
+                              <Top>0.00556in</Top>
+                              <Left>0.02431in</Left>
+                              <Height>0.16667in</Height>
+                              <Width>7.66528in</Width>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <TopBorder>
+                                  <Style>None</Style>
+                                </TopBorder>
+                                <BottomBorder>
+                                  <Style>None</Style>
+                                </BottomBorder>
+                                <LeftBorder>
+                                  <Style>None</Style>
+                                </LeftBorder>
+                                <RightBorder>
+                                  <Style>None</Style>
+                                </RightBorder>
+                              </Style>
+                            </Rectangle>
+                            <Line Name="Box1TopSplitLine">
+                              <Top>0.00556in</Top>
+                              <Left>0.01042in</Left>
+                              <Height>0in</Height>
+                              <Width>7.69306in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Line Name="Box1LeftSplitLine">
+                              <Top>0.00556in</Top>
+                              <Left>0.01042in</Left>
+                              <Height>0.16667in</Height>
+                              <Width>0in</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Line Name="Box1RightSplitLine">
+                              <Top>0.00556in</Top>
+                              <Left>7.70347in</Left>
+                              <Height>0.16667in</Height>
+                              <Width>0in</Width>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                          </ReportItems>
+                          <Style />
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.14653in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="RectDetailArea1">
+                          <ReportItems>
+                            <Rectangle Name="DetailSection1Box1LeftSplitLineFillBox">
+                              <ReportItems>
+                                <Textbox Name="claim_number">
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!claim_number.Value</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>8pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01667in</Top>
+                                  <Left>0.02292in</Left>
+                                  <Height>0.12986in</Height>
+                                  <Width>0.9375in</Width>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="description">
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Fields!description.Value</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>8pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01667in</Top>
+                                  <Left>0.98611in</Left>
+                                  <Height>0.12986in</Height>
+                                  <Width>1.44306in</Width>
+                                  <ZIndex>1</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="claim_date">
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Format(Fields!claim_date.Value, "dd MMM yyyy")</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>8pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01667in</Top>
+                                  <Left>2.45486in</Left>
+                                  <Height>0.12917in</Height>
+                                  <Width>0.64583in</Width>
+                                  <ZIndex>2</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="notified_date">
+                                  <CanGrow>true</CanGrow>
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Format(Fields!notified_date.Value, "dd MMM yyyy")</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>8pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01667in</Top>
+                                  <Left>3.13194in</Left>
+                                  <Height>0.12917in</Height>
+                                  <Width>0.62014in</Width>
+                                  <ZIndex>3</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="ClaimStatus1_ClaimStatus">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value>=Code.ClaimStatus (Fields!claim_status_id.Value)</Value>
+                                          <Style>
+                                            <FontFamily>Arial Narrow</FontFamily>
+                                            <FontSize>8pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Left</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <Top>0.01667in</Top>
+                                  <Left>6.51736in</Left>
+                                  <Height>0.12569in</Height>
+                                  <Width>1.14792in</Width>
+                                  <ZIndex>4</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <TopBorder>
+                                      <Style>None</Style>
+                                    </TopBorder>
+                                    <BottomBorder>
+                                      <Style>None</Style>
+                                    </BottomBorder>
+                                    <LeftBorder>
+                                      <Style>None</Style>
+                                    </LeftBorder>
+                                    <RightBorder>
+                                      <Style>None</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Textbox>
+                              </ReportItems>
+                              <KeepTogether>true</KeepTogether>
+                              <Left>0.02431in</Left>
+                              <Height>0.14653in</Height>
+                              <Width>7.66528in</Width>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <TopBorder>
+                                  <Style>None</Style>
+                                </TopBorder>
+                                <BottomBorder>
+                                  <Style>None</Style>
+                                </BottomBorder>
+                                <LeftBorder>
+                                  <Style>None</Style>
+                                </LeftBorder>
+                                <RightBorder>
+                                  <Style>None</Style>
+                                </RightBorder>
+                              </Style>
+                            </Rectangle>
+                            <Line Name="Box1LeftSplitLine_1">
+                              <Left>0.01042in</Left>
+                              <Height>0.14653in</Height>
+                              <Width>0in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Line Name="Box1RightSplitLine_1">
+                              <Left>7.70347in</Left>
+                              <Height>0.14653in</Height>
+                              <Width>0in</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                          </ReportItems>
+                          <Style />
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.11528in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="RectReportFooterSection1">
+                          <ReportItems>
+                            <Rectangle Name="ReportFooterSection1Box1LeftSplitLineFillBox">
+                              <KeepTogether>true</KeepTogether>
+                              <Left>0.02431in</Left>
+                              <Height>0.01389in</Height>
+                              <Width>7.66528in</Width>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <TopBorder>
+                                  <Style>None</Style>
+                                </TopBorder>
+                                <BottomBorder>
+                                  <Style>None</Style>
+                                </BottomBorder>
+                                <LeftBorder>
+                                  <Style>None</Style>
+                                </LeftBorder>
+                                <RightBorder>
+                                  <Style>None</Style>
+                                </RightBorder>
+                              </Style>
+                            </Rectangle>
+                            <Line Name="Box1BottomSplitLine">
+                              <Top>0.01389in</Top>
+                              <Left>0.01042in</Left>
+                              <Height>0in</Height>
+                              <Width>7.69306in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Line Name="Box1LeftSplitLine_2">
+                              <Left>0.01042in</Left>
+                              <Height>0.01389in</Height>
+                              <Width>0in</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Line Name="Box1RightSplitLine_2">
+                              <Left>7.70347in</Left>
+                              <Height>0.01389in</Height>
+                              <Width>0in</Width>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>Silver</Color>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                          </ReportItems>
+                          <PageBreak>
+                            <BreakLocation>End</BreakLocation>
+                          </PageBreak>
+                          <Style />
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IsNothing(Max(Fields!claim_number.Value, "DataSet1"))</Hidden>
+                  </Visibility>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IsNothing(Max(Fields!claim_number.Value, "DataSet1"))</Hidden>
+                  </Visibility>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <NoRowsMessage>No Data Found.</NoRowsMessage>
+            <DataSetName>DataSet1</DataSetName>
+            <Height>0.43403in</Height>
+            <Width>7.71181in</Width>
+            <Style />
+          </Tablix>
+        </ReportItems>
+        <Height>0.43403in</Height>
+        <Style />
+      </Body>
+      <Width>7.71181in</Width>
+      <Page>
+        <LeftMargin>0.22222in</LeftMargin>
+        <RightMargin>0.22222in</RightMargin>
+        <TopMargin>0.14236in</TopMargin>
+        <BottomMargin>0.14236in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="Insurance_File_Cnt">
+      <DataType>Float</DataType>
+      <Prompt>Insurance_File_Cnt</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>1</NumberOfColumns>
+      <NumberOfRows>1</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Insurance_File_Cnt</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <Code>
+Public Function ClaimStatus (ByVal dbField1 As Integer) As String
+        Dim ID As Decimal = dbField1
+
+     If ID = 1 Then 
+        Return "Provisional Open Claim"
+     ElseIf ID = 2 Then 
+        Return "Live Open Claim"
+     ElseIf ID = 3 Then 
+        Return "Closed"
+     ElseIf ID = 4 Then 
+        Return "ReOpened"
+     Else 
+        Return "ReClosed"
+     End If 
+End Function
+
+</Code>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>bb21bad9-ca2c-457b-b3c9-e6979991f208</rd:ReportID>
+</Report>

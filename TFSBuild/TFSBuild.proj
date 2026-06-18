@@ -1,0 +1,3051 @@
+﻿<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="DesktopBuild" ToolsVersion="4.0">
+  <!--<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets"/>-->
+  <ProjectExtensions>
+    <ProjectFileVersion>2</ProjectFileVersion>
+    <Description/>
+    <BuildMachine>VMB-TFS-AGENT1</BuildMachine>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <BuildDirectoryPath>$(BuildProjectFolderPath)\Binaries</BuildDirectoryPath>
+<DropLocation>C:\PureBuild\Releases</DropLocation>
+    <RunTest>false</RunTest>
+    <RunCodeAnalysis>Never</RunCodeAnalysis>
+    <WorkItemType>Bug</WorkItemType>
+    <WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
+    <WorkItemTitle>Build failure in build:</WorkItemTitle>
+    <DescriptionText>This work item was created by Team Build on a build failure.</DescriptionText>
+    <BuildlogText>The build log file is at:</BuildlogText>
+    <ErrorWarningLogText>The errors/warnings log file is at:</ErrorWarningLogText>
+    <UpdateAssociatedWorkItems>true</UpdateAssociatedWorkItems>
+    <AdditionalVCOverrides/>
+    <CustomPropertiesForClean/>
+    <CustomPropertiesForBuild/>
+    <CustomizableOutDir>True</CustomizableOutDir>
+    <StopOnFirstFailure>false</StopOnFirstFailure>
+	<BuildProjectFolderPath>C:\PureInsurance\PureInsurance</BuildProjectFolderPath>
+  </PropertyGroup>
+  <!--<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>$(BuildProjectFolderPath)\..\Binaries</OutputPath>
+    <OutDir>$(BuildProjectFolderPath)\..\Binaries</OutDir>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>-->
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>$(BuildProjectFolderPath)\..\Binaries</OutputPath>
+    <OutDir>$(BuildProjectFolderPath)\..\Binaries</OutDir>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <BuildAllDependsOn>CoreBuild</BuildAllDependsOn>
+  </PropertyGroup>
+
+  <Target Name="BuildPortal" DependsOnTargets="$(BuildAllDependsOn)"/>
+  
+  <ItemGroup>
+    <AdditionalReferencePath Include="$(BuildProjectFolderPath)\..\Binaries"/>
+    <AdditionalReferencePath Include="$(BuildProjectFolderPath)\..\Pure Build Process\Core DLLs"/>
+  </ItemGroup>
+  
+    <ItemGroup>
+    <SourceExes Include="$(BuildProjectFolderPath)\..\Pure Build Process\Core DLLs\**\*.exe" />
+    <DescExesFolder Include="$(BuildProjectFolderPath)\..\Binaries" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <SourceExes Include="$(BuildProjectFolderPath)\..\Pure Build Process\Core DLLs\**\*.exe" />
+    <DescExesFolder Include="$(BuildProjectFolderPath)\..\Binaries" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <MySourceFiles Include="$(BuildProjectFolderPath)\..\Web Portal\**\*.*" />
+    <MyDestinationFiles Include="$(BuildProjectFolderPath)\..\Pure Build Process\PortalBuildScripts\BuildSource" />
+	
+  </ItemGroup>
+  <Target Name="CopyPortalFiles">
+    <MakeDir Directories="$(BuildProjectFolderPath)\..\Pure Build Process\PortalBuildScripts\BuildSource" />
+    <Copy SourceFiles="@(MySourceFiles)" DestinationFiles="@(MySourceFiles->'$(BuildProjectFolderPath)\..\Pure Build Process\PortalBuildScripts\BuildSource\%(RecursiveDir)%(FileName)%(Extension)')" />
+	<Copy SourceFiles="@(SourceExes)" DestinationFolder="%(DescExesFolder.Fullpath)" />
+  </Target>
+  <Target Name="DesktopBuild">
+    <!-- <CallTarget Targets="CopyPortalFiles"/> -->
+    <!-- <Copy SourceFiles="$(BuildProjectFolderPath)\Pure Build Process\Core DLLs\" DestinationFolder="$(BuildProjectFolderPath)\Binaries\" /> -->
+    <MSBuild Projects="@(SolutionToBuild)" BuildInParallel="false" />
+  </Target>
+  <Target Name="CoreBuild">
+    <CallTarget Targets="CopyPortalFiles"/>
+    <Exec Command="&quot;$(BuildProjectFolderPath)\..\Pure Build Process\PortalBuildScripts\BuildPurePortals.cmd&quot; $(BuildNumber)" WorkingDirectory="$(BuildProjectFolderPath)\..\Pure Build Process\PortalBuildScripts" />
+  </Target>
+
+  <ItemGroup>
+    <!-- <ConfigurationToBuild Include="Debug|x64">
+      <FlavorToBuild>Debug</FlavorToBuild>
+      <PlatformToBuild>x64</PlatformToBuild>
+    </ConfigurationToBuild>-->
+    <ConfigurationToBuild Include="Release|x64">
+      <FlavorToBuild>Release</FlavorToBuild>
+      <PlatformToBuild>x64</PlatformToBuild>
+    </ConfigurationToBuild>
+ 
+     <SolutionToBuild Include="$(BuildProjectFolderPath)\shared files\sharedfiles.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+ 
+  <SolutionToBuild Include="$(BuildProjectFolderPath)\SharedQuoteEngine\SharedQuoteEngine.vbproj">
+   <Targets/>
+   <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+  </SolutionToBuild>
+ 
+	
+	<!-- BUSINESS COMPONENTS 
+	***************************************************************************************************************************-->	
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator v3\bpmnavbatch\bpmnavbatch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+  <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\crystal reports\business\bsirreportprint\bsirreportprint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find risk type\business\bsirfindrisktype\bsirfindrisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmeventlogviewer\cpmeventlogviewer\cpmeventlogviewer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmapi\ipmmapi\ipmmapi.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmessage\ipmmessage\ipmmessage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>  	 
+
+ 
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\bpmlicencemanager\bpmlicencemanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\bpmlocallicencemanager\bpmlocallicencemanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmclientinstallcheck\ipmclientinstallcheck\ipmclientinstallcheck.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\ilogonmanager\ilogonmanager.vbproj">
+	<Targets/>
+	<Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+	</SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\bobjectmanager\bobjectmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+		
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\writeoffreason\business\bactwriteoffreason\bactwriteoffreason.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+ 
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\sharepoint integration\bSIRSharePointOnlineValidate\bSIRSharePointOnlineValidate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+ 	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\contact type\business\bsircontacttype\bsircontacttype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	
+	<!--Documaster-->
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DMESharedFiles\DMESharedFiles.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\Autorun\Autorun.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+  
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCDocNameAdmin\Interface\iDOCDocNameAdmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCFind\Interface\iDOCFind.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCKeywordAdmin\Interface\iDOCKeywordAdmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCPassword\Interface\iDOCPassword.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCInformation\Interface\iDOCInformation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCOptions\Interface\iDOCOptions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCSplash\Interface\iDOCSplash.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCDocKeyword\Business\bDOCDocKeyword.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+  
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCManager\Business\bDOCManager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+	
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim party\business\bclmclaimparty\bclmclaimparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\finddocument\business\bactfinddocument\bactfinddocument.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\purchaseinvoice\business\bactinvoice\bactinvoice.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+     <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\list management\client\igislistmanager\igislistmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\document manager\interface\ipmbdocmanager\ipmbdocmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DMEMigration\Pure.DMEMigration\Pure.DMEMigration.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DMEMigration\DMEMigrationController\DMEMigrationController.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find fac party\business\bsirfindriparty\bsirfindriparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\onlinepartymaintenance\business\bsironlineparty\bsironlineparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>   	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtaskgroupcategory\bpmtaskgroupcategory\bpmtaskgroupcategory.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\workflow\pmworkflowmaintenance\bpmworkflowmaintenance\bpmworkflowmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>	
+		
+
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\premium finance\rating module\bgispremiumfinance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\handlertransfer\business\bsirhandlertransfer\bsirhandlertransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findbank\business\bactfindbank\bactfindbank.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\budget\business\bactbudget\bactbudget.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\budgetdetail\business\bactbudgetdetail\bactbudgetdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\orion link\business\bpmborionlink\bpmborionlink.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius Architecture\Components\PasswordRehasher\PasswordRehasher.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\find party\business\bclmfindparty\bclmfindparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Risk Group\Business\bSIRRiskGroup\bSIRRiskGroup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\reserve definition\data\dclmresvdefn\dclmresvdefn.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtaskgroup\bpmtaskgroup\bpmtaskgroup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrktaskinstance\bpmwrktaskinstlog\bpmwrktaskinstlog.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+   
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for broking\Components\Free Form Text\Data\dSIRClaimPublicText\dSIRClaimPublicText.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\companycurrency\business\bactcompanycurrency\bactcompanycurrency.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<!--	Build Order 5
+	-->
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator xm\bpmnavigatorxm\bpmnavigatorxm.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\accumulations\business\bsiraccumulationlookup\bsiraccumulationlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\financial summary\business\bclmfinsumm\bclmfinsumm.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\importexport\business\bactimportexport\bactimportexport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\ri model usage\business\bsirrimodelusage\bsirrimodelusage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+     
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\list management\gislist\bgislist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\list management\gislistcreator\gislistcreator.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\define fields\data\dclmdefnflds\dclmdefnflds.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\define fields\business\bclmdefnflds\bclmdefnflds.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user authority levels\scriptcompiler\abstract class\sirius_authlevel_abstractclass.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\information checklist\data\dclminfochklst\dclminfochklst.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\information checklist\business\bclminfochklst\bclminfochklst.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\getchangereason\business\bsirgetchangereason\bsirgetchangereason.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\payment method\business\bclmpaymentmethod\bclmpaymentmethod.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    
+	<!--	Build Order 7
+	-->
+	
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\pmlookupcontrol\pmlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmformcontrol\ipmformcontrol\ipmformcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\document template\interface\ipmbdoctemplate\ipmbdoctemplate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\exportcashlistitems\business\bactexportcashlistitems\bactexportcashlistitems.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\peril type usage\business\bsirperiltypeusage\bsirperiltypeusage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party loyalty scheme\business\bsirpartyloyaltyscheme\bsirpartyloyaltyscheme.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findinvoice\business\bactfindinvoice\bactfindinvoice.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\business\listmanager\bgemlistmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\text files\data\dsirtextfile\dsirtextfile.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\text files\business\bsirtextfile\bsirtextfile.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user authority levels\scriptcompiler\vb template\sirius_authlevel_rule.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup detail\business\bsirlookupdetail\bsirlookupdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintaintask\bpmmaintaintask\bpmmaintaintask.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\text files\business\bsirtextfiledesc\bsirtextfiledescription.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\business\bsirpfscheme\bsirpfscheme.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmdatacontrol\bpmdatacontrol\bpmdatacontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def detail\business\bgisuserdefdetail\bgisuserdefdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\business\listuser\bgemlistuser.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\business\listcustom\bgemlistcustom.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\business\lists\bgemlists.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\business\listupdate\bgemlistupdate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\business\gemlistmgr\bgemlistmgr.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\rating\business\bgisrating\bgisrating.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\unposted transactions\business\bsirunpostedtransactions\bsirunpostedtransactions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\report scheduler\business\bsirreportscheduler\bsirreportscheduler.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\coinsurance recoveries\data\dclmcoinsurancerecoveries\dclmcoinsurancerecoveries.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\coinsurance recoveries\business\bclmcoinsurancerecoveries\bclmcoinsurancerecoveries.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\risk type information checklist\data\dclmrisktypeinfochecklist\dclmrisktypeinfochecklist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\pay now options\business\bsirpaynowoptions\bsirpaynowoptions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\index linking\business\bsirindexlinkingdetail\bsirindexlinkingdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\MID Maintenance\business\bSIRMIDMaintenance\bSIRMIDMaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	
+
+	
+    
+		
+     
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\policy\business\bpmupolicy\bpmupolicy.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\cover note\business\bsircovernote\bsircovernote.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim letter\business\bclmgetclaimletter\bclmgetclaimletter.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsystem\pmsystem\pmsystem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\commission rate\business\bsircommissionrate\bsircommissionrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmcurrency\pmcurrencymaintenance\pmcurrencymaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup header\business\bsirlookupheader\bsirlookupheader.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\report group\business\bsirreportgroup\bsirreportgroup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+  
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\document type maintenance\business\bsirdocumenttype\bsirdocumenttype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup detail\business\bsirlookupdetailrates\bsirlookupdetailrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\productupdatehistory\bpmproductupdatehistory\bpmproductupdatehistory.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\lifestyle\data\dsirlifestyle\dsirlifestyle.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\lifestyle\business\bsirlifestyle\bsirlifestyle.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type ri limits\business\bsirrisktyperilimits\bsirrisktyperilimits.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findbudget\business\bactfindbudget\bactfindbudget.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\close claim\business\bclmcloseclaim\bclmcloseclaim.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\treaty\business\bsirtreaty\bsirtreaty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findcashlist\business\bactfindcashlist\bactfindcashlist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type\business\bsirrisktype\bsirrisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintaintaskaction\bpmmaintaintaskaction\bpmmaintaintaskaction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\future address update\business\bsirfutureaddressupdate\bsirfutureaddressupdate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\group import\business\bgisgroupimport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator v3\process editor\business\bpmnaveditor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<!-- BUILD ORDER    10  -->
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\bankreconciliation\business\bactbankreconciliation\bactbankreconciliation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	
+		<!--	Build Order 11
+	-->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\allocationcreate\business\bactallocationcreate\bactallocationcreate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<!--	Build Order 12
+	-->
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\insurerpaymentallocate\business\bactinsurerpaymentallocate\bactinsurerpaymentallocate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\source defaults\interface\ipmusourcedefaults\ipmusourcedefaults.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\workflow\pmstepmaintenance\bpmstepmaintenance\bpmstepmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+   <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\documentation\interface\ipmugetdocument\ipmugetdocument.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<!--	Build Order 14
+	-->
+	
+	<!--	Build Order 15
+	-->
+
+	    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\ri model\business\bsirrimodel\bsirrimodel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\crystal reports\interface\reportschedulercli\reportschedulercli.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\risk type\data\dclmrisktype\dclmrisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\bpmremotelicencemanager\bpmremotelicencemanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	
+	
+	
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup header\business\bsirlookupheaderrates\bsirlookupheaderrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintainlookup\bpmmaintainlookup\bpmmaintainlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\exportpftrans\business\bactexportpftrans\bactexportpftrans.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\account transaction batch\business\bsiraccounttransbatch\bsiraccounttransbatch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\recovery\business\bclmrecovery\bclmrecovery.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+		
+	
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\blicencemanager\blicencemanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\listgrouping\business\bgislistgrouping\bgislistgrouping.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\user controls\csirreinsurancecontrols\csirricontrols.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\tax group bands\business\bsirtaxgroupbands\bsirtaxgroupbands.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\tax group bands\interface\ipmutaxgroupbands\ipmutaxgroupbands.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\user controls\business\lookups\bgemlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def header\business\bgisuserdefheader\bgisuserdefheader.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmeventtask\bpmeventtask\bpmeventtask.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim address\data\dclmaddress\dclmaddress.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim address\business\bclmaddress\bclmaddress.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<!--	Build Order 16
+	-->
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpicklist\prjpicklist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmregelsupport\pmregelsupport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+
+
+	<!--	Build Order 17
+	-->
+
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirreninviteprint\bsirreninviteprint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<!--	Build Order 18
+	-->
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirautomaticrenewalsinvite\bsirautomaticrenewalsinvite.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<!--	Build Order 19
+	-->
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\ChaseCycle\Business\bSIRChaseCycle\bSIRChaseCycle.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\creditcontrol\business\bactcreditcontrol\bactcreditcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+			
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\pmaddresscontrol\uctpmaddresscontrol\uctpmaddresscontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\pmresizercontrol\pmresizercontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmperilrt\uctclmperilrtcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\financespoke\business\bactfinancespoke\bactfinancespoke.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\check unpaid premium\business\bclmcheckunpaidpremium\bclmcheckunpaidpremium.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find product type\business\bsirfindproducttype\bsirfindproducttype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\ri portfoliotransfer\business\bsirriportfoliotransfer\bsirriportfoliotransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\business\bsirpfexport\bsirpfexport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\document production\business\bclmgetclaimdocument\bclmgetclaimdocument.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\periodend\business\bactperiodend\bactperiodend.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\deferred ri auto\business\bsirdeferredriauto\bsirdeferredriauto.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<!-- INTERFACE COMPONENTS Started -->
+	
+    
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsystem\ipmsystem\ipmsystem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrkmanager\ipmwrkcomponentstarter\ipmwrkcomponentstarter.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\pmtasklookup\pmtasklookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\rating\interface\igisrating\igisrating.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmessageadmin\pmmessageadmin\pmmessageadmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\pmusergrouplookup\pmusergrouplookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\pmuserlookup\pmuserlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrktaskinstance\ipmwrktaskinstlog\ipmwrktaskinstlog.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrktaskinstance\ipmwrktaskinstance\ipmwrktaskinstance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctsirmulticurrency\sirmulticurrency.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctrtfcontrol\uctrichtextcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find fac party\interface\ipmufindriparty\ipmufindriparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\find insurance\interface\ipmbfindinsurance\ipmbfindinsurance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\branch\interface\ipmbbranch\ipmbbranch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\find party\interface\ipmbfindparty\ipmbfindparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\cover note\interface\ipmucovernote\ipmucovernote.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmlistversioncontrol\uctlistclaimversion.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\find insurance\interface\isirfindinsurance\isirfindinsurance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\find claim\interface\iclmfindclaim\iclmfindclaim.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\event\interface\ipmbnote\ipmbnote.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctlistevents\uctlisteventscontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\event\interface\ipmblistevents\ipmblistevents.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\ChaseCycle\Interface\iPMUChaseCycleMaint\iPMUChaseCycleMaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\field manager\interface\ipmbfieldmanager\ipmbfieldmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpreviewdoc\uctpreviewdoc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\user controls\uctactcreditcard\uctactcreditcard.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\user controls\iactusercontrols\iactusercontrols.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+   <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator v3\business\bpmnav.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmabout\ipmabout\ipmabout.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator v3\interface\ipmnav.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\allocation\interface\iactallocation\iactallocation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\usircommoncontrols\usircommoncontrols.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpartybankcontrol\uctpartybankcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\cashlistitem\interface\iactcashlistitem\iactcashlistitem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctprogressbarcontrol\uctpmbprogressbar.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\progressbarwrapper\interface\ipmbprogressbarwrapper\ipmbprogressbarwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctlinkedaccounts\uctlinkedaccounts.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\account\interface\iactaccount\iactaccount.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+	
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\accountexplorer\interface\iactexplorer\iactexplorer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findaccount\interface\iactfindaccount\iactfindaccount.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\crystal reports\interface\ipmbreportprint\ipmbreportprint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\cashlist\interface\iactcashlist\iactcashlist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\find party\interface\ipmbfindpartywrapper\ipmbfindpartywrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\reinsurance\interface\ipmureinsurance\ipmureinsurance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrktaskinstance\ipmwrktaskinstancedisplay\ipmwrktaskinstancedisplay.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator xm\ipmnavigatorxm\ipmnavigatorxm.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\user controls\uctpmuaccumulationlookup\uctpmuaccumulationlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\user controls\uctpbfindruntime\uctpbfindruntime.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmlistreceipts\uctclmlistreceipts.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmlistpayments\uctclmlistpayments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\financial summary\interface\iclmfinsumm\iclmfinsumm.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpolicysummary\uctpolicysummarycontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmupolicyexplorercontrol\uctpmupolicyexplorercontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmupolicysummary\pmupolicysummary.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\policysummary\interface\isirpolicysummary\isirpolicysummary.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpartysummarycontrol\uctpartysummarycontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\isirpartysummary\isirpartysummary.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmufees\uctpmufees.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmuritax\uctpmuritax.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\core gis\client\igis\igis.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\peril allocation\interface\isirperilallocation\isirperilallocation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\find party\interface\ipmbdeleteclientwrapper\ipmbdeleteclientwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>  
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\gemcontrol\gemcontrollib.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\short period rate\interface\ipmushortperiodrate\ipmushortperiodrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\short period rate\interface\ipmushortperiodratefind\ipmushortperiodratefind.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\find document templates\interface\ipmbfinddoctemplate\ipmbfinddoctemplate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmudocumentlink\uctpmudocumentlink.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\ri model usage\interface\ipmurimodelusage\ipmurimodelusage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\user controls\uctsirselectclauses\uctsirselectclausescontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\product\interface\ipmuproduct\ipmuproduct.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\product\interface\ipmuproductmaint\ipmuproductmaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\migrateregsettings\migrateregsettings.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\peril type reserve type\interface\iclmperilreservetype\iclmperiltypereservetype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\ruleeditor\interface\ipmuruleeditor\ipmuruleeditor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\define fields\interface\iclmdefnflds\iclmdefnflds.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\interface\ipmuriskwrapper\ipmuriskwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\getchangereason\interface\ipmbgetchangereason\ipmbgetchangereason.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator v3\ipmnavstart\ipmnavstart.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmcaseclaimlist\uctclmcaseclaimlist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\uctpmlistmgrdropdown\uctpmlistmgrdropdown.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmpayment\uctclmpaymentcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmreserve\uctclmreservecontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmcaseheader\uctclmcaseheader.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\pickdoctemplate\interface\isirpickdoctemplate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\text files\interface\ipmbtextfile\ipmbtextfile.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmulistpolicy\uctlistpolicycontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find policy by product\interface\ipmupolicybyproduct\ipmupolicybyproduct.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\interface\igissuminsured\igissuminsured.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\user defined lookups\user controls\uctgisuserdeflookup\uctgisuserdeflookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\user controls\uctriskscreen\uctriskscreencontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\interface\ipmurisk\ipmurisk.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\payment method\interface\iclmpaymentmethod\iclmpaymentmethod.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclaimparty\uctclaimpartycontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\earning pattern\interface\isirrstearningpattern\isirrstearningpattern.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findinvoice\interface\iactfindinvoice\iactfindinvoice.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\purchaseinvoicecreditnote\interface\iactpurchasecredit\iactpurchasecredit.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\interface\listmanager\igemlistmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsiriussupport\ipmsiriussupport\ipmsiriussupport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\salvage recovery\interface\iclmsalvagerecovery\iclmsalvagerecovery.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def header\business\bgisuserdefheaderrates\bgisuserdefheaderrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\interface\ipmuaddress\ipmuaddress.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\bsiroverduetaskcheck\bsiroverduetaskcheck.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type ri values\interface\ipmurisktyperivalues\ipmurisktyperivalues.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbfinancetransactions\ipmbfinancetransactions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\user controls\uctinstalmentscontrol\uctinstalmentscontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbfinanceplanquote\ipmbfinanceplanquote.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\transaction\interface\iacttransaction\iacttransaction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\coinsurance\interface\ipmucoinsurance\ipmucoinsurance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findtransaction\interface\iactfindtransaction\iactfindtransaction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\Renewal Catch Up\Interface\iPMURenewalCatchUp\iPMURenewalCatchUp\iPMURenewalCatchUp\iPMURenewalCatchUp.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbfinanceplanmaint\ipmbfinanceplanmaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbfindfinanceplan\ipmbfindfinanceplan.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def detail\interface\igisuserdefdetailrate\igisuserdefdetailrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def detail\interface\igisuserdefdetailrates\igisuserdefdetailrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def detail\interface\igisuserdefdetail\igisuserdefdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def detail\interface\igisuserdefdetails\igisuserdefdetails.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\listimport\igislistmaint\igislistmaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartycm\ipmbpartycm.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\company\interface\iactcompany\iactcompany.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmclientinstalladmin\ipmclientinstalladmin\ipmclientinstalladmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmusergroup\ipmgroupmaintenance\ipmgroupmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmusergroup\pmgroupmaintenance\pmgroupmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirreninviteprint\bsirreninviteprint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\statistics\business\bcontroltrans\bcontroltrans.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup header\interface\ipmulookupheaderrate\ipmulookupheaderrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup header\interface\ipmulookupheaderrates\ipmulookupheaderrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup detail\interface\ipmulookupdetailrate\ipmulookupdetailrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup detail\interface\ipmulookupdetailrates\ipmulookupdetailrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup detail\interface\ipmulookupdetail\ipmulookupdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup detail\interface\ipmulookupdetails\ipmulookupdetails.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup header\interface\ipmulookupheader\ipmulookupheader.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\lookup header\interface\ipmulookupheaders\ipmulookupheaders.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\pay now options\interface\ipmupaynowoptions\ipmupaynowoptions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\commissionmovement\interface\iactcommissionmovement\iactcommissionmovement.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def header\interface\igisuserdefheaderrate\igisuserdefheaderrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\clientregistry\clientregistry.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctclaimreserves\uctclaimreserves.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\client manager\interface\ipmbcmmanager\ipmbcmmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyduplicate\ipmbpartyduplicate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for broking\components\doc link\interface\ipmbextdoclink\ipmbextdoclink.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\underwriting authority\interface\ipmumaintainauthority\ipmumaintainauthority.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintainlookup\wrapper\bpmmaintainlookupwrapper\bpmmaintainlookupwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintainlookup\wrapper\ipmmaintainlookupwrapper\ipmmaintainlookupwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator xm\navigatorxmeditor\bpmnavxmeditor\bpmnavxmeditor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator xm\navigatorxmeditor\pmnavxmeditor\pmnavxmeditor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\tax band rate\business\bsirtaxbandrate\bsirtaxbandrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\RI Band Version\Business\bSIRRIBandVersion\bSIRRIBandVersion.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\primary cause risk type\business\bpmuprimcauserisktype\bsirprimcauserisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\client transfer\business\bsirclienttranspolicysel\bsirclienttranspolicysel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\insurer scheme\scheme properties\igisschemeproperties\igisschemeproperties.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctCompiledRule\uctCompiledRule.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\system options\utility\configuration sfu\systemoptionbuildconfiguration.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\bankaccount\interface\iactbankaccount\iactbankaccount.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\bank\interface\iactbank\iactbank.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findbank\interface\iactfindbank\iactfindbank.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\bank guarantee\user control\uctbankguaranteecontrol\uctbgcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\bank guarantee\interface\isirbankguarantee\isirbankguarantee.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\bank guarantee\business\bsirfindbankguarantee\bsirfindbankguarantee.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\bank guarantee\interface\isirfindbankguarantee\isirfindbankguarantee.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findbudget\interface\iactfindbudget\iactfindbudget.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Orion\Components\Agent Summary\Business\bACTCommissionPayments\bACTCommissionPayments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Orion\Components\Agent Summary\Interface\iACTCommissionPayments\iACTCommissionPayments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Orion\Components\Agent Summary\Interface\iACTAgentSelect\iACTAgentSelect.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\usersloggedon\usersloggedon.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\list maintenance\bpmulist\bpmulist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\list maintenance\ipmulistmaint\ipmulistmaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\conviction\interface\ipmbpartyconviction\ipmbpartyconviction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpartytax\uctpartytaxcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\contact\interface\ipmbcontact\ipmbcontact.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party loyalty scheme\interface\ipmbpartyloyaltyscheme\ipmbpartyloyaltyscheme.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\address\interface\ipmbaddress\ipmbaddress.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpartycc\uctpartycc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartycc\ipmbpartycc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmupolicy\pmupolicycontrol1.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\policy\interface\ipmupolicy\ipmupolicy.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\deferred ri manual\interface\ipmudeferredrimanual\ipmudeferredrimanual.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\user controls\interface\lookups\igemlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\commission rate\interface\isircommissionrate\isircommissionrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsiriuslogviewer\ipmsiriuslogviewer\ipmsiriuslogviewer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\ipmscreenmessage\ipmscreenmessage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\creditcontrol\interface\iactcreditcontrolmaint\iactcreditcontrolmaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\roadmaps\iclmpaymentofclaim\iclmpaymentofclaim.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmsgbox\ipmmsgbox\ipmmsgbox.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\ledger\interface\iactledger\iactledger.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type\interface\ipmurisktyperuleset\ipmurisktyperuleset.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\document type maintenance\interface\ipmbdocumenttype\ipmbdocumenttype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\spooler ole\interface\ipmbspoolerole.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\Conversion Utility\Interface\iPMUDocConversion.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\HTMToXMLConvertor\iPMBHTMToXMLConvertor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\insurance window\interface\ipmbinsurancewindow\ipmbinsurancewindow.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\productupdatehistory\ipmproductupdatehistory\ipmproductupdatehistory.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmucommission\uctpmucommission.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpartypc\uctpartypccontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartypc\ipmbpartypc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type ri limits\interface\ipmurisktyperilimits\ipmurisktyperilimits.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type\interface\ipmurisktype\ipmurisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\underwriting authority\interface\ipmumaintainaurule\ipmumaintainaurule.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\interface\gemlistmgr\igemlistmgr.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\close claim\interface\iclmcloseclaim\iclmcloseclaim.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyfee\ipmbpartyfee.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim payment process\interface\iclmpaymentprocess\iclmpaymentprocess.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def header\interface\igisuserdefheaderrates\igisuserdefheaderrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def header\interface\igisuserdefheader\igisuserdefheader.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def header\interface\igisuserdefheaders\igisuserdefheaders.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\purchaseinvoice\interface\iactinvoice\iactinvoice.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\_utilities\updatesystem\updatesystem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\rulelookup\interface\ipmurulelookupdata\ipmurulelookupdata.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\rulelookup\interface\ipmurulelookupheader\ipmurulelookupheader.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtaskmaintenance\ipmtaskmaintenance\ipmtaskmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\bankreconciliation\interface\iactbankreconciliation\iactbankreconciliation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmulistriskcontrol\uctpmulistriskcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtestlogon\pmtestlogon.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\budgetdetail\interface\iactbudgetdetail\iactbudgetdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\user controls\uctclmreceipt\uctclmreceiptcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyin\ipmbpartyin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyah\ipmbpartyah.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmusermaintenance\ipmusermaintenance\ipmusermaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\change claim status\interface\iclmchangeclaimstatus\iclmchangeclaimstatus.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\information checklist\interface\iclminfochklst\iclminfochklst.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\generic peril\interface\iclmperil\iclmperil.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\peril type\interface\iclmperiltype\iclmperiltype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\interface\ipmuscreencontrol\ipmuscreencontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyot\ipmbpartyot.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\tax calculation\interface\ipmuritax\ipmuritax.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type\interface\ipmurisktypemaint\ipmurisktypemaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\currencyrate\interface\iactcurrencyrate\iactcurrencyrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintaintask\ipmmaintaintask\ipmmaintaintask.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyfp\ipmbpartyfp.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmlock\ipmlock\ipmlock.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\MID Maintenance\Interface\iSIRMIDMaintenance\iSIRMIDMaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\cash deposit\interface\isirpolicycashdeposit\isirpolicycashdeposit.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\change policy status\interface\ipmuchangepolicystatus\ipmuchangepolicystatus.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\accumulations\interface\ipmuaccumulationvalues\ipmuaccumulationvalues.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\statistics\interface\ipmustats\ipmustats.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\listviewsearch\interface\listviewsearch5\ipmlistviewsearch5.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\interface\ipmurenewal\ipmurenewal.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\interface\ipmurenselection\ipmurenselection.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\agent commission\interface\isiragentcommission\isiragentcommission.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\claims stats\interface\ipmuclaimsstats\ipmuclaimsstats.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctclaimpayments\uctclaimpayments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius Back Office Core\Components\TaskScheduler\Interface\iSIRFrequencyScheduler\iSIRFrequencyScheduler.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\ChaseCycle\Interface\iPMUChaseCycleProcessing\iPMUChaseCycleProcessing.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\ChaseCycle\Interface\ChaseCycleCLI\ChaseCycleCLI.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\CreditControl\Interface\CreditControlCLI\CreditControlCLI.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\data model editor\interface\igisproperty\igisproperty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\orion link\interface\ipmborionlink\ipmborionlink.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsourcemaintenance\ipmsourcemaintenance\ipmsourcemaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\cashreceipt\interface\iactcashreceipt\iactcashreceipt.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\bank guarantee\interface\isirpolicybankguarantee\isirpolicybankguarantee.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\chequeproduction\interface\iactchequeproduction\iactchequeproduction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyex\ipmbpartyex.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\policy number maintenance\interface\ipmbpolicynummaint\ipmbpolicynummaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\document\interface\iactdocument\iactdocument.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\finddocument\interface\iactfinddocument\iactfinddocument.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmeventtask\ipmeventtask\ipmeventtask.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\list policy\interface\ipmulistpolicy\ipmulistpolicy.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctstandardwordings\uctstandardwordings.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctaddress\uctaddresscontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctpbfinddesign\uctpbfinddesign.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctclmperildt\uctclmperildtcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\user controls\uctsumsinsured\uctsumsinsured.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\business\bsirmaintainscreendata\bsirmaintainscreendata.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\interface\ipmumaintainscreendata\ipmumaintainscreendata.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\business\bsirpfrf\bsirpfrf.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbpfrf\ipmbpfrf.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbpfscheme\ipmbpfscheme.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\data model editor\interface\igisobject\igisobject.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\interface\ipmureninviteprint\ipmureninviteprint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim letter\interface\iclmgetclaimletter\iclmgetclaimletter.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    
+	
+
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtaskgroupmaintenance\ipmtaskgroupmaintenance\ipmtaskgroupmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\risk details\interface\iclmriskdetails\iclmriskdetails.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\ri portfoliotransfer\interface\ipmuriportfoliotransfer\ipmuriportfoliotransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<!-- INTERFACE COMPONENTS END
+	***************************************************************************************************************************
+	-->   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\Clone RI Transfer Auto\Interface\iPMUCloneRIBatchProcess\iPMUCloneRIBatchProcess.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\ReinsuranceTransfer\ReinsuranceTransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\Clone RI Transfer Manual\Interface\iPMUCloneRIManual\iPMUClonedRIManual.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\RI PortfolioTransfer\Interface\iPMURIManPortfolioTransfer\iPMURIManPortfolioTransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\periodend\interface\periodendcli\periodendcli.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpartygc\uctpartygc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\workflow\pmworkflowmaintenance\pmworkflowmaintenance\pmworkflowmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\unlock\interface\iclmunlock\iclmunlock.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\produce certificate\business\bpmuproducecertificates\bpmuproducecertificates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\produce certificate\interface\ipmuproducecertificates\ipmuproducecertificates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\ilogonstatusmanager\ilogonstatusmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\cover note\interface\ipmufindcovernote\ipmufindcovernote.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\ri model\interface\ipmurimodel\ipmurimodel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\client transfer\interface\isirclienttransclientsel\isirclienttransclientsel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+	<!--	Build Order 20
+	-->
+	
+	
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\third party recovery\interface\iclmthirdpartyrecovery\iclmthirdpartyrecovery.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\risk type information checklist\business\bclmrisktypeinfochecklist\bclmrisktypeinfochecklist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+  
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\loss schedule\interface\iclmlossschedule\iclmlossschedule.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\exportcashlistitems\interface\iactexportcashlistitems\iactexportcashlistitems.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\budget\interface\iactbudget\iactbudget.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctpmulistpolicyversion\uctpmulistpolicyversioncontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim address\interface\iclmaddress\iclmaddress.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\open claim\interface\iopenclaim\iopenclaim.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\coinsurance\business\bsircoinsurance\bsircoinsurance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\client manager\interface\ipmbclientmanagerwrapper\ipmbclientmanagerwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\imarket\interface\ipmbimarket\ipmbimarket.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\ucttextfiles\ucttextfilescontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctlistclaimcontrol\uctlistclaimcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\peril type reserve type\data\dclmperilreservetype\dclmperilreservetype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\group import\interface\igisgroupimport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findcashlistitem\business\bactfindcashlistitem\bactfindcashlistitem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\report group\interface\ipmureportgroup\ipmureportgroup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\risk type information checklist\interface\iclmrisktypeinfochecklist\iclmrisktypeinfochecklist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\misallocationhelper\business\bactmisallocationhelper\bactmisallocationshelper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for broking\components\doc link\interface\ipmbdoclink\ipmbdoclink.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyconvert\ipmbpartyconvert.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen editor\interface\ipmulistscreens\ipmulistscreens.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\conviction\data\dsirpartyconviction\dsirpartyconviction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\conviction\business\bsirpartyconviction\bsirpartyconviction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\primary cause risk type\interface\ipmuprimcauserisktype\ipmuprimcauserisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\follow up tasks\business\bpmufollowuptasks\bpmufollowuptasks.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyagg\ipmbpartyagg.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsplash\ipmsplash\ipmsplash.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\risk type ri values\business\bsirrisktyperivalues\bsirrisktyperivalues.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirrenewalacceptagentemail\bsirrenewalacceptagentemail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\user controls\ipbmaskedinputbox\ipbmaskedinputbox.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find risk type\interface\ipmufindrisktype\ipmufindrisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\list risks\interface\ipmulistrisks\ipmulistrisks.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\core gis\server\bgisaddon\bgisaddon.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmserverregistry\bpmserverregistry\bpmserverregistry.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbpfexport\ipmbpfexport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\onlinepartymaintenance\interface\isironlinepartymaintenance\isironlinepartymaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintaintaskaction\ipmmaintaintaskaction\ipmmaintaintaskaction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\maintainmediatypestatus\business\bactmaintainmediatypestatus\bactmaintainmediatypestatus.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintaintaskgroupaction\bpmmaintaintaskgroupaction\bpmmaintaintaskgroupaction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintaintaskgroupaction\ipmmaintaintaskgroupaction\ipmmaintaintaskgroupaction.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\userauthorities\interface\iactuserauthorities\iactuserauthorities.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\importexport\interface\siriusimport\siriusimport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator v3\process editor\interface\ipmnaveditor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\creditcontrol\interface\iactcreditcontrolprocessing\iactcreditcontrolprocessing.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\tax band rate\interface\ipmutaxbandrate\ipmutaxbandrate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\RI Band Version\Interface\iPMURIBandVersion\iPMURIBandVersion.vbproj">
+    <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\peril type usage\interface\ipmuperiltypeusage\ipmuperiltypeusage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\authorise payments\interface\iclmauthorisepayments\iclmauthorisepayments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\list policy version\interface\ipmulistpolicyversion\ipmulistpolicyversion.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirlaunchautorenewalsinvite\bsirlaunchautorenewalsinvite.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\client transfer\interface\isirclienttranspolicysel\isirclienttranspolicysel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\data take on\interface\ipmdataaccess\ipmdataaccess.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\periodend\interface\iactperiodend\iactperiodend.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\Agent Commission\Interface\iPMBCommissionLevel\iPMBCommissionLevel.vbproj">
+      <Targets/> 
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartyag\ipmbpartyag.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\typetable\business\bacttypetable\bacttypetable.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\select clauses\business\bsirselectclauses\bsirselectclausesbusiness.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\reserve definition\business\bclmresvdefn\bclmresvdefn.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\reserve definition\interface\iclmresvdefn\iclmresvdefn.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\licenceadmin\ilicenceadmin\ilicenceadmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmdecision\ipmdecision\ipmdecision.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\claim diary\interface\iclmcreateclaimdiary\iclmcreateclaimdiary.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\creditcontrol\business\bactcreditcontrolprocessing\bactcreditcontrolprocessing.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find screen\business\bsirfindscreen\bsirfindscreen.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmeventlogviewer\pmeventlogviewer\pmeventlogviewer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator xm\xmconvertor\xmconvertor.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrkmanager\bpmwrkmanager\bpmwrkmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrktaskinstance\ipmwrktaskinstbykey\ipmwrktaskinstbykey.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\payment maintenance\interface\iactpaymentmaintenance\iactpaymentmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\screen display\user controls\uctpbsearchfields\uctpbsearchfields.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\find case\interface\iclmfindcase\iclmfindcase.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirlaunchautorenewalssel\bsirlaunchautorenewalssel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find product type\interface\ipmufindproducttype\ipmufindproducttype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\follow up tasks\interface\ipmufollowuptasks\ipmufollowuptasks.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\recovery\interface\iclmrecovery\iclmrecovery.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirrenewallaunch\bsirrenewallaunch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\interface\ipmurenewallaunch\ipmurenewallaunch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\reinsurance recoveries\interface\iclmreinsurance\iclmreinsurance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\insurerpayment\interface\iactinsurerpaymentsfu\iactinsurerpaymentsfu.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\case\interface\iclmcasehistory\iclmcasehistory.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmwrkmanager\ipmworkmanager\ipmworkmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbpfpaymentmethodsettings\ipmbpfpaymentmethodsettings.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctlistdocuments\uctlistdocumentscontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintainlookup\wrapper\pmmaintainlookup\pmmaintainlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\document production\interface\iclmgetclaimdocuments\iclmgetclaimdocuments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\roadmaps\iclmsalvage\iclmsalvage.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\suspendedtransactions\business\bactreleasemanualtransactions\bactreleasemanualtransactions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartywrapper\ipmbpartywrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\quote collection process\interface\ipmuquotecollectionprocess\ipmuquotecollectionprocess.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <!--<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\licencekeygen\licencekeygen.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>-->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\period\interface\iactperiod\iactperiod.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\purchaseinvoiceitem\business\bactinvoiceitem\bactinvoiceitem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmpackagestep\bpmpackagestep\bpmpackagestep.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\listviewsearch\interface\listviewsearch6\ipmlistviewsearch6.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\workflow\pmstepmaintenance\ipmstepmaintenance\ipmstepmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\workflow\pmworkflowmaintenance\ipmworkflowmaintenance\ipmworkflowmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\system options\interface\ipmboptions\ipmboptions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\commissionmovement\interface\iactautocommissionmovement\iactautocommissionmovement.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\check unpaid premium\interface\iclmcheckunpaidpremium\iclmcheckunpaidpremium.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirbatchrenewalcontroller\bsirbatchrenewalcontroller.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\auto mta\interface\ipmuautomta\ipmuautomta.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findcashlist\interface\iactfindcashlist\iactfindcashlist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\coinsurance recoveries\interface\iclmcoinsurancerecoveries\iclmcoinsurancerecoveries.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsiriussupport\pmsiriussupport\pmsiriussupport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\unposted transactions\interface\ipmbunpostedtransactions\isirunpostedtransactions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtaskgroupmaintenance\pmtaskgroupmaintenance\pmtaskgroupmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\sirius cache controller\business\bsircachecontroller.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\importexport\interface\iactimportexport\iactimportexport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\index linking\interface\ipmuindexlinkingdetail\ipmuindexlinkingdetail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\utils\datamodelrebuild\datamodelrebuild.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\utils\KCM Backbone Generation\KCMBackboneGeneration.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\data model editor\interface\igismaintaindatadictionary\igismaintaindatadictionary.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\allocate\interface\iactallocate\iactallocate.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\productupdatehistory\updatepmproductupdatehist\pmproductupdatehist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmbusy\ipmbusy\ipmbusy.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\peril type reserve type\business\bclmperilreservetype\bclmperilreservetype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\instalments\interface\ipmbpfschememaint\ipmbpfschememaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\report scheduler\interface\isirreportscheduler\isirreportscheduler.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\listgrouping\interface\igislistgrouping\igislistgrouping.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\product builder\3d rating\listimport\bgislistmaint\bgislistmaint.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\maintainmediatypestatus\interface\iactmaintainmediatypestatus\iactmaintainmediatypestatus.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\document spooler\interface\ipmbdocspooler\ipmbdocspooler.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+  <!--<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\quote engine\business\bGISQEMDRE\bGISQEMDRE.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>-->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\gis combined\gis\components\gis user def detail\business\bgisuserdefdetailrates\bgisuserdefdetailrates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\underwriting authority\business\bsirmaintainaurule\bsirmaintainaurule.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\findcashlistitem\interface\iactfindcashlistitem\iactfindcashlistitem.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\deferred ri auto\interface\ipmudeferredriauto\ipmudeferredriauto.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\interface\ipmurenewalprocess\ipmurenewalprocess.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\client manager\interface\ipmbclienttaskwrapper\ipmbclienttaskwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\sirius cache controller\interface\siriuscachecontroller.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pminstallunzipper\pminstallunzipper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\importexport\interface\siriusexport\siriusexport.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\bsirusercompetencetask\bsirusercompetencetask.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\ilogonserver\ilogonserver.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\underwriting authority\business\bsirmaintainauthority\bsirmaintainauthority.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\business\bsirlaunchautorenewalsaccept\bsirlaunchautorenewalsaccept.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\gemini list manager\interface\gemlistmgr\igemlistmgrstart.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmmaintainlookup\ipmmaintainlookup\ipmmaintainlookup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\bank\business\bactbank\bactbank.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\batch renewals\business\bsirbatchrenewaljobs\bsirbatchrenewaljobs.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\batch renewals\interface\ipmubatchrenewaljobs\ipmubatchrenewaljobs.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	
+	 <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius Back Office Core\Components\Batch Scheduler\Business\bSIRBatchScheduler\bSIRBatchScheduler.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius Back Office Core\Components\Batch Scheduler\Interface\iSIRBatchScheduler\iSIRBatchScheduler\iSIRBatchScheduler.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\BatchNotification\Interface\BatchNotificationDocGen\BatchNotificationDocGen.vbproj">
+      <Targets/>    
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\BatchNotification\Interface\BatchNotificationExport\BatchNotificationExport.vbproj">
+      <Targets/>    
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\party\interface\ipmbpartygc\ipmbpartygc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmsourcemaintenance\pmsourcemaintenance\pmsourcemaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmtaskoutcomebatch\bpmtaskoutcomebatch\bpmtaskoutcomebatch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\user controls\uctpmdhtmlscreen\uctpmdhtmlscreen.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\ichangepassword\ichangepassword.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\exportcashlistitems\wrapper\actexportcashlistitems.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\text files\interface\ipmbtextfiledesc\ipmbtextfiledesc.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\roadmaps\iclmmaintainclaim\iclmmaintainclaim.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\lifestyle\interface\ipmblifestyle\ipmblifestyle.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\text files\interface\ipmbtextfiles\ipmbtextfiles.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\allocationdecision\interface\iactallocationdecision\iactallocationdecision.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\treaty\interface\ipmutreaty\ipmutreaty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\risk type\interface\iclmrisktype\iclmrisktype.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\clirepeatdecision\interface\iactclirepeatdecision\iactclirepeatdecision.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\find insurance\interface\ipmbfindinsurancewrapper\isirfindinsurancewrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\check deferred ri\interface\iclmcheckdeferredri\iclmcheckdeferredri.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\find screen\interface\ipmufindscreen\ipmufindscreen.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\document production\installer\ipmucopyfile\ipmucopyfile.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius Back Office Core\Components\ExternalWorkFlowConfiguration\bExternalWorkflowConfiguration\bSIRExternalWorkflowConfig.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius Back Office Core\Components\ExternalWorkFlowConfiguration\iExternalWorkflowConfiguration\iSIRExternalWorkflowConfig.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\export control\business\bsirexportcontrol\bsirexportcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\list receipts\interface\iclmlistreceipts\iclmlistreceipts.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\navigator xm\navigatorxmeditor\ipmnavxmstepwrapper\ipmnavxmstepwrapper.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\product options\interface\isirproductoptions\isirproductoptions.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\renewal\interface\ipmurenprelist\ipmurenprelist.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius architecture\components\pmcurrency\ipmcurrency\ipmcurrency.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\find party\interface\iclmfindparty\iclmfindparty.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\claimpaymentprocessing\interface\iactclaimpaymentprocessing\iactclaimpaymentprocessing.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\claims\components\list payments\iclmlistpayments\iclmlistpayments.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\insurerpaymentgroups\business\bactinsurerpaymentgroups\bactinsurerpaymentgroups.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\insurerpaymentgroups\interface\iactinsurerpaymentgroup\iactinsurerpaymentgroup.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\orion\components\insurerpaymentgroups\interface\iactinsurerpaymentgroups\iactinsurerpaymentgroups.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Prospect\Data\dSIRPartyProspect\dSIRPartyProspect.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Prospect\Data\dSIRProspectCamp\dSIRProspectCamp.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Prospect\Data\dSIRProspectPolicy\dSIRProspectPolicy.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Prospect\Business\bSIRProspect\bSIRProspect.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Free Form Text\Interface\iPMBFreeFormText\iPMBFreeFormText.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Free Form Text\Data\dSIREventPublicText\dSIREventPublicText.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Associates\Interface\iPMBAssociates\iPMBAssociates.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Email\Business\bSIREmail\bSIREmail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Email\Interface\iPMBEmail\iPMBEmail.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Task List\Business\bSIRTaskList\bSIRTaskList.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Task List\Interface\iPMBTaskList\iPMBTaskList.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for Broking\Components\Work Manager Template\Interface\iPMWrkTaskInstance\iPMWrkTaskInstanceTemp.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\user controls\uctcashdepositcontrol\uctcashdepositcontrol.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\cash deposit\interface\isircashdeposit\isircashdeposit.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+	<SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\client manager\interface\ipmbclientmanager\clientmanager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius back office core\components\find cash dept maintenance\interface\isirfindcashdeptmaintenance\isirfindcashdeptmaintenance.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\sirius for underwriting\components\batch quote deletion\business\bsirbatchquotedeletion\bsirbatchquotedeletion.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Relationship Maintenance\Business\bSIRMaintainRelation\bSIRMaintainRelation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Broking\Components\Relationship Maintenance\Interface\iPMBMaintainRelation\iPMBMaintainRelation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\BatchController\Sirius.BatchRenewal\Sirius.BatchRenewal.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Sirius For Underwriting\Components\BatchController\BatchRenewalWinController\BatchRenewalWinController.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+ 
+	
+	
+	
+	
+
+	
+	
+	
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCCommit\Interface\iDOCCommit.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCResizerControl\User Control\DOCResizerControl.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCViewer\Interface\iDocViewer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCViewBatch\Interface\iDOCViewBatch.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCScan\Interface\iDOCScan.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCSetAccessLevel\Interface\iDOCSetAccessLevel.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCUserAdmin\Interface\iDOCUserAdmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCManager\Interface\iDOCManager.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+   	
+	 
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCCommit\Business\bDOCCommit.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCDocName\Business\bDOCDocName.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCDocNameAdmin\Business\bDOCDocNameAdmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCDocTrans\Business\bDOCDocTrans.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCFind\Business\bDOCFind.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCInformation\Business\bDOCInformation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCKeyword\Business\bDOCKeyword.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCKeywordAdmin\Business\bDOCKeywordAdmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCPMBLog\Business\bDOCPMBLog.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCPMBAPI\Business\bDOCPMBAPI.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <!--<SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCPMBAPI\Interface\iDOCPMBAPI.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>-->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCScan\Business\bDOCScan.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCScanStub\Interface\iDOCScanStub.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCTransfer\Business\bDOCTransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\DOCUserAdmin\Business\bDOCUserAdmin.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\Tools\ConvertZips\DMEConvertZips.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\Tools\DME Claims\SFSDMEClaims.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\Tools\DMETransfer\DMETransfer.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\Tools\Integrity Checker\DMEHarmoniser.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\DME\Components\UpdateDevice\UpdateDevice.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <!--Web Services-->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Web Services\STS\SAM Solution\SiriusFS.SAM.Structures\SiriusFS.SAM.Structure.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Web Services\STS\SAM Solution\SiriusFS.SAM.CoreImplementation\SiriusFS.SAM.CoreImplementation.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Web Services\STS\SAM Solution\SiriusFS.SAM.WCFService\SiriusFS.SAM.WCFService.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <!--Pure Windows Service-->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Pure Service\ProcessJobs\ProcessJobs.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Pure Service\WindowsService\WindowsService.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)\Web Services\Utility\GenerateWCFTokenID\GenerateWCFTokenID\GenerateWCFTokenID.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\Binaries\</Properties>
+    </SolutionToBuild> 
+
+  </ItemGroup>
+  <PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,217 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_QEM_Usage</h1>
+<p>GIS Quote Engine Mapper usage</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software module: GIS<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="gis_data_model_id">gis_data_model_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">gis data model</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_business_type_id">gis_business_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">gis business type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_scheme_id">gis_scheme_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Scheme.html#gis_scheme_id">GIS_Scheme.gis_scheme_id</a> <span class="autodesc">gis scheme</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_qem_id">gis_qem_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_QEM.html#gis_qem_id">GIS_QEM.gis_qem_id</a> <span class="autodesc">gis qem</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Risk_group_ID">Risk_group_ID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk_Group.html#risk_group_id">Risk_Group.risk_group_id</a> <span class="autodesc">risk group</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>gis_data_model_id, gis_business_type_id, gis_scheme_id, gis_qem_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_data_model_id, gis_business_type_id</td>
+<td><a href="GIS_Data_Model_Business.html">GIS_Data_Model_Business</a></td>
+<td>gis_data_model_id, gis_business_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_qem_id</td>
+<td><a href="GIS_QEM.html">GIS_QEM</a></td>
+<td>gis_qem_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_scheme_id</td>
+<td><a href="GIS_Scheme.html">GIS_Scheme</a></td>
+<td>gis_scheme_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>Risk_group_ID</td>
+<td><a href="Risk_Group.html">Risk_Group</a></td>
+<td>risk_group_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_business_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_data_model_id, gis_business_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_qem_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_scheme_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>risk_group_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>gis_data_model_id</td>
+<td>gis_business_type_id</td>
+<td>gis_scheme_id</td>
+<td>gis_qem_id</td>
+<td>risk_group_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

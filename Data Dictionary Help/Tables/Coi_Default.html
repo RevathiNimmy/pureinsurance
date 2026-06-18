@@ -1,0 +1,250 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Coi_Default</h1>
+<p>Coi Default (Underwriting)</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Policy<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="coi_default_id">coi_default_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">coi default</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_recovered">is_recovered</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is recovered</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_recovered_overrideable">is_recovered_overrideable</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is recovered overrideable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_surcharged">is_surcharged</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is surcharged</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_surcharged_overrideable">is_surcharged_overrideable</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is surcharged overrideable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="standard_surcharge_percent">standard_surcharge_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">standard surcharge percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="compulsory_coi_party_cnt">compulsory_coi_party_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">compulsory coi party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="compulsory_coi_com_percent">compulsory_coi_com_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">compulsory coi com percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>coi_default_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>compulsory_coi_party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>source_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>coi_default_id</td>
+<td><a href="Coi_Arrangement.html">Coi_Arrangement</a></td>
+<td>coi_default_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>coi_default_id</td>
+<td>code</td>
+<td>caption_id</td>
+<td>description</td>
+<td>source_id</td>
+<td>is_recovered</td>
+<td>is_recovered_overrideable</td>
+<td>is_surcharged</td>
+<td>is_surcharged_overrideable</td>
+<td>standard_surcharge_percent</td>
+<td>compulsory_coi_party_cnt</td>
+<td>compulsory_coi_com_percent</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Code</td>
+<td>319</td>
+<td>Description</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>15</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

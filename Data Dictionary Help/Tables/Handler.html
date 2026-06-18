@@ -1,0 +1,308 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Handler</h1>
+<p>Handler Lookup table.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Claims<br>
+                Software module: Claims<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="handler_id">handler_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">handler</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_analyst">is_analyst</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is analyst</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>handler_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>handler_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>Handler_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>handler_id</td>
+<td><a href="Event_Claim.html">Event_Claim</a></td>
+<td>Handler_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>handler_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>is_analyst</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1406</td>
+<td>Handler1</td>
+<td>handler 1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>17557</td>
+<td>MD</td>
+<td>Mark D'Intino</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>17558</td>
+<td>JK</td>
+<td>John Koutsivos</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>17559</td>
+<td>WS</td>
+<td>Weston Sabawo</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>17560</td>
+<td>DB</td>
+<td>David Brooks</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>17561</td>
+<td>TH</td>
+<td>Trevor Hewitt</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>17562</td>
+<td>GP</td>
+<td>George Pantelopolous</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>17563</td>
+<td>MM</td>
+<td>Michael Markov</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td>18680</td>
+<td>JCD</td>
+<td>John Carter-Dams</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>10</td>
+<td>18681</td>
+<td>JM</td>
+<td>James Moran</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>11</td>
+<td>18682</td>
+<td>DDO</td>
+<td>Doug D'Oliver</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>12</td>
+<td>18683</td>
+<td>AP</td>
+<td>Alex Petkovic</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>13</td>
+<td>18811</td>
+<td>MBAKER</td>
+<td>Michael Baker</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>14</td>
+<td>18812</td>
+<td>GSMITH</td>
+<td>Geoff Smith</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>15</td>
+<td>18813</td>
+<td>DSMITH</td>
+<td>Duncan Smith</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>16</td>
+<td>18953</td>
+<td>MH</td>
+<td>Matthew Harkin</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

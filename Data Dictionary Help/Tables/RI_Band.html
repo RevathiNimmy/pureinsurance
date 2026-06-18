@@ -1,0 +1,240 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>RI_Band</h1>
+<p><span class="autodesc">RI Band</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="ri_band_id">ri_band_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">ri band</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="Date_for_Treaty_XOL_Calculation_id">Date_for_Treaty_XOL_Calculation_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Date_for_Treaty_XOL_Calculation.html#Date_for_Treaty_XOL_Calculation_id">Date_for_Treaty_XOL_Calculation.Date_for_Treaty_XOL_Calculation_id</a> <span class="autodesc">Date for Treaty XOL Calculation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="XOL_Treaty_To_Recover_From_id">XOL_Treaty_To_Recover_From_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="XOL_Treaty_To_Recover_From.html#XOL_Treaty_To_Recover_From_id">XOL_Treaty_To_Recover_From.XOL_Treaty_To_Recover_From_id</a> <span class="autodesc">XOL Treaty To Recover From</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Proportional_RI_Cal_Method">Proportional_RI_Cal_Method</a></td>
+<td>integer</td>
+<td>null default 2</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Proportional_RI_Calculation_Method.html#Proportional_RI_Cal_Method">Proportional_RI_Calculation_Method.Proportional_RI_Cal_Method</a> <span class="autodesc">Proportional RI Cal Method</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>ri_band_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Date_for_Treaty_XOL_Calculation_id</td>
+<td><a href="Date_for_Treaty_XOL_Calculation.html">Date_for_Treaty_XOL_Calculation</a></td>
+<td>Date_for_Treaty_XOL_Calculation_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>XOL_Treaty_To_Recover_From_id</td>
+<td><a href="XOL_Treaty_To_Recover_From.html">XOL_Treaty_To_Recover_From</a></td>
+<td>XOL_Treaty_To_Recover_From_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>XOL_Treaty_To_Recover_From_id</td>
+<td><a href="XOL_Treaty_To_Recover_From.html">XOL_Treaty_To_Recover_From</a></td>
+<td>XOL_Treaty_To_Recover_From_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Proportional_RI_Cal_Method</td>
+<td><a href="Proportional_RI_Calculation_Method.html">Proportional_RI_Calculation_Method</a></td>
+<td>Proportional_RI_Cal_Method</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>ri_band_id</td>
+<td><a href="Claim_Peril.html">Claim_Peril</a></td>
+<td>ri_band</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ri_band_id</td>
+<td><a href="Claim_RI_Arrangement.html">Claim_RI_Arrangement</a></td>
+<td>ri_band_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ri_band_id</td>
+<td><a href="Peril.html">Peril</a></td>
+<td>ri_band</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ri_band_id</td>
+<td><a href="Peril_Type.html">Peril_Type</a></td>
+<td>ri_band</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ri_band_id</td>
+<td><a href="RI_Arrangement.html">RI_Arrangement</a></td>
+<td>ri_band_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ri_band_id</td>
+<td><a href="Risk_Type_RI_Model_Usage.html">Risk_Type_RI_Model_Usage</a></td>
+<td>ri_band</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>ri_band_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>Date_for_Treaty_XOL_Calculation_id</td>
+<td>XOL_Treaty_To_Recover_From_id</td>
+<td>Proportional_RI_Cal_Method</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>17449</td>
+<td>RET</td>
+<td>Retained</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>521</td>
+<td>MOTOR</td>
+<td>Motor</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

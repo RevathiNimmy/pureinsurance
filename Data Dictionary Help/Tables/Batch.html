@@ -1,0 +1,918 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Batch</h1>
+<p>Batches documents together.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="batchstatus_id">batchstatus_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="BatchStatus.html#batchstatus_id">BatchStatus.batchstatus_id</a> <span class="autodesc">batchstatus</span></td>
+</tr>
+<tr>
+<td><a class="name" name="company_id">company_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">company</span></td>
+</tr>
+<tr>
+<td><a class="name" name="user_id">user_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> <span class="autodesc">user</span></td>
+</tr>
+<tr>
+<td><a class="name" name="batch_ref">batch_ref</a></td>
+<td>varchar(25)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">batch ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="created_date">created_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>created date</td>
+</tr>
+<tr>
+<td><a class="name" name="authorised_date">authorised_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">authorised date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="accounting_date">accounting_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">accounting date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="comment">comment</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">comment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="batch_type_id">batch_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Batch_Type.html#batch_type_id">Batch_Type.batch_type_id</a> <span class="autodesc">batch type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="batch_source_id">batch_source_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Batch_Source.html#batch_source_id">Batch_Source.batch_source_id</a> <span class="autodesc">batch source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="export_date">export_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">export date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reexport_date">reexport_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reexport date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_validation_id">mediatype_validation_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">mediatype validation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="total_amount">total_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">total amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="total_transactions">total_transactions</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">total transactions</span></td>
+</tr>
+<tr>
+<td><a class="name" name="imported_date">imported_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">imported date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reject_import_date">reject_import_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reject import date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reject_amount">reject_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reject amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reject_transactions">reject_transactions</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reject transactions</span></td>
+</tr>
+<tr>
+<td><a class="name" name="closed_date">closed_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">closed date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="interface_code">interface_code</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">interface code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="authorised_user_id">authorised_user_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">authorised user</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cheque_start_number">cheque_start_number</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">cheque start number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="xml_object">xml_object</a></td>
+<td>text</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">xml object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_id">mediatype_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">mediatype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="auto_close">auto_close</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">auto close</span></td>
+</tr>
+<tr>
+<td><a class="name" name="batch_id">batch_id</a></td>
+<td>integer identity</td>
+<td>not null</td>
+<td>PK</td>
+<td>Unique ID - automatically generated by database</td>
+</tr>
+<tr>
+<td><a class="name" name="import_file_name">import_file_name</a></td>
+<td>varchar(255) </td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>import file name</td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_source_id</td>
+<td><a href="Batch_Source.html">Batch_Source</a></td>
+<td>batch_source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_type_id</td>
+<td><a href="Batch_Type.html">Batch_Type</a></td>
+<td>batch_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batchstatus_id</td>
+<td><a href="BatchStatus.html">BatchStatus</a></td>
+<td>batchstatus_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>user_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>company_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>batch_ref</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>batch_source_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>batch_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>batchstatus_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cheque_start_number</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>company_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>user_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="Batch_Rejection.html">Batch_Rejection</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="CashList.html">CashList</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="Document.html">Document</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="Event_Log.html">Event_Log</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="PFInstalments.html">PFInstalments</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>batchstatus_id</td>
+<td>company_id</td>
+<td>user_id</td>
+<td>batch_ref</td>
+<td>created_date</td>
+<td>authorised_date</td>
+<td>accounting_date</td>
+<td>comment</td>
+<td>batch_type_id</td>
+<td>batch_source_id</td>
+<td>export_date</td>
+<td>reexport_date</td>
+<td>mediatype_validation_id</td>
+<td>total_amount</td>
+<td>total_transactions</td>
+<td>imported_date</td>
+<td>reject_import_date</td>
+<td>reject_amount</td>
+<td>reject_transactions</td>
+<td>closed_date</td>
+<td>interface_code</td>
+<td>authorised_user_id</td>
+<td>cheque_start_number</td>
+<td>xml_object</td>
+<td>mediatype_id</td>
+<td>auto_close</td>
+<td>batch_id</td>
+<td>import_file_name</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX1</td>
+<td>2008-12-08 15:23:23</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-08 15:23:25</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>22</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX2</td>
+<td>2008-12-18 14:41:27</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-18 14:41:29</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>646</td>
+<td>30</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX3</td>
+<td>2008-12-20 06:21:39</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-20 06:21:41</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>404</td>
+<td>26</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX4</td>
+<td>2008-12-26 08:41:34</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 08:41:35</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>553</td>
+<td>37</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX5</td>
+<td>2008-12-26 08:58:56</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 08:58:56</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX6</td>
+<td>2009-02-09 10:49:52</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-02-09 10:49:54</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>39</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>BAC7</td>
+<td>2009-02-09 10:50:05</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-02-09 10:50:06</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Claims Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>7</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>SPYX8</td>
+<td>2009-01-02 10:50:28</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-02 10:50:29</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Payment Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>8</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>SPYX9</td>
+<td>2009-01-02 10:51:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-02 10:51:01</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Payment Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>BAC10</td>
+<td>2009-01-09 15:15:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>RECURRING</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX11</td>
+<td>2009-01-09 15:15:10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-09 15:15:11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>184</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX12</td>
+<td>2009-01-09 17:06:12</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-09 17:06:12</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>31</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX13</td>
+<td>2009-01-12 21:07:40</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-12 21:07:42</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX14</td>
+<td>2009-01-12 22:08:34</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-12 22:08:34</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>42</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX15</td>
+<td>2009-01-13 06:53:39</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-13 06:53:40</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>15</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GLX16</td>
+<td>2009-01-13 07:02:08</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-13 07:02:08</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>15</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GL_Export</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>16</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Valid_Value</h1>
+<p><span class="autodesc">Valid Value</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="validation_id">validation_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Validation.html#validation_id">Validation.validation_id</a> <span class="autodesc">validation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="valid_value_id">valid_value_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">valid value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_default">is_default</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is default</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sequence_number">sequence_number</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sequence number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="numeric_value">numeric_value</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">numeric value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value_caption_id">value_caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Value_Caption.html#value_caption_id">Value_Caption.value_caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>validation_id, valid_value_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>validation_id</td>
+<td><a href="Validation.html">Validation</a></td>
+<td>validation_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>value_caption_id</td>
+<td><a href="Value_Caption.html">Value_Caption</a></td>
+<td>value_caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>validation_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

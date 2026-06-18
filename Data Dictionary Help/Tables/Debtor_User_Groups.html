@@ -1,0 +1,196 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Debtor_User_Groups</h1>
+<p>Used by the Manage Debtors process in Accounts to identify which PMUserGroup should receive a particular WM Task.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="debtor_user_groups_id">debtor_user_groups_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">debtor user groups</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="debtor_user_groups_type_id">debtor_user_groups_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Debtor_User_Groups_Type.html#debtor_user_groups_type_id">Debtor_User_Groups_Type.debtor_user_groups_type_id</a> <span class="autodesc">debtor user groups type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmuser_group_id">pmuser_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser_Group.html#pmuser_group_id">PMUser_Group.pmuser_group_id</a> <span class="autodesc">pmuser group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="step_number">step_number</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">step number</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>debtor_user_groups_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>debtor_user_groups_type_id</td>
+<td><a href="Debtor_User_Groups_Type.html">Debtor_User_Groups_Type</a></td>
+<td>debtor_user_groups_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmuser_group_id</td>
+<td><a href="PMUser_Group.html">PMUser_Group</a></td>
+<td>pmuser_group_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>debtor_user_groups_id</td>
+<td>code</td>
+<td>description</td>
+<td>caption_id</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+<td>debtor_user_groups_type_id</td>
+<td>pmuser_group_id</td>
+<td>source_id</td>
+<td>step_number</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>CP1</td>
+<td>Claim Payment Level 1</td>
+<td>18956</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>7</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CP2</td>
+<td>Claim Payment Level 2</td>
+<td>18957</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>7</td>
+<td>7</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

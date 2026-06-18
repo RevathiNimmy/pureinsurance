@@ -1,0 +1,204 @@
+'----------- Catlin Fleet Default Rule -----------------
+
+Private Const DMC = "FLEET"
+
+Private Const oPARENT = "pCATLIN"
+Private Const oACTUARIAL = "ACTUARIAL"
+
+'Private Const oCHILD = "cVEHICLES"
+
+Dim sPartyName
+Dim iCoreCount
+Dim lAddressCnt
+Dim mAddress_cnt
+Dim mAddress1
+Dim mAddress2
+Dim mAddress3
+Dim mAddress4 
+Dim mPostcode
+Dim mReturn
+Const PMTrue = 1
+Const PMFalse = 0
+
+Dim vResult
+Dim vResult5
+
+Sub Start()
+	Dim iCount, iCount2,lReturnValue 
+
+	Engine.NewObject ("General")
+	iCount = Engine.Count("General")
+	Engine.Item("General", iCount).Item("ClientName").Value = Extras.PartyName
+
+	Engine.NewObject(oPARENT)
+	Engine.Item(oPARENT).Item("Comments").Value = ""
+            Engine.Item(oPARENT).Item("InceptionTime").Value = "00:01"
+            Engine.Item(oPARENT).Item("ExpiryTime").Value = "23:59"
+
+
+            Engine.Item(oPARENT).Item("STREXCESS_I").Value = "0"
+
+            Engine.Item(oPARENT).Item("STRIPT").Value = "0.00"
+
+            Engine.Item(oPARENT).Item("COMMISSION").Value = "0.00"
+
+            Engine.Item(oPARENT).Item("STRCOMMISSION").Value = "0.00%"
+
+            Engine.Item(oPARENT).Item("STRTOTALPREMIUM").Value = "0.00"
+
+
+            Engine.Item(oPARENT).Item("RiskType").Value =3052
+
+            Engine.Item(oPARENT).Item("AdjustmentAmount").Value = "0"
+            Engine.Item(oPARENT).Item("VEHICLE_COUNT").Value = "0"
+
+	Dim AddressCnt, sA1, sA2, sA3, sA4, sA5
+	'address autopopulation 
+	'get the current parties address_cnt
+	AddressCnt = Extras.addressCnt
+	
+	'and then pass this into GetAddress
+	Extras.GetAddress AddressCnt, sA1, sA2, sA3, sA4, sA5
+
+           ' Engine.Item(oPARENT).Item("Address_cnt").Value = AddressCnt 
+
+            Engine.Item(oPARENT).Item("Address1").Value = sA1
+            Engine.Item(oPARENT).Item("Address2").Value = sA2
+            Engine.Item(oPARENT).Item("Address3").Value = sA3
+            Engine.Item(oPARENT).Item("Address4").Value = sA4
+	Engine.Item(oPARENT).Item("PostCode").Value = sA5
+
+
+            'ACTUARIAL SCREENS DATA - SB
+            '--------------------------------------
+	Engine.NewObject(oACTUARIAL)
+	Engine.Item(oACTUARIAL).Item("AccountingClass").Value = "ACC2 Motor"
+	Engine.Item(oACTUARIAL).Item("GIBRECCODE").Value = 3073
+	Engine.Item(oACTUARIAL).Item("TreatyDirectCode").Value = "na"
+	Engine.Item(oACTUARIAL).Item("PolicyHolder").Value = Extras.PartyName
+            'Engine.Item(oACTUARIAL).item("Deductibles").value=2
+
+            Dim aparam, bReturn
+            bReturn = Extras.GetBODetails(aparam)
+            Engine.Item(oACTUARIAL).Item("InceptionDate").Value = aparam(1, 0)
+
+           Dim mId
+           lReturnValue = Extras.GetIdFromCode("MOTORCOVE","COMP", mId)
+
+
+          'msgbox .Getvalue("PCATLIN.Cover_type_2")
+          Engine.Item(oPARENT).item("COVER_TYPE_2").Value= mId
+
+'finding CurrencySymbol
+
+ Dim ReturnCurrency,Brokername
+ReturnCurrency = Extras.CurrentCurrencySymbol
+'Engine.Item(oPARENT).Item("Medical_Expenses_Cover").Value = ReturnCurrency 
+Brokername = Extras.LeadAgent
+Engine.Item(oPARENT).Item("HIDDENBROKERNAME").Value =Brokername 
+
+
+
+Dim PolicyInsFileCnt, RiskInsFileCnt,i,PolicyInsFileType
+Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("INSURANCE_FILE_CNT"), vResult) 'FINDING INSURANCE FILE CNT SP
+If IsArray(vResult) then
+
+  PolicyInsFileType = vResult(1, 0)
+  Engine.Item(oPARENT).Item("INSURANCEFILETYPE").Value = PolicyInsFileType 
+End If
+End Sub
+
+
+
+
+
+
+Sub Main()
+
+ Dim  iVEHICLECOUNT , iVEHICLEONCOVERCounter , IDiffDate , iVEHICLECOUNT1 
+ iVEHICLECOUNT1  = 0
+ iVEHICLECOUNT = SafeCInt(Engine.Item("PCATLIN",1).Count("cVEHICLES"))
+
+Dim PolicyInsFileCnt, RiskInsFileCnt,i,PolicyInsFileType
+Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("INSURANCE_FILE_CNT"), vResult) 'FINDING INSURANCE FILE CNT SP
+If IsArray(vResult) then
+
+  PolicyInsFileCnt = vResult(0, 0)
+  PolicyInsFileType = vResult(1, 0)
+
+Engine.Item(oPARENT).Item("INSURANCEFILETYPE").Value = PolicyInsFileType 
+
+  RiskInsFileCnt =Engine.Item(oPARENT).Item("InsuranceFileCnt").Value
+
+       If TRIM(SafeCInt(PolicyInsFileCnt)) <>TRIM( SafeCInt(RiskInsFileCnt)) Then
+               Engine.Item(oPARENT).Item("PreviousAdjustmentAmount").Value = Safecdbl(Safecdbl(Engine.Item("pCATLIN").Item("AdjustmentAmount").Value) + Safecdbl(Engine.Item("pCATLIN").Item("PreviousAdjustmentAmount").Value))
+
+               Engine.Item(oPARENT).Item("InsuranceFileCnt").Value = PolicyInsFileCnt
+               Engine.Item(oPARENT).Item("AdjustmentAmount").Value = ""
+               Engine.Item(oPARENT).Item("ADJTAX").Value = ""
+
+  if Transactiontype ="REN" Then 
+
+       Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("PolicyHeader"), vResult5) 'Callin SP
+        If IsArray(vResult5) then
+           For iVEHICLEONCOVERCounter = 1 To iVEHICLECOUNT
+           'Commented for MID code revert
+		   ' If  cdate(Engine.Item("PCATLIN",1).Item("cVEHICLES",iVEHICLEONCOVERCounter ).Item("OFF_DATE").Value) = cdate(vResult5(6, 0)) Then
+				Engine.Item("PCATLIN",1).Item("cVEHICLES",iVEHICLEONCOVERCounter ).Item("OFF_DATE").Value =  vResult5(2, 0)
+			'End If
+           Next
+        end if
+ end if
+         
+End If
+End If
+
+ For iVEHICLEONCOVERCounter = 1 To iVEHICLECOUNT
+  IDiffDate = SafeCInt(DateDiff("d",now(),Engine.Item("PCATLIN",1).Item("cVEHICLES",iVEHICLEONCOVERCounter ).Item("OFF_DATE").Value))
+     If SafeCInt(IDiffDate) > 0 Then
+        iVEHICLECOUNT1 = iVEHICLECOUNT1 + 1
+     End If
+ Next
+Engine.Item(oPARENT).Item("VEHICLE_COUNT").Value = iVEHICLECOUNT1 
+	If Transactiontype ="REN" Then 
+			Engine.Item(oPARENT).Item("Qtr1Premium").Value = 0
+			Engine.Item(oPARENT).Item("Qtr2Premium").Value = 0
+			Engine.Item(oPARENT).Item("Qtr3Premium").Value = 0
+			Engine.Item(oPARENT).Item("Qtr4Premium").Value = 0
+	End If
+End Sub
+
+
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+
+Function SafeCInt(Uint)
+    SafeCInt = 0
+    On Error Resume Next
+    SafeCInt = CInt(Uint)
+    On Error GoTo 0
+End Function
+
+
+Function StopIt(sTask, sMessage)	
+Engine.NewObject(DMC & "_OUTPUT")
+SELECT CASE Left(sTask,1)
+CASE "D"
+	Engine.Item(DMC & "_OUTPUT", Engine.Count(DMC & "_OUTPUT")).Item("decline_reason").Value = sMessage
+CASE "R"
+	Engine.Item(DMC & "_OUTPUT", Engine.Count(DMC & "_OUTPUT")).Item("refer_reason").Value = sMessage
+CASE ELSE
+	Engine.Item(DMC & "_OUTPUT", Engine.Count(DMC & "_OUTPUT")).Item("message").Value = sMessage
+END SELECT
+End Function 'Decline, refer or message
+
+
+

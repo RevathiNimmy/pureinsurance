@@ -1,0 +1,15 @@
+SET QUOTED_IDENTIFIER OFF 
+GO
+
+EXECUTE DDLDropProcedure 'spu_SAM_GetLookupData'
+GO
+CREATE PROCEDURE spu_SAM_GetLookupData
+    @Table_Name SYSNAME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @SQL NVARCHAR(4000)
+    SET @SQL = N'SELECT * FROM ' + @Table_Name 
+    EXECUTE sp_executesql @SQL
+END
+GO

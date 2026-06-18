@@ -1,0 +1,343 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Key</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_key_id">pmnav_key_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnav key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="name">name</a></td>
+<td>varchar(30)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="data_type">data_type</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">data type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Batch_Key.html">PMNav_Batch_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Get_Component_Key.html">PMNav_Get_Component_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Get_Process_Key.html">PMNav_Get_Process_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Get_Step_Key.html">PMNav_Get_Step_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Set_Component_Key.html">PMNav_Set_Component_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Set_Map_Key.html">PMNav_Set_Map_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Set_Process_Key.html">PMNav_Set_Process_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Set_Step_Key.html">PMNav_Set_Step_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMWrk_Task_Inst_Key.html">PMWrk_Task_Inst_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_key_id</td>
+<td>name</td>
+<td>description</td>
+<td>data_type</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>special_party</td>
+<td>Special Party</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>party_cnt</td>
+<td>Party Cnt</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>allocation_id</td>
+<td>Allocation ID</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>account_id</td>
+<td>Account ID</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>cashlist_id</td>
+<td>Cash List ID</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>6</td>
+<td>cashlistitem_id</td>
+<td>Cash List Item ID</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>7</td>
+<td>cashlisttype_id</td>
+<td>Cash List Type ID</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>8</td>
+<td>branch_id</td>
+<td>Branch ID</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>9</td>
+<td>batch_set_id</td>
+<td>Batch Set ID</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>10</td>
+<td>allow_cash_list_button</td>
+<td>Allow Cash List Button</td>
+<td>5</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>11</td>
+<td>allocation_ids</td>
+<td>AllocationIDs</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>12</td>
+<td>cash_list_roadmap</td>
+<td>Cash List Roadmap</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>13</td>
+<td>allow_allocate_button</td>
+<td>Allow Allocation Button</td>
+<td>5</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>14</td>
+<td>cash_list_allocation_roadmap</td>
+<td>Cash List Allocation Roadmap</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>15</td>
+<td>insurer_payment</td>
+<td>Insurer Payment</td>
+<td>12</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>16</td>
+<td>claim_mode</td>
+<td>CLMClaimMode</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>17</td>
+<td>insurancefile_cnt</td>
+<td>CLMPolicyid</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>18</td>
+<td>policy_holder</td>
+<td>CLMClientName</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>19</td>
+<td>claim_cnt</td>
+<td>CLMClaimid</td>
+<td>2</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

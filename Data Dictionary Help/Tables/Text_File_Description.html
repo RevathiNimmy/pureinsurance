@@ -1,0 +1,123 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Text_File_Description</h1>
+<p>Associates a standard template with a type of client/policy note. (This is an obsolete table).</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: [Obsolete], Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="entity_type_id">entity_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, I</td>
+<td><span class="autodesc">entity type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="slot_number">slot_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">slot number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field (This column belongs to an obsolete table).</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>source_id, entity_type_id, slot_number</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>entity_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>source_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>source_id</td>
+<td>entity_type_id</td>
+<td>slot_number</td>
+<td>description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>Client Text File 1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>Policy Text File 1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

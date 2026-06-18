@@ -1,0 +1,414 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMProduct_Lookup</h1>
+<p>A list of all tables that can be edited through Lookup Maintenance. If a lookup table is not listed in this table, then the contents must not be modified.</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmproduct_id">pmproduct_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMProduct.html#pmproduct_id">PMProduct.pmproduct_id</a> <span class="autodesc">pmproduct</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lookup_table_name">lookup_table_name</a></td>
+<td>varchar(30)</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">lookup table name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="edit_privilege_level">edit_privilege_level</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">edit privilege level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_caption_id">linked_caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="linked_class_name">linked_class_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linked class name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_object_name">linked_object_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linked object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_generic_maintenance">is_generic_maintenance</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is generic maintenance</span></td>
+</tr>
+<tr>
+<td><a class="name" name="interface_component">interface_component</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">interface component</span></td>
+</tr>
+<tr>
+<td><a class="name" name="interface_control">interface_control</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">interface control</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Linked_data_mandatory">Linked_data_mandatory</a></td>
+<td>Boolean</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Linked data mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Linked_data_table_name">Linked_data_table_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Linked data table name</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmproduct_id, lookup_table_name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>linked_caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmproduct_id</td>
+<td><a href="PMProduct.html">PMProduct</a></td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmproduct_id</td>
+<td>lookup_table_name</td>
+<td>edit_privilege_level</td>
+<td>linked_caption_id</td>
+<td>linked_class_name</td>
+<td>linked_object_name</td>
+<td>is_generic_maintenance</td>
+<td>interface_component</td>
+<td>interface_control</td>
+<td>Linked_data_mandatory</td>
+<td>Linked_data_table_name</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Country</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Currency</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Non_Business_Days</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>PMUser</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>PMUser_Group</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>PMWrk_Task</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>PMWrk_Task_Category</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>PMWrk_Task_Group</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>PMWrk_websites</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Source</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>State</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Sub_Branch</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Accumulation</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Address_Usage_Type</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>agent_address_usage_type</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Analysis_code</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Area</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Authority_Level_type</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bank_Account_Type</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,855 @@
+Option Strict Off
+Option Explicit On
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports System
+Imports System.Windows.Forms
+'developer guide no. 129
+Imports SharedFiles
+<System.Runtime.InteropServices.ProgId("Interface_Renamed_NET.Interface_Renamed")> _
+Public NotInheritable Class Interface_Renamed
+    Implements IDisposable
+    ' ***************************************************************** '
+    ' Class Name: Interface
+    '
+    ' Date: 23/06/1998
+    '
+    ' Description: Main public class to accompany the interface form.
+    '
+    ' Edit History:
+    ' ***************************************************************** '
+
+
+    ' Constant for the functions to identify
+    ' which class this is.
+    Private Const ACClass As String = "Interface"
+
+
+    ' PUBLIC Data Members (Begin)
+    ' PUBLIC Data Members (End)
+
+
+    ' PRIVATE Data Members (Begin)
+
+    ' Object parameter members.
+    Private m_sCallingAppName As String = ""
+
+    Private m_iTask As Integer
+    Private m_lNavigate As Integer
+    Private m_lProcessMode As Integer
+    Private m_sTransactionType As String = ""
+    Private m_dtEffectiveDate As Date
+    Private m_sNavigatorTitle As String = ""
+
+    ' {* USER DEFINED CODE (Begin) *}
+    Private m_lPartyCnt As Integer
+    Private m_sShortName As String = ""
+    Private m_sMainPostCode As String = ""
+    Private m_sName As String = ""
+    Private m_sAddressLine1 As String = ""
+    'eck150500
+    Private m_iSourceID As Integer
+    ' {* USER DEFINED CODE (End) *}
+
+    ' Stores the exit status of the interface.
+    Private m_lStatus As Integer
+
+    ' Stores the return value for the a
+    ' function call.
+    Private m_lReturn As Integer
+    ' PRIVATE Data Members (End)
+
+    ' RFC301001 - SwiftPartID added as part of SBO/SFU Merge
+    ' SwiftPartyID
+    Private m_lSwiftPartyID As Integer
+
+    ' developer guide no. 50
+    Dim objfrmInterface As frmInterface
+
+    Public Property SwiftPartyID() As Integer
+        Get
+            Return m_lSwiftPartyID
+        End Get
+        Set(ByVal Value As Integer)
+            m_lSwiftPartyID = Value
+        End Set
+    End Property
+
+
+    ' PUBLIC Property Procedures (Begin)
+
+    'JDW added for CNIC
+    Public WriteOnly Property QASNAdd1() As String
+        Set(ByVal Value As String)
+            MainModule.m_oQASData.Add1 = Value
+        End Set
+    End Property
+
+    Public WriteOnly Property QASNAdd2() As String
+        Set(ByVal Value As String)
+            MainModule.m_oQASData.Add2 = Value
+        End Set
+    End Property
+
+    Public WriteOnly Property QASNAdd3() As String
+        Set(ByVal Value As String)
+            MainModule.m_oQASData.Add3 = Value
+        End Set
+    End Property
+
+    Public WriteOnly Property QASNAdd4() As String
+        Set(ByVal Value As String)
+            MainModule.m_oQASData.Add4 = Value
+        End Set
+    End Property
+
+    Public WriteOnly Property QASNPostcode() As String
+        Set(ByVal Value As String)
+            MainModule.m_oQASData.Postcode = Value
+        End Set
+    End Property
+
+
+    Public Property QASOrgname() As String
+        Get
+            Return MainModule.m_sQASOrgName
+        End Get
+        Set(ByVal Value As String)
+            MainModule.m_sQASOrgName = Value
+        End Set
+    End Property
+
+
+    Public Property QASSurname() As String
+        Get
+            Return MainModule.m_sQASSurname
+        End Get
+        Set(ByVal Value As String)
+            MainModule.m_sQASSurname = Value
+        End Set
+    End Property
+
+
+    Public Property QASForename() As String
+        Get
+            Return MainModule.m_sQASForename
+        End Get
+        Set(ByVal Value As String)
+            MainModule.m_sQASForename = Value
+        End Set
+    End Property
+
+
+    Public Property QASTitle() As String
+        Get
+            Return MainModule.m_sQASTitle
+        End Get
+        Set(ByVal Value As String)
+            MainModule.m_sQASTitle = Value
+        End Set
+    End Property
+
+
+    Public Property QASInitial() As String
+        Get
+            Return MainModule.m_sQASInitial
+        End Get
+        Set(ByVal Value As String)
+            MainModule.m_sQASInitial = Value
+        End Set
+    End Property
+
+
+    Public WriteOnly Property CallingAppName() As String
+        Set(ByVal Value As String)
+
+            m_sCallingAppName = Value
+
+        End Set
+    End Property
+
+    Public WriteOnly Property PMAuthorityLevel() As Integer
+        Set(ByVal Value As Integer)
+
+            PMAuthorityLevel = Value
+
+        End Set
+    End Property
+
+    Public ReadOnly Property Status() As Integer
+        Get
+
+            Return m_lStatus
+
+        End Get
+    End Property
+    ' {* USER DEFINED CODE (Begin) *}
+    'eck120500
+    Public Property SourceID() As Integer
+        Get
+
+            Return m_iSourceID
+
+        End Get
+        Set(ByVal Value As Integer)
+
+            m_iSourceID = Value
+
+        End Set
+    End Property
+
+    Public Property PartyCnt() As Integer
+        Get
+
+            Return m_lPartyCnt
+
+        End Get
+        Set(ByVal Value As Integer)
+
+            m_lPartyCnt = Value
+
+        End Set
+    End Property
+    Public Property ShortName() As String
+        Get
+
+            Return m_sShortName
+
+        End Get
+        Set(ByVal Value As String)
+
+            m_sShortName = Value
+
+        End Set
+    End Property
+    Public Property Name() As String
+        Get
+
+            Return m_sName
+
+        End Get
+        Set(ByVal Value As String)
+
+            m_sName = Value
+
+        End Set
+    End Property
+    Public Property MainPostCode() As String
+        Get
+
+            Return m_sMainPostCode
+
+        End Get
+        Set(ByVal Value As String)
+
+            m_sMainPostCode = Value
+
+        End Set
+    End Property
+    Public Property AddressLine1() As String
+        Get
+
+            Return m_sAddressLine1
+
+        End Get
+        Set(ByVal Value As String)
+
+            m_sAddressLine1 = Value
+
+        End Set
+    End Property
+
+    ' {* USER DEFINED CODE (End) *}
+    ' PUBLIC Property Procedures (End)
+
+
+    ' PRIVATE Property Procedures (Begin)
+    ' PRIVATE Property Procedures (End)
+
+
+    ' PUBLIC Methods (Begin)
+
+    ' ***************************************************************** '
+    ' Name: Initialise (Standard Method)
+    '
+    ' Description: Entry point for any initialisation code for this
+    '              object.
+    '
+    ' ***************************************************************** '
+    Public Function Initialise() As Integer
+
+        Dim result As Integer = 0
+        Dim sHelpFile As String = ""
+        Dim m_lReturn As gPMConstants.PMEReturnCode
+        Dim eRegSettingRoot As gPMConstants.PMERegSettingRoot
+        Dim eRegSettingLevel As gPMConstants.PMERegSettingLevel
+        Dim eProductFamily As gPMConstants.PMEProductFamily
+
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Create an instance of the object manager.
+            MainModule.g_oObjectManager = New bObjectManager.ObjectManager()
+
+            ' Call the initialise method.
+            m_lReturn = MainModule.g_oObjectManager.Initialise(MainModule.ACApp)
+
+            ' Check for errors.
+            If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                ' Failed to call the initialise method.
+                result = gPMConstants.PMEReturnCode.PMFalse
+
+                ' Set the object manager to nothing.
+                MainModule.g_oObjectManager = Nothing
+
+                ' Log Error.
+                gPMFunctions.LogMessagePopup(iType:=gPMConstants.PMELogLevel.PMLogError, sMsg:="Failed to initialise the object manager", vApp:=ACApp, vClass:=ACClass, vMethod:="Initialise")
+
+                Return result
+            End If
+
+            ' Store the language ID from the object manager
+            ' to the public variables, to enable us to use
+            ' them throughout the object.
+            With MainModule.g_oObjectManager
+                MainModule.g_iLanguageID = .LanguageID
+                MainModule.g_iSourceID = .SourceID
+            End With
+
+            ' Initialise the process modes.
+            m_iTask = gPMConstants.PMEComponentAction.PMView
+            m_lNavigate = gPMConstants.PMENavigateButtonStatus.PMNavigateNotRequired
+            '02082002 CMG PB Scalablity changes
+            'sj 27/08/2002 - start
+            '    m_lProcessMode& = GIIConstants.PMProcessModeGeneric
+            'sj 27/08/2002 - end
+            'End CMG
+            m_sTransactionType = gPMConstants.PMTransactionTypeGeneric
+            m_dtEffectiveDate = DateTime.Now
+
+            eRegSettingRoot = gPMConstants.PMERegSettingRoot.pmeRSRLocalMachine
+            eProductFamily = gPMConstants.PMEProductFamily.pmePFSiriusSolutions
+            eRegSettingLevel = gPMConstants.PMERegSettingLevel.pmeRSLClient
+
+            m_lReturn = CType(gPMFunctions.GetPMRegSetting(v_lPMERegSettingRoot:=eRegSettingRoot, v_lPMEProductFamily:=eProductFamily, v_lPMERegSettingLevel:=eRegSettingLevel, v_sSettingName:="HelpFile", r_sSettingValue:=sHelpFile), gPMConstants.PMEReturnCode)
+
+            If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                MessageBox.Show("Failed to retrive Helpfile", Application.ProductName)
+                Return result
+            End If
+            If sHelpFile <> "" Then
+                'Modified by Archana Tokas on 4/23/2010 10:16:00 AM .net equivalent to be found
+                'App.HelpFile = sHelpFile
+            End If
+
+            'developer guide no. 107
+            'start'
+            PartyBuilderHandler.g_oObjectManager = MainModule.g_oObjectManager
+            'end
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error.
+            gPMFunctions.LogMessagePopup(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Failed to initialise the object", vApp:=ACApp, vClass:=ACClass, vMethod:="Initialise", excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Terminate (Standard Method)
+    '
+    ' Description: Entry point for any termination code for this
+    '              object.
+    '
+    ' ***************************************************************** '
+    Private disposedValue As Boolean
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+
+
+    Protected Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            Me.disposedValue = True
+            If disposing Then
+                If MainModule.g_oObjectManager IsNot Nothing Then
+                    MainModule.g_oObjectManager.Dispose()
+                    MainModule.g_oObjectManager = Nothing
+                End If
+            End If
+        End If
+        Me.disposedValue = True
+    End Sub
+
+
+    ' ***************************************************************** '
+    ' Name: SetKeys (Standard Method)
+    '
+    ' Description: Stores all of the parameter members with the key
+    '              array.
+    '
+    ' Edit Histroy  : 1
+    ' Author        : Ram Chandrabose
+    ' Date          : 16-03-2001
+    ' Description   : Changed the type conversion of PMKeyNamePartyCnt Key
+    '                 from CInt --> CLng
+    ' ***************************************************************** '
+    Public Function SetKeys(ByRef vKeyArray(,) As Object) As Integer
+
+        Dim result As Integer = 0
+
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Check we have a vaild array.
+            If Not Information.IsArray(vKeyArray) Then
+                Return gPMConstants.PMEReturnCode.PMFalse
+            End If
+
+            ' Step through the key array.
+            For lRow As Integer = vKeyArray.GetLowerBound(1) To vKeyArray.GetUpperBound(1)
+                ' Assign the parameter member with the
+                ' correct key array item.
+
+                ' {* USER DEFINED CODE (Begin) *}
+
+
+                Select Case CStr(vKeyArray(gPMConstants.PMENavLetGetKeyColPosition.PMKeyName, lRow)).Trim()
+                    Case PMNavKeyConst.PMKeyNamePartyCnt
+                        ' Ram 16-03-2001
+                        ' m_lPartyCnt& = CInt(vKeyArray(PMKeyValue, lRow&))
+
+                        m_lPartyCnt = CInt(vKeyArray(gPMConstants.PMENavLetGetKeyColPosition.PMKeyValue, lRow))
+                End Select
+
+                ' {* USER DEFINED CODE (End) *}
+            Next lRow
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            iPMFunc.LogMessage(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="SetKeys Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="SetKeys", vErrNo:=Information.Err().Number, vErrDesc:=excep.Message, excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: GetKeys (Standard Method)
+    '
+    ' Description: Stores all of the key array with the parameter
+    '              members.
+    '
+    ' ***************************************************************** '
+    Public Function GetKeys(ByRef vKeyArray(,) As Object) As Integer
+
+        Dim result As Integer = 0
+
+
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' {* USER DEFINED CODE (Begin) *}
+
+            ' Initialise the key array with the number of
+            ' keys needed to be returned.
+            ' Note: Remember arrays are zero based.
+            ReDim vKeyArray(1, 0)
+
+            ' Assign the key array with the parameter members.
+
+            vKeyArray(gPMConstants.PMENavLetGetKeyColPosition.PMKeyName, 0) = PMNavKeyConst.PMKeyNamePartyCnt
+
+            vKeyArray(gPMConstants.PMENavLetGetKeyColPosition.PMKeyValue, 0) = m_lPartyCnt
+
+            ' {* USER DEFINED CODE (End) *}
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            iPMFunc.LogMessage(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="GetKeys Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="GetKeys", vErrNo:=Information.Err().Number, vErrDesc:=excep.Message, excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: GetSummary (Standard Method)
+    '
+    ' Description: Stores all of the summary array with the parameter
+    '              members.
+    '
+    ' ***************************************************************** '
+    Public Function GetSummary(ByRef vSummaryArray(,) As Object) As Integer
+
+        Dim result As Integer = 0
+
+
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' {* USER DEFINED CODE (Begin) *}
+
+            ' Initialise the summary array with the number of
+            ' items needed to be returned.
+            ' Note: Remember arrays are zero based.
+            Dim vKeyArray(1, 0) As Object
+
+            ' Assign the key array with the parameter members.
+
+            vSummaryArray(gPMConstants.PMENavLetGetKeyColPosition.PMKeyName, 0) = PMNavKeyConst.PMKeyNameNavigatorTitle1
+
+            vSummaryArray(gPMConstants.PMENavLetGetKeyColPosition.PMKeyValue, 0) = m_sNavigatorTitle
+
+            ' {* USER DEFINED CODE (End) *}
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            iPMFunc.LogMessage(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="GetSummary Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="GetSummary", vErrNo:=Information.Err().Number, vErrDesc:=excep.Message, excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: SetProcessModes (Standard Method)
+    '
+    ' Description: Set the optional process modes.
+    '
+    ' ***************************************************************** '
+    Public Function SetProcessModes(Optional ByRef vTask As Object = Nothing, Optional ByRef vNavigate As Object = Nothing, Optional ByRef vProcessMode As Object = Nothing, Optional ByRef vTransactionType As Object = Nothing, Optional ByRef vEffectiveDate As Object = Nothing) As Integer
+
+        Dim result As Integer = 0
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Assign the process modes to the property members.
+
+
+            If Not Information.IsNothing(vTask) Then
+
+                m_iTask = CInt(vTask)
+            End If
+
+
+            If Not Information.IsNothing(vNavigate) Then
+
+                m_lNavigate = CInt(vNavigate)
+            End If
+
+
+            If Not Information.IsNothing(vProcessMode) Then
+
+                m_lProcessMode = CInt(vProcessMode)
+            End If
+
+
+            If Not Information.IsNothing(vTransactionType) Then
+
+                m_sTransactionType = CStr(vTransactionType)
+            End If
+
+
+            If Not Information.IsNothing(vEffectiveDate) Then
+
+                m_dtEffectiveDate = CDate(vEffectiveDate)
+            End If
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            ' Error Section.
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            iPMFunc.LogMessage(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="SetProcessModes Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="SetProcessModes", vErrNo:=Information.Err().Number, vErrDesc:=excep.Message, excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Start (Standard Method)
+    '
+    ' Description: Entry point for the object to start its processing.
+    '
+    ' ***************************************************************** '
+    Public Function Start() As Integer
+
+        Dim result As Integer = 0
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Starts the interface processing.
+            m_lReturn = ProcessInterface()
+
+            ' Check for errors.
+            If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                ' Failed to process the interface.
+                result = gPMConstants.PMEReturnCode.PMFalse
+            End If
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            ' Error Section.
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error.
+            iPMFunc.LogMessage(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Failed to start the object", vApp:=ACApp, vClass:=ACClass, vMethod:="Start", vErrNo:=Information.Err().Number, vErrDesc:=excep.Message, excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+    ' PUBLIC Methods (End)
+
+
+    ' PRIVATE Methods (Begin)
+
+    ' ***************************************************************** '
+    ' Name: ProcessInterface (Standard Method)
+    '
+    ' Description: Calls the appropriate methods to process the
+    '              interface.
+    '
+    ' ***************************************************************** '
+    Private Function ProcessInterface() As Integer
+
+        Dim result As Integer = 0
+
+
+        result = gPMConstants.PMEReturnCode.PMTrue
+
+        ' Load the interface into memory.
+        m_lReturn = LoadInterface()
+
+        ' Check for errors.
+        If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+            ' Failed to load the interface.
+            Return gPMConstants.PMEReturnCode.PMFalse
+        End If
+
+        ' Display the interface.
+        m_lReturn = ShowInterface(lDisplayState:=FormShowConstants.Modal)
+
+        ' Check for errors.
+        If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+            ' Failed to display the inteface.
+            result = gPMConstants.PMEReturnCode.PMFalse
+        End If
+
+        ' Destroy the interface from memory.
+        m_lReturn = UnLoadInterface()
+
+        ' Check for errors.
+        If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+            ' Failed to unload the interface.
+            result = gPMConstants.PMEReturnCode.PMFalse
+        End If
+
+        Return result
+
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: LoadInterface (Standard Method)
+    '
+    ' Description: Loads the instance of the interface into memory and
+    '              passes the parameters in.
+    '
+    ' ***************************************************************** '
+    Private Function LoadInterface() As Integer
+
+        Dim result As Integer = 0
+        'developer guide no. 50
+        objfrmInterface = New frmInterface
+
+
+        result = gPMConstants.PMEReturnCode.PMTrue
+
+        ' Assign the parameters to the interface properties.
+        ' developer guide no. 50
+        With objfrmInterface
+            .CallingAppName = m_sCallingAppName
+            .Task = m_iTask
+            .Navigate = m_lNavigate
+            .ProcessMode = m_lProcessMode
+            .TransactionType = m_sTransactionType
+            .EffectiveDate = m_dtEffectiveDate
+
+            ' {* USER DEFINED CODE (Begin) *}PartyCnt
+            .PartyCnt = m_lPartyCnt
+            'eck120500
+            .SourceID = m_iSourceID
+
+            ' RFC301001 - SwiftPartID added as part of SBO/SFU Merge
+            ' CTAF 280900
+            .SwiftPartyID = m_lSwiftPartyID
+
+            ' {* USER DEFINED CODE (End) *}
+        End With
+
+        ' Load the instance of the interface into memory.
+        'Modified by Archana Tokas on 4/23/2010 9:33:24 AM commented tempLoadForm declared but never used
+        'Dim tempLoadForm As frmInterface = frmInterface
+
+        ' Check if we have had an error so far.
+        'developer guide no. 50
+        If objfrmInterface.ErrorNumber = gPMConstants.PMEReturnCode.PMFalse Then
+            ' We have already encountered an error,
+            ' so we MUST return the error.
+            'developer guide no. 50
+            result = objfrmInterface.ErrorNumber
+        End If
+
+        Return result
+
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: UnLoadInterface (Standard Method)
+    '
+    ' Description: Unloads the instance of the interface from memory.
+    '
+    ' ***************************************************************** '
+    Private Function UnLoadInterface() As Integer
+
+        Dim result As Integer = 0
+
+
+        result = gPMConstants.PMEReturnCode.PMTrue
+
+        ' Assign the property members from the interface parameters.
+        ' developer guide no. 50
+        With objfrmInterface
+            m_lStatus = .Status
+
+            ' {* USER DEFINED CODE (Begin) *}
+            m_lPartyCnt = .PartyCnt
+            m_sShortName = .ShortName
+            m_sName = .LongName
+            m_sMainPostCode = .MainPostCode
+            m_sAddressLine1 = .AddressLine1
+            ' {* USER DEFINED CODE (End) *}
+        End With
+
+        ' Unload and destroy the instance of the interface
+        ' from memory.
+        'developer guide no. 50
+        objfrmInterface.Close()
+        objfrmInterface = Nothing
+
+
+        Return result
+
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: ShowInterface (Standard Method)
+    '
+    ' Description: Displays the instance of the interface using the
+    '              display state.
+    '
+    ' ***************************************************************** '
+    Private Function ShowInterface(ByRef lDisplayState As Integer) As Integer
+
+        Dim result As Integer = 0
+
+
+
+        result = gPMConstants.PMEReturnCode.PMTrue
+
+        ' Display the interface.
+        'developer guide no. 50
+        VB6.ShowForm(objfrmInterface, lDisplayState)
+
+        If lDisplayState = FormShowConstants.Modal Then
+            ' Check for any form errors.
+            'developer guide no. 50
+            If objfrmInterface.ErrorNumber <> 0 Then
+                result = objfrmInterface.ErrorNumber
+            End If
+        End If
+
+        Return result
+
+    End Function
+    'PRIVATE Methods (End)
+
+
+    Public Sub New()
+        MyBase.New()
+
+        ' Class Initialise Event.
+
+
+        'Try 
+        '
+        'Catch excep As System.Exception
+        '
+        '
+        '
+        ' Error Section.
+        '
+        ' Log Error Message
+        'gPMFunctions.LogMessagePopup(iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Failed to initialise the interface entry class", vApp:=ACApp, vClass:=ACClass, vMethod:="Class_Initialise", vErrNo:=CStr(Information.Err().Number), vErrDesc:=excep.Message)
+        '
+        'Exit Sub
+        '
+        'End Try
+
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        Dispose(False)
+    End Sub
+
+End Class
+

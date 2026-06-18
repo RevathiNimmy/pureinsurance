@@ -1,0 +1,91 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_List_Usage</h1>
+<p><span class="autodesc">Party List Usage</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="var_data_ref">var_data_ref</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">var data ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="record_id">record_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Record.html#record_id">Record.record_id</a> <span class="autodesc">record</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sequence_number">sequence_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">sequence number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="data_record">data_record</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">data record</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>var_data_ref, record_id, sequence_number</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>record_id</td>
+<td><a href="Record.html">Record</a></td>
+<td>record_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>record_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

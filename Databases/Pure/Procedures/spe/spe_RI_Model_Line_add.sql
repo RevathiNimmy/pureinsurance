@@ -1,0 +1,7 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDropProcedure 'spe_RI_Model_Line_add'
+GO
+

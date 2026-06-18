@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- pmnav_map_id = 58 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd">
+<MAP WMTaskCode="UNDERREINS" WMTaskDescription="Complete Underwriting Reinstatement" ImageURL="http://www.siriusgroup.co.uk" TransactionType="MTR" 
+
+ProcessMode="32" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting Policy Reinstatement" Core="1" ElementID="E1" 
+
+Version="200">
+	<STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E2"/>
+	<STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3">
+		<KEY Name="insurance_file_type" Value="4" ElementID="E4"/>
+	</STEP>
+	<STEP Description="List Policy Version" Component="iPMUListPolicyVersion.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E6"/>
+	<STEP Description="Underwriting Policy" Component="iPMUPolicy.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/>
+	<STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E9"/>
+	<STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10" 
+
+Action1Action="BX" Action1Steps="2">
+		<KEY Name="claim_mode" Value="2" ElementID="E35"/>
+		<KEY Name="RoadmapDisablesInstalments" Value="true" ElementID="E43"/>
+	</STEP>
+	<!--	
+***	<STEP Description="Admin Fees" Component="iPMBPartyFee.RMStep.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E62"/>
+***	<STEP Description="Policy Level Reinsurance" Component="iPMUReinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E11">
+***		<KEY Name="Policy_mode" Value="1" ElementID="E12"/>
+***	</STEP>
+***	<STEP Description="Policy Level Taxes" Component="iPMURITax.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13">
+***		<KEY Name="policy_level" Value="1" ElementID="E14"/>
+***	</STEP>
+***	<STEP Description="Agent Commission" Component="iPMUAgentCommission.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E15"/>
+***	<STEP Description="Assign Policy Number" Component="iPMUChangePolicyStatus.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E16">
+***		<KEY Name="claim_mode" Value="1" ElementID="E17"/>
+***	</STEP>
+***	<STEP Description="Make Policy Live" Component="iPMUChangePolicyStatus.NavigatorV3" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" 
+
+CancelSteps="6" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E34">
+***		<KEY Name="claim_mode" Value="2" ElementID="E35"/>
+***	</STEP>
+-->
+	<STEP Description="Statistics" Component="iPMUStats.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E45"/>
+	<STEP Description="Plan Maintenance" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E55"/>
+	<STEP Description="Accumulation Values" Component="iPMUAccumulationValues.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E44"/>
+	<STEP Description="Produce Schedule" Component="iPMUGetDocument.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E46" 
+
+ResourceId="103">
+		<KEY Name="document_id" Value="4" ElementID="E47"/>
+		<KEY Name="short_code" Value="schedule" ElementID="E48"/>
+	</STEP>
+	<STEP Description="Produce Certificate" Component="iPMUGetDocument.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E49">
+		<KEY Name="document_id" Value="5" ElementID="E50"/>
+		<KEY Name="short_code" Value="certificate" ElementID="E51"/>
+	</STEP>
+	<STEP Description="Produce Debit Note" Component="iPMUGetDocument.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E52" 
+
+ResourceId="101">
+		<KEY Name="document_id" Value="3" ElementID="E53"/>
+		<KEY Name="short_code" Value="debitnote" ElementID="E54"/>
+	</STEP>
+</MAP>
+
+

@@ -1,0 +1,34 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.User
+@model UserRolesViewModel
+@{
+    ViewBag.Title = string.Format(Roles_cshtml.RolesForUser, Model.Username);
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @for (int i = 0; i < Model.RoleAssignments.Length; i++)
+                        {
+                            <div class="form-group form-group-sm">
+                                @Html.HiddenFor(x => Model.RoleAssignments[i].Role)
+                                @Html.LabelFor(x => Model.RoleAssignments[i].InRole, Model.RoleAssignments[i].Role, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                <div class="Col-lg-8 col-md-8">
+                                @Html.CheckBoxFor(x => Model.RoleAssignments[i].InRole)
+                                </div>
+                            </div>
+                        }
+               </div>
+           </div>
+        <div class="card-footer">
+            <button type="reset" class="btn btn-sm btn-dark">@Roles_cshtml.Cancel</button>
+            <button type="submit" class="btn btn-sm btn-primary">@Roles_cshtml.Update</button>
+        </div>
+ </div>
+    @Html.ValidationSummary(Roles_cshtml.ErrorUpdatingRoleAssignments)
+}

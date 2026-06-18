@@ -1,0 +1,21 @@
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDROPPROCEDURE 'spu_get_pmuser_party'
+GO
+
+CREATE PROCEDURE spu_get_pmuser_party
+@user_id INT
+AS
+SELECT party_cnt from PMUser
+WHERE user_id=@user_id
+GO
+
+
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO

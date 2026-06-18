@@ -1,0 +1,112 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Short_Period_Rates</h1>
+<p>What do we charge for a policy of less than a year.  And what do we return when we cancel.  If there's nothing in here we do a standard pro-rata calculation.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="product_id">product_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC), FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Product.html#product_id">Product.product_id</a> <span class="autodesc">product</span></td>
+</tr>
+<tr>
+<td><a class="name" name="type">type</a></td>
+<td>char(1)</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="period">period</a></td>
+<td>char(1)</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">period</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value">value</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="percentage">percentage</a></td>
+<td>numeric(7, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">percentage</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK(NC)</td>
+<td>product_id, type, period, value, effective_date</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>product_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

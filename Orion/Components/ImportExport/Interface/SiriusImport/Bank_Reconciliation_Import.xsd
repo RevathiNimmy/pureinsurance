@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Import/Bank_Reconciliation_Import/20060606" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.siriusfs.com/SFI/Import/Bank_Reconciliation_Import/20060606" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="IMPORT_HEADER">
+    <xs:annotation>
+      <xs:documentation>Sirius Import Header</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Transaction" />
+      </xs:sequence>
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="BANK_RECONCILIATION_IMPORT" />
+      <xs:attribute name="batch_id" type="xs:long" use="optional" />
+      <xs:attribute name="batch_reference" type="xs:string" use="optional" />
+      <xs:attribute name="date_imported" type="xs:dateTime" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Transaction">
+    <xs:annotation>
+      <xs:documentation>Reconciled transactions</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="transdetail_id" type="xs:long" use="required" />
+    </xs:complexType>
+  </xs:element>
+ 
+  
+</xs:schema>

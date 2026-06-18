@@ -1,0 +1,1655 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Screen</h1>
+<p>GIS user-defined risk screen</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software module: GIS<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="gis_screen_id">gis_screen_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">gis screen</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="parent_id">parent_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Screen.html#gis_screen_id">GIS_Screen.gis_screen_id</a> <span class="autodesc">parent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_maintainable">is_maintainable</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is maintainable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_data_model_id">gis_data_model_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Data_Model.html#gis_data_model_id">GIS_Data_Model.gis_data_model_id</a> Holds the GIS data model Id for this (top level) screen. For childs screens this is always (infuriatingly) NULL.</td>
+</tr>
+<tr>
+<td><a class="name" name="script_defaults">script_defaults</a></td>
+<td>text</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">script defaults</span></td>
+</tr>
+<tr>
+<td><a class="name" name="script_dynamic_logic">script_dynamic_logic</a></td>
+<td>text</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">script dynamic logic</span></td>
+</tr>
+<tr>
+<td><a class="name" name="screen_type">screen_type</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">screen type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="screen_height">screen_height</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">screen height</span></td>
+</tr>
+<tr>
+<td><a class="name" name="screen_width">screen_width</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">screen width</span></td>
+</tr>
+<tr>
+<td><a class="name" name="product_option">product_option</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">product option</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_data_model_id</td>
+<td><a href="GIS_Data_Model.html">GIS_Data_Model</a></td>
+<td>gis_data_model_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>parent_id</td>
+<td><a href="GIS_Screen.html">GIS_Screen</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_data_model_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>gis_screen_id</td>
+<td><a href="GIS_Screen.html">GIS_Screen</a></td>
+<td>parent_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_screen_id</td>
+<td><a href="GIS_Screen_Detail.html">GIS_Screen_Detail</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_screen_id</td>
+<td><a href="Party_Type.html">Party_Type</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_screen_id</td>
+<td><a href="Peril_Type.html">Peril_Type</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_screen_id</td>
+<td><a href="Risk.html">Risk</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_screen_id</td>
+<td><a href="Risk_Group.html">Risk_Group</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_screen_id</td>
+<td><a href="Risk_Type.html">Risk_Type</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_screen_id</td>
+<td><a href="Risk_Type_GIS_Screen.html">Risk_Type_GIS_Screen</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>gis_screen_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>parent_id</td>
+<td>is_maintainable</td>
+<td>gis_data_model_id</td>
+<td>script_defaults</td>
+<td>script_dynamic_logic</td>
+<td>screen_type</td>
+<td>screen_height</td>
+<td>screen_width</td>
+<td>product_option</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>38591</td>
+<td>MOTOR</td>
+<td>Motor Risk Screen</td>
+<td>0</td>
+<td>2009-03-21 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>Engine.SetMandatoryColor 140,200,255
+
+Private const VehObject = "VEHICLE."
+Private const DriObject = "DRIVER."
+Private const SumObject = "SUMMARY."
+Private const GenObject = "GENERAL."
+
+Dim Q1, Q2, Q3, Q4, Q5, Q6, Q7
+Dim VehFCCheck
+
+
+Sub Start(parameterArray)
+
+'Handles NULL values (in the case of a new or edited risk)
+Q1 = Safecdbl(Q1)
+Q2 = Safecdbl(Q2)
+Q3 = Safecdbl(Q3)
+Q4 = Safecdbl(Q4)
+Q5 = Safecdbl(Q5)
+Q6 = Safecdbl(Q6)
+Q7 = Safecdbl(Q7)
+
+With Engine
+
+	Call CheckQ(1, VehObject &amp; "Same_Postcode_Yes", VehObject &amp; "Same_Postcode_No")
+	Call CheckQ(2, VehObject &amp; "Mods_Yes", VehObject &amp; "Mods_No")
+	Call CheckQ(3, VehObject &amp; "Is_Damaged_Yes", VehObject &amp; "Is_Damaged_No")
+	Call CheckQ(4, VehObject &amp; "Is_Roadworthy_Yes", VehObject &amp; "Is_Roadworthy_No")
+	Call CheckQ(5, VehObject &amp; "Hire_Car_Yes", VehObject &amp; "Hire_Car_No")
+	Call CheckQ(6, VehObject &amp; "Is_Another_Yes", VehObject &amp; "Is_Another_No")
+	Call CheckQ(7, DriObject &amp; "NCB_Yes", DriObject &amp; "NCB_No")
+
+
+    '------------------------------------------------------------------------------
+    ' VEHICLE-related logic 
+    '------------------------------------------------------------------------------
+
+	.SetVisibility VehObject &amp; "FC_Used", False
+	'.SetVisibility VehObject &amp; "Car_Code", False
+	.SetVisibility VehObject &amp; "Suburb", False
+	.SetVisibility VehObject &amp; "Garaged_State", False
+	.SetVisibility VehObject &amp; "FC_Used_2", False
+
+	.SetMandatory VehObject &amp; "Rego", True
+	.SetMandatory VehObject &amp; "Car_Year", True
+	.SetMandatory VehObject &amp; "Agreed_Value", True
+	.SetMandatory VehObject &amp; "Purchase_Year", True
+	.SetMandatory VehObject &amp; "How_Financed", True
+	.SetMandatory VehObject &amp; "Vehicle_Use", True
+	.SetMandatory VehObject &amp; "Cover", True
+
+	.SetValue VehObject &amp; "Rego", UCASE(.GetValue(VehObject &amp; "Rego"))
+	.SetValue VehObject &amp; "VIN", UCASE(.GetValue(VehObject &amp; "VIN"))
+
+	SELECT CASE .GetValue(VehObject &amp; "Car_Year")(1)
+	CASE "(None)", ""
+		.SetValue VehObject &amp; "Make", ""
+		.SetValue VehObject &amp; "Model", ""
+		.SetValue VehObject &amp; "Variant", ""
+		.SetValue VehObject &amp; "Series", ""
+		.SetValue VehObject &amp; "Body_Type", ""
+		.SetValue VehObject &amp; "Value_Min", ""
+		.SetValue VehObject &amp; "Value_Max", ""
+		.SetValue VehObject &amp; "Market_Value", ""
+		.SetReadOnly VehObject &amp; "Car_Year", False
+		.SetReadOnly VehObject &amp; "Make", True
+		.SetReadOnly VehObject &amp; "Model", True
+		.SetReadOnly VehObject &amp; "Variant", True
+		.SetReadOnly VehObject &amp; "Series", True
+		.SetReadOnly VehObject &amp; "Body_Type", True
+
+		.SetValue VehObject &amp; "Purchase_Year", 0
+		.SetReadOnly VehObject &amp; "Purchase_Year", True
+
+	CASE ELSE
+		If Len(.GetValue(VehObject &amp; "FC_Used")) &gt; 0 Then
+			.SetReadOnly VehObject &amp; "Car_Year", True
+			.SetReadOnly VehObject &amp; "Make", True
+			.SetReadOnly VehObject &amp; "Model", True
+			.SetReadOnly VehObject &amp; "Variant", True
+			.SetReadOnly VehObject &amp; "Series", True
+			.SetReadOnly VehObject &amp; "Body_Type", True
+		Else
+			.SetReadOnly VehObject &amp; "Car_Year", False
+			.SetReadOnly VehObject &amp; "Make", False
+			.SetReadOnly VehObject &amp; "Model", False
+			.SetReadOnly VehObject &amp; "Variant", False
+			.SetReadOnly VehObject &amp; "Series", False
+			.SetReadOnly VehObject &amp; "Body_Type", False
+		End If
+		.SetReadOnly VehObject &amp; "Purchase_Year", False
+	END SELECT
+
+	If Len(.GetValue(VehObject &amp; "FC_Used")) &gt; 0 Then
+		VehFCCheck = Safecdbl(.GetValue(VehObject &amp; "FC_Used"))
+	Else
+		If VehFCCheck = 0 Then
+			'Do nothing
+		Else
+			.SetValue VehObject &amp; "Car_Year", 0
+			VehFCCheck = 0
+		End If
+	End If
+
+
+	If Len(.GetValue(VehObject &amp; "Agreed_Value")) &gt; 0 then Call FullNumber(VehObject &amp; "Agreed_Value", .GetValue(VehObject &amp; "Agreed_Value"), 0, "Y")
+
+	If .GetValue(VehObject &amp; "Same_Postcode_Yes") = 1 Then
+		.SetReadOnly VehObject &amp; "Garaged_Postcode", True
+		.SetValue VehObject &amp; "Garaged_Postcode", .GetValue(GenObject &amp; "Client_Postcode")
+		.SetMandatory VehObject &amp; "Garaged_Postcode", False
+	Else
+		If .GetValue(VehObject &amp; "Same_Postcode_No") = 1 Then
+			.SetMandatory VehObject &amp; "Garaged_Postcode", True
+			.SetReadOnly VehObject &amp; "Garaged_Postcode", False
+		Else
+			.SetMandatory VehObject &amp; "Garaged_Postcode", False
+			.SetReadOnly VehObject &amp; "Garaged_Postcode", True
+			.SetValue VehObject &amp; "Garaged_Postcode", .GetValue(GenObject &amp; "Client_Postcode")
+		End If			
+	End If
+
+
+
+	If Len(.GetValue(VehObject &amp; "Garaged_Postcode")) &gt; 0 Then
+		.SetReadOnly VehObject &amp; "Garaged_Postcode", True
+	Else
+		.SetReadOnly VehObject &amp; "Garaged_Postcode", False
+	End If
+
+
+	If Len(.GetValue(VehObject &amp; "Garaged_State")(1)) &gt; 6 Then
+		.SetCaption "Label.GaragedPC", ""
+	Else
+		.SetCaption "Label.GaragedPC", "Please use this Find Control to confirm the Postcode."
+	End If
+
+
+
+
+
+
+
+
+	.SetValue "Label.ModsLimit", "Modification Cover Amount (up to $" &amp; FormatNumber(.GetValue(GenObject &amp; "Mods_Limit"), 0) &amp; ")"
+
+	If .GetValue(VehObject &amp; "Mods_Yes") = 1 Then
+		.SetReadOnly VehObject &amp; "Mods_Value", False
+		.SetMandatory VehObject &amp; "Mods_Value", True
+		If Len(.GetValue(VehObject &amp; "Mods_Value")) &gt; 0 Then Call FullNumber(VehObject &amp; "Mods_Value", .GetValue(VehObject &amp; "Mods_Value"), 0, "Y")
+	Else
+		.SetMandatory VehObject &amp; "Mods_Value", False
+		.SetReadOnly VehObject &amp; "Mods_Value", True
+		.SetValue VehObject &amp; "Mods_Value", ""
+	End If
+
+
+	SELECT CASE Left(.GetValue(VehObject &amp; "Vehicle_Use")(1), 4)
+	CASE "(Non", "Priv"
+		.SetValue VehObject &amp; "Work_Performed", 0
+		.SetMandatory VehObject &amp; "Work_Performed", False
+		.SetReadOnly VehObject &amp; "Work_Performed", True
+	CASE ELSE
+		.SetReadOnly VehObject &amp; "Work_Performed", False
+		.SetMandatory VehObject &amp; "Work_Performed", True
+	END SELECT
+
+
+	SELECT CASE .GetValue(VehObject &amp; "Cover")(1)
+	CASE "(None)"
+		.SetVisibility VehObject &amp; "Excess_int", False
+		.SetVisibility VehObject &amp; "Excess_cur", False
+		.SetMandatory VehObject &amp; "Excess_int", False
+		.SetMandatory VehObject &amp; "Excess_cur", False
+		.SetReadOnly VehObject &amp; "Hire_Car_Yes", True
+		.SetReadOnly VehObject &amp; "Hire_Car_No", True
+		.SetValue VehObject &amp; "Hire_Car_Yes", 0
+		.SetValue VehObject &amp; "Hire_Car_No", 0
+	CASE "Comprehensive"
+		.SetVisibility VehObject &amp; "Excess_int", True
+		.SetVisibility VehObject &amp; "Excess_cur", False
+		.SetMandatory VehObject &amp; "Excess_int", True
+		.SetMandatory VehObject &amp; "Excess_cur", False
+		.SetReadOnly VehObject &amp; "Hire_Car_Yes", False
+		.SetReadOnly VehObject &amp; "Hire_Car_No", False
+	CASE ELSE
+		.SetVisibility VehObject &amp; "Excess_int", False
+		.SetVisibility VehObject &amp; "Excess_cur", True
+		If Len(.GetValue(VehObject &amp; "Excess_cur")) &gt; 0 then Call FullNumber(VehObject &amp; "Excess_cur", .GetValue(VehObject &amp; "Excess_cur"), 0, "Y")
+		.SetMandatory VehObject &amp; "Excess_cur", True
+		.SetMandatory VehObject &amp; "Excess_int", False
+		.SetReadOnly VehObject &amp; "Hire_Car_Yes", True
+		.SetReadOnly VehObject &amp; "Hire_Car_No", True
+		.SetValue VehObject &amp; "Hire_Car_Yes", 0
+		.SetValue VehObject &amp; "Hire_Car_No", 0
+	END SELECT
+
+
+	If .GetValue(VehObject &amp; "Is_Another_Yes") = 1 Then
+		.SetVisibility "Tab.3", True
+	Else
+		.SetVisibility "Tab.3", False
+	End If
+
+
+    '------------------------------------------------------------------------------
+    ' DRIVER-related logic 
+    '------------------------------------------------------------------------------
+
+	.SetVisibility DriObject &amp; "DB_Updated", False
+	'.SetVisibility DriObject &amp; "Bankruptcy_Count", False
+
+	.SetMandatory DriObject &amp; "Title", True
+	.SetMandatory DriObject &amp; "First_Name", True
+	.SetMandatory DriObject &amp; "Last_Name", True
+	.SetMandatory DriObject &amp; "DOB", True
+	.SetMandatory DriObject &amp; "Year_Licenced", True
+	.SetMandatory DriObject &amp; "Licence_Number", True
+	.SetMandatory DriObject &amp; "Licence_State", True
+	.SetMandatory DriObject &amp; "Licence_Type", True
+	.SetMandatory DriObject &amp; "Gender", True
+	.SetMandatory DriObject &amp; "Marital_Status", True
+	.SetMandatory DriObject &amp; "Education_Level", True
+	.SetMandatory DriObject &amp; "Primary_Residence", True
+
+	If .GetValue(DriObject &amp; "Prior_Cover_Level")(1) = "(None)" Then
+		.SetValue DriObject &amp; "Prior_Expiration_Date", ""
+		.SetValue DriObject &amp; "Previous_Insurer", 0
+		.SetValue DriObject &amp; "Previous_Insurer_Other", ""
+		.SetReadOnly DriObject &amp; "Prior_Expiration_Date", True
+		.SetMandatory DriObject &amp; "Prior_Expiration_Date", False
+		.SetReadOnly DriObject &amp; "Previous_Insurer", True
+		.SetMandatory DriObject &amp; "Previous_Insurer", False
+	Else
+		.SetReadOnly DriObject &amp; "Prior_Expiration_Date", False
+		.SetMandatory DriObject &amp; "Prior_Expiration_Date", True
+		.SetReadOnly DriObject &amp; "Previous_Insurer", False
+		.SetMandatory DriObject &amp; "Previous_Insurer", True
+	End If
+
+	If .GetValue(DriObject &amp; "Previous_Insurer")(1) = "Other" Then
+		.SetReadOnly DriObject &amp; "Previous_Insurer_Other", False
+		.SetMandatory DriObject &amp; "Previous_Insurer_Other", True
+	Else
+		.SetMandatory DriObject &amp; "Previous_Insurer_Other", False
+		.SetReadOnly DriObject &amp; "Previous_Insurer_Other", True
+		.SetValue DriObject &amp; "Previous_Insurer_Other", ""
+	End If
+
+	If .GetValue(DriObject &amp; "NCB_Yes") = 1 Then
+		.SetReadOnly DriObject &amp; "NCB", False
+		.SetMandatory DriObject &amp; "NCB", True
+	Else
+		.SetReadOnly DriObject &amp; "NCB", True
+		.SetMandatory DriObject &amp; "NCB", False
+		.SetValue DriObject &amp; "NCB", 0
+	End If
+
+
+    '------------------------------------------------------------------------------
+    ' SUMMARY- and GENERAL-related logic 
+    '------------------------------------------------------------------------------
+	
+	.SetReadOnly SumObject &amp; "Youthful_Driver_XS_1", True
+	.SetReadOnly SumObject &amp; "Youthful_Driver_XS_2", True
+	.SetReadOnly SumObject &amp; "Unlisted_Driver_XS", True
+	.SetReadOnly SumObject &amp; "Inexperienced_Operator_XS", True
+
+	If .GetValue(GenObject &amp; "GST_Registered") = 1 Then
+		.SetVisibility "Label.GSTp", True
+		.SetVisibility "Label.ABN", True
+		.SetVisibility GenObject &amp; "GST_Percentage", True
+		.SetMandatory GenObject &amp; "GST_Percentage", True
+		.SetVisibility GenObject &amp; "ABN", True
+		.SetMandatory GenObject &amp; "ABN", True
+	Else
+		.SetVisibility "Label.GSTp", False
+		.SetVisibility "Label.ABN", False
+		.SetMandatory GenObject &amp; "GST_Percentage", False
+		.SetVisibility GenObject &amp; "GST_Percentage", False
+		.SetMandatory GenObject &amp; "ABN", False
+		.SetVisibility GenObject &amp; "ABN", False
+		.SetValue GenObject &amp; "GST_Percentage", ""
+		.SetValue GenObject &amp; "ABN", ""
+	End If
+
+
+	Call FullNumber(SumObject &amp; "Youthful_Driver_XS_1", .GetValue(SumObject &amp; "Youthful_Driver_XS_1"), 0, "Y")
+	Call FullNumber(SumObject &amp; "Youthful_Driver_XS_2", .GetValue(SumObject &amp; "Youthful_Driver_XS_2"), 0, "Y")
+	Call FullNumber(SumObject &amp; "Unlisted_Driver_XS", .GetValue(SumObject &amp; "Unlisted_Driver_XS"), 0, "Y")
+	Call FullNumber(SumObject &amp; "Inexperienced_Operator_XS", .GetValue(SumObject &amp; "Inexperienced_Operator_XS"), 0, "Y")
+
+	If .GetValue(SumObject &amp; "Show_Hidden_Tab") = 1 Then
+		.SetVisibility "Tab.8", True
+	Else
+		.SetVisibility "Tab.8", False
+	End If
+
+	.SetMandatory SumObject &amp; "Payment_Option", True
+	.SetMandatory SumObject &amp; "Read_T_and_C", True
+	.SetMandatory SumObject &amp; "Acknowledgements", True
+
+	If .GetValue(SumObject &amp; "Read_T_and_C") = 1 Then 
+		.SetValue "Label.TandC", "" 
+	Else
+		.SetValue "Label.TandC", "* Mandatory"
+	End If
+
+	If .GetValue(SumObject &amp; "Acknowledgements") = 1 Then 
+		.SetValue "Label.Ack", "" 
+	Else
+		.SetValue "Label.Ack", "* Mandatory"
+	End If
+
+	.SetValue GenObject &amp; "description", .GetValue(DriObject &amp; "First_Name") &amp; " " &amp; _
+					.GetValue(DriObject &amp; "Last_Name") &amp; " (" &amp; _
+					.GetColumnTotal("VEHICLE_C", "counter") + 1 &amp; ")"
+
+
+
+	.SetValue SumObject &amp; "Postcode", .GetValue(VehObject &amp; "Garaged_Postcode")
+
+	.SetValue SumObject &amp; "Number_of_Vehicles", .GetColumnTotal("VEHICLE_C", "counter") + 1
+
+	.SetValue SumObject &amp; "Number_of_Drivers", .GetColumnTotal("DRIVER_C", "counter") + 1
+
+
+End With
+
+End Sub
+
+
+
+'--------------------------------------------------------------------------------
+' Makes two boolean fields behave like radio buttons 
+'--------------------------------------------------------------------------------
+Function CheckQ(nQuestion, Field1, Field2)
+With Engine
+
+	If .GetValue(Field1) = 0 AND .GetValue(Field2) = 0 Then
+		SELECT CASE nQuestion
+		CASE 1: Q1 = 0
+		CASE 2: Q2 = 0
+		CASE 3: Q3 = 0
+		CASE 4: Q4 = 0
+		CASE 5: Q5 = 0
+		CASE 6: Q6 = 0
+		CASE 7: Q7 = 0
+		END SELECT
+	End If
+
+	If .GetValue(Field1) = 1 Then
+
+		SELECT CASE nQuestion
+		CASE 1
+			If Q1 = 2 OR Q1 = 0 Then
+				.SetValue Field2, 0
+				Q1 = 1
+			End If
+		CASE 2
+			If Q2 = 2 OR Q2 = 0 Then
+				.SetValue Field2, 0
+				Q2 = 1
+			End If
+		CASE 3
+			If Q3 = 2 OR Q3 = 0 Then
+				.SetValue Field2, 0
+				Q3 = 1
+			End If
+		CASE 4
+			If Q4 = 2 OR Q4 = 0 Then
+				.SetValue Field2, 0
+				Q4 = 1
+			End If
+		CASE 5
+			If Q5 = 2 OR Q5 = 0 Then
+				.SetValue Field2, 0
+				Q5 = 1
+			End If
+		CASE 6
+			If Q6 = 2 OR Q6 = 0 Then
+				.SetValue Field2, 0
+				Q6 = 1
+			End If
+		CASE 7
+			If Q7 = 2 OR Q7 = 0 Then
+				.SetValue Field2, 0
+				Q7 = 1
+			End If
+		END SELECT
+
+	End If
+
+	If .GetValue(Field2) = 1 Then
+
+		SELECT CASE nQuestion
+		CASE 1
+			If Q1 = 1 OR Q1 = 0 Then
+				.SetValue Field1, 0
+				Q1 = 2
+			End If
+		CASE 2
+			If Q2 = 1 OR Q2 = 0 Then
+				.SetValue Field1, 0
+				Q2 = 2
+			End If
+		CASE 3
+			If Q3 = 1 OR Q3 = 0 Then
+				.SetValue Field1, 0
+				Q3 = 2
+			End If
+		CASE 4
+			If Q4 = 1 OR Q4 = 0 Then
+				.SetValue Field1, 0
+				Q4 = 2
+			End If
+		CASE 5
+			If Q5 = 1 OR Q5 = 0 Then
+				.SetValue Field1, 0
+				Q5 = 2
+			End If
+		CASE 6
+			If Q6 = 1 OR Q6 = 0 Then
+				.SetValue Field1, 0
+				Q6 = 2
+			End If
+		CASE 7
+			If Q7 = 1 OR Q7 = 0 Then
+				.SetValue Field1, 0
+				Q7 = 2
+			End If
+		END SELECT
+
+	End If
+	
+End With
+End Function
+
+
+
+
+'--------------------------------------------------------------------------------
+' Makes a currency field a currency or number format, greater than 0
+'--------------------------------------------------------------------------------
+Function FullNumber(pField, nValue, nDecimals, bCurFlag)
+	If Engine.GetValue(pField) = 0 Then 
+		Engine.SetValue pField, ""
+	Else
+		If bCurFlag = "Y" Then
+			Engine.SetValue pField, FormatCurrency(nValue, nDecimals)
+		Else
+			Engine.SetValue pField, FormatNumber(nValue, nDecimals)		
+		End If
+	End If
+End Function
+
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric
+'--------------------------------------------------------------------------------
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric percentage
+'--------------------------------------------------------------------------------
+Function Percentagecdbl(vIn)
+	Percentagecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Percentagecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Percentagecdbl = cdbl(vIn)/100
+	End If
+	on error goto 0
+End Function
+</td>
+<td>0</td>
+<td>7525</td>
+<td>9130</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>38592</td>
+<td>VEHICLES</td>
+<td>Additional Vehicle</td>
+<td>0</td>
+<td>2009-03-03 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>Engine.SetMandatoryColor 140,200,255
+
+Private const VehObject = "VEHICLE_C."
+Dim Q1, Q2, Q3, Q4
+Dim VehFCCheck
+
+Sub Start(parameterArray)
+
+Q1 = Safecdbl(Q1)
+Q2 = Safecdbl(Q2)
+Q3 = Safecdbl(Q3)
+Q4 = Safecdbl(Q4)
+
+With Engine
+
+	Call CheckQ(1, VehObject &amp; "Mods_Yes", VehObject &amp; "Mods_No")
+	Call CheckQ(2, VehObject &amp; "Is_Damaged_Yes", VehObject &amp; "Is_Damaged_No")
+	Call CheckQ(3, VehObject &amp; "Is_Roadworthy_Yes", VehObject &amp; "Is_Roadworthy_No")
+	Call CheckQ(4, VehObject &amp; "Hire_Car_Yes", VehObject &amp; "Hire_Car_No")
+
+	.SetVisibility VehObject &amp; "counter", False
+
+  
+    '------------------------------------------------------------------------------
+    ' VEHICLE-related logic 
+    '------------------------------------------------------------------------------
+
+	.SetVisibility VehObject &amp; "FC_Used", False
+	.SetVisibility VehObject &amp; "Car_Code", False
+	.SetVisibility VehObject &amp; "Veh_List_Code", False
+	.SetVisibility VehObject &amp; "Mods_Limit", False
+
+	.SetMandatory VehObject &amp; "Rego", True
+	.SetMandatory VehObject &amp; "Car_Year", True
+	.SetMandatory VehObject &amp; "Agreed_Value", True
+	.SetMandatory VehObject &amp; "Purchase_Year", True
+	.SetMandatory VehObject &amp; "How_Financed", True
+	.SetMandatory VehObject &amp; "Vehicle_Use", True
+	.SetMandatory VehObject &amp; "Cover", True
+
+	.SetValue VehObject &amp; "Rego", UCASE(.GetValue(VehObject &amp; "Rego"))
+	.SetValue VehObject &amp; "VIN", UCASE(.GetValue(VehObject &amp; "VIN"))
+
+
+	SELECT CASE .GetValue(VehObject &amp; "Car_Year")(1)
+	CASE "(None)", ""
+		.SetValue VehObject &amp; "Make", ""
+		.SetValue VehObject &amp; "Model", ""
+		.SetValue VehObject &amp; "Variant", ""
+		.SetValue VehObject &amp; "Series", ""
+		.SetValue VehObject &amp; "Body_Type", ""
+		.SetValue VehObject &amp; "Value_Min", ""
+		.SetValue VehObject &amp; "Value_Max", ""
+		.SetValue VehObject &amp; "Market_Value", ""
+		.SetReadOnly VehObject &amp; "Car_Year", False
+		.SetReadOnly VehObject &amp; "Make", True
+		.SetReadOnly VehObject &amp; "Model", True
+		.SetReadOnly VehObject &amp; "Variant", True
+		.SetReadOnly VehObject &amp; "Series", True
+		.SetReadOnly VehObject &amp; "Body_Type", True
+
+		.SetValue VehObject &amp; "Purchase_Year", 0
+		.SetReadOnly VehObject &amp; "Purchase_Year", True
+
+	CASE ELSE
+		If Len(.GetValue(VehObject &amp; "FC_Used")) &gt; 0 Then
+			.SetReadOnly VehObject &amp; "Car_Year", True
+			.SetReadOnly VehObject &amp; "Make", True
+			.SetReadOnly VehObject &amp; "Model", True
+			.SetReadOnly VehObject &amp; "Variant", True
+			.SetReadOnly VehObject &amp; "Series", True
+			.SetReadOnly VehObject &amp; "Body_Type", True
+		Else
+			.SetReadOnly VehObject &amp; "Car_Year", False
+			.SetReadOnly VehObject &amp; "Make", False
+			.SetReadOnly VehObject &amp; "Model", False
+			.SetReadOnly VehObject &amp; "Variant", False
+			.SetReadOnly VehObject &amp; "Series", False
+			.SetReadOnly VehObject &amp; "Body_Type", False
+		End If
+		.SetReadOnly VehObject &amp; "Purchase_Year", False
+	END SELECT
+
+	If Len(.GetValue(VehObject &amp; "FC_Used")) &gt; 0 Then
+		VehFCCheck = Safecdbl(.GetValue(VehObject &amp; "FC_Used"))
+	Else
+		If VehFCCheck = 0 Then
+			'Do nothing
+		Else
+			.SetValue VehObject &amp; "Car_Year", 0
+			VehFCCheck = 0
+		End If
+	End If
+
+	If Len(.GetValue(VehObject &amp; "Agreed_Value")) &gt; 0 then Call FullNumber(VehObject &amp; "Agreed_Value", .GetValue(VehObject &amp; "Agreed_Value"), 0, "Y")
+
+
+	.SetValue "Label.ModsLimit", "Modification Cover Amount (up to $" &amp; FormatNumber(.GetValue(VehObject &amp; "Mods_Limit"), 0) &amp; ")"
+
+	If .GetValue(VehObject &amp; "Mods_Yes") = 1 Then
+		.SetReadOnly VehObject &amp; "Mods_Value", False
+		.SetMandatory VehObject &amp; "Mods_Value", True
+		If Len(.GetValue(VehObject &amp; "Mods_Value")) &gt; 0 Then Call FullNumber(VehObject &amp; "Mods_Value", .GetValue(VehObject &amp;  "Mods_Value"), 0, "Y")
+	Else
+		.SetMandatory VehObject &amp; "Mods_Value", False
+		.SetReadOnly VehObject &amp; "Mods_Value", True
+		.SetValue VehObject &amp; "Mods_Value", ""
+	End If
+
+
+	SELECT CASE Left(.GetValue(VehObject &amp; "Vehicle_Use")(1), 4)
+	CASE "(Non", "Priv"
+		.SetValue VehObject &amp; "Work_Performed", 0
+		.SetMandatory VehObject &amp; "Work_Performed", False
+		.SetReadOnly VehObject &amp; "Work_Performed", True
+	CASE ELSE
+		.SetReadOnly VehObject &amp; "Work_Performed", False
+		.SetMandatory VehObject &amp; "Work_Performed", True
+	END SELECT
+
+
+	SELECT CASE .GetValue(VehObject &amp; "Cover")(1)
+	CASE "(None)"
+		.SetVisibility VehObject &amp; "Excess_int", False
+		.SetVisibility VehObject &amp; "Excess_cur", False
+		.SetMandatory VehObject &amp; "Excess_int", False
+		.SetMandatory VehObject &amp; "Excess_cur", False
+		.SetReadOnly VehObject &amp; "Hire_Car_Yes", True
+		.SetReadOnly VehObject &amp; "Hire_Car_No", True
+		.SetValue VehObject &amp; "Hire_Car_Yes", 0
+		.SetValue VehObject &amp; "Hire_Car_No", 0
+	CASE "Comprehensive"
+		.SetVisibility VehObject &amp; "Excess_int", True
+		.SetVisibility VehObject &amp; "Excess_cur", False
+		.SetMandatory VehObject &amp; "Excess_int", True
+		.SetMandatory VehObject &amp; "Excess_cur", False
+		.SetReadOnly VehObject &amp; "Hire_Car_Yes", False
+		.SetReadOnly VehObject &amp; "Hire_Car_No", False
+	CASE ELSE
+		.SetVisibility VehObject &amp; "Excess_int", False
+		.SetVisibility VehObject &amp; "Excess_cur", True
+		If Len(.GetValue(VehObject &amp; "Excess_cur")) &gt; 0 then Call FullNumber(VehObject &amp; "Excess_cur", .GetValue(VehObject &amp; "Excess_cur"), 0, "Y")
+		.SetMandatory VehObject &amp; "Excess_cur", True
+		.SetMandatory VehObject &amp; "Excess_int", False
+		.SetReadOnly VehObject &amp; "Hire_Car_Yes", True
+		.SetReadOnly VehObject &amp; "Hire_Car_No", True
+		.SetValue VehObject &amp; "Hire_Car_Yes", 0
+		.SetValue VehObject &amp; "Hire_Car_No", 0
+	END SELECT
+
+
+End With
+
+End Sub
+
+
+
+'------------------------------------------------------------------------------
+' Makes two boolean fields behave like radio buttons
+'------------------------------------------------------------------------------
+
+Function CheckQ(nQuestion, Field1, Field2)
+With Engine
+
+	If .GetValue(Field1) = 0 AND .GetValue(Field2) = 0 Then
+		SELECT CASE nQuestion
+		CASE 1: Q1 = 0
+		CASE 2: Q2 = 0
+		CASE 3: Q3 = 0
+		CASE 4: Q4 = 0
+		CASE 5: Q5 = 0
+		CASE 6: Q6 = 0
+		CASE 7: Q7 = 0
+		END SELECT
+	End If
+
+	If .GetValue(Field1) = 1 Then
+
+		SELECT CASE nQuestion
+		CASE 1
+			If Q1 = 2 OR Q1 = 0 Then
+				.SetValue Field2, 0
+				Q1 = 1
+			End If
+		CASE 2
+			If Q2 = 2 OR Q2 = 0 Then
+				.SetValue Field2, 0
+				Q2 = 1
+			End If
+		CASE 3
+			If Q3 = 2 OR Q3 = 0 Then
+				.SetValue Field2, 0
+				Q3 = 1
+			End If
+		CASE 4
+			If Q4 = 2 OR Q4 = 0 Then
+				.SetValue Field2, 0
+				Q4 = 1
+			End If
+		CASE 5
+			If Q5 = 2 OR Q5 = 0 Then
+				.SetValue Field2, 0
+				Q5 = 1
+			End If
+		CASE 6
+			If Q6 = 2 OR Q6 = 0 Then
+				.SetValue Field2, 0
+				Q6 = 1
+			End If
+		CASE 7
+			If Q7 = 2 OR Q7 = 0 Then
+				.SetValue Field2, 0
+				Q7 = 1
+			End If
+		END SELECT
+
+	End If
+
+	If .GetValue(Field2) = 1 Then
+
+		SELECT CASE nQuestion
+		CASE 1
+			If Q1 = 1 OR Q1 = 0 Then
+				.SetValue Field1, 0
+				Q1 = 2
+			End If
+		CASE 2
+			If Q2 = 1 OR Q2 = 0 Then
+				.SetValue Field1, 0
+				Q2 = 2
+			End If
+		CASE 3
+			If Q3 = 1 OR Q3 = 0 Then
+				.SetValue Field1, 0
+				Q3 = 2
+			End If
+		CASE 4
+			If Q4 = 1 OR Q4 = 0 Then
+				.SetValue Field1, 0
+				Q4 = 2
+			End If
+		CASE 5
+			If Q5 = 1 OR Q5 = 0 Then
+				.SetValue Field1, 0
+				Q5 = 2
+			End If
+		CASE 6
+			If Q6 = 1 OR Q6 = 0 Then
+				.SetValue Field1, 0
+				Q6 = 2
+			End If
+		CASE 7
+			If Q7 = 1 OR Q7 = 0 Then
+				.SetValue Field1, 0
+				Q7 = 2
+			End If
+		END SELECT
+
+	End If
+	
+End With
+End Function
+
+
+
+
+'--------------------------------------------------------------------------------
+' Makes a currency field a currency or number format, greater than 0
+'--------------------------------------------------------------------------------
+Function FullNumber(pField, nValue, nDecimals, bCurFlag)
+	If Engine.GetValue(pField) = 0 Then 
+		Engine.SetValue pField, ""
+	Else
+		If bCurFlag = "Y" Then
+			Engine.SetValue pField, FormatCurrency(nValue, nDecimals)
+		Else
+			Engine.SetValue pField, FormatNumber(nValue, nDecimals)		
+		End If
+	End If
+End Function
+
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric
+'--------------------------------------------------------------------------------
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric percentage
+'--------------------------------------------------------------------------------
+Function Percentagecdbl(vIn)
+	Percentagecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Percentagecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Percentagecdbl = cdbl(vIn)/100
+	End If
+	on error goto 0
+End Function
+</td>
+<td>0</td>
+<td>6285</td>
+<td>9120</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>38593</td>
+<td>MDCLAIMS</td>
+<td>Main Driver Claims</td>
+<td>0</td>
+<td>2008-11-14 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>Sub Start (ParameterArray)
+With Engine
+	.SetVisibility "Tab.2", False
+End With
+End Sub</td>
+<td>0</td>
+<td>2785</td>
+<td>7240</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>38594</td>
+<td>MDNL</td>
+<td>Main Driver Non-Licence Details</td>
+<td>0</td>
+<td>2009-01-21 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2335</td>
+<td>8770</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>38595</td>
+<td>DRIVERS</td>
+<td>Additional Driver</td>
+<td>0</td>
+<td>2009-01-21 00:00:00</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>Engine.SetMandatoryColor 140,200,255
+
+Private const DriObject = "DRIVER_C."
+Dim Q1 
+
+Sub Start(parameterArray)
+
+Q1 = Safecdbl(Q1)
+
+With Engine
+
+	Call CheckQ(1, DriObject &amp; "Is_Covered_Yes", DriObject &amp; "Is_Covered_No")
+
+	.SetVisibility DriObject &amp; "counter", False
+
+	.SetMandatory DriObject &amp; "First_Name", True
+	.SetMandatory DriObject &amp; "Last_Name", True
+	.SetMandatory DriObject &amp; "DOB", True
+	.SetMandatory DriObject &amp; "Year_Licenced", True
+'	.SetMandatory DriObject &amp; "Licence_Number", True
+'	.SetMandatory DriObject &amp; "Licence_State", True
+	.SetMandatory DriObject &amp; "Licence_Type", True
+	.SetMandatory DriObject &amp; "Gender", True
+	.SetMandatory DriObject &amp; "Marital_Status", True
+
+End With
+
+End Sub
+
+
+
+
+'--------------------------------------------------------------------------------
+' Makes two boolean fields behave like radio buttons 
+'--------------------------------------------------------------------------------
+Function CheckQ(nQuestion, Field1, Field2)
+With Engine
+
+	If .GetValue(Field1) = 0 AND .GetValue(Field2) = 0 Then
+		SELECT CASE nQuestion
+		CASE 1: Q1 = 0
+		END SELECT
+	End If
+
+	If .GetValue(Field1) = 1 Then
+
+		SELECT CASE nQuestion
+		CASE 1
+			If Q1 = 2 OR Q1 = 0 Then
+				.SetValue Field2, 0
+				Q1 = 1
+			End If
+		END SELECT
+
+	End If
+
+	If .GetValue(Field2) = 1 Then
+
+		SELECT CASE nQuestion
+		CASE 1
+			If Q1 = 1 OR Q1 = 0 Then
+				.SetValue Field1, 0
+				Q1 = 2
+			End If
+		END SELECT
+
+	End If
+	
+End With
+End Function
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric
+'--------------------------------------------------------------------------------
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+</td>
+<td>0</td>
+<td>6370</td>
+<td>9120</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>38596</td>
+<td>ADCLAIMS</td>
+<td>Additional Driver Claims</td>
+<td>0</td>
+<td>2008-10-28 00:00:00</td>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2980</td>
+<td>6895</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>38597</td>
+<td>ADNL</td>
+<td>Additional Drivers Non-Licence</td>
+<td>0</td>
+<td>2008-10-28 00:00:00</td>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2140</td>
+<td>8275</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>38671</td>
+<td>MOTORCL</td>
+<td>Motor Claims Screen</td>
+<td>0</td>
+<td>2009-02-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td>Engine.SetMandatoryColor 140,200,255
+
+Private const pVeh = "VEHICLE."
+Private const cVeh = "VEHICLE_C."
+
+Private const pDri  = "PEOPLE."
+Private const cDri = "PEOPLE_C."
+
+Private const pGen = "GENERAL."
+
+
+Sub Start(parameterArray)
+
+With Engine
+
+	.SetMandatory pGen &amp; "Claim_Type", True
+	.SetMandatory pGen &amp; "Claim_Source", True
+	.SetMandatory pGen &amp; "Loss_Cause", True
+	.SetMandatory pGen &amp; "Loss_Details", True
+	.SetMandatory pGen &amp; "Incident_Location", True
+
+	.SetVisibility pVeh &amp; "Selected_Vehicle_Count", False
+	.SetVisibility pDri &amp; "Selected_People_Count", False
+	
+	.SetValue pVeh &amp; "Selected_Vehicle_Count", .GetColumnTotal("VEHICLE_C", "Selected Count")
+	.SetValue pDri &amp; "Selected_People_Count", .GetColumnTotal("PEOPLE_C", "Selected Count")
+
+	If .GetValue(pDri &amp; "No_People_Involved") = 1 Then
+		.SetReadOnly "PEOPLE_C", True
+	Else
+		.SetReadOnly "PEOPLE_C", False
+	End If
+
+	If Len(.GetValue(pGen &amp; "PGR_Claim_Code")) &gt; 0 Then
+		.SetReadOnly pGen &amp; "Loss_Cause", True
+		.SetReadOnly pGen &amp; "Loss_Details", True
+	Else
+		.SetReadOnly pGen &amp; "Loss_Cause", False
+		.SetReadOnly pGen &amp; "Loss_Details", False
+	End If
+
+
+
+End With
+
+End Sub
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric
+'--------------------------------------------------------------------------------
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+
+</td>
+<td>0</td>
+<td>9145</td>
+<td>11035</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td>38672</td>
+<td>MOTORCLV</td>
+<td>Motor Claims Vehicles</td>
+<td>0</td>
+<td>2008-11-12 00:00:00</td>
+<td>8</td>
+<td>1</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td>Engine.SetMandatoryColor 140,200,255
+
+Private const pVeh = "VEHICLE."
+Private const cVeh = "VEHICLE_C."
+
+Sub Start(parameterArray)
+
+With Engine
+
+
+	.SetVisibility cVeh &amp; "Origin", False
+	.SetVisibility cVeh &amp; "Selected_Count", False
+
+	.SetValue cVeh &amp; "Rego", UCASE(.GetValue(cVeh &amp; "Rego"))
+	
+	If .GetValue(cVeh &amp; "Selected") = 1 Then
+		.SetValue cVeh &amp; "Selected_Count", 1
+	Else
+		.SetValue cVeh &amp; "Selected_Count", ""
+	End If
+
+	
+
+End With
+
+End Sub
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric
+'--------------------------------------------------------------------------------
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+
+</td>
+<td>0</td>
+<td>3970</td>
+<td>6745</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>11</td>
+<td>38674</td>
+<td>RESPAY</td>
+<td>Reserves and Payments</td>
+<td>0</td>
+<td>2008-10-27 00:00:00</td>
+<td>8</td>
+<td>1</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>5</td>
+<td>7230</td>
+<td>13410</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>12</td>
+<td>38821</td>
+<td>MOTORCLP</td>
+<td>Person involed in this Claim</td>
+<td>0</td>
+<td>2008-11-12 00:00:00</td>
+<td>8</td>
+<td>1</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td>Engine.SetMandatoryColor 140,200,255
+
+Private const pDri  = "PEOPLE."
+Private const cDri = "PEOPLE_C."
+
+
+Sub Start(parameterArray)
+
+With Engine
+
+
+	.SetVisibility cDri &amp; "Origin", False
+	.SetVisibility cDri &amp; "Selected_Count", False
+	
+	If .GetValue(cDri &amp; "Selected") = 1 Then
+		.SetValue cDri &amp; "Selected_Count", 1
+	Else
+		.SetValue cDri &amp; "Selected_Count", ""
+	End If
+
+	
+
+End With
+
+End Sub
+
+
+
+'--------------------------------------------------------------------------------
+' Takes a value (eg. 10, 10%) and return a valid numeric
+'--------------------------------------------------------------------------------
+Function Safecdbl(vIn)
+	safecdbl = 0
+	on error resume next
+	If right(vIn,1) = "%" then
+		Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+	Else		
+		Safecdbl = cdbl(vIn)
+	End If
+	on error goto 0
+End Function
+
+</td>
+<td>0</td>
+<td>3790</td>
+<td>4735</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>13</td>
+<td>38134</td>
+<td>S4IBoat</td>
+<td>S4I Boat</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>8080</td>
+<td>10875</td>
+<td>81</td>
+</tr>
+<tr>
+<td>14</td>
+<td>38135</td>
+<td>S4IBoatLos</td>
+<td>S4I Boat Claims</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>3745</td>
+<td>9150</td>
+<td>81</td>
+</tr>
+<tr>
+<td>15</td>
+<td>38136</td>
+<td>S4IBoatInt</td>
+<td>S4I Boat Interest</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>3025</td>
+<td>9015</td>
+<td>81</td>
+</tr>
+<tr>
+<td>16</td>
+<td>38137</td>
+<td>S4IFire</td>
+<td>S4I Fire Extinguishers</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2290</td>
+<td>9045</td>
+<td>81</td>
+</tr>
+<tr>
+<td>17</td>
+<td>38138</td>
+<td>S4IBoatPE</td>
+<td>S4I Boat Personal Effects</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1780</td>
+<td>9060</td>
+<td>81</td>
+</tr>
+<tr>
+<td>18</td>
+<td>38139</td>
+<td>S4ITender</td>
+<td>S4I Tender</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>2290</td>
+<td>9000</td>
+<td>81</td>
+</tr>
+<tr>
+<td>19</td>
+<td>38140</td>
+<td>S4IOutbd</td>
+<td>S4I Outboard Motor</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1840</td>
+<td>9090</td>
+<td>81</td>
+</tr>
+<tr>
+<td>20</td>
+<td>38141</td>
+<td>S4ILiferaf</td>
+<td>S4I Liferaft</td>
+<td>0</td>
+<td>2006-02-27 00:00:00</td>
+<td>13</td>
+<td>1</td>
+<td>4</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1900</td>
+<td>9000</td>
+<td>81</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

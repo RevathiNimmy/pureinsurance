@@ -1,0 +1,115 @@
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON
+GO
+Execute DDLDropProcedure 'spu_ACT_Update_Credit_Control_Step'
+GO
+
+
+CREATE PROCEDURE spu_ACT_Update_Credit_Control_Step  
+	@credit_control_step_id INT,  
+	@credit_control_rule_id INT,  
+	@step_number SMALLINT,  
+	@number_of_days SMALLINT,  
+	@broker_days SMALLINT,  
+	@client_document_template_id INT,  
+	@oip_document_template_id INT,  
+	@broker_report_id INT,  
+	@policy_tolerance_amount NUMERIC(19,4),  
+	@account_tolerance_amount NUMERIC(19,4),  
+	@pmwrk_task_id INT,  
+	@pmuser_group_id INT,  
+	@check_auto_cancel TINYINT,  
+	@auto_cancel_policy TINYINT,  
+	@next_step SMALLINT,  
+	@previous_step SMALLINT,  
+	@off_hold_step SMALLINT,  
+	@recurring_days TINYINT,  
+	@recurring_letters TINYINT,  
+	@jump_to_next_step TINYINT,  
+	@client_document_template_id2 INT,  
+	@oip_document_template_id2 INT,  
+	@pmwrk_task_id2 INT,  
+	@PMUser_Group_ID2 INT,  
+	@action_type INT,  
+	@action_type2 INT,  
+	@tolerance_percentage_1 NUMERIC(19,4),  
+	@tolerance_percentage_2 NUMERIC(19,4),  
+	@step_description varchar(255),  
+	@broker_letter_id int,  
+	@pmwrk_task_group_id int,  
+	@stop_account tinyint,  
+	@auto_lapse_renewal tinyint,  
+	@instalment_failure_count smallint,  
+	@auto_cancel_document_1_trigger_amount money,  
+	@auto_cancel_document_2_trigger_amount money,  
+	@auto_cancel_document_1_template_id int,  
+	@auto_cancel_document_2_template_id int, 
+	@write_off_tolerance money, 
+	@write_off_reason_id int,
+	@nJump_to_next_step_broker TINYINT,
+	@nSingle_instalment_jump_to_next_step_broker  TINYINT,
+	@nSingle_instalment_account_number_of_days    SMALLINT,
+	@dSingle_instalment_account_tollerance_amount NUMERIC(19, 4),
+	@nSingle_instalment_broker_letter_id          INT,
+	@user_id INT,
+	@unique_id VARCHAR(50),
+	@screen_hierarchy VARCHAR(500)
+  
+AS  
+  
+BEGIN  
+
+UPDATE Credit_Control_Step SET  
+	credit_control_rule_id = @credit_control_rule_id,  
+	step_number = @step_number,  
+	number_of_days = @number_of_days,  
+	broker_days = @broker_days,  
+	client_document_template_id = @client_document_template_id,  
+	oip_document_template_id = @oip_document_template_id,  
+	broker_report_id = @broker_report_id,  
+	policy_tolerance_amount = @policy_tolerance_amount,  
+	account_tolerance_amount = @account_tolerance_amount,  
+	pmwrk_task_id = @pmwrk_task_id,  
+	pmuser_group_id = @pmuser_group_id,  
+	check_auto_cancel = @check_auto_cancel,  
+	auto_cancel_policy = @auto_cancel_policy,  
+	next_step = @next_step,  
+	previous_step = @previous_step,  
+	off_hold_step = @off_hold_step,  
+	recurring_days = @recurring_days,  
+	recurring_letters = @recurring_letters,  
+	jump_to_next_step = @jump_to_next_step,  
+	second_letter_id=@client_document_template_id2,  
+	second_oip_letter_id=@oip_document_template_id2,  
+	second_pmwrk_task_id=@pmwrk_task_id2,  
+	second_pmuser_group_id=@PMUser_Group_ID2,  
+	action_type_id=@action_type,  
+	second_action_type_id=@action_type2,  
+	percentage_step_one=@tolerance_percentage_1,  
+	percentage_step_two=@tolerance_percentage_2,  
+	step_description = @step_description,  
+	broker_letter_id = @broker_letter_id,  
+	pmwrk_task_group_id = @pmwrk_task_group_id,  
+	stop_account = @stop_account,  
+	auto_lapse_renewal=@auto_lapse_renewal,  
+	instalment_failure_count = @instalment_failure_count,  
+	auto_cancel_document_1_trigger_amount =  @auto_cancel_document_1_trigger_amount,  
+	auto_cancel_document_2_trigger_amount =  @auto_cancel_document_2_trigger_amount,  
+	auto_cancel_document_1_template_id =  @auto_cancel_document_1_template_id,  
+	auto_cancel_document_2_template_id =  @auto_cancel_document_2_template_id,  
+	write_off_tolerance = @write_off_tolerance, 
+	write_off_reason_id  =@write_off_reason_id,
+	jump_to_next_step_broker=@nJump_to_next_step_broker,
+	single_instalment_jump_to_next_step_broker =@nSingle_instalment_jump_to_next_step_broker,
+	single_instalment_account_number_of_days =@nSingle_instalment_account_number_of_days,
+	single_instalment_account_tollerance_amount =@dSingle_instalment_account_tollerance_amount,
+	single_instalment_broker_letter_id =@nSingle_instalment_broker_letter_id,
+	UserId = @user_id,
+	UniqueId = @unique_id,
+	ScreenHierarchy = @screen_hierarchy
+  
+  WHERE credit_control_step_id = @credit_control_step_id  
+  
+END  
+GO

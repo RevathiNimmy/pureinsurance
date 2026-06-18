@@ -1,0 +1,38 @@
+//---------------------------------------------------------------------------
+// The Installed event is sent after the feature DTU
+// is installed.
+//---------------------------------------------------------------------------
+export prototype STS_Installed();
+function STS_Installed()
+begin
+		// setup user permission
+		SetUpPermissions();
+		
+		UpdatePureSTSWebConfig();
+		
+		CopySTSConfigFile();
+		
+		LoadAppPoolUserProfile();
+		
+		ModifySTSApplicationSetting();
+				
+end;
+
+//---------------------------------------------------------------------------
+// The UnInstalled event is sent after the feature DTU
+// is uninstalled.
+//---------------------------------------------------------------------------
+export prototype STS_UnInstalled();
+function STS_UnInstalled()
+begin
+	/*
+	ClearReadOnly(TARGETDIR);	
+
+	if(DeleteDir(TARGETDIR, ALLCONTENTS) < 0) then
+    	WriteToLogFile(UNINSTALL_ERRORLOG, "An error occured while removing installation directory:" + TARGETDIR + ". Please remove it manually");	
+    else
+    	WriteToLogFile(UNINSTALL_LOG, "Successfully removed installation directory: " + TARGETDIR);	
+    endif;
+    */
+
+end;

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by Richard Taylor (Sirius Financial Systems Plc) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.siriusfs.com/SFI/SAM/BaseTypes/20050929" targetNamespace="http://www.siriusfs.com/SFI/SAM/BaseTypes/20050929" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="STSListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GisList"/>
+			<xs:enumeration value="Missing"/>
+			<xs:enumeration value="PMLookup"/>
+			<xs:enumeration value="UserDefinedTable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="3131 001" id="HomeAddress"/>
+			<xs:enumeration value="3131 002" id="BusinessAddress"/>
+			<xs:enumeration value="3131 0X9" id="Other"/>
+			<xs:enumeration value="3131 0XR" id="SubAgent"/>
+			<xs:enumeration value="3131 XBA" id="BranchAddress"/>
+			<xs:enumeration value="3131 XBI" id="BillingAddress"/>
+			<xs:enumeration value="3131 XCO" id="CorrespondenceAddress"/>
+			<xs:enumeration value="3131 XPR" id="PreviousAddress"/>
+			<xs:enumeration value="3131 XRE" id="RegisteredAddress"/>
+			<xs:enumeration value="3131 XSA" id="SiteAddress"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CurrencyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GBP"/>
+			<xs:enumeration value="USD"/>
+			<xs:enumeration value="EUR"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PartyTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PC" id="PersonalClient"/>
+			<xs:enumeration value="GC" id="GroupClient"/>
+			<xs:enumeration value="AG" id="Agent"/>
+			<xs:enumeration value="CC" id="CorporateClient"/>
+			<xs:enumeration value="CO" id="Consultant"/>
+			<xs:enumeration value="AH" id="AccountHandler"/>
+			<xs:enumeration value="IN" id="Insurer"/>
+			<xs:enumeration value="BR" id="Broker"/>
+			<xs:enumeration value="FE" id="FeeAccount"/>
+			<xs:enumeration value="EX" id="ExtrasAccount"/>
+			<xs:enumeration value="DI" id="DiscountAccount"/>
+			<xs:enumeration value="CM" id="CommissionAccount"/>
+			<xs:enumeration value="NC" id="NetClient"/>
+			<xs:enumeration value="OTDRIVER" id="Driver"/>
+			<xs:enumeration value="OTWITNESS" id="Witness"/>
+			<xs:enumeration value="OTREPAIRER" id="Repairer"/>
+			<xs:enumeration value="OTTHIRD" id="ThirdParty"/>
+			<xs:enumeration value="FP" id="FinanceProvider"/>
+			<xs:enumeration value="AGG" id="AgentGroup"/>
+			<xs:enumeration value="OTSUPPLIER" id="Supplier"/>
+			<xs:enumeration value="OTLOSS" id="LossAdjuster"/>
+			<xs:enumeration value="OTSOL" id="Solicitor"/>
+			<xs:enumeration value="OTDOCTOR" id="Doctor"/>
+			<xs:enumeration value="OTSURVEYOR" id="BuildingSurveyor"/>
+			<xs:enumeration value="HC" id="ExecutiveHandler"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MaritalStatusCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="D" id="Divorced"/>
+			<xs:enumeration value="C" id="Married-CommonLaw"/>
+			<xs:enumeration value="M" id="Married"/>
+			<xs:enumeration value="N" id="NotApplicable"/>
+			<xs:enumeration value="O" id="NotAvailable"/>
+			<xs:enumeration value="P" id="Partnered"/>
+			<xs:enumeration value="A" id="Separated"/>
+			<xs:enumeration value="S" id="Single"/>
+			<xs:enumeration value="W" id="Widowed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GenderCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="F" id="Female"/>
+			<xs:enumeration value="M" id="Male"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EmploymentStatusCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="C" id="Company"/>
+			<xs:enumeration value="E" id="Employed"/>
+			<xs:enumeration value="H" id="HouseholdDuties"/>
+			<xs:enumeration value="F" id="InFullOrPartTimeEducation"/>
+			<xs:enumeration value="I" id="IndependentMeans"/>
+			<xs:enumeration value="N" id="NotEmployedDueToDisability"/>
+			<xs:enumeration value="R" id="Retired"/>
+			<xs:enumeration value="S" id="SelfEmployed"/>
+			<xs:enumeration value="U" id="Unemployed"/>
+			<xs:enumeration value="V" id="VoluntaryWork"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountryCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UK" id="UnitedKingdom"/>
+			<xs:enumeration value="USA" id="UnitedStatesOfAmerica"/>
+			<xs:enumeration value="AUS" id="Australia"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContactTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EMAIL" id="EmailAddress"/>
+			<xs:enumeration value="HOMEPHONE" id="HomeTelephoneNumber"/>
+			<xs:enumeration value="MOBILE" id="MobileTelephoneNumber"/>
+			<xs:enumeration value="FAX" id="FaxNumber"/>
+			<xs:enumeration value="WEB" id="WebAddress"/>
+			<xs:enumeration value="MAIN" id="MainContact"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AgentTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AGENT" id="AgentTypeAgent"/>
+			<xs:enumeration value="SUBAGENT" id="AgentTypeSubAgent"/>
+			<xs:enumeration value="INTRODUCER" id="AgentTypeIntroducer"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PaymentMethodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="None" id="PaymentMethodTypeNone"/>
+			<xs:enumeration value="BankersDraft" id="PaymentMethodTypeBankersDraft"/>
+			<xs:enumeration value="Cash" id="PaymentMethodTypeCash"/>
+			<xs:enumeration value="Cheque" id="PaymentMethodTypeCheque"/>
+			<xs:enumeration value="CreditCard" id="PaymentMethodTypeCreditCard"/>
+			<xs:enumeration value="DebitCard" id="PaymentMethodTypeDebitCard"/>
+			<xs:enumeration value="AgentCollection" id="PaymentMethodTypeAgentCollection"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

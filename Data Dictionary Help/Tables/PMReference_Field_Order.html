@@ -1,0 +1,132 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMReference_Field_Order</h1>
+<p><span class="autodesc">PMReference Field Order</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmreference_type_id">pmreference_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMReference_Type.html#pmreference_type_id">PMReference_Type.pmreference_type_id</a> <span class="autodesc">pmreference type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmreference_field_order_id">pmreference_field_order_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmreference field order</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmreference_field_id">pmreference_field_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMReference_Field.html#pmreference_field_id">PMReference_Field.pmreference_field_id</a> <span class="autodesc">pmreference field</span></td>
+</tr>
+<tr>
+<td><a class="name" name="start_position">start_position</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">start position</span></td>
+</tr>
+<tr>
+<td><a class="name" name="number_of_characters">number_of_characters</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">number of characters</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_counter">is_counter</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is counter</span></td>
+</tr>
+<tr>
+<td><a class="name" name="delimit_character">delimit_character</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">delimit character</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pad_charater">pad_charater</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pad charater</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmreference_type_id, pmreference_field_order_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmreference_field_id</td>
+<td><a href="PMReference_Field.html">PMReference_Field</a></td>
+<td>pmreference_field_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmreference_type_id</td>
+<td><a href="PMReference_Type.html">PMReference_Type</a></td>
+<td>pmreference_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmreference_field_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmreference_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

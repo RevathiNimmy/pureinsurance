@@ -1,0 +1,742 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMWrk_Task</h1>
+<p>Work manager definition</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_system_task">is_system_task</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is system task</span></td>
+</tr>
+<tr>
+<td><a class="name" name="type_of_task">type_of_task</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">type of task</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_process_id">pmnav_process_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">pmnav process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="component_object_name">component_object_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">component object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="component_class_name">component_class_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">component class name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="auto_delete_after_num_days">auto_delete_after_num_days</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">auto delete after num days</span></td>
+</tr>
+<tr>
+<td><a class="name" name="display_icon">display_icon</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">display icon</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_view_only_task">is_view_only_task</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is view only task</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_object_name">linked_object_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linked object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_class_name">linked_class_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linked class name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_caption_id">linked_caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="is_available_task">is_available_task</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is available task</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmwrk_task_category_id">pmwrk_task_category_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMWrk_Task_Category.html#pmwrk_task_category_id">PMWrk_Task_Category.pmwrk_task_category_id</a> <span class="autodesc">pmwrk task category</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnavxm_process_id">pmnavxm_process_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmnavxm process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmwrk_task_id">pmwrk_task_id</a></td>
+<td>integer identity</td>
+<td>not null</td>
+<td>PK</td>
+<td>Unique ID - automatically generated by database</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>linked_caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmwrk_task_category_id</td>
+<td><a href="PMWrk_Task_Category.html">PMWrk_Task_Category</a></td>
+<td>pmwrk_task_category_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmwrk_task_category_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pmwrk_task_id</td>
+<td><a href="Credit_Control_Step.html">Credit_Control_Step</a></td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmwrk_task_id</td>
+<td><a href="PMWrk_Task_Group_Task.html">PMWrk_Task_Group_Task</a></td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmwrk_task_id</td>
+<td><a href="PMWrk_Task_Instance.html">PMWrk_Task_Instance</a></td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>pmwrk_task_id</td>
+<td><a href="PMWrk_Task_Instance_Temp.html">PMWrk_Task_Instance_Temp</a></td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmwrk_task_id</td>
+<td><a href="PMWrk_User_Quick_Start.html">PMWrk_User_Quick_Start</a></td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>pmwrk_task_id</td>
+<td><a href="Renewal_Action.html">Renewal_Action</a></td>
+<td>pmwrk_task_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>is_system_task</td>
+<td>type_of_task</td>
+<td>pmnav_process_id</td>
+<td>component_object_name</td>
+<td>component_class_name</td>
+<td>auto_delete_after_num_days</td>
+<td>display_icon</td>
+<td>is_view_only_task</td>
+<td>linked_object_name</td>
+<td>linked_class_name</td>
+<td>linked_caption_id</td>
+<td>is_available_task</td>
+<td>pmwrk_task_category_id</td>
+<td>pmnavxm_process_id</td>
+<td>pmwrk_task_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>211</td>
+<td>CHEQUEPROD</td>
+<td>Cheque Production</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTChequeProduction</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>39</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+</tr>
+<tr>
+<td>212</td>
+<td>RELATION</td>
+<td>Maintain Party Relationships</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iPMBMaintainRelation</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>10</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+</tr>
+<tr>
+<td>214</td>
+<td>FINDTXN</td>
+<td>Search Transaction Details</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTFindTransaction</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>18</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>215</td>
+<td>ACTEXPLR</td>
+<td>Account Explorer</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTExplorer</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>27</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>5</td>
+</tr>
+<tr>
+<td>216</td>
+<td>FINDACT</td>
+<td>Search Account Details</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTFindAccount</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>9</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+</tr>
+<tr>
+<td>217</td>
+<td>FINDBUD</td>
+<td>Search Budget Details</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTFindBudget</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>21</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>7</td>
+</tr>
+<tr>
+<td>218</td>
+<td>FINDBAL</td>
+<td>Look Up Account Balance</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTFindTransaction</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>9</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>8</td>
+</tr>
+<tr>
+<td>219</td>
+<td>FINDINV</td>
+<td>Search Purchase Invoice Details</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTFindInvoice</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>37</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+</tr>
+<tr>
+<td>221</td>
+<td>ACTIPAY</td>
+<td>Complete Payment Processing</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>11</td>
+</tr>
+<tr>
+<td>222</td>
+<td>ACTCCRECOM</td>
+<td>Complete Receipt Processing</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+</tr>
+<tr>
+<td>223</td>
+<td>ACTRCCOM</td>
+<td>Complete Instalments Receipt from Insurer</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+</tr>
+<tr>
+<td>224</td>
+<td>FINDACLNT</td>
+<td>Manage Client Details</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iPMBFindPartyWrapper</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>15</td>
+</tr>
+<tr>
+<td>225</td>
+<td>POSTTRANS</td>
+<td>Post Transactions</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>16</td>
+</tr>
+<tr>
+<td>226</td>
+<td>REPORTS</td>
+<td>Report Processing</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iSIRReportPrint</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>17</td>
+</tr>
+<tr>
+<td>227</td>
+<td>MEMO</td>
+<td>Memo Task</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>40</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>18</td>
+</tr>
+<tr>
+<td>228</td>
+<td>PERIODEND</td>
+<td>Run Period End</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>iACTPeriodEnd</td>
+<td>NavigatorV3</td>
+<td>0</td>
+<td>46</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>19</td>
+</tr>
+<tr>
+<td>229</td>
+<td>REMINDER</td>
+<td>Reminder</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>48</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>20</td>
+</tr>
+<tr>
+<td>103</td>
+<td>ACTRCTV2</td>
+<td>Cash / Cheque Receipt</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>2</td>
+<td>6</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>24</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>21</td>
+</tr>
+<tr>
+<td>230</td>
+<td>ACTPAYV2</td>
+<td>Cash / Cheque Payment</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>2</td>
+<td>5</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>38</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

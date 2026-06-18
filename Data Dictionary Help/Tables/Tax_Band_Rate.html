@@ -1,0 +1,1240 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Tax_Band_Rate</h1>
+<p><span class="autodesc">tax band rate</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="tax_band_rate_id">tax_band_rate_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">tax band rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="is_value">is_value</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="rate">rate</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_band_id">tax_band_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Tax_Band.html#tax_band_id">Tax_Band.tax_band_id</a> <span class="autodesc">tax band</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Calc_Basis">Calc_Basis</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Calc Basis</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Basis_Value">Basis_Value</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Basis Value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="NB">NB</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">NB</span></td>
+</tr>
+<tr>
+<td><a class="name" name="AMTA">AMTA</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">AMTA</span></td>
+</tr>
+<tr>
+<td><a class="name" name="RMTA">RMTA</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">RMTA</span></td>
+</tr>
+<tr>
+<td><a class="name" name="CANC">CANC</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">CANC</span></td>
+</tr>
+<tr>
+<td><a class="name" name="REN">REN</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">REN</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Sum_Insured_Rounded">Sum_Insured_Rounded</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Sum Insured Rounded</span></td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_tax_credit">allow_tax_credit</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow tax credit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="country_id">country_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Country.html#country_id">Country.country_id</a> <span class="autodesc">country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="state_id">state_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="State.html#State_id">State.State_id</a> <span class="autodesc">state</span></td>
+</tr>
+<tr>
+<td><a class="name" name="class_of_business_id">class_of_business_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Class_Of_Business.html#class_of_business_id">Class_Of_Business.class_of_business_id</a> <span class="autodesc">class of business</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTRI">TTRI</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTRI</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTRIC">TTRIC</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTRIC</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTAC">TTAC</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTAC</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTF">TTF</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTF</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTCP">TTCP</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTCP</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTCS">TTCS</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTCS</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTCR">TTCR</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTCR</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTIC">TTIC</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTIC</span></td>
+</tr>
+<tr>
+<td><a class="name" name="MTA_Threshold_date">MTA_Threshold_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">MTA Threshold date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Is_passed_to_insurer">Is_passed_to_insurer</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Is passed to insurer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTI">TTI</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTI</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TTE">TTE</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTE</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_group_id">risk_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">risk group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_code_id">risk_code_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">risk code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="COB_rating_section_id">COB_rating_section_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">COB rating section</span></td>
+</tr>
+<tr>
+<td><a class="name" name="COB_rating_section_id">is_suspended</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is value&nbsp; 
+    (Default 0)</span></td>
+</tr>
+<tr>
+<td>suspended_account_code_suffix</td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Suspended account code suffix</span></td>
+</tr>
+<tr>
+<td>TTRIPR</td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TTRIPR (Default 0)</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>tax_band_rate_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>class_of_business_id</td>
+<td><a href="Class_Of_Business.html">Class_Of_Business</a></td>
+<td>class_of_business_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Country.html">Country</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>state_id</td>
+<td><a href="State.html">State</a></td>
+<td>State_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>tax_band_id</td>
+<td><a href="Tax_Band.html">Tax_Band</a></td>
+<td>tax_band_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>tax_band_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>tax_band_rate_id</td>
+<td>code</td>
+<td>caption_id</td>
+<td>description</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+<td>is_value</td>
+<td>rate</td>
+<td>tax_band_id</td>
+<td>Calc_Basis</td>
+<td>Basis_Value</td>
+<td>NB</td>
+<td>AMTA</td>
+<td>RMTA</td>
+<td>CANC</td>
+<td>REN</td>
+<td>Sum_Insured_Rounded</td>
+<td>currency_id</td>
+<td>allow_tax_credit</td>
+<td>country_id</td>
+<td>state_id</td>
+<td>class_of_business_id</td>
+<td>TTRI</td>
+<td>TTRIC</td>
+<td>TTAC</td>
+<td>TTF</td>
+<td>TTCP</td>
+<td>TTCS</td>
+<td>TTCR</td>
+<td>TTIC</td>
+<td>MTA_Threshold_date</td>
+<td>Is_passed_to_insurer</td>
+<td>TTI</td>
+<td>TTE</td>
+<td>risk_group_id</td>
+<td>risk_code_id</td>
+<td>COB_rating_section_id</td>
+<td>is_suspended</td>
+<td>suspended_account_code_suffix</td>
+<td>TTRIPR</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>95</td>
+<td>FSLNS3</td>
+<td>17730</td>
+<td>NSW FSL HOUSEHOLDER - COUNTRY</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>14</td>
+<td>22</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>102</td>
+<td>FSLVI3</td>
+<td>17737</td>
+<td>VIC FSL HOUSEHOLDER - COUNTRY</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>17</td>
+<td>29</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>103</td>
+<td>FSLVI4</td>
+<td>17738</td>
+<td>VIC FSL HOUSEHOLDER - METRO</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>12</td>
+<td>30</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>109</td>
+<td>RISKPOLFEE</td>
+<td>17883</td>
+<td>GST on Risk Fee</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>44</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>111</td>
+<td>SDYNAP</td>
+<td>17749</td>
+<td>NO STAMP DUTY APPLIES</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>43</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>122</td>
+<td>POLFEEGST</td>
+<td>17700</td>
+<td>GST on Policy Fee</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>18</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>138</td>
+<td>FSLNS5</td>
+<td>17732</td>
+<td>NSW FSL MOTOR - COUNTRY</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>142</td>
+<td>FSLNS6</td>
+<td>17733</td>
+<td>NSW FSL MOTOR - METRO</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>25</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>150</td>
+<td>SDYQL2</td>
+<td>17744</td>
+<td>QLD STAMP DUTY CLASS 2</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>38</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>154</td>
+<td>SDYWA1</td>
+<td>17748</td>
+<td>WA STAMP DUTY</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>42</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>157</td>
+<td>GSTAGCOM</td>
+<td>17751</td>
+<td>GST on Agent Commission</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>19</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>162</td>
+<td>GSTPAYEEIT</td>
+<td>18217</td>
+<td>GST Payee ITC</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>45</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>168</td>
+<td>GSTNAP</td>
+<td>17715</td>
+<td>GST NOT APPLICABLE</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>32</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>169</td>
+<td>GSTWHT</td>
+<td>19068</td>
+<td>GST Witholding Tax</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>48.5</td>
+<td>50</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>171</td>
+<td>GSTRIWHT</td>
+<td>37988</td>
+<td>GST WHT on OS RI</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>51</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>172</td>
+<td>GSTRICOMM</td>
+<td>18845</td>
+<td>GST on Reinsurance</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+<td>49</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>175</td>
+<td>FSLNS4</td>
+<td>17731</td>
+<td>NSW FSL HOUSEHOLDER - METRO</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>18</td>
+<td>23</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>186</td>
+<td>FSLTA1</td>
+<td>17734</td>
+<td>TAS FSL - FIRE</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>26</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>188</td>
+<td>FSLVI1</td>
+<td>17735</td>
+<td>VIC FSL FIRE - COUNTRY</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>40</td>
+<td>27</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

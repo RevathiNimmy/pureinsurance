@@ -1,0 +1,3 @@
+Public Class BaseClaimProcessBuilderRiskType
+    Public Property ClaimBuilderData As BaseClaimProcessBuilderRiskTypeClaimBuilderData
+End Class

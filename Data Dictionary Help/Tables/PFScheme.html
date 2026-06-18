@@ -1,0 +1,991 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PFScheme</h1>
+<p>Finance Schemes. Each scheme has a valid date range (Start-End).</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Accounts<br>
+                Software module: Instalments<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="CompanyNo">CompanyNo</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">Company No</span></td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeNo">SchemeNo</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">Scheme No</span></td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeVersion">SchemeVersion</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">Scheme Version</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Party_Cnt">Party_Cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">Party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="DataModelCode">DataModelCode</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Data Model Code used by the GIS.</td>
+</tr>
+<tr>
+<td><a class="name" name="StartDate">StartDate</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Start Date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="EndDate">EndDate</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">End Date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="PaymentMethod_cnt">PaymentMethod_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Payment Method for this scheme.</td>
+</tr>
+<tr>
+<td><a class="name" name="SystemTag">SystemTag</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>System Tag -  obsolete.</td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeName">SchemeName</a></td>
+<td>varchar(35)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Scheme Name</td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeDescription">SchemeDescription</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Scheme Description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="QuoteableInd">QuoteableInd</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Quoteable Ind -  obsolete.</td>
+</tr>
+<tr>
+<td><a class="name" name="BasisofCalcNew">BasisofCalcNew</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Basisof Calc New</span></td>
+</tr>
+<tr>
+<td><a class="name" name="BasisofCalcMTA">BasisofCalcMTA</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Basisof CalcMTA</span></td>
+</tr>
+<tr>
+<td><a class="name" name="BasisofCalcRenewal">BasisofCalcRenewal</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Basisof Calc Renewal</span></td>
+</tr>
+<tr>
+<td><a class="name" name="BasisofCalcCancel">BasisofCalcCancel</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Basisof Calc Cancel</span></td>
+</tr>
+<tr>
+<td><a class="name" name="BasisofPP">BasisofPP</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">BasisofPP</span></td>
+</tr>
+<tr>
+<td><a class="name" name="QuoteDocID">QuoteDocID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> Quote Document.</td>
+</tr>
+<tr>
+<td><a class="name" name="BankDocID">BankDocID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> Bank Document. Eg. Direct Debit Mandate.</td>
+</tr>
+<tr>
+<td><a class="name" name="CreditDocID">CreditDocID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> Credit Document. Eg. Credit Agreement.</td>
+</tr>
+<tr>
+<td><a class="name" name="InsrMailBoxNo">InsrMailBoxNo</a></td>
+<td>varchar(25)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Insurer Mailbox No - used by EDI.</td>
+</tr>
+<tr>
+<td><a class="name" name="EdiMessageCount">EdiMessageCount</a></td>
+<td>numeric(18, 0)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Number of messages sent via EDI for this scheme.</td>
+</tr>
+<tr>
+<td><a class="name" name="NoOfInstallments">NoOfInstallments</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">No Of Installments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="IsInHouse">IsInHouse</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Is In House</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ImmediateBankDetails">ImmediateBankDetails</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> If true, the user must enter the customers Bank Details before a new plan can be saved.</td>
+</tr>
+<tr>
+<td><a class="name" name="CCDocID">CCDocID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">CCDocID</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_id">mediatype_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="MediaType.html#mediatype_id">MediaType.mediatype_id</a> <span class="autodesc">mediatype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfscheme_type_id">pfscheme_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PFScheme_Type.html#pfscheme_type_id">PFScheme_Type.pfscheme_type_id</a> <span class="autodesc">pfscheme type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfscheme_printtype_id">pfscheme_printtype_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PFScheme_PrintType.html#pfscheme_printtype_id">PFScheme_PrintType.pfscheme_printtype_id</a> <span class="autodesc">pfscheme printtype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="spread_commission">spread_commission</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">spread commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="bankaccount_id">bankaccount_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="BankAccount.html#bankaccount_id">BankAccount.bankaccount_id</a> <span class="autodesc">bankaccount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="suspense_account_id">suspense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">suspense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="interest_account_id">interest_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">interest account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="admin_account_id">admin_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">admin account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="protection_account_id">protection_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">protection account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_suspense_account_id">commission_suspense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">commission suspense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_suspense_account_id">tax_suspense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">tax suspense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="bank_name_mandatory">bank_name_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">bank name mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="bank_address_mandatory">bank_address_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">bank address mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="branch_name_mandatory">branch_name_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">branch name mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="branch_code_mandatory">branch_code_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">branch code mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ConfirmationDocID">ConfirmationDocID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">Confirmation DocID</span></td>
+</tr>
+<tr>
+<td><a class="name" name="spread_taxes">spread_taxes</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">spread taxes</span></td>
+</tr>
+<tr>
+<td><a class="name" name="spread_ri">spread_ri</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">spread ri</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ri_suspense_account_id">ri_suspense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ri suspense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="deposit_as_instalment">deposit_as_instalment</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">deposit as instalment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="deposit_on_other_media_type">deposit_on_other_media_type</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">deposit on other media type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_ref_mandatory">agent_ref_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">agent ref mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pf_message">pf_message</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pf message</span></td>
+</tr>
+<tr>
+<td><a class="name" name="receipt_difference_option">receipt_difference_option</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">receipt difference option</span></td>
+</tr>
+<tr>
+<td><a class="name" name="business_code_mandatory">business_code_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">business code mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfprem_business_code">pfprem_business_code</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pfprem business code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_website">provider_website</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider website</span></td>
+</tr>
+<tr>
+<td><a class="name" name="plbrokerid">plbrokerid</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">plbrokerid</span></td>
+</tr>
+<tr>
+<td><a class="name" name="clbrokerid">clbrokerid</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">clbrokerid</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_timeout">provider_timeout</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider timeout</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_username">provider_username</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider username</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_password">provider_password</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider password</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_brokerid">provider_brokerid</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider brokerid</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_group_id">tax_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="direct_debit_supplier_name">direct_debit_supplier_name</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">direct debit supplier name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="direct_debit_supplier_id">direct_debit_supplier_id</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">direct debit supplier</span></td>
+</tr>
+<tr>
+<td><a class="name" name="financial_institution_code">financial_institution_code</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">financial institution code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="remitter">remitter</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">remitter</span></td>
+</tr>
+<tr>
+<td><a class="name" name="processing_days">processing_days</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">processing days</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_client_fees">allow_client_fees</a></td>
+<td>bit</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow client fees</span></td>
+</tr>
+<tr>
+<td><a class="name" name="rates_are_for_information_only">rates_are_for_information_only</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">rates are for information only</span></td>
+</tr>
+<tr>
+<td><a class="name" name="limittransactions">limittransactions</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">limittransactions</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transactionlimit">transactionlimit</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transactionlimit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="xsl_code">xsl_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">xsl code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_prem_threshold">provider_prem_threshold</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider prem threshold</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ColNotDocID">ColNotDocID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Col Not DocID</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ColNotNumDays">ColNotNumDays</a></td>
+<td>integer</td>
+<td>not null default (0)</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Col Not Num Days</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK(NC)</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>admin_account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>commission_suspense_account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>interest_account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>protection_account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>suspense_account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>tax_suspense_account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>bankaccount_id</td>
+<td><a href="BankAccount.html">BankAccount</a></td>
+<td>bankaccount_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>BankDocID</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ConfirmationDocID</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>CreditDocID</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>QuoteDocID</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="MediaType.html">MediaType</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>Party_Cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pfscheme_printtype_id</td>
+<td><a href="PFScheme_PrintType.html">PFScheme_PrintType</a></td>
+<td>pfscheme_printtype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pfscheme_type_id</td>
+<td><a href="PFScheme_Type.html">PFScheme_Type</a></td>
+<td>pfscheme_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>BankDocID</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>CCDocID</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>CreditDocID</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Party_Cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>QuoteDocID</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td><a href="PFPremiumFinance.html">PFPremiumFinance</a></td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td><a href="PFRF.html">PFRF</a></td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td><a href="PFSchemeProducts.html">PFSchemeProducts</a></td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td><a href="PFSchemeSource.html">PFSchemeSource</a></td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>CompanyNo</td>
+<td>SchemeNo</td>
+<td>SchemeVersion</td>
+<td>Party_Cnt</td>
+<td>DataModelCode</td>
+<td>StartDate</td>
+<td>EndDate</td>
+<td>PaymentMethod_cnt</td>
+<td>SystemTag</td>
+<td>SchemeName</td>
+<td>SchemeDescription</td>
+<td>QuoteableInd</td>
+<td>BasisofCalcNew</td>
+<td>BasisofCalcMTA</td>
+<td>BasisofCalcRenewal</td>
+<td>BasisofCalcCancel</td>
+<td>BasisofPP</td>
+<td>QuoteDocID</td>
+<td>BankDocID</td>
+<td>CreditDocID</td>
+<td>InsrMailBoxNo</td>
+<td>EdiMessageCount</td>
+<td>NoOfInstallments</td>
+<td>IsInHouse</td>
+<td>ImmediateBankDetails</td>
+<td>CCDocID</td>
+<td>mediatype_id</td>
+<td>pfscheme_type_id</td>
+<td>pfscheme_printtype_id</td>
+<td>spread_commission</td>
+<td>currency_id</td>
+<td>bankaccount_id</td>
+<td>suspense_account_id</td>
+<td>interest_account_id</td>
+<td>admin_account_id</td>
+<td>protection_account_id</td>
+<td>commission_suspense_account_id</td>
+<td>tax_suspense_account_id</td>
+<td>bank_name_mandatory</td>
+<td>bank_address_mandatory</td>
+<td>branch_name_mandatory</td>
+<td>branch_code_mandatory</td>
+<td>ConfirmationDocID</td>
+<td>spread_taxes</td>
+<td>spread_ri</td>
+<td>ri_suspense_account_id</td>
+<td>deposit_as_instalment</td>
+<td>deposit_on_other_media_type</td>
+<td>agent_ref_mandatory</td>
+<td>pf_message</td>
+<td>receipt_difference_option</td>
+<td>business_code_mandatory</td>
+<td>pfprem_business_code</td>
+<td>provider_website</td>
+<td>plbrokerid</td>
+<td>clbrokerid</td>
+<td>provider_timeout</td>
+<td>provider_username</td>
+<td>provider_password</td>
+<td>provider_brokerid</td>
+<td>tax_group_id</td>
+<td>direct_debit_supplier_name</td>
+<td>direct_debit_supplier_id</td>
+<td>financial_institution_code</td>
+<td>remitter</td>
+<td>processing_days</td>
+<td>allow_client_fees</td>
+<td>rates_are_for_information_only</td>
+<td>limittransactions</td>
+<td>transactionlimit</td>
+<td>xsl_code</td>
+<td>provider_prem_threshold</td>
+<td>ColNotDocID</td>
+<td>ColNotNumDays</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>1990-01-01 00:00:00</td>
+<td>2020-01-01 00:00:00</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly Credit Card</td>
+<td>Progressive Monthly Credit Card</td>
+<td>Y</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>2</td>
+<td>3114</td>
+<td>3114</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>False</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>1990-01-01 00:00:00</td>
+<td>2020-12-31 00:00:00</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>Progressive Pay In Full</td>
+<td>Progressive Pay In Full</td>
+<td>Y</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>28</td>
+<td>2</td>
+<td>3114</td>
+<td>3114</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>False</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

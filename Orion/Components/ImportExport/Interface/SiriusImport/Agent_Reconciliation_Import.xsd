@@ -1,0 +1,1892 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- created by MRS v3.41 via XML Output Routine by user Brian Spence (Polaris U.K. Ltd) on 02/10/2006 13:48:37-->
+<xs:schema targetNamespace="http://www.polaris-uk.co.uk/Schema/1/PremiumReconciliationRs"
+           xmlns="http://www.polaris-uk.co.uk/Schema/1/PremiumReconciliationRs"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="unqualified" attributeFormDefault="unqualified">
+  <xs:element name="PremiumStatementLoad">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="DateGenerated" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The date that the entry was generated.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="TimeGenerated" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The time on the creation date when the entry was
+                              generated.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:time"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="StartDate" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The date the entry is to take effect.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="StartTime" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The time the entry is to take effect.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:time"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="EndDate" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The date the entry is to expire.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="EndTime" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The time the entry is to expire.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:time"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Intermediary" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Details of an insurance intermediary.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PEMId" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A code that uniquely identifies a party
+                                    within PEM.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InStepCode" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contains a value from Online Code list 1
+                                    (EDI Directory).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CompanyName" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The name of the company or partnership.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="630"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Contact" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a contact at the trading partner.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualName" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The name of the party when an
+                                          individual.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FirstForename" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The first forename of an
+                                                individual.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Surname" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The surname of an individual or
+                                                department name.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="WorkTelephoneNo" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The telephone number at work.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="15"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EmailAddress" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The contact email address of the
+                                          individual or department dealing with
+                                          the statement</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="50"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Insurer" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Details of an insurer</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PEMId" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A code that uniquely identifies a party
+                                    within PEM.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InStepCode" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contains a value from Online Code list 1
+                                    (EDI Directory).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CompanyName" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The name of the company or partnership.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="630"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Contact" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a contact at the trading partner.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualName" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The name of the party when an
+                                          individual.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FirstForename" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The first forename of an
+                                                individual.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Surname" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The surname of an individual or
+                                                department name.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="WorkTelephoneNo" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The telephone number at work.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="15"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EmailAddress" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The contact email address of the
+                                          individual or department dealing with
+                                          the statement</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="50"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+  <xs:element name="PremiumReconciliationRs" minOccurs="0" maxOccurs="unbounded">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="DateGenerated" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The date that the entry was generated.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="TimeGenerated" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The time on the creation date when the entry was
+                              generated.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:time"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="StartDate" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The date the entry is to take effect.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="StartTime" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The time the entry is to take effect.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:time"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="EndDate" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The date the entry is to expire.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:date"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="EndTime" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>The time the entry is to expire.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:time"/>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Intermediary" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Details of an insurance intermediary.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PEMId" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A code that uniquely identifies a party
+                                    within PEM.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InStepCode" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contains a value from Online Code list 1
+                                    (EDI Directory).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CompanyName" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The name of the company or partnership.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="630"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Contact" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a contact at the trading partner.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualName" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The name of the party when an
+                                          individual.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FirstForename" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The first forename of an
+                                                individual.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Surname" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The surname of an individual or
+                                                department name.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="WorkTelephoneNo" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The telephone number at work.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="15"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EmailAddress" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The contact email address of the
+                                          individual or department dealing with
+                                          the statement</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="50"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Insurer" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Details of an insurer</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PEMId" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A code that uniquely identifies a party
+                                    within PEM.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="InStepCode" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contains a value from Online Code list 1
+                                    (EDI Directory).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CompanyName" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The name of the company or partnership.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="630"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Contact" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a contact at the trading partner.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualName" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The name of the party when an
+                                          individual.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FirstForename" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The first forename of an
+                                                individual.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Surname" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The surname of an individual or
+                                                department name.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="WorkTelephoneNo" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The telephone number at work.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="15"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EmailAddress" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The contact email address of the
+                                          individual or department dealing with
+                                          the statement</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="50"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Statement" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>Details of a statement.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="StartDate" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The start date of the period for which the
+                                    items contained in this statement were put
+                                    on the ledger</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StartTime" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The start time of the period for which the
+                                    items contained in this statement were put
+                                    on the ledger</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:time"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EndDate" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The date statement covers up to.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AgencyAccountRef" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The agent identification code as allocated
+                                    to the Intermediary by the Insurer.
+                                    Mandatory if initiated by the Insurer,
+                                    Optional if Intermediary initiated</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ReferenceNumber" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A reference for this statement or
+                                    reconciliation. When being used by the
+                                    Sender this will contain a reference that
+                                    uniquely identifies the statement being
+                                    sent. When being used by the Receiver it
+                                    will contain the reference of the Senderâ€™s
+                                    statement being reconciled</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NoOf" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The total number of accounting items within
+                                    the statement for which a request for
+                                    payment has been made</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:long"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SettlementDate" minOccurs="0" maxOccurs="1" nillable="false">
+                <xs:annotation>
+                  <xs:documentation>Contains the date upon which payment is to
+                                    be made in relation to the Statement</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MonetaryAmount" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of one monetary amount.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Amount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The total gross (absolute) value of
+                                          all items being reconciled in this
+                                          statement/reconciliation. The amount
+                                          is regardless of positive or negative
+                                          amounts</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="AmountPayable" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a payable monetary amount.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="GrossAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Aggregate of all the gross payment
+                                          amounts outstanding within the
+                                          statement, i.e. the due gross payment
+                                          amount</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="BrokerageAmount" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains the total commission amount
+                                          of all items to be paid within the
+                                          Statement expressed as a monetary
+                                          amount.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Amount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Aggregate of all net payment amounts
+                                          outstanding within the statement I.e.
+                                          the due net payment amount.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="PromptPaymentDiscountAllowed"
+                                minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A discount allowed for prompt payment
+                                          of a preceding statement.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="AmountPaid" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a paid monetary amount.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="GrossAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Aggregate of all the gross payment
+                                          amounts being paid in the statement,
+                                          i.e. the gross payment amount.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="BrokerageAmount" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains the total commission amount
+                                          of all items being paid within this
+                                          Statement expressed as a monetary
+                                          amount</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Amount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Aggregate of all the net payment
+                                          amounts being paid in the statement,
+                                          i.e. the paid net payment amount
+                                          (details the amount that the payer is
+                                          authorising the payee to take by
+                                          DD/BACS etc.)</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="PromptPaymentDiscountTaken" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A discount taken in a reconciliation
+                                          that was offered in the corresponding
+                                          statement.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="PaymentDetail" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of payment(s)</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="PaymentMethodCode" minOccurs="1"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Details the type of payment being used
+                                          to settle the Total Net Amount Paid in
+                                          this statement (Used to help identify
+                                          the Payment Identifier)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Value" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A value from a market list.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="ShortDescription" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The short description for the
+                                                value taken from the market list.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string"/>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ReferenceNumber" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A payment identifier (e.g. cheque
+                                          number etc.) for the values being
+                                          settled in this statement.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="50"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="AccountEntry" minOccurs="1" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Details of one entry on a statement of account</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ReferenceNumber" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Permanent reference number for an item (XML
+                                    = item reference, EDI = Item Sequence Number)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StartDate" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contains the date of the corresponding
+                                    business transaction</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StartTime" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Contains the time of the corresponding
+                                    business transaction</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:time"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AgencyAccountRef" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A reference to identify the individual
+                                    agency account/contract (only required if
+                                    different to Agency Reference).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="25"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Intermediary" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of an intermediary</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Branch" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Identification of an Intermediary
+                                          branch associated with this accounting
+                                          item</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="60"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="RiskReference" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The client reference</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="50"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="TransactionReference" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The reference for this business
+                                          transaction</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="100"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Insured" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of the Insured.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="IndividualName" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The name of the party when an
+                                          individual.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FirstForename" minOccurs="1"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The first forename of an
+                                                individual.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Surname" minOccurs="1"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The surname of an individual.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value="40"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="CompanyName" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The name of the company or partnership.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="630"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Policy" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a policy.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="PolicyNumber" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains the policy number. If a
+                                          policy number has not been allocated
+                                          it may contain a reference for the
+                                          proposal or may be set to zero.
+                                          Mandatory for the Insurer</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="25"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CoverCode" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The category of insurance business
+                                          e.g. Private Car, Fleet, Office</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Value" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A value from a market list.</xs:documentation>
+                            </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string"/>
+                                  </xs:simpleType>
+                                </xs:element>
+                          <xs:element name="ShortDescription" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>The short description for the
+                                                value taken from the market list.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string"/>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="AmountPayable" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a monetary amount that is payable.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="GrossAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains details of any commission
+                                          that is outstanding in relation to
+                                          this premium expressed as an amount.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="5"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="BrokerageAmount" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains details of any commission
+                                          that is outstanding in relation to
+                                          this premium expressed as a monetary
+                                          amount.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="BrokeragePercent" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains details of any commission
+                                          that is outstanding in relation to
+                                          this premium expressed, expressed as a
+                                          percentage.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="5"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Amount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The amount of net premium outstanding
+                                          in relation to this premium.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="IPTAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The amount of IPT to be paid in
+                                          relation to the accounting item.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="VATAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The amount of VAT to be paid in
+                                          relation to the accounting item.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EarlyPaymentValue" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The value of any Early Payment commissionto be earned in
+                                          relation to the accounting item.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>                    
+                    <xs:element name="EarlyPaymentPercent" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Contains details of the rate of any early payment
+                                          commission that is to be earned in relation to
+                                          this accounting item, expressed as a
+                                          percentage.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="5"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                          <xs:element name="AmountPayableBreakdown" minOccurs="0"
+                                      nillable="false" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>
+                                Breakdown details of a monetary amount that is
+                                payable.
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="CoverCode" minOccurs="0" maxOccurs="1">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The category of insurance business e.g.
+                                      Private Car, Fleet, Office.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Value" minOccurs="1"
+                                                  maxOccurs="1"
+                                                  nillable="false">
+                                        <xs:annotation>
+                                          <xs:documentation>
+                                            A value from a market list.
+                                          </xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string"/>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                      <xs:element name="ShortDescription"
+                                                  minOccurs="0" maxOccurs="1"
+                                                  nillable="false">
+                                        <xs:annotation>
+                                          <xs:documentation>
+                                            The short description for the value
+                                            taken from the market list.
+                                          </xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string"/>
+                                        </xs:simpleType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="GrossAmount" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The amount of gross premium outstanding in
+                                      relation to this premium.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="2"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="Amount" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The amount of net premium outstanding in
+                                      relation to this premium.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="2"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="BrokerageAmount"
+                                            minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      Contains details of any commission that is
+                                      outstanding in relation to this premium
+                                      expressed as a monetary amount.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="2"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="BrokeragePercent"
+                                            minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      Contains details of any commission that is
+                                      outstanding in relation to this premium
+                                      expressed as a percentage.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="5"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="IPTAmount" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The amount of IPT to be paid in relation
+                                      to the accounting item.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="2"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="VATAmount" minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The amount of VAT to be paid in relation
+                                      to the accounting item.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="2"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="EarlyPaymentAmount"
+                                            minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The amount of any early payment commission
+                                      to be earned in relation to this
+                                      accounting item.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="2"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="EarlyPaymentPercent"
+                                            minOccurs="0">
+                                  <xs:annotation>
+                                    <xs:documentation>
+                                      The rate of any early payment commission
+                                      to be earned in relation to this
+                                      accounting item.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:decimal">
+                                      <xs:fractionDigits value="5"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                </xs:complexType>
+              </xs:element>            
+              <xs:element name="AmountPaid" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Details of a monetary amount that has been
+                                    paid.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="GrossAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The amount of gross premium being paid
+                                          in relation to this premium</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="BrokerageAmount" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Amount of commission being paid or
+                                          taken in relation to this premium,
+                                          expressed as a monetary amount</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="BrokeragePercent" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Amount of commission being paid or
+                                          taken in relation to this premium,
+                                          expressed as a percentage</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="5"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Amount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Indicates the Net Premium being paid
+                                          in relation to this item in this
+                                          reconciliation. Where no premium is
+                                          being paid 0 (zero) should be entered.
+                                          The value is Net, i.e. Including
+                                          deductions for intermediary's
+                                          remuneration and IPT.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="IPTAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The amount of IPT being paid in
+                                          relation to the accounting item.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="VATAmount" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The amount of VAT being paid in
+                                          relation to the accounting item.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:decimal">
+                          <xs:fractionDigits value="2"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="TypeCode" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The type of business transaction for which
+                                    the amount is being paid. e.g. NB, RNL, MTA</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Value" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A value from a market list.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="ShortDescription" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The short description for the value
+                                          taken from the market list.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ReasonCode" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>A code indicating why this payment is not
+                                    being paid / fully paid.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Value" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A value from a market list.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="B26 24">
+                            <xs:annotation>
+                              <xs:documentation>Above Net Entry Appears On
+                                                Account - Please Investigate And
+                                                Advise</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 11">
+                            <xs:annotation>
+                              <xs:documentation>Awaiting Agreed Amendment</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 05">
+                            <xs:annotation>
+                              <xs:documentation>Cancelled - Awaiting Return
+                                                Premium</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 23">
+                            <xs:annotation>
+                              <xs:documentation>Cash Entry Appears On Account -
+                                                Please Advise Broker</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 26">
+                            <xs:annotation>
+                              <xs:documentation>Client Not Settled In Full</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 28">
+                            <xs:annotation>
+                              <xs:documentation>Commission Amount Incorrect</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 08">
+                            <xs:annotation>
+                              <xs:documentation>Credit Due</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 09">
+                            <xs:annotation>
+                              <xs:documentation>Credit Due - Reduction In Cover</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 19">
+                            <xs:annotation>
+                              <xs:documentation>Debited Twice - Please Delete</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 06">
+                            <xs:annotation>
+                              <xs:documentation>Documents Not Received - Please
+                                                Forward Duplicates</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 18">
+                            <xs:annotation>
+                              <xs:documentation>Duplicate Documents Required</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 29">
+                            <xs:annotation>
+                              <xs:documentation>Insured Elsewhere</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 01">
+                            <xs:annotation>
+                              <xs:documentation>Lapsed, Renewal Remains
+                                                Outstanding On Account</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 17">
+                            <xs:annotation>
+                              <xs:documentation>Manual Entry By Credit Control</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 07">
+                            <xs:annotation>
+                              <xs:documentation>NCB Credit Awaited</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 21">
+                            <xs:annotation>
+                              <xs:documentation>No Trace - Please Advise Full
+                                                Name And Address</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 16">
+                            <xs:annotation>
+                              <xs:documentation>No Trace For This Entry - Please
+                                                Forward Duplicate Documents</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 10">
+                            <xs:annotation>
+                              <xs:documentation>Not This Agency - If Correct
+                                                Agency Forward Duplicates</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 30">
+                            <xs:annotation>
+                              <xs:documentation>Paid Direct</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 22">
+                            <xs:annotation>
+                              <xs:documentation>Paid Previously - Please
+                                                Investigate And Advise</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 15">
+                            <xs:annotation>
+                              <xs:documentation>Please Give Details i.e.
+                                                Duplicate Of Relevant Documents</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 31">
+                            <xs:annotation>
+                              <xs:documentation>Policy Already Cancelled</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 32">
+                            <xs:annotation>
+                              <xs:documentation>Policy Not Taken Up</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 20">
+                            <xs:annotation>
+                              <xs:documentation>Policy Renewed - Did Not Lapse</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 33">
+                            <xs:annotation>
+                              <xs:documentation>Policy Transferred</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 02">
+                            <xs:annotation>
+                              <xs:documentation>Premium Incorrect</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 04">
+                            <xs:annotation>
+                              <xs:documentation>Premium Incorrect - Please Refer
+                                                Correspondence</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 03">
+                            <xs:annotation>
+                              <xs:documentation>Premium Incorrect - Should Be ---</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 34">
+                            <xs:annotation>
+                              <xs:documentation>Premium Should Be on Insurer
+                                                Instalments</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 35">
+                            <xs:annotation>
+                              <xs:documentation>Premium Should Not Be On Insurer
+                                                Instalments</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 36">
+                            <xs:annotation>
+                              <xs:documentation>Renewal To Be Re-Instated</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 37">
+                            <xs:annotation>
+                              <xs:documentation>Renewal to Lapse</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 38">
+                            <xs:annotation>
+                              <xs:documentation>Replaced by New Policy</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 13">
+                            <xs:annotation>
+                              <xs:documentation>Should Be Credit</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 14">
+                            <xs:annotation>
+                              <xs:documentation>Should Be Debit</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 27">
+                            <xs:annotation>
+                              <xs:documentation>Tax Amount Incorrect</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 12">
+                            <xs:annotation>
+                              <xs:documentation>Transfer To Account No -----</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="B26 25">
+                            <xs:annotation>
+                              <xs:documentation>Within Credit Period - Not Due</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="ShortDescription" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The short description for the value
+                                          taken from the market list.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Description" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A description provided by the user
+                                          which supplements the code value.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="630"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="PostedDate" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The date on which the transaction was posted
+                                    in the accounts of the sender.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:date"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PostedTime" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>The time on which the transaction was posted
+                                    in the accounts of the sender.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:time"/>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CreditStatus" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Indicator used to identify the status of the premium to the Insurer</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Value" type="xs:string" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Status Indicator.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Description" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A description provided by the user
+                                          which supplements the response.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>              
+              <xs:element name="IntermediaryItemStatus" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Indicator used to identify the status of the premium to the Intermediary</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Value" type="xs:string" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Status Indicator.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Description" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A description provided by the user
+                                          which supplements the response.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>              
+              <xs:element name="PaidDirectInd" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Indicator used to identify that the premium
+                                    has been paid (fully or part) directly to
+                                    the Insurer. Mandatory for Intermediary</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Value" type="xs:boolean" minOccurs="1"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A value that represents a true or
+                                          false response.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Description" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>A description provided by the user
+                                          which supplements the response.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string"/>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="PaidAmount" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Amount of gross amount the client has paid
+                                    to the intermediary.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:decimal">
+                    <xs:fractionDigits value="2"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+                    <xs:element name="InsurerComment" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Supplementary information supplied by the Insurer concerning the Account Item </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="FreeText" type="xs:string" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Free textual information.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ActionDate" type="xs:date" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Action date.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Status" type="xs:string" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Comment status.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CreatedDate" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The date the comment was created.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:date"/>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CreatedTime" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The time the comment was created.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:time"/>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="QueryCode" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Identifies the Query Code of the comment.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Value" type="xs:string" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A value that represents the query code.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Description" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A description of the query code.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string"/>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>                    
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="IntermediaryComment" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Supplementary information concerning the Account Item supplied by the Intermediary</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="FreeText" type="xs:string" minOccurs="0"
+                                maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Free textual information.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ActionDate" type="xs:date" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Action date.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Status" type="xs:string" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Comment status.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="CreatedDate" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The date the comment was created.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:date"/>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CreatedTime" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>The time the comment was created.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:time"/>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="QueryCode" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>Identifies the Query Code of the comment.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Value" type="xs:string" minOccurs="0"
+                                      maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A value that represents the query code.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Description" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                              <xs:documentation>A description of the query code.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string"/>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Id" type="xs:ID" use="optional"/>
+      <xs:attribute name="MessageVersion" type="xs:string" use="optional"/>
+          </xs:complexType>
+  </xs:element>
+      </xs:sequence>
+      </xs:complexType>
+      </xs:element>
+</xs:schema>

@@ -1,0 +1,461 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Net_Data</h1>
+<p>Holds extra data for Parties of type "NC" (Net Client), i.e. clients created via a Pure web site.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="password">password</a></td>
+<td>varchar(40)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">password</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mothers_maiden_name">mothers_maiden_name</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>mothers maiden name</td>
+</tr>
+<tr>
+<td><a class="name" name="tp_introducer_code">tp_introducer_code</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tp introducer code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tp_user_code">tp_user_code</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tp user code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="memorable_date">memorable_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">memorable date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="a_question">a_question</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">a question</span></td>
+</tr>
+<tr>
+<td><a class="name" name="the_answer">the_answer</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">the answer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="userid">userid</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">userid</span></td>
+</tr>
+<tr>
+<td><a class="name" name="current_ins_renewal_date">current_ins_renewal_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">current ins renewal date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="online_status">online_status</a></td>
+<td>Boolean</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">online status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="online_status_updated">online_status_updated</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">online status updated</span></td>
+</tr>
+<tr>
+<td><a class="name" name="contact_cnt">contact_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Contact.html#contact_cnt">Contact.contact_cnt</a> <span class="autodesc">contact</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>contact_cnt</td>
+<td><a href="Contact.html">Contact</a></td>
+<td>contact_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>party_cnt</td>
+<td>password</td>
+<td>mothers_maiden_name</td>
+<td>tp_introducer_code</td>
+<td>tp_user_code</td>
+<td>memorable_date</td>
+<td>a_question</td>
+<td>the_answer</td>
+<td>userid</td>
+<td>current_ins_renewal_date</td>
+<td>online_status</td>
+<td>online_status_updated</td>
+<td>contact_cnt</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>102</td>
+<td>QaeKDhRSMK</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-20 04:33:22</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>AF78A489070140979E165DB34BB56A6D</td>
+<td>2008-12-20 04:33:22</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>103</td>
+<td>H7ptzMKmnS</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-20 04:37:06</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>4CCDB4AD14C442D88690015F65AA7060</td>
+<td>2008-12-20 04:37:06</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>104</td>
+<td>sEUJUbby96</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 00:09:51</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>83715B94D4EF4355906B5D2D492F72CA</td>
+<td>2008-12-21 00:09:51</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>105</td>
+<td>SnNCX4wPpv</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 06:27:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>58A5741279D3471DB7055B39525B0496</td>
+<td>2008-12-21 06:27:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>106</td>
+<td>EmgKKMrccW</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 06:31:37</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>3144DC71D05D452E968F3C55F200D7AE</td>
+<td>2008-12-21 06:31:37</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>107</td>
+<td>Q4GjGK5nkz</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 07:59:37</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>E025E4FEBB0248F995B360A2C62D9AC0</td>
+<td>2008-12-21 07:59:37</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>108</td>
+<td>LYPXAnhpGB</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 09:11:03</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>11449A9F6B484CF0A6F9F88810B83DBD</td>
+<td>2008-12-21 09:11:03</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>109</td>
+<td>rEz6MxbmFs</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 09:16:56</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>9C8872C46B6B4922977F423EF25AC833</td>
+<td>2008-12-21 09:16:56</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>110</td>
+<td>HGCfP33wfF</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 09:27:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>A9E68CD0BECD41D6A56C3B74C57BB378</td>
+<td>2008-12-21 09:27:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>111</td>
+<td>R85x3h8ags</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 09:29:32</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>8B5979F5C7DF45F79FA2E01BC75A4B4B</td>
+<td>2008-12-21 09:29:32</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>112</td>
+<td>ES5ZYT84Pt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 09:48:14</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>DB4D6F10DBBC47C9AAB9A5F07BC9425B</td>
+<td>2008-12-21 09:48:14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>113</td>
+<td>ksvLvKWQMu</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 17:34:42</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>E1B598313D02447BBF938A2AEA43958A</td>
+<td>2008-12-21 17:34:42</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>114</td>
+<td>IEESV42Wym</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 17:36:48</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>631F8362207440E08DDC5046F2D47290</td>
+<td>2008-12-21 17:36:48</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>115</td>
+<td>BuZyb36fy6</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 17:48:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>738F50A57F934349B23D3551A32BF584</td>
+<td>2008-12-21 17:48:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>116</td>
+<td>7SWwYuwwuK</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-21 18:17:42</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>C353F164FF094E4B81E33B77BF7EF4E4</td>
+<td>2008-12-21 18:17:42</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>117</td>
+<td>QsQjQSrusV</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-22 14:44:52</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0E60615AEF9943B2B030C2BB5CC6C53D</td>
+<td>2008-12-22 14:44:52</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>118</td>
+<td>UBIzJmyL9R</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-22 14:47:37</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>666D2F403DEF4BE6BA30406A44F1C630</td>
+<td>2008-12-22 14:47:37</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>119</td>
+<td>rrEKzxcRuq</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-23 06:29:11</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>4D96241F94504A6EB35C19D2E7DE36A6</td>
+<td>2008-12-23 06:29:11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>120</td>
+<td>J8WUZ2WDx9</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-23 07:57:35</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>71D02D654A3148A7A6FC6B9984DFC4F9</td>
+<td>2008-12-23 07:57:35</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

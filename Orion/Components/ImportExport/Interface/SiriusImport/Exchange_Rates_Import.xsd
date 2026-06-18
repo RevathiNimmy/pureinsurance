@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Start(Saurabh Agrawal tech spec Automatic Exchange Rates maintainence)-->
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<xs:schema targetNamespace="http://www.siriusfs.com/SFI/Import/Exchange_Rate_Import/20070716" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.siriusfs.com/SFI/Import/Exchange_Rate_Import/20070716" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="IMPORT_HEADER">
+    <xs:annotation>
+      <xs:documentation>Sirius Import Header</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="EXCHANGE_RATES" />
+      </xs:sequence>
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="EXCHANGE_RATES_IMPORT" />
+      <xs:attribute name="batch_id" type="xs:long" use="optional" />
+      <xs:attribute name="batch_reference" type="xs:string" use="optional" />
+      <xs:attribute name="date_imported" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="EXCHANGE_RATES">
+    <xs:annotation>
+      <xs:documentation>Rates Data</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="rate_against_base" type="xs:float" use="required"/>
+      <xs:attribute name="currency_id" type="xs:int" use="required" />
+      <xs:attribute name="company_id" type="xs:int" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+<!-- End(Saurabh Agrawal tech spec Automatic Exchange Rates maintainence)-->

@@ -1,0 +1,99 @@
+﻿<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+ <%-- Skin ID of LinkButton inside form for open modal. --%>
+
+<asp:LinkButton SkinID="btnModal" CssClass="btn btn-sm btn-default waves-effect" runat="server"></asp:LinkButton>
+
+<%-- Skin ID of Link Button inside form footer. --%>
+
+<asp:LinkButton SkinID="btnPrimary" CssClass="btn btn-sm btn-primary" runat="server"/>
+<asp:LinkButton SkinID="btnSecondary" CssClass="btn btn-sm btn-dark" runat="server"/>
+
+<%-- Skin ID of Button inside form footer. --%>
+
+<asp:Button SkinID="buttonPrimary" CssClass="btn btn-sm btn-primary" runat="server"/>
+<asp:Button SkinID="buttonSecondary" CssClass="btn btn-sm btn-dark" runat="server"/>
+
+<%-- Skin ID of LinkButton and HyperLink inside grid action row. --%>
+
+<asp:LinkButton SkinID="btnGrid" CssClass="btn btn-xs btn-primary" runat="server"></asp:LinkButton>
+<asp:HyperLink SkinID="btnHGrid" CssClass="btn btn-xs btn-primary" runat="server"></asp:HyperLink>
+
+<%-- Skin ID of LinkButton and HyperLink as dispaly link text inside grid action row. --%>
+<asp:LinkButton SkinID="btnLink" CssClass="font-bold text-dark-dk text-u-l" runat="server"></asp:LinkButton>
+<asp:HyperLink SkinID="btnHLink" CssClass="font-bold text-dark-dk text-u-l" runat="server"></asp:HyperLink>
+<asp:LinkButton SkinID="lnkGrid" CssClass="font-bold text-dark-dk text-u-l" runat="server"></asp:LinkButton>
+<asp:HyperLink SkinID="lnkHGrid" CssClass="font-bold text-dark-dk text-u-l" runat="server"></asp:HyperLink>
+
+<%-- Skin ID of LinkButton and HyperLink Xtra Small Size inside Page. --%>
+
+<asp:LinkButton SkinID="btnSM" CssClass="btn btn-xs m-l-xs btn-primary waves-effect" runat="server"></asp:LinkButton>
+<asp:HyperLink SkinID="btnHSM" CssClass="btn btn-xs m-l-xs btn-primary waves-effect" runat="server"></asp:HyperLink>
+<asp:Button SkinID="buttonSM" CssClass="btn btn-xs m-l-xs btn-primary waves-effect" runat="server"/>
+
+ 
+<%-- Skin ID of Calendar Input Group Button. --%>
+
+<asp:LinkButton SkinID="btnCalendar" CssClass="btn btn-sm btn-default waves-effect" runat="server"></asp:LinkButton>
+
+<%-- Skin ID of LinkButton and HyperLink as dispaly link text inside Client info and Claim info section. --%>
+
+<asp:LinkButton SkinID="lnkInfo" CssClass="font-bold text-sm text-dark-dk dk text-u-l" runat="server"></asp:LinkButton>
+<asp:HyperLink SkinID="lnkHInfo" CssClass="font-bold text-sm text-dark-dk dk text-u-l" runat="server"></asp:HyperLink>
+
+<%-- Skin ID of Label for display value inside Client info and Claim info section. --%>
+
+ <asp:Label SkinID="badgeInfo"  CssClass="label bg-light dk" runat="server"></asp:Label>
+
+
+<%-- Grid View Skin for all grids. --%>  
+
+<asp:GridView runat="server" 
+    CssClass="grid" Border="0" 
+    PagerSettings-Mode="Numeric"
+    AutoGenerateColumns="False">
+    <HeaderStyle CssClass="grid-hdr" />
+    <FooterStyle CssClass="grid-foo" />
+    <RowStyle CssClass="grid-r" />
+    <EditRowStyle CssClass="grid-edit-r" />
+    <EmptyDataRowStyle CssClass="grid-empty-r" />
+    <SelectedRowStyle CssClass="grid-sel-r" />
+    <AlternatingRowStyle CssClass="grid-alt-r" />
+    <PagerStyle CssClass="grid-pgr" />
+</asp:GridView>
+
+ <asp:GridView runat="server" SkinID="gridTable" 
+    CssClass="grid-table" Border="0">
+</asp:GridView>
+
+<Nexus:ItemGrid runat="server" CssClass="grid-table" >
+</Nexus:ItemGrid>
+
+<%-- Tree View Skin for all grids.   --%>
+
+  <asp:TreeView runat="server"  CssClass="TreeView" CollapseImageUrl="~/images/minus.png" ExpandImageUrl="~/images/plus.png">
+    <ParentNodeStyle CssClass="ParentNodeStyle" />
+    <RootNodeStyle CssClass="RootNodeStyle" />
+    <SelectedNodeStyle CssClass="SelectedNodeStyle" />
+    <NodeStyle CssClass="NodeStyle" />
+    <HoverNodeStyle CssClass="HoverNodeStyle" />
+    <LeafNodeStyle CssClass="LeafNodeStyle" />
+ </asp:TreeView>
+
+
+
+

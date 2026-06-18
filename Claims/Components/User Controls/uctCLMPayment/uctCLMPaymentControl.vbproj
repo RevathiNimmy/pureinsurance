@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <MyType>Windows</MyType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AD84BE8E-8BAA-437D-923A-B5A87354590F}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>uctCLMPaymentControl</AssemblyName>
+    <OutputType>Library</OutputType>
+    <AssemblyMajorVersion>0</AssemblyMajorVersion>
+    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>0</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>False</GenerateRevisionNumber>
+    <AssemblyCompanyName>Software Solutions Partners Ltd</AssemblyCompanyName>
+    <StartWithIE>False</StartWithIE>
+    <RootNamespace>uctCLMPaymentControl</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>uctCLMPaymentControl.xml</DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineDebug>True</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DefineDebug>False</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Artinsoft.VB6, Version=3.0.420.97, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bObjectManager, Version=187.0.0.0, Culture=neutral">
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="bSIRProduct, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Pure\Application\bSIRProduct.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRProduct, Version=3010.5.0.0, Culture=neutral" />
+    <Reference Include="iPMFormControl, Version=1144.0.0.0, Culture=neutral">
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility">
+      <Name>Microsoft.VisualBasic.Compatibility</Name>
+    </Reference>
+    <Reference Include="PMAddressControl, Version=1144.0.0.0, Culture=neutral">
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="SharedFiles, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SIRMultiCurrency, Version=1140.0.0.0, Culture=neutral">
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="SSP.S4I.Interfaces, Version=1.0.0.0, Culture=neutral">
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml" >
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="uctPartyBank, Version=1144.0.3791.20492, Culture=neutral">
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cPaymentItem.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="cTaxParameters.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmDetailsUW.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmDetailsUW.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDetailsUW.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditWarning.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmEditWarning.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditWarning.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMultiCurrency.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmMultiCurrency.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMultiCurrency.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPaymentDetails.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmPaymentDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPaymentDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReserve.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmReserve.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmReserve.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="iCLMPaymentControl.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="uctCLMPayment.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctCLMPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctCLMPayment.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uctCLMPayment1.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctCLMPayment1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctCLMPayment1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmDetailsUW.resX">
+      <DependentUpon>frmDetailsUW.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditWarning.resX">
+      <DependentUpon>frmEditWarning.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMultiCurrency.resX">
+      <DependentUpon>frmMultiCurrency.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPaymentDetails.resX">
+      <DependentUpon>frmPaymentDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReserve.resX">
+      <DependentUpon>frmReserve.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctCLMPayment.resX">
+      <DependentUpon>uctCLMPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctCLMPayment1.resX">
+      <DependentUpon>uctCLMPayment1.vb</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="..\..\..\..\Pure Build Process\AssemblyInfo.vb">
+      <Link>AssemblyInfo.vb</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

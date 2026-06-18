@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (Sirius Financial Systems) -->
+<!-- pmnav_map_id = 260 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd">
+<MAP WMTaskCode="PMBADJ1" WMTaskDescription="Complete Adjustments" ImageURL="http://www.siriusgroup.co.uk" TransactionType="G_MTA" ProcessMode="64" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Adjustments - Stage 1" Core="1" Version="200" ElementID="E1">
+    <STEP Description="Find Client" Component="iPMBFindParty.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/>
+    <STEP Description="Select Policy" Component="iPMBListPolicy.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3">
+            <KEY Name="nav_process_code" Value="PMBADJ1" ElementID="E20"/>
+    </STEP>
+    <STEP Description="Update Policy Details" Component="iPMBPolicy.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"/>
+    <STEP Description="Update Risk Information" Component="iPMBRisk.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/>
+    <STEP Description="Update Policy Text Files" Component="iPMBRoadmap.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6">
+        <KEY Name="nav_step" Value="UPLTEXT" ElementID="E7"/>
+    </STEP>
+    <STEP Description="Letter To Client With Schedule" Component="iPMBRoadmap.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8">
+        <KEY Name="nav_step" Value="DOCUMENT" ElementID="E9"/>
+        <KEY Name="roadmap_document" Value="ADJDOC1" ElementID="E10"/>
+    </STEP>
+    <STEP Description="Select Debit Or Credit" Component="iPMTransactionType.Interface_Renamed" Type="QF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/>
+    <STEP Description="Raise Transaction" Component="iPMBTransactionsWrapper.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12"/>
+    <STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" CheckSystemOption="123" SystemOptionValue="1" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13"/>
+ 
+    <STEP Description="Cash List Item" Component="iACTCashListItem.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" CheckSystemOption="123" SystemOptionValue="1" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E14">
+        <KEY Name="allow_allocate_button" Value="-1" ElementID="E15"/>
+        <KEY Name="cash_list_allocation_roadmap" Value="CLIENTCASH" ElementID="E16"/>
+    </STEP>
+    <STEP Description="Letter To Client With Schedule" Component="iPMBRoadmap.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E17">
+        <KEY Name="nav_step" Value="DOCUMENT" ElementID="E18"/>
+        <KEY Name="roadmap_document" Value="ADJDOC2" ElementID="E19"/>
+    </STEP>
+</MAP>
+

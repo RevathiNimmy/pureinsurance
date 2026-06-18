@@ -1,0 +1,7 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+
+EXECUTE DDLDropProcedure 'spe_Treaty_Party_add'
+GO
+

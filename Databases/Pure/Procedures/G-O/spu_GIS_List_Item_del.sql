@@ -1,0 +1,26 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+EXECUTE DDLDropProcedure 'spu_GIS_List_Item_del'
+GO
+
+CREATE PROCEDURE spu_GIS_List_Item_del
+    @listtype VARCHAR(100),
+    @newCode VARCHAR(100)
+AS
+BEGIN
+
+DECLARE @stmt NVARCHAR(300)
+
+SELECT @stmt = 'DELETE UDL_' + @ListType + ' WHERE Code=' + @NewCode + ''
+
+EXECUTE sp_executeSQL @stmt
+
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO

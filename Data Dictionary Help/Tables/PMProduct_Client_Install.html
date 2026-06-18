@@ -1,0 +1,193 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMProduct_Client_Install</h1>
+<p>Policy Master Products installed on client</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                System table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmproduct_id">pmproduct_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK, FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMProduct.html#pmproduct_id">PMProduct.pmproduct_id</a> <span class="autodesc">pmproduct</span></td>
+</tr>
+<tr>
+<td><a class="name" name="required_server_version">required_server_version</a></td>
+<td>varchar(40)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">required server version</span></td>
+</tr>
+<tr>
+<td><a class="name" name="server_software_date">server_software_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">server software date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="latest_client_version">latest_client_version</a></td>
+<td>varchar(40)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">latest client version</span></td>
+</tr>
+<tr>
+<td><a class="name" name="client_software_date">client_software_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">client software date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_latest_client_mandatory">is_latest_client_mandatory</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is latest client mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_client_auto_installable">is_client_auto_installable</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is client auto installable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="client_install_path">client_install_path</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">client install path</span></td>
+</tr>
+<tr>
+<td><a class="name" name="client_install_program">client_install_program</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">client install program</span></td>
+</tr>
+<tr>
+<td><a class="name" name="client_install_description">client_install_description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">client install description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="client_reboot_level">client_reboot_level</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">client reboot level</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmproduct_id</td>
+<td><a href="PMProduct.html">PMProduct</a></td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmproduct_id</td>
+<td>required_server_version</td>
+<td>server_software_date</td>
+<td>latest_client_version</td>
+<td>client_software_date</td>
+<td>is_latest_client_mandatory</td>
+<td>is_client_auto_installable</td>
+<td>client_install_path</td>
+<td>client_install_program</td>
+<td>client_install_description</td>
+<td>client_reboot_level</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2.3.0</td>
+<td>2005-06-14 15:48:47</td>
+<td>2.3.0</td>
+<td>2005-06-14 15:48:47</td>
+<td>1</td>
+<td>1</td>
+<td>\\VM1_sid1\\PMSetup\SA\</td>
+<td>setup.exe</td>
+<td>Sirius client install</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>11400.0.58</td>
+<td>2009-04-09 12:33:47</td>
+<td>11400.0.58</td>
+<td>2009-04-09 12:33:47</td>
+<td>1</td>
+<td>1</td>
+<td>\\VM-SAM-PGR\PMSetup\Service Release\</td>
+<td>InstallServiceRelease.exe</td>
+<td>Sirius Back-office Client Installation</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>155.0.0299</td>
+<td>2009-01-29 09:24:21</td>
+<td>155.0.0299</td>
+<td>2009-01-29 09:24:21</td>
+<td>1</td>
+<td>1</td>
+<td>\\BROSS\PMSetup\DocuMaster\</td>
+<td>Setup.exe CLIENT</td>
+<td>DocuMaster Client Installation</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

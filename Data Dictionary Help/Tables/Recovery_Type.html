@@ -1,0 +1,199 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Recovery_Type</h1>
+<p>Recovery Type - Lists the configured recovery types</p>
+<p>
+                Logical database: Claims<br>
+                Component team: Pure Claims<br>
+                Software module: Claims<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="Recovery_type_id">Recovery_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Recovery type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Description">Description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="is_salvage">is_salvage</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is salvage</span></td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>Recovery_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Recovery_type_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>Description</td>
+<td>is_deleted</td>
+<td>is_salvage</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>18690</td>
+<td>OWNSAL</td>
+<td>Salvage by owner</td>
+<td>0</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1415</td>
+<td>AUCSAL</td>
+<td>Salvage by auction</td>
+<td>0</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1416</td>
+<td>GENSAL</td>
+<td>Salvage General</td>
+<td>0</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1417</td>
+<td>TPREC</td>
+<td>Recovery from Third Party</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1418</td>
+<td>XSREC</td>
+<td>Recovery of XS from insured</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>6</td>
+<td>160</td>
+<td>RIREC</td>
+<td>Reinsurer</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>7</td>
+<td>108102</td>
+<td>SUB</td>
+<td>Subrogation</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

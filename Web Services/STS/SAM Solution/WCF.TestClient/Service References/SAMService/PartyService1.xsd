@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SAM.WCFService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SAM.WCFService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="GetUserDetailsRequestType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseRequestType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AgentKey" type="xs:int" />
+          <xs:element minOccurs="0" name="UserId" type="xs:int" />
+          <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GetUserDetailsRequestType" nillable="true" type="tns:GetUserDetailsRequestType" />
+  <xs:complexType name="BaseRequestType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BranchCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SourceId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseRequestType" nillable="true" type="tns:BaseRequestType" />
+  <xs:complexType name="GetUserDetailsResponseType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ConsolidatedAgentCommission" type="xs:boolean" />
+          <xs:element minOccurs="0" name="EmailAddress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FullUsername" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastLogin" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="LastLoginSpecified" type="xs:boolean" />
+          <xs:element minOccurs="0" name="PartyKey" type="xs:int" />
+          <xs:element minOccurs="0" name="PartyKeySpecified" type="xs:boolean" />
+          <xs:element minOccurs="0" name="PartyName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PartyShortName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PartyType" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PartyTypeSpecified" type="xs:boolean" />
+          <xs:element minOccurs="0" name="PasswordChangeDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="PasswordChangeDateSpecified" type="xs:boolean" />
+          <xs:element minOccurs="0" name="SourceList" nillable="true" type="tns:ArrayOfBranch" />
+          <xs:element minOccurs="0" name="UserGroupsTable" nillable="true">
+            <xs:complexType>
+              <xs:annotation>
+                <xs:appinfo>
+                  <ActualType Name="DataTable" Namespace="http://schemas.datacontract.org/2004/07/System.Data" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+                </xs:appinfo>
+              </xs:annotation>
+              <xs:sequence>
+                <xs:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                <xs:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GetUserDetailsResponseType" nillable="true" type="tns:GetUserDetailsResponseType" />
+  <xs:complexType name="BaseResponseType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:SAMMethodResponseData">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseType" nillable="true" type="tns:BaseResponseType" />
+  <xs:complexType name="SAMMethodResponseData">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="SAMMethodResponseData" nillable="true" type="tns:SAMMethodResponseData" />
+  <xs:complexType name="ArrayOfBranch">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Branch" nillable="true" type="tns:Branch" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBranch" nillable="true" type="tns:ArrayOfBranch" />
+  <xs:complexType name="Branch">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BranchCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BranchId" type="xs:int" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Branch" nillable="true" type="tns:Branch" />
+</xs:schema>

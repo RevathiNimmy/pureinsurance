@@ -1,0 +1,404 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Other</h1>
+<p>Holds extra data for Parties of types "OTDRIVER", "OTWITNESS", "OTREPAIRER", "OTTHIRD" (all parties involved in a road accident). Used mostly in Claims and Product Builder. New party types can be defined and used with this table as long as their codes begin with "OT".</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: Claims, Party, Product Builder<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="license_type_id">license_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">license type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="license_number">license_number</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">license number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_of_birth">date_of_birth</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>date of birth</td>
+</tr>
+<tr>
+<td><a class="name" name="gender">gender</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>gender</td>
+</tr>
+<tr>
+<td><a class="name" name="party_status">party_status</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">party status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reference_number">reference_number</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reference number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="external_id">external_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">external</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reg_number">reg_number</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reg number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_passed_test">date_passed_test</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">date passed test</span></td>
+</tr>
+<tr>
+<td><a class="name" name="contact_name">contact_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">contact name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="contact_telephone_number">contact_telephone_number</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">contact telephone number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_name">insurer_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_address1">insurer_address1</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer address1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_address2">insurer_address2</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer address2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_address3">insurer_address3</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer address3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_address4">insurer_address4</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer address4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_postcode">insurer_postcode</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer postcode</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_telephone_number">insurer_telephone_number</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer telephone number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_fax_number">insurer_fax_number</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer fax number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_contact_name">insurer_contact_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer contact name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_email">insurer_email</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer email</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_notes">insurer_notes</a></td>
+<td>varchar(2000)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer notes</span></td>
+</tr>
+<tr>
+<td><a class="name" name="company_notes">company_notes</a></td>
+<td>varchar(2000)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">company notes</span></td>
+</tr>
+<tr>
+<td><a class="name" name="active_indicator">active_indicator</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">active indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="after_hours_indicator">after_hours_indicator</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">after hours indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Priority_indicator">Priority_indicator</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Priority indicator</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>license_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>party_cnt</td>
+<td>license_type_id</td>
+<td>license_number</td>
+<td>date_of_birth</td>
+<td>gender</td>
+<td>party_status</td>
+<td>reference_number</td>
+<td>external_id</td>
+<td>reg_number</td>
+<td>date_passed_test</td>
+<td>contact_name</td>
+<td>contact_telephone_number</td>
+<td>insurer_name</td>
+<td>insurer_address1</td>
+<td>insurer_address2</td>
+<td>insurer_address3</td>
+<td>insurer_address4</td>
+<td>insurer_postcode</td>
+<td>insurer_telephone_number</td>
+<td>insurer_fax_number</td>
+<td>insurer_contact_name</td>
+<td>insurer_email</td>
+<td>insurer_notes</td>
+<td>company_notes</td>
+<td>active_indicator</td>
+<td>after_hours_indicator</td>
+<td>Priority_indicator</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>165</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>1899-12-29 00:00:00</td>
+<td>Female</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>True</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>231</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>232</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>233</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

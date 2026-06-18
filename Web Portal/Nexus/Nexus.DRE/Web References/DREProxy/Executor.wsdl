@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ssp-uk.com/DRE/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ssp-uk.com/DRE/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ssp-uk.com/DRE/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="ExecuteRuleSet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="input" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="effective" nillable="true" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="unbounded" name="profileToken" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filterRulesetNames" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="excludeRulesetNames" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="useEffectiveDateInChildRuleset" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteRuleSetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecuteRuleSetResult" type="tns:RuleSetReturn" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RuleSetReturn">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RuleSetId" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Output" type="tns:ArrayOfEngineOutput" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExecutionTime" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfEngineOutput">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="EngineOutput" nillable="true" type="tns:EngineOutput" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EngineOutput">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProfileToken" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RuleSet" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ScriptWarnings" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="EngineMessages" type="tns:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="Output" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Differences" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RuleSetTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExecutionTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SerialisationTime" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFilterData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="request" type="tns:GetFilterDataRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetFilterDataRequest">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FilterId" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndDate" nillable="true" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFilterDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFilterDataResult" type="tns:GetFilterDataResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetFilterDataResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Instances" type="tns:ArrayOfRangeMatchInstance" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ranges" type="tns:ArrayOfRangeCategory" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRangeMatchInstance">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RangeMatchInstance" nillable="true" type="tns:RangeMatchInstance" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RangeMatchInstance">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="RangeCategoryId" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="DateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Max" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Min" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRangeCategory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RangeCategory" nillable="true" type="tns:RangeCategory" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RangeCategory">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="LowerBound" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="UpperBound" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExecuteRuleSetSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteRuleSet" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteRuleSetSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteRuleSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFilterDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFilterData" />
+  </wsdl:message>
+  <wsdl:message name="GetFilterDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFilterDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ExecutorServiceSoap">
+    <wsdl:operation name="ExecuteRuleSet">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Executes all Rule Sets applicable against the supplied Profile using the input as the source</wsdl:documentation>
+      <wsdl:input message="tns:ExecuteRuleSetSoapIn" />
+      <wsdl:output message="tns:ExecuteRuleSetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFilterData">
+      <wsdl:input message="tns:GetFilterDataSoapIn" />
+      <wsdl:output message="tns:GetFilterDataSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ExecutorServiceSoap" type="tns:ExecutorServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExecuteRuleSet">
+      <soap:operation soapAction="http://ssp-uk.com/DRE/ExecuteRuleSet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFilterData">
+      <soap:operation soapAction="http://ssp-uk.com/DRE/GetFilterData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ExecutorServiceSoap12" type="tns:ExecutorServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExecuteRuleSet">
+      <soap12:operation soapAction="http://ssp-uk.com/DRE/ExecuteRuleSet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFilterData">
+      <soap12:operation soapAction="http://ssp-uk.com/DRE/GetFilterData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExecutorService">
+    <wsdl:port name="ExecutorServiceSoap" binding="tns:ExecutorServiceSoap">
+      <soap:address location="http://10.80.13.227/Customers/SSP/DRE_R104_DEV/Services/Executor.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ExecutorServiceSoap12" binding="tns:ExecutorServiceSoap12">
+      <soap12:address location="http://10.80.13.227/Customers/SSP/DRE_R104_DEV/Services/Executor.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

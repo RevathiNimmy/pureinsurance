@@ -1,0 +1,245 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Risk_Type_Rule_Set</h1>
+<p>Defines the rule file to use for a risk type and a transaction type.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Risk<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="risk_type_rule_set_id">risk_type_rule_set_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">risk type rule set</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td>the risk type rule set code</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="risk_type_id">risk_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk_Type.html#risk_type_id">Risk_Type.risk_type_id</a> the risk type id that this record refers to</td>
+</tr>
+<tr>
+<td><a class="name" name="file_name">file_name</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>the name of the rule script file</td>
+</tr>
+<tr>
+<td><a class="name" name="live">live</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>is this rule live for this risk type</td>
+</tr>
+<tr>
+<td><a class="name" name="type">type</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>is this rule for rating or renewal</td>
+</tr>
+<tr>
+<td><a class="name" name="script_quote">script_quote</a></td>
+<td>text</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">script quote</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_type_rule_set_type_id">risk_type_rule_set_type_id</a></td>
+<td>int</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>risk type rule set type id</td>
+</tr>
+<tr>
+<td><a class="name" name="dre_executor_url">dre_executor_url</a></td>
+<td>VARCHAR(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>dre executor url</td>
+</tr>
+<tr>
+<td><a class="name" name="dre_default_token">dre_default_token</a></td>
+<td>VARCHAR(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>dre default token</td>
+</tr>
+<tr>
+<td><a class="name" name="dre_default">dre_default</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>dre default</td>
+</tr>
+<tr>
+<td><a class="name" name="dre_validation">dre_validation</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>dre validation</td>
+</tr>
+<tr>
+<td><a class="name" name="dre_quote">dre_quote</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>dre quote</td>
+</tr>
+<tr>
+<td><a class="name" name="post_dre_script">post_dre_script</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>post dre script</td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>risk_type_rule_set_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type.html">Risk_Type</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>risk_type_rule_set_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>risk_type_id</td>
+<td>file_name</td>
+<td>live</td>
+<td>type</td>
+<td>script_quote</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>38598</td>
+<td>PMOTORRR</td>
+<td>Private Motor Rating Rule</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>RT-PrivateMotor.Rul</td>
+<td>1</td>
+<td>RT</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

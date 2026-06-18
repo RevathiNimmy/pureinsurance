@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Export/Receipt_Export/20081216" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NS="http://www.siriusfs.com/SFI/Export/Receipt_Export/20081216" targetNamespace="http://www.siriusfs.com/SFI/Export/Receipt_Export/20081216" elementFormDefault="qualified">
+  <xs:element name="EXPORT_HEADER">
+    <xs:annotation>
+      <xs:documentation>Sirius Export Header</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Bank_Account" />
+      </xs:sequence>
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="Receipt_Export" />
+      <xs:attribute name="parameters_used" type="xs:string" />
+      <xs:attribute name="batch_id" type="xs:long" use="optional" />
+      <xs:attribute name="batch_reference" type="xs:string" use="optional" />
+      <xs:attribute name="date_exported" type="xs:dateTime" use="optional" />
+      <xs:attribute name="bank_account_name" type="xs:string" use="optional" />
+      <xs:attribute name="media_type_code" type="xs:string" use="optional" />
+      <xs:attribute name="total_transactions" type="xs:long" />
+      <xs:attribute name="total_amount" type="xs:double" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Bank_Account">
+    <xs:annotation>
+      <xs:documentation>Sirius Receipt Export Bank Account Data</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Transaction"/>
+      </xs:sequence>
+      <xs:attribute name="account_name" type="xs:string" use="required" />
+      <xs:attribute name="account_description" type="xs:string" use="required" />
+      <xs:attribute name="account_code" type="xs:string" use="required" />
+      <xs:attribute name="account_number" type="xs:string" use="required" />
+      <xs:attribute name="sepa_account_bic" type="xs:string" use="optional" />
+      <xs:attribute name="sepa_account_iban" type="xs:string" use="optional" />
+      <xs:attribute name="financial_institution_code" type="xs:string" use="optional" />
+      <xs:attribute name="direct_debit_supplier_name" type="xs:string" use="optional" />
+      <xs:attribute name="direct_debit_supplier_id" type="xs:string" use="optional" />
+      <xs:attribute name="processing_days" type="xs:int" use="optional" />
+      <xs:attribute name="remitter" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Transaction">
+    <xs:annotation>
+      <xs:documentation>Sirius Receipt Export Transaction Data</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Transaction_Policy" />
+      </xs:sequence>
+      <xs:attribute name="cashlistitem_id" type="xs:long" />
+      <xs:attribute name="amount" type="xs:double" use="required" />
+      <xs:attribute name="currency_code" type="xs:string" use="required" />
+      <xs:attribute name="transaction_date" type="xs:dateTime" use="required" />
+      <xs:attribute name="receipt_type_code" type="xs:string" use="required" />
+      <xs:attribute name="media_type_code" type="xs:string" use="required" />
+      <xs:attribute name="media_reference" type="xs:string" use="optional" />
+      <xs:attribute name="our_reference" type="xs:string" use="optional" />
+      <xs:attribute name="their_reference" type="xs:string" use="optional" />
+      <xs:attribute name="cheque_name" type="xs:string" use="optional" />
+      <xs:attribute name="cheque_bank_code" type="xs:string" use="optional" />
+      <xs:attribute name="cheque_date" type="xs:dateTime" use="optional" />
+      <xs:attribute name="account_name" type="xs:string" use="optional" />
+      <xs:attribute name="account_sort_code" type="xs:string" use="optional" />
+      <xs:attribute name="account_number" type="xs:string" use="optional" />
+      <xs:attribute name="cc_name" type="xs:string" use="optional" />
+      <xs:attribute name="cc_number" type="xs:string" use="optional" />
+      <xs:attribute name="cc_expiry_date" type="xs:string" use="optional" />
+      <xs:attribute name="cc_start_date" type="xs:string" use="optional" />
+      <xs:attribute name="cc_issue" type="xs:string" use="optional" />
+      <xs:attribute name="cc_pin" type="xs:string" use="optional" />
+      <xs:attribute name="cc_auth_code" type="xs:string" use="optional" />
+      <xs:attribute name="cc_manual_auth_code" type="xs:string" use="optional" />
+      <xs:attribute name="cc_transaction_code" type="xs:string" use="optional" />
+      <xs:attribute name="cc_customer" type="xs:string" use="optional" />
+      <xs:attribute name="cc_tracking_number " type="xs:string" use="optional" />
+      <xs:attribute name="contact_name" type="xs:string" use="optional" />
+      <xs:attribute name="address1" type="xs:string" use="optional" />
+      <xs:attribute name="address2" type="xs:string" use="optional" />
+      <xs:attribute name="address3" type="xs:string" use="optional" />
+      <xs:attribute name="address4" type="xs:string" use="optional" />
+      <xs:attribute name="postal_code" type="xs:string" use="optional" />
+      <xs:attribute name="country_code" type="xs:string" use="optional" />
+      <xs:attribute name="further_details" type="xs:string" use="optional" />
+      <xs:attribute name="user_name" type="xs:string" use="required" />
+      <xs:attribute name="transdetail_id" type="xs:long" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Transaction_Policy">
+    <xs:annotation>
+      <xs:documentation>Sirius Receipt Export Transaction Policy Data</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="policy_id" type="xs:long" use="required" />
+      <xs:attribute name="insurance_ref" type="xs:string" use="required" />
+      <xs:attribute name="client_name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+

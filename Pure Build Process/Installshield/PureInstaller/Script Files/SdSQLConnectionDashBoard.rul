@@ -1,0 +1,138 @@
+//===========================================================================
+//
+//  File Name:    SdSQLConnectionDashBoard.rul
+//
+//
+//  Comments:     This Rule File (SdPurePortal.rul) provides the function to
+//				   gets the input for Pure Portal Application                 
+//
+//
+//===========================================================================
+
+#include "Ifx.h"   //Header File for Built in Installscript function prototypes          
+ 
+// Dialog and control IDs. 
+#define RES_SDSQLCONNECTIONDASHBOARD_ID       606   // ID of dialog itself 
+#define RES_PBUT_NEXT         1   // ID of Next button 
+#define RES_PBUT_CANCEL       9   // ID of Cancel button 
+#define RES_PBUT_BACK        12   // ID of Back button 
+
+export prototype number SdSQLConnectionDashBoard(); 
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SdPurePortal                                                   //                                                                        //
+// Purpose:  This function creates the Custom Dialog and  gets the input     //
+//            for Pure Portal Application                                    // 
+///////////////////////////////////////////////////////////////////////////////
+function number SdSQLConnectionDashBoard() 
+   STRING  szDialogName, szDLLName;
+   NUMBER  nvResult,nvCmdValue,nvRetValue; 
+   BOOL    bDone; 
+   STRING  szSection,szValue;
+   NUMBER  nvCommDialog,nvReturnResult,nResult,nvDialogNumber,nvPBUT_BACK;
+   LIST    listConnections;
+   STRING  szConnection;
+   
+begin                    
+   
+  
+   nvRetValue = 0;
+   szDialogName = "SdSQLConnectionDashBoard"; 
+   szDLLName = ""; 
+   
+  
+  if (MODE=SILENTMODE) then 
+ 	       SdMakeName(szSection,"SdSQLConnectionDashBoard","",nvCommDialog); 
+  	       SilentReadData(szSection,"Result",DATA_NUMBER,szValue,nvReturnResult); 
+   	       if (nvReturnResult = 1) then 
+                  SilentReadData(szSection,"DatabaseName",DATA_STRING,g_DashBoardDB,nvReturnResult);
+           endif;
+  else //Normal Mode Installation Code Execution Flow 
+	
+	  nvResult = EzDefineDialog (szDialogName, ISUSER, "", RES_SDSQLCONNECTIONDASHBOARD_ID); 
+
+	 	                                                           
+	   bDone = FALSE; 
+	   repeat 
+	        nvCmdValue = WaitOnDialog(szDialogName); 
+	       // Respond to the event. 
+	        switch (nvCmdValue) 
+	           case DLG_CLOSE: 
+	                	 // The user clicked the window's Close button. 
+	             	 	 Do (EXIT); 
+	
+	            case DLG_ERR:  
+	            		 //An Error Condition has happened during initialization of dialog
+	            	 	 MessageBox ("Unable to display dialog. Setup canceled.", SEVERE); 
+	             		 abort; 
+	
+	            case DLG_INIT: 
+	                     CtrlSetText(szDialogName,50,"Pure Dashboard database details");
+	                     CtrlSetText(szDialogName,1201,g_DashBoardDB);
+	                     
+	                     //Disable backButton
+	                     nvDialogNumber = CmdGetHwndDlg(szDialogName); 
+						 nvPBUT_BACK =  GetDlgItem(nvDialogNumber,RES_PBUT_BACK);
+						 EnableWindow(nvPBUT_BACK,FALSE);   
+	                    
+	            case RES_PBUT_CANCEL: 
+	         	        // The user clicked the Cancel button. 
+	       		          Do (EXIT); 
+	
+	            case RES_PBUT_NEXT: 
+						 
+						 bDone = TRUE; 
+						  nvRetValue = 1;
+	          	    	
+						 CtrlGetText(szDialogName,1201,g_DashBoardDB);
+	          	    	  
+	          	    		          	    	
+	          	    	  //CheckDatabase Connection
+	          	    	 /* if (CheckSQLConncetion(gErrorLog) = FALSE) then
+								MessageBox("Login failed, please provide the login id and Password correctly.\n\n" + gErrorLog,INFORMATION);
+								SdSQLConnectionDashBoard();
+	          	    	  endif;
+	          	    	  */
+	          	    	
+	            case RES_PBUT_BACK:   
+	 	   	   			 bDone = TRUE;  
+	 	   	   			 nvRetValue = -1;
+	          			 
+	          			 
+	            case 1203:
+						//First initialize SQL Server runtime
+						SQLRTInitialize2( );
+						
+						    //Get the names of all the necessary connections
+						listConnections = SQLRTGetConnections();
+						ListGetFirstString (listConnections, szConnection);
+						//nvResult = SQLBrowse( g_PortalDBServer ); 
+						nvResult = SQLDatabaseBrowse( szConnection, g_szDBServer, g_bWinLoginAuthenticate, g_szMasterUser, g_szMasterPassword, g_DashBoardDB ); 
+
+						CtrlSetText(szDialogName,1201,g_DashBoardDB);
+						
+						if (nvResult < 0) then
+	                   			MessageBox ("Unable to display dialog. ", WARNING); 
+	                    endif;	
+	            endswitch; 
+	    until bDone; 
+	    
+	        
+	    // Close the dialog. 
+	    EndDialog (szDialogName); 
+	    ReleaseDialog (szDialogName); 
+	    
+	    SdMakeName(szSection,"SdSQLConnectionDashBoard","",nvCommDialog); 
+	       
+        SilentWriteData(szSection,"DatabaseName",DATA_STRING,g_DashBoardDB,nvReturnResult);
+	    
+        SilentWriteData(szSection,"Result",DATA_NUMBER,"",nvRetValue);
+    
+	endif;        
+	       
+    //return nvRetValue;    
+    return nvCmdValue;
+
+end;    
+
+/***********************SdPortalConfigPath.rul File Coding Ends*********************************************/

@@ -1,0 +1,21 @@
+EXECUTE DDLDropProcedure 'spu_PFScheme_Type_List'
+GO
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROCEDURE spu_PFScheme_Type_List
+AS
+
+SELECT PFScheme_Type_id, code
+FROM PFScheme_Type
+ORDER BY code
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO

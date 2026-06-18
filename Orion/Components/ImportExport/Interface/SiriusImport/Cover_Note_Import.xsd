@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<xs:schema targetNamespace="http://www.siriusfs.com/SFI/Import/Cover_Note_Import/20070716" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.siriusfs.com/SFI/Import/Cover_Note_Import/20070716" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="IMPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Import Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="COVER_NOTE"/>
+			</xs:sequence>
+			<xs:attribute name="interface_name" type="xs:string" use="required" fixed="COVER_NOTE_IMPORT"/>
+			<xs:attribute name="batch_id" type="xs:long" use="optional"/>
+			<xs:attribute name="batch_reference" type="xs:string" use="optional"/>
+			<xs:attribute name="date_imported" type="xs:dateTime" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="COVER_NOTE">
+		<xs:annotation>
+			<xs:documentation>Sirius Cover Note Data</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="PRODUCTS"/>
+			</xs:sequence>
+			<xs:attribute name="book_number" type="xs:string" use="required"/>
+			<xs:attribute name="start_number" type="xs:long" use="required"/>
+			<xs:attribute name="end_number" type="xs:long" use="required"/>
+			<xs:attribute name="agent_short_code" type="xs:string" use="optional"/>
+			<xs:attribute name="branch_code" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PRODUCTS">
+		<xs:annotation>
+			<xs:documentation>Product Data</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="product_code" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,2828 @@
+//===========================================================================
+//
+//  File Name:    Setup.rul
+//
+//  Description:  Blank setup main script file
+//
+//  Comments:     Blank setup is an empty setup project. If you want to
+//				  create a new project via. step-by step instructions use the
+//				  Project Assistant.
+//
+//===========================================================================
+STRING g_szUserName;// Varibale for holding the username
+string g_szHostName;  //Variable for holding the Host Name or Computer name of the target machine
+
+BOOL g_bAppServerOnly,g_bAppServerWithDB,g_bWebServices,g_bPortal,g_WCFServices; //Variables for Setting Installation Type of the Sirius Installer
+string g_szWindowsAuthenticate; //Variable to hold the Windows Authentication Flag done during a previous installation
+BOOL g_bWinLoginAuthenticate; //Variable to hold whether the SQL Server authentication is Windows or SQL Server Authentication
+number g_nvSQLFileSuccessCount,g_nvSQLFileErrorCount;//Variable to hold the count of SQL Files Executed Successfully and with Errors
+number g_nvSQLFileSuccessTotalCount,g_nvSQLFileErrorTotalCount; //Variable to hold the total count of SQL Files Executed Successfully and with Errors
+BOOL g_bPatchInstallation;//Variable for setting a flag to indicate a patch installation is happening
+STRING SETUPEXEDIR;
+
+//Variables to hold the Installed Version of the Scripts folders for DBScripts Execution
+string g_szFolder1_InstalledVersion,g_szFolder2_InstalledVersion,g_szFolder3_InstalledVersion,g_szFolder4_InstalledVersion;
+//Variables to hold the TobeInstalled Version of the Scripts folders for DBScripts Execution
+string g_szFolder1_TobeInstalledVersion,g_szFolder2_TobeInstalledVersion,g_szFolder3_TobeInstalledVersion,g_szFolder4_TobeInstalledVersion;
+number  g_nvUpgradeFolderLength; //Variable to hold the length of Upgrade DB Scripts Execution Folder
+
+//Variables to hold Major Version,ServiceRelease Version and Build Number of the Installation
+string g_szInstalledMajorVersion,g_szInstalledSubVersion,g_szInstalledServiceReleaseAndBuildNumber,g_szInstalledBuildNumber,g_szInstalledServiceRelease;
+
+//Variables to hold Installed Product DB Version Structure
+string g_szInstalledProductVersionforDBStructure; 
+string g_szTobeInstalledProductVersionforDBStructure; 
+string g_szTobeInstalledMajorVersion,g_szTobeInstalledMinorVersion,g_szTobeInstalledServiceRelease,g_szTobeInstalledBuildNumber;
+string g_szTobeInstalledFullVersion,g_szTobeInstalledSubVersion;
+string g_szInstalledFullVersion;  
+STRING gTemp;
+
+
+//Portal .zip file/folder Name
+STRING gPortalFileName,g_PortalFolderName;
+
+string g_szPatchVersion,g_PureCompatibleVersion,g_PureInstalledVersion,gszInstallerTitle1; //Variable to hold the current patch version of the product
+
+// UserID and Password for webservices Installation
+string g_szWebservicesUser,g_szWebservicesPassword;
+
+//New varibale for Pure portal Application
+STRING g_szAppPoolPortal,g_szApplicationPortal,g_szPhysicalPathPortal,g_OLDWebConfigPath;
+STRING g_szWebServiceUrl,g_szDocumentsLocation,g_szReportsLocation,g_szTempFileLocation;
+BOOL g_PortalExists,g_EmailConfigExists;
+STRING gErrorLog;
+BOOL IsPortalInstalled;
+
+//Portal database 
+STRING g_PortalDBServer,g_PortaDB,g_PortalUser,g_PortalPwd;
+STRING g_szWebFileName;
+
+
+//STS and WCF confiuration details for Portal web.config
+STRING g_szPureAppServerName;//g_szWebServiceUrl
+STRING g_szSTSServer, g_szCertificateName, g_szThumbprint;
+
+BOOL bPurePortalDBWinLogin;
+
+//WCFSecuirtyToken
+STRING g_szWCFSecuirtyToken;
+STRING g_PureConfigFileName,g_PureConfigFolderName;
+
+//Log File Names used for Installation/Uninstallation for logging normal operations as well as errors
+#define INSTALL_LOG	 			"InstallPurePatchLog.txt"
+#define UNINSTALL_LOG	 		"UnInstallPurePatchLog.txt"
+#define UNINSTALL_ERRORLOG	 	"UnInstallPurePatchErrorLog.txt"
+#define INSTALL_ERRORLOG	 	"InstallPurePatchErrorLog.txt"
+#define DATABASE_ERRORLOG		"DatabasePurePatchErrorLog.txt"
+#define DATABASE_LOG			"DatabasePurePatchFinishLog.txt"  
+
+
+//Sirius User Name and Password used by the Sirius Back Office Application
+#define SIRIUSUSER     	"SIRIUS"
+#define SIRIUSPASSWORD  "$1R1U5" 
+#define	PURE_APPLICATION_FOLDER	"Application"
+
+// web services XML
+#define ERROR_SUCCESS 0
+#define ERROR_XML_FILE_CREATION "Setup could not find the web.config file."
+//#define ERROR "Error"
+#define ERROR_XML_FILE_STRUCTURE "The web.config file structure is corrupted."
+#define ERROR_XML_FILE_LOAD "The web.config file was not loaded."
+
+export prototype number CreateLogFile(string);
+export prototype number WriteToLogFile(string,string); 
+export prototype InstallPatch();
+export prototype InstallBackOffice();
+export prototype InstallPureWebservices();
+export prototype InstallDatabase();
+export prototype InstallPortal();
+export prototype CheckPrerequisites();
+export prototype StopPureService();
+export prototype CopyApplication();
+export prototype CopyLists();
+export prototype CopyLookups();
+export prototype CopyNavigatorXM();
+export prototype CopyReports();
+export prototype CopyRules();
+export prototype CopyPMDocs();
+//export prototype RunGISListCreator();
+export prototype DataModelRebuild();
+export prototype RunCompleteWebServicesInstallCmdFile();
+export prototype number ValidateLoggedinUser();
+export prototype BOOL   IsUserMemberOfGroup(string,string,string); 
+export prototype number StartUpgradeDBScriptsExecution(string);
+export prototype GetPortalFileName();
+export prototype number GetPatchVersionFromTextFile();
+export prototype BOOL ValidateUserCredentials();
+export prototype GetPortalRegistry();
+export prototype CopyPortalFiles();
+export prototype AddEditTbl_Portal();
+export prototype CreatePortalRegistry();
+export prototype CopyOLDWebConfig();
+export prototype UpdatePortalWebConfig();
+export prototype ModifyPortalApplicationSetting();
+export prototype IsPurePortalInstalled();
+export prototype RegisterbPMPAFWrapper();
+export prototype BOOL CheckApplicationInUse(BYREF LIST);
+export prototype InstallPureWCFservices();
+export prototype RunCompleteWCFServicesInstallCmdFile();
+
+export prototype RunGenerateWCFTokenID();
+export prototype ReadWCFSecurityTokenFile();
+export prototype UpdatePMWorkManagerConfig();
+export prototype UpdateWCFServiceConfig();
+export prototype ReadPureConfigFiles();
+export prototype UpdatePureConfigFiles(STRING,STRING);
+export prototype UpdatePMUserMaintenanceConfigFile(STRING,STRING);
+export prototype PurePortalDatabaseDetails();
+
+// Included header files ----------------------------------------------------
+#include "ifx.h"
+
+// Include header file for built-in functions
+#include "ifx.h"   				 	  //Header File for Built in Installscript function prototypes       
+#include "isrt.h"					  //Header File for MSI API functions and constants
+//#include "iswi.h"                     //Header File for Built in Installscript function prototypes       
+#include "Registry.rul"    			  //Rule File for Performing Registry Related Operations
+#include "DatabaseFunctions.rul" //Rule File containing Database functions
+#include "SdSQLConnectionPortal.rul"
+//---------------------------------------------------------------------------
+// OnBegin
+//
+// The OnBegin event is called directly by the framework after the setup
+// initializes. Note that this event will be called AFTER "Initialization"
+// events (i.e.) OnSetTARGETDIR, OnCheckMediaPassword.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnBegin()
+begin
+     
+     if( REMOVEONLY = 0) then
+		
+		CreateLogFile(INSTALL_LOG);       
+	 	CreateLogFile(INSTALL_ERRORLOG); 
+	 	CreateLogFile(DATABASE_LOG);       
+	 	CreateLogFile(DATABASE_ERRORLOG); 
+     
+		//Setting the type of Installation as Patch Installation to FALSE
+		g_bPatchInstallation = FALSE;
+	
+		
+		// Get the hostname of the machine.
+ 		GetEnvVar("COMPUTERNAME",g_szHostName); 
+ 		GetEnvVar("USERNAME",g_szUserName); 
+ 		//MessageBox(g_szUserName,INFORMATION);
+ 		
+ 		GetEnvVar ("TEMP", gTemp); 
+      
+ 	
+ 		//Initializing the Count Variable 
+ 		g_nvSQLFileSuccessTotalCount = 0;
+ 		g_nvSQLFileErrorTotalCount  = 0;
+  	
+	
+ 		//Initializing the Sirius Database Name and MDF/LDF Path
+ 		g_szSiriusDBName = "";                                  
+ 
+ 		//Initializing the Windows Authentication Mechanism Flag to False for SQL Server Authentication
+ 		g_szWindowsAuthenticate = "";                                                                  
+ 		
+ 		//Validate whether the logged in user of the system is an administrator user
+		//Installation prerequisite
+		ValidateLoggedinUser();
+		
+		GetPMRegistryInstalledValuesforUpgradeInstall();
+		
+	              
+	endif;
+	
+end;
+
+//---------------------------------------------------------------------------                                                                        
+// OnFirstUIBefore
+//
+// First Install UI Sequence - Before Move Data
+//
+// The OnFirstUIBefore event is called by OnShowUI when the setup is
+// running in first install mode. By default this event displays UI allowing
+// the end user to specify installation parameters.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnFirstUIBefore()
+    number  nResult, nLevel, nSize, nSetupType;
+    string  szTitle, szMsg, szOpt1, szOpt2, szLicenseFile;
+    string  szName, szCompany, szTargetPath, szDir, szFeatures;
+    NUMBER nvResult;
+    STRING szUser,szPassword;
+    STRING szQuestion;
+    number nvDefault,nvAskButtonRetValue;  
+begin	
+
+    // Added in InstallShield 15 - Show an appropriate error message if
+    // -removeonly is specified and the product is not installed.
+    if( REMOVEONLY ) then
+        Disable( DIALOGCACHE );
+		szMsg = SdLoadString( IDS_IFX_ERROR_PRODUCT_NOT_INSTALLED_UNINST );
+   		SdSubstituteProductInfo( szMsg );
+		MessageBox( szMsg, SEVERE );
+		abort;
+    endif;
+   
+    nSetupType = COMPLETE;	
+    szDir = TARGETDIR;
+    szName = "";
+    szCompany = "";
+    
+    //Get the Patch Name or Patch Version from the Text File available in the folder along with Update.exe
+	GetPatchVersionFromTextFile();
+	
+	CheckPrerequisites();
+	
+	IsPurePortalInstalled();
+
+// Beginning of UI Sequence
+Dlg_Start:
+    nResult = 0;
+    
+  
+
+Dlg_SdWelcome:
+		g_bAppServerOnly = TRUE;
+		//g_bAppServerWithDB = TRUE;
+		g_bWebServices = FALSE;
+		g_bPortal = FALSE;
+		g_WCFServices=TRUE;
+		//This Dialog is used to show the Welcome Screen indicating the Start of Upgrade Installation
+	    szTitle = "SSP Pure Insurance Patch Installation";  
+	    szMsg   = "Welcome to the Installation of Pure Insurance version " + gszInstallerTitle1 + "" ;
+		Disable(BACKBUTTON);    
+	    nvResult = SdWelcome(szTitle,szMsg);  
+	    
+	    if ((ExistsDir (SRCDIR ^ "Portal") != EXISTS) || IsPortalInstalled=FALSE) then
+				g_bPortal = FALSE;
+		else
+				g_bPortal = TRUE;
+				GetPortalFileName();
+				if(gPortalFileName="")then
+					g_bPortal = FALSE;
+				else
+					g_bPortal = TRUE;
+				endif;
+		endif;
+	    
+Dlg_AskInstallationType:
+
+	szTitle    = "SSP Pure Insurance Patch Installation Type";
+    szMsg      = "This specifies the type of patch you require";   
+    
+        
+	if(g_bPortal=FALSE) then
+	        nvResult    = AskOptions(NONEXCLUSIVE,'Select the required Pure Patch Installation Type .',"Back Office",g_bAppServerOnly,"Pure WCF Services",g_WCFServices); 
+	    
+	endif;
+	    
+	if(g_bPortal=TRUE) then
+			nvResult    = AskOptions(NONEXCLUSIVE,'Select the required Pure Patch Installation Type.',"Back Office",g_bAppServerOnly,"Pure WCF Services",g_WCFServices,"Pure Portal", g_bPortal); 
+				
+	endif;
+		
+	
+	if(nvResult = BACK) then 
+		goto Dlg_SdWelcome; 
+	endif;
+	
+	FeatureSelectItem (MEDIA, "BackOffice", TRUE);
+
+
+Dlg_UserInformation:
+
+if(g_bWebServices=TRUE || g_WCFServices=TRUE || g_bPortal=TRUE) then
+	  
+	  g_szAppPoolPortal="PurePortalAppPool";
+	  g_szApplicationPortal="Pure.Portal";
+	  g_szPhysicalPathPortal=IISROOTFOLDER ^ g_PortalFolderName;
+	  g_szWebServiceUrl="http://" + g_szHostName + "/PureWebServices/SAMForInsuranceV2.asmx";
+	  g_szDocumentsLocation=TARGETDIR ^ "DocZipTemp";
+	  g_szReportsLocation=TARGETDIR ^ "Reports";
+	  g_szTempFileLocation=TARGETDIR ^ "DocZipTemp";
+	
+	 szTitle = "";
+	 szMsg   = "Specify the User and Password for configuring Web Services and setting permissions on Pure Application folders. Make sure user is a member of the IIS_IUSRS group on the Web server so that the account can access the appropriate resources.";  
+	 szUser="User:";
+	 szPassword="Password:";
+		 
+	 nvResult=SdShowDlgEdit2 ( szTitle, szMsg, szUser, szPassword, g_szWebservicesUser,g_szWebservicesPassword); 
+	 
+	 if(nvResult = BACK) then 
+		goto Dlg_AskInstallationType; 
+	 endif;    
+	 
+	 if(g_szWebservicesUser="")then
+		       MessageBox("Username cannot be empty, Please specify a valid user.",INFORMATION);
+		       goto Dlg_UserInformation;
+	 endif;
+		 
+	 if(g_szWebservicesPassword="")then
+	    	  MessageBox("Password cannot be empty, Please specify a valid password.",INFORMATION);
+		      goto Dlg_UserInformation;
+	 endif;	 
+	 
+	 /*
+	 if (ValidateUserCredentials() = FALSE) then
+				MessageBox("Login failed, please provide the Username and Password correctly.\n\n",INFORMATION);
+				goto Dlg_UserInformation;
+	 endif;
+	 */
+	 
+	 //TextSubSetValue("<APPPOOLUSERID>", g_szWebservicesUser, TRUE);
+	 //TextSubSetValue("<APPPOOLPASSWORD>", g_szWebservicesPassword, TRUE);
+	 
+	 //MsiSetProperty( ISMSI_HANDLE, "APPPOOLUSERID", g_szWebservicesUser );
+	 //MsiSetProperty( ISMSI_HANDLE, "APPPOOLPASSWORD", g_szWebservicesPassword ); 
+endif;
+	 	
+Dlg_PortalDetails:
+	if(g_bPortal=TRUE) then
+		GetPortalFileName();
+		GetPortalRegistry();
+			
+		g_szPhysicalPathPortal=IISROOTFOLDER ^ g_PortalFolderName;
+		//MessageBox(g_szPhysicalPathPortal,INFORMATION);
+		LongPathToQuote(g_szPhysicalPathPortal,FALSE);
+		
+		if(nvResult = BACK) then
+					goto Dlg_UserInformation;
+		endif; 
+	endif;
+	
+Dlg_PortalConfigPath:
+	if(g_bPortal=TRUE) then
+		/*if(g_PortalExists=FALSE)then
+				nvResult = SdPortalConfigPath();
+		endif;
+		*/
+		if(nvResult = BACK) then
+					goto Dlg_PortalDetails;
+		endif; 
+		
+		CopyPortalFiles();
+	endif;
+	
+	
+	
+Dlg_TestConnectDBforUpgradeInstall:	
+	  
+	  if(g_bAppServerOnly=TRUE ) then
+	  
+		nvResult=OnSQLServerInitialize(NEXT);
+	  
+	  endif;
+	  
+	  if(nvResult = BACK) then
+					goto Dlg_UserInformation;
+	  endif;
+	  
+	  if(g_bAppServerOnly=TRUE ) then 
+		Disable( DIALOGCACHE );
+		StartUpgradeDBScriptsExecution(SRCDIR ^ "Scripts");
+		Enable( DIALOGCACHE );
+	  endif;
+	  
+	  //Update Portal database
+	 if(g_bPortal=TRUE) then
+			// Ask SQL Server Connection details
+			//nvResult = SdSQLConnectionPortal();	
+			nvResult = PurePortalDatabaseDetails();	
+			
+			//Update Tbl_Portal table
+			//AddEditTbl_Portal();
+			
+			
+		    // Create Portal registry
+		    Disable( DIALOGCACHE );
+			CreatePortalRegistry();
+			Enable( DIALOGCACHE );
+			
+			szQuestion= "Do you want to copy existing web.config file to new Pure Portal location?\n\n" +
+						"Click YES to 'copy existing web.config file' or Click NO to 'copy new web.config file'.";
+			nvDefault = YES;
+			
+			nvAskButtonRetValue = AskYesNo(szQuestion,nvDefault); 
+			if(nvAskButtonRetValue = YES) then
+					g_szWebFileName=g_OLDWebConfigPath ^ "web.config";
+					CopyOLDWebConfig();
+					MessageBox("Please update the portal web.config file manually after Installation, please refer to release notes for the details.",INFORMATION);
+			else
+				   
+				   //Update Portal web config
+					UpdatePortalWebConfig();
+			endif;
+	 endif;
+	 
+
+Dlg_SdStartCopy2:
+    
+    szTitle = "";
+    szMsg = "";
+    
+    
+    nResult = SdStartCopy2( szTitle, szMsg );	
+    
+   
+    if (nResult = BACK) goto Dlg_TestConnectDBforUpgradeInstall;
+    
+    szMsg = "Installing Pure Insurance Version "+gszInstallerTitle1+""; 
+    SetStatusExStaticText(szMsg);
+    
+    // setup default status
+    Enable(STATUSEX);
+    
+    //Main function to run all the steps for Patch Installation
+    InstallPatch();
+    
+    return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnMaintUIBefore
+//
+// Maintenance UI Sequence - Before Move Data
+//
+// The OnMaintUIBefore event is called by OnShowUI when the setup is
+// running in maintenance mode. By default this event displays UI that
+// allows the end user to add or remove features, repair currently
+// installed features or uninstall the application.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnMaintUIBefore()
+begin
+		OnFirstUIBefore();
+		return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnUpdateUIBefore
+//
+// Update UI Sequence - Before Move Data
+//
+// The OnUpdateUIBefore event is called when the setup is running in update
+// mode. By default this event displays UI that allows the end user to
+// update the application to the current version.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnUpdateUIBefore()
+begin	
+		OnFirstUIBefore();
+		return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnFirstUIAfter
+//
+// First Install UI Sequence - After Move Data
+//
+// The OnFirstUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in first install mode. By default
+// this event displays UI that informs the end user that the setup has been
+// completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnFirstUIAfter()
+ STRING szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    NUMBER bOpt1, bOpt2;
+begin
+	Disable(STATUSEX);
+
+	bOpt1   = FALSE;
+    bOpt2   = FALSE;    
+
+    szTitle = "SSP Pure Patch Installation Complete";    
+	szMsg1 = "SSP Pure Insurance " + gszInstallerTitle1  + " Installation has successfully installed. Click Finish to exit the Wizard";     
+    
+    szMsg2 = "Click Finish to exit %P setup."; 
+	
+  	SdFinish(szTitle,szMsg1,szMsg2,"","", bOpt1, bOpt2);
+end;
+
+//---------------------------------------------------------------------------
+// OnMaintUIAfter
+//
+// The OnMaintUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in maintenance mode. By default
+// this event displays UI that informs the end user that the maintenance setup
+// has been completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnMaintUIAfter()
+begin
+		
+		OnFirstUIAfter();
+		return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnUpdateUIAfter
+//
+// Update Mode UI Sequence - After Move Data
+//
+// The OnUpdateUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in update mode. By default
+// this event displays UI that informs the end user that the maintenance setup
+// has been completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnUpdateUIAfter()
+begin
+		OnFirstUIAfter();
+		return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnSQLServerInitialize
+//
+// The OnSQLServerInitialize event is called by OnFirstUIBefore to
+// establish any connections necessary for SQL Server support.
+//
+// This function will initialize the SQL Server runtime, and attempt to
+// make any necessary SQL Server connections, displaying a login dialog
+// for each one.
+//
+// Parameter nBtn indicates whether NEXT or BACK was the result of the 
+// previously displayed dialog.  It is for information purposes only.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function number OnSQLServerInitialize( nBtn )
+number nResult, nErrorCode, nErrorLine;
+number nCount;
+string szConnection;
+string szServer, szDB, szUser, szPassword;
+string szMessage;
+string szKey;
+LIST   listConnections;
+BOOL   bWinLogin;
+BOOL   bNext;
+NUMBER nvErrorCode;
+STRING svTechnology;
+begin
+
+    //First initialize SQL Server runtime
+    SQLRTInitialize2( );
+
+    //Get the names of all the necessary connections
+    listConnections = SQLRTGetConnections();
+    ListGetFirstString (listConnections, szConnection);
+
+    nCount = 0;
+
+    //determine if NEXT or BACK will be returned 
+    //if there are no connections to make
+    if( nBtn != BACK ) then
+        bNext = TRUE;
+    else
+        bNext = FALSE;
+		//start at end if going BACK
+		while (ISERR_SUCCESS = ListGetNextString( listConnections, szConnection ) );
+			nCount++;
+		endwhile;
+    endif;
+
+    // Login for each connection
+    while (nResult = ISERR_SUCCESS)
+
+        //Get Default values for connection
+        SQLRTGetConnectionInfo( szConnection, szServer, szDB, szUser, szPassword );
+        bWinLogin = SQLRTGetConnectionAuthentication( szConnection );
+        bWinLogin = FALSE;
+        
+        //Assign the DB Server Name if one is already available for pure upgrade or product upgrade but fresh installation           
+	    szServer   = g_szDBServer; 
+	    
+	    
+	    //if(g_bProductUpgradeNewInstaller = TRUE || g_bUpgradeInstaller = TRUE || g_bPatchInstallation = TRUE) then
+         szDB = "master";
+	     Dlg_SQLConnection: 
+        
+						// Display login dialog (without connection name)
+						// COMMENT OUT TO SWAP DIALOGS
+						nResult = SQLServerSelectLogin2( szConnection, szServer, szUser, szPassword, bWinLogin, szDB, FALSE, FALSE );
+						g_bWinLoginAuthenticate = bWinLogin;
+						if(StrCompare(szServer,g_szDBServer) != 0) then
+							MessageBox("The Database Server Name cannot be changed for Pure Insurance Patch Installation.",WARNING);
+							goto  Dlg_SQLConnection;
+						endif;	           		
+	     
+	    if( nResult = NEXT ) then
+			
+			
+            //store data in case we need it again
+            SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUser, szPassword );
+
+	        SQLRTPutConnectionAuthentication( szConnection, bWinLogin );
+
+            //try connection
+            nResult = SQLRTConnect( szConnection, szServer, bWinLogin, szUser, szPassword );
+            //nResult = SQLRTConnect2( szConnection, szServer, bWinLogin, szUser, szPassword, szDB);
+            //nResult = SQLRTConnectDB( szConnection, szDB, szServer, bWinLogin, szUser, szPassword );
+            //SQLRTTestConnection2( szConnection, szServer, szDB, szUser, szPassword, bWinLogin );
+            //SQLRTConnect2( szConnection, szServer, bWinLogin, szUser, szPassword, szDatabaseServer ); 
+
+            //if( szTemp != "0" && MODE != SILENTMODE) then
+			//		nResult = ListCurrentString(listConnections, szConnection);
+			
+			if( nResult < ISERR_SUCCESS && MODE != SILENTMODE ) then
+
+                // Get error message
+				//SQLRTGetErrorMessage( szMessage );
+				SQLRTGetLastError2( nvErrorCode, szMessage, svTechnology, szConnection, szServer, szDB ); 
+				//Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_LOGIN_FAILED ), szConnection, SdLoadString( ISCRIPT_E_UNKNOWN_ERROR_DESC ));
+				// Display error
+				MessageBox( szMessage, MB_OK );
+
+                //Show same login dialog again
+                nResult = ListCurrentString(listConnections, szConnection);
+					
+			elseif(MODE = SILENTMODE) then //WorkAround to solve the Silent Mode Issue for TestConnection Method
+			//Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                     
+	                                
+	                if(g_bAppServerOnly = TRUE && g_bFreshInstaller = TRUE) then
+	                	g_szDBServer =  szServer;
+	                	g_szSiriusDBName = szDB;  
+	                	
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+	                		g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword;  
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						  	No Specific Sirius User Name/Password would be used
+			  			 	 Master Login User/Password would be used for Sirius DB Scripts execution */
+			       			g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword;
+						endif;
+	                else
+	                	g_szDBServer      = szServer;
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+							g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword;  
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						  	No Specific Sirius User Name/Password would be used
+			  			  	Master Login User/Password would be used for Sirius DB Scripts execution */
+			       			g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword;     
+						endif;
+					endif;
+             else //SUCCESS
+                   //Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                if(g_bAppServerOnly = TRUE && g_bFreshInstaller = TRUE) then
+	                	g_szDBServer =  szServer;
+	                	g_szSiriusDBName = szDB;
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+	                		g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword;  
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						  	No Specific Sirius User Name/Password would be used
+			  			  	Master Login User/Password would be used for Sirius DB Scripts execution */
+			       			g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword;
+						endif;
+	                else
+	                	g_szDBServer      = szServer;
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+							g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword; 
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						 	 No Specific Sirius User Name/Password would be used
+			  			  	Master Login User/Password would be used for Sirius DB Scripts execution */
+				      		g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword; 
+						endif;
+					endif; 
+			 endif;			
+            
+         else
+            //BACK
+            nCount--;
+            bNext = FALSE;
+            nResult = ListSetIndex( listConnections, nCount );
+            ListCurrentString( listConnections, szConnection );
+
+        endif;
+
+    endwhile;
+
+    if( bNext ) then
+        return NEXT;
+    else
+        return BACK;
+    endif;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateLogFile                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number CreateLogFile(szFileName)
+number nvResult,nvFileHandle; 
+string szPath;
+begin         
+szPath = WINDISK + "\\";
+OpenFileMode(FILE_MODE_APPEND); 
+
+
+nvResult = CreateFile(nvFileHandle,szPath,szFileName); 
+if(nvResult < 0) then
+	MessageBox("Log File "+szFileName +" Cannot be Created",INFORMATION);
+endif;
+
+return 1;
+end;          
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  WriteToLogFile                                          //
+//                                                                    //
+// Purpose:   This function takes as input the Text File name         //
+//			  and the  Log Message and writes that message to         //
+//			  the Text File                                           //
+////////////////////////////////////////////////////////////////////////
+
+function number WriteToLogFile(szFileName,szLogString)
+string  szSeperator,szLogFilePath, svResult; 
+number  nvFileHandle; 
+begin   
+szLogFilePath = WINDISK + "\\";  
+
+if (FindFile(szLogFilePath, szFileName, svResult ) < 0) then
+     CreateLogFile(szFileName);
+endif;    
+
+OpenFileMode (FILE_MODE_APPEND); 
+szSeperator = "************************************************************************************************************";
+// Create a new file and leave it open. 
+if (OpenFile(nvFileHandle,szLogFilePath,szFileName) < 0) then 
+     // Report the error. 
+       MessageBox (szFileName+ " file cannot be opened",SEVERE); 
+       abort; 
+else    
+     // Append the message to the file. 
+     if (WriteLine(nvFileHandle,szLogString) < 0) then 
+    	// Report the error. 
+	   	MessageBox ("WriteLine failed for "+szFileName,SEVERE); 
+	  endif;
+	  if(WriteLine(nvFileHandle,szSeperator) < 0) then 
+	     // Report the error. 
+	  	 MessageBox ("WriteLine failed for "+szFileName,SEVERE); 
+	  endif;  
+endif;
+// Close the file. 
+CloseFile (nvFileHandle); 
+	
+return 1;
+end;  
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  InstallPatch                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function InstallPatch()
+STRING szFileName;
+begin
+
+	
+	// Install Back Office
+	if(g_bAppServerOnly=TRUE || g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		InstallBackOffice();
+		
+	endif;
+		
+	// Install PureWebservices
+	if(g_bWebServices=TRUE) then
+		InstallPureWebservices();
+	endif;
+	
+	// Install PureWebservices
+	if(g_WCFServices=TRUE) then
+		InstallPureWCFservices();
+	endif;
+		
+	// Install Pure database
+	//InstallDatabase();
+	if(g_bPortal=TRUE) then
+		InstallPortal();
+	endif;
+	
+	RegisterbPMPAFWrapper();
+	
+	if(g_bAppServerOnly=TRUE || g_WCFServices=TRUE) then
+		
+		szFileName = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "WCFSecurityTokenFile.txt";
+	
+		if Is(FILE_EXISTS, szFileName) = TRUE then
+			ReadWCFSecurityTokenFile();
+		else
+			RunGenerateWCFTokenID();
+		
+			ReadWCFSecurityTokenFile();
+		endif;
+	
+		ReadPureConfigFiles();
+		
+	endif;
+		
+	// Update Patch Installation registry
+	UpdatePatchInstallationHistory();
+	
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  InstallBackOffice                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function InstallBackOffice()
+STRING szCommand,szProgram;
+NUMBER nvResult;
+LIST lAppInUse;
+NUMBER nResult;
+begin
+	
+	// STop Pure windows service
+	StopPureService();
+	
+	Disable(STATUSEX);
+    // Check for file in use during uninstall
+	while(CheckApplicationInUse(lAppInUse) == TRUE)
+				//nResult = SdRMFilesInUse( "", "", "", lAppInUse,FALSE);
+				nResult = SdFilesInUse("", "", "", lAppInUse);
+				if (nResult == IDCANCEL) then
+					if (IDYES = SprintfBox(MB_YESNO|MB_ICONEXCLAMATION|MB_DEFBUTTON2, 
+											SdLoadString(SD_STR_ONCANCELING_TITLE), 
+											SdLoadString(SD_STR_ONCANCELING_MSG))) then
+                       
+						EndCurrentDialog();
+						Enable(USE_LOADED_SKIN);
+						abort;
+					endif;	
+				
+				endif;
+	endwhile;
+    
+    Enable(STATUSEX);
+    SetStatusWindow (0, ""); 
+    StatusUpdate (ON, 99); 
+	
+	
+	CopyApplication();
+	
+	if (ExistsDir (SRCDIR ^ "Lists") = EXISTS) then 
+			CopyLists();
+	endif;
+	
+	if (ExistsDir (SRCDIR ^ "Lookups") = EXISTS) then 
+		CopyLookups();
+	endif;
+	
+	if (ExistsDir (SRCDIR ^ "NavigatorXM") = EXISTS) then 	
+		CopyNavigatorXM();
+	endif;
+	
+	if (ExistsDir (SRCDIR ^ "Reports") = EXISTS) then 
+		CopyReports();
+	endif;
+	
+	if (ExistsDir (SRCDIR ^ "Rules") = EXISTS) then 
+		CopyRules();
+	endif;
+	
+	if (ExistsDir (SRCDIR ^ "PMDocs") = EXISTS) then 
+		CopyPMDocs();
+	endif;
+		
+	// Run GISListCreator.exe
+	//RunGISListCreator();
+	
+	DataModelRebuild();
+	
+	//Start the service 
+	szProgram= WINSYSDIR ^ "sc.exe";
+	szCommand="start PureWindowsService";
+	
+	nvResult = LaunchAppAndWait(szProgram,szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	Delay(15);
+	
+	
+	return 0;
+	
+end;
+
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  InstallPureWebservices                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function InstallPureWebservices()
+begin
+		
+
+    // Run CompleteWebServicesInstall.cmd
+    if(g_bWebServices=TRUE) then
+		RunCompleteWebServicesInstallCmdFile();
+    endif;
+    
+    return 0;
+	
+end;
+
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  InstallPureWCFservices                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function InstallPureWCFservices()
+begin
+		
+
+    // Run CompleteWebServicesInstall.cmd
+    if(g_WCFServices=TRUE) then
+		RunCompleteWCFServicesInstallCmdFile();
+    endif;
+    
+    return 0;
+	
+end;
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  InstallPureWebservices                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function InstallPortal()
+begin
+		
+   if(g_bPortal=TRUE) then
+		ModifyPortalApplicationSetting();
+   endif;
+    
+   return 0;
+	
+end;
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyApplication                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyApplication()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "Application" ^ "*.*";
+	szTarget=TARGETDIR ^ "Application";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("Application: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"Application files copied successfully."); 
+    endif; 
+
+
+	
+	return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyLists                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyLists()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "Lists" ^ "*.*";
+	szTarget=TARGETDIR ^ "Lists";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("Lists: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"Lists files copied successfully.");  
+    endif; 
+
+
+	
+	return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyLookups                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyLookups()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "Lookups" ^ "*.*";
+	szTarget=TARGETDIR ^ "Lookups";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("Lookups: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"Lookups files copied successfully."); 
+    endif; 
+
+
+	
+	return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyNavigatorXM                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyNavigatorXM()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "NavigatorXM" ^ "*.*";
+	szTarget=TARGETDIR ^ "NavigatorXM";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("NavigatorXM: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"NavigatorXM files copied successfully."); 
+    endif; 
+
+
+	
+	return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyReports                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyReports()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "Reports" ^ "*.*";
+	szTarget=TARGETDIR ^ "Reports";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("Reports: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"Reports files copied successfully.");  
+    endif; 
+
+
+	
+	return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyRules                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyRules()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "Rules" ^ "*.*";
+	szTarget=TARGETDIR ^ "Rules";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("Rules: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"Rules files copied successfully.");  
+    endif; 
+
+
+	
+	return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CopyPMDocs                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CopyPMDocs()
+STRING szSource,szTarget;
+
+begin
+	
+	szSource=SRCDIR ^ "PMDocs" ^ "*.*";
+	szTarget=TARGETDIR ^ "PMDocs";
+	
+	if (XCopyFile (szSource, szTarget,INCLUDE_SUBDIR | COMP_NORMAL) < 0) then 
+        MessageBox ("PMDocs: XCopyFile failed", SEVERE); 
+    else 
+        WriteToLogFile(INSTALL_LOG,"PMDocs files copied successfully.");  
+    endif; 
+
+
+	
+	return 0;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////////////                                                                                   //
+// Function:  StopPureService  	                                                     //
+//				                                                                     //
+// Purpose:   This function checks the status of Pure windows service                //
+//            Pure windows service and stop it if it is running                      //
+///////////////////////////////////////////////////////////////////////////////////////
+function StopPureService()
+number nvServiceState;
+begin
+		
+	ServiceGetServiceState('PureWindowsService', nvServiceState);
+    //check the state of the NT service
+    if ( nvServiceState != SERVICE_STOPPED ) then
+			SdShowMsg ( "Stopping SSP Pure Windows Service . . . please wait." , TRUE );
+       	    ServiceStopService ( 'PureWindowsService' ); 
+       	    Delay(15);
+       	    SdShowMsg ( "Stopping SSP Pure Windows Service . . . please wait." , FALSE );
+	endif;
+       
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  RunGISListCreator  								             //
+//                                                                           //
+// Purpose:   This function runs GISListCreator.exe and updates GIS user def //
+//            details values present in Lists\DEFList0101.txt                //
+///////////////////////////////////////////////////////////////////////////////
+/*
+function RunGISListCreator()
+string  szFile,szCommand;
+number nvResult;
+begin    
+
+SdShowMsg ( "Updating GIS user def details . . . please wait." , TRUE );
+szFile = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "GISListCreator.exe";
+szCommand= TARGETDIR ^ "Lists\\DEFList0101.txt";
+
+// Stick some quotes around the path
+if (LongPathToQuote(szFile,TRUE) != 0) then
+	MessageBox ("Unable to convert path to quoted path.\n" + szFile, SEVERE );
+else
+	nvResult = LaunchAppAndWait(szFile,szCommand, LAAW_OPTION_WAIT);
+    if (nvResult < 0) then
+      WriteToLogFile(INSTALL_ERRORLOG,"Unable to launch the following file : \n" +" " + szFile + "\nYou need to run this for Updating GIS user def details.");
+    else                                                                                     
+   	  WriteToLogFile(INSTALL_LOG,"Updating GIS user def details with Command=" + szCommand);
+   endif;
+endif;
+   
+SdShowMsg ( "Updating GIS user def details . . . please wait." , FALSE );
+
+return 0;
+end; 
+*/
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                       //
+// Function:  RunCompleteWebServicesInstallCmdFile  								                     //
+//                                                                                                       //
+// Purpose:   This function run CompleteWebServicesInstall.cmd to complete the installation by           //
+//            copying additional files from the Application folder into the Services binary folder.      //
+//            It needs to be run after every new build is installed.                                     //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function number RunCompleteWebServicesInstallCmdFile()
+string  szFile,szFolder;
+number nvResult;
+begin    
+
+SdShowMsg ( "Running CompleteWebServicesInstall.cmd . . . please wait." , TRUE );
+
+szFile = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "CompleteWebServicesInstall.cmd";
+szFolder=TARGETDIR ^ PURE_APPLICATION_FOLDER;
+
+nvResult = ClearReadOnly(szFolder);	
+
+//ChangeDirectory(szFolder);
+
+if (LongPathToQuote(szFile,TRUE) != 0) then
+	MessageBox ("Unable to convert path to quoted path.\n" + szFile, SEVERE );
+else
+   nvResult = LaunchAppAndWait(szFile,"", LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+   if (nvResult < 0) then
+      WriteToLogFile(INSTALL_ERRORLOG,"Unable to launch the following file : \n" +" " + szFile + "\nYou need to run this for copying additional files from the Application folder into the Services binary folder.");
+   else                                                                                     
+   	  WriteToLogFile(INSTALL_LOG,"Running CompleteWebServicesInstall.cmd Completed Successfully");
+   endif;
+endif;
+   
+SdShowMsg ( "Running CompleteWebServicesInstall.cmd . . . please wait." , FALSE );
+
+return 1;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                       //
+// Function:  RunCompleteWCFServicesInstallCmdFile  								                     //
+//                                                                                                       //
+// Purpose:   This function run CompleteWebServicesInstall.cmd to complete the installation by           //
+//            copying additional files from the Application folder into the Services binary folder.      //
+//            It needs to be run after every new build is installed.                                     //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function number RunCompleteWCFServicesInstallCmdFile()
+string  szFile,szFolder;
+number nvResult;
+begin    
+
+SdShowMsg ( "Running CompleteWCFServicesInstall.cmd . . . please wait." , TRUE );
+
+szFile = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "CompleteWCFServicesInstall.cmd";
+szFolder=TARGETDIR ^ PURE_APPLICATION_FOLDER;
+
+nvResult = ClearReadOnly(szFolder);	
+
+//ChangeDirectory(szFolder);
+
+if (LongPathToQuote(szFile,TRUE) != 0) then
+	MessageBox ("Unable to convert path to quoted path.\n" + szFile, SEVERE );
+else
+   nvResult = LaunchAppAndWait(szFile,"", LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+   if (nvResult < 0) then
+      WriteToLogFile(INSTALL_ERRORLOG,"Unable to launch the following file : \n" +" " + szFile + "\nYou need to run this for copying additional files from the Application folder into the Services binary folder.");
+   else                                                                                     
+   	  WriteToLogFile(INSTALL_LOG,"Running CompleteWCFServicesInstall.cmd Completed Successfully");
+   endif;
+endif;
+   
+SdShowMsg ( "Running CompleteWCFServicesInstall.cmd . . . please wait." , FALSE );
+
+return 1;
+end; 
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Procedure:	DataModelRebuild
+//
+// Description:	Rebuild the data model
+//
+//////////////////////////////////////////////////////////////////////////////////
+function number DataModelRebuild()
+	STRING	svValue, szProgram, szCmdLine, szMsg, szKey;	
+	NUMBER	nvType, nvSize, nResult, nvExitCode;
+	begin	
+	// setup the command line and program name
+	szCmdLine = "";
+	szProgram = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "datamodelrebuild.exe";	
+	// if re-boot is required then rebuild upon reboot
+	if ( BATCH_INSTALL = TRUE ) then
+		RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+		szKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce"; 
+		WriteToLogFile(INSTALL_LOG,"Successfully configured " + szProgram + "to run at startup.");
+		RegDBSetKeyValueEx ( szKey , "DatamodelRebuild" , REGDB_STRING , '"' + szProgram + '"' , -1 );
+		return 0;
+	endif;     
+	
+	if (LongPathToQuote(szProgram,TRUE) != 0) then
+		MessageBox ("Unable to convert path to quoted path.\n" + szProgram, SEVERE );		
+		WriteToLogFile(INSTALL_ERRORLOG,"Unable to convert path to quoted path.\n" + szProgram + ".");
+		return -1;
+	else
+		// rebuild datamodel now
+		SdShowMsg ( "Datamodel Rebuild . . . please wait." , TRUE );
+		WriteToLogFile(INSTALL_LOG,"Launching " + szProgram + " to rebuild datamodels.");
+		//nvExitCode = LaunchApplication( szProgram, szCmdLine, "", SW_SHOW, 30000, LAAW_OPTION_USE_SHELLEXECUTE | LAAW_OPTION_WAIT ); 
+		LAAW_SHELLEXECUTEVERB = "runas"; 
+		nvExitCode = LaunchApplication( szProgram, szCmdLine, "", SW_SHOW, INFINITE, LAAW_OPTION_USE_SHELLEXECUTE | LAAW_OPTION_WAIT ); 
+		if (nvExitCode < 0 ) then
+			szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+			MessageBox ( szMsg, SEVERE );   
+			WriteToLogFile(INSTALL_ERRORLOG,szMsg);  
+			return -1;   
+		else
+	 	   szMsg = "Data models built sucessfully using " + szProgram + ".";
+	 	   WriteToLogFile(INSTALL_LOG,szMsg);
+		endif;
+		SdShowMsg ( "Datamodel Rebuild . . . please wait." , FALSE );
+	endif;
+	
+	// exit the procedure
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ValidateLoggedinUser                                           //
+//                                                                           //
+// Purpose:   This function validates whether the 			                 //
+//            logged in user of the target machine is an administrative user //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+
+function number ValidateLoggedinUser()
+string szLogonUser;  
+number nvBufferSize;
+BOOL bReturnFlag;
+
+begin   
+	nvBufferSize = 256;
+	
+	bReturnFlag = IsUserMemberOfGroup(g_szHostName,g_szUserName,"Administrators");
+	if(bReturnFlag = FALSE) then
+		//g_bPreRequisiteFailure = TRUE;
+		MessageBox("The Logged in user should be an administrator to carry out installations",SEVERE);
+		abort;
+	endif;
+
+return 1;		
+end;    
+  
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  IsUserMemberOfGroup                                            //
+//                                                                           //
+// Purpose:   This function is used to find out whether the user of a        //
+//			  particular system belongs to any group like                    //
+//			  administrators group                                           //
+///////////////////////////////////////////////////////////////////////////////
+
+function BOOL IsUserMemberOfGroup(szHostName, szUserName, szGroupName)
+OBJECT objComputer, objGroup, objUser; 
+BOOL bIsMember;
+begin
+try
+	// Get an object to the Computer.
+	set objComputer = CoGetObject("WinNT://" + szHostName + ",Computer", "");
+	// Get an object to the Group.
+	set objGroup = CoGetObject("WinNT://" + szHostName + "/" + szGroupName, "");
+	// Get an object to the User.
+	set objUser = objComputer.GetObject("user", szUserName);
+
+	// Find out if the user is a member.    
+	if(IsObject(objComputer)) then
+		if(IsObject(objUser)) then
+			if(IsObject(objGroup)) then
+				bIsMember = objGroup.IsMember(objUser.AdsPath);
+				if(bIsMember = FALSE) then
+					return FALSE;
+				else
+					return TRUE;
+				endif;
+			endif;
+		endif;
+	endif;
+catch
+	// Usually means either the user doesn't exist, but could mean group doesn't exist or the oComputer object is null.
+	// Do your own error handling and object checking around each statement in the try block if you want to check for each error.
+
+	return TRUE;
+endcatch;
+
+return TRUE;
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: StartUpgradeDBScriptsExecution                                  //
+//                                                                           //
+// Purpose:  This function is used to start the upgrade installation/Product //
+//			 upgrade but fresh installation DB scripts execution on top of   //
+//			 the Sirius database                                             //
+///////////////////////////////////////////////////////////////////////////////
+//BSJ Just call the new Setup DB 
+function number StartUpgradeDBScriptsExecution(szDBScriptFolderRootPath)
+number nvResult,nvVal,nvUpgradeResult,nvCounter; 
+LIST listDBFolderKey,listDBFolderValue,listFolderNames,listUpgradeFolderNames;  
+string szFullFolderName,szFolderName;
+string szLogMessage,szNumberValue;
+begin         
+	nvResult = NewRunSetupDB();
+//return 1;
+
+return nvResult;
+
+end;   
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPortalFileName 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets GetPortalFileName                                   //
+//                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////
+function GetPortalFileName()
+NUMBER nvResult;  
+STRING szPortalFileName,svPath;
+number nvPortalFileExtnLocation;
+begin
+	svPath= SRCDIR ^ "Portal";
+    nvResult = FindFile(svPath,"*.zip",szPortalFileName);
+	if(nvResult <0)then
+		//MessageBox("There is no portal available in the Installer",INFORMATION);
+	else
+		gPortalFileName=szPortalFileName;
+		ParsePath (g_PortalFolderName, szPortalFileName, FILENAME_ONLY ); 
+	endif;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetPatchVersionFromTextFile                                    //
+//                                                                           //
+// Purpose:   This function is used to get the Patch Version from the        //
+//			  name of the text file available along with the Patch Package   //
+//			  delivered											             //
+///////////////////////////////////////////////////////////////////////////////
+
+function number GetPatchVersionFromTextFile()
+number nvResult;  
+string szPatchFileName;
+number nvPatchFileExtnLocation;
+STRING szInstallerTitle1;
+begin
+
+	WriteToLogFile(INSTALL_LOG,"Reading Installer.ini");
+	szPatchFileName= SRCDIR ^ "Installer.ini";
+
+	GetProfString (szPatchFileName, "General", "InstallerTitle1", gszInstallerTitle1); 
+	GetProfString (szPatchFileName, "General", "PatchVersion", g_szPatchVersion);
+	GetProfString (szPatchFileName, "General", "PureCompatibleVersion", g_PureCompatibleVersion); 
+	
+	return 0;
+  
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CheckPrerequisites                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CheckPrerequisites()
+begin
+	
+	//Check Pure build version
+	//[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Pure\PureInstallation\Setup]
+	//"New Version"="300.000.0015"
+		
+	//Compare PureCompatibleVersion in Installer.ini with the New version in the registry
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	g_PureInstalledVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","New Version");
+	
+	if(g_PureInstalledVersion=g_PureCompatibleVersion)then
+		 WriteToLogFile(INSTALL_LOG,"Pure version " + g_PureCompatibleVersion + " is  installed in the system");
+	else
+		 MessageBox("Pure Insurance version " + g_PureCompatibleVersion + " is not installed in the system, Pure Insurance patch cannot be Installed.", SEVERE);
+		 abort;
+	endif;
+	
+	//g_PureCompatibleVersion 
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  ValidateUserCredentials  	                                             //
+//				                                                                     //
+// Purpose:   This function varifies the username/password entered on account        //
+//            information dialog                                                     //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+
+function BOOL ValidateUserCredentials()
+STRING szCommand,szProgram,szDomain;
+STRING szSspLogonLog,szPath;
+STRING svReturnLine,svTemp;
+NUMBER nvLineNumber,nvResult;
+
+begin
+	
+	szPath = WINDISK + "\\";
+	szDomain = g_szHostName;
+	
+	szProgram = SUPPORTDIR ^ "ssplogon.exe";
+	szSspLogonLog = szPath ^ "ssplogon.log";
+	
+	szCommand = "/C " + szProgram + " " + szDomain + " " + g_szWebservicesUser + " " + g_szWebservicesPassword + " > " + szSspLogonLog;
+	
+	nvResult = LaunchAppAndWait("CMD.EXE",szCommand, WAIT);
+	Delay(1);
+	
+	SetFileInfo(szSspLogonLog, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+	Delay(1);
+	
+	// Find the search string in the log file.
+	nvResult = FileGrep( szSspLogonLog, "Succeeded", svReturnLine, nvLineNumber, RESTART);
+	
+	/*while (nvResult != END_OF_FILE) 
+		nvResult = FileGrep (szSspLogonLog, "Succeeded", svReturnLine, nvLineNumber, CONTINUE);
+	endwhile; 
+	*/	
+	
+		
+	if (nvResult < 0) then
+      WriteToLogFile(INSTALL_ERRORLOG,"Logon failed for user=" + g_szWebservicesUser);
+      DeleteFile(szSspLogonLog);
+      return FALSE;
+    else                                                                                     
+   	  WriteToLogFile(INSTALL_LOG,"Logon Succeeded for user=" + g_szWebservicesUser);
+   	  DeleteFile(szSspLogonLog);
+   	  return TRUE;
+	endif;
+		
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CopyPortalFiles  	                                                     //
+//				                                                                     //
+// Purpose:   This function copies Portal.zip to inetpub folder                      //
+///////////////////////////////////////////////////////////////////////////////////////
+function CopyPortalFiles()
+STRING szSourceFile,szTargetFile,szAppPath,szAppParms,szPath,szPortalFile;
+NUMBER nResult,nvExitCode;
+begin 
+	//szPath = WINDISK + "\\";
+    szPath = SRCDIR ^ "Portal";
+   	szAppPath =szPath ^ "pkzip25.exe";
+	//szTargetFile= gTemp ^ "pkzip25.exe" ;
+	/*
+	Disable(LOGGING);
+	nResult= CopyFile ( szSourceFile, szTargetFile);
+	if(nResult <0)then
+		WriteToLogFile(INSTALL_LOG,"Couldn't copy file " + szSourceFile);
+	endif;
+	Enable(LOGGING);
+	*/
+	szPortalFile = szPath ^ gPortalFileName;
+	LongPathToQuote ( szPortalFile, TRUE );  
+	/*szTargetFile= gTemp ^ gPortalFileName ;
+	LongPathToQuote ( szTargetFile, TRUE ); 
+	WriteToLogFile(INSTALL_LOG,"Sourec file=" + szSourceFile + "Destination file=" +  szTargetFile);  
+	Disable(LOGGING);	   
+    nResult= CopyFile ( szSourceFile, szTargetFile);
+    if(nResult <0)then
+		WriteToLogFile(INSTALL_LOG,"Couldn't copy file " + szSourceFile);
+	endif;
+	Enable(LOGGING);
+	*/    
+    //pkzip25 -extr -dir=relative -over=all "Pure.Portals 2.03.12100.1.zip" "C:\inetpub\wwwroot"
+	szAppParms = "-extr" + " -dir=relative -over=all " +
+				 szPortalFile + " " + 
+				 IISROOTFOLDER;
+	ChangeDirectory(szPath);
+	LaunchAppAndWait (szAppPath, szAppParms, WAIT);
+	WriteToLogFile(INSTALL_LOG,"Copying and extracting Portal files" + szAppParms);
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPortalRegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets PortalRegsitry                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+function GetPortalRegistry()
+STRING szKey,szApplication,szPath,szAppPool,szWebServiceUrl,szDocumentsLocation,szReportsLocation,szTempFileLocation;
+NUMBER nSize,nType;
+STRING svApplicationPortal,svPhysicalPathPortal,svAppPoolPortal,svWebServiceUrl,svDocumentsLocation,svReportsLocation,svTempFileLocation;
+STRING szAppLicationPortalKey;
+STRING szPortalDBServer,szPortaDB,svPortalDBServer,svPortaDB;
+STRING szPureAppServerName,svPureAppServerName;
+STRING szPureSTSServerName,szThumbprint,szCertificateName,svPureSTSServerName,svThumbprint,svCertificateName;
+begin 
+    
+    nSize= -1;
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\Pure\\PureInstallation\\Portal";
+	//szAppLicationPortalKey = szKey ^ g_szApplicationPortal;
+	szApplication="Application";
+	szPath="Path";
+	szAppPool="AppPool";
+	//szWebServiceUrl="WebServiceUrl";
+	szPureAppServerName="PureAppServerName";
+	szDocumentsLocation="DocumentsLocation";
+	szReportsLocation="ReportsLocation";
+	szTempFileLocation="TempFileLocation";
+	szPortalDBServer="DBServer";
+	szPortaDB="DBName";
+	
+	
+	szPureSTSServerName="PureSTSServerName";
+	szThumbprint="thumbprint";
+	szCertificateName="CertificateName";
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    if(RegDBKeyExist(szKey)=1) then
+		g_PortalExists=TRUE;
+		if(RegDBGetKeyValueEx (szKey, szApplication, nType, svApplicationPortal, nSize) <0 ) then
+			g_PortalExists=FALSE;
+		else
+			g_szApplicationPortal=svApplicationPortal;
+			WriteToLogFile(INSTALL_LOG,"Pure Portal Application=" + g_szApplicationPortal);
+		endif;
+		if(RegDBGetKeyValueEx (szKey, szPath, nType, svPhysicalPathPortal, nSize) <0 ) then
+			g_PortalExists=FALSE;
+		else
+			g_szPhysicalPathPortal=svPhysicalPathPortal;
+			g_OLDWebConfigPath=svPhysicalPathPortal;
+			//WriteToLogFile(INSTALL_LOG,"Pure Portal Physical Path=" + g_szPhysicalPathPortal);
+			WriteToLogFile(INSTALL_LOG,"Pure Portal existing Physical Path=" + g_OLDWebConfigPath);
+		endif;
+		if(RegDBGetKeyValueEx (szKey, szAppPool, nType, svAppPoolPortal, nSize) <0 ) then
+			g_PortalExists=FALSE;
+		else
+			g_szAppPoolPortal=svAppPoolPortal;
+			WriteToLogFile(INSTALL_LOG,"Pure Portal ApplicationPool=" + g_szAppPoolPortal);
+		endif;
+		
+		/*
+		if(RegDBGetKeyValueEx (szKey, szWebServiceUrl, nType, svWebServiceUrl, nSize)<0) then
+			g_PortalExists=FALSE;
+		else
+			g_szWebServiceUrl=svWebServiceUrl;
+			WriteToLogFile(INSTALL_LOG,"PureWebServices URL=" + g_szWebServiceUrl);
+		endif;
+		
+		*/
+		
+				
+		if(RegDBGetKeyValueEx (szKey, szPureAppServerName, nType, svPureAppServerName, nSize)<0) then
+			g_PortalExists=FALSE;
+		else
+			g_szPureAppServerName=svPureAppServerName;
+			WriteToLogFile(INSTALL_LOG,"Pure Application Server Name=" + g_szPureAppServerName);
+		endif;
+		
+		
+		if(RegDBGetKeyValueEx (szKey, szDocumentsLocation, nType, svDocumentsLocation, nSize) <0 ) then
+			g_PortalExists=FALSE;
+		else
+			g_szDocumentsLocation=svDocumentsLocation;
+			WriteToLogFile(INSTALL_LOG,"Documents Location=" + g_szDocumentsLocation);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szReportsLocation, nType, svReportsLocation, nSize) <0 )then
+			g_PortalExists=FALSE;
+		else
+			g_szReportsLocation=svReportsLocation;
+			WriteToLogFile(INSTALL_LOG,"Reports Location=" + g_szReportsLocation);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szTempFileLocation, nType, svTempFileLocation, nSize) <0) then
+			g_PortalExists=FALSE;
+		else
+			g_szTempFileLocation=svTempFileLocation;
+			WriteToLogFile(INSTALL_LOG,"Temp Location=" + g_szTempFileLocation);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szPortalDBServer, nType, svPortalDBServer, nSize) <0) then
+			g_PortalExists=FALSE;
+		else
+			g_PortalDBServer=svPortalDBServer;
+			WriteToLogFile(INSTALL_LOG,"DB Server=" + g_PortalDBServer);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szPortaDB, nType, svPortaDB, nSize) <0) then
+			g_PortalExists=FALSE;
+		else
+			g_PortaDB=svPortaDB;
+			WriteToLogFile(INSTALL_LOG,"DB Name=" + g_PortaDB);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szPureSTSServerName, nType, svPureSTSServerName, nSize) <0) then
+			g_PortalExists=FALSE;
+		else
+			g_szSTSServer=svPureSTSServerName;
+			WriteToLogFile(INSTALL_LOG,"STS Server name=" + g_szSTSServer);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szThumbprint, nType, svThumbprint, nSize) <0) then
+			g_PortalExists=FALSE;
+		else
+			g_szThumbprint=svThumbprint;
+			WriteToLogFile(INSTALL_LOG,"thumbprint=" + g_szThumbprint);
+		endif;
+		
+		if(RegDBGetKeyValueEx (szKey, szCertificateName, nType, svCertificateName, nSize) <0) then
+			g_PortalExists=FALSE;
+		else
+			g_szCertificateName=svCertificateName;
+			WriteToLogFile(INSTALL_LOG,"CertificateName=" + g_szCertificateName);
+		endif;
+		
+	else
+		g_PortalExists=FALSE;
+	endif;
+	return 0;
+end;
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  AddEditTbl_Portal                                              //
+//                                                                           //
+// Purpose:   This function                                                  //
+///////////////////////////////////////////////////////////////////////////////
+function number AddEditTbl_Portal()
+number nvResult;
+string szReturnValue;   
+number nvSystemIDValue; 
+STRING szPortalIdCheckSQLScript,szPortalIdUpdateScript;
+begin     
+//UPDATE tbl_portal SET url = 'http://localhost/Pure.Portal',culture_code = 'EN-GB',master_page = 'masterpages/internal',theme = 'internal' WHERE portal_id = 1
+//UPDATE tbl_portal SET url = 'http://localhost/Pure.Portal',culture_code = 'EN-GB',master_page = 'masterpages/external',theme = 'external' WHERE portal_id = 2
+szPortalIdCheckSQLScript ="if exists(select * from tbl_portal where portal_id=1) select sRetValue='YES' else select sRetValue='NO'";
+szReturnValue = ADODBConnectExecuteAndReturnPortal(g_PortalDBServer,g_PortaDB,g_PortalUser,g_PortalPwd,szPortalIdCheckSQLScript,"sRetValue");
+if(szReturnValue = "YES") then
+	szPortalIdUpdateScript="UPDATE tbl_portal SET url = 'http://localhost/" + g_szApplicationPortal + "'" + ",culture_code = 'EN-GB',master_page = 'masterpages/internal',theme = 'internal' WHERE portal_id = 1";
+	WriteToLogFile(INSTALL_LOG,szPortalIdUpdateScript);
+	nvResult = ADODBConnectAndExecutePortal(g_PortalDBServer,g_PortaDB,g_PortalUser,g_PortalPwd,szPortalIdUpdateScript);
+else
+	// Insert Portal_ID=1 
+	WriteToLogFile(INSTALL_LOG,"Upgrading of Portal database failed since there is no Portal available with portal_id=1, please configure the Portal database manually after Installation."+ szPortalIdUpdateScript);
+	//MessageBox("Upgrading of Portal database failed since there is no Portal available with portal_id=1, please configure the Portal database manually after Installation.", INFORMATION);
+endif;
+szPortalIdCheckSQLScript ="if exists(select * from tbl_portal where portal_id=2) select sRetValue='YES' else select sRetValue='NO'";
+szReturnValue = ADODBConnectExecuteAndReturnPortal(g_PortalDBServer,g_PortaDB,g_PortalUser,g_PortalPwd,szPortalIdCheckSQLScript,"sRetValue");
+if(szReturnValue = "YES") then
+	szPortalIdUpdateScript="UPDATE tbl_portal SET url = 'http://" + g_szHostName + "/" + g_szApplicationPortal + "'" + ",culture_code = 'EN-GB',master_page = 'masterpages/external',theme = 'external' WHERE portal_id = 2";
+	WriteToLogFile(INSTALL_LOG,szPortalIdUpdateScript);
+	nvResult = ADODBConnectAndExecutePortal(g_PortalDBServer,g_PortaDB,g_PortalUser,g_PortalPwd,szPortalIdUpdateScript);
+else
+	// Insert Portal_ID=2
+	WriteToLogFile(INSTALL_LOG,"Upgrading of Portal database failed since there is no Portal available with portal_id=2, please configure the Portal database manually after Installation."+ szPortalIdUpdateScript);
+	//MessageBox("Upgrading of Portal database failed since there is no Portal available with portal_id=2, please configure the Portal database manually after Installation..", INFORMATION);
+endif;
+return 1;            
+end;   
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CreatePortalRegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function create PortalRegsitry                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+function CreatePortalRegistry()
+STRING szKey,szApplication,szPath,szAppPool,szWebServiceUrl,szDocumentsLocation,szReportsLocation,szTempFileLocation;
+NUMBER nSize,nType;
+STRING szAppLicationPortalKey;
+STRING szPortalDBServer,szPortaDB;
+begin 
+    nSize= -1;
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\Pure\\PureInstallation\\Portal";
+	//szAppLicationPortalKey = szKey ^ g_szApplicationPortal;
+	szApplication="Application";
+	szPath="Path";
+	szAppPool="AppPool";
+	szWebServiceUrl="WebServiceUrl";
+	szDocumentsLocation="DocumentsLocation";
+	szReportsLocation="ReportsLocation";
+	szTempFileLocation="TempFileLocation";
+	szPortalDBServer="DBServer";
+	szPortaDB="DBName";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    RegDBCreateKeyEx(szKey, "");
+    //RegDBCreateKeyEx(szKey,g_szApplicationPortal); 
+    //Portal Application registry 
+    RegDBSetKeyValueEx (szKey, szApplication, nType, g_szApplicationPortal, nSize);
+	RegDBSetKeyValueEx (szKey, szPath, nType, g_szPhysicalPathPortal, nSize); 
+	RegDBSetKeyValueEx (szKey, szAppPool, nType, g_szAppPoolPortal, nSize);
+	RegDBSetKeyValueEx (szKey, szWebServiceUrl, nType, g_szWebServiceUrl, nSize);
+	RegDBSetKeyValueEx (szKey, szDocumentsLocation, nType, g_szDocumentsLocation, nSize);
+	RegDBSetKeyValueEx (szKey, szReportsLocation, nType, g_szReportsLocation, nSize);
+	RegDBSetKeyValueEx (szKey, szTempFileLocation, nType, g_szTempFileLocation, nSize);
+	//Portal database registry
+	RegDBSetKeyValueEx (szKey, szPortalDBServer, nType, g_PortalDBServer, nSize);
+	RegDBSetKeyValueEx (szKey, szPortaDB, nType, g_PortaDB, nSize);
+	return 0;
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CopyOLDWebConfig  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for Portal                  //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function CopyOLDWebConfig()
+STRING  szSrcPath;
+NUMBER	nResult,nvResult;  
+STRING	szProgram,szCommand,szPermission;
+begin
+    SdShowMsg ( "Copying existing Pure Portal web.config . . . please wait." , TRUE );
+	szSrcPath= g_szPhysicalPathPortal;
+    LongPathToQuote(szSrcPath, TRUE); 
+    // icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szSrcPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	Disable (LOGGING);
+	nResult = XCopyFile (g_szWebFileName, g_szPhysicalPathPortal,COMP_NORMAL);
+	Enable(LOGGING);
+	SdShowMsg ( "Copying existing Pure Portal web.config . . . please wait." , FALSE );    
+    return 0;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdatePortalWebConfig  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for Portal                  //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdatePortalWebConfig()
+STRING  szSrcPath, szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,j,nvResult;  
+OBJECT  oDoc, oNodeList,oNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+STRING szWebRootKey, szconnectionString,szWebServiceUrl,strNodeName;
+OBJECT  xEndPointNodeList,xEndPointNode;
+STRING strPureWCFSeriveName;
+STRING szPureAccountServiceUrl,szPureSecurityServiceUrl,szPureCoreServiceUrl,szPurePolicyServiceUrl,szPurePartyServiceUrl,szPureClaimServiceUrl;
+STRING szPureSTSFederationMetadataUrl,szPureSTSissuerUrl;
+STRING strIssuerKey,strFederationMetadataLocationKey,szCertificateName;
+begin
+    SdShowMsg ( "Updating Pure Portal web.config . . . please wait." , TRUE );
+    szPath = WINDISK + "\\";
+    
+    if(bPurePortalDBWinLogin = FALSE) then
+    
+		szconnectionString= "SERVER=" + g_PortalDBServer + ";" + 
+						"Initial Catalog=" + g_PortaDB + ";" + 
+						"UID=" + g_PortalUser + ";" +
+						"PWD=" + g_PortalPwd + ";";
+						
+	else
+		szconnectionString= "SERVER=" + g_PortalDBServer + ";" + 
+						"Initial Catalog=" + g_PortaDB + ";" + 
+						"Integrated Security=SSPI" + ";";
+	endif;
+	
+	//WCF Services URLS
+	szPureAccountServiceUrl= "http://" + g_szPureAppServerName + "/PureWCFServices/PureAccountService.svc";
+	szPureSecurityServiceUrl = "http://" + g_szPureAppServerName + "/PureWCFServices/PureSecurityService.svc";
+	szPureCoreServiceUrl = "http://" + g_szPureAppServerName + "/PureWCFServices/PureCoreService.svc";
+	szPurePolicyServiceUrl = "http://" + g_szPureAppServerName + "/PureWCFServices/PurePolicyService.svc";
+	szPurePartyServiceUrl = "http://" + g_szPureAppServerName + "/PureWCFServices/PurePartyService.svc";
+	szPureClaimServiceUrl = "http://" + g_szPureAppServerName + "/PureWCFServices/PureClaimService.svc";
+	
+	//PureSTS URLS
+				
+	szPureSTSFederationMetadataUrl="https://" + g_szSTSServer + "/PureSTS/FederationMetadata/2007-06/FederationMetadata.xml";
+	szPureSTSissuerUrl="https://" + g_szSTSServer + "/PureSTS/issue/wsfed";
+	
+	szCertificateName="CN=" + g_szCertificateName;
+	
+	
+	szSrcPath= g_szPhysicalPathPortal;
+    LongPathToQuote(szSrcPath, TRUE); 
+    // icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+	
+   	szCommand=	szSrcPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	
+	Disable (LOGGING);
+	nResult = XCopyFile (g_szPhysicalPathPortal ^ "web.config", szPath,COMP_NORMAL);
+	Enable(LOGGING);
+	
+    szFileName = szPath ^ "web.config";
+    LongPathToQuote(szFileName, TRUE); 
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	// Set the read-only flag OFF
+	SetFileInfo ( g_szPhysicalPathPortal ^ "web.config", FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("*");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                
+                try
+                     szWebRootKey = oNode.attributes.getNamedItem("key").value;
+                     if szWebRootKey = "WebRoot" then
+                        oNode.attributes.getNamedItem("value").value = "/" + g_szApplicationPortal + "/";
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, WebRoot=" + "/" + g_szApplicationPortal + "/"); 
+                     endif;
+                catch
+				endcatch;    
+				
+				
+				try
+				     //<add key="ida:FederationMetadataLocation" value="https://localhost/PureSTS/FederationMetadata/2007-06/FederationMetadata.xml" />
+                     strNodeName= oNode.nodeName;
+					 if(strNodeName= "add")then
+								strFederationMetadataLocationKey=oNode.attributes.getNamedItem("key").value;
+								if(strFederationMetadataLocationKey="ida:FederationMetadataLocation")then
+											oNode.attributes.getNamedItem("value").value = szPureSTSFederationMetadataUrl;
+											WriteToLogFile(INSTALL_LOG,"Updating web.config, FederationMetadataLocation value=" + szPureSTSFederationMetadataUrl);
+								endif;
+					 endif;
+                     
+                     //<add key="ida:Issuer" value="https://localhost/PureSTS/issue/wsfed" />
+                     strNodeName= oNode.nodeName;
+					 if(strNodeName= "add")then
+								strIssuerKey=oNode.attributes.getNamedItem("key").value;
+								if(strIssuerKey="ida:Issuer")then
+											oNode.attributes.getNamedItem("value").value = szPureSTSissuerUrl;
+											WriteToLogFile(INSTALL_LOG,"Updating web.config, Issuer value=" + szPureSTSissuerUrl);
+								endif;
+							
+                     endif;
+                catch
+				endcatch;
+				
+				/*
+				try
+					//WebServiceUrl
+					oNode.attributes.getNamedItem("WebServiceUrl").value = g_szWebServiceUrl;
+                    WriteToLogFile(INSTALL_LOG,"Updating web.config, WebServiceUrl=" + g_szWebServiceUrl);
+                    
+                catch
+				endcatch;
+				*/
+				
+				try
+                    //TempFileLocation
+                     oNode.attributes.getNamedItem("TempFileLocation").value = g_szTempFileLocation;
+                     WriteToLogFile(INSTALL_LOG,"Updating web.config, TempFileLocation=" + g_szTempFileLocation);
+                catch
+				endcatch;
+				
+                try
+                    //connectionString
+                     oNode.attributes.getNamedItem("connectionString").value = szconnectionString;
+                     WriteToLogFile(INSTALL_LOG,"Updating web.config, connectionString=" + szconnectionString);
+				catch
+				endcatch;
+				
+                try     
+                     strNodeName= oNode.nodeName;
+					 if(strNodeName= "Reports")then
+							oNode.attributes.getNamedItem("Location").value = g_szReportsLocation;
+							WriteToLogFile(INSTALL_LOG,"Updating web.config, Reports Location=" + g_szReportsLocation);
+                     endif;
+					 if(strNodeName= "Documents")then
+							oNode.attributes.getNamedItem("Location").value = g_szDocumentsLocation;
+							WriteToLogFile(INSTALL_LOG,"Updating web.config, Documents Location=" + g_szDocumentsLocation);
+                     endif;
+				 catch
+				 endcatch;
+									 
+				try     
+                     
+					//<add thumbprint="BB42A447B3327D8B64D91E97AA27CAEB895B2E31" />
+                     strNodeName= oNode.nodeName;
+					 if(strNodeName= "add")then
+							oNode.attributes.getNamedItem("thumbprint").value = g_szThumbprint;
+							WriteToLogFile(INSTALL_LOG,"Updating web.config, thumbprint=" + g_szThumbprint);
+                     endif;
+                     
+                     //<serviceCertificate findValue="CN=localhost" storeLocation="LocalMachine" storeName="My" x509FindType="FindBySubjectDistinguishedName" />
+                     strNodeName= oNode.nodeName;
+					 if(strNodeName= "serviceCertificate")then
+							oNode.attributes.getNamedItem("findValue").value = szCertificateName;
+							WriteToLogFile(INSTALL_LOG,"Updating web.config, certificate=" + szCertificateName);
+                     endif;
+                     
+                                       
+                     //<wsFederation passiveRedirectEnabled="true" issuer="https://localhost/PureSTS/issue/wsfed" realm="http://localhost/Pure.Portal/Login.aspx" requireHttps="false" />
+					 strNodeName= oNode.nodeName;
+					 if(strNodeName= "wsFederation")then
+								oNode.attributes.getNamedItem("issuer").value = szPureSTSissuerUrl;
+							    WriteToLogFile(INSTALL_LOG,"Updating web.config, issuer=" + szPureSTSissuerUrl);
+							
+                     endif;
+                     
+                 catch
+				 endcatch;
+				 
+				 try     
+                     strNodeName= oNode.nodeName;
+                     if(strNodeName= "client")then
+							set xEndPointNodeList = oNode.childNodes;  
+             	
+							for j = 0 to (xEndPointNodeList.length - 1) 
+								
+								set xEndPointNode = xEndPointNodeList.nextNode;
+                   		
+								if(xEndPointNode.nodeType==8) then
+										
+								else    					
+									
+									strPureWCFSeriveName=xEndPointNode.attributes.getNamedItem("name").value;
+									
+									if(strPureWCFSeriveName="CustomBinding_IPureAccountService")then
+											xEndPointNode.attributes.getNamedItem("address").value = szPureAccountServiceUrl;
+									endif;
+									
+									if(strPureWCFSeriveName="CustomBinding_IPureSecurityService")then
+											xEndPointNode.attributes.getNamedItem("address").value = szPureSecurityServiceUrl;
+									endif;
+									
+									if(strPureWCFSeriveName="CustomBinding_IPureCoreService")then
+											xEndPointNode.attributes.getNamedItem("address").value = szPureCoreServiceUrl;
+									endif;
+									
+									if(strPureWCFSeriveName="CustomBinding_IPurePolicyService")then
+											xEndPointNode.attributes.getNamedItem("address").value = szPurePolicyServiceUrl;
+									endif;
+									
+									if(strPureWCFSeriveName="CustomBinding_IPurePartyService")then
+											xEndPointNode.attributes.getNamedItem("address").value = szPurePartyServiceUrl;
+									endif;
+									
+									if(strPureWCFSeriveName="CustomBinding_IPureClaimService")then
+											xEndPointNode.attributes.getNamedItem("address").value = szPureClaimServiceUrl;
+									endif;
+
+								endif;//if(xEndPointNode.nodeType==8)
+                    		endfor;//for j
+                    endif;//if(strNodeName= "client")then
+				 catch
+				 endcatch;
+			 endfor; //for i = 0 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   // if (oNodeList.length > 0) then   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,WARNING);                         
+        return -1;
+    endif;//if oDoc.load(szFileName) then
+    
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    //Delay(60);
+    
+	Disable (LOGGING);
+	nResult = XCopyFile (szPath ^ "web.config", g_szPhysicalPathPortal  ,COMP_NORMAL);
+	Enable(LOGGING);
+	SdShowMsg ( "Updating Pure Portal web.config . . . please wait." , FALSE );	
+    //DeleteFile(szFileName); 
+    return 0;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ModifyPortalApplicationSetting                                 //
+//                                                                           //
+// Purpose:   This function                                                  //
+///////////////////////////////////////////////////////////////////////////////
+function ModifyPortalApplicationSetting()
+STRING szProgram,szCommand,szCommand1,szAppPoolCommand,szAppPathCommand;
+NUMBER nvResult;
+begin
+	//Modify Application Physical Path
+	//%systemroot%\system32\inetsrv\APPCMD set app "Default Web Site/Pure.Portal1" /[path='/'].physicalPath:c:\application
+	szProgram = WINSYSDIR ^ "inetsrv\\appcmd.exe"; 
+    LongPathToQuote(szProgram, TRUE); 
+    szCommand = "set app ";
+    szCommand1 = "Default Web Site/" + g_szApplicationPortal;
+    LongPathToQuote(szCommand1, TRUE); 
+    LongPathToQuote(g_szPhysicalPathPortal, TRUE); 
+    szAppPathCommand = szCommand + szCommand1 + " /[path='/'].physicalPath:" + g_szPhysicalPathPortal;
+	WriteToLogFile(INSTALL_LOG,szAppPathCommand);
+	LaunchAppAndWait(szProgram,szAppPathCommand,WAIT);
+	//Modify Application Pool
+	//%systemroot%\system32\inetsrv\APPCMD set app "Default Web Site/Pure.Portal1" /applicationPool:PurePortalAppPool
+	szAppPoolCommand = szCommand + szCommand1 + " /applicationPool:" + g_szAppPoolPortal;
+	WriteToLogFile(INSTALL_LOG,szAppPoolCommand);
+	LaunchAppAndWait(szProgram,szAppPoolCommand,WAIT);
+	return 0;
+end;
+  
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ModifyPortalApplicationSetting                                 //
+//                                                                           //
+// Purpose:   This function                                                  //
+///////////////////////////////////////////////////////////////////////////////
+function IsPurePortalInstalled()
+STRING szKey;
+NUMBER nSize,nType;
+begin
+
+	nSize= -1;
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\Pure\\PureInstallation\\Portal";
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    if(RegDBKeyExist(szKey)=1) then
+		IsPortalInstalled=TRUE;
+    else
+		IsPortalInstalled=FALSE;
+    endif;
+	
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////
+//                                                                       //
+// Function:  RegisterbPMPAFWrapper                                     //
+//                                                                       //
+//  Purpose:  This function regsiters the .Net assembly bPMPAFWrapper   //
+//            for COM interoperability.                                  //
+//                                                                       //
+///////////////////////////////////////////////////////////////////////////
+function number RegisterbPMPAFWrapper()   
+string svResult, svPath, szOfficeDir, szWordTARGETDIR, szDocTemplateDll, svMessage, szDocTemplateDllPath;	
+LIST listDocTemplateDlls;
+number nvResult, nvCopyResult;
+STRING svcmd1,svcmd2;
+begin
+   if ( FindAllFiles ( WINDIR ^ "Microsoft.NET" ^ "Framework", "regasm.exe", svResult, RESET ) == 0 ) then
+		svPath = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "bPMPAFWrapper.dll";
+		
+		// Stick some quotes around the path
+		if (LongPathToQuote(svPath,TRUE) != 0) then
+			MessageBox ("Unable to convert path to quoted path.\n" + svPath, SEVERE );		
+			WriteToLogFile(INSTALL_ERRORLOG,"Unable to convert path to quoted path.\n" + svPath + ".");
+			return -1;
+		else   
+			svcmd1 = svPath + " /codebase /tlb";
+			nvResult = LaunchAppAndWait ( svResult, svcmd1, LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+			if ( nvResult < 0) then
+				WriteToLogFile(INSTALL_ERRORLOG, "Unable to launch " + svcmd1 + ".");
+				return -1; 
+			else
+				WriteToLogFile(INSTALL_LOG, "Successfully executed the command " + svcmd1 + " to register bPMPAFWrapper.dll.");
+			endif;
+			
+			svcmd2 = svPath + " /codebase /regfile";
+			nvResult = LaunchAppAndWait ( svResult, svcmd2, LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+			if ( nvResult < 0) then
+				WriteToLogFile(INSTALL_ERRORLOG, "Unable to launch " + svcmd2 + ".");
+				return -1; 
+			else
+				WriteToLogFile(INSTALL_LOG, "Successfully executed the command " + svcmd2 + " to register bPMPAFWrapper.dll.");
+			endif;
+			
+		endif;    
+	endif;
+	
+	return 0;
+end;   
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  RegisterSupportDlls  								             //
+//                                                                           //
+// Purpose:   This function regsiter support dlls in system folder			 //
+//            													             //
+///////////////////////////////////////////////////////////////////////////////
+/*
+function RegisterSupportDlls()
+	STRING	szProgram,szCommand,szFile;
+	NUMBER  nvResult,nvExitCode;
+begin
+	
+	szProgram = WINSYSDIR ^ "regsvr32.exe";
+	
+	szFile = WINSYSDIR ^ "MSMAPI32.OCX";
+	
+	if (!Is(FILE_EXISTS, szFile)) then
+		MessageBox ("Unable to find" + szFile, SEVERE );
+	endif;
+
+	szCommand = "/s \"" + szFile + "\"";
+	
+	nvResult = LaunchAppAndWait(szProgram,szCommand, LAAW_OPTION_WAIT);
+    
+    if (nvResult < 0) then
+      WriteToLogFile(INSTALL_ERRORLOG,"Unable to register the following file : \n" +" " + szFile + "\nPlease register this file manually.");
+    else                                                                                     
+   	  WriteToLogFile(INSTALL_LOG,"Registering the following file Command=" + szCommand);
+    endif;
+    
+        
+   
+
+return 0;
+
+end; 
+
+*/
+////////////////////////////////////////////////////////////
+//
+//
+//
+//////////////////////////////////////////////////////////////
+function BOOL CheckApplicationInUse(listInUseApplications)
+    NUMBER	nvDataType;
+	STRING	szPath;
+	NUMBER	nvSize;
+
+	STRING	svFileName,svFileNameForList;
+	BOOL	bInUse;
+	BOOL	bReturn;
+	NUMBER  nvRet;
+begin
+	
+	//WriteToLogFile(UNINSTALL_LOG,"entering CheckApplicationInUse function");
+	bReturn = FALSE;
+	bInUse = FALSE;
+	ListDestroy(listInUseApplications);
+	listInUseApplications = ListCreate(STRINGLIST);
+
+	if (StrLengthChars(TARGETDIR) > 0) then
+		if (FindAllFiles(TARGETDIR, "*.exe", svFileName, RESET) = 0) then
+			ParsePath(svFileNameForList, svFileName,FILENAME); 
+			WriteToLogFile(UNINSTALL_LOG,"CheckApplicationInUse:" + svFileName);
+			bInUse = Is(FILE_LOCKED, svFileName);
+			bReturn = bReturn || bInUse;
+			if (bInUse = TRUE) then
+				//MessageBox(svFileName,INFORMATION);
+				//WriteToLogFile(UNINSTALL_LOG,"Locked File:" + svFileName);
+				if (ListFindString(listInUseApplications, svFileNameForList) > 0) then
+					ListAddString(listInUseApplications, svFileNameForList, AFTER);
+				endif;
+			endif;
+			while (FindAllFiles(TARGETDIR, "*.exe", svFileName, CONTINUE) = 0)
+				ParsePath(svFileNameForList, svFileName,FILENAME); 
+				WriteToLogFile(INSTALL_LOG,"CheckApplicationInUse:" + svFileName);
+				bInUse = Is(FILE_LOCKED, svFileName);
+				bReturn = bReturn || bInUse; 
+				if (bInUse = TRUE) then
+					//MessageBox(svFileName,INFORMATION);
+					//WriteToLogFile(UNINSTALL_LOG,"Locked File:" + svFileName);
+					if (ListFindString(listInUseApplications, svFileNameForList) > 0) then
+						ListAddString(listInUseApplications, svFileNameForList, AFTER);
+					endif;
+				endif;
+			endwhile;
+		endif;
+	endif;
+	FindAllFiles(TARGETDIR, "*.exe", svFileName, CANCEL);
+
+	
+	return bReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  RunGenerateWCFTokenID  								             //
+//                                                                           //
+// Purpose:   This function runs GenerateWCFTokenID                        //
+//
+///////////////////////////////////////////////////////////////////////////////
+
+function RunGenerateWCFTokenID()
+string  szFile,szCommand;
+number nvResult;
+begin    
+
+SdShowMsg ( "Running GenerateWCFTokenID . . . please wait." , TRUE );
+szFile = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "GenerateWCFTokenID.exe";
+szCommand= "";
+
+// Stick some quotes around the path
+if (LongPathToQuote(szFile,TRUE) != 0) then
+	MessageBox ("Unable to convert path to quoted path.\n" + szFile, SEVERE );
+else
+	nvResult = LaunchAppAndWait(szFile,szCommand, LAAW_OPTION_WAIT);
+    if (nvResult < 0) then
+      //WriteToLogFile(INSTALL_ERRORLOG,"Unable to launch the following file : \n" +" " + szFile + "\nYou need to run this for Updating GIS user def details.");
+    else                                                                                     
+   	  WriteToLogFile(INSTALL_LOG,"Running GenerateWCFTokenID..." );
+   endif;
+endif;
+   
+SdShowMsg ( "Running GenerateWCFTokenID . . . please wait." , FALSE );
+
+return 0;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ReadWCFSecurityTokenFile  								             //
+//                                                                           //
+// Purpose:   This function read WCFSecurityTokenFile.txt                        //
+//
+///////////////////////////////////////////////////////////////////////////////
+
+function ReadWCFSecurityTokenFile()
+STRING szDir,szFile;
+number  nvFileHandle,nvResult; 
+begin   
+	
+	szDir = TARGETDIR ^ PURE_APPLICATION_FOLDER;
+	
+	szFile = "WCFSecurityTokenFile.txt";
+	
+	// Set the file mode to normal. 
+    OpenFileMode (FILE_MODE_NORMAL); 
+    
+    // Open the text file. 
+    if (OpenFile (nvFileHandle, szDir, szFile) < 0) then 
+        MessageBox ("OpenFile failed.", SEVERE); 
+    else
+    	nvResult = GetLine(nvFileHandle,g_szWCFSecuirtyToken);
+      
+    endif; 
+    
+    CloseFile(nvFileHandle);
+	
+return 0;
+
+end; 
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  ReadPureConfigFiles  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for PureWCFservices         //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function ReadPureConfigFiles()
+STRING  szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+begin
+	
+	SdShowMsg ( "Updating config files . . . please wait." , TRUE );
+	szFileName = SRCDIR ^ "PureConfigFiles.xml";
+    
+    WriteToLogFile(INSTALL_LOG,"PureConfigFiles path=" + szFileName); 
+    
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+       //
+    else
+        MessageBox ( "Can't find PureConfigFiles.xml", INFORMATION );
+    endif;
+    
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("ConfigFile");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                try
+                    g_PureConfigFileName = oNode.attributes.getNamedItem("FileName").value;
+                    g_PureConfigFolderName = oNode.attributes.getNamedItem("FolderName").value;
+                    
+                    if(g_WCFServices=TRUE) then
+						if(g_PureConfigFolderName="SiriusFS.SAM.WCFService")then
+								UpdatePureConfigFiles(g_PureConfigFileName,g_PureConfigFolderName);
+						endif;
+					endif;
+					
+					if(g_bAppServerOnly=TRUE) then
+						if(g_PureConfigFileName="iPMUserMaintenance.exe.config")then
+								if(g_PureConfigFolderName="Application")then
+									UpdatePMUserMaintenanceConfigFile(g_PureConfigFileName,g_PureConfigFolderName);
+								endif;
+						else
+								if(g_PureConfigFolderName="Application")then
+									UpdatePureConfigFiles(g_PureConfigFileName,g_PureConfigFolderName);
+								endif;
+    					endif;
+					endif;
+                catch
+                    //szAddKey = "";
+                endcatch;
+              endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,SEVERE);                         
+        return -1;
+    endif;
+   
+    set oDoc = NOTHING;
+    
+	SdShowMsg ( "Updating config files . . . please wait." , FALSE );
+    return 0;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdatePureConfigFiles  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for PureWCFservices         //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdatePureConfigFiles(g_PureConfigFileName,g_PureConfigFolderName)
+STRING  szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+begin
+	
+	
+	SdShowMsg ( "Updating config files . . . please wait." , TRUE );
+	
+	if(g_WCFServices=TRUE) then
+		if(g_PureConfigFolderName="SiriusFS.SAM.WCFService")then
+	
+			szTargetPath = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "_PublishedWebsites" ^ g_PureConfigFolderName;
+    
+		endif;
+	endif;
+	
+    if(g_bAppServerOnly=TRUE) then
+		if(g_PureConfigFolderName="Application")then
+	
+			szTargetPath = TARGETDIR ^ PURE_APPLICATION_FOLDER;
+    
+		endif;
+	endif;
+    
+    szFileName = szTargetPath ^ g_PureConfigFileName;
+    
+    LongPathToQuote ( szTargetPath, TRUE );
+	//LongPathToQuote ( szFileName, TRUE );
+	// icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szTargetPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+   	
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	//LongPathToQuote ( szFileName, TRUE );
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+       //
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	 // Set the read-only flag OFF
+	SetFileInfo ( szTargetFile, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("*");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                try
+                    szAddKey = oNode.attributes.getNamedItem("key").value;
+                catch
+                    szAddKey = "";
+                endcatch;
+                
+                try
+                    if szAddKey = "WCFSecuirtyToken" then
+                        oNode.attributes.getNamedItem("value").value = g_szWCFSecuirtyToken;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, WCFSecuirtyToken=" + g_szWCFSecuirtyToken); 
+                    endif;
+                    
+                catch
+                endcatch;
+             endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,SEVERE);                         
+        return -1;
+    endif;
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    
+	SdShowMsg ( "Updating config files . . . please wait." , FALSE );
+    return 0;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdatePMUserMaintenanceConfigFile  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for PureWCFservices         //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdatePMUserMaintenanceConfigFile(g_PureConfigFileName,g_PureConfigFolderName)
+STRING  szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode,oWCFSecuirtyTokenValueNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+STRING strNodeName;
+STRING WCFSecuirtyTokenValueNode;
+begin
+	
+	
+	SdShowMsg ( "Updating config files . . . please wait." , TRUE );
+	
+	if(g_WCFServices=TRUE) then
+		if(g_PureConfigFolderName="SiriusFS.SAM.WCFService")then
+	
+			szTargetPath = TARGETDIR ^ PURE_APPLICATION_FOLDER ^ "_PublishedWebsites" ^ g_PureConfigFolderName;
+    
+		endif;
+	endif;
+	
+    if(g_bAppServerOnly=TRUE) then
+		if(g_PureConfigFolderName="Application")then
+	
+			szTargetPath = TARGETDIR ^ PURE_APPLICATION_FOLDER;
+    
+		endif;
+	endif;
+    
+    szFileName = szTargetPath ^ g_PureConfigFileName;
+    
+    LongPathToQuote ( szTargetPath, TRUE );
+	//LongPathToQuote ( szFileName, TRUE );
+	// icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szTargetPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+   	
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	//LongPathToQuote ( szFileName, TRUE );
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+       //
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	 // Set the read-only flag OFF
+	SetFileInfo ( szTargetFile, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("*");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                try
+					strNodeName= oNode.nodeName;
+					if(strNodeName= "setting")then
+							szAddKey = oNode.attributes.getNamedItem("name").value;
+							if szAddKey = "WCFSecuirtyToken" then
+								oNode.firstChild.text=g_szWCFSecuirtyToken;
+								WriteToLogFile(INSTALL_LOG,"Updating web.config, WCFSecuirtyToken=" + g_szWCFSecuirtyToken); 
+							endif;
+					endif;
+                catch
+                    szAddKey = "";
+                endcatch;
+                
+             endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,SEVERE);                         
+        return -1;
+    endif;
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    
+	SdShowMsg ( "Updating config files . . . please wait." , FALSE );
+    return 0;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  PurePortalDatabaseDetails                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number PurePortalDatabaseDetails()
+number nResult, nErrorCode, nErrorLine;
+number nCount;
+string szConnection;
+string szServer, szDB, szUser, szPassword;
+string szMessage;
+string szKey;
+LIST   listConnections;
+BOOL   bWinLogin;
+BOOL   bNext;
+NUMBER nvErrorCode;
+STRING svTechnology;
+NUMBER nBtn;
+begin
+
+    //First initialize SQL Server runtime
+    SQLRTInitialize2( );
+
+    //Get the names of all the necessary connections
+    listConnections = SQLRTGetConnections();
+    ListGetFirstString (listConnections, szConnection);
+
+    nCount = 0;
+
+    //determine if NEXT or BACK will be returned 
+    //if there are no connections to make
+    if( nBtn != BACK ) then
+        bNext = TRUE;
+    else
+        bNext = FALSE;
+		//start at end if going BACK
+		while (ISERR_SUCCESS = ListGetNextString( listConnections, szConnection ) );
+			nCount++;
+		endwhile;
+    endif;
+
+    // Login for each connection
+    while (nResult = ISERR_SUCCESS)
+
+        //Get Default values for connection
+        SQLRTGetConnectionInfo( szConnection, szServer, szDB, szUser, szPassword );
+        bPurePortalDBWinLogin = SQLRTGetConnectionAuthentication( szConnection );
+        bPurePortalDBWinLogin = FALSE;
+       
+       /* 
+        if(g_bCreatePurePortalDatabase = TRUE) then
+	    	szDB = "master";
+	    endif;  
+	   */ 
+	    
+	   //During Upgrade assign Portal server
+	   //if (g_PortalExists=TRUE ) then
+		szServer   = g_PortalDBServer; 
+		szDB = g_PortaDB;
+	   //endif;
+	    
+        Dlg_SQLConnection1:
+	    
+				nResult= SdSQLServerSelectLogin3( szConnection, szServer,szUser,szPassword, bPurePortalDBWinLogin, szDB, FALSE, FALSE );
+				
+				/*
+				if(szDB="")then
+						MessageBox("Database catalog name is empty, Please specify which database catalog should be used for connection.\n\n" +
+								   "Click the Browse button to select database catalog or database name available on the database server.",WARNING);
+						goto  Dlg_SQLConnection1;
+						
+				endif;
+				*/
+				
+		if( nResult = NEXT ) then
+			 //store data in case we need it again
+            SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUser, szPassword );
+
+	        SQLRTPutConnectionAuthentication( szConnection, bPurePortalDBWinLogin );
+
+            //try connection
+            nResult = SQLRTConnect( szConnection, szServer, bPurePortalDBWinLogin, szUser, szPassword );
+            	
+			if( nResult < ISERR_SUCCESS && MODE != SILENTMODE ) then
+
+                SQLRTGetLastError2( nvErrorCode, szMessage, svTechnology, szConnection, szServer, szDB ); 
+			    MessageBox( szMessage, MB_OK );
+
+                //Show same login dialog again
+                nResult = ListCurrentString(listConnections, szConnection);
+			
+            else //SUCCESS
+                   //Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                g_PortalDBServer =  szServer;
+	                g_PortaDB = szDB;
+	                
+	                if(bPurePortalDBWinLogin = FALSE) then
+	                		g_PortalUser =  szUser;
+							g_PortalPwd =  szPassword;
+					endif;
+	                
+			 endif;			
+            
+         else
+            //BACK
+            nCount--;
+            bNext = FALSE;
+            nResult = ListSetIndex( listConnections, nCount );
+            ListCurrentString( listConnections, szConnection );
+
+        endif;
+
+    endwhile;
+
+    if( bNext ) then
+        return NEXT;
+    else
+        return BACK;
+    endif;
+
+end;
+
+
+#include "FeatureEvents.rul"

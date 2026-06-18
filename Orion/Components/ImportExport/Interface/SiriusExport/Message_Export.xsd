@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Export/Message_Export/20071220" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NS="http://www.siriusfs.com/SFI/Export/Message_Export/20071220" targetNamespace="http://www.siriusfs.com/SFI/Export/Message_Export/20071220" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="EXPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Export Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="MESSAGE"/>
+			</xs:sequence>
+			<xs:attribute name="interface_name" type="xs:string" use="required" fixed="Message_Export"/>
+			<xs:attribute name="parameters_used" type="xs:string"/>
+			<xs:attribute name="batch_id" type="xs:long" use="optional"/>
+			<xs:attribute name="batch_reference" type="xs:string" use="optional"/>
+			<xs:attribute name="date_exported" type="xs:dateTime" use="optional"/>
+			<xs:attribute name="total_transactions" type="xs:long"/>
+			<xs:attribute name="total_amount" type="xs:double"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MESSAGE">
+		<xs:annotation>
+			<xs:documentation>Sirius Message Export Data</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="event_log_id" type="xs:long"/>
+			<xs:attribute name="event_log_type_code" type="xs:string" use="required"/>
+			<xs:attribute name="event_log_type_group_code" type="xs:string" use="required"/>
+			<xs:attribute name="destination" type="xs:string" use="required"/>
+			<xs:attribute name="message_text" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

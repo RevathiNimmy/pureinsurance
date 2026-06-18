@@ -1,0 +1,38 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.ClientCertificate
+@model ClientCertificatesViewModel
+
+@{
+    ViewBag.Title = Index_cshtml.ClientCertificates;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+   
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                   @for (int i = 0; i < Model.Users.Length; i++)
+                    {
+                        <div class="form-group form-group-sm">
+                            @Html.HiddenFor(x => Model.Users[i].Username)
+                            @Html.LabelFor(x => Model.Users[i].Delete, Model.Users[i].Username, new { @class = "Col-lg-2 col-md-3 control-label"})
+                             <div class="Col-lg-8 col-md-8">
+                                @Html.CheckBoxFor(x => Model.Users[i].Delete)
+                                @Html.ActionLink("configure", "Configure", new { id = Model.Users[i].Username }, new { @class = "btn btn-xs btn-primary"})
+                             </div>
+                        </div>
+                    }
+               </div>
+           </div>
+        <div class="card-footer">
+             <button type="reset" class="btn btn-sm btn-dark">@Index_cshtml.Cancel</button>
+             <button type="submit" name="action" class="btn btn-sm btn-dark" value="delete">@Index_cshtml.DeleteSelected</button>
+            <button type="submit" name="action" class="btn btn-sm btn-primary" value="new">@Index_cshtml.New</button>
+        </div>
+   </div>
+     @Html.ValidationSummary(Index_cshtml.ErrorDeletingClientCertificates)
+}

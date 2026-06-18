@@ -1,0 +1,759 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="dsPURE">
+      <DataSourceReference>dsPURE</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>d82157f2-6fe2-48b5-86fc-eff2f288963b</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsCanceledLapsedPolicies">
+      <Query>
+        <DataSourceName>dsPURE</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@BranchName">
+            <Value>=Parameters!BranchName.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DateFrom">
+            <Value>=Parameters!DateFrom.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DateTo">
+            <Value>=Parameters!DateTo.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>spu_rptSSRS_CanceledLapsedPolicies</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Policy_Number">
+          <DataField>Policy Number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Name_of_Insured">
+          <DataField>Name of Insured</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RefundAmount">
+          <DataField>RefundAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="lapsed_description">
+          <DataField>lapsed_description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CancelLapseDate">
+          <DataField>CancelLapseDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsAllBranches">
+      <SharedDataSet>
+        <SharedDataSetReference>AllBranches</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="Branch">
+          <DataField>Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Report_CanceledLapsedPolicies</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Light</FontFamily>
+                      <FontSize>24pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>textbox1</rd:DefaultName>
+            <Top>0.875in</Top>
+            <Left>0.00979in</Left>
+            <Height>0.6175in</Height>
+            <Width>5in</Width>
+            <Style>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="table1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.17708in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.82292in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.40625in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.67708in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.79167in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.22in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Policy Number</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Name of Insured</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Refund Amount</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <FontFamily />
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>lapsed description</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Cancel Lapse Date</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.21in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Policy_Number">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Policy_Number.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Policy_Number</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Name_of_Insured">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Name_of_Insured.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Name_of_Insured</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="RefundAmount">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!RefundAmount.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>RefundAmount</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="lapsed_description">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!lapsed_description.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>lapsed_description</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CancelLapseDate">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CancelLapseDate.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CancelLapseDate</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="table1_Details_Group">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>dsCanceledLapsedPolicies</DataSetName>
+            <Top>1.68in</Top>
+            <Height>0.43in</Height>
+            <Width>9.875in</Width>
+            <ZIndex>1</ZIndex>
+            <Style />
+          </Tablix>
+          <Image Name="Image1">
+            <Source>Embedded</Source>
+            <Value>SRIC</Value>
+            <Sizing>FitProportional</Sizing>
+            <Height>0.5in</Height>
+            <Width>1.85417in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Textbox Name="Textbox6">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>RP794</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox6</rd:DefaultName>
+            <Top>0.37097in</Top>
+            <Left>0.00979in</Left>
+            <Height>0.25in</Height>
+            <Width>1in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox5">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Swaziland Royal Insurance - LIVE</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>CANCELED AND LAPSED POLICY LISTINGS from </Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox5</rd:DefaultName>
+            <Top>0.37097in</Top>
+            <Left>1.22917in</Left>
+            <Height>0.41667in</Height>
+            <Width>7.56251in</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Date: </Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Format(Globals!ExecutionTime,"dd-MM-yyyy")</Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Time: </Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=Format(Globals!ExecutionTime,"hh:mm tt")</Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>0.37097in</Top>
+            <Left>8.94666in</Left>
+            <Height>0.405in</Height>
+            <Width>0.94792in</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+        </ReportItems>
+        <Height>2.33917in</Height>
+        <Style />
+      </Body>
+      <Width>10.49875in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="BranchName">
+      <DataType>String</DataType>
+      <Prompt>Branch Name</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsAllBranches</DataSetName>
+          <ValueField>Branch</ValueField>
+          <LabelField>Branch</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="DateFrom">
+      <DataType>DateTime</DataType>
+      <Prompt>Date From</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="DateTo">
+      <DataType>DateTime</DataType>
+      <Prompt>Date To</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>BranchName</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>DateFrom</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>DateTo</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="SRIC">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8QEBUQDxAQEBUXFRAQFQ8XFhAQFhUPFxUWGBUWFRUbHSogGBoxGxUWITEiJSkrMTEuFx8zODMuNygtLisBCgoKDg0OGxAQGy8lHyU1NSstLy0tLS8vKy8tLS0tLS0vLS0tLS0tLS0tLS4tLS8tLS8vLS0tLS0tLS0vLS0tLf/AABEIAHgA+gMBEQACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAAAQQFBgcDAv/EAEIQAAIBAgQCBgUJBgUFAAAAAAECAAMRBAUSIQYxEyJBUWFxMnKBkbEHFBYzQlJTkqEjNHOywdEVYtLh8ENVY4KD/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAMEBgUCAf/EADgRAAIBAwIEBAQDCAIDAQAAAAABAgMEESExBRJBURMiMnEUYYGhM5HwBhVCUrHB0eEjNFNi8UP/2gAMAwEAAhEDEQA/ANxgBACAEAIAQAgBAEgCwAgBACAEAIAQAgCQBYAQAgBACAEAIAQAgBACAEAIAkAIAsAIAQAgHlnA5kCeZTjFZk8H1JvYb1MfSXm49m8pVOJ2tPef5akiozfQ8LmdE/a/QyKPGbRvHN9menb1Ow4p4hG5MD7Zcp3VGp6ZJ/UjcJLdHSWDwEAWAEASALAEgBAFgCQAgCwBIAQAgBACAEAWAJACAEAIAsASAEA81KgUXY2HfI6lWFOLlN4R9SbeERGKzcnamLf5jMzecek/LQWPmy7TtVvIhcxzAoAz6muwQesb6b92+3tnIgqt3N80tlnXst/y3LD5YLRFdPFWtCaSKrDoTpqHSQHvfa4vy233nXXAfDqKNWTa82sdfTj3xvrpoQfE5Wh2p8R3I2Tf5uQNwSrqxqMAewaZFLg+E99ObPbKaUV7vJ9Vx/Y6ZbxHrpvVqoaYUIdtRJZhdUAIuWtY7c7zzdcHdKrGnRlzOWe2iWjba2Se+dj7Cumm5IsW
+XZ0Tp0uG1IKgpnn0Z5G3MSKnfXlm2paxT5XnbK6ZPsqVOZP4PHpU25H7v9ppLLidK50Wku3+CnUoyh7DqdIhFgBAEgCwBIAQBYAQAgBAEgBACALAEgCwBIAQAgBAFgBAOdaqEUsxsBIa9eFGDnN6I9Ri5PCKpnudKql6rBQLlUuATbcgX5m0x9SrccTrKMVp9lnq8HQjGNGJW6mNxdaq9OnTv0dRWWqDoUAqCq1AT1lKk7jlLUba0oUY1Jz9cWnFrL0eG49mmuu/c8Oc5SwuhP4TJXrKekppqcqXdbqLqQUsTubWG8rW9C5qzTts8kcpOWOu/wCfbU9SlCK8+/yJWjw1TAsQgFtNgoPVve2/Zc3nTjwWtJ81Ss876d9s/kQu4itFE7vkKHt7CN1U7HmPKfXwBJeWo+/17j4ruiMzDhOm+7UqdTa3LSbWIFh3gHbukLseI2y/4KmVv8+/Xv17npVaU/UsFVx3D1SiwqU2ZtFMq1M31MtPSaSC3ZqW574pcTjPNCvHlbln5RcsqUteuHhdj7KljzRef1oOcJni0iorVuk12ZGVGRlUemzrbqqDyP8AaVanDpzblQhyuO/mTTf8Ki+smt0eo1UtJPOS9ZXmGsaWO/Ye8Tq8K4n43/FV9S+/+yCvR5fNHYkp3CsEAIAQAgBACAEAIAQAgBACAEAIAQAgBACAJAFgCQCt5/marcsbIu3eS3KwHab7ATH8SuJ3lx4FLZfpt/JHQoxVOHNIp1B3xNUMNVRC9zfQ1H5sQdip3Wpf238JNUjC0ouLxGSWmMqfPndPZxa+mPmeVmcv1jBeclyRKaC62AtpTnsOVz2yex4bKs/iLrVvVL+7PFWso+WBMvVRdiyr3AkCaOMNMRRTckt2efnVL8RPzLPXJLsefEj3QfOqf4ifmWOSXYeJHug+dU/xE/Msckuw5490eMXhEqDcb9jdolC8sKV1HE1r0fUnp1ZQehUsdkqrX6Rh1rAE7EPpvobzFzy7
+5k7idxZx+Fntun8nvj369mXoKFTzoaYHN+uq6XPWamMRpCI9ZL6govcDY+6KlnKlmrCSTWJcucyintl4x1XzPqqJ+V+xeMDiekQHt5Hzmr4fdq5oqfXr7lCrT5JYHMvEYQBjmGbYfD/XVVTwvv7pLTozqelENW4p0vW8EV9NcDe3SN56Wk/wFbsVf3nb9/sSWAzvDV9qVZGP3b2PuMhnQqQ9SLFK6pVPTIkZCWCLxHEODpmzV6YPde8njbVZbRK07yhHRyQ3+luA/HX3Ge/g638pH+8Lf+YeYTOsLV2p1qbHuuAfcZFOhUhuianc0p+mSH8iJzxWrKil3IVQCSx7AOc+pOTwjzKSisvYjl4jwR2GIp93OTfC1f5Sv8bQ/mRKAyAtCwCOx+d4ahtVqop+7e59wk1OhUn6UV6t1SpeqRGjjXA3t0jeelrSb4Ct2K/7zt87/YlMvzfD4jajVVzz0jnbykFSjUp+pFmlc0qvoeR/IicIAQBtmFbRTJ7eQ8zKPEbjwLeUlvsvqS0Yc00ikZm1CqRh3akzMVY0y+hwv30tvq7rTIWiuKSdzFSSWfMllN9nnTD6l+pyvyMleF8nSn1QAVXm1lUsfs6rAX850bGM+IXLrVfTHpltZ+WenXBFVapQ5Vuy1TWFAz75UPToeT/ETr8M2kcDjPqgck4OwxAPz+nyBtdP9U9O9qfyHlcNpP8A/Vfb/J7+hmG/7gnvp/6p8+Oqf+M+/uyl/wCX+n+Rxh+AqTdZMWXAPNQrC47LgzxLiMlo4EkOEweqnkvaico7g1zHCioniNwfGc7idkrmi1/EtUTUanJIzvOKDUXLUhVpowZ2NLQD847CxfZV77Wv2zgWNSNePJV5XJYS58+nrjl1b7ZzjoWqicXmO3y7ln4TzDWq9dH1KFZkIK9KB1rHzvJ+GydteyotOMZbJ7/+v2PFZc9NS6otE1JSIviXM/muGeqPS9FfXPL+8ntqXi1FErXlfwaTmt+hkLNV
+xFTctUdz5kkzQ4jTj2SMk3OrPu2Ty8DY0i9kHhq3lV8Qo5Ly4VXxnQ9ZHwxiFxlNa1NlUHWW5ghd7XHjafK93TdJuL1PttY1VXiprTc1FuU4Rp2YdmH1r+u/xM1FP0oxNX1v3JPCcK4yrTWolMFWFwdSi4kM7ylGTi2WYcPrzipRWjI/H5fXw7AVUamew9/ke2S06sKizF5IKtGpSeJrBcOA+I6jOMNWYuCDoY7kEfZv2ic6+tYpeJH6nW4ZeycvCm89i2cS/udf+FU/lMoW34sfc6t3+BP2ZjmG9NfWX4zRy2ZkYepG50vRHkPhMs9zbLYpvHHE7UT83oNZrddxzUHsHcZ0rK0U/PPbocfiV86b8Onv1Zn9OnUqvZQ1Rj2C7EzrNxgtdEcFRlOWFqyVXhTHEX6BvK63915B8ZRzjmLS4fcYzykxwJl9ajjbVab0/wBm/MEDmvbK19UhOj5XnUt8Mozp3HnWNDSJxjRBACAROfPsq+JMzf7Q1cQhD6ly0WrZnVNhXxbImpl6UVXdTTqIGS2kFiAynqgWF58mnbWUZzwpcvLFPKbUt9FlNavV4Pq89TCNOymnppA9/WnR4NRVO1j89SG4lmbHs6hAZ78qP1lD1anxE6/DNpHA4z6ofUiODMio4x6i1dQCqrDTYbkmWLy4lRScSpw+0hcSkp9CyY7gTCJSdwal1VmG45gX7pShxCrKSWh0anCqMYOSzoOvk2/cv/o/wWeOI/jfQl4R/wBf6stcoHUEgFN4rwGtalMIHJ6yrZW3PPTq2B52JmOqSVnxJvOFnPVaPXXGuM7pHRj56JD8GYkBnQKyFGVjqZHYfZs2kWBGn+sn4kpU61GvzJ57Jpd8rOrTz/Y8UtYyiaUDNSnlZKJXOPsK1TBsVF9DK5H+Uc/jL1hNRq69TncUpudB46amZZbjGoVUqrYlSGse2dupBTi4vqZujUdKamuhpuVcZYStYO3Qt91thfwblOHVsasNllGkocTo
+1NG8P5liRwwuCCO8biVGsbnQTT1Qrcp8PrMOzD61/Xf4main6EYmr637mucK/uVD+GJn7r8aXuayy/68PYg/lJxNL5utMlS5cMo2JAANz4Szw6EvEb6FLi9SHhKPXJTuE0JxtG337+yxvOldP/hlk49im7iOO5qHEv7nX/hVP5TOHbfix9zTXf4E/ZmOYb019ZfjNHLZmQh6kbg1QLT1HkF1e4XmXxmWDat8scmI4zENVqNUbcsxY+0zTwioxUUYupNzk5PqanwZlCYfDq9hrcB2btseQ8pwbys6lRrojUcPt40qSfVlglQviwAgCQBYBB576a+r/UzI/tDnx4+392X7T0spmX0K64u+JVBdX6NqYQId97/avptz8Z5uqtCdli3b0a5uZvPy/wDXGex9gpKp5jScH9Wvqr8JprL/AK8Mdl/QpVPWztLR4KD8peHqO9HQjNZXvYFrbjunW4bKKUss4XGISlKOFkY/J/UqIcS9JQ7rTUhCbXIJ2vJb9J8ik9MkHC3KPO4rLwdq3HVeqj0xhBurKbMzEXFuWmeI8PhBqXMSS4rUnFxUP1+RHZRxRXwVEUEorfUzln1C4NgAB7JNVtIVp87f5Fahf1LanyKPz1NSwrMUUuAGKqWA5BrbgThySTeDTwbcU3udZ5PRW+JSQWKEBujJBPINY2J8JkOMKLvoqSytM433L9vnwngq3DNVmdiGqFdKatbUnJr33K6fs2/pPnFIRhGKaWcvHKpJKPRPPU+0W3k0unyHkJrafoXsUHuKygix3B2t4T2fGslJzzgNXJfDOEJ36NvRv4HsnTocQcViaz8zi3PCVJ81J4+RTczyPE4b62mQPvjdfeJ0qVxTqelnHrWtWj60d8g4hrYRxpYsl+tTJ2I7bdxnmvbQqrXfuSWt5UoS0enY1yhXWpTDruGUMPIiZ6UXGWGayMlOKkupieYfWv67/EzTU/QjF1fW/c9rjMSqgCpVCgWFiwFp8cKbeyyelUqp
+aN4G92dtzckgXJ+JM96JEesnqaZwdwuMN+2qkNUI2A3Cqe49pnEu7vxfLHY0lhYeD55av+hMcS/udf8AhVP5TK9t+LH3Ld3+BP2ZjmG9NfWX4zRy9LMhD1I2rHqTh3A59G38szMHiovc2VVZpP2/sYjNOYw23JnDYekR+GnwEzFZYqP3NnbvNKL+Q9kZMEASAEAWARGfJ6LeYma/aKnpCfui5aPdGfU8SFxYNSuHK1DSCM7Fl17AhbBbbjv5zzOi52TVOnhOPNlRWHjXV5b79j1zYqas0zK6mqkvh1fdOpwiqqlpH5afkV68cTY8nTITzUGx8jPq3Pj2M++TL66v5L/M063EvRE4PB/xJnTNU/w3MFxCi1GtcOOwE+kPg3vnyk/iaDg/Uj1WXwl0qi9Mt/19yP8AlFIOKQjkaaEHw1GTcP8AwnnuV+LYdZY7Gm0+Q8hOI9zSLY9T4fSncWYzStZwyrpRgGJUC4HjteY6vi64oo4yspaZ6b7a+50IeSjkg+DMPRYtVo1GfUVQqwQMhvqIZl2Y3POT8UlcSq07erBLXKw3h9E0ntotvqfKPKouSZpgE1KWFgoHDMMYlCm1Wpsqi5/2klODnJRRHVqRpwc5bIaYLPsJWF0r0/VJCn3Ge529WG8SKnd0ai8skesxzDCrTbpqlIrY3UlTcdwHbFOnUclyp5PtWtRUHztYMYqEXNuVzby7JpVtqY54zobFwwpGCo6uege7smcuceNLBr7NNW8c9jI8w+tf13+Jmgp+hGTq+t+5qvD+Ep1cvpI6hg1IA7dhnBuJyjXbXc1NrTjO2jGS3Rmef5U2FrtSO45q3eh5Tt0KyqwUkZu6t3QqOL+hdvk+zzpE+bVDdkF0J7U7vZOZf2/K+eOzOzwu654+FLdbexYOJf3Ov/CqfymVLb8WPuX7z8CfszHMN6a+svxmjlszIQ9SNyQXUA9w+Eyz3NutjGM9y9sPiHpEbAkr4oeR900tCoqkFIxtzRdK
+q4MtHB/F1OjTFDEXAHo1Odh3GULuylOXPA6lhxGNOPh1Poy4JxBgyLjEUvzAfoZz3bVV/CzrK8oP+NC4PPcNWq9FSqCo1i217WHj7Z8nb1IR5pLCPtO7pVJ8kHlkjISwEAWANMyo66ZHaNx7JzuKW/jW0kt1r+RNQlyzRnPFNFwB0aUgpdatSozoh1rpsFLeiSF5jfacLg1SnzPxJSyk4xSTejzlvG+G9noWq6fQtfC2bJVUMCNL8rG4DjYi/b5yXhs5WNzK1q9ds6a9NOmTxWXiQ50WaakpFbzvib5riVo1adqTgHprna9wdvO0uUbXxablF6roc64vvBqqEl5X1I7h58swbu6Y1X1gAgnluT3eMmuFcVkk4bEFq7W3k2qmcj3O8yyzF0jSqYqmBcEMDuCO0bSOjSuKUuaMWTXFe0rw5JTRRuJWpdJSSjW6dUpqgqcz6RsD5AzqW3NytyWG2cS8cOeKhLmSWM/U1+nyHkJnnuaxbHDHYgU0J7eQHjKN/dq2oub36e5LSp88sGf55j01ilrYEdcsop1tJ/8AJSN209twNpmLC2qOLrNZzpq3HPflltn5N6l2rJeknuEsLVsprEFhd2sAFBJ6oAHZaWbClSrX7nST5I99+2vzyeKsnGlh7stU1ZRITi/LK2Jw/RUSoNwxB21Adl5atKsKU+aRSv6FStS5YGa4nhzG0z1sPU8wNY94vO1G6pS2kjOTsq8N4s408nxTGwoVT/6NPTr01/Ejwras9ov8iw5BwRXdw+JHRICDouCzeFhylOvfwisQ1Z0LXhdSUk6ui+5pAQBbAWAFgPDsnGzl5ZosYWEZNjeGsc1RyMPUILMQeryv5zvwuqKilzGUqWNw5tqDNK4doNTwtJHUqyoAVPMGcW4kpVZNGktIOFGMZb4I7jXJDiqN6YvUTde8g81/53SazuPCnrsyvxG18enmPqRSMuyPMaFVaqYepdSD2bjtHOdSpcUJxcXI4tG1uqU1NQeh
+pGcI9XCVFVTqekwCduory85xaLUKqbeiZorhOdCSS1a2Myw/DOODqTh6lgVP2e/znbld0cPzGajY3CkvIzXKY2HkJn3uaxbEPxLw7TxibnRUHo1P6HvEsW1zKi/kU7yzjcR7PuZ3j+E8bRP1JqD7ydce4bidineUZ9ce5n6vD69N+nPsMRlOJJt0FX8jSbxqf8yIPh6v8r/ItnAeSYmjiDVq0mproZbtYG5Ittz7Jz76vTnT5YvLOtwy1q06vPOOFg0Gcg7wkAWAJAKrxHlKuGQ3Ctezi2pT26SeR8ZjrylPh92qsFmL1Se3s+50KclVhh7lQyrEPhqvQANVY6S66mPRrdVC0hbcAMCSbX37pbvKULuj8RnlS9LwvM9XmTzo21hJZxpk8QbhLl3NHy3Mg3Uc2PIHv/3k3C+LxqJUqzxLo+/+zxXoNeaOx1zTKqGJXTWQOBuDyI8jNJSrTpvMWc+tb06yxNZIv6E4D8I/mf8AvLHx9buVf3Zb9vuJ9CcB+EfzN/ePj63cfuy37fc4V+A8ExBXpEt2BufvnpcQqrfU8S4VQb0yiyV6601uxt8TOTc3VO3hz1H/ALOrCm5PCKnxBmxVGqlXIGwVRr0j7xFxcd8yEqs+J3Si2kuibx9M66s6CiqMCuZFhKldulYFAKxr6Cgu1Rhzp1b3NM3vYi45Xl3iFWFFeDDzNx5MqWyT2cMetbZTw98EdKLk+Z+/6fY0rLsN0aWPM7mdnhln8NRSe71ZXrVOeQ6nRIRYAkAIAQBYAkAWAEAIAkAWAEAIAQBIAQAgBAFgBAOOJoLUXS3v7jK11bQuKbhP/wCHuE3B5RWsTguje5UarW12FyvdfumHu7etbPwpt43XZ/M6VOUZ+ZHMymSDnL83bSGRhUQ7g+HgZ16PE7uzl4U9cdHuvqQSowqaokkzlPtKw/Wdan+0FF+uLX3IHaS6M9nOKfcx9kkfH7ZbJ/kefhZjatnJ+wtvE7/pKNf9oJtYpRx8
+2SxtF/EyMesX6xbV43uPZOFWrVas+aq238/1oWoxil5TzaRH0l8mywIASoUD0UAsB7Jq+F8NlzfEV9ZdM/1ZRr1ljkjsTE0JUEgHivVCKXY2CgsT3AC5gFNwfHZ6BcRiMOyipqNOmofX0aqXd21hRpC2NxfnAJAca4bUwKVQFc09RAG4Q1GOm9wulb3I37IByq8aUzbo0dRroKzuAFBan0tRbA31CncnsBgHj6fYfoi/Q4jULsaWldQpBUY1DvYLaonbzYCAP8z4sw2GfRV1g6KVbl/036Te3h0bX9kAa/TjDgPrp16bIHZqRUagAEK7A8z0iWHjAO2J4qUYatiEoVGFN+iQHSOlq6tFk3+9tvAONTjegpKvSrggOL2Ug1k0h6S77sCwF+V7wDxQ46oNdegxAe+lKWlS1Rw7IwWxtsUe5O1lJgHRONqDAtTo16gAo8gv1tUgJS5+lvfugCrxthtVmSqqk6VqEKFa1QU3IN+Qc2J90Ae8PcS0McCaAcgKrFiLAXLAA+NlvbuIgCnPlAJam/pPa1jemhsz+AuR75Y+Hb2f6fQqfFpbp9fyXU8vnw6QBFYpZutbd21aQEF+++57p9Vu+XV6nx3a5kktP69NDvg87p1WVVDgsdgQOVib+W3PxE8zoSim2e6d1CbSW7JOQFkIAsAIAQDlXoq40sLyC4t6deHJUWUeoTcXlENi8qdd06w/WZS84JVpeal5l9y9TuYy0loR5UjYi36TjSi4vDRZTzsc6asCxLXBN1FgNItyv2z7KUWkksPr8/8AB8SYVlYgaCFNxckX6vaJ9g4J+ZZ/yfXnoe5GfTpgsASAtJAqjYADSoEu0rW5u58yTbe7f+SKU4U0TeCy1U3brN+gmnsOD07fzz1l9kUqtw56LYkJ2SuEAIByxVBaiNTcaldWRl71YWI9xgERQ4TwKKEFG4CvTAZqj2pvp1KLnYdRfdAPNfg/AOGD0dWpgxYtULGwIC6r302Zhp5bmAOK
+vDeDZSjUFIJqsRv6VRNDnn2rtAI/M+CsLXdGI0Kr9KUUDrPdT6XMDqKCBsdIgDurw1Qq16mIxH7cvTbDqrBQqUG3ZBbnc9pgHP6HZfZB0A6h1g6nJLag13N7v1lU735CAPq+R4Z6HzZqY6K+rQCws2rVcEG4Ore8AbLwrgQ7VOgUsxViSWPWDBrgX2uygm3MjeAJV4UwLJoNAW6vIuCLFiLMDcbu35jAHFLIcIltFFFtUSsALgCoq6VPsXaAN14UwAFQfN0IqkFwdRBs+uwBPVGrrWG1zAO+EyKhSq9LSUp9aSgNlL1GDO5Ha2wHlAOhybD7fs+TFgLtzNiRz5XANuW0l8efcg+Gp9hP8Fw/W/Z+kbndhve+2+25PLvjx6ncfDUtdNzxRySipNwWuFQDlppqbhRbsuJ6dxJnmNrBZ/L2XYlJAWRIAsAIAQAgBAOVWgjekoMgq21Kr64pnqM5R2Y2qZVSPYR5Gc+pwS1lsmvZkyuZo8Lk9PvY+0SKPALZPVt/X/R9d1M708BSXkg9u8u0uGWtPaC+pHKtN9RyBLySWiIhZ9AQAgCQBYAQAgBACAEAIAQAgCQBYAQAgBACAEASALACAEAIAQAgBACAJAFgBACAEAIAkAWAJACALACAJAFgCQBYAQBIAsAIAQBIAsASALAP/9k=</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>974cabe4-aff9-4c91-97b0-29bba825345f</rd:ReportID>
+</Report>

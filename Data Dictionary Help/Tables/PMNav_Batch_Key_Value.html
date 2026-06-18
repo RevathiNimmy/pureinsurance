@@ -1,0 +1,293 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Batch_Key_Value</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_batch_set_id">pmnav_batch_set_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">pmnav batch set</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_batch_record_id">pmnav_batch_record_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">pmnav batch record</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_batch_key_value_id">pmnav_batch_key_value_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnav batch key value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_batch_id">pmnav_batch_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="autodesc">pmnav batch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_key_id">pmnav_key_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="autodesc">pmnav key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="key_value">key_value</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">key value</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_batch_set_id, pmnav_batch_record_id, pmnav_batch_key_value_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_batch_id, pmnav_key_id</td>
+<td><a href="PMNav_Batch_Key.html">PMNav_Batch_Key</a></td>
+<td>pmnav_batch_id, pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_batch_set_id, pmnav_batch_record_id</td>
+<td><a href="PMNav_Batch_Record.html">PMNav_Batch_Record</a></td>
+<td>pmnav_batch_set_id, pmnav_batch_record_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_batch_id, pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_batch_set_id, pmnav_batch_record_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_batch_set_id</td>
+<td>pmnav_batch_record_id</td>
+<td>pmnav_batch_key_value_id</td>
+<td>pmnav_batch_id</td>
+<td>pmnav_key_id</td>
+<td>key_value</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>355</td>
+</tr>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>350</td>
+</tr>
+<tr>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>351</td>
+</tr>
+<tr>
+<td>0</td>
+<td>4</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>352</td>
+</tr>
+<tr>
+<td>0</td>
+<td>5</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>362</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>371</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>366</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>367</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>368</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>377</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>425</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>428</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>423</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>424</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>435</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>450</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>457</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>450</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+<td>20001</td>
+<td>9</td>
+<td>445</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

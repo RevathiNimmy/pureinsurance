@@ -1,0 +1,186 @@
+
+' ---------------------------------------------------------------------------
+' SCRIPT NAME: 	MEDIAVALIDATE_BANK_NZ
+' PURPOSE:		Validation of NZ Bank Account Numbers
+' AUTHOR: 		Alix Begeret
+' DATE: 		17 October 2002
+' RETURNS: 		oSharedStorage.vValid (True/False)
+' CHANGES:
+' ---------------------------------------------------------------------------
+
+Sub Start()
+	'Entry point for Script from bSIRMediaTypeValidation component
+	'oSharedStorage object is already available with two incoming properties
+	'.vReference = Bank Code and Account Number (as one string, seperated by a bar |) OR Credit Card Number
+	'.vAmount = Amount for rounding
+	'
+	' Two return properties need to be set once the script completes
+	'.vValid = True or False if .vReference is Valid.
+	'.vRoundedAmount = Rounded .vAmount
+	
+	dim vAccountNumber
+
+	vAccountNumber = oSharedStorage.vReference
+
+	if trim(vAccountNumber) <> "" then
+	    oSharedStorage.vValid = Validate(vAccountNumber)
+	else
+	    oSharedStorage.vValid = False
+	end if
+
+
+	oSharedStorage.vRoundedAmount = oSharedStorage.vAmount
+
+End Sub
+
+function Validate(AccountNumber)
+
+	Dim strBankNumber
+	Dim strBranchNumber
+	Dim strAccountNumber
+	Dim strSuffix
+	
+	Dim strDigitValidation
+	Dim lTotal
+	Dim ValidCard
+	
+	' DD 17/10/2002: Commented out because NZ Bank Account arrives as one whole string
+	' check "|" is in right place
+	' If Mid(strAccountNumber, 7, 1) <> "|" then
+	'	ValidCard=False
+	'	Exit Function	
+	' End If
+	
+	' get details from AccountNumber
+	strBankNumber = left(AccountNumber, 2)
+	strBranchNumber = mid(AccountNumber, 3, 4)
+	strAccountNumber = mid(AccountNumber, 7, 7)
+	
+	' work out which type of validation we need to do
+	If strBankNumber="08" Then
+		strDigitValidation = "B"
+	Elseif strBankNumber="09" Then
+		strDigitValidation = "C"
+		strSuffix = right(AccountNumber, 1)
+	Elseif strBankNumber="25" Then
+		strDigitValidation = "D"
+	Else
+		strDigitValidation = "A"
+	End If
+	
+
+	' validate each type
+	select case strDigitValidation
+	case "A"
+	
+		If len(AccountNumber)<>15 Then
+			ValidCard=False
+			Exit Function
+		End if
+	
+		lTotal = lTotal + CInt(Mid(strBranchNumber, 1, 1)) * 6
+		lTotal = lTotal + CInt(Mid(strBranchNumber, 2, 1)) * 3
+		lTotal = lTotal + CInt(Mid(strBranchNumber, 3, 1)) * 7
+		lTotal = lTotal + CInt(Mid(strBranchNumber, 4, 1)) * 9
+	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 2, 1)) * 10
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 3, 1)) * 5
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 4, 1)) * 8
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 5, 1)) * 4	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 6, 1)) * 2	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 7, 1)) * 1	
+	
+
+		If lTotal MOD 11 = 0 then
+			ValidCard = True
+		Else
+			ValidCard = False
+		End If
+
+		
+	case "B"
+
+		If len(AccountNumber)<>16 Then
+			ValidCard=False
+			Exit Function
+		End if
+
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 1, 1)) * 7
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 2, 1)) * 6
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 3, 1)) * 5
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 4, 1)) * 4
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 5, 1)) * 3	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 6, 1)) * 2	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 7, 1)) * 1	
+
+		If lTotal MOD 11 = 0 then
+			ValidCard = True
+		Else
+			ValidCard = False
+		End If
+
+	case "C"
+
+		If len(AccountNumber)<>14 Then
+			ValidCard=False
+			Exit Function
+		End if
+
+		Dim iProduct1
+		Dim iProduct2
+		Dim iProduct3
+		Dim iProduct4
+		Dim iProduct5
+
+		iProduct1 = CInt(Mid(strAccountNumber, 4, 1)) * 5
+		iProduct2 = CInt(Mid(strAccountNumber, 5, 1)) * 4	
+		iProduct3 = CInt(Mid(strAccountNumber, 6, 1)) * 3	
+		iProduct4 = CInt(Mid(strAccountNumber, 7, 1)) * 2
+		iProduct5 = CInt(Mid(strSuffix, 1, 1)) * 1
+
+		lTotal = AddDigits(iProduct1) + AddDigits(iProduct2) + AddDigits(iProduct3) + AddDigits(iProduct4) + AddDigits(iProduct5)
+
+		If lTotal MOD 11 = 0 then
+			ValidCard = True
+		Else
+			ValidCard = False
+		End If
+
+	case "D"
+
+		If len(AccountNumber)<>16 Then
+			ValidCard=False
+			Exit Function
+		End if
+
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 1, 1)) * 1
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 2, 1)) * 7
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 3, 1)) * 3
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 4, 1)) * 1
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 5, 1)) * 7	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 6, 1)) * 3	
+		lTotal = lTotal + CInt(Mid(strAccountNumber, 7, 1)) * 1	
+
+		If lTotal MOD 11 = 0 then
+			ValidCard = True
+		Else
+			ValidCard = False
+		End If
+
+	end select
+
+	Validate = ValidCard
+	
+end function
+
+function AddDigits(iNumber)
+
+	if trim(iNumber)="" then
+		AddDigits=0
+	elseif len(iNumber)=1 then
+		AddDigits=iNumber
+	elseif len(iNumber)=2 then
+		AddDigits = cint(left(iNumber, 1)) + cint(right(iNumber, 1))
+	end if
+
+end function

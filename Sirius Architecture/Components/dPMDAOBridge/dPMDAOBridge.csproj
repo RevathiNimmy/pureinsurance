@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>dPMDAO to Sirius Architecture Bridge</AssemblyTitle>
+    <Company>SSP Limited</Company>
+    <Product>Sirius Architecture</Product>
+    <Copyright>Copyright © 2010 SSP Limited. All rights reserved.</Copyright>
+    <AssemblyVersion>2002.0.0.0</AssemblyVersion>
+    <FileVersion>2002.0.0.0</FileVersion>
+	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+	  <BaseOutputPath>C:\Pure\Application\</BaseOutputPath>
+	  <BaseIntermediateOutputPath />
+	  <PackageOutputPath>C:\Pure\Application\</PackageOutputPath>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>C:\Pure\Application\dPMDAOBridge.xml</DocumentationFile>
+    <NoWarn>0419,0618,1591</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	  <CompilerGeneratedFilesOutputPath>c:\pure\application</CompilerGeneratedFilesOutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DocumentationFile>bin\Release\dPMDAOBridge.xml</DocumentationFile>
+    <NoWarn>0419,0618,1591</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug with Setup|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug with Setup\</OutputPath>
+    <DocumentationFile>bin\Debug\Sirius.Architecture.Data.BackOffice.xml</DocumentationFile>
+    <NoWarn>0419,0618,1591</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release with Setup|AnyCPU' ">
+    <OutputPath>bin\Release with Setup\</OutputPath>
+    <DocumentationFile>bin\Release\Sirius.Architecture.Data.BackOffice.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>0419,0618,1591</NoWarn>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+	<ProjectReference Include="..\dPMDAO\dPMDAO.vbproj" />
+    <ProjectReference Include="..\Sirius.Achitecture.Data.BackOffice\Data.BackOffice.csproj" />
+    <ProjectReference Include="..\Sirius.Achitecture.Data\Data.csproj" />
+  </ItemGroup>
+   <ItemGroup>
+    <Reference Update="System.Core">
+      
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

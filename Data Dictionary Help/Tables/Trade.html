@@ -1,0 +1,276 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Trade</h1>
+<p><span class="autodesc">Trade</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="trade_id">trade_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">trade</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>trade_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>trade_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1092</td>
+<td>AGHUFIFO</td>
+<td>Agriculture, Hunting, Fishing and Forestry</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1093</td>
+<td>CONSTRUCT</td>
+<td>Construction</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1094</td>
+<td>ELGAWASU</td>
+<td>Electricity, Gas and Water Supply</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1095</td>
+<td>FIPRSE</td>
+<td>Financial and Professional Services</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1096</td>
+<td>HOREPUCA</td>
+<td>Hotels, Restaurants, Pubs and Catering</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1097</td>
+<td>MIQU</td>
+<td>Mining and Quarrying</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1098</td>
+<td>MANFPBT</td>
+<td>Manufacturing of Food Products, Beverages and Tobacco</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1099</td>
+<td>MANTTP</td>
+<td>Manufacturing of Textile and Textile Products</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>9</td>
+<td>1100</td>
+<td>MANLLP</td>
+<td>Manufacturing of Leather and Leather Products</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1101</td>
+<td>MANWWP</td>
+<td>Manufacturing of Wood and Wood Products</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>11</td>
+<td>1102</td>
+<td>MANPPPPPP</td>
+<td>Manufacturing of Pulp, Paper and Paper Products Publishing and Printing</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1103</td>
+<td>MANCRPPNF</td>
+<td>Manufacturing of Coke, Refined Petroleum Products and Nuclear Fuel</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>13</td>
+<td>1104</td>
+<td>MANCCPMF</td>
+<td>Manufacturing of Chemicals, Chemical Products and Manmade Fibres</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>14</td>
+<td>1105</td>
+<td>MANRPP</td>
+<td>Manufacturing of Rubber and Plastic Products</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>15</td>
+<td>1106</td>
+<td>MANBMFMP</td>
+<td>Manufacturing of Basic Metals and Fabricated Metal Products</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>16</td>
+<td>1107</td>
+<td>MANMEEC</td>
+<td>Manufacturing of Machinery and Equipment not Elsewhere Classified</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>17</td>
+<td>1108</td>
+<td>MANEOE</td>
+<td>Manufacturing of Electrical and Optical Equipment</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>18</td>
+<td>1109</td>
+<td>MANNEC</td>
+<td>Manufacturing not elsewhere classified</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>19</td>
+<td>1110</td>
+<td>MRSAF</td>
+<td>Motor Trade, Retail Sales of Automotive Fuel</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

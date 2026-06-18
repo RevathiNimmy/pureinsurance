@@ -1,0 +1,257 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Transaction_Options</h1>
+<p><span class="autodesc">Transaction options</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="transaction_options_id">transaction_options_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">transaction options</span></td>
+</tr>
+<tr>
+<td><a class="name" name="field">field</a></td>
+<td>varchar(20)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">field</span></td>
+</tr>
+<tr>
+<td><a class="name" name="comparison_indicator">comparison_indicator</a></td>
+<td>varchar(2)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">comparison indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="comparison_value">comparison_value</a></td>
+<td>varchar(20)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">comparison value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="stored_procedure">stored_procedure</a></td>
+<td>varchar(100)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">stored procedure</span></td>
+</tr>
+<tr>
+<td><a class="name" name="return_value_1">return_value_1</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">return value 1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="return_value_2">return_value_2</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">return value 2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="return_value_3">return_value_3</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">return value 3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="return_value_4">return_value_4</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">return value 4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="return_value_5">return_value_5</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">return value 5</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>transaction_options_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>transaction_options_id</td>
+<td>field</td>
+<td>comparison_indicator</td>
+<td>comparison_value</td>
+<td>stored_procedure</td>
+<td>return_value_1</td>
+<td>return_value_2</td>
+<td>return_value_3</td>
+<td>return_value_4</td>
+<td>return_value_5</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>agent_cnt</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_agent(?,?,?) }</td>
+<td>agent_amount</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>coinsurers_count</td>
+<td>=</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_insurer(?,?,?,?,?)}</td>
+<td>total_insurers</td>
+<td>total_insurers_commission</td>
+<td>total_insurers_ipt</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>coinsurers_count</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_coinsurer(?,?,?,?,?)}</td>
+<td>total_coinsurers</td>
+<td>total_coinsurers_commission</td>
+<td>total_coinsurers_ipt</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>extras_count</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_extra(?,?,?,?,?)}</td>
+<td>total_extras</td>
+<td>total_extras_commission</td>
+<td>total_extras_ipt</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>fees_count</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_fee(?,?,?) }</td>
+<td>total_fees</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>discount_count</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_discount(?,?,?) }</td>
+<td>total_discount</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>policyshares_count</td>
+<td>=</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_client(?,?,?,?,?)}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>policyshares_count</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_shares(?,?,?,?,?)}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>10</td>
+<td>subagent_cnt</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_subagent(?,?,?,?,?,?) }</td>
+<td>subagent_commission</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>11</td>
+<td>last_trans_type_id</td>
+<td>&gt;</td>
+<td>0</td>
+<td>{call sp_pmb_trans_det_commission(?,?,?,?,?,?,?)}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

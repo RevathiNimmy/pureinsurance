@@ -1,0 +1,41 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Shared
+<div class="menu">
+    <ul>
+    @if (ViewBag.IsAdministrator)
+    {
+
+            <li>
+                @Html.ActionLink(_Menu_cshtml.Administration, "index", "home", new{area="Admin"}, null)
+               
+            </li>
+    }
+
+    @if (ViewBag.IsSignedIn)
+    {
+
+            <li>
+                @Html.ActionLink(_Menu_cshtml.Home, "index", "home", new{area=""}, null)
+
+               
+            </li>
+
+            <li>
+                @Html.ActionLink(_Menu_cshtml.SignOut, "signout", "account", new{area=""}, null)
+               
+       
+                @string.Format(_Menu_cshtml.SignedUser, @Context.User.Identity.Name)
+            </li>
+    }
+    else
+    {
+
+            <li>
+                @Html.ActionLink(_Menu_cshtml.Home, "index", "home", new{area=""}, null)
+
+               </li>
+            <li>
+                @Html.ActionLink(_Menu_cshtml.SignIn, "signin", "account", new{area=""}, null)
+            </li>
+    }
+    </ul>
+</div>

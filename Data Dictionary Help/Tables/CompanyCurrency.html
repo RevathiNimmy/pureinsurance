@@ -1,0 +1,103 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>CompanyCurrency</h1>
+<p>Base currency used by the Company branch.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="company_id">company_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">company</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>company_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>company_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>currency_id</td>
+<td>company_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>28</td>
+<td>1</td>
+</tr>
+<tr>
+<td>26</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

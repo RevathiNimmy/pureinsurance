@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://SSP.PaymentHub/" xmlns:s2="http://SSP.Authentication.Services/" xmlns:s1="http://SSP.PaymentHub/Data" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://SSP.PaymentHub/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://SSP.PaymentHub/">
+      <s:import namespace="http://SSP.PaymentHub/Data" />
+      <s:element name="GetDeviceSignatureURL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TransactionData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeviceSignatureURLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetDeviceSignatureURLResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeviceSignature">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:ProviderResponseRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeviceSignatureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetDeviceSignatureResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPayPageHTML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TransactionData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPayPageHTMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetPayPageHTMLResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPayPageURL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TransactionData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPayPageURLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetPayPageURLResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPayPagePOSTData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TransactionData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPayPagePOSTDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetPayPagePOSTDataResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessPurchase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TransactionData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessPurchaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:ProcessPurchaseResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessRefund">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TransactionData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessRefundResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:ProcessRefundResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProviderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:ProviderResponseRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProviderResponseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetProviderResponseResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTransactions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:ProviderResponseRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTransactionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:GetTransactionsResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsServiceRunning">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="checkDBConnection" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsServiceRunningResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsServiceRunningResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculateHMACHash">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:RequestData" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CalculateHMACHashResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:CalculateHMACHashResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RequestTokenUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:TokenUpdateRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RequestTokenUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestTokenUpdateResult" type="tns:AccountUpdaterAcknowledgementResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountUpdaterAcknowledgementResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="tns:AcknowledgementResponseHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="tns:AcknowledgementResponseBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcknowledgementResponseHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BrokerSCID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorHeader" type="tns:AcknowledgeMentErrorHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcknowledgeMentErrorHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcknowledgementResponseBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TokenUpdateRequestAcknowledgement" type="tns:ArrayOfResponseRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfResponseRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ResponseRecord" nillable="true" type="tns:ResponseRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentTokenID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PolicyReference" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionCurrencyCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PredictedTransactionDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Frequency" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionValue" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="RemoteAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginalPaymentOrderCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error" type="tns:AcknowledgeMentRecordError" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcknowledgeMentRecordError">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProviderErrorCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTokenUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="data" type="tns:AccountUpdaterResponseRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountUpdaterResponseRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:AccountUpdaterRequestHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="tns:AccountUpdaterResponseRequestBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccountUpdaterResponseRequestBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UpdateID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetTokenUpdateResponseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTokenUpdateResponseResult" type="tns:AccountUpdaterResponse" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountUpdaterResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="tns:AccountUpdaterResponseHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="tns:AccountUpdaterResponseBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccountUpdaterResponseHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BrokerSCID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorHeader" type="tns:AccountUpdaterErrorHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccountUpdaterErrorHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccountUpdaterResponseBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UpdateID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MostRecentUpdateID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseData" type="tns:UpdatedCardResponseData" />
+          <s:element minOccurs="0" maxOccurs="1" name="UpdatedTokenResponse" type="tns:ArrayOfUpdatedTokenRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UpdatedCardResponseData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="merchantID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CardResponseRecord" type="tns:ArrayOfUpdatedTokenRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUpdatedTokenRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UpdatedTokenRecord" nillable="true" type="tns:UpdatedTokenRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UpdatedTokenRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentTokenID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PolicyReference" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionCurrencyCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PredictedTransactionDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Frequency" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionValue" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="RemoteAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginalPaymentOrderCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="responseCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="newPAN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="newExpiryDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="originalPaymentTokenID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="tokenExpiry" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="merchantCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="boolean" type="s:boolean" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://SSP.PaymentHub/Data">
+      <s:element name="TransactionData" type="s1:TransactionData" />
+      <s:complexType name="TransactionData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:RequestHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:TransactionDataBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RequestHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserDetails" type="s1:UserDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="MessageHeader" type="s1:MessageHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClientHeader" type="s1:ClientHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Forename" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MessageHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessageDateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ClientHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ClientName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BrokerSCID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionDataBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentProviderData" type="s1:PaymentProviderData" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PaymentProviderData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionIPAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginalOrderCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChallengeRequestIndicator" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Channel" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="RequestType" type="s1:RequestType" />
+          <s:element minOccurs="1" maxOccurs="1" name="JavascriptEnabled" type="s1:JavascriptEnabled" />
+          <s:element minOccurs="0" maxOccurs="1" name="Merchant" type="s1:Merchant" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnURL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Template" type="s1:Template" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CaptureMethod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Customer" type="s1:Customer" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProcessingIdentifier" type="s1:ProcessingIdentifier" />
+          <s:element minOccurs="1" maxOccurs="1" name="RegisterToken" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShowOrderConfirmation" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s1:Token" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionValue" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="HideBillingDetails" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="HideDeliveryDetails" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="HidePaymentResultSuccess" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsRecurring" nillable="true" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="BusinessUnitCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AllowedPaymentSchemes" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AllowedPaymentMethods" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StarPAN" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionCurrencyCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentProviderSpecificData" type="s1:PaymentProviderSpecificData" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="RequestType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Payment" />
+          <s:enumeration value="Refund" />
+          <s:enumeration value="TokenRegistration" />
+          <s:enumeration value="Purchase" />
+          <s:enumeration value="ProviderResponse" />
+          <s:enumeration value="GetTransactions" />
+          <s:enumeration value="CalculateHMACHash" />
+          <s:enumeration value="TokenUpdate" />
+          <s:enumeration value="TokenUpdateResponse" />
+          <s:enumeration value="PayPalPayment" />
+          <s:enumeration value="QuickQuote" />
+          <s:enumeration value="DeviceSignature" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="JavascriptEnabled">
+        <s:restriction base="s:string">
+          <s:enumeration value="Y" />
+          <s:enumeration value="N" />
+          <s:enumeration value="U" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Merchant">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SystemGUID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SystemPassCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RefundPassCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountPassCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StoreID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Template">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="LanguageTemplateID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantTemplateID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Customer">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s1:CustomerAddress" />
+          <s:element minOccurs="0" maxOccurs="1" name="Basket" type="s1:CustomerBasket" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeliveryAddress" type="s1:DeliveryAddress" />
+          <s:element minOccurs="1" maxOccurs="1" name="DeliveryEdit" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Firstname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lastname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MobilePhoneNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomerAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Address3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Town" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CountryCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Postcode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomerBasket">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BasketItems" type="s1:ArrayOfBasketItem" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippingAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="VATAmount" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfBasketItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BasketItem" nillable="true" type="s1:BasketItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BasketItem">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LineAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="UnitAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="VatAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="VatRate" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DeliveryAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Address3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Town" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CountryCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Postcode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ProcessingIdentifier">
+        <s:restriction base="s:string">
+          <s:enumeration value="AuthAndCharge" />
+          <s:enumeration value="AuthOnly" />
+          <s:enumeration value="ChargeOnly" />
+          <s:enumeration value="DeviceSignature" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Token">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TokenExpirationDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TokenId" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PaymentProviderSpecificData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SpecificData" type="s1:SpecificData" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SpecificData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDeviceSignatureURLResult" type="s1:TransactionResponse" />
+      <s:complexType name="TransactionResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:ResponseHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:TransactionResponseBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MessageHeader" type="s1:MessageHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorHeader" type="s1:ErrorHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ErrorHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransactionResponseBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Documents" type="s1:ArrayOfDocument" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDocument">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Document" type="s1:Document" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Document">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DocumentName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocumentData" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ProviderResponseRequest" type="s1:ProviderResponseRequest" />
+      <s:complexType name="ProviderResponseRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:RequestHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:ProviderResponseRequestBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProviderResponseRequestBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDeviceSignatureResult" type="s1:ProviderResponse" />
+      <s:complexType name="ProviderResponse">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:ResponseHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:ProviderResponseBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProviderResponseBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentProviderResponseData" type="s1:PaymentProviderResponseData" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PaymentProviderResponseData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantReference" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionResult" type="s1:TransactionResult" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResultCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResultDescription" type="s1:ResultDescription" />
+          <s:element minOccurs="0" maxOccurs="1" name="AuthCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="SchemeName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PAN" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CardExpiry" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TokenID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TokenExpirationDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AD1AVSResult" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AD1AVSResultDescription" type="s1:Verification" />
+          <s:element minOccurs="1" maxOccurs="1" name="PCAVSResult" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PCAVSResultDescription" type="s1:Verification" />
+          <s:element minOccurs="1" maxOccurs="1" name="CVCResult" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CVCResultDescription" type="s1:Verification" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProviderResponseCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProviderResponseMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayPalPaymentStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayPalPayerID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayPalPayerStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayPalPendingReason" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayPalRequestID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayPalPayerEmail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WorldPayTransactionIdentifier" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="TransactionResult">
+        <s:restriction base="s:string">
+          <s:enumeration value="Success" />
+          <s:enumeration value="Failure" />
+          <s:enumeration value="Unknown" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ResultDescription">
+        <s:restriction base="s:string">
+          <s:enumeration value="Authorised" />
+          <s:enumeration value="Declined" />
+          <s:enumeration value="Cancelled" />
+          <s:enumeration value="FailedSchemeSecurity" />
+          <s:enumeration value="PaymentServiceUnavailable" />
+          <s:enumeration value="MaximumNoOfTransactionsExceeded" />
+          <s:enumeration value="IncorrectCardDetailsEntered" />
+          <s:enumeration value="SecurePaymentPageAccessedDirectly" />
+          <s:enumeration value="MissingOrInvalidPaymentProviderData" />
+          <s:enumeration value="ErrorOccurred" />
+          <s:enumeration value="TransactionCancelled" />
+          <s:enumeration value="PayerAuthAttempted" />
+          <s:enumeration value="PayerAuthNotEnrolled" />
+          <s:enumeration value="PayerAuthSuccessful" />
+          <s:enumeration value="CardValidated" />
+          <s:enumeration value="TokenRequired" />
+          <s:enumeration value="DuplicateTransactionDetected" />
+          <s:enumeration value="VoiceReferralRequired" />
+          <s:enumeration value="Rejected" />
+          <s:enumeration value="AuthOnlyTransactionAuthorised" />
+          <s:enumeration value="UnableToCancel" />
+          <s:enumeration value="ManualAuthorisationRequired" />
+          <s:enumeration value="SignatureAuthorisationRequired" />
+          <s:enumeration value="AuthorizationDeclined" />
+          <s:enumeration value="MerchantNotFound" />
+          <s:enumeration value="ValidationError" />
+          <s:enumeration value="InvalidVerification" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="Verification">
+        <s:restriction base="s:string">
+          <s:enumeration value="NotProvided" />
+          <s:enumeration value="NotChecked" />
+          <s:enumeration value="Matched" />
+          <s:enumeration value="NotMatched" />
+          <s:enumeration value="PartialMatch" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetPayPageHTMLResult" type="s1:TransactionResponse" />
+      <s:element name="GetPayPageURLResult" type="s1:TransactionResponse" />
+      <s:element name="GetPayPagePOSTDataResult" type="s1:TransactionResponse" />
+      <s:element name="ProcessPurchaseResult" type="s1:ProviderResponse" />
+      <s:element name="ProcessRefundResult" type="s1:ProviderResponse" />
+      <s:element name="GetProviderResponseResult" type="s1:ProviderResponse" />
+      <s:element name="GetTransactionsResult" type="s1:ProviderTransactions" />
+      <s:complexType name="ProviderTransactions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:ResponseHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:ProviderTransactionsBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProviderTransactionsBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Transactions" type="s1:ArrayOfPaymentProviderResponseData" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPaymentProviderResponseData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PaymentProviderResponseData" nillable="true" type="s1:PaymentProviderResponseData" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RequestData" type="s1:RequestData" />
+      <s:complexType name="RequestData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:HMACRequestHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:HMACRequestDataBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACRequestHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserDetails" type="s1:HMACUserDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="MessageHeader" type="s1:HMACMessageHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="ClientHeader" type="s1:HMACClientHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACUserDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Forename" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACMessageHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessageDateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACClientHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ClientName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BrokerSCID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACRequestDataBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Data" type="s1:HMACRequiredData" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACRequiredData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RequiredData" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CalculateHMACHashResult" type="s1:ResponseData" />
+      <s:complexType name="ResponseData">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:HMACResponseHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:HMACResponseDataBody" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACResponseHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MessageHeader" type="s1:HMACMessageHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorHeader" type="s1:HMACErrorHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACErrorHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HMACResponseDataBody">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="IntegrationToken" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HMACHash" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="TokenUpdateRequest" type="s1:TokenUpdateRequest" />
+      <s:complexType name="TokenUpdateRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Header" type="s1:AccountUpdaterRequestHeader" />
+          <s:element minOccurs="0" maxOccurs="1" name="Body" type="s1:Body" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccountUpdaterRequestHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BrokerSCID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MessageHeader" type="s1:AccountUpdaterRequestMessageHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AccountUpdaterRequestMessageHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="MessageDateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Body">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MerchantID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Record" type="s1:ArrayOfRecord" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Record" nillable="true" type="s1:Record" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Record">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentTokenID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PolicyReference" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactionCurrencyCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PredictedTransactionDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Frequency" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionValue" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="RemoteAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginalPaymentOrderCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://SSP.Authentication.Services/">
+      <s:element name="Security" type="s2:Security" />
+      <s:complexType name="Security">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SystemUsername" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SystemPassword" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SystemID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetDeviceSignatureURLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDeviceSignatureURL" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceSignatureURLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDeviceSignatureURLResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceSignatureURLSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceSignatureSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDeviceSignature" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceSignatureSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDeviceSignatureResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDeviceSignatureSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPageHTMLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPayPageHTML" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPageHTMLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPayPageHTMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPageHTMLSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPageURLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPayPageURL" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPageURLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPayPageURLResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPageURLSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPagePOSTDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPayPagePOSTData" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPagePOSTDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPayPagePOSTDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPayPagePOSTDataSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPurchaseSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessPurchase" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPurchaseSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessPurchaseResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPurchaseSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="ProcessRefundSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessRefund" />
+  </wsdl:message>
+  <wsdl:message name="ProcessRefundSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessRefundResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessRefundSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetProviderResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProviderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProviderResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProviderResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProviderResponseSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetTransactionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTransactions" />
+  </wsdl:message>
+  <wsdl:message name="GetTransactionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTransactionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTransactionsSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningSoapIn">
+    <wsdl:part name="parameters" element="tns:IsServiceRunning" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningSoapOut">
+    <wsdl:part name="parameters" element="tns:IsServiceRunningResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="CalculateHMACHashSoapIn">
+    <wsdl:part name="parameters" element="tns:CalculateHMACHash" />
+  </wsdl:message>
+  <wsdl:message name="CalculateHMACHashSoapOut">
+    <wsdl:part name="parameters" element="tns:CalculateHMACHashResponse" />
+  </wsdl:message>
+  <wsdl:message name="CalculateHMACHashSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="RequestTokenUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:RequestTokenUpdate" />
+  </wsdl:message>
+  <wsdl:message name="RequestTokenUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:RequestTokenUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="RequestTokenUpdateSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenUpdateResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTokenUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenUpdateResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTokenUpdateResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenUpdateResponseSecurity">
+    <wsdl:part name="Security" element="s2:Security" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningHttpGetIn">
+    <wsdl:part name="checkDBConnection" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningHttpPostIn">
+    <wsdl:part name="checkDBConnection" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IsServiceRunningHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:portType name="IntegrationServiceSoap">
+    <wsdl:operation name="GetDeviceSignatureURL">
+      <wsdl:input message="tns:GetDeviceSignatureURLSoapIn" />
+      <wsdl:output message="tns:GetDeviceSignatureURLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDeviceSignature">
+      <wsdl:input message="tns:GetDeviceSignatureSoapIn" />
+      <wsdl:output message="tns:GetDeviceSignatureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPageHTML">
+      <wsdl:input message="tns:GetPayPageHTMLSoapIn" />
+      <wsdl:output message="tns:GetPayPageHTMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPageURL">
+      <wsdl:input message="tns:GetPayPageURLSoapIn" />
+      <wsdl:output message="tns:GetPayPageURLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPagePOSTData">
+      <wsdl:input message="tns:GetPayPagePOSTDataSoapIn" />
+      <wsdl:output message="tns:GetPayPagePOSTDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPurchase">
+      <wsdl:input message="tns:ProcessPurchaseSoapIn" />
+      <wsdl:output message="tns:ProcessPurchaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRefund">
+      <wsdl:input message="tns:ProcessRefundSoapIn" />
+      <wsdl:output message="tns:ProcessRefundSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProviderResponse">
+      <wsdl:input message="tns:GetProviderResponseSoapIn" />
+      <wsdl:output message="tns:GetProviderResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTransactions">
+      <wsdl:input message="tns:GetTransactionsSoapIn" />
+      <wsdl:output message="tns:GetTransactionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsServiceRunning">
+      <wsdl:input message="tns:IsServiceRunningSoapIn" />
+      <wsdl:output message="tns:IsServiceRunningSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CalculateHMACHash">
+      <wsdl:input message="tns:CalculateHMACHashSoapIn" />
+      <wsdl:output message="tns:CalculateHMACHashSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestTokenUpdate">
+      <wsdl:input message="tns:RequestTokenUpdateSoapIn" />
+      <wsdl:output message="tns:RequestTokenUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTokenUpdateResponse">
+      <wsdl:input message="tns:GetTokenUpdateResponseSoapIn" />
+      <wsdl:output message="tns:GetTokenUpdateResponseSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IntegrationServiceHttpGet">
+    <wsdl:operation name="IsServiceRunning">
+      <wsdl:input message="tns:IsServiceRunningHttpGetIn" />
+      <wsdl:output message="tns:IsServiceRunningHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IntegrationServiceHttpPost">
+    <wsdl:operation name="IsServiceRunning">
+      <wsdl:input message="tns:IsServiceRunningHttpPostIn" />
+      <wsdl:output message="tns:IsServiceRunningHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IntegrationServiceSoap" type="tns:IntegrationServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDeviceSignatureURL">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetDeviceSignatureURL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetDeviceSignatureURLSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeviceSignature">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetDeviceSignature" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetDeviceSignatureSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPageHTML">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetPayPageHTML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetPayPageHTMLSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPageURL">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetPayPageURL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetPayPageURLSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPagePOSTData">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetPayPagePOSTData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetPayPagePOSTDataSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPurchase">
+      <soap:operation soapAction="http://SSP.PaymentHub/ProcessPurchase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProcessPurchaseSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRefund">
+      <soap:operation soapAction="http://SSP.PaymentHub/ProcessRefund" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ProcessRefundSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProviderResponse">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetProviderResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetProviderResponseSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTransactions">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetTransactions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTransactionsSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsServiceRunning">
+      <soap:operation soapAction="http://SSP.PaymentHub/IsServiceRunning" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:IsServiceRunningSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateHMACHash">
+      <soap:operation soapAction="http://SSP.PaymentHub/CalculateHMACHash" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CalculateHMACHashSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestTokenUpdate">
+      <soap:operation soapAction="http://SSP.PaymentHub/RequestTokenUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RequestTokenUpdateSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTokenUpdateResponse">
+      <soap:operation soapAction="http://SSP.PaymentHub/GetTokenUpdateResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTokenUpdateResponseSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="IntegrationServiceSoap12" type="tns:IntegrationServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetDeviceSignatureURL">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetDeviceSignatureURL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetDeviceSignatureURLSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeviceSignature">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetDeviceSignature" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetDeviceSignatureSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPageHTML">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetPayPageHTML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetPayPageHTMLSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPageURL">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetPayPageURL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetPayPageURLSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPayPagePOSTData">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetPayPagePOSTData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetPayPagePOSTDataSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPurchase">
+      <soap12:operation soapAction="http://SSP.PaymentHub/ProcessPurchase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProcessPurchaseSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessRefund">
+      <soap12:operation soapAction="http://SSP.PaymentHub/ProcessRefund" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ProcessRefundSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProviderResponse">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetProviderResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetProviderResponseSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTransactions">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetTransactions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTransactionsSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsServiceRunning">
+      <soap12:operation soapAction="http://SSP.PaymentHub/IsServiceRunning" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:IsServiceRunningSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CalculateHMACHash">
+      <soap12:operation soapAction="http://SSP.PaymentHub/CalculateHMACHash" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CalculateHMACHashSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestTokenUpdate">
+      <soap12:operation soapAction="http://SSP.PaymentHub/RequestTokenUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RequestTokenUpdateSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTokenUpdateResponse">
+      <soap12:operation soapAction="http://SSP.PaymentHub/GetTokenUpdateResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTokenUpdateResponseSecurity" part="Security" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="IntegrationServiceHttpGet" type="tns:IntegrationServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="IsServiceRunning">
+      <http:operation location="/IsServiceRunning" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="IntegrationServiceHttpPost" type="tns:IntegrationServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="IsServiceRunning">
+      <http:operation location="/IsServiceRunning" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IntegrationService">
+    <wsdl:port name="IntegrationServiceSoap" binding="tns:IntegrationServiceSoap">
+      <soap:address location="http://localhost/SSP.PaymentHub/IntegrationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="IntegrationServiceSoap12" binding="tns:IntegrationServiceSoap12">
+      <soap12:address location="http://localhost/SSP.PaymentHub/IntegrationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="IntegrationServiceHttpGet" binding="tns:IntegrationServiceHttpGet">
+      <http:address location="http://localhost/SSP.PaymentHub/IntegrationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="IntegrationServiceHttpPost" binding="tns:IntegrationServiceHttpPost">
+      <http:address location="http://localhost/SSP.PaymentHub/IntegrationService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

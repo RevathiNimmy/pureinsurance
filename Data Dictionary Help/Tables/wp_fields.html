@@ -1,0 +1,663 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>wp_fields</h1>
+<p>Word-processor field manager control data</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Field Manager<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="field_name">field_name</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>PK</td>
+<td>Unique field name as referenced in the Word document</td>
+</tr>
+<tr>
+<td><a class="name" name="sql">sql</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Name of the stored procedure that fetches the data</td>
+</tr>
+<tr>
+<td><a class="name" name="column_name">column_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Column name returned by the stored procedure that fetches the data</td>
+</tr>
+<tr>
+<td><a class="name" name="column_type">column_type</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\PMEFormatStyle.html">PMEFormatStyle</a> Type of formatting required</td>
+</tr>
+<tr>
+<td><a class="name" name="main_group">main_group</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Top level group name in the treeview</td>
+</tr>
+<tr>
+<td><a class="name" name="sub_group">sub_group</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Sub level 1 group name in the treeview</td>
+</tr>
+<tr>
+<td><a class="name" name="display_name">display_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Field name as displayed in the treeview</td>
+</tr>
+<tr>
+<td><a class="name" name="is_displayed">is_displayed</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this field displayed in the UI?</td>
+</tr>
+<tr>
+<td><a class="name" name="loop1">loop1</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">loop1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="loop2">loop2</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">loop2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="loop3">loop3</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">loop3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="product_family">product_family</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">product family</span></td>
+</tr>
+<tr>
+<td><a class="name" name="data_model">data_model</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">data model</span></td>
+</tr>
+<tr>
+<td><a class="name" name="property_id">property_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">property</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_group2">sub_group2</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Sub level 2 group name in the treeview</td>
+</tr>
+<tr>
+<td><a class="name" name="sub_group3">sub_group3</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Sub level 3 group name in the treeview</td>
+</tr>
+<tr>
+<td><a class="name" name="hidden_option_number">hidden_option_number</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>If specified, only display the field if the hidden_option_number has the required_option_value</td>
+</tr>
+<tr>
+<td><a class="name" name="required_option_value">required_option_value</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>If specified, only display the field if the hidden_option_number has the required_option_value</td>
+</tr>
+<tr>
+<td><a class="name" name="sub_group4">sub_group4</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sub group4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="loop4">loop4</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">loop4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="specials_type">specials_type</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">specials type</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>field_name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>field_name</td>
+<td>sql</td>
+<td>column_name</td>
+<td>column_type</td>
+<td>main_group</td>
+<td>sub_group</td>
+<td>display_name</td>
+<td>is_displayed</td>
+<td>loop1</td>
+<td>loop2</td>
+<td>loop3</td>
+<td>product_family</td>
+<td>data_model</td>
+<td>property_id</td>
+<td>sub_group2</td>
+<td>sub_group3</td>
+<td>hidden_option_number</td>
+<td>required_option_value</td>
+<td>sub_group4</td>
+<td>loop4</td>
+<td>specials_type</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABCCount</td>
+<td>spu_wp_partyall</td>
+<td>abc_count</td>
+<td>0</td>
+<td>Party</td>
+<td>All</td>
+<td>ABC Count</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ABICodeList</td>
+<td>spu_wp_partyall</td>
+<td>abi_codelist</td>
+<td>0</td>
+<td>Party</td>
+<td>All</td>
+<td>ABI Code List</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ABICodeOn406</td>
+<td>spu_wp_partyall</td>
+<td>abi_code_on_406</td>
+<td>0</td>
+<td>Party</td>
+<td>All</td>
+<td>ABI Code On 406</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ABICodeOn81</td>
+<td>spu_wp_partyall</td>
+<td>abi_code_on_81</td>
+<td>0</td>
+<td>Party</td>
+<td>All</td>
+<td>ABI Code On 81</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ABinderIndicator</td>
+<td>spu_wp_partyall</td>
+<td>binder_indicator</td>
+<td>0</td>
+<td>Party</td>
+<td>Agent</td>
+<td>Binder Indicator</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ACAreaCode</td>
+<td>spu_wp_ContactAddress</td>
+<td>area_code</td>
+<td>0</td>
+<td>Party</td>
+<td>Address Contact</td>
+<td>Area Code</td>
+<td>1</td>
+<td>PartyAddress</td>
+<td>ContactAddress</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccommodationTypeCode</td>
+<td>spu_wp_partyall</td>
+<td>accommodation_type_code</td>
+<td>0</td>
+<td>Party</td>
+<td>Personal</td>
+<td>Accommodation Type Code</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccountBalance</td>
+<td>spu_wp_accountbalance</td>
+<td>account_balance</td>
+<td>11</td>
+<td>Common</td>
+<td>Balance</td>
+<td>Account Balance</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccountCurrencyBalance</td>
+<td>spu_wp_accountbalance</td>
+<td>account_currency_balance</td>
+<td>11</td>
+<td>Common</td>
+<td>Balance</td>
+<td>Account Currency Balance</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccountHandler</td>
+<td>spu_wp_insurancefileall</td>
+<td>account_handler</td>
+<td>0</td>
+<td>Policy</td>
+<td>General</td>
+<td>Account Handler</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccountHolderName</td>
+<td>spu_wp_partybankdetails</td>
+<td>Account_holder_name</td>
+<td>0</td>
+<td>Party</td>
+<td>BankDetails</td>
+<td>Account Holder Name</td>
+<td>1</td>
+<td>partybankdetails</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccountNumber</td>
+<td>spu_wp_partybankdetails</td>
+<td>Account_Number</td>
+<td>0</td>
+<td>Party</td>
+<td>BankDetails</td>
+<td>Account Number</td>
+<td>1</td>
+<td>partybankdetails</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>AccumTreatmentType</td>
+<td>spu_wp_partyall</td>
+<td>accum_treatment_type</td>
+<td>0</td>
+<td>Party</td>
+<td>All</td>
+<td>Accum Treatment Type</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>Accumulation</td>
+<td>spu_wp_risk</td>
+<td>accumulation</td>
+<td>0</td>
+<td>Risk</td>
+<td>Risk</td>
+<td>Accumulation</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ACDescription</td>
+<td>spu_wp_ContactAddress</td>
+<td>description</td>
+<td>0</td>
+<td>Party</td>
+<td>Address Contact</td>
+<td>Description</td>
+<td>1</td>
+<td>PartyAddress</td>
+<td>ContactAddress</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ACExtension</td>
+<td>spu_wp_ContactAddress</td>
+<td>extension</td>
+<td>0</td>
+<td>Party</td>
+<td>Address Contact</td>
+<td>Extension</td>
+<td>1</td>
+<td>PartyAddress</td>
+<td>ContactAddress</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ACNumber</td>
+<td>spu_wp_ContactAddress</td>
+<td>number</td>
+<td>0</td>
+<td>Party</td>
+<td>Address Contact</td>
+<td>Phone Number</td>
+<td>1</td>
+<td>PartyAddress</td>
+<td>ContactAddress</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ACTCode</td>
+<td>spu_wp_ContactAddress</td>
+<td>code</td>
+<td>0</td>
+<td>Party</td>
+<td>Address Contact</td>
+<td>Contact Type Code</td>
+<td>1</td>
+<td>PartyAddress</td>
+<td>ContactAddress</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>ACTDescription</td>
+<td>spu_wp_ContactAddress</td>
+<td>CTDescription</td>
+<td>0</td>
+<td>Party</td>
+<td>Address Contact</td>
+<td>Contact Type Description</td>
+<td>1</td>
+<td>PartyAddress</td>
+<td>ContactAddress</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

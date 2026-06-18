@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- pmnav_map_id = 41 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd">
+<MAP WMTaskCode="MAINCLM" WMTaskDescription="Complete Maintain Claim" ImageURL="http://www.siriusgroup.co.uk" TransactionType="C_CR" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Maintain Claim" Core="1" ElementID="E1" Version="200">
+	<STEP Description="Find Claim" Component="iCLMFindClaim.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/>
+	<STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="12" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"/>
+	<STEP Description="Information Checklist" Component="iCLMInfoChklst.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="11" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4">
+		<KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E5"/>
+	</STEP>
+	<STEP Description="Risk Details" Component="iCLMRiskDetails.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="10" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"/>
+	<STEP Description="Coinsurance Recoveries" Component="iCLMCoinsuranceRecoveries.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="9" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/>
+	<STEP Description="Reinsurance Recoveries" Component="iCLMReinsurance.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="8" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/>
+	<STEP Description="Salvage Recovery" Component="iCLMRecovery.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="7" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9">
+		<KEY Name="recovery_is_salvage" Value="1" ElementID="E10"/>
+	</STEP>
+	<STEP Description="Third Party Recovery" Component="iCLMRecovery.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="6" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11">
+		<KEY Name="recovery_is_salvage" Value="0" ElementID="E12"/>
+	</STEP>
+	<STEP Description="Update Claim Details" Component="iCLMChangeClaimStatus.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="5" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13"/>
+	<STEP Description="Check Status" Component="iCLMCloseClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E14"/>
+	<STEP Description="Generate Claim Notification Documents?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E15">
+		<KEY Name="decision_title" Value="Documentation" ElementID="E16"/>
+		<KEY Name="decision_text" Value="Generate Claim Notification?" ElementID="E17"/>
+	</STEP>
+	<STEP Description="Produce Claim Notification Documents" Component="iCLMGetClaimDocuments.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E18"/>
+	<STEP Description="Claim Payments Process" Component="iCLMPaymentProcess.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="1" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E19"/>
+	<STEP Description="Unlock Claim" Component="iCLMUnlock.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E20"/>
+</MAP>
+

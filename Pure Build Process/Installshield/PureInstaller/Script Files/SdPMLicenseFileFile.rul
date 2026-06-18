@@ -1,0 +1,173 @@
+//===========================================================================
+//
+//  File Name:    SdBrowseFile.rul
+//
+//
+//  Comments:     This Rule File (SdBrowseFile.rul) provides the function to
+//				  browse for restore db name 
+//
+//
+//===========================================================================
+
+#include "Ifx.h"   //Header File for Built in Installscript function prototypes          
+ 
+// Dialog and control IDs. 
+#define RES_SDPMLICENSEDIALOG_ID       608   // ID of dialog itself 
+#define RES_PBUT_NEXT         1   // ID of Next button 
+#define RES_PBUT_CANCEL       9   // ID of Cancel button 
+#define RES_PBUT_BACK        12   // ID of Back button 
+
+export prototype number SdPMLicenseFileFile(HWND, BYREF STRING); 
+export prototype SelectPMLicenseFile(BYREF STRING);
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SdBrowseFile                                                   //                                                                        //
+// Purpose:  This function creates the Custom Dialog and  gets the input     //
+//            for database name to restore furign fresh Install              // 
+///////////////////////////////////////////////////////////////////////////////
+function number SdPMLicenseFileFile(hMSI,gPMLicenceFile) 
+   STRING  szDialogName, szDLLName;
+   NUMBER  nvResult,nvCmdValue, nvRetValue; 
+   BOOL    bDone;
+   STRING szSection,szValue;
+   NUMBER nvCommDialog,nvReturnResult,nResult;
+   STRING szFile;
+begin                    
+   nvRetValue = 0;
+   szDialogName = "SdPMLicenseFileFile"; 
+   szDLLName = ""; 
+  
+
+  if (MODE=SILENTMODE) then 
+ 	       SdMakeName(szSection,"SdPMLicenseFileFile","",nvCommDialog); 
+  	       SilentReadData(szSection,"Result",DATA_NUMBER,szValue,nvReturnResult); 
+   	       if (nvReturnResult = 1) then 
+             SilentReadData(szSection,"PMLICENSEFILE",DATA_STRING,gPMLicenceFile,nvReturnResult);
+           endif;
+  else //Normal Mode Installation Code Execution Flow 
+	
+	  nvResult = EzDefineDialog (szDialogName, ISUSER, "", RES_SDPMLICENSEDIALOG_ID); 
+
+	  // Check for an error. 
+	  if (nvResult < 0) then 
+	        MessageBox ("An error occurred while defining the dialog.", SEVERE); 
+	        bDone = TRUE; 
+	        abort; 
+	   endif;  
+	                                                           
+	   bDone = FALSE; 
+	   repeat 
+	        nvCmdValue = WaitOnDialog(szDialogName); 
+	       // Respond to the event. 
+	        switch (nvCmdValue) 
+	           case DLG_CLOSE: 
+	                	 // The user clicked the window's Close button. 
+	             	 	 Do (EXIT); 
+	
+	            case DLG_ERR:  
+	            		 //An Error Condition has happened during initialization of dialog
+	            	 	 MessageBox ("Unable to display dialog. Setup canceled.", SEVERE); 
+	             		 abort; 
+	
+	            case DLG_INIT: 
+	                     CtrlSetText(szDialogName,50,"Pure Insurance License file");
+	                     CtrlSetText(szDialogName,51,"Select Pure Insurance License file");
+	                     CtrlSetText(szDialogName,1201,gPMLicenceFile);
+	                    
+	            case RES_PBUT_CANCEL: 
+	         	        // The user clicked the Cancel button. 
+	       		          Do (EXIT); 
+	
+	            case RES_PBUT_NEXT: 
+	          	    	  
+	          	    	CtrlGetText (szDialogName, 1201, szFile);
+	          	    	gPMLicenceFile = szFile;
+	          	    	
+	          	    	if(gPMLicenceFile="")then
+							MessageBox("License file name is empty, please specify valid License file name.",INFORMATION);
+							CtrlSetText(szDialogName,1201,"");
+	          	    	else
+							bDone = TRUE; 
+							nvRetValue = 1;
+	          	    	endif;
+	          	    	
+	            case RES_PBUT_BACK:   
+	 	   	   			 bDone = TRUE;  
+	          			 nvRetValue = -1;   
+	          			 
+	            case 1203:
+						nResult = SelectPMLicenseFile ( gPMLicenceFile); 
+						CtrlSetText(szDialogName,1201,gPMLicenceFile);
+			endswitch; 
+	    until bDone; 
+	    
+	        
+	    // Close the dialog. 
+	    EndDialog (szDialogName); 
+	    ReleaseDialog (szDialogName); 
+	    
+	    SdMakeName(szSection,"SdPMLicenseFileFile","",nvCommDialog); 
+	    SilentWriteData(szSection,"PMLICENSEFILE",DATA_STRING,gPMLicenceFile,nvReturnResult);
+        SilentWriteData(szSection,"Result",DATA_NUMBER,"",nvRetValue);
+    
+	endif;        
+	       
+    return nvRetValue;    
+
+end;    
+
+              
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SelectWebConfigFile                                                     //                                                                        //
+// Purpose:   This function browse for the files                             //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function SelectPMLicenseFile (szPMLicenseFile)
+   STRING szFile, svDir, svFileList, svTemp, szFilter;
+   NUMBER nResult, nReturn, nvLen, nCount;
+   BOOL   bMultiSel, bDerefLinks;
+   LIST   listFiles;
+   STRING szPath;
+begin
+	// If I want to support multiple selection, set bMultiSel to TRUE
+	// and pass in a valid string list.
+	bMultiSel = FALSE;
+	bDerefLinks = FALSE;
+	listFiles = ListCreate(STRINGLIST);	
+	szFilter = "(*.ini)All files (*.*)|*.*||";
+	
+	szPath = "C:\\";
+	
+	nResult = FileBrowseDlg( szFile,szFilter,"Select License File",szPath,bMultiSel,listFiles,bDerefLinks );       
+	if (nResult = -1)
+	then
+		// The user clicked Cancel Button in the File Browse Dialog
+		return -1;
+	endif;
+	
+	if (nResult = 0)
+	then
+		if (bMultiSel)
+		then
+			// If I chose multiple selection, I must parse the info, which is stored
+			// in list. First item will be dir, all others are individual filenames.
+			nReturn = ListGetFirstString(listFiles, svTemp);
+			while (nReturn != END_OF_LIST)
+				svFileList = svFileList + svTemp + "\n";
+				nReturn = ListGetNextString(listFiles, svTemp);
+			endwhile;
+			MessageBox ( "Directory (first item) and selected files:\n\n" + svFileList, 0);
+		else
+			szPMLicenseFile = szFile;
+		endif;
+	endif;
+	ListDestroy(listFiles);
+	
+	return 0;
+end;
+              
+              
+
+/***********************SdBrowseFile.rul File Coding Ends*********************************************/

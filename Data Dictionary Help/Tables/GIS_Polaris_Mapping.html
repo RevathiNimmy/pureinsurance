@@ -1,0 +1,119 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Polaris_Mapping</h1>
+<p>GIS Polaris Mapping is used to hold the mappings between Gis properties and Polaris property names. It is not used at runtime, it is used to generate an xsl which translates the dataset into an xml suitable for the polaris XRTE to process and hence produce a quote output xml. At present this is only used by Its4Me but may be utilised by Towergate and GII some time in the future.</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software module: GIS<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="Gis_Polaris_mapping_ID">Gis_Polaris_mapping_ID</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Gis Polaris mapping</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Gis_Data_Model_Name">Gis_Data_Model_Name</a></td>
+<td>varchar(20)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Gis Data Model Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Gis_Object_Name">Gis_Object_Name</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Gis Object Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Gis_Property_Name">Gis_Property_Name</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Gis Property Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Pol_Object_Name">Pol_Object_Name</a></td>
+<td>varchar(70)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Pol Object Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Pol_Property_Name">Pol_Property_Name</a></td>
+<td>varchar(70)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Pol Property Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Pol_ID">Pol_ID</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Pol</span></td>
+</tr>
+<tr>
+<td><a class="name" name="NBQ_Default">NBQ_Default</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>NBQ Default - If not null it will assign this value to the polaris property when the xsl transforms the dataset.</td>
+</tr>
+<tr>
+<td><a class="name" name="Pol_Parent_Object">Pol_Parent_Object</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Pol Parent Object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="In_Out">In_Out</a></td>
+<td>char(1)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">In Out</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>Gis_Polaris_mapping_ID</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

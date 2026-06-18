@@ -1,0 +1,1416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929" xmlns:s1="http://www.siriusfs.com/SFB/SAM/BaseTypes/20050929" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929">
+      <s:import namespace="http://www.siriusfs.com/SFB/SAM/BaseTypes/20050929" />
+      <s:element name="AddAnonCustomerRequest" type="tns:AddAnonCustomerRequestType" />
+      <s:complexType name="AddAnonCustomerRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="GenderCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DateOfBirth" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="SubBranchCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AddAddressRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseAddAddressRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RunDefaultRulesEditRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRunDefaultRulesEditRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RunDefaultRulesAddRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRunDefaultRulesAddRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AddQuoteRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseAddQuoteRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetRiskRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="UpdateRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseUpdateRiskRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetQuoteAndSummariesByRefRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetHeaderAndSummariesByRefRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="InsuranceRef" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetQuoteAndSummariesByKeyRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetHeaderAndSummariesByKeyRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetDefaultDatasetRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetDefaultDatasetRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetDatasetDefinitionRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetDatasetDefinitionRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetAddressRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetAddressRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DeleteRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseDeleteRiskRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BindQuoteRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseBindQuoteRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetListRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetListRequestType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="AddAnonCustomerResponse" type="tns:AddAnonCustomerResponseType" />
+      <s:complexType name="AddAnonCustomerResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="UpdateRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseUpdateRiskResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RunDefaultRulesAddResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRunDefaultRulesAddResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetRiskResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetListResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetListResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetQuoteAndSummariesByKeyResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetHeaderAndSummariesResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="GenderCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DateOfBirth" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAnonymous" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetQuoteAndSummariesByRefResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetHeaderAndSummariesResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="GenderCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DateOfBirth" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAnonymous" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetDefaultDatasetResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetDefaultDatasetResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetDatasetDefinitionResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetDatasetDefinitionResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetAddressResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseGetAddressResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RunDefaultRulesEditResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRunDefaultRulesEditResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BindQuoteResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseBindQuoteResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AddQuoteResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseAddQuoteResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AddAddressResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseAddAddressResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DeleteRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseDeleteRiskResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="AddQuoteRequest" type="tns:AddQuoteRequestType" />
+      <s:element name="AddQuoteResponse" type="tns:AddQuoteResponseType" />
+      <s:element name="BindQuoteRequest" type="tns:BindQuoteRequestType" />
+      <s:element name="BindQuoteResponse" type="tns:BindQuoteResponseType" />
+      <s:element name="GetQuoteAndSummariesByKeyRequest" type="tns:GetQuoteAndSummariesByKeyRequestType" />
+      <s:element name="GetQuoteAndSummariesByKeyResponse" type="tns:GetQuoteAndSummariesByKeyResponseType" />
+      <s:element name="GetQuoteAndSummariesByRefRequest" type="tns:GetQuoteAndSummariesByRefRequestType" />
+      <s:element name="GetQuoteAndSummariesByRefResponse" type="tns:GetQuoteAndSummariesByRefResponseType" />
+      <s:element name="GetListRequest" type="tns:GetListRequestType" />
+      <s:element name="GetListResponse" type="tns:GetListResponseType" />
+      <s:element name="RunDefaultRulesAddRequest" type="tns:RunDefaultRulesAddRequestType" />
+      <s:element name="RunDefaultRulesAddResponse" type="tns:RunDefaultRulesAddResponseType" />
+      <s:element name="RunDefaultRulesEditRequest" type="tns:RunDefaultRulesEditRequestType" />
+      <s:element name="RunDefaultRulesEditResponse" type="tns:RunDefaultRulesEditResponseType" />
+      <s:element name="UpdateRiskRequest" type="tns:UpdateRiskRequestType" />
+      <s:element name="UpdateRiskResponse" type="tns:UpdateRiskResponseType" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.siriusfs.com/SFB/SAM/BaseTypes/20050929">
+      <s:complexType name="BaseRequestType" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BaseUpdatePartyRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SubBranchCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Forename" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TradingName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PartyType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Addresses" type="s1:BaseAddressType" />
+              <s:element minOccurs="0" maxOccurs="1" name="DateOfBirth" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="TPUserCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TPIntroducer" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MaritalStatusCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="GenderCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Initials" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OccupationCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmployersBusinessCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmploymentStatusCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PartyBusinessCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AlternativeId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Contacts" type="s1:BaseContactType" />
+              <s:element minOccurs="0" maxOccurs="1" name="Loyalties">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+              <s:element minOccurs="0" maxOccurs="1" name="Associations">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+              <s:element minOccurs="0" maxOccurs="1" name="PartyTimestamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddressType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AddressTypeCode" type="s1:AddressTypeType" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine4" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CountryCode" type="s1:CountryCodeType" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="AddressTypeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="3131 001" />
+          <s:enumeration value="3131 002" />
+          <s:enumeration value="3131 0X9" />
+          <s:enumeration value="3131 0XR" />
+          <s:enumeration value="3131 ECK" />
+          <s:enumeration value="3131 XBA" />
+          <s:enumeration value="3131 XBI" />
+          <s:enumeration value="3131 XCO" />
+          <s:enumeration value="3131 XPR" />
+          <s:enumeration value="3131 XRE" />
+          <s:enumeration value="3131 XSA" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CountryCodeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="UK" />
+          <s:enumeration value="USA" />
+          <s:enumeration value="AUS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BaseAddAddressRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseAddressType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseContactType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ContactTypeCode" type="s1:ContactTypeType" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContactDetail" type="s1:BaseContactDetailType" />
+          <s:element minOccurs="0" maxOccurs="1" name="AreaCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ContactTypeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="EMAIL" />
+          <s:enumeration value="HOMEPHONE" />
+          <s:enumeration value="MOBILE" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BaseContactDetailType">
+        <s:sequence>
+          <s:choice minOccurs="1" maxOccurs="1">
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+          </s:choice>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BaseUpdateQuoteRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CoverStartDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="CoverEndDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="InsuredParties">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRunDefaultRulesEditRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ScreenCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRunDefaultRulesAddRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ScreenCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseQuoteType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="CoverStartDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="CoverEndDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="RiskCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteRef" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseQuoteRiskMsgType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseQuoteType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Risks" type="s1:BaseRiskType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRiskType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="RiskTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ScreenCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RiskDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DataModelCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+              <s:element minOccurs="1" maxOccurs="1" name="RunDefaultRules" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRiskType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SubBranchCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ProductCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddQuoteRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseQuoteType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ScreenCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="SubBranchCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseNBQuoteRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="AgentCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s1:CurrencyType" />
+              <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="CorporateClient" type="s1:BasePartyCCType" />
+                <s:element minOccurs="0" maxOccurs="1" name="PersonalClient" type="s1:BasePartyPCType" />
+              </s:choice>
+              <s:element minOccurs="0" maxOccurs="1" name="Policy" type="s1:BaseQuoteRiskMsgType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="CurrencyType">
+        <s:restriction base="s:string">
+          <s:enumeration value="GBP" />
+          <s:enumeration value="USD" />
+          <s:enumeration value="EUR" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BasePartyCCType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BasePartyType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TradingName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BusinessCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BasePartyType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Addresses" type="s1:BaseAddressType" />
+              <s:element minOccurs="0" maxOccurs="1" name="TPUserCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TPIntroducer" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Contacts" type="s1:BaseContactType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BasePartyPCType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BasePartyType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Forename" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DateOfBirth" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MaritalStatusCode" type="s1:MaritalStatusCodeType" />
+              <s:element minOccurs="0" maxOccurs="1" name="GenderCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Initials" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OccupationCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmployersBusinessCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmploymentStatusCode" type="s1:EmploymentStatusCodeType" />
+              <s:element minOccurs="0" maxOccurs="1" name="AlternativeId" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="MaritalStatusCodeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="D" />
+          <s:enumeration value="C" />
+          <s:enumeration value="M" />
+          <s:enumeration value="N" />
+          <s:enumeration value="O" />
+          <s:enumeration value="P" />
+          <s:enumeration value="A" />
+          <s:enumeration value="S" />
+          <s:enumeration value="W" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="EmploymentStatusCodeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="C" />
+          <s:enumeration value="E" />
+          <s:enumeration value="H" />
+          <s:enumeration value="F" />
+          <s:enumeration value="I" />
+          <s:enumeration value="N" />
+          <s:enumeration value="R" />
+          <s:enumeration value="S" />
+          <s:enumeration value="U" />
+          <s:enumeration value="V" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BaseGetRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="RiskKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetPartySummaryRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseUpdateRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SubBranchCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RiskKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ScreenCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RiskDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetHeaderAndSummariesByRefRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="InsuranceRef" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetHeaderAndSummariesByKeyRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetDefaultDatasetRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ScreenCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetDatasetDefinitionRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="DataModelCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetAllPolicyVersionsRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetAddressRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AddressKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetRiskByProductRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProductID" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetProductByAgentRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AgentKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGenerateDocumentRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="DocumentTemplateCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Mode" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParameterXML" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="OutputAsHTML" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseFindPartyRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="PartyType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Shortname" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AlternativeId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Firstname" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AddressLine3" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AddressLine4" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PostCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AreaCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TelephoneNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DateOfBirth" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="PolicyRef" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RiskRequestdex" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseDeleteRiskRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="RiskKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseChangePasswordRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NewPassword" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseBindQuoteRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="InsuranceFileKey" type="s:integer" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetListRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ListType" type="s1:STSListType" />
+              <s:element minOccurs="0" maxOccurs="1" name="ListCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="STSListType">
+        <s:restriction base="s:string">
+          <s:enumeration value="GisList" />
+          <s:enumeration value="Missing" />
+          <s:enumeration value="PMLookup" />
+          <s:enumeration value="UserDefinedTable" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BaseGetPartyRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddPartyRequestType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseRequestType">
+            <s:sequence>
+              <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="PersonalClient" type="s1:BasePartyPCType" />
+                <s:element minOccurs="0" maxOccurs="1" name="CorporateClient" type="s1:BasePartyCCType" />
+              </s:choice>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseResponseType" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="STSErrorType" type="s1:STSErrorType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STSErrorType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="InvalidData" type="s1:ArrayOfSTSErrorInvalidDataType" />
+          <s:element minOccurs="0" maxOccurs="1" name="STSBusinessRule" type="s1:STSErrorSTSBusinessRuleType" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiriusBackOffice" type="s1:STSErrorSiriusBackOfficeType" />
+          <s:element minOccurs="0" maxOccurs="1" name="InternalException" type="s1:STSErrorInternalExceptionType" />
+          <s:element minOccurs="0" maxOccurs="1" name="WebService" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WebMethod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Label" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSTSErrorInvalidDataType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="STSErrorInvalidData" nillable="true" type="s1:STSErrorInvalidDataType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STSErrorInvalidDataType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FieldName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SuppliedValue" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STSErrorSTSBusinessRuleType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Detail" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STSErrorSiriusBackOfficeType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnValue" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STSErrorInternalExceptionType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BaseUpdateRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PremiumDueNet" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="PremiumDueTax" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="PremiumDueGross" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="TotalAnnualTax" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommissionAmount" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseUpdatePartyResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="PartyTimestamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseUpdateQuoteResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseFindPartyResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ResultDataset">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRunDefaultRulesAddResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseNBQuoteResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Insured" type="s1:BaseAddPartyResponseType" />
+              <s:element minOccurs="0" maxOccurs="1" name="Policy">
+                <s:complexType>
+                  <s:sequence>
+                    <s:element minOccurs="1" maxOccurs="1" name="PolicyID" type="s:int" />
+                    <s:element minOccurs="0" maxOccurs="1" name="QuoteRef" type="s:string" />
+                    <s:element minOccurs="0" maxOccurs="unbounded" name="Risks" type="s1:BaseRiskResultType" />
+                    <s:element minOccurs="1" maxOccurs="1" name="PremiumDueNet" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="PremiumDueTax" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="PremiumDueGross" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="TotalAnnualTax" type="s:decimal" />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddPartyResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Shortname" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PartyTimestamp" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="ResolvedName" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRiskResultType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="RiskFolderID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RiskID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PremiumDueNet" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PremiumDueTax" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PremiumDueGross" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalAnnualTax" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="CommissionAmount" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BaseLogoffResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseLoginResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PasswordChangeDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="FullUsername" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="SourceList" type="s1:BaseBranchType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseBranchType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BaseGetRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="PremiumDueNet" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="PremiumDueTax" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="PremiumDueGross" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="TotalAnnualTax" type="s:decimal" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommissionAmount" type="s:decimal" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetPartySummaryResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="PersoanlClient" type="s1:BasePartyPCType" />
+                <s:element minOccurs="0" maxOccurs="1" name="CorporateClient" type="s1:BasePartyCCType" />
+              </s:choice>
+              <s:element minOccurs="0" maxOccurs="1" name="InsuranceFileDataset">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+              <s:element minOccurs="0" maxOccurs="1" name="PartyTimestamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetPartyResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:choice minOccurs="1" maxOccurs="1">
+                <s:element minOccurs="0" maxOccurs="1" name="CorporateClient" type="s1:BasePartyCCType" />
+                <s:element minOccurs="0" maxOccurs="1" name="PersoanlClient" type="s1:BasePartyPCType" />
+              </s:choice>
+              <s:element minOccurs="0" maxOccurs="1" name="PartyTimestamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetListResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ListItems">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetHeaderAndSummariesResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PartyKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CoverStartDate" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="CoverEndDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ProductCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="InsuranceFileRef" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="QuoteExpiryDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+              <s:element minOccurs="1" maxOccurs="1" name="QuoteIsLocked" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="ResultDataset">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+              <s:element minOccurs="0" maxOccurs="1" name="SubBranchCode" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetDefaultDatasetResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetDatasetDefinitionResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDatasetDefinition" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetAllPolicyVersionsResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ResultDataset">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetAddressResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Address" type="s1:BaseAddressType" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetRiskByProductResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Risks">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGetProductByAgentResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Products">
+                <s:complexType>
+                  <s:sequence>
+                    <s:any />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseGenerateDocumentResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SpooledZipFile" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="MergedFilePath" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseRunDefaultRulesEditResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseTransactResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Policy">
+                <s:complexType>
+                  <s:sequence>
+                    <s:element minOccurs="0" maxOccurs="1" name="PolicyRef" type="s:string" />
+                    <s:element minOccurs="1" maxOccurs="1" name="PremiumDueNet" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="PremiumDueTax" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="PremiumDueGross" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="TotalAnnualTax" type="s:decimal" />
+                    <s:element minOccurs="1" maxOccurs="1" name="CommissionAmount" type="s:decimal" />
+                  </s:sequence>
+                </s:complexType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseBindQuoteResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseTransactResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseChangePasswordResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="RiskFolderKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="RiskKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddQuoteResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFolderKey" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="InsuranceFileKey" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="InsuranceFileRef" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+              <s:element minOccurs="1" maxOccurs="1" name="QuoteExpiryDate" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="XMLDataSet" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseAddAddressResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AddressKey" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseDeleteRiskResponseType">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:BaseResponseType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="QuoteTimeStamp" type="s:base64Binary" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddAnonCustomerSoapIn">
+    <wsdl:part name="AddAnonCustomerRequest" element="tns:AddAnonCustomerRequest" />
+  </wsdl:message>
+  <wsdl:message name="AddAnonCustomerSoapOut">
+    <wsdl:part name="AddAnonCustomerResult" element="tns:AddAnonCustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddQuoteSoapIn">
+    <wsdl:part name="AddQuoteRequest" element="tns:AddQuoteRequest" />
+  </wsdl:message>
+  <wsdl:message name="AddQuoteSoapOut">
+    <wsdl:part name="AddQuoteResult" element="tns:AddQuoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="BindQuoteSoapIn">
+    <wsdl:part name="BindQuoteRequest" element="tns:BindQuoteRequest" />
+  </wsdl:message>
+  <wsdl:message name="BindQuoteSoapOut">
+    <wsdl:part name="BindQuoteResult" element="tns:BindQuoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteAndSummariesByKeySoapIn">
+    <wsdl:part name="GetQuoteAndSummariesByKeyRequest" element="tns:GetQuoteAndSummariesByKeyRequest" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteAndSummariesByKeySoapOut">
+    <wsdl:part name="GetQuoteAndSummariesByKeyResult" element="tns:GetQuoteAndSummariesByKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteAndSummariesByRefSoapIn">
+    <wsdl:part name="GetQuoteAndSummariesByRefRequest" element="tns:GetQuoteAndSummariesByRefRequest" />
+  </wsdl:message>
+  <wsdl:message name="GetQuoteAndSummariesByRefSoapOut">
+    <wsdl:part name="GetQuoteAndSummariesByRefResult" element="tns:GetQuoteAndSummariesByRefResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListSoapIn">
+    <wsdl:part name="GetListRequest" element="tns:GetListRequest" />
+  </wsdl:message>
+  <wsdl:message name="GetListSoapOut">
+    <wsdl:part name="GetListResult" element="tns:GetListResponse" />
+  </wsdl:message>
+  <wsdl:message name="RunDefaultRulesAddSoapIn">
+    <wsdl:part name="RunDefaultRulesAddRequest" element="tns:RunDefaultRulesAddRequest" />
+  </wsdl:message>
+  <wsdl:message name="RunDefaultRulesAddSoapOut">
+    <wsdl:part name="RunDefaultRulesAddResult" element="tns:RunDefaultRulesAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="RunDefaultRulesEditSoapIn">
+    <wsdl:part name="RunDefaultRulesEditRequest" element="tns:RunDefaultRulesEditRequest" />
+  </wsdl:message>
+  <wsdl:message name="RunDefaultRulesEditSoapOut">
+    <wsdl:part name="RunDefaultRulesEditResult" element="tns:RunDefaultRulesEditResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateRiskSoapIn">
+    <wsdl:part name="UpdateRiskRequest" element="tns:UpdateRiskRequest" />
+  </wsdl:message>
+  <wsdl:message name="UpdateRiskSoapOut">
+    <wsdl:part name="UpdateRiskResult" element="tns:UpdateRiskResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AnonymousForBrokingSoap">
+    <wsdl:operation name="AddAnonCustomer">
+      <wsdl:input message="tns:AddAnonCustomerSoapIn" />
+      <wsdl:output message="tns:AddAnonCustomerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddQuote">
+      <wsdl:input message="tns:AddQuoteSoapIn" />
+      <wsdl:output message="tns:AddQuoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BindQuote">
+      <wsdl:input message="tns:BindQuoteSoapIn" />
+      <wsdl:output message="tns:BindQuoteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteAndSummariesByKey">
+      <wsdl:input message="tns:GetQuoteAndSummariesByKeySoapIn" />
+      <wsdl:output message="tns:GetQuoteAndSummariesByKeySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteAndSummariesByRef">
+      <wsdl:input message="tns:GetQuoteAndSummariesByRefSoapIn" />
+      <wsdl:output message="tns:GetQuoteAndSummariesByRefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetList">
+      <wsdl:input message="tns:GetListSoapIn" />
+      <wsdl:output message="tns:GetListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RunDefaultRulesAdd">
+      <wsdl:input message="tns:RunDefaultRulesAddSoapIn" />
+      <wsdl:output message="tns:RunDefaultRulesAddSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RunDefaultRulesEdit">
+      <wsdl:input message="tns:RunDefaultRulesEditSoapIn" />
+      <wsdl:output message="tns:RunDefaultRulesEditSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRisk">
+      <wsdl:input message="tns:UpdateRiskSoapIn" />
+      <wsdl:output message="tns:UpdateRiskSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AnonymousForBrokingSoap" type="tns:AnonymousForBrokingSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddAnonCustomer">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/AddAnonCustomer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddQuote">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/AddQuote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BindQuote">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/BindQuote" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteAndSummariesByKey">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/GetQuoteAndSummariesByKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteAndSummariesByRef">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/GetQuoteAndSummariesByRef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/GetList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunDefaultRulesAdd">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/RunDefaultRulesAdd" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunDefaultRulesEdit">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/RunDefaultRulesEdit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRisk">
+      <soap:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/UpdateRisk" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="AnonymousForBrokingSoap12" type="tns:AnonymousForBrokingSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddAnonCustomer">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/AddAnonCustomer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddQuote">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/AddQuote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BindQuote">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/BindQuote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteAndSummariesByKey">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/GetQuoteAndSummariesByKey" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQuoteAndSummariesByRef">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/GetQuoteAndSummariesByRef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetList">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/GetList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunDefaultRulesAdd">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/RunDefaultRulesAdd" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunDefaultRulesEdit">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/RunDefaultRulesEdit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRisk">
+      <soap12:operation soapAction="http://www.siriusfs.com/SFB/SAM/AnonymousTypes/20050929/UpdateRisk" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AnonymousForBroking">
+    <wsdl:port name="AnonymousForBrokingSoap" binding="tns:AnonymousForBrokingSoap">
+      <soap:address location="http://localhost:2440/SiriusFS.SAM.ServiceAgent/AnonymousForBroking.asmx" />
+    </wsdl:port>
+    <wsdl:port name="AnonymousForBrokingSoap12" binding="tns:AnonymousForBrokingSoap12">
+      <soap12:address location="http://localhost:2440/SiriusFS.SAM.ServiceAgent/AnonymousForBroking.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

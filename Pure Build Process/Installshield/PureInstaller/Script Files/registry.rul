@@ -1,0 +1,1472 @@
+//===========================================================================
+//
+//  File Name:    registry.rul
+//
+//
+//  Comments:     This Rule File (registry.rul) contains all the Registry related functions
+//				  used within the Sirius Product Installation/Uninstallation.
+//
+//
+//===========================================================================
+#include "ifx.h"  //Header File for Built in Installscript function prototypes        
+#include "wnet.rul" //Header File containing functions for Network Sharing Folders
+
+//Global Variables used across the Installer Rule Files	                        
+string g_szPMInstallPath;  	// Variable to hold the TARGETDIR path of the Sirius Product 
+string g_szPMPath;       	 // Variable to hold the PM Dir path of the Sirius Product
+string g_szAppBackupPath;	 // Variable to hold the PM Folder Backup Path
+string g_szDBBackupPath;  	//Variable to hold the backup path of the Sirius Database
+string g_szDBBackupFileName; //Variable to hold the backup file name of the Sirius Database                    
+string g_szInstalledProductVersion;  //Variable to hold the product version with convention of the old installer
+string g_szProductNewInstallerVersion;  //Variable to hold the product version with convention of the new installer                                         
+string g_szSiriusDBName;       //Variable to hold the Sirius Database name
+string g_szSiriusUserName,g_szSiriusPassword;  //Variable to hold Sirius Login/Password used for DB Scripts execution in Sirius DB
+string g_szDBServer;          //Variable to hold the DB Server name
+string g_szMasterUser,g_szMasterPassword;   //Variable to hold the Master Login/Password of the SQL server instance in DB Server
+string g_szMDFFileName,g_szLDFFileName; //Variable to hold the MDF and LDf file names of the Sirius Database
+string g_szFDate;  //Variable to hold the Formatted date used across the installer
+
+BOOL g_bFreshInstaller;	//Flag Variable to identify Fresh Installation
+BOOL g_bUpgradeInstaller; // Flag Variable to identify Upgrade Installation of this new installer
+BOOL g_bProductUpgradeNewInstaller;  //Flag Variable to identify a Sirius Product upgrade but Fresh Installation of this installer
+BOOL g_bDBBackupFlag;  //Flag Variable used to set/Reset the DB Backup 
+BOOL g_bAppBackupFlag; //Flag Variable used to set/Reset the PM Folder Backup  
+
+//Macros for Default Registry Settings across the Installer
+#define PM_DEFAULTPATH   "C:\\Program Files\\PM"
+//#define FRESHREGFILEPATH  SUPPORTDIR ^ "FreshInstallationRegistry.reg" 
+#define FRESHREGFILEPATH  "FreshInstallationRegistry.reg" 
+#define DATE_UK	"UK"
+#define DATE_US	"US"
+#define DATE_SI	"SI"
+#define DATE_EU	"EU"
+#define DATE_UK2 "UK2"
+  
+//Prototyping Functions defined in the registry Rule File
+export prototype number ImportFreshInstallRegistryFile();
+export prototype number PlacePMInstallPathforFreshRegistry(); 
+export prototype number GetPMRegistryInstalledValuesforUpgradeInstall();
+export prototype number ReplaceMatchPatterninFile(string,string,string);
+export prototype string ParsePathString(string);
+export prototype number SetPMRegistryInstalledValues();
+export prototype number WriteToRegistry(string,string,number,string);
+export prototype string GetFromRegistry(string,string);
+export prototype number DeleteRegFile();
+export prototype number DeleteUninstallReg();
+export prototype string GetCurrentDateTime(string);      
+export prototype number FormatDate(string,number,string,byref string);
+export prototype number UpdateRegistryEntriesAfterInstallation();
+export prototype number UpdateUpgradeInstallationHistory();
+export prototype number UpdatePatchInstallationHistory();   
+export prototype number ValidateOldProductInstalledVersion();
+export prototype number SetUpShares();  
+export prototype number InstallRatingEngine();
+export prototype number AddShare(string,string,string);
+export prototype BOOL IsShareNameExists(string); 
+export prototype number RemovePMShares();
+export prototype number RemoveFolderShare(string);
+export prototype NUMBER ClearReadOnly(STRING);
+export prototype number SetUpPermissions();
+export prototype SetPermission(STRING, STRING, STRING);
+export prototype SetupRegistryPermissions();
+export prototype SetupRegistryPermissionsBackoffice();
+export prototype NUMBER RemoveReadOnly(STRING);
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ImportFreshInstallRegistryFile                                 //
+//                                                                           //
+// Purpose:   This function import the PM Registry files with default values //
+//            to the Installed Machine in case of Fresh Installations        //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+ 
+function number ImportFreshInstallRegistryFile()
+string szProgram,szCMDline,szRegFileName,szPath;   
+number nvExitCode;   
+number nvLaunchApplicationvResult;
+begin       
+
+szPath = WINDISK + "\\";
+szRegFileName = szPath ^ FRESHREGFILEPATH;
+szProgram = "regedit";
+szCMDline = " /s " + szRegFileName;
+nvLaunchApplicationvResult = LaunchApplication(szProgram,szCMDline,"",SW_HIDE,120,LAAW_OPTION_USE_SHELLEXECUTE|LAAW_OPTION_WAIT);
+
+if(nvLaunchApplicationvResult = ISERR_SUCCESS) then
+    WriteToLogFile(INSTALL_LOG,"Fresh Registry file Import Successful");
+else
+    MessageBox("Fresh Registry File Cannot be Imported.Check out Aborting the Installation..",SEVERE);	
+    abort;
+endif;
+return 1;
+end;    
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  PlacePMInstallPathforFreshRegistry                             //
+//                                                                           //
+// Purpose:   This function replaces the PM destination path of the default  //
+//			  values in the templated Fresh Registry file before it          //
+//			  is imported to the target machine during fresh installation    //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+
+function number PlacePMInstallPathforFreshRegistry()
+number nvResult;
+string szReplaceString;
+begin    
+try 
+	szReplaceString = ParsePathString(g_szPMInstallPath);
+	nvResult = ReplaceMatchPatterninFile(SUPPORTDIR ^ FRESHREGFILEPATH,"[DESTPATH]",szReplaceString);
+	if(nvResult = 1) then
+		WriteToLogFile(INSTALL_LOG,"PM Installable Path Set Successfully in the Freshly Imported Registry File");
+	endif;
+catch    
+		MessageBox("Registry Updating error-Incorrect operation in fresh installation",WARNING);
+		abort;
+endcatch;
+	//Set PMDIR Name for 32 bit setupdb
+	WriteToRegistry("SOFTWARE\\WOW6432Node\\Pure","PMDIR",REGDB_STRING,g_szPMPath);
+	
+return 1;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ReplaceMatchPatterninFile                                      //
+//                                                                           //
+// Purpose:   This function replaces a matched pattern with the replaceable  //
+//			  pattern in any Text formatted file specified by the filename   //
+//            parameter                                                	     //
+///////////////////////////////////////////////////////////////////////////////
+function number ReplaceMatchPatterninFile(szFilename,szMatchPattern,szReplacePattern)
+number nvResult,nvLineNumber,nvPatternStartLocation,nvReturnLineLength,nvPatternLength;
+string szReturnLine,szBeforePattern,szAfterPattern,szModifiedLine;
+STRING szPath;
+begin   
+
+szPath = WINDISK + "\\";
+
+ //XCopyFile ( szFilename, gTemp, COMP_NORMAL ); 
+ XCopyFile ( szFilename, szPath, COMP_NORMAL );    
+ szFilename = szPath ^ FRESHREGFILEPATH;
+ 
+ SetFileInfo(szFilename, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+ 
+nvPatternLength =  StrLengthChars(szMatchPattern);
+nvResult = FileGrep (szFilename,szMatchPattern,szReturnLine,nvLineNumber,RESTART);
+while (nvResult = 0) 
+		nvPatternStartLocation = StrFind(szReturnLine,szMatchPattern);
+		nvReturnLineLength = StrLengthChars(szReturnLine);
+		if (nvPatternStartLocation >= 0) then    
+	     	StrSub(szBeforePattern,szReturnLine,0,nvPatternStartLocation);
+	    	StrSub(szAfterPattern,szReturnLine,nvPatternStartLocation+nvPatternLength,nvReturnLineLength-(nvPatternStartLocation+nvPatternLength));
+	   		szModifiedLine = szBeforePattern + szReplacePattern + szAfterPattern;
+			//WriteToLogFile(INSTALL_LOG,szFilename);
+	   		//WriteToLogFile(INSTALL_LOG,szModifiedLine);
+	   	 	nvResult= FileInsertLine(szFilename,szModifiedLine,nvLineNumber,REPLACE);
+	     	if(nvResult < 0) then
+		  	  WriteToLogFile(INSTALL_ERRORLOG,"Replacing Pattern of "+szMatchPattern+ " with this "+szReplacePattern+" Failed in File "+szFilename);
+		  	  return -1;
+			endif;
+	 	endif;
+		nvResult = FileGrep(szFilename,szMatchPattern, szReturnLine, nvLineNumber,CONTINUE);
+endwhile;    
+return 1;
+end;      
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParsePathString                                                //
+//                                                                           //
+// Purpose:   This function formats the Dir Path pattern of the PM folder    //
+//			  by placing "\\\\" instead of "\\" in the Fresh Registry file   //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+       
+function string ParsePathString(szStringName)
+number nvResult,nvStringLength;
+string szConcatenatedString,szIntermediateString;
+begin  
+nvStringLength =  StrLengthChars(szStringName);    
+szConcatenatedString = "";
+Recurse:
+nvStringLength =  StrLengthChars(szStringName);    
+nvResult = StrFind(szStringName,"\\");             
+if(nvResult >= 0) then
+	StrSub(szIntermediateString,szStringName,0,nvResult);
+	if(szConcatenatedString = "") then
+  	 	szConcatenatedString =  szIntermediateString;
+	else
+		szConcatenatedString = szConcatenatedString + "\\\\" +szIntermediateString;
+	endif;
+StrSub(szStringName,szStringName,nvResult + 1,nvStringLength);
+goto  Recurse;
+else
+szConcatenatedString = szConcatenatedString + "\\\\" + szStringName;
+endif;
+
+return szConcatenatedString;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetPMRegistryInstalledValues                                   //
+//                                                                           //
+// Purpose:   This function writes the installed values and parameters       //
+//			  to the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\PM" folder  //
+//            after every installation                                       //                       
+///////////////////////////////////////////////////////////////////////////////
+
+function number SetPMRegistryInstalledValues()
+number nvTARGETDIRLength,nvResult; 
+string szMajorVersion1,szMajorVersion2,szCacheLocation,szBriefCaseDir,szCommonCacheLocation,szSiriusEventLog,szMinorVersion;
+STRING szEDIPathName;
+begin     
+
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+//Set the Conventional Product Version after installation
+StrSub(szMajorVersion1,g_szTobeInstalledMajorVersion,0,1);
+StrSub(szMajorVersion2,g_szTobeInstalledMajorVersion,1,2);
+StrSub(szMinorVersion,g_szTobeInstalledMajorVersion,2,1);
+
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Version",REGDB_STRING,szMajorVersion1 + "."+ szMajorVersion2 + "." + g_szTobeInstalledSubVersion);	
+//InsertRegistrySetting(KeyPath, KeyName, KeyType, keydata, system_id)
+						
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","PureReleaseVersion",REGDB_STRING,szMajorVersion1 + "."+ szMinorVersion);
+
+//Get the Full Service Release Version Number and Split it up for any product SubVersion Availability
+StrSub(g_szTobeInstalledServiceRelease,g_szTobeInstalledMinorVersion,1,2); 
+
+if(StrFind(g_szTobeInstalledServiceRelease,"0") = 0) then
+	StrSub(g_szTobeInstalledServiceRelease,g_szTobeInstalledServiceRelease,1,1); 	
+endif;
+
+//Set the Build number of the installed product
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Build",REGDB_STRING,g_szTobeInstalledBuildNumber);
+
+//Set the Service Release Version and Sirius Release Version of the product currently installed              
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Service Release",REGDB_STRING,g_szTobeInstalledServiceRelease + "." + g_szTobeInstalledBuildNumber);
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Sirius Release",REGDB_STRING,g_szTobeInstalledServiceRelease + "." + g_szTobeInstalledBuildNumber);		
+
+
+//Set the Full Version of the Product
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Full Version",REGDB_STRING,g_szTobeInstalledFullVersion);
+
+//Set the New Product Version after installation
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","New Version",REGDB_STRING,IFX_PRODUCT_VERSION);
+
+//Set the New Product Version after installation
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Server","Version",REGDB_STRING,IFX_PRODUCT_VERSION);
+WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Client","Version",REGDB_STRING,IFX_PRODUCT_VERSION);
+  
+//Set the New DME Version after installation
+WriteToRegistry("SOFTWARE\\Pure\\DocuMaster\\Server","Version",REGDB_STRING,IFX_PRODUCT_VERSION);
+WriteToRegistry("SOFTWARE\\Pure\\DocuMaster\\Client","Version",REGDB_STRING,IFX_PRODUCT_VERSION);  
+
+//Set the DME Cache location
+szCacheLocation = GetFromRegistry("SOFTWARE\\Pure\\DocuMaster\\Client\\Cache","Cache Location");
+if (szCacheLocation = "") then
+	nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\DocuMaster\\Client","Cache");   
+	WriteToRegistry("SOFTWARE\\Pure\\DocuMaster\\Client\\Cache","Cache Location",REGDB_STRING,TARGETDIR ^ "DocuMaster Enterprise\\DME\\Data");  
+endif;
+
+// Set BriefcaseDir
+szBriefCaseDir=GetFromRegistry("SOFTWARE\\Pure\\DocuMaster\\Common","BriefcaseDir");
+if (szBriefCaseDir = "") then
+	nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\DocuMaster","Common");   
+	WriteToRegistry("SOFTWARE\\Pure\\DocuMaster\\Common","BriefcaseDir",REGDB_STRING,TARGETDIR ^ "DocuMaster Enterprise\\DME\\Data");  
+endif;
+
+// Set Common Cache Location
+szCommonCacheLocation = GetFromRegistry("SOFTWARE\\Pure\\DocuMaster\\Common\\Cache","Cache Location");
+if (szCommonCacheLocation = "") then
+	nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\DocuMaster\\Common","Cache");   
+	WriteToRegistry("SOFTWARE\\Pure\\DocuMaster\\Common\\Cache","Cache Location",REGDB_STRING,g_szPMPath ^ "\\DocuMaster Cache");  
+endif;
+
+//Set for Event Logging
+szSiriusEventLog=GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Common","EventLogMessaging");
+if (szSiriusEventLog = "") then
+		WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Common","EventLogMessaging",REGDB_STRING,"1"); 
+endif; 
+
+//Create EventLog for Sirius Application
+if(RegDBKeyExist("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius") < 0) then
+	nvResult = RegDBCreateKeyEx("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application","Sirius");   
+	WriteToRegistry("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","CategoryCount",REGDB_NUMBER,"4"); 
+	WriteToRegistry("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","TypesSupported",REGDB_NUMBER,"7");   
+else
+	WriteToRegistry("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","CategoryCount",REGDB_NUMBER,"4"); 
+	WriteToRegistry("SYSTEM\\CurrentControlSet\\services\\eventlog\\Application\\Sirius","TypesSupported",REGDB_NUMBER,"7");   
+endif;
+
+if(g_bFreshInstaller = TRUE) then           
+	//Set PMDIR Name
+	WriteToRegistry("SOFTWARE\\Pure","PMDIR",REGDB_STRING,g_szPMPath);
+	//Set PMDIR Name for 32 bit setupdb
+	WriteToRegistry("SOFTWARE\\WOW6432Node\\Pure","PMDIR",REGDB_STRING,g_szPMPath);
+	//Set DBServerName  
+	WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server",REGDB_STRING,g_szDBServer);
+	//Set Sirius DBName
+	WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database",REGDB_STRING,g_szSiriusDBName);
+	//Set Sirius Installation Folder Name
+	WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Setup","Installation folder",REGDB_STRING,g_szPMPath);
+	//Set Sirius DB MDF Filename 
+	WriteToRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","DataFilesFolder",REGDB_STRING,g_szMDFFileName);
+	//Set Sirius DB LDF Filename
+	WriteToRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","LogFilesFolder",REGDB_STRING,g_szLDFFileName);
+	//Set Sirius DB Backup Filename
+	//WriteToRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFileName",REGDB_STRING,g_szDBBackupFileName);
+	//Set Sirius DB Backup Foldername
+	//WriteToRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFilesFolder",REGDB_STRING,g_szDBBackupPath);
+	//Set S4B path in PureInstallation Folder Name
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","S4B Path",REGDB_STRING,g_szPMPath);
+endif;	
+
+//Update the Product Installation History after installation
+UpdateUpgradeInstallationHistory();
+
+//Set the SQL Server Authentication Mode for Windows or SQL Server Authentication
+if(g_bWinLoginAuthenticate = TRUE) then   
+	//Set the Trusted Connection entry to 1(true).
+   	WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted",REGDB_STRING,"1");
+else
+    //Remove the Trusted Connection entry if present
+    //nvResult = RegDBDeleteValue("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted"); 
+    WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted",REGDB_STRING,"0");
+endif;
+
+//Set the SQL Server Authentication Mode for Windows or SQL Server Authentication
+if(g_bWinLoginAuthenticate = TRUE) then   
+	WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\SiriusSolutions","Trusted",REGDB_STRING,"1");
+else
+    WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\SiriusSolutions","Trusted",REGDB_STRING,"0");
+endif;
+
+WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server","UserIncorrectAttemptsAllowed",REGDB_STRING,"3");
+WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server","CachePath",REGDB_STRING,TARGETDIR ^ "Cache");
+WriteToRegistry("SOFTWARE\\Pure\\Architecture\\Server","SysOptionsCacheFile",REGDB_STRING,"PureCache");
+
+
+//Set the EDIPathName
+szEDIPathName = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Server","EDIPathName");
+if (szEDIPathName = "") then
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Server","EDIPathName",REGDB_STRING,TARGETDIR ^ "EDI");  
+endif;
+
+WriteToLogFile(INSTALL_LOG,"Setting Pure Registry Completed after installation");
+return 1;
+end;
+    
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  UpdateUpgradeInstallationHistory                               //
+//                                                                           //
+// Purpose:   This function writes the installed values and parameters       //
+//			  to the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" folder  //
+//            after every upgrade/Productupgrade but Fresh Installation      //                                                        //
+///////////////////////////////////////////////////////////////////////////////
+function number UpdateUpgradeInstallationHistory()
+number nvResult;
+string szFoldername,szCurrentDate,szCurrentTime,szRegValue; 
+string szProductVersionFolder;  
+string szTempVersion;
+
+begin 
+
+szFoldername = GetCurrentDateTime("DATETIME");
+szRegValue = "1";
+szProductVersionFolder = IFX_PRODUCT_VERSION;
+//nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\PureInstallation\\Installation History",szProductVersionFolder);
+
+if(nvResult =0) then  
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Product Version",REGDB_STRING,IFX_PRODUCT_VERSION);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Full Version",REGDB_STRING,g_szTobeInstalledFullVersion);
+	if(g_bFreshInstaller = TRUE) then
+		WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Type",REGDB_STRING,"Fresh");
+	else
+		WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Type",REGDB_STRING,"Upgrade");
+	endif;
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Setup",REGDB_STRING,"SERVER");
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Product Name",REGDB_STRING,"PureInstallation");
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Component Client",REGDB_STRING,szRegValue);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Component Server",REGDB_STRING,szRegValue);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Component Update Databases",REGDB_STRING,szRegValue);
+	//Set the Date and Time for the Product Installation
+	GetSystemInfo(TIME,nvResult,szCurrentTime);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Time",REGDB_STRING,szCurrentTime);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Time Installed",REGDB_STRING,szCurrentTime);
+	FormatDate("UK",4,"/",g_szFDate);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Installation History\\"+szProductVersionFolder,"Install Date",REGDB_STRING,g_szFDate);    
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Date Installed",REGDB_STRING,g_szFDate);    
+	
+	WriteToLogFile(INSTALL_LOG,"Upgrade Installation History updated in the registry");
+ endif;     
+ 
+return 1;
+end;    
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  UpdatePatchInstallationHistory                                 //
+//                                                                           //
+// Purpose:   This function writes the installed values and parameters       //
+//			  to the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" folder  //
+//            after every Patch Installation                                 //                            
+///////////////////////////////////////////////////////////////////////////////
+
+function number UpdatePatchInstallationHistory()
+number nvResult;
+string szFoldername,szCurrentDate,szCurrentTime;
+string szDBBackupFlag;
+
+begin 
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller",g_szPatchVersion);
+if(nvResult =0) then  
+    WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Product Version",REGDB_STRING,IFX_PRODUCT_VERSION);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Product Type",REGDB_STRING,"Insurance");
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Product Name",REGDB_STRING,"PureInstallation");
+	GetSystemInfo(TIME,nvResult,szCurrentTime);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Install Time",REGDB_STRING,szCurrentTime);
+	FormatDate("UK",4,"/",g_szFDate);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Install Date",REGDB_STRING,g_szFDate);
+	//Registry entry to show whether the current patch in installed or uninstalled
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Installation Status",REGDB_STRING,"Installed");
+	//Uninstallation  date and time log addition to the patch installation
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"UnInstall Date",REGDB_STRING,"");
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"UnInstall Time",REGDB_STRING,"");
+	//Writing to the log file that patch history is updated in the registry
+	WriteToLogFile(INSTALL_LOG,"Patch Installation History updated in the registry");
+else   
+	//MessageBox(" Registry Key not Created "+g_szPatchVersion,INFORMATION);  
+	WriteToLogFile(INSTALL_ERRORLOG,"Patch Installation History root cannot be updated");
+endif;
+
+return 1;
+end;
+	
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetPMRegistryInstalledValuesforUpgradeInstall                  //
+//                                                                           //
+// Purpose:   This function get the installed values and parameters          //
+//			  from the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" 	     // 
+//            folder for every upgrade/product upgrade installation          //
+///////////////////////////////////////////////////////////////////////////////
+
+function number GetPMRegistryInstalledValuesforUpgradeInstall()
+string szRegFolder; 
+number nvType,nvSize;
+number nvValidateInstallPrerequisite;
+string szMajorVersion1,szMajorVersion2;
+ 
+begin  
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+  
+g_szInstalledProductVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Version");
+    
+//Checking for 1.12 Product Version Prerequisite in case of Product Upgrade but Fresh Installation    
+if(g_bProductUpgradeNewInstaller = TRUE ) then
+	if(g_szInstalledProductVersion = "") then
+	    MessageBox("Registry Corrupted.Current Product Version cannot be fetched.",INFORMATION);
+	    abort;
+	else
+		nvValidateInstallPrerequisite = ValidateOldProductInstalledVersion();
+		if(nvValidateInstallPrerequisite = -1) then
+			g_bPreRequisiteFailure = TRUE;
+			abort;
+		endif;
+	endif;   
+endif;    
+
+nvSize = -1;          
+szRegFolder ="SOFTWARE\\Pure";  
+
+//This key  will fetch the  Sirius Product Installed Path
+g_szPMPath = GetFromRegistry("SOFTWARE\\Pure","PMDIR");
+StrRemoveLastSlash(g_szPMPath); 
+WriteToLogFile(INSTALL_LOG, "PMDIR:" + g_szPMPath);
+//g_szPMInstallPath = g_szPMPath + "\\Pure"; 
+g_szPMInstallPath = g_szPMPath ^ "Pure"; 
+WriteToLogFile(INSTALL_LOG, "Pure Install Path:" + g_szPMInstallPath);
+TARGETDIR = g_szPMInstallPath;
+WriteToLogFile(INSTALL_LOG, "TARGETDIR:" + TARGETDIR);
+//This code will fetch MDF file name
+g_szMDFFileName = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","DataFilesFolder");
+//This code will fetch LDF file name
+g_szLDFFileName = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","LogFilesFolder");
+//This code will fetch DB Backup File Name
+g_szDBBackupFileName = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFileName");
+//This code will fetch DB Backup  Folder Name
+g_szDBBackupPath = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFilesFolder");
+//This code will fetch the Sirius Product database name
+g_szSiriusDBName = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database");
+//This code will fetch DB server name
+g_szDBServer =GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server");		
+//This code will fetch whether windows authentication is set or not
+g_szWindowsAuthenticate = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted");		
+//Set the Windows Authentication flag based on the setting above
+if(g_szWindowsAuthenticate = "1") then
+   g_bWinLoginAuthenticate = TRUE;
+else
+   g_bWinLoginAuthenticate = FALSE;
+endif;
+
+//Get the Product Major Version,Service Release Version and Build Numbers 
+g_szInstalledBuildNumber = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Build");
+g_szInstalledServiceReleaseAndBuildNumber = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Service Release"); 
+GetMajorandServiceReleaseVersionandBuildNumberforInstalledProduct(); 
+
+StrSub(szMajorVersion1,g_szInstalledMajorVersion,0,1);
+StrSub(szMajorVersion2,g_szInstalledMajorVersion,1,2);
+
+
+if(g_bUpgradeInstaller = TRUE) then
+	g_szInstalledFullVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Full Version");
+else
+    if(g_szInstalledSubVersion != "" && g_szInstalledSubVersion != "0") then
+		g_szInstalledFullVersion =  szMajorVersion1 + "." + szMajorVersion2 + "." + g_szInstalledSubVersion + " Service Release " + g_szInstalledServiceRelease + " BuildNumber:"+ g_szInstalledBuildNumber;
+	else
+ 	   g_szInstalledFullVersion =  szMajorVersion1 + "." + szMajorVersion2 + " Service Release " + g_szInstalledServiceRelease + " Build "+ g_szInstalledBuildNumber;
+	endif;
+endif;
+	  
+		                                                             
+return 1;
+end;
+	
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: WriteToRegistry                                                 //
+//                                                                           //
+// Purpose:  This function writes the a registry key with a particular value //
+//			 under the foldername as specified in the function parameters    //
+//                                                                     		 //
+///////////////////////////////////////////////////////////////////////////////
+	
+function number WriteToRegistry(szFolderName,szKey,nvType,szValue)
+number nvResult,nvSize;
+begin   
+try
+	nvResult = RegDBSetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize);
+	if(nvResult < 0) then
+		WriteToLogFile(INSTALL_ERRORLOG,"Not able to set the Registry Value in "+szFolderName+" for "+szKey);
+	else
+		WriteToLogFile(INSTALL_LOG,"The Registry Value in "+szFolderName+" for "+szKey+" has been set successfully");	
+	endif;  
+catch 
+    WriteToLogFile(INSTALL_ERRORLOG,"Error Encountered writing value "+szValue+" to the key"+szKey+" in folder "+szFolderName);
+    return -1;
+endcatch;
+	
+return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetFromRegistry                                                 //
+//                                                                           //
+// Purpose:  This function gets  a particular value for the registry key     //
+//			 under the foldername as specified in the function parameters    //
+//                                                                      	 //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetFromRegistry(szFolderName,szKey)
+number nvResult,nvType,nvSize;
+string szValue;
+begin                         
+nvSize = -1; 
+try 
+	if(RegDBKeyExist(szFolderName) = 1) then
+		if(RegDBGetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize) < 0) then 
+			WriteToLogFile(INSTALL_ERRORLOG,"Not able to fetch the value "+szKey+ " from the folder "+szFolderName+ " registry");
+		else
+			WriteToLogFile(INSTALL_LOG,"Value fetched for "+ szKey + " from the folder "+szFolderName+ " registry");
+		endif;  
+	else
+		WriteToLogFile(INSTALL_ERRORLOG,"The Specified Folder/Key "+szFolderName+ "//" + szKey + " does not exist");
+	endif;
+catch 
+         WriteToLogFile(INSTALL_ERRORLOG,"Error Encountered fetching key value "+szKey+" from folder "+szFolderName);
+         return "";
+endcatch;
+
+return szValue;
+end;  
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DeleteRegFile                                                   //
+//                                                                           //
+// Purpose:  This function deletes the PM folder key and its associated      //
+//			 child from the registry                                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number  DeleteRegFile()
+number nvResult;
+begin 
+
+//Delete the Local Machine Software entry for the PM folder 
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+if(RegDBKeyExist ("SOFTWARE\\Pure")) then
+   nvResult = RegDBDeleteKey("SOFTWARE\\Pure");
+   if(nvResult < 0) then
+     WriteToLogFile(UNINSTALL_ERRORLOG,"Pure folder under Local Machine Registry cannot be deleted during Uninstallation");
+   else
+   	 WriteToLogFile(UNINSTALL_LOG,"Pure folder under Local Machine Registry deleted successfully  during Uninstallation");
+   endif;
+else
+	WriteToLogFile(UNINSTALL_ERRORLOG,"Pure folder Information under Local Machine Registry  not available for Deletion");
+endif; 
+
+if(RegDBKeyExist ("SOFTWARE\\WOW6432Node\\Pure")) then
+   nvResult = RegDBDeleteKey("SOFTWARE\\WOW6432Node\\Pure");
+   if(nvResult < 0) then
+     WriteToLogFile(UNINSTALL_ERRORLOG,"Pure folder under 32 bit Local Machine Registry cannot be deleted during Uninstallation");
+   else
+   	 WriteToLogFile(UNINSTALL_LOG,"Pure folder under 32 bit Local Machine Registry deleted successfully  during Uninstallation");
+   endif;
+else
+	WriteToLogFile(UNINSTALL_ERRORLOG,"Pure folder Information under 32 bit Local Machine Registry  not available for Deletion");
+endif; 
+
+//Delete the Current User Software entry for the PM folder 
+RegDBSetDefaultRoot(HKEY_CURRENT_USER);
+if(RegDBKeyExist ("SOFTWARE\\Pure")) then
+   nvResult = RegDBDeleteKey("SOFTWARE\\Pure");
+   if(nvResult < 0) then
+     WriteToLogFile(UNINSTALL_ERRORLOG,"Pure folder under Current User Registry cannot be deleted during Uninstallation");
+   else
+   	 WriteToLogFile(UNINSTALL_LOG,"Pure folder under Current User Registry deleted successfully  during Uninstallation");
+   endif;
+else
+	WriteToLogFile(UNINSTALL_ERRORLOG,"Pure folder under Current User Registry Information not available for Deletion");
+endif; 
+
+  
+return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: DeleteUninstallReg                                              //
+//                                                                           //
+// Purpose:  This function deletes the Pure Uninstall key and its associated //
+//			 child from the registry                                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number  DeleteUninstallReg()
+number nvResult;
+begin 
+
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+if(RegDBKeyExist ("SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{A5D571AB-3D05-4530-A631-74E8D1CADCA6}")) then
+   nvResult = RegDBDeleteKey("SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{A5D571AB-3D05-4530-A631-74E8D1CADCA6}");
+   if(nvResult < 0) then
+     WriteToLogFile(UNINSTALL_ERRORLOG,"Pure Uninstall registry cannot be deleted during Uninstallation");
+   else
+   	 WriteToLogFile(UNINSTALL_LOG,"Pure Uninstall registry deleted successfully during Uninstallation");
+   endif;
+else
+	WriteToLogFile(UNINSTALL_ERRORLOG,"Pure Uninstall registry not available for Deletion");
+endif; 
+  
+return 1;
+end; 
+
+
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  UpdateRegistryEntriesAfterInstallation                         //                     
+//                                                                           //
+// Purpose:   This function is called to do the registry update operations   //
+//			  after every fresh or upgrade or product upgrade but fresh      //
+//			  installation of Sirius product                                 //
+///////////////////////////////////////////////////////////////////////////////
+
+function number  UpdateRegistryEntriesAfterInstallation()
+begin   
+// Splash screen - create
+SdShowMsg ( "Creating registry settings. Please wait..." ,TRUE );
+
+//Sirius Product Upgrade but Fresh Install of this New Installer
+SetPMRegistryInstalledValues();
+
+SdShowMsg ( "Registry settings updated",FALSE);
+return 1;
+end;
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+//                                                                           	   //
+// Function:  ValidateOldProductInstalledVersion                                   //
+//                                                                           	   //
+// Purpose:   This function is called to do a Installer Prerequisite validation    //
+//			  for doing a Product upgrade but fresh installation of the installer  //
+//			  The Installed version of the product with the old installer should   //
+//			  be greater than or equal to 1.11 version                             //
+/////////////////////////////////////////////////////////////////////////////////////
+
+function number ValidateOldProductInstalledVersion()
+number nvResult,nvSearchStart; 
+string szMinimumInstalledOldProductVersion;
+begin      
+szMinimumInstalledOldProductVersion = "1.12";
+nvResult = StrCompare(szMinimumInstalledOldProductVersion,g_szInstalledProductVersion);
+if(nvResult > 0) then
+   	MessageBox("The Currently Installed Product Version is not higher than 1.11 version.Installer cannot proceed.Do Service Release Installations to bring the version from "+g_szInstalledProductVersion+" to a product version upto 1.11.0 or more",SEVERE);
+   	return -1;
+endif;
+
+return 1;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetCurrentDateTime                                             //
+//                                                                           //
+// Purpose:   This function formats the date and time based on the input     //
+//			  parameter type mentioned as the function parameter             //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetCurrentDateTime(szType)
+string szDate,szTime,szHour,szMinutes,szSeconds,szMonth,szDay,szYear;
+string szRemString,szReturnString;
+number nvResult;  
+number nvPosition;
+begin     
+
+GetSystemInfo(DATE,nvResult,szDate);
+GetSystemInfo(TIME,nvResult,szTime);  
+
+StrSub(szHour,szTime,0,2);
+StrSub(szMinutes,szTime,3,2);
+StrSub(szSeconds,szTime,6,2);  
+
+nvPosition = StrFind(szDate,"-");
+StrSub(szMonth,szDate,0,nvPosition);
+StrSub(szRemString,szDate,nvPosition+1,StrLengthChars(szDate));
+nvPosition = StrFind(szRemString,"-");
+StrSub(szDay,szRemString,0,nvPosition);                        
+StrSub(szYear,szRemString,nvPosition+1,StrLengthChars(szRemString));
+
+
+if(szType = "DATETIME") then
+	szReturnString = szYear+ szMonth + szDay + szHour + szMinutes + szSeconds;
+elseif(szType = "DATE") then
+	szReturnString = szYear+ szMonth + szDay; 
+elseif(szType = "TIME") then
+	szReturnString = szHour + szMinutes + szSeconds;
+endif;                       
+	
+return szReturnString;
+end;      
+ 
+
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+// Function: FormatDate                                                        //
+//                                                                             //
+// Purpose:  This function returns the current system date in the requested    //
+//           format with a definable delimiter and a variable number of digits //
+//           for the year field.                                               //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
+
+function number FormatDate(szType,nDyr,szChar,g_szFDate)
+    LIST listDate;
+    string szDfulldate, szDday, svDmonth, svDyear, szDelim;
+    string szDate;
+    number nvD;
+
+begin
+
+    listDate = ListCreate(STRINGLIST);
+    szDelim = "_,.:;/-";
+
+
+    if szChar = "_" then szChar = " ";
+    elseif szChar = "" then szChar = "-";
+    elseif ((szDelim % szChar) = FALSE) then szChar = "-";
+    endif;
+
+    if (GetSystemInfo(DATE,nvD,szDfulldate) < 0) then
+        szDate = "mm" + szChar + "dd" + szChar + "yyyy";
+        return -1;
+    endif;
+
+    StrGetTokens(listDate,szDfulldate,"-");
+
+    ListGetFirstString(listDate,svDmonth);
+    ListGetNextString(listDate,szDday);
+    ListGetNextString(listDate,svDyear);
+    ListDestroy(listDate);
+
+	if (StrLength(szDday) = 1) then
+		szDday = "0" + szDday;
+	endif;
+
+	if (StrLength(svDmonth) = 1) then
+		svDmonth = "0" + svDmonth;
+	endif;
+	
+    if nDyr = 2 then
+        StrSub(svDyear,svDyear,2,2);
+    endif;
+
+    switch (szType)
+        case "UK": g_szFDate = szDday + szChar + svDmonth + szChar + svDyear;
+        case "UK2":g_szFDate = svDyear + svDmonth + szDday;
+        case "US": g_szFDate = svDmonth + szChar + szDday + szChar + svDyear;
+        case "SI": g_szFDate = svDyear + szChar + szDday + szChar + svDmonth;
+        case "EU": g_szFDate = svDyear + szChar + svDmonth + szChar + szDday;
+        default:   g_szFDate = szDate;
+    endswitch;
+
+return 1;
+
+end;
+
+        
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetUpShares                                                    //
+//                                                                           //
+// Purpose:   This function sets up a share of various folders inside PM     //
+//			  folder after an Installation is done                           //
+///////////////////////////////////////////////////////////////////////////////
+
+function number SetUpShares()        
+//Logic for setting up shares after installation to be writted later
+number	nvResult;
+string	szFolder;
+begin  
+
+  	// Always create PM share
+	/*szFolder = TARGETDIR;
+	nvResult = AddShare("Pure",szFolder, "Pure");
+	*/
+	// Dont create the shares on windows 95 - Shouldn't ever see this message anyway.
+	
+	if (SYSINFO.WIN9X.bWin95 = TRUE || SYSINFO.WIN9X.bWin98) then
+		// CTAF 150500 - DOnt show this message as it's unimportant
+		//MessageBox ( "Unable to create directory shares on a Windows 95 machine.", WARNING );		
+		return 0;
+	endif;
+
+	SdShowMsg("Creating File Shares . . . please wait.",TRUE);
+ 
+	// Create a list manager share
+	/*szFolder = TARGETDIR ^ "\\ListManagement";  
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	nvResult = AddShare("ListMgt", szFolder, "List Management");
+	*/
+
+	// Create a Document share zaz";
+	szFolder = TARGETDIR ^ "\\PMDocs";
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	//nvResult = AddShare("PMDocs", szFolder, "Document Production");
+	
+	// Create a Reports share
+	szFolder = TARGETDIR ^ "\\Reports";	
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	//nvResult = AddShare("Reports", szFolder, "Sirius Reports");
+	nvResult = ClearReadOnly(szFolder);	
+
+	// Create an Export share	
+	szFolder = TARGETDIR ^ "\\Export"; 
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	nvResult = AddShare("Export", szFolder, "Reports Export");	
+	nvResult = ClearReadOnly(szFolder);	
+	
+	//Underwriting GIS Lists
+	szFolder = TARGETDIR ^ "\\Lists";	
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	nvResult = AddShare("Lists", szFolder, "GIS Lists");
+	nvResult = ClearReadOnly(szFolder);	
+	
+	//Underwriting various other GIS shares
+	szFolder = TARGETDIR ^ "\\Dictionary";	
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	//nvResult = AddShare("Diction", szFolder, "GIS Dictionary");
+	
+	szFolder = TARGETDIR ^ "\\Lookups";	
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	nvResult = AddShare("Lookups", szFolder, "GIS Lookups");
+		
+	szFolder = TARGETDIR ^ "\\Rules";	
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	nvResult = AddShare("Rules", szFolder, "GIS Rules");		
+	nvResult = ClearReadOnly(szFolder);	
+	
+	szFolder = TARGETDIR ^ "\\Datasets";	
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	nvResult = AddShare("Datasets", szFolder, "GIS Datasets");			
+	nvResult = ClearReadOnly(szFolder);	
+	
+	SdShowMsg ("Creating File Shares . . . please wait." , FALSE);
+	WriteToLogFile(INSTALL_LOG,"Setting up File Shares Completed");
+ 	
+return 1;
+end;
+ 
+////////////////////////////////////////////////////////////////////////
+// Function: ClearReadOnly
+// Purpose: Clear the Read Only attribute on all files in or below the 
+//          directory passed in
+////////////////////////////////////////////////////////////////////////
+function NUMBER ClearReadOnly(svDirectory)
+ NUMBER nFilesResult;
+ STRING svMatchingFileName;
+ 
+ begin
+  nFilesResult = FindAllFiles(svDirectory, "*.*", svMatchingFileName, RESET);
+  while(nFilesResult = 0)
+   SetFileInfo(svMatchingFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+   nFilesResult = FindAllFiles(svDirectory,"*.*", svMatchingFileName, CONTINUE);
+  endwhile;
+  
+  return nFilesResult;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  AddShare                                                    	 //
+//                                                                           //
+// Purpose:   This function creates a share for the folder as mentioned      //
+//			  in the function parameter with the sharename as given in       //
+//			  the same function parameter                                    //
+///////////////////////////////////////////////////////////////////////////////     
+
+function number AddShare(szShareName,szPath,szComment)
+	number	nvResult;
+	string	szProgram,szCommand,szMsg;
+	long lvValue;    
+	BOOL bRetValue;
+begin
+	
+try
+	// Make sure it's quoted
+	//LongPathToQuote(szPath, TRUE);
+	//Remove the Last Slash in the Path Name
+	StrRemoveLastSlash(szPath); 
+	
+	if(IsShareNameExists(szShareName) = TRUE) then
+ 		DelNetShare(g_szHostName,szShareName,lvValue);
+ 		bRetValue = AddNetShare(g_szHostName,szShareName,szPath,szComment,"","",lvValue,lvValue,100,lvValue);  
+ 		if(bRetValue = TRUE) then
+ 			szMsg = szPath+ " path has been shared";
+			WriteToLogFile(INSTALL_LOG,szMsg);
+		else
+			szMsg = "Unable to share path : " + szPath;
+			WriteToLogFile(INSTALL_ERRORLOG,szMsg);
+		endif;
+	else
+ 		bRetValue = AddNetShare(g_szHostName,szShareName,szPath,szComment,"","",lvValue,lvValue,100,lvValue);  
+ 		if(bRetValue = TRUE) then
+ 			szMsg = szPath+ " path has been shared";
+			WriteToLogFile(INSTALL_LOG,szMsg);
+		else
+			szMsg = "Unable to share path : " + szPath;
+			WriteToLogFile(INSTALL_ERRORLOG,szMsg);
+		endif;
+ 	endif;
+	
+	//commented as it is not reliable method for Sharing Folders in a Network
+	
+	/*
+	// Remove the old share
+	szCommand = "SHARE " + szShareName + " /DELETE";
+		
+	nvResult = LaunchAppAndWait("NET ",szCommand,WAIT);
+	
+	
+	if(SYSINFO.WINNT.bWinServer2003 = TRUE) then
+		// Add new share for server2003 machines
+		szCommand = "SHARE " + szShareName + "=\"" + szPath + "\" /GRANT:\\Everyone,FULL /UNLIMITED";
+	else
+		// Add new share for other machines	
+		szCommand = "SHARE " + szShareName + "=" + szPath + " /UNLIMITED";
+	endif;     
+	
+	 nvResult = LaunchAppAndWait("NET ",szCommand,WAIT);
+	 //nvResult = LaunchApplication("NET ",szCommand,"",SW_HIDE,180,LAAW_OPTION_WAIT);
+	
+	*/ 
+
+	if (nvResult = ISERR_SUCCESS) then
+		szMsg = szPath+ " path has been shared";
+		WriteToLogFile(INSTALL_LOG,szMsg);
+	else                                        
+		szMsg = "Unable to share path : " + szPath;
+		WriteToLogFile(INSTALL_ERRORLOG,szMsg);
+	endif;   
+catch
+	  WriteToLogFile(INSTALL_ERRORLOG,"Error during Creation of Shares inside the PM folder");
+endcatch;
+  
+return 1;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  InstallRatingEngine                                            //
+//                                                                           //
+// Purpose:   This function is used to install the rating engine in          //
+//			  case of Fresh Installation for use of VB script components     //
+///////////////////////////////////////////////////////////////////////////////
+
+function number InstallRatingEngine()
+number nvResult,nvType,nvSize;    
+string szCmdLine,szProgram,szValue,szMsg;
+begin
+//Install VB script components
+//nvSize = -1;
+//nvResult = RegDBGetKeyValueEx ( "SOFTWARE\\Pure\\PureInstallation\\Server","RatingEngine",nvType,szValue,nvSize);
+nvResult = 1;
+if (nvResult < 0) then
+	SdShowMsg("Installing Ratings Engine . . . please wait.",TRUE);
+	
+	szCmdLine = "";
+	szProgram = TARGETDIR ^ "Application\\scd10en.exe";	
+	nvResult = LaunchAppAndWait(szProgram,szCmdLine,WAIT);
+	if (nvResult != 1) then
+		SdShowMsg("Installing Ratings Engine . . . please wait.",FALSE);
+		szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		MessageBox(szMsg,SEVERE);
+		return 0;
+	endif;
+	
+	szProgram = TARGETDIR ^ "Application\\sct10en.exe";	
+	nvResult = LaunchAppAndWait(szProgram,szCmdLine,WAIT);
+	if (nvResult != 1) then
+		SdShowMsg("Installing Ratings Engine . . . please wait.",FALSE);
+		szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		MessageBox(szMsg,SEVERE);
+		return 0;
+	endif;
+	
+	szProgram = TARGETDIR ^ "Application\\ste51en.exe";	
+	nvResult = LaunchAppAndWait(szProgram,szCmdLine,WAIT);
+	if (nvResult != 1) then
+		SdShowMsg("Installing Ratings Engine . . . please wait.",FALSE);
+		szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		MessageBox(szMsg,SEVERE);
+		return 0;
+	endif;
+	SdShowMsg("Installing Ratings Engine . . . please wait.",FALSE);
+	//Write to the Registry that VB Script Components has been installed
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\Server","RatingEngine",REGDB_STRING,"INSTALLED");
+	
+else
+	 return 0;
+endif;	
+
+return 1;
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  IsShareNameExists                                              //
+//                                                                           //
+// Purpose:   This function is used to check for the existence of a share    //
+//			  with the  name as given in its parameters                  	 //
+///////////////////////////////////////////////////////////////////////////////
+
+function BOOL IsShareNameExists(szShareName)
+LIST  listMachineShares;
+BOOL bRetValue; 
+long lvValue;  
+number nvVal; 
+BOOL bFuncRetValue;
+string szError,szFolderName;
+begin  
+       
+lvValue = 0;
+listMachineShares = ListCreate(STRINGLIST);
+szShareName = "\\\\" + g_szHostName + "\\" + szShareName;
+bRetValue = GetServerDiskShares(g_szHostName,listMachineShares,lvValue,szError);
+if(bRetValue = TRUE) then
+	 nvVal = ListGetFirstString(listMachineShares,szFolderName);
+	 while(nvVal = 0)
+	 if(StrCompare(szShareName,szFolderName)= 0) then
+	 	bFuncRetValue = TRUE;
+	 	goto EndLabel;
+	 endif;
+	 nvVal = ListGetNextString(listMachineShares,szFolderName);
+	 endwhile; 
+endif;
+
+EndLabel:
+return bFuncRetValue; 
+end;    
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  RemoveShares                                                   //
+//                                                                           //
+// Purpose:   This function removes the share of various folders inside PM   //
+//			  folder after unInstallation is done                            //
+///////////////////////////////////////////////////////////////////////////////
+
+function number RemovePMShares()        
+//Logic for setting up shares after installation to be writted later
+number	nvResult;
+string	szFolder;
+begin  
+
+ 
+	if (SYSINFO.WIN9X.bWin95 = TRUE || SYSINFO.WIN9X.bWin98) then
+		// CTAF 150500 - DOnt show this message as it's unimportant
+		//MessageBox ( "Unable to create directory shares on a Windows 95 machine.", WARNING );		
+		return 0;
+	endif;
+
+	SdShowMsg("Removing File Shares . . . please wait.",TRUE);
+ 	
+	nvResult = RemoveFolderShare("ListMgt");
+	nvResult = RemoveFolderShare("PMDocs");
+	nvResult = RemoveFolderShare("Reports");
+ 	nvResult = RemoveFolderShare("Export");
+	nvResult = RemoveFolderShare("Lists");
+	nvResult = RemoveFolderShare("Diction");
+	nvResult = RemoveFolderShare("Lookups");
+	nvResult = RemoveFolderShare("Rules");
+	nvResult = RemoveFolderShare("Datasets");
+	nvResult = RemoveFolderShare("Schemes");
+	nvResult =  RemoveFolderShare("PM");
+	
+	
+ 	SdShowMsg ("Removing File Shares . . . please wait." , FALSE);
+	WriteToLogFile(UNINSTALL_LOG,"Removing File Shares Completed");
+ 	
+return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  RemoveShare                                                   //
+//                                                                           //
+// Purpose:   This function removes the share of various folders inside PM   //
+//			  folder after unInstallation is done                            //
+///////////////////////////////////////////////////////////////////////////////
+function number RemoveFolderShare(szShareName)
+BOOL bRetValue; 
+long lvValue;  
+string szMsg;
+begin       
+if(IsShareNameExists(szShareName) = TRUE) then
+	bRetValue = DelNetShare(g_szHostName,szShareName,lvValue);
+	if(bRetValue = TRUE) then
+    	szMsg = "Share Name "+szShareName+ " has been removed";
+		WriteToLogFile(UNINSTALL_LOG,szMsg);
+	else                               
+		szMsg = "Share Name "+szShareName+ " has not been removed.Do Manually.";
+		WriteToLogFile(UNINSTALL_ERRORLOG,szMsg);
+	endif;  
+endif;
+
+return 1;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetUpPermissions                                               //
+//                                                                           //
+// Purpose:   This function sets up permissions for various folders inside PM//
+//			  folder after an Installation is done                           //
+///////////////////////////////////////////////////////////////////////////////
+
+function number SetUpPermissions()        
+number	nvResult;
+string	szFolder,szPermission,szGroup,szUsersGroup,szUsersGroupPermission;
+begin  
+
+
+
+    SdShowMsg("Setting user Permissions . . . please wait.",TRUE);	
+    
+	
+    // Set permission for "Users" and "Pure Users" group
+    szGroup="Pure Users";
+    LongPathToQuote(szGroup, TRUE); 
+    
+    szUsersGroup="Users";
+    
+    StrRemoveLastSlash(g_szPMInstallPath);
+	szFolder = g_szPMInstallPath;
+	
+	//Clear read only from "Pure"
+	nvResult = ClearReadOnly(szFolder);
+	nvResult = RemoveReadOnly(szFolder);
+		
+    szUsersGroupPermission="(OI)(CI)F";
+    
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+
+        
+    szFolder = WINDIR ^ "TEMP";
+	szPermission="(OI)(CI)WR";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	szFolder = TARGETDIR ^ "Application";
+	szPermission="(OI)(CI)R";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	szFolder = TARGETDIR ^ "Datasets";
+	szPermission="(OI)(CI)WR";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+		 
+	szFolder = TARGETDIR ^ "Documaster";
+	szPermission="(OI)(CI)WR";	
+    
+    if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+    
+    nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	szFolder = TARGETDIR ^ "DocZipTemp";
+	szPermission="(OI)(CI)WR";	
+    
+    if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+    
+    nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+    
+    szFolder = TARGETDIR ^ "Export";	
+    szPermission="(OI)(CI)WR";
+    
+    if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+    
+    nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+	
+    szFolder = TARGETDIR ^ "Lists";
+    szPermission="(OI)(CI)WR";	
+    
+    if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+
+    nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+	
+    
+    szFolder = TARGETDIR ^ "Lookups";
+    szPermission="(OI)(CI)WR";	
+    
+    if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+    
+    nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+	
+    szFolder = TARGETDIR ^ "Reports";
+    szPermission="(OI)(CI)WR";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+		
+	szFolder = TARGETDIR ^ "Rules";
+	szPermission="(OI)(CI)WR";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+	
+	szFolder = TARGETDIR ^ "Cache";
+	szPermission="(OI)(CI)WR";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);
+	
+	
+	szFolder = TARGETDIR ^ "Temp";
+	if ExistsDir ( szFolder ) < 0 then 
+		CreateDir ( szFolder ); 
+	endif;
+	szPermission="(OI)(CI)WR";
+	
+	if(g_bWebServices=TRUE || g_WCFServices=TRUE) then
+		nvResult = SetPermission(szFolder, szPermission, g_szWebservicesUser);
+	endif;
+	
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szGroup);
+	nvResult = SetPermission(szFolder, szUsersGroupPermission, szUsersGroup);
+	
+	nvResult = RemoveReadOnly(szFolder);	
+	
+	
+    SdShowMsg("Setting user Permissions . . . please wait.",FALSE);	
+	WriteToLogFile(INSTALL_LOG,"Setting up permissions Completed");
+ 	
+return 1;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetUpPermissions                                               //
+//                                                                           //
+// Purpose:   This function sets up permissions for various folders inside PM     //
+//			  folder after an Installation is done                           //
+///////////////////////////////////////////////////////////////////////////////
+
+function SetPermission(szFolder, szPermission, g_szWebservicesUser)      
+STRING szCommand;
+NUMBER nvResult;
+begin  
+     
+    // icacls C:\pure\rules /grant test:(OI)(CI)WR
+    LongPathToQuote(szFolder,TRUE);
+   	szCommand=	szFolder + " /grant " + g_szWebservicesUser + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	 
+return 1;
+end;
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetupRegistryPermissions                                       //
+//                                                                           //
+// Purpose:   This function sets up registry permission                      //
+//			  after an Installation is done                                  //
+///////////////////////////////////////////////////////////////////////////////
+
+function SetupRegistryPermissions()
+begin
+     
+     SetObjectPermissions("MACHINE\\SOFTWARE\\Pure", IS_PERMISSIONS_TYPE_REGISTRY, "", g_szWebservicesUser, KEY_QUERY_VALUE|KEY_ENUMERATE_SUB_KEYS|KEY_NOTIFY, IS_PERMISSIONS_OPTION_ALLOW_ACCESS); 
+     
+     return 0;
+
+end;
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetupRegistryPermissionsBackoffice                             //
+//                                                                           //
+// Purpose:   This function sets up registry permission                      //
+//			 after an Installation is done for user everyone                 //
+///////////////////////////////////////////////////////////////////////////////
+
+function SetupRegistryPermissionsBackoffice()
+
+begin
+
+     SetObjectPermissions("MACHINE\\SOFTWARE\\Pure", IS_PERMISSIONS_TYPE_REGISTRY, "","Everyone",STANDARD_RIGHTS_ALL|KEY_QUERY_VALUE|KEY_CREATE_LINK|KEY_SET_VALUE|KEY_CREATE_SUB_KEY|KEY_ENUMERATE_SUB_KEYS|KEY_NOTIFY,IS_PERMISSIONS_OPTION_ALLOW_ACCESS); 
+     //SetObjectPermissions("MACHINE\\SOFTWARE\\Pure", IS_PERMISSIONS_TYPE_REGISTRY, "","Everyone",STANDARD_RIGHTS_ALL|KEY_SET_VALUE|KEY_CREATE_SUB_KEY,IS_PERMISSIONS_OPTION_ALLOW_ACCESS); 
+		
+		if (ISERR_SUCCESS) then 
+		WriteToLogFile(INSTALL_LOG,"Access to Pure Registry Folder Failed");
+		
+		else 
+		WriteToLogFile(INSTALL_LOG,"Access to Pure Registry Folder Granted");
+	 endif;
+	 
+     return 0;
+
+end;
+
+
+////////////////////////////////////////////////////////////////////////
+// Function: RemoveReadOnly
+// Purpose: Removes the Read Only attribute on all files in or below the 
+//          directory passed in
+////////////////////////////////////////////////////////////////////////
+function NUMBER RemoveReadOnly(svDirectory)
+STRING szCommand;
+NUMBER nvResult;
+ 
+begin
+	//attrib -r C:\Pure\*.* /s
+	LongPathToQuote(svDirectory,TRUE);
+   	szCommand=	"-r -s /S /D " +  svDirectory ^ "*.*";
+   	WriteToLogFile(INSTALL_LOG,"Remove Read only with command=" + szCommand );
+	nvResult = LaunchAppAndWait("attrib",szCommand,WAIT);
+
+  
+  return nvResult;
+ end;
+/***********************Registry.rul File Coding Ends*********************************************/

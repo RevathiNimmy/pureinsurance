@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- pmnav_map_id = 39 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd">
+<MAP WMTaskCode="SALVAGE" WMTaskDescription="Complete Salvage Receipt" ImageURL="http://www.siriusgroup.co.uk" TransactionType="C_SA" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Salvage Receipt" Core="1" Version="200" ElementID="E1">
+	<STEP Description="Find Claim" Component="iCLMFindClaim.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/>
+	<STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="7" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"/>
+	<!--Start-(Arul Stephen)-(Issue No-PNREF86367)-->
+	<STEP Description="Salvage Receipt" Component="iCLMRecovery.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="6" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4">
+		<KEY Name="recovery_is_salvage" Value="1" ElementID="E5"/>
+	</STEP>
+	<!--Arul Stephen-->
+	<STEP Description="Coinsurance Receipt" Component="iCLMCoinsuranceRecoveries.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="5" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"/>
+	<STEP Description="Reinsurance Receipt" Component="iCLMReinsurance.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/>
+	<STEP Description="Update Claim Details" Component="iCLMChangeClaimStatus.NavigatorV3" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="3" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/>
+	<STEP Description="Check Status" Component="iCLMCloseClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"/>
+	<STEP Description="Do you wish to make further Receipts?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="F1" OKAction="BX" OKSteps="5" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10">
+		<KEY Name="decision_title" Value="More Receipts" ElementID="E11"/>
+		<KEY Name="decision_text" Value="Do you wish to make further Receipts?" ElementID="E12"/>
+		<KEY Name="FurtherReceipts" Value="1" ElementID="E13"/>
+	</STEP>
+	<STEP Description="Unlock Claim" Component="iCLMUnlock.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E14"/>
+	<!--Arul Stephen-->
+	<!--End-(Arul Stephen)-(Issue No-PNREF86367)-->
+</MAP>
+

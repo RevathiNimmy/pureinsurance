@@ -1,0 +1,434 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Export_Map_Format</h1>
+<p>Additional formatting in adding/locating transactions in Nominal ledger.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="export_map_model_id">export_map_model_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">export map model</span></td>
+</tr>
+<tr>
+<td><a class="name" name="export_map_detail_id">export_map_detail_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="autodesc">export map detail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="export_map_format_id">export_map_format_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">export map format</span></td>
+</tr>
+<tr>
+<td><a class="name" name="source_field_name">source_field_name</a></td>
+<td>varchar(40)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">source field name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sequence">sequence</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sequence</span></td>
+</tr>
+<tr>
+<td><a class="name" name="leading_characters">leading_characters</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">leading characters</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trailing_characters">trailing_characters</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">trailing characters</span></td>
+</tr>
+<tr>
+<td><a class="name" name="start_position">start_position</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">start position</span></td>
+</tr>
+<tr>
+<td><a class="name" name="number_of_chars">number_of_chars</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">number of chars</span></td>
+</tr>
+<tr>
+<td><a class="name" name="valid_value">valid_value</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">valid value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="field_separator">field_separator</a></td>
+<td>varchar(5)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">field separator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_upper_case">is_upper_case</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is upper case</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>export_map_model_id, export_map_detail_id, export_map_format_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>export_map_model_id, export_map_detail_id</td>
+<td><a href="Export_Map_Detail.html">Export_Map_Detail</a></td>
+<td>export_map_model_id, export_map_detail_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>export_map_model_id, export_map_detail_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>export_map_model_id</td>
+<td>export_map_detail_id</td>
+<td>export_map_format_id</td>
+<td>source_field_name</td>
+<td>sequence</td>
+<td>leading_characters</td>
+<td>trailing_characters</td>
+<td>start_position</td>
+<td>number_of_chars</td>
+<td>valid_value</td>
+<td>field_separator</td>
+<td>is_upper_case</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>1 {INCOME}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>INCOME</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>4{LIABILITIES}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Insurer Ledger</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>4{LIABILITIES}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Agent Ledger</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>3{ASSETS}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Premium Finance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>4{LIABILITIES}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Commission</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>3{ASSETS}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Fees Receivable</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>4{LIABILITIES}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Discounts</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>17</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>3 {ASSETS}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>17</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Sales Ledger</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>23</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>4 {LIABILITIES}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>23</td>
+<td>2</td>
+<td>{mapping_code}</td>
+<td>2</td>
+<td>Purchase Ledger</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>29</td>
+<td>1</td>
+<td>{account_type_id}</td>
+<td>1</td>
+<td>2 {EXPENSES}</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>\</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

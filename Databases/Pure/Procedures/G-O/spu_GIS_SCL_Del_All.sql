@@ -1,0 +1,19 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_GIS_SCL_Del_All'
+GO
+
+
+CREATE PROCEDURE spu_GIS_SCL_Del_All
+AS
+
+
+BEGIN
+TRUNCATE TABLE gis_scheme_cobol_linkage
+
+END
+GO
+
+

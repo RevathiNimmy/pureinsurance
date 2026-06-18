@@ -1,0 +1,78 @@
+'FLEET2 - Parent Screen Validation File
+'-----------------------------------
+
+Private Const DMC = "FLEET"
+Private Const oPARENT = "CVEHICLES"
+
+Sub Start()
+
+  	Dim ParentCnt  					'To store Parent Count.
+	Dim ChildCnt   					'To Child Count.
+Dim SelfCount 
+Dim j
+DIM i
+DIM VRM
+DIM VRM1
+
+'get parent count.
+	ParentCnt = Engine.Count("PCATLIN")
+	'get child count.
+	ChildCnt = Engine.Item("PCATLIN", 1).Count("CVEHICLES")
+For j = 1 To ChildCnt
+     VRM	= Engine.Item("PCATLIN").Item("CVEHICLES",j).item("VRM").value
+
+
+   if  ChildCnt  >= j + 1 then
+             For i = j + 1  To ChildCnt
+
+                VRM1= Engine.Item("PCATLIN").Item("CVEHICLES",i).item("VRM").value
+
+                      if VRM1 = VRM then
+		Decline("Duplicate Registration Number not allowed")
+		Exit Sub
+                      End if
+       next 
+   End if
+Next	
+
+'Dim vResult1
+'Call Extras.CallNamedStoredProcedure(CLng(5935), CStr("VEHICLES_Update"), vResult1) 'Callin SP
+End Sub
+
+
+Function CreateTask (DueDate)
+dim mReturn
+    Extras.TaskUrgent = 1
+    Extras.TaskUser = ""
+    Extras.TaskGroup = "UNDER"
+    'Extras.TaskDescription = lTaskDescription
+    'Extras.WorkflowInformation = "Some Info"
+    Extras.TaskDueDate = DueDate
+    mReturn = Extras.AddTaskToWorkManager()
+End Function
+
+
+'Function to Decline the process
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Function Decline(sDeclineReason)
+    Dim iCount
+    Engine.NewObject(DMC & "_OUTPUT")
+    iCount = Engine.Count(DMC & "_OUTPUT")
+    Engine.Item(DMC & "_OUTPUT", iCount).Item("DECLINE_REASON").Value = sDeclineReason
+End Function
+
+'********** Conversion functions Start **********
+Function SafeCInt(vIn)
+    SafeCInt = 0
+    On Error Resume Next
+    SafeCInt = CInt(vIn)
+    On Error GoTo 0
+End Function ''''safecint
+
+
+Function SafeCDbl(vIn)
+    SafeCDbl = 0
+    On Error Resume Next
+    SafeCDbl = CDbl(vIn)
+    On Error GoTo 0
+End Function

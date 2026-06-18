@@ -1,0 +1,168 @@
+//===========================================================================
+//
+//  File Name:    SdBrowseFile.rul
+//
+//
+//  Comments:     This Rule File (SdBrowseFile.rul) provides the function to
+//				  browse for restore db name 
+//
+//
+//===========================================================================
+
+#include "Ifx.h"   //Header File for Built in Installscript function prototypes          
+ 
+// Dialog and control IDs. 
+#define RES_SDBROWSEDIALOG_ID       600   // ID of dialog itself 
+#define RES_PBUT_NEXT         1   // ID of Next button 
+#define RES_PBUT_CANCEL       9   // ID of Cancel button 
+#define RES_PBUT_BACK        12   // ID of Back button 
+
+export prototype number SdBrowseFile(HWND, BYREF STRING); 
+export prototype SelectFile(BYREF STRING);
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SdBrowseFile                                                   //                                                                        //
+// Purpose:  This function creates the Custom Dialog and  gets the input     //
+//            for database name to restore furign fresh Install              // 
+///////////////////////////////////////////////////////////////////////////////
+function number SdBrowseFile(hMSI,g_szRestoreDBFileName) 
+   STRING  szDialogName, szDLLName;
+   NUMBER  nvResult,nvCmdValue, nvRetValue; 
+   BOOL    bDone;
+   STRING szSection,szValue;
+   NUMBER nvCommDialog,nvReturnResult,nResult;
+   STRING szFile;
+begin                    
+   nvRetValue = 0;
+   szDialogName = "SdBrowseFile"; 
+   szDLLName = ""; 
+  
+
+  if (MODE=SILENTMODE) then 
+ 	       SdMakeName(szSection,"SdBrowseFile","",nvCommDialog); 
+  	       SilentReadData(szSection,"Result",DATA_NUMBER,szValue,nvReturnResult); 
+   	       if (nvReturnResult = 1) then 
+             SilentReadData(szSection,"RESTOREDBNAME",DATA_STRING,g_szRestoreDBFileName,nvReturnResult);
+           endif;
+  else //Normal Mode Installation Code Execution Flow 
+	
+	  nvResult = EzDefineDialog (szDialogName, ISUSER, "", RES_SDBROWSEDIALOG_ID); 
+
+	  // Check for an error. 
+	  if (nvResult < 0) then 
+	        MessageBox ("An error occurred while defining the dialog.", SEVERE); 
+	        bDone = TRUE; 
+	        abort; 
+	   endif;  
+	                                                           
+	   bDone = FALSE; 
+	   repeat 
+	        nvCmdValue = WaitOnDialog(szDialogName); 
+	       // Respond to the event. 
+	        switch (nvCmdValue) 
+	           case DLG_CLOSE: 
+	                	 // The user clicked the window's Close button. 
+	             	 	 Do (EXIT); 
+	
+	            case DLG_ERR:  
+	            		 //An Error Condition has happened during initialization of dialog
+	            	 	 MessageBox ("Unable to display dialog. Setup canceled.", SEVERE); 
+	             		 abort; 
+	
+	            case DLG_INIT: 
+	                     CtrlSetText(szDialogName,50,"Restore database");
+	                     CtrlSetText(szDialogName,1201,g_szRestoreDBFileName);
+	                    
+	            case RES_PBUT_CANCEL: 
+	         	        // The user clicked the Cancel button. 
+	       		          Do (EXIT); 
+	
+	            case RES_PBUT_NEXT: 
+	          	    	  
+	          	    	CtrlGetText (szDialogName, 1201, szFile);
+	          	    	g_szRestoreDBFileName = szFile;
+	          	    	
+	          	    	if(g_szRestoreDBFileName="")then
+							MessageBox("Database Backup file name is empty, please specify a database backup file name.",INFORMATION);
+							CtrlSetText(szDialogName,1201,"");
+	          	    	else
+							bDone = TRUE; 
+							nvRetValue = 1;
+	          	    	endif;
+	          	    	
+	            case RES_PBUT_BACK:   
+	 	   	   			 bDone = TRUE;  
+	          			 nvRetValue = -1;   
+	          			 
+	            case 1202:
+						nResult = SelectFile ( g_szRestoreDBFileName); 
+						CtrlSetText(szDialogName,1201,g_szRestoreDBFileName);
+			endswitch; 
+	    until bDone; 
+	    
+	        
+	    // Close the dialog. 
+	    EndDialog (szDialogName); 
+	    ReleaseDialog (szDialogName); 
+	    
+	    SdMakeName(szSection,"SdBrowseFile","",nvCommDialog); 
+	    SilentWriteData(szSection,"RESTOREDBNAME",DATA_STRING,g_szRestoreDBFileName,nvReturnResult);
+        SilentWriteData(szSection,"Result",DATA_NUMBER,"",nvRetValue);
+    
+	endif;        
+	       
+    return nvRetValue;    
+
+end;    
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SelectFile                                                     //                                                                        //
+// Purpose:   This function browse for the files                             //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+function SelectFile (szSelectedFile)
+   STRING szFile, svDir, svFileList, svTemp, szFilter;
+   NUMBER nResult, nReturn, nvLen, nCount;
+   BOOL   bMultiSel, bDerefLinks;
+   LIST   listFiles;
+   STRING szBackupDirPath;
+begin
+	// If I want to support multiple selection, set bMultiSel to TRUE
+	// and pass in a valid string list.
+	bMultiSel = FALSE;
+	bDerefLinks = FALSE;
+	listFiles = ListCreate(STRINGLIST);	
+	szFilter = "Backup files (*.bak)|*.bak|All files (*.*)|*.*||";
+	
+	szBackupDirPath = PROGRAMFILES ^ DEFAULTBAKUPPATH;
+	
+	nResult = FileBrowseDlg( szFile,szFilter,"Select Backup File",szBackupDirPath,bMultiSel,listFiles,bDerefLinks );       
+	if (nResult = -1)
+	then
+		// The user clicked Cancel Button in the File Browse Dialog
+		return -1;
+	endif;
+	
+	if (nResult = 0)
+	then
+		if (bMultiSel)
+		then
+			// If I chose multiple selection, I must parse the info, which is stored
+			// in list. First item will be dir, all others are individual filenames.
+			nReturn = ListGetFirstString(listFiles, svTemp);
+			while (nReturn != END_OF_LIST)
+				svFileList = svFileList + svTemp + "\n";
+				nReturn = ListGetNextString(listFiles, svTemp);
+			endwhile;
+			MessageBox ( "Directory (first item) and selected files:\n\n" + svFileList, 0);
+		else
+			szSelectedFile = szFile;
+		endif;
+	endif;
+	ListDestroy(listFiles);
+	
+	return 0;
+end;
+              
+
+/***********************SdBrowseFile.rul File Coding Ends*********************************************/

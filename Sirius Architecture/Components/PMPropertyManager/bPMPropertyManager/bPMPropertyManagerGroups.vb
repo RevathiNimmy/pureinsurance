@@ -1,0 +1,373 @@
+Option Strict Off
+Option Explicit On
+'developer guide no. 129
+Imports SSP.Shared
+
+Friend NotInheritable Class Groups
+    Implements IDisposable
+    Implements IEnumerable
+    ' ***************************************************************** '
+    ' Class Name: Groups
+    '
+    ' Date: 18/06/1998
+    '
+    ' Description: Maintains the Groups Collection.
+    '
+    '
+    ' Edit History:
+    ' ***************************************************************** '
+
+
+    ' Constant for the functions to identify which class this is.
+    Private Const ACClass As String = "Groups"
+
+    ' PUBLIC Data Members (Begin)
+    ' PUBLIC Data Members (End)
+
+    ' PRIVATE Data Members (Begin)
+    ' Define the Groups Collection
+    Private _m_colGroups As Hashtable = Nothing
+    Private Property m_colGroups() As Hashtable
+        Get
+            If _m_colGroups Is Nothing Then
+                _m_colGroups = New Hashtable()
+            End If
+            Return _m_colGroups
+        End Get
+        Set(ByVal Value As Hashtable)
+            _m_colGroups = Value
+        End Set
+    End Property
+    ' PRIVATE Data Members (End)
+
+    ' PUBLIC Methods (Begin)
+
+    ' ***************************************************************** '
+    ' Name: Add
+    '
+    ' Description: Adds a single Group into the Groups Collection
+    '
+    '
+    ' ***************************************************************** '
+    Public Function Add(ByVal v_sGroupName As String, ByVal v_oGroupProperties As bPMPropertyManager.Properties) As Integer
+
+        Dim result As Integer = 0
+        Dim oGroup As bPMPropertyManager.Group
+        Dim sKey As String = ""
+        Dim lReturn As gPMConstants.PMEReturnCode
+
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Create a New Local Group
+            oGroup = New bPMPropertyManager.Group()
+            'developer guide no 9. 
+            lReturn = CType(oGroup.Initialise(), gPMConstants.PMEReturnCode)
+            If lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                Return gPMConstants.PMEReturnCode.PMFalse
+            End If
+
+            ' Set the Groups
+            With oGroup
+                .GroupName = v_sGroupName
+                .GroupProperties = v_oGroupProperties
+            End With
+
+            ' Derive the Key
+            sKey = GenerateKey(v_sGroupName:=v_sGroupName)
+
+            ' Add the supplied Key into the collection
+            m_colGroups.Add(oGroup, sKey)
+
+            ' Release the local reference
+            oGroup = Nothing
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            ' Error.
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            gPMFunctions.LogMessageToFile(sUsername:="", iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Failed to Add New Group to Collection", vApp:=ACApp, vClass:=ACClass, vMethod:="Add", excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: GenerateKey
+    '
+    ' Description: Generates a Key for the supplied details.
+    '
+    '
+    ' ***************************************************************** '
+    Public Function GenerateKey(ByVal v_sGroupName As String) As String
+
+        Dim result As String = String.Empty
+        Try
+
+            ' Derive the Summary Key
+
+            Return v_sGroupName.Trim()
+
+        Catch excep As System.Exception
+
+
+
+            ' Error.
+            result = ""
+
+            ' Log Error Message
+            gPMFunctions.LogMessageToFile(sUsername:="", iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Failed to GenerateKey for - " & v_sGroupName, vApp:=ACApp, vClass:=ACClass, vMethod:="GenerateKey", excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Count
+    '
+    ' Description: Returns the number of Groups in the collection.
+    '
+    '
+    ' ***************************************************************** '
+    Public Function Count() As Integer
+
+        Dim result As Integer = 0
+        Try
+
+
+            Return m_colGroups.Count
+
+        Catch excep As System.Exception
+
+
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            gPMFunctions.LogMessageToFile(sUsername:="", iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Count Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="Count", excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Delete
+    '
+    ' Description: Delete a Key from the Collection.
+    '
+    '
+    ' ***************************************************************** '
+    Public Sub Delete(ByVal v_vKey As String)
+
+        Try
+
+            ' If the key is a string trim it.
+            'If Information.VarType(v_vKey) = VariantType.String Then
+            If TypeOf v_vKey Is String Then
+                v_vKey = v_vKey.Trim()
+            End If
+
+            ' Remove from the collection based on the key value.
+            m_colGroups.Remove(v_vKey)
+
+        Catch
+
+
+
+            ' If there was nothing to delete just return
+
+            Exit Sub
+        End Try
+
+
+    End Sub
+
+    ' ***************************************************************** '
+    ' Name: Item
+    '
+    ' Description: Returns the selected Step from the Collection.
+    '
+    '
+    ' ***************************************************************** '
+    Public Function Item(ByVal v_vKey As String) As bPMPropertyManager.Group
+
+        Try
+
+            ' If the key is a string trim it.
+            If TypeOf v_vKey Is String Then
+                v_vKey = v_vKey.Trim()
+            End If
+
+            ' Return the Item based on the Key
+
+            Return m_colGroups(v_vKey)
+
+        Catch
+
+
+
+            ' If not found return Nothing
+
+            Return Nothing
+        End Try
+
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Clear
+    '
+    ' Description: Clear the Groups Collection.
+    '
+    '
+    ' ***************************************************************** '
+    Public Sub Clear()
+
+        Try
+
+            ' Set Groups Collection to Nothing
+            m_colGroups = Nothing
+
+        Catch excep As System.Exception
+
+
+
+            ' Log Error Message
+            gPMFunctions.LogMessageToFile(sUsername:="", iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Clear Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="Clear", excep:=excep)
+
+            Exit Sub
+
+        End Try
+
+    End Sub
+
+    ' ***************************************************************** '
+    ' Name: NewEnum
+    '
+    ' Description: Provides For Each Type functionality by allowing
+    '              access to the Native Collection Enumerator object.
+    '
+    '              This Method must be hidded and have a Procedure ID
+    '              of -4. These attributes can be set via the Procedure
+    '              Attributes dialog. (On Tools Menu).
+    '
+    ' ***************************************************************** '
+
+    Public Function GetEnumerator() As IEnumerator Implements System.Collections.IEnumerable.GetEnumerator
+
+        Try
+
+
+            Return m_colGroups.GetEnumerator
+
+        Catch
+
+            Return Nothing
+
+            Exit Function
+        End Try
+
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Initialise (Standard Method)
+    '
+    ' Description: Entry point for any initialisation code for this
+    '              object.
+    '
+    ' ***************************************************************** '
+    Public Function Initialise() As Integer
+
+        Dim result As Integer = 0
+        Try
+
+
+            ' Initialisation Code.
+
+            Return gPMConstants.PMEReturnCode.PMTrue
+
+        Catch excep As System.Exception
+
+
+
+            ' Error.
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error Message
+            gPMFunctions.LogMessageToFile(sUsername:="", iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Initialise Failed", vApp:=ACApp, vClass:=ACClass, vMethod:="Initialise", excep:=excep)
+
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Terminate (Standard Method)
+    '
+    ' Description: Entry point for any termination code for this
+    '              object.
+    '
+    ' ***************************************************************** '
+    Private disposedValue As Boolean
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+
+
+    Protected Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                m_colGroups = Nothing
+            End If
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' PUBLIC Methods (End)
+
+    ' PRIVATE Methods (Begin)
+    ' PRIVATE Methods (End)
+
+
+    Public Sub New()
+        MyBase.New()
+
+        'UPGRADE_NOTE: (7001) The following code block (empty try-catch) seems to be dead code More Information: http://www.vbtonet.com/ewis/ewi7001.aspx
+        'Try 
+        '
+        ' Class Initialise
+        '
+        'Catch excep As System.Exception
+        '
+        '
+        '
+        ' Error.
+        '
+        ' Log Error Message
+        'gPMFunctions.LogMessageToFile(sUsername:="", iType:=gPMConstants.PMELogLevel.PMLogOnError, sMsg:="Failed to initialise the class", vApp:=ACApp, vClass:=ACClass, vMethod:="Class_Initialise", vErrNo:=CStr(Information.Err().Number), vErrDesc:=excep.Message)
+        '
+        'Exit Sub
+        '
+        'End Try
+
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        Dispose(False)
+    End Sub
+
+    Shared Sub New()
+        MainModule.JustForInvokeMain()
+    End Sub
+End Class

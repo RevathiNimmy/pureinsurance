@@ -1,0 +1,18 @@
+EXECUTE DDLDropProcedure 'spu_Get_MTA_Reason_Id'
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+CREATE PROCEDURE spu_Get_MTA_Reason_Id
+@Reason varchar(255)
+AS
+SELECT MTA_Reason_ID from MTA_Reason WHERE Description=@Reason
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+

@@ -1,0 +1,5 @@
+SET QUOTED_IDENTIFIER ON SET ANSI_NULLS ON
+GO
+
+EXECUTE DDLDropProcedure 'spu_fees_insert_u'
+GO

@@ -1,0 +1,322 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Lapsed_Reason</h1>
+<p>Lapsed Reason Lookup table.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: Policy, Renewals<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="lapsed_reason_id">lapsed_reason_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">lapsed reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>lapsed_reason_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>lapsed_reason_id</td>
+<td><a href="Event_Insurance_File.html">Event_Insurance_File</a></td>
+<td>lapsed_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>lapsed_reason_id</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>lapsed_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>lapsed_reason_id</td>
+<td><a href="Risk.html">Risk</a></td>
+<td>lapsed_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>lapsed_reason_id</td>
+<td><a href="Tmp_Risk.html">Tmp_Risk</a></td>
+<td>lapsed_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>lapsed_reason_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>379</td>
+<td>XFERRED</td>
+<td>Transferred to Another Insurer - more competitive</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>380</td>
+<td>LAID UP</td>
+<td>Vehicle Laid Up</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>381</td>
+<td>CSD TRDING</td>
+<td>Ceased Trading</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>382</td>
+<td>AGY XFER</td>
+<td>Transfer of Agency</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>383</td>
+<td>VEH SOLD</td>
+<td>Vehicle Sold</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>6</td>
+<td>384</td>
+<td>CANT AFFRD</td>
+<td>Cannot afford to insure vehicle</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1227</td>
+<td>VOIDED</td>
+<td>Voided</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>8</td>
+<td>18803</td>
+<td>NOTREQUIRE</td>
+<td>Not Required</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>9</td>
+<td>18804</td>
+<td>EXPENSIVE</td>
+<td>Too expensive</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>10</td>
+<td>38251</td>
+<td>RENMANAUTO</td>
+<td>Auto Lapsed by Renewal Manager</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>11</td>
+<td>38269</td>
+<td>CCNTRL</td>
+<td>Credit Control Cancellation</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>12</td>
+<td>65406</td>
+<td>EMOVE</td>
+<td>Moved out of country</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>13</td>
+<td>65404</td>
+<td>ENOTREQ</td>
+<td>No longer desire coverage</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>14</td>
+<td>65405</td>
+<td>EOTHINS</td>
+<td>Other insurance has been obtained</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>15</td>
+<td>65402</td>
+<td>EVEHSOLD</td>
+<td>Vehicle has been sold</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>16</td>
+<td>65403</td>
+<td>EVEHTOTL</td>
+<td>Vehicle declared a total loss</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>17</td>
+<td>65407</td>
+<td>ICANDRV</td>
+<td>Underwriting cancellation - Driver</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>18</td>
+<td>65409</td>
+<td>ICANLOC</td>
+<td>Underwriting cancellation - Location</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>19</td>
+<td>65408</td>
+<td>ICANVEH</td>
+<td>Underwriting cancellation - Vehicle</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,920 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Transaction_Export_Detail</h1>
+<p>Individual transactions for Orion postings</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="transaction_export_folder_cnt">transaction_export_folder_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Transaction_Export_Folder.html#transaction_export_folder_cnt">Transaction_Export_Folder.transaction_export_folder_cnt</a> <span class="autodesc">transaction export folder</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transaction_export_detail_id">transaction_export_detail_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">transaction export detail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transaction_amount">transaction_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transaction amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transaction_ledger_code">transaction_ledger_code</a></td>
+<td>char(2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transaction ledger code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_type_code">account_type_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account type code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transaction_account_key">transaction_account_key</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transaction account key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ceded_ref">ceded_ref</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ceded ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cover_share_percent">cover_share_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cover share percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sum_insured_total">sum_insured_total</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sum insured total</span></td>
+</tr>
+<tr>
+<td><a class="name" name="charges_total">charges_total</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">charges total</span></td>
+</tr>
+<tr>
+<td><a class="name" name="taxes_total">taxes_total</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">taxes total</span></td>
+</tr>
+<tr>
+<td><a class="name" name="recoveries_total">recoveries_total</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">recoveries total</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_excluded">commission_excluded</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">commission excluded</span></td>
+</tr>
+<tr>
+<td><a class="name" name="withholding_tax_excluded">withholding_tax_excluded</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">withholding tax excluded</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mapping_code">mapping_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">mapping code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="spare">spare</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">spare</span></td>
+</tr>
+<tr>
+<td><a class="name" name="purchase_order_no">purchase_order_no</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">purchase order no</span></td>
+</tr>
+<tr>
+<td><a class="name" name="purchase_invoice_no">purchase_invoice_no</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">purchase invoice no</span></td>
+</tr>
+<tr>
+<td><a class="name" name="base_transaction_amount">base_transaction_amount</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">base transaction amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="base_taxes_amount">base_taxes_amount</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">base taxes amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="suspended">suspended</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">suspended</span></td>
+</tr>
+<tr>
+<td><a class="name" name="release_to_income">release_to_income</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">release to income</span></td>
+</tr>
+<tr>
+<td><a class="name" name="release_account_code">release_account_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">release account code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transdetail_type_code">transdetail_type_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transdetail type code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_group_id">tax_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_band_id">tax_band_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax band</span></td>
+</tr>
+<tr>
+<td><a class="name" name="manually_released">manually_released</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">manually released</span></td>
+</tr>
+<tr>
+<td><a class="name" name="released_on_full_settlement">released_on_full_settlement</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">released on full settlement</span></td>
+</tr>
+<tr>
+<td><a class="name" name="released_for_whole_posting">released_for_whole_posting</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">released for whole posting</span></td>
+</tr>
+<tr>
+<td><a class="name" name="released_on_policy_effective">released_on_policy_effective</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">released on policy effective</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>transaction_export_folder_cnt, transaction_export_detail_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>transaction_export_folder_cnt</td>
+<td><a href="Transaction_Export_Folder.html">Transaction_Export_Folder</a></td>
+<td>transaction_export_folder_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>transaction_export_folder_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>transaction_export_folder_cnt</td>
+<td>transaction_export_detail_id</td>
+<td>transaction_amount</td>
+<td>transaction_ledger_code</td>
+<td>account_type_code</td>
+<td>transaction_account_key</td>
+<td>ceded_ref</td>
+<td>cover_share_percent</td>
+<td>sum_insured_total</td>
+<td>charges_total</td>
+<td>taxes_total</td>
+<td>recoveries_total</td>
+<td>commission_excluded</td>
+<td>withholding_tax_excluded</td>
+<td>mapping_code</td>
+<td>spare</td>
+<td>purchase_order_no</td>
+<td>purchase_invoice_no</td>
+<td>base_transaction_amount</td>
+<td>base_taxes_amount</td>
+<td>suspended</td>
+<td>release_to_income</td>
+<td>release_account_code</td>
+<td>transdetail_type_code</td>
+<td>tax_group_id</td>
+<td>tax_band_id</td>
+<td>manually_released</td>
+<td>released_on_full_settlement</td>
+<td>released_for_whole_posting</td>
+<td>released_on_policy_effective</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>297.062</td>
+<td>SL</td>
+<td>SALESLEDGR</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>27000</td>
+<td>0</td>
+<td>29.71</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>PCMACKENZS</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GROSS</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>29.71</td>
+<td>SL</td>
+<td>SALESLEDGR</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>27000</td>
+<td>0</td>
+<td>29.71</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>PCMACKENZS</td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>-297.062</td>
+<td>NO</td>
+<td>INCGWP</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>-27000</td>
+<td>0</td>
+<td>29.71</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>NOINPMOTEST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>-29.71</td>
+<td>NO</td>
+<td>LIABTAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>NOTAGSTYES</td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>-15000</td>
+<td>NO</td>
+<td>CLMRES</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMRESPMOTEST</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>15000</td>
+<td>NO</td>
+<td>CLMEXP</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMEXPPMOTEST</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>508.4048</td>
+<td>SL</td>
+<td>SALESLEDGR</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>27000</td>
+<td>0</td>
+<td>50.84</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>PCMACKENZS</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GROSS</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>50.84</td>
+<td>SL</td>
+<td>SALESLEDGR</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>27000</td>
+<td>0</td>
+<td>50.84</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>PCMACKENZS</td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>-508.4048</td>
+<td>NO</td>
+<td>INCGWP</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>-27000</td>
+<td>0</td>
+<td>50.84</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>NOINPMOTEST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>-50.84</td>
+<td>NO</td>
+<td>LIABTAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>NOTAGSTYES</td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>-1000</td>
+<td>NO</td>
+<td>CLMPAY</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMPAYABLE</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>1000</td>
+<td>NO</td>
+<td>CLMPAY</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMRESPMOTEST</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>-7650</td>
+<td>NO</td>
+<td>CLMRES</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMRESPMOTEST</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>7650</td>
+<td>NO</td>
+<td>CLMEXP</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMEXPPMOTEST</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>1000</td>
+<td>NO</td>
+<td>CLMREC</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMRECEIVABLE</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>-1000</td>
+<td>NO</td>
+<td>CLMSAL</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>27000</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>CLMSALPMOTEST</td>
+<td>CLMPMO00000019</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>461.8459</td>
+<td>SL</td>
+<td>SALESLEDGR</td>
+<td>11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>28500</td>
+<td>0</td>
+<td>46.18</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>PCMOORERV</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>GROSS</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>2</td>
+<td>46.18</td>
+<td>SL</td>
+<td>SALESLEDGR</td>
+<td>11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>28500</td>
+<td>0</td>
+<td>46.18</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>PCMOORERV</td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>TAX</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>-461.8459</td>
+<td>NO</td>
+<td>INCGWP</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>-28500</td>
+<td>0</td>
+<td>46.18</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>NOINPMOTEST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,23 @@
+EXECUTE DDLDropProcedure spu_Get_Option92_sel
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+
+CREATE PROCEDURE spu_Get_Option92_sel
+
+AS
+
+SELECT branch_id, value 
+FROM system_options 
+WHERE option_number = 92
+
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO

@@ -1,0 +1,38 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_reportgroup_usergroups_ins'
+GO
+
+
+CREATE PROCEDURE spu_reportgroup_usergroups_ins
+    @report_group_id int,
+    @pmuser_group_id int,
+	@UserId INT = NULL,
+	@UniqueId varchar(50) = NULL,
+	@ScreenHierarchy varchar(500) = NULL
+AS
+
+
+/*********************************************************************************************************
+** STORED PROCEDURE     : spu_reportgroup_usergroups_ins
+** PARAMETERS           : @report_group_id int, @pmuser_group_id int
+** DESCRIPTION          : insert new records with the given report_group_id and report_id
+**
+**********************************************************************************************************
+** Revision             Description of Modification                             Date            Who
+**
+** 1                    Created for bSIRReportGroup                             18/01/2001      JMK
+**********************************************************************************************************/
+
+INSERT INTO Report_Group_User_Groups
+		(report_group_id, pmuser_group_id,UserId,UniqueId,ScreenHierarchy)
+SELECT  report_group_id = @report_group_id,
+        pmuser_group_id = @pmuser_group_id,
+		UserId = @UserId,
+		UniqueId = @UniqueId,
+		ScreenHierarchy = @ScreenHierarchy
+GO
+
+

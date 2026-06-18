@@ -1,0 +1,75 @@
+﻿<%@ Master Language="VB" CodeFile="home.master.vb" Inherits="Nexus.MasterPages_Internal_home" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register TagPrefix="CMS" Namespace="CMS.Library.Frontend" Assembly="CMS.Library" %>
+<%@ Register TagPrefix="Nexus" Namespace="Nexus" %>
+<%@ Register Src="~/controls/LoginStatus.ascx" TagName="LoginStatus" TagPrefix="uc1" %>
+<%@ Register Src="~/Controls/SideInfo.ascx" TagName="SideInfo" TagPrefix="uc3" %>
+<%@ Register Src="~/controls/RibbonMenu.ascx" TagName="RibbonMenu" TagPrefix="uc1" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>SSP - Pure Insurance</title>
+    <asp:ContentPlaceHolder ID="ScriptIncludes" runat="server">
+    </asp:ContentPlaceHolder>
+    <Nexus:Styles ID="Styles1" runat="server">
+        <link href="%Theme/Internal.css" rel="stylesheet" type="text/css" />
+        <link href="%Theme/jqui.custom.css" rel="stylesheet" type="text/css" />
+        <link href="%Theme/validator.css" rel="stylesheet" type="text/css" />
+        
+    </Nexus:Styles>
+    
+    <script type="text/javascript">
+     
+    
+        var loadingAnimation = "<%# ResolveClientUrl("~/App_themes/Internal/images/ajax-loader.gif") %>"
+    </script>
+    <asp:Literal ID="ltrScriptTag" runat="server"></asp:Literal>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/jquery-ui-1.10.4.custom.js")%>"></script>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/App_themes/Internal/js/cookies.js") %>"></script>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/App_themes/Internal/js/internal.js") %>"></script>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/modal.js") %>"></script>
+   <%-- <script type="text/javascript" src="<%# ResolveClientUrl("~/js/jquery-migrate-1.2.1.js")%>"></script>--%>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id="MasterPages_Internal_main">
+        <asp:Panel ID="loggedIn" runat="server">
+            <div id="header">
+                <uc1:RibbonMenu ID="RibbonMenu" runat="server" />
+            </div>
+            <div id="content">
+                <div id="side-column">
+                    <div id="side-accordion">
+                        <Nexus:SessionTimeoutControl ID="cntrlSessionTimeOut" runat="server" RedirectUrl="~/SessionExpired.aspx"
+                            Visible="true" />
+                        <asp:ContentPlaceHolder ID="cntLeftContent" runat="server" />
+                        <asp:ContentPlaceHolder ID="cntProgressBar" runat="server" />
+                        <uc3:SideInfo ID="SideInfo" runat="server" />
+                    </div>
+                    <span id="side-collapse" class="collapse"></span>
+                </div>
+                <div id="nexus-container">
+                    <asp:ContentPlaceHolder ID="cntMainBody" runat="server" />
+                </div>
+            </div>
+            <div id="footer">
+                <div class="footer-nav">
+                    <ul>
+                        <li><a id="A2" href="#" runat="server">Terms &amp; Conditions</a></li>
+                        <li><a id="A3" href="#" runat="server">Privacy &amp; Security Policy</a></li>
+                        <li><a id="A4" href="#" runat="server">Accessibility</a></li>
+                        <li>
+                            <asp:LinkButton ID="lnkLogOut" runat="server" CssClass="btnLogout" CausesValidation="false"
+                                PostBackUrl="~/logout.aspx">Logout</asp:LinkButton>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="window-status">
+            </div>
+        </asp:Panel>
+    </div>
+    </form>
+</body>
+</html>

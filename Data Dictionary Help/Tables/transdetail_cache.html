@@ -1,0 +1,174 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>transdetail_cache</h1>
+<p>Retains the last transaction manually entered by a user so that the form can be auto-populated for the next one.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="user_id">user_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK, FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> user that entered the data.</td>
+</tr>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> Branch the data belongs to.</td>
+</tr>
+<tr>
+<td><a class="name" name="account_id">account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> account_id of the account the user entered on the screen.  FK to Account table.</td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> currency_id of the currency the user chose on the screen.  FK to Currency table.</td>
+</tr>
+<tr>
+<td><a class="name" name="amount">amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Amount of the transaction.</td>
+</tr>
+<tr>
+<td><a class="name" name="comment">comment</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>comment entered on the transaction.</td>
+</tr>
+<tr>
+<td><a class="name" name="base_amount">base_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>base amount for the transaction.</td>
+</tr>
+<tr>
+<td><a class="name" name="exchange_rate">exchange_rate</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>exchange rate for the transaction.</td>
+</tr>
+<tr>
+<td><a class="name" name="euro_amount">euro_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>amount of the transaction in euros</td>
+</tr>
+<tr>
+<td><a class="name" name="department_id">department_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Department.html#department_id">Department.department_id</a> department_id of the department the user chose on screen.  FK to Department table.</td>
+</tr>
+<tr>
+<td><a class="name" name="insurance_ref">insurance_ref</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>insurance ref entered by the user.</td>
+</tr>
+<tr>
+<td><a class="name" name="purchase_order_no">purchase_order_no</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>purchase order no entered by the user</td>
+</tr>
+<tr>
+<td><a class="name" name="purchase_invoice_no">purchase_invoice_no</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>purchase invoice no entered by the user</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>user_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>department_id</td>
+<td><a href="Department.html">Department</a></td>
+<td>department_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>user_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

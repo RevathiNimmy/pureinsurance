@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="DynamicRuleEngineUserAccessConfig">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Resources"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Resource"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="ResourceType"
+                                                    type="ResourceTypes"
+                                                    minOccurs="1"
+                                                    maxOccurs="1"/>
+                                        <xs:element name="Roles"
+                                                    minOccurs="1"
+                                                    maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="Role"
+                                                                minOccurs="1"
+                                                                maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="RoleType"
+                                                                            type="RoleTypes"
+                                                                            minOccurs="1"
+                                                                            maxOccurs="1"/>
+                                                                <xs:element name="PermissionType"
+                                                                            type="PermissionTypes"
+                                                                            minOccurs="1"
+                                                                            maxOccurs="1"/>
+                                                                </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="UniqueResourceNames">
+            <xs:selector xpath=".//Resource"/>
+            <xs:field xpath="ResourceType"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:simpleType name="ResourceTypes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Systems" />
+			<xs:enumeration value="ViewSystem" />
+            <xs:enumeration value="EditSystem" />
+            <xs:enumeration value="AddSystem" />
+            <xs:enumeration value="Customers" />
+            <xs:enumeration value="ViewCustomer" />
+            <xs:enumeration value="EditCustomer" />
+            <xs:enumeration value="AddCustomer" />
+            <xs:enumeration value="Users" />
+            <xs:enumeration value="ViewUser" />
+            <xs:enumeration value="EditUser" />
+            <xs:enumeration value="AddUser" />
+            <xs:enumeration value="Profiles" />
+            <xs:enumeration value="ViewProfile" />
+            <xs:enumeration value="EditProfile" />
+            <xs:enumeration value="AddProfile" />
+			<xs:enumeration value="ManageProfileGrids" />
+            <xs:enumeration value="Grids" />
+            <xs:enumeration value="ViewGrid" />
+            <xs:enumeration value="EditGrid" />
+            <xs:enumeration value="AddGrid" />
+            <xs:enumeration value="RuleSets" />
+            <xs:enumeration value="ViewRuleSet" />
+            <xs:enumeration value="EditRuleSet" />
+            <xs:enumeration value="AddRuleSet" />
+            <xs:enumeration value="UnlockRuleSet" />
+            <xs:enumeration value="Environments" />
+            <xs:enumeration value="ViewEnvironment" />
+            <xs:enumeration value="EditEnvironment" />
+            <xs:enumeration value="AddEnvironment" />
+			<xs:enumeration value="ViewServerClass" />
+			<xs:enumeration value="ViewRuleLines" />
+		</xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RoleTypes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SuperUser" />
+            <xs:enumeration value="Administrator" />
+            <xs:enumeration value="ReadWrite" />
+            <xs:enumeration value="ReadWriteToGrid" />
+            <xs:enumeration value="ReadOnly" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PermissionTypes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="FullAccess" />
+            <xs:enumeration value="LimitedAccess" />
+            <xs:enumeration value="NoAccess" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,1332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.aiasoftware.com/cloud/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.aiasoftware.com/cloud/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.aiasoftware.com/cloud/v1">
+      <xs:element name="AdminGetLogsV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="fromdate" type="tns:message" />
+            <xs:element name="todate" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AdminGetLogsV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeDocumentPackV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element name="templatetype" type="tns:name" />
+            <xs:element name="templatename" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeDocumentPackV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="documentpack" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeDocumentPackGetV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeDocumentPackGetV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="documentpack" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeDocumentPackInteractiveStartV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element name="templatetype" type="tns:name" />
+            <xs:element name="templatename" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element minOccurs="0" name="allowsuspend" type="xs:boolean" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeDocumentPackInteractiveStartV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeInteractiveGetSuspendedSessionV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeInteractiveGetSuspendedSessionV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="sessionfile" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeInteractiveResumeSuspendedSessionV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="sessionfile" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ComposeInteractiveResumeSuspendedSessionV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerAddFieldsV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element name="fieldset" type="tns:repositoryobjectname" />
+            <xs:element name="fieldlist" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerAddFieldsV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetDataBackBoneDefinitionV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetDataBackBoneDefinitionV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="databackbonedefinition" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetDocumentPackTemplateV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element name="documentpacktemplate" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetDocumentPackTemplateV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="documentpacktemplate" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetDocumentTemplateV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetDocumentTemplateV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="documenttemplate" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetLetterbookV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element name="letterbook" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerGetLetterbookV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="letterbook" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerListLetterbooksV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerListLetterbooksV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="letterbooks" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerListProjectsV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerListProjectsV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="projects" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerListTemplatesV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:name" />
+            <xs:element minOccurs="0" name="ondemandonly" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerListTemplatesV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="templatelist" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerStartSessionV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DesignerStartSessionV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackConvertV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documentpack" type="xs:base64Binary" />
+            <xs:element name="outputformat" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackConvertV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="documentpack" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackInteractiveModifyV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documentpack" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackInteractiveModifyV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackInteractiveModifyFromReviewV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackInteractiveModifyFromReviewV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackInteractiveReviewV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documentpack" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DocumentPackInteractiveReviewV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FinishSessionV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FinishSessionV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SystemCheckV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="text" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SystemCheckV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="response" type="tns:message" />
+            <xs:element name="document" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SystemCheckInteractiveGetV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SystemCheckInteractiveGetV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SystemCheckInteractiveStartV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="text" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SystemCheckInteractiveStartV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="ccmsessionid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaFaultV1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="errorcode" type="tns:errorcode" />
+            <xs:element name="message" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="name">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="version">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^V[0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="jobid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="sessionid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9\-]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ltburi">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^ltb:[/|\*].*$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="repositoryobjectname">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[^:?/&lt;&gt;*&quot;\\()]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="url">
+        <xs:restriction base="xs:anyURI" />
+      </xs:simpleType>
+      <xs:simpleType name="mimetype">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <xs:enumeration value="application/pdf" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="interactiveresult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="document" />
+          <xs:enumeration value="session" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="message">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^.*$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="errorcode">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="AdminGetLogsV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:AdminGetLogsV2Request" />
+  </wsdl:message>
+  <wsdl:message name="AdminGetLogsV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AdminGetLogsV2Response" />
+  </wsdl:message>
+  <wsdl:message name="ComposeDocumentPackV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:ComposeDocumentPackV1Request" />
+  </wsdl:message>
+  <wsdl:message name="ComposeDocumentPackV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:ComposeDocumentPackV1Response" />
+  </wsdl:message>
+  <wsdl:message name="ComposeDocumentPackGetV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:ComposeDocumentPackGetV1Request" />
+  </wsdl:message>
+  <wsdl:message name="ComposeDocumentPackGetV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:ComposeDocumentPackGetV1Response" />
+  </wsdl:message>
+  <wsdl:message name="ComposeDocumentPackInteractiveStartV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:ComposeDocumentPackInteractiveStartV1Request" />
+  </wsdl:message>
+  <wsdl:message name="ComposeDocumentPackInteractiveStartV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:ComposeDocumentPackInteractiveStartV1Response" />
+  </wsdl:message>
+  <wsdl:message name="ComposeInteractiveGetSuspendedSessionV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:ComposeInteractiveGetSuspendedSessionV1Request" />
+  </wsdl:message>
+  <wsdl:message name="ComposeInteractiveGetSuspendedSessionV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:ComposeInteractiveGetSuspendedSessionV1Response" />
+  </wsdl:message>
+  <wsdl:message name="ComposeInteractiveResumeSuspendedSessionV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:ComposeInteractiveResumeSuspendedSessionV1Request" />
+  </wsdl:message>
+  <wsdl:message name="ComposeInteractiveResumeSuspendedSessionV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:ComposeInteractiveResumeSuspendedSessionV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerAddFieldsV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerAddFieldsV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerAddFieldsV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerAddFieldsV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetDataBackBoneDefinitionV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetDataBackBoneDefinitionV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetDataBackBoneDefinitionV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetDataBackBoneDefinitionV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetDocumentPackTemplateV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetDocumentPackTemplateV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetDocumentPackTemplateV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetDocumentPackTemplateV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetDocumentTemplateV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetDocumentTemplateV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetDocumentTemplateV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetDocumentTemplateV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetLetterbookV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetLetterbookV2Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerGetLetterbookV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerGetLetterbookV2Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerListLetterbooksV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerListLetterbooksV2Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerListLetterbooksV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerListLetterbooksV2Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerListProjectsV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerListProjectsV2Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerListProjectsV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerListProjectsV2Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerListTemplatesV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerListTemplatesV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerListTemplatesV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerListTemplatesV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DesignerStartSessionV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:DesignerStartSessionV2Request" />
+  </wsdl:message>
+  <wsdl:message name="DesignerStartSessionV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DesignerStartSessionV2Response" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackConvertV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackConvertV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackConvertV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackConvertV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackInteractiveModifyV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackInteractiveModifyV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackInteractiveModifyV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackInteractiveModifyV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackInteractiveModifyFromReviewV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackInteractiveModifyFromReviewV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackInteractiveModifyFromReviewV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackInteractiveModifyFromReviewV1Response" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackInteractiveReviewV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackInteractiveReviewV1Request" />
+  </wsdl:message>
+  <wsdl:message name="DocumentPackInteractiveReviewV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:DocumentPackInteractiveReviewV1Response" />
+  </wsdl:message>
+  <wsdl:message name="FinishSessionV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:FinishSessionV1Request" />
+  </wsdl:message>
+  <wsdl:message name="FinishSessionV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:FinishSessionV1Response" />
+  </wsdl:message>
+  <wsdl:message name="SystemCheckV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:SystemCheckV1Request" />
+  </wsdl:message>
+  <wsdl:message name="SystemCheckV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:SystemCheckV1Response" />
+  </wsdl:message>
+  <wsdl:message name="SystemCheckInteractiveGetV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:SystemCheckInteractiveGetV2Request" />
+  </wsdl:message>
+  <wsdl:message name="SystemCheckInteractiveGetV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:SystemCheckInteractiveGetV2Response" />
+  </wsdl:message>
+  <wsdl:message name="SystemCheckInteractiveStartV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:SystemCheckInteractiveStartV2Request" />
+  </wsdl:message>
+  <wsdl:message name="SystemCheckInteractiveStartV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:SystemCheckInteractiveStartV2Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaFaultV1SoapFault">
+    <wsdl:part name="fault" element="tns:AiaFaultV1" />
+  </wsdl:message>
+  <wsdl:portType name="ITPInTheCloud">
+    <wsdl:operation name="AdminGetLogsV2">
+      <wsdl:input message="tns:AdminGetLogsV2RequestMsg" />
+      <wsdl:output message="tns:AdminGetLogsV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ComposeDocumentPackV1">
+      <wsdl:input message="tns:ComposeDocumentPackV1RequestMsg" />
+      <wsdl:output message="tns:ComposeDocumentPackV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ComposeDocumentPackGetV1">
+      <wsdl:input message="tns:ComposeDocumentPackGetV1RequestMsg" />
+      <wsdl:output message="tns:ComposeDocumentPackGetV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ComposeDocumentPackInteractiveStartV1">
+      <wsdl:input message="tns:ComposeDocumentPackInteractiveStartV1RequestMsg" />
+      <wsdl:output message="tns:ComposeDocumentPackInteractiveStartV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ComposeInteractiveGetSuspendedSessionV1">
+      <wsdl:input message="tns:ComposeInteractiveGetSuspendedSessionV1RequestMsg" />
+      <wsdl:output message="tns:ComposeInteractiveGetSuspendedSessionV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="ComposeInteractiveResumeSuspendedSessionV1">
+      <wsdl:input message="tns:ComposeInteractiveResumeSuspendedSessionV1RequestMsg" />
+      <wsdl:output message="tns:ComposeInteractiveResumeSuspendedSessionV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerAddFieldsV1">
+      <wsdl:input message="tns:DesignerAddFieldsV1RequestMsg" />
+      <wsdl:output message="tns:DesignerAddFieldsV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetDataBackBoneDefinitionV1">
+      <wsdl:input message="tns:DesignerGetDataBackBoneDefinitionV1RequestMsg" />
+      <wsdl:output message="tns:DesignerGetDataBackBoneDefinitionV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetDocumentPackTemplateV1">
+      <wsdl:input message="tns:DesignerGetDocumentPackTemplateV1RequestMsg" />
+      <wsdl:output message="tns:DesignerGetDocumentPackTemplateV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetDocumentTemplateV1">
+      <wsdl:input message="tns:DesignerGetDocumentTemplateV1RequestMsg" />
+      <wsdl:output message="tns:DesignerGetDocumentTemplateV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetLetterbookV2">
+      <wsdl:input message="tns:DesignerGetLetterbookV2RequestMsg" />
+      <wsdl:output message="tns:DesignerGetLetterbookV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerListLetterbooksV2">
+      <wsdl:input message="tns:DesignerListLetterbooksV2RequestMsg" />
+      <wsdl:output message="tns:DesignerListLetterbooksV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerListProjectsV2">
+      <wsdl:input message="tns:DesignerListProjectsV2RequestMsg" />
+      <wsdl:output message="tns:DesignerListProjectsV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerListTemplatesV1">
+      <wsdl:input message="tns:DesignerListTemplatesV1RequestMsg" />
+      <wsdl:output message="tns:DesignerListTemplatesV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DesignerStartSessionV2">
+      <wsdl:input message="tns:DesignerStartSessionV2RequestMsg" />
+      <wsdl:output message="tns:DesignerStartSessionV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackConvertV1">
+      <wsdl:input message="tns:DocumentPackConvertV1RequestMsg" />
+      <wsdl:output message="tns:DocumentPackConvertV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackInteractiveModifyV1">
+      <wsdl:input message="tns:DocumentPackInteractiveModifyV1RequestMsg" />
+      <wsdl:output message="tns:DocumentPackInteractiveModifyV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackInteractiveModifyFromReviewV1">
+      <wsdl:input message="tns:DocumentPackInteractiveModifyFromReviewV1RequestMsg" />
+      <wsdl:output message="tns:DocumentPackInteractiveModifyFromReviewV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackInteractiveReviewV1">
+      <wsdl:input message="tns:DocumentPackInteractiveReviewV1RequestMsg" />
+      <wsdl:output message="tns:DocumentPackInteractiveReviewV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="FinishSessionV1">
+      <wsdl:input message="tns:FinishSessionV1RequestMsg" />
+      <wsdl:output message="tns:FinishSessionV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="SystemCheckV1">
+      <wsdl:input message="tns:SystemCheckV1RequestMsg" />
+      <wsdl:output message="tns:SystemCheckV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="SystemCheckInteractiveGetV2">
+      <wsdl:input message="tns:SystemCheckInteractiveGetV2RequestMsg" />
+      <wsdl:output message="tns:SystemCheckInteractiveGetV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="SystemCheckInteractiveStartV2">
+      <wsdl:input message="tns:SystemCheckInteractiveStartV2RequestMsg" />
+      <wsdl:output message="tns:SystemCheckInteractiveStartV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ITPInTheCloud" type="tns:ITPInTheCloud">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AdminGetLogsV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/admin/getlogs/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ComposeDocumentPackV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/compose/documentpack/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ComposeDocumentPackGetV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/compose/documentpack/get/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ComposeDocumentPackInteractiveStartV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/compose/documentpack/interactive/start/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ComposeInteractiveGetSuspendedSessionV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/compose/interactive/getsuspendedsession/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ComposeInteractiveResumeSuspendedSessionV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/compose/interactive/resumesuspendedsession/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerAddFieldsV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/addfields/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetDataBackBoneDefinitionV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/getdatabackbonedefinition/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetDocumentPackTemplateV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/getdocumentpacktemplate/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetDocumentTemplateV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/getdocumenttemplate/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerGetLetterbookV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/getletterbook/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerListLetterbooksV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/listletterbooks/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerListProjectsV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/listprojects/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerListTemplatesV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/listtemplates/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DesignerStartSessionV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/designer/startsession/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackConvertV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/documentpack/convert/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackInteractiveModifyV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/documentpack/interactive/modify/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackInteractiveModifyFromReviewV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/documentpack/interactive/modifyfromreview/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentPackInteractiveReviewV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/documentpack/interactive/review/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="FinishSessionV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/finish/session/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SystemCheckV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/system/check/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SystemCheckInteractiveGetV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/system/check/interactive/get/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SystemCheckInteractiveStartV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/system/check/interactive/start/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ITPCloudService">
+    <wsdl:documentation />
+    <wsdl:port name="ITPInTheCloud" binding="tns:ITPInTheCloud">
+      <soap:address location="http://lab2-pure-ccm.northeurope.cloudapp.azure.com:8081/ccm/wsdl" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

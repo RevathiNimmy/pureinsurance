@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+***********************************************************************************************
+website.publishproj
+
+WARNING: DO NOT MODIFY this file, it is used for the web publish process.
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+***********************************************************************************************
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProductVersion>10.0.30319</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{f934347e-bb83-4862-b4de-b57a41a898e0}</ProjectGuid>
+    <SourceWebPhysicalPath>$(MSBuildThisFileDirectory)</SourceWebPhysicalPath>
+    <SourceWebVirtualPath>/Pure.Portals</SourceWebVirtualPath>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <SourceWebProject>http://localhost/Pure.Portals.Main</SourceWebProject>
+    <SourceWebMetabasePath>/LM/W3SVC/1/ROOT/Pure.Portals.Main</SourceWebMetabasePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <!-- for VS2010 we need to use 10.5 but for VS2012+ we should use VisualStudioVersion -->
+    <WebPublishTargetsVersion Condition=" '$(WebPublishTargetsVersion)' =='' and '$(VisualStudioVersion)' == 10.0 ">10.5</WebPublishTargetsVersion>
+    <WebPublishTargetsVersion Condition=" '$(WebPublishTargetsVersion)'=='' ">$(VisualStudioVersion)</WebPublishTargetsVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(WebPublishTargetsVersion)</VSToolsPath>
+    <_WebPublishTargetsPath Condition=" '$(_WebPublishTargetsPath)'=='' ">$(VSToolsPath)</_WebPublishTargetsPath>
+ <AssemblyFileVersion Condition="'$(AssemblyFileVersion)' == ''">9000.0.0.0</AssemblyFileVersion>
+ <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">9000.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttributes Include="AssemblyFileVersion">
+      <Value>$(AssemblyFileVersion)</Value>
+    </AssemblyAttributes>
+    <AssemblyAttributes Include="AssemblyVersion">
+      <Value>$(AssemblyVersion)</Value>
+    </AssemblyAttributes>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CSSFriendly\CSSFriendly\CSSFriendly.csproj">
+      <Project>{1439911B-BE4E-48A0-9208-927321992C67}</Project>
+      <Name>CSSFriendly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SAMClient\SAMClient.vbproj">
+      <Project>{E8CFB48B-53D7-471C-8D84-90EEE6670C37}</Project>
+      <Name>SAMClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CMS.Library\CMS.Library.vbproj">
+      <Project>{EA1D9D29-7FF5-4BEF-82B2-E194E85E5160}</Project>
+      <Name>CMS.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MembershipProvider\Nexus.MembershipProvider.vbproj">
+      <Project>{65B871D7-AF5C-401F-A0A0-318B5031768D}</Project>
+      <Name>Nexus.MembershipProvider</Name>
+    </ProjectReference>
+    <!--<ProjectReference Include="..\Nexus.DRE\Nexus.Dre.vbproj">
+      <Project>{FA7C0778-E4A7-49BF-B1C5-8AD4C3A46E3B}</Project>
+      <Name>Nexus.Dre</Name>
+    </ProjectReference>-->
+    <ProjectReference Include="..\Nexus.HttpModules\Nexus.HttpModules.vbproj">
+      <Project>{C34F66A4-41E7-427B-92F7-F02EF6532274}</Project>
+      <Name>Nexus.HttpModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Library\Nexus.Library.vbproj">
+      <Project>{DBE041F0-949E-4A3A-8604-A59F81FAF758}</Project>
+      <Name>Nexus.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Reinsurance\Nexus.Reinsurance.vbproj">
+      <Project>{1D0238EA-14B4-4783-9089-981C852383D4}</Project>
+      <Name>Nexus.Reinsurance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Session\Nexus.Constants.vbproj">
+      <Project>{04DF8BAC-221C-4D00-8CD3-0CFC2ADA4437}</Project>
+      <Name>Nexus.Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Utils\Nexus.Utils.vbproj">
+      <Project>{42857D04-0B2A-48A8-9B82-B272F20F81C6}</Project>
+      <Name>Nexus.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Web.UI.WebControls\Nexus.Web.UI.WebControls.vbproj">
+      <Project>{11482402-18FB-4F5F-8D98-8B63B0EDEB33}</Project>
+      <Name>Nexus.Web.UI.WebControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NexusProvider.SAMForInsurance\NexusProvider.SAMForInsurance.vbproj">
+      <Project>{B65F4FDC-77D1-438B-8D4A-90EA76413519}</Project>
+      <Name>NexusProvider.SAMForInsurance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NexusProvider\NexusProvider.vbproj">
+      <Project>{EF29CE11-E31C-4F16-84AA-02240C4507FB}</Project>
+      <Name>NexusProvider</Name>
+    </ProjectReference>
+	<ProjectReference Include="..\IdentityClient\IdentityClient.csproj">
+		<Project>{CD6B5482-471C-481B-A9A6-24A8A80F1A2D}</Project>
+		<Name>IdentityClient</Name>
+	</ProjectReference>
+  </ItemGroup>
+ 
+  <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />
+</Project>

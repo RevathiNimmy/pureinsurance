@@ -1,0 +1,508 @@
+SET QUOTED_IDENTIFIER  OFF    SET ANSI_NULLS  ON 
+GO
+
+EXECUTE DDLDropProcedure 'spu_Report_Renewals_And_Lapses_by_Class_SFU'
+GO
+
+
+/**********************************************************************************************************************************
+** Created by Jude Killip
+** 18/12/2001
+** Reports - Renewals_And_Lapses_by_Class.rpt
+** 1.00
+**
+** Running totals are performed here rather than in the report so that Cumulative totals can appear alonside Month totals
+** (avoiding the use of Crystal7 running totals)
+**
+** @Period: Current Period or Prior Period
+**********************************************************************************************************************************
+**
+***********************************************************************************************************************************/
+CREATE PROCEDURE spu_Report_Renewals_And_Lapses_by_Class_SFU
+                @ClassOfBusiness varchar (255),
+                @PeriodDate varchar (20),
+                @TypeOfcurrency	Varchar(30),
+                @GroupbyCode	Varchar(30)
+
+AS
+
+SET NOCOUNT ON
+/*
+-- test
+DECLARE @ClassOfBusiness varchar (255), @PeriodDate varchar (20)
+SELECT @ClassOfBusiness = 'ALL', @PeriodDate = 'Dec 31 2001'
+*/
+-- get class_of_business_id from @ClassOfBusiness
+DECLARE @ClassID int
+IF @ClassOfBusiness <> 'ALL'
+    BEGIN
+        SELECT @ClassID = class_of_business_id
+        FROM Class_Of_Business
+        WHERE description = @ClassOfBusiness
+    END
+
+-- which period do we want?
+DECLARE @SelectedPeriodID int, @dtPeriodEndDate datetime, @dtSelectedPeriodEnd datetime
+DECLARE @dtMinPeriodEnd datetime, @dtMaxPeriodEnd datetime
+
+SELECT @PeriodDate = @PeriodDate + ' 23:59:59.000'
+SELECT @dtPeriodEndDate = CONVERT (Datetime, @PeriodDate)
+
+SELECT @SelectedPeriodID = period_id
+FROM Period
+WHERE period_end_date = @dtPeriodEndDate
+
+CREATE TABLE #tmp12PeriodDates
+(
+    dateID int IDENTITY,
+    dtPeriodEnd datetime NULL
+)
+
+/*Get System Currency Details--jitendra*/
+	declare @SystemCurrencyCode varchar(10)
+	declare @SystemCurrencyDesc varchar(255)
+    SELECT
+    	@SystemCurrencyCode = c.iso_code,
+    	@SystemCurrencyDesc = c.description
+    FROM PMSystem pms
+    JOIN currency c
+    	ON c.currency_id = pms.currency_id
+    WHERE pms.system_id = 1
+/*end  Get System Currency*/
+--print 'get current and previous 12 period end dates'
+-- based on selected Period
+INSERT INTO #tmp12PeriodDates
+    SELECT top 13 period_end_date
+    FROM period
+    WHERE period_id <= @SelectedPeriodID
+    ORDER BY period_end_date DESC
+/*
+print 'test dates'
+SELECT * FROM #tmp12PeriodDates
+*/
+	
+-- get the end date of the Period selected
+SELECT @dtSelectedPeriodEnd = dtPeriodEnd
+FROM #tmp12PeriodDates
+WHERE dateID = 1
+
+-- get the max and min end dates
+SELECT @dtMinPeriodEnd = dtPeriodEnd FROM #tmp12PeriodDates WHERE dateID = 13
+SELECT @dtMaxPeriodEnd = dtPeriodEnd FROM #tmp12PeriodDates WHERE dateID = 1
+
+CREATE TABLE #tmpRnwlsAndLapses
+(
+    ClassOfBusiness varchar (255) NULL,
+    RenewalDate datetime NULL,
+    MonthID int NULL,
+    StatsFolder int NULL,
+    RenValue money NULL,
+    LapValue money NULL,
+    InvValue money NULL,
+    SourceID	INT NULL
+)
+
+-- Insert Renewals
+INSERT INTO #tmpRnwlsAndLapses
+    SELECT (SELECT cob.description FROM Class_Of_Business cob where cob.class_of_business_id = sd.class_of_business_id),
+        sf.cover_start_date,
+        NULL,
+        sf.stats_folder_cnt,
+        Case @TypeOfCurrency 
+        	WHEN 'Base' THEN sd.this_premium_home
+			WHEN 'System' THEN sd.this_premium_system
+        END ,
+        NULL,
+        NULL,sf.source_id
+    FROM stats_folder sf
+    JOIN stats_detail sd ON sf.stats_folder_cnt = sd.stats_folder_cnt
+    WHERE sf.transaction_type_code = 'REN'
+    AND sd.stats_detail_type = 'GRS'
+    AND sf.cover_start_date > @dtMinPeriodEnd
+    AND sf.cover_start_date <= @dtMaxPeriodEnd
+    AND (sd.class_of_business_id = @ClassID
+        OR @ClassOfBusiness = 'ALL')
+
+-- Insert Lapses
+INSERT INTO #tmpRnwlsAndLapses
+    SELECT (SELECT cob.description FROM Class_Of_Business cob where cob.class_of_business_id = sd.class_of_business_id),
+        sf.expiry_date,
+        NULL,
+        sf.stats_folder_cnt,
+        NULL,
+        Case @TypeOfCurrency 
+		   	WHEN 'Base' THEN sd.this_premium_home
+			WHEN 'System' THEN sd.this_premium_system
+        END ,
+        NULL,sf.source_id
+    FROM stats_folder sf
+    JOIN stats_detail sd ON sf.stats_folder_cnt = sd.stats_folder_cnt
+    WHERE sf.transaction_type_code = 'NB'
+    AND sd.stats_detail_type = 'GRS'
+    AND sf.insurance_file_cnt IN                -- Get the latest live policy (status = null)
+                                                -- linked to a folder with a lapsed policy (status = 2)
+        (
+            SELECT max(insurance_file_cnt)
+            FROM insurance_file
+            WHERE insurance_folder_cnt IN
+                (
+                    SELECT insurance_folder_cnt
+                    FROM insurance_file
+                    WHERE insurance_file_status_id = 2
+                )
+            AND insurance_file_status_id is NULL
+            GROUP BY insurance_folder_cnt
+        )
+    AND (sd.class_of_business_id = @ClassID
+        OR @ClassOfBusiness = 'ALL')
+    AND sf.expiry_date > @dtMinPeriodEnd
+    AND sf.expiry_date <= @dtMaxPeriodEnd
+
+-- Insert Not Invited
+INSERT INTO #tmpRnwlsAndLapses
+    SELECT (SELECT cob.description FROM Class_Of_Business cob where cob.class_of_business_id = sd.class_of_business_id),
+        sf.expiry_date,
+        NULL,
+        sf.stats_folder_cnt,
+        NULL,
+        NULL,
+        Case @TypeOfCurrency 
+			WHEN 'Base' THEN sd.this_premium_home
+			WHEN 'System' THEN sd.this_premium_system
+        END ,sf.source_id
+    FROM stats_folder sf
+    JOIN stats_detail sd ON sf.stats_folder_cnt = sd.stats_folder_cnt
+    WHERE sf.transaction_type_code = 'NB'
+    AND sd.stats_detail_type = 'GRS'
+    AND sf.insurance_file_cnt IN                -- Get policies with a stop code
+        (
+            SELECT insurance_file_cnt
+            FROM insurance_file
+            WHERE isnull(renewal_stop_code_id,0) <> 0
+        )
+    AND (sd.class_of_business_id = @ClassID
+        OR @ClassOfBusiness = 'ALL')
+    AND sf.expiry_date > @dtMinPeriodEnd
+    AND sf.expiry_date <= @dtMaxPeriodEnd
+
+
+-- CURSOR 1 START ***************************************************************************
+-- Sort premium into date periods and renewal types
+
+-- Cursor variables
+DECLARE @RenewalDate datetime,
+    @MonthID int
+
+DECLARE RandL_cursor CURSOR FOR
+    SELECT RenewalDate, MonthID FROM #tmpRnwlsAndLapses
+
+OPEN    RandL_cursor
+
+    FETCH NEXT FROM RandL_cursor
+    INTO    @RenewalDate,
+            @MonthID
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- find out which relative month renewal date falls in
+        SELECT @MonthID = max(dateID)
+            FROM #tmp12PeriodDates
+            WHERE @RenewalDate <= dtPeriodEnd
+
+        UPDATE #tmpRnwlsAndLapses
+           SET MonthID = @MonthID WHERE RenewalDate = @RenewalDate
+
+        FETCH NEXT FROM RandL_cursor
+        INTO    @RenewalDate,
+                @MonthID
+
+    END
+
+CLOSE RandL_cursor
+DEALLOCATE RandL_cursor
+-- CURSOR 1 END ***************************************************************************
+/*
+print 'test #tmpRnwlsAndLapses'
+SELECT * from #tmpRnwlsAndLapses
+*/
+-- Temp Table for output
+CREATE TABLE #tmpRnwlsAndLapsesSum
+(
+    ClassOfBusiness varchar (100) NULL,
+    MonthID int,
+    MonthName varchar (20),
+    CurrentPeriodEnd datetime NULL,
+    RenMonthCount int NULL,
+    RenMonthValue money NULL,
+    LapMonthCount int NULL,
+    LapMonthValue money NULL,
+    InvMonthCount int NULL,
+    InvMonthValue money NULL,
+    CRenMonthCount int NULL,
+    CRenMonthValue money NULL,
+    CLapMonthCount int NULL,
+    CLapMonthValue money NULL,
+    CInvMonthCount int NULL,
+    CInvMonthValue money NULL,
+    SourceID	INT	NULL
+)
+-- CURSOR 2 START ***************************************************************************
+-- Get Monthly and Cumulative value totals and counts per Class Of Business
+
+-- Cursor variables
+DECLARE @ClassOfBusiness2 varchar (100),
+    @MonthID2 int,
+    @StatsFolder int,
+    @RenValue money,
+    @LapValue money,
+    @InvValue money
+-- Additional variables
+DECLARE @PrevClass varchar (100),
+    @PrevStatsFolder int,
+    @PrevMonthID int,
+    @PrevRenValue money,
+    @PrevLapValue money,
+    @PrevInvValue money
+-- Output variables
+DECLARE @MonthName varchar (20),
+    @RenMonthCount int,
+    @RenMonthValue money,
+    @LapMonthCount int,
+    @LapMonthValue money,
+    @InvMonthCount int,
+    @InvMonthValue money,
+    @CRenMonthCount int,
+    @CRenMonthValue money,
+    @CLapMonthCount int,
+    @CLapMonthValue money,
+    @CInvMonthCount int,
+    @CInvMonthValue money,@SourceId	Int
+
+DECLARE RandLSum_cursor CURSOR FOR
+    SELECT ClassOfBusiness,
+            MonthID,
+            StatsFolder,
+            isnull(RenValue,0),
+            isnull(LapValue,0),
+            isnull(InvValue,0),SourceID
+    FROM #tmpRnwlsAndLapses
+    ORDER BY ClassOfBusiness, MonthID, StatsFolder DESC        -- Ordered for the running totals
+
+OPEN    RandLSum_cursor
+
+    FETCH NEXT FROM RandLSum_cursor
+    INTO    @ClassOfBusiness2,
+            @MonthID2,
+            @StatsFolder,
+            @RenValue,
+            @LapValue,
+            @InvValue,
+			@SourceID
+
+
+    -- Initialise Month StatsFolder and Class change variables
+    SELECT @PrevMonthID = @MonthID2, @PrevStatsFolder = @StatsFolder, @PrevClass = @ClassOfBusiness2
+
+    -- Initialise cumulative running totals
+    SELECT @CRenMonthCount = 0,
+        @CRenMonthValue = 0,
+        @CLapMonthCount = 0,
+        @CLapMonthValue = 0,
+        @CInvMonthCount = 0,
+        @CInvMonthValue = 0
+
+    -- Initialise month totals
+    SELECT @RenMonthCount = 0,
+        @RenMonthValue = 0,
+        @LapMonthCount = 0,
+        @LapMonthValue = 0,
+        @InvMonthCount = 0,
+        @InvMonthValue = 0
+
+    WHILE @@FETCH_STATUS = 0
+
+    BEGIN
+        SELECT  @RenMonthValue = @RenMonthValue + @RenValue,                   -- values per month
+                @LapMonthValue = @LapMonthValue + @LapValue,
+                @InvMonthValue = @InvMonthValue + @InvValue,
+                @CRenMonthValue = @CRenMonthValue + @RenValue,                 -- Cumulative values per month
+                @CLapMonthValue = @CLapMonthValue + @LapValue,
+                @CInvMonthValue = @CInvMonthValue + @InvValue,
+                @PrevRenValue = @RenValue,
+                @PrevLapValue = @LapValue,
+                @PrevInvValue = @InvValue,
+                @MonthName = CASE @MonthID2                                     -- Month description
+                                WHEN 1 THEN 'Current Month'
+                                WHEN 2 THEN 'Prior Month'
+                                WHEN 3 THEN 'Month 3'
+                                WHEN 4 THEN 'Month 4'
+                                WHEN 5 THEN 'Month 5'
+                                WHEN 6 THEN 'Month 6'
+                                WHEN 7 THEN 'Month 7'
+                                WHEN 8 THEN 'Month 8'
+                                WHEN 9 THEN 'Month 9'
+                                WHEN 10 THEN 'Month 10'
+                                WHEN 11 THEN 'Month 11'
+                                WHEN 12 THEN 'Month 12'
+                                ELSE ''
+                            END
+
+        FETCH NEXT FROM RandLSum_cursor
+        INTO    @ClassOfBusiness2,
+                @MonthID2,
+                @StatsFolder,
+                @RenValue,
+                @LapValue,
+                @InvValue,
+				@SourceID
+
+
+        IF @PrevStatsFolder <> @StatsFolder OR @@FETCH_STATUS <> 0
+        BEGIN
+            SELECT  @RenMonthCount = CASE   WHEN isnull(@PrevRenValue, 0) <> 0         -- count per month
+                                                THEN @RenMonthCount + 1
+                                                ELSE @RenMonthCount
+                                            END,
+                    @LapMonthCount = CASE   WHEN isnull(@PrevLapValue, 0) <> 0
+                                                THEN @LapMonthCount + 1
+                                                ELSE @LapMonthCount
+                                            END,
+                    @InvMonthCount = CASE   WHEN isnull(@PrevInvValue, 0) <> 0
+                                                THEN @InvMonthCount + 1
+                                                ELSE @InvMonthCount
+                                            END,
+                    @CRenMonthCount = CASE   WHEN isnull(@PrevRenValue, 0) <> 0        -- Cumulative count per month
+                                                THEN @CRenMonthCount + 1
+                                                ELSE @CRenMonthCount
+                                            END,
+                    @CLapMonthCount = CASE   WHEN isnull(@PrevLapValue, 0) <> 0
+                                                THEN @CLapMonthCount + 1
+                                                ELSE @CLapMonthCount
+                                            END,
+                    @CInvMonthCount = CASE   WHEN isnull(@PrevInvValue, 0) <> 0
+                                                THEN @CInvMonthCount + 1
+                                                ELSE @CInvMonthCount
+                                            END,
+                    @PrevStatsFolder = @StatsFolder
+	END
+
+
+        IF @PrevMonthID <> @MonthID2 OR @@FETCH_STATUS <> 0
+        BEGIN
+            --print 'final values for this month'
+            INSERT INTO #tmpRnwlsAndLapsesSum
+                SELECT @PrevClass,
+                    @PrevMonthID,
+                    @MonthName,
+                    @dtSelectedPeriodEnd,
+                    @RenMonthCount,
+                    @RenMonthValue,
+                    @LapMonthCount,
+                    @LapMonthValue,
+                    @InvMonthCount,
+                    @InvMonthValue,
+                    @CRenMonthCount,
+                    @CRenMonthValue,
+                    @CLapMonthCount,
+                    @CLapMonthValue,
+                    @CInvMonthCount,
+                    @CInvMonthValue,@SourceID
+        END
+
+        IF @PrevClass <> @ClassOfBusiness2
+        BEGIN
+            --print 'zero cumulative running totals'
+            SELECT @CRenMonthCount = 0,
+                @CRenMonthValue = 0,
+                @CLapMonthCount = 0,
+                @CLapMonthValue = 0,
+                @CInvMonthCount = 0,
+                @CInvMonthValue = 0,
+                @PrevClass = @ClassOfBusiness2
+        END
+
+        IF @PrevMonthID <> @MonthID2
+        BEGIN
+            --print 'zero month totals'
+            SELECT @RenMonthCount = 0,
+                @RenMonthValue = 0,
+                @LapMonthCount = 0,
+                @LapMonthValue = 0,
+                @InvMonthCount = 0,
+                @InvMonthValue = 0,
+                @PrevMonthID = @MonthID2
+        END
+    END
+
+CLOSE RandLSum_cursor
+DEALLOCATE RandLSum_cursor
+-- CURSOR 2 END ***************************************************************************
+
+-- get month totals for all ClassOfBusinesss - ALL classes only
+IF @ClassOfBusiness = 'ALL'
+BEGIN
+    INSERT INTO #tmpRnwlsAndLapsesSum
+        SELECT 'ZZZZ',      -- to force to the end of the report
+            MonthID,
+            MonthName,
+            CurrentPeriodEnd,
+            Sum(RenMonthCount),
+            Sum(RenMonthValue),
+            Sum(LapMonthCount),
+            Sum(LapMonthValue),
+            Sum(InvMonthCount),
+            Sum(InvMonthValue),
+            Sum(CRenMonthCount),
+            Sum(CRenMonthValue),
+            Sum(CLapMonthCount),
+            Sum(CLapMonthValue),
+            Sum(CInvMonthCount),
+            Sum(CInvMonthValue),SourceID
+        FROM #tmpRnwlsAndLapsesSum
+        GROUP BY ClassOfBusiness, MonthID, MonthName, CurrentPeriodEnd,sourceID
+END
+SET NOCOUNT OFF
+
+SELECT ClassOfBusiness,
+        MonthID,
+        MonthName,
+        CurrentPeriodEnd,
+        RenMonthCount,
+        RenMonthValue,
+        LapMonthCount,
+        LapMonthValue,
+        InvMonthCount,
+        InvMonthValue,
+        CRenMonthCount,
+        CRenMonthValue,
+        CLapMonthCount,
+        CLapMonthValue,
+        CInvMonthCount,
+        CInvMonthValue, 
+        SourceID,S.Code CompanyCode,
+        S.Description CompanyDesc,
+        Case @TypeOfCurrency WHEN 'Base' THEN CB.Code
+        	WHEN 'System' THEN @SystemcurrencyCode
+        END CurrencyCode,
+        Case @TypeOfCurrency WHEN 'Base' THEN CB.Description
+        	WHEN 'System' THEN @SystemCurrencyDesc
+        END CurrencyDesc,
+        Case @GroupByCode WHEN 'Branch' THEN S.Code
+        	WHEN 'Branch And Currency' THEN S.Code
+        	ELSE ''
+        END 'GroupBycode'
+FROM #tmpRnwlsAndLapsesSum TS
+JOIN Source S ON S.source_id = TS.Sourceid
+JOIN Currency CB ON S.base_currency_id = CB.Currency_id
+
+
+DROP TABLE #tmpRnwlsAndLapses
+DROP TABLE #tmpRnwlsAndLapsesSum
+DROP TABLE #tmp12PeriodDates
+
+
+
+GO
+SET QUOTED_IDENTIFIER  OFF    SET ANSI_NULLS  ON 
+GO
+

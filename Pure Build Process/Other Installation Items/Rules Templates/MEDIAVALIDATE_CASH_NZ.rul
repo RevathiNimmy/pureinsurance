@@ -1,0 +1,37 @@
+' ---------------------------------------------------------------------------
+' SCRIPT NAME: 	MEDIAVALIDATE_CASH_NZ
+' PURPOSE:		Rounding of Cash for New Zealand. This because NZ doesn't
+'				coins less than 5 cents. Figures are rounded down to the
+'				nearest 5 cents.
+' AUTHOR: 		Steve Watton
+' DATE: 		17 October 2002
+' RETURNS: 		oSharedStorage.vValid (True/False)
+' CHANGES:
+'	DD 17/10/2002: Tidied up code and commented.
+' ---------------------------------------------------------------------------
+
+Sub Start()
+	'Entry point for Script from bSIRMediaTypeValidation component
+	'oSharedStorage object is already available with two incoming properties
+	'.vReference = Bank Code and Account Number (as one string, seperated by a bar |) OR Credit Card Number
+	'.vAmount = Amount for rounding
+	'
+	' Two return properties need to be set once the script completes
+	'.vValid = True or False if .vReference is Valid.
+	'.vRoundedAmount = Rounded .vAmount
+
+Dim vCents
+
+'References are not validated here so just return true
+oSharedStorage.vValid = True
+
+'Get the Cents
+vCents = oSharedStorage.vAmount*100
+               
+If Right(vCents, 1) >= "5" Then
+    oSharedStorage.vRoundedAmount = Int(Left(vCents,Len(vCents)-1) & "5")/100
+Else
+    oSharedStorage.vRoundedAmount = Int(Left(vCents,Len(vCents)-1))/10 & "0"
+End If
+
+End Sub

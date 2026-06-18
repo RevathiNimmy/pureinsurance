@@ -1,0 +1,13 @@
+SET QUOTED_IDENTIFIER ON SET ANSI_NULLS ON
+GO
+
+EXECUTE DDLDropProcedure 'spu_Client_Report'
+GO
+
+CREATE PROCEDURE spu_Client_Report
+AS
+BEGIN
+    EXECUTE spu_Report_Client
+END
+GO
+

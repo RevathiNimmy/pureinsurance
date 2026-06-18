@@ -1,0 +1,148 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+    <style type="text/css">
+        .style1
+        {
+            height: 14px;
+        }
+    </style>
+</head>
+<body>
+<h1>Mid Policy</h1>
+<p></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="mid_policy_id">mid_policy_id</a></td>
+<td>integer identity</td>
+<td>not null</td>
+<td>PK</td>
+<td>mid policy id</td>
+</tr>
+<tr>
+<td><a class="name" name="mid_status_id">mid_status_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>mid status id</td>
+</tr>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK</td>
+<td>insurance file cnt</td>
+</tr>
+<tr>
+<td><a class="name" name="insurance_folder_cnt">insurance_folder_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK</td>
+<td>insurance folder cnt</td>
+</tr>
+<tr>
+<td><a class="name" name="update_type">update_type</a></td>
+<td>varchar(1)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>update type</td>
+</tr>
+<tr>
+<td><a class="name" name="ppcc">ppcc</a></td>
+<td>integer </td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>ppcc</td>
+</tr>
+<tr>
+<td><a class="name" name="batch_id">batch_id</a></td>
+<td>integer </td>
+<td>null</td>
+<td>FK</td>
+<td>batch id</td>
+</tr>
+<tr>
+<td><a class="name" name="reject_reference">reject_reference</a></td>
+<td>varchar(35)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>reject reference</td>
+</tr>
+<tr>
+<td><a class="name" name="reject_error_codes">reject_error_codes</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>reject error codes</td>
+</tr>
+<tr>
+<td class="style1"><a class="name" name="ppcc_expected">ppcc_expected</a></td>
+<td class="style1">integer</td>
+<td class="style1">null</td>
+<td class="style1"></td>
+<td class="style1">ppcc_expected</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>mid_policy_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurance_file_cnt</td>
+<td><a href="insurance_file.html">Insurance_File</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurance_folder_cnt</td>
+<td><a href="insurance_folder.html">Insurance_Folder</a></td>
+<td>insurance_folder_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>batch_id</td>
+<td><a href="batch.html">Batch</a></td>
+<td>batch_id</td>
+<td>&nbsp;</td>
+</tr>
+
+</tbody>
+</table>
+
+</body>
+</html>

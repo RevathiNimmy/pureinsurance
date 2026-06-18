@@ -1,0 +1,127 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS ON
+GO
+
+EXECUTE DDLDropProcedure 'spu_Update_User_Record'
+GO
+CREATE PROCEDURE [dbo].[spu_Update_User_Record]
+
+	@language_id INT,
+	@username VARCHAR(255),
+	@secure_password VARCHAR(255),
+	@password  VARCHAR(30),
+	@password_change_date DATETIME,
+	@date_created DATETIME,
+	@lastlogin DATETIME,
+	@party_cnt INT,
+	@is_pmb_link_required SMALLINT,
+	@server_printer VARCHAR(255),
+	@is_printer_changeable SMALLINT,
+	@is_deleted SMALLINT,
+	@effective_date DATETIME,
+	@email_address  VARCHAR(255),
+	@full_name  VARCHAR(255),
+	@alternative_identifier VARCHAR(255),
+	@mobile_number  VARCHAR(100),
+    @initials  VARCHAR(100),
+	@signature_file  VARCHAR(255),
+	@title  VARCHAR(100),
+	@telephone_number  VARCHAR(100),
+	@extension_number  VARCHAR(100),
+	@fax_number  VARCHAR(100),
+	@job_title_id INT,
+	@claim_handler_id INT,
+	@party_handler_id INT,
+	@other_party_id INT,
+    @job_basis SMALLINT,
+	@date_deleted DATETIME,
+    @percent_hours_worked DECIMAL,
+	@sirius_user BIT,
+	@is_temp_password BIT,
+    @user_id INT,
+	@modified_by INT,
+	@unique_id varchar(50),
+	@screen_hierarchy varchar(500),
+	@SSO_Preferred_Username VARCHAR(255)
+AS
+
+IF @password =''
+BEGIN
+UPDATE pmuser SET party_cnt = @party_cnt, language_id = @language_id,
+                                         username = @username,
+                                         secure_password = @secure_password,
+                                         password_change_date = @password_change_date,
+                                         date_created = @date_created,
+                                         lastlogin = @lastlogin,
+                                         is_pmb_link_required = @is_pmb_link_required,
+                                         server_printer = @server_printer,
+                                         is_printer_changeable = @is_printer_changeable,
+                                         is_deleted = @is_deleted,
+                                         effective_date = @effective_date,
+                                         email_address = @email_address,
+                                         full_name = @full_name,
+                                         signature_file = @signature_file,
+                                         title = @title,
+                                         initials = @initials,
+                                         telephone_number = @telephone_number,
+										 extension_number = @extension_number,
+                                         mobile_number = @mobile_number,
+										 fax_number = @fax_number,
+                                         job_title_id = @job_title_id,
+										 claim_handler_id = @claim_handler_id,
+                                         party_handler_id = @party_handler_id,
+										 other_party_id =@other_party_id,
+                                         alternative_identifier = @alternative_identifier,
+                                         job_basis =@job_basis,
+										 percent_hours_worked = @percent_hours_worked,
+										 sirius_user = @sirius_user,
+										 date_deleted= @date_deleted,
+                                         is_temp_password= @is_temp_password,
+										 ModifiedBy = @modified_by,
+										 UniqueId = @unique_id,
+										 ScreenHierarchy = @screen_hierarchy,
+										 SSO_Preferred_Username=@SSO_Preferred_Username
+                                         WHERE user_id = @user_id
+END
+
+ELSE
+
+BEGIN 
+UPDATE pmuser SET party_cnt = @party_cnt, language_id = @language_id,
+                                         username = @username,
+                                         secure_password = @secure_password,
+                                         password_change_date = @password_change_date,
+                                         date_created = @date_created,
+                                         lastlogin = @lastlogin,
+                                         is_pmb_link_required = @is_pmb_link_required,
+                                         server_printer = @server_printer,
+                                         is_printer_changeable = @is_printer_changeable,
+                                         is_deleted = @is_deleted,
+                                         effective_date = @effective_date,
+         email_address = @email_address,
+                                         full_name = @full_name,
+                                         signature_file = @signature_file,
+                                         title = @title,
+                                         initials = @initials,
+                                         telephone_number = @telephone_number,
+										 extension_number = @extension_number,
+                                         mobile_number = @mobile_number,
+										 fax_number = @fax_number,
+                                         job_title_id = @job_title_id,
+										 claim_handler_id = @claim_handler_id,
+                                         party_handler_id = @party_handler_id,
+										 other_party_id =@other_party_id,
+                                         alternative_identifier = @alternative_identifier,
+                                         job_basis =@job_basis,
+										 percent_hours_worked = @percent_hours_worked,
+										 sirius_user = @sirius_user,
+										 date_deleted= @date_deleted,
+                                         is_temp_password= @is_temp_password,
+										 password=@password,
+										 ModifiedBy = @modified_by,
+										 UniqueId = @unique_id,
+										 ScreenHierarchy = @screen_hierarchy,
+										 SSO_Preferred_Username=@SSO_Preferred_Username
+                                         WHERE user_id = @user_id
+END
+
+GO

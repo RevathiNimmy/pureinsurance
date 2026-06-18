@@ -1,0 +1,567 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Process</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_process_id">pmnav_process_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnav process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmproduct_id">pmproduct_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMProduct.html#pmproduct_id">PMProduct.pmproduct_id</a> <span class="autodesc">pmproduct</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="pmproc_lock_group_id">pmproc_lock_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMProc_Lock_Group.html#pmproc_lock_group_id">PMProc_Lock_Group.pmproc_lock_group_id</a> <span class="autodesc">pmproc lock group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transaction_type_id">transaction_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Transaction_Type.html#transaction_type_id">Transaction_Type.transaction_type_id</a> <span class="autodesc">transaction type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="process_mode">process_mode</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">process mode</span></td>
+</tr>
+<tr>
+<td><a class="name" name="start_nav_map_id">start_nav_map_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Map.html#pmnav_map_id">PMNav_Map.pmnav_map_id</a> <span class="autodesc">start nav map</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_logged">is_logged</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is logged</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_user_driven">is_user_driven</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is user driven</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>start_nav_map_id</td>
+<td><a href="PMNav_Map.html">PMNav_Map</a></td>
+<td>pmnav_map_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmproc_lock_group_id</td>
+<td><a href="PMProc_Lock_Group.html">PMProc_Lock_Group</a></td>
+<td>pmproc_lock_group_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmproduct_id</td>
+<td><a href="PMProduct.html">PMProduct</a></td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>transaction_type_id</td>
+<td><a href="Transaction_Type.html">Transaction_Type</a></td>
+<td>transaction_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmproc_lock_group_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>start_nav_map_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>transaction_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pmnav_process_id</td>
+<td><a href="PMNav_Get_Process_Key.html">PMNav_Get_Process_Key</a></td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_process_id</td>
+<td><a href="PMNav_Set_Process_Key.html">PMNav_Set_Process_Key</a></td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_process_id</td>
+<td><a href="PMNav_Step.html">PMNav_Step</a></td>
+<td>cancel_nav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_process_id</td>
+<td><a href="PMNav_Step.html">PMNav_Step</a></td>
+<td>ok_nav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_process_id</td>
+<td>pmproduct_id</td>
+<td>code</td>
+<td>caption_id</td>
+<td>description</td>
+<td>pmproc_lock_group_id</td>
+<td>transaction_type_id</td>
+<td>process_mode</td>
+<td>start_nav_map_id</td>
+<td>is_logged</td>
+<td>is_user_driven</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>FINDPRTYAE</td>
+<td>99</td>
+<td>Account Executive Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>FINDPRTYAH</td>
+<td>100</td>
+<td>Account Handler Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>FINDPRTYAG</td>
+<td>101</td>
+<td>Agent Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>ACTPAYV21P</td>
+<td>102</td>
+<td>Cash / Cheque Payments</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>ACTRCTV21P</td>
+<td>103</td>
+<td>Cash / Cheque Receipt</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>ACTPAYV22P</td>
+<td>53</td>
+<td>Cash List</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>8</td>
+<td>3</td>
+<td>CLICASHP1</td>
+<td>104</td>
+<td>Client Cash Receipt</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2</td>
+<td>FINDPRTYDI</td>
+<td>105</td>
+<td>Discounts Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>9</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>10</td>
+<td>2</td>
+<td>FINDPRTYEX</td>
+<td>106</td>
+<td>Extras Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>11</td>
+<td>2</td>
+<td>FINDPRTYFE</td>
+<td>107</td>
+<td>Fees Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>12</td>
+<td>2</td>
+<td>FINDPRTYIN</td>
+<td>108</td>
+<td>Insurer Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>12</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>13</td>
+<td>3</td>
+<td>ACTIPAY</td>
+<td>109</td>
+<td>Insurer Payment</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>13</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>14</td>
+<td>3</td>
+<td>ACTINSPAY2</td>
+<td>110</td>
+<td>Insurer Payment Complete</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>14</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>17</td>
+<td>2</td>
+<td>OpenClaim</td>
+<td>111</td>
+<td>OpenClaim</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>81</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>18</td>
+<td>2</td>
+<td>FINDPRTYOT</td>
+<td>112</td>
+<td>Other Party Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>19</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>20</td>
+<td>2</td>
+<td>PerilType</td>
+<td>73</td>
+<td>Peril Type</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>21</td>
+<td>2</td>
+<td>PMBPCP</td>
+<td>113</td>
+<td>Post Cash</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>22</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>22</td>
+<td>2</td>
+<td>FINDPRTYRI</td>
+<td>114</td>
+<td>Reinsurer Maintenance</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>23</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>23</td>
+<td>2</td>
+<td>ResType</td>
+<td>74</td>
+<td>Reserve Type</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

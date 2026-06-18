@@ -1,0 +1,267 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Underwriting_Year</h1>
+<p><span class="autodesc">Underwriting Year</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="underwriting_year_id">underwriting_year_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">underwriting year</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="start_date">start_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">start date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="end_date">end_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">end date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>end_date</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>start_date</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="Event_Insurance_File.html">Event_Insurance_File</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="Stats_Folder.html">Stats_Folder</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="Transaction_Export_Folder.html">Transaction_Export_Folder</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>underwriting_year_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>underwriting_year_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>underwriting_year_id</td>
+<td>code</td>
+<td>description</td>
+<td>start_date</td>
+<td>end_date</td>
+<td>caption_id</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2005</td>
+<td>2005</td>
+<td>2005-01-01 00:00:00</td>
+<td>2005-12-31 00:00:00</td>
+<td>37977</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2006</td>
+<td>2006</td>
+<td>2006-01-01 00:00:00</td>
+<td>2006-12-31 00:00:00</td>
+<td>37978</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2007</td>
+<td>2007</td>
+<td>2007-01-01 00:00:00</td>
+<td>2007-12-31 00:00:00</td>
+<td>37979</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2008</td>
+<td>2008</td>
+<td>2008-01-01 00:00:00</td>
+<td>2008-12-31 00:00:00</td>
+<td>37980</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2009</td>
+<td>2009</td>
+<td>2009-01-01 00:00:00</td>
+<td>2009-12-31 00:00:00</td>
+<td>65389</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

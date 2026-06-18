@@ -1,0 +1,195 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Chase_Cycle_Rule</h1>
+<p>Stores business rules defined based on telematics.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Underwriting<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="chase_cycle_rule_id">chase_cycle_rule_id </a></td>
+<td>int</td>
+<td> NOT NULL </td>
+<td>PK</td>
+<td><span class="autodesc">chase cycle rule id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="Description">Description </a></td>
+<td>varchar(50)</td> 
+<td>NULL </td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Description Field</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="source_id">source_id </a></td>
+<td>int</td> 
+<td>NOT NULL </td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="source.html#source_id">Source.source_id</a> Source ID</td>
+</tr>
+
+<tr>
+<td><a class="name" name="Gis_data_model_id">Gis_data_model_id</a></td>
+<td> int</td> 
+<td> NOT NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Gis_data_model_id</span></td>
+</tr>
+
+<tr>
+<td>
+<a class="name" name="Gis_property_id">Gis_property_id</a></td>
+<td> int</td>
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Gis_property_id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="chase_cycle_status_udl_value_id">chase_cycle_status_udl_value_id</a></td>
+<td> int</td> 
+<td> NOT NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">chase_cycle_status_udl_value_id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="is_active">is_active</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is_active</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="processing_days">processing_days</a></td>
+<td> smallint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">processing_days</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="use_effective_date">use_effective_date</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">use_effective_date </span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="use_greater_of_transaction_and_effective_date">use_greater_of_transaction_and_effective_date</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">use_greater_of_transaction_and_effective_date</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="product_id">product_id</a></td>
+<td> int</td> 
+<td> NULL</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="product.html#product_id">product.product_id</a> Product ID</td>
+</tr>
+
+<tr>
+<td><a class="name" name="Include_cancelled_policies">Include_cancelled_policies</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Include_cancelled_policies</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="Cancelled_only">Cancelled_only</a></td>
+<td>tinyint</td> 
+<td>NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Cancelled_only </span></td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>chase_cycle_rule_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr>
+<td>FK</td>
+<td>source_id </td>
+<td><a href="source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="product.html">Product</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>source_id </td>
+<td><a href="source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="product.html">Product</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>

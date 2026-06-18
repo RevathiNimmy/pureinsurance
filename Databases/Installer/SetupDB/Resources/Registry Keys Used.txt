@@ -1,0 +1,51 @@
+HKEY_LOCAL_MACHINE\Software\PM
+    PMDIR = "C:\Program Files"
+
+    DatabaseInstaller
+        Server
+            AppStatus = 0
+            AppTasksDone = 0
+            AllowUserToIgnore = false
+            DebugLogging = false
+            InstallFolder = ""
+            ProductDataFolder = ""
+            BackupData = ""
+            DataFilesFolder = ""
+            LogFilesFolder = ""
+            BackupFilesFolder = ""
+
+    SiriusArchitecture
+        Common
+            LogFileName = "C:\Program Files\PM\Sirius Architecture\Sirius.log"
+        Server
+            Databases
+                SiriusSolutions
+                    Provider = "SQLOLEDB"
+                    Server = "(local)"
+                    Database = "Sirius"
+                ScanStation
+                    Provider = "SQLOLEDB"
+                    Server = "(local)"
+                    Database = "ScanStation"
+                Staging
+                    Provider = "SQLOLEDB"
+                    Server = "(local)"
+                    Database = "Staging"
+
+    Swift
+        Database
+            CommandTimeout = 60
+            URNTimeout = 60
+        ErrorHandler
+            StandardMessage = "Please consult your System Administrator."
+            ShowMoreInfo = false
+            Diagnostics = false
+            EmailToName = "Administrator"
+            EmailToAddress = "admin@customer.co.uk"
+            EmailCCName = ""
+            EmailCCAddress = ""
+
+HKEY_CURRENT_USER\Software\PM
+    SiriusArchitecture
+        Common
+            LogFileName = "C:\Program Files\PM\Sirius Architecture\Sirius_sirius.log"

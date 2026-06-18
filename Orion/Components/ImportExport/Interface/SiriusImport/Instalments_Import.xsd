@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Import/Instalments_Import/20070412" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.siriusfs.com/SFI/Import/Instalments_Import/20070412" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="IMPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Import Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="INSTALMENT" />
+			</xs:sequence>
+			<xs:attribute name="interface_name" type="xs:string" use="required" fixed="INSTALMENTS_IMPORT" />
+			<xs:attribute name="batch_id" type="xs:long" use="optional" />
+			<xs:attribute name="batch_reference" type="xs:string" use="optional" />
+			<xs:attribute name="total_transactions" type="xs:long" use="required" />
+			<xs:attribute name="total_amount" type="xs:decimal" use="required" />
+			<xs:attribute name="date_imported" type="xs:dateTime" use="optional" />
+			<xs:attribute name="run_credit_control" type="xs:boolean" use="optional" />
+			<xs:attribute name="raise_error_on_amendment_if_policy_is_not_live_or_current" type="xs:boolean" />
+			<xs:attribute type="xs:boolean" name="raise_error_on_amendment_if_instalment_plan_is_on_hold" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="INSTALMENT">
+		<xs:annotation>
+			<xs:documentation>Sirius Instalments Import Data</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="plan_reference" type="xs:string" use="required" />
+			<xs:attribute name="instalment_group_id" type="xs:long" />
+			<xs:attribute name="instalment_due_date" type="xs:dateTime" />
+			<xs:attribute name="bank_reference" type="xs:string" />
+			<xs:attribute name="rejection_code" type="xs:string" />
+			<xs:attribute name="amount" type="xs:decimal" />
+			<xs:attribute name="action_type_code" type="xs:string" />
+			<xs:attribute name="recall_instalment" type="xs:boolean" />
+			<xs:attribute name="plan_on_hold" type="xs:boolean" />
+			<xs:attribute name="plan_bank_sort_code" type="xs:string" />
+			<xs:attribute name="plan_bank_account_number" type="xs:string" />
+			<xs:attribute name="plan_bank_account_name" type="xs:string" />
+			<xs:attribute name="plan_bank_name" type="xs:string" />
+			<xs:attribute name="plan_cc_number" type="xs:string" />
+			<xs:attribute name="plan_cc_expiry_date" type="xs:string" />
+			<xs:attribute name="plan_cc_start_date" type="xs:string" />
+			<xs:attribute name="plan_cc_issue" type="xs:string" />
+			<xs:attribute name="plan_cc_pin" type="xs:string" />
+			<xs:attribute name="new_plan_bank_sort_code" type="xs:string" />
+			<xs:attribute name="new_plan_bank_account_number" type="xs:string" />
+			<xs:attribute name="new_plan_bank_account_name" type="xs:string" />
+			<xs:attribute name="new_plan_bank_name" type="xs:string" />
+			<xs:attribute name="new_plan_bank_address1" type="xs:string" />
+			<xs:attribute name="new_plan_bank_address2" type="xs:string" />
+			<xs:attribute name="new_plan_bank_address3" type="xs:string" />
+			<xs:attribute name="new_plan_bank_address4" type="xs:string" />
+			<xs:attribute name="new_plan_bank_postal_code" type="xs:string" />
+			<xs:attribute name="new_plan_bank_country_code" type="xs:string" />
+			<xs:attribute name="new_plan_cc_number" type="xs:string" />
+			<xs:attribute name="new_plan_cc_expiry_date" type="xs:string" />
+			<xs:attribute name="new_plan_cc_start_date" type="xs:string" />
+			<xs:attribute name="new_plan_cc_issue" type="xs:string" />
+			<xs:attribute name="new_plan_cc_pin" type="xs:string" />
+			<xs:attribute name="transaction_code" type="xs:string" />
+			<xs:attribute name="transaction_date" type="xs:dateTime" />
+			<xs:attribute name="force_manual_renewal" type="xs:boolean" />
+			<xs:attribute name="generated_task_description_prefix" type="xs:string" />
+			<xs:attribute name="generated_task_customer" type="xs:string" />
+			<xs:attribute name="generate_instalment_notification" type="xs:string" />
+			<xs:attribute name="set_next_instalment_transaction_code" type="xs:string" />
+			<xs:attribute name="paperlessdd" type="xs:boolean" />
+      <xs:attribute name="sepa_plan_bic" type="xs:string"/>
+      <xs:attribute name="sepa_plan_iban" type="xs:string"/>
+      <xs:attribute name="new_sepa_plan_bic" type="xs:string"/>
+      <xs:attribute name="new_sepa_plan_iban" type="xs:string"/>
+    </xs:complexType>
+	</xs:element>
+</xs:schema>

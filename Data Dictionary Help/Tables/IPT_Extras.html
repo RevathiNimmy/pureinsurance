@@ -1,0 +1,98 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>IPT_Extras</h1>
+<p><span class="autodesc">IPT Extras</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Broking<br>
+                Software module: Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>PK</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="rate">rate</a></td>
+<td>numeric(7, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="amount">amount</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="threshold_date">threshold_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">threshold date</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt, effective_date</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

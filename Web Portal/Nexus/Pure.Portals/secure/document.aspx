@@ -1,0 +1,1 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="document.aspx.vb" MasterPageFile="~/default.master" Inherits="Nexus.secure_document" %>

@@ -1,0 +1,266 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Cobol_Linkage</h1>
+<p>GIS link to Cobol</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software modules: GIS, PM UNIX<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="linkage_map_id">linkage_map_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">linkage map</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_sequence">item_sequence</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">item sequence</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_property_id">gis_property_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="autodesc">gis property</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_object_id">gis_object_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="autodesc">gis object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_name">item_name</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">item name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_type">item_type</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">item type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_offset">item_offset</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">item offset</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_occurs_offset">item_occurs_offset</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">item occurs offset</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_byte_length">item_byte_length</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">item byte length</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_pic_length">item_pic_length</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">item pic length</span></td>
+</tr>
+<tr>
+<td><a class="name" name="item_decimal_places">item_decimal_places</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">item decimal places</span></td>
+</tr>
+<tr>
+<td><a class="name" name="conversion_type">conversion_type</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">conversion type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="conversion_list_id">conversion_list_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">conversion list</span></td>
+</tr>
+<tr>
+<td><a class="name" name="occurs_level">occurs_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">occurs level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="occurs_times">occurs_times</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">occurs times</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inst_one_level">inst_one_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inst one level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inst_two_level">inst_two_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inst two level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inst_three_level">inst_three_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inst three level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inst_four_level">inst_four_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inst four level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inst_five_level">inst_five_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inst five level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inst_six_level">inst_six_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inst six level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_value">default_value</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_code">insurer_code</a></td>
+<td>char(3)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="object_name">object_name</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="property_name">property_name</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">property name</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>linkage_map_id, item_sequence</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_property_id, gis_object_id</td>
+<td><a href="GIS_Property.html">GIS_Property</a></td>
+<td>gis_property_id, gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_property_id, gis_object_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>item_name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>object_name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>property_name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

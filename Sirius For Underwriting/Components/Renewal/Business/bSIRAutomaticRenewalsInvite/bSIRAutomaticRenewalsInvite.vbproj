@@ -1,0 +1,109 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectType>Local</ProjectType>
+    <MyType>Windows</MyType>
+    <OutputType>Library</OutputType>
+    <AssemblyMajorVersion>1140</AssemblyMajorVersion>
+    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>679</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>False</GenerateRevisionNumber>
+    <AssemblyCompanyName>Sirius Financial Solutions Plc.</AssemblyCompanyName>
+    <StartWithIE>False</StartWithIE>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\..\..\Binaries\</OutputPath>
+    <DocumentationFile>bSIRAutomaticRenewalsInvite.xml</DocumentationFile>
+    <DefineConstants>IN_DEBUG = 0 : Win32 = True</DefineConstants>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DefineDebug>False</DefineDebug>
+    <DefineConstants>IN_DEBUG = 0 : Win32 = True</DefineConstants>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Update="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Update="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Update="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Update="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <COMReference Include="ADODB">
+      <Guid>{EF53050B-882E-4776-B643-EDA472E8E3F2}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="Scripting">
+      <Guid>{420B2830-E718-11CF-893D-00A0C9054228}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>primary</WrapperTool>
+    </COMReference>
+    <COMReference Include="VBScript_RegExp_55">
+      <Guid>{3F4DACA7-160D-11D2-A8E9-00104B365C9F}</Guid>
+      <Lcid>0</Lcid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bSIRAutomaticRenewalsInvite_UpgradeReport.htm">
+      <SubType>Preview</SubType>
+    </None>
+    <Compile Include="..\..\..\..\..\Pure Build Process\AssemblyInfo.vb">
+      <Link>AssemblyInfo.vb</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic">
+		<HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.VisualBasic.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bSIRAutomaticRenewalsInviteAssemblyInfo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Sirius Architecture\Components\dPMDAO\dPMDAO.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Sirius Architecture\Components\PMPropertyManager\bPMPropertyManager\bPMPropertyManager.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Sirius Back Office Core\Components\Document Production\Document Manager Wrapper\Business\bSIRDocManagerWrapper\bSIRDocManagerWrapper.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Sirius Back Office Core\Components\Document Production\Find Document Templates\Business\bSIRFindDocTemplate\bSIRFindDocTemplate.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Sirius Back Office Core\Components\Product Options\Business\bSIRProductOptions\bSIRProductOptions.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Sirius Back Office Core\Components\System Options\Business\bSirOptions\bSIROptions.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\SSP.Shared\SSP.Shared.vbproj" />
+    <ProjectReference Include="..\bSIRRenInvitePrint\bSIRRenInvitePrint.vbproj" />
+  </ItemGroup>
+  <PropertyGroup />
+</Project>

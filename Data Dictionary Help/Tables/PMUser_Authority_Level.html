@@ -1,0 +1,112 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMUser_Authority_Level</h1>
+<p><span class="autodesc">PMUser Authority Level</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Product Builder<br>
+                Software modules: Accounts, Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="product_id">product_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Product.html#product_id">Product.product_id</a> <span class="autodesc">product</span></td>
+</tr>
+<tr>
+<td><a class="name" name="user_id">user_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> <span class="autodesc">user</span></td>
+</tr>
+<tr>
+<td><a class="name" name="authority_level_type_id">authority_level_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Authority_Level_Type.html#authority_level_type_id">Authority_Level_Type.authority_level_type_id</a> <span class="autodesc">authority level type</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>product_id, user_id, authority_level_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>authority_level_type_id</td>
+<td><a href="Authority_Level_Type.html">Authority_Level_Type</a></td>
+<td>authority_level_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>user_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>authority_level_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>product_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>user_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

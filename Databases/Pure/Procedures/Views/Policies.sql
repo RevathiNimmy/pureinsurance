@@ -1,0 +1,68 @@
+set quoted_identifier on set ansi_nulls on
+go
+
+execute DDLDropView 'Policies'
+go
+-- OBSOLETE BACKWARD COMPATIBILITY VIEW. DO NOT USE THIS IN ANY NEW QUERIES.
+-- needs PolicyFolders, PolicyFiles
+create view Policies as select
+    PolicyFiles.ID,
+    PolicyFolders.ClientID,
+    PolicyFiles.Number,
+    PolicyFiles.TypeCode,
+    PolicyFiles.TypeDescription,
+    PolicyFiles.StatusCode,
+    PolicyFiles.StatusDescription,
+    PolicyFiles.RiskCode,
+    PolicyFiles.RiskDescription,
+    PolicyFiles.LeadInsurerCode,
+    PolicyFiles.LeadInsurerName,
+    PolicyFiles.Regarding,
+    PolicyFiles.BranchCode,
+    PolicyFiles.BranchName,
+    PolicyFiles.BusinessSourceCode,
+    PolicyFiles.BusinessSourceDescription,
+    PolicyFiles.BusinessTypeCode,
+    PolicyFiles.BusinessTypeDescription,
+    PolicyFiles.Quote,
+    PolicyFiles.CoverFromDate,
+    PolicyFiles.CoverToDate,
+    PolicyFolders.InceptionDate,
+    PolicyFiles.RenewalDate,
+    PolicyFiles.IssuedDate,
+    PolicyFiles.AccountHandlerCode,
+    PolicyFiles.AccountHandlerName,
+    PolicyFiles.PaymentMethod,
+    PolicyFiles.SchemeName,
+    PolicyFiles.PremiumIncludingTax,
+    PolicyFiles.PremiumExcludingTax,
+    PolicyFiles.IPTPercent,
+    PolicyFiles.IPTAmount,
+    PolicyFiles.VATPercent,
+    PolicyFiles.VATAmount,
+    PolicyFiles.TotalPremium,
+    PolicyFiles.CurrencyCode,
+    PolicyFiles.CurrencyDescription,
+    PolicyFiles.FuturePremium,
+    PolicyFiles.LeadAgentCode,
+    PolicyFiles.LeadAgentName,
+    PolicyFiles.CommissionPercent,
+    PolicyFiles.CommissionCharge,
+    PolicyFiles.CommissionPayable,
+    PolicyFiles.RetainedDocuments,
+    PolicyFiles.RenewalFrequencyCode,
+    PolicyFiles.RenewalFrequencyDescription,
+    PolicyFiles.LTUExpiryDate,
+    PolicyFiles.RenewalStopReasonCode,
+    PolicyFiles.RenewalStopReasonDescription,
+    PolicyFiles.RenewalMethodCode,
+    PolicyFiles.RenewalMethodDescription,
+    PolicyFiles.LapsedReasonCode,
+    PolicyFiles.LapsedReasonDescription,
+    PolicyFiles.LapsedDate,
+    PolicyFolders.TimesRenewed,
+    PolicyFiles.ReferredAtRenewal,
+    PolicyFiles.ReferredOnMTA
+    from PolicyFolders
+    inner join PolicyFiles on PolicyFolders.ID = PolicyFiles.PolicyFolderID
+go

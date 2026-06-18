@@ -1,0 +1,216 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Chase_Cycle_Item</h1>
+<p>Chase Cycle Item against a policy based on telematics device status.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Underwriting<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="chase_cycle_item_id">chase_cycle_item_id </a></td>
+<td>int</td>
+<td> NOT NULL </td>
+<td>PK</td>
+<td><span class="autodesc">chase_cycle_item_id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="chase_cycle_reason">chase_cycle_reason </a></td>
+<td>varchar(50)</td> 
+<td>NULL </td>
+<td>&nbsp;</td>
+<td><span class="autodesc">chase_cycle_reason</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="insurance_folder_cnt">insurance_folder_cnt </a></td>
+<td>int</td> 
+<td>NOT NULL </td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="insurance_folder.html#insurance_folder_cnt">insurance_folder.insurance_folder_cnt</a> The parent policy</td>
+</tr>
+
+<td><a class="name" name="Insurance_file_cnt">Insurance_file_cnt </a></td>
+<td>int</td> 
+<td>NOT NULL </td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Insurance_file.html#Insurance_file_cnt">Insurance_file.Insurance_file_cnt</a> The policy Version</td>
+</tr>
+
+<tr>
+<td><a class="name" name="can_auto_cancel">can_auto_cancel</a></td>
+<td>tinyint</td> 
+<td>NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can_auto_cancel</span></td>
+</tr>
+
+<td><a class="name" name="will_auto_cancel">will_auto_cancel</a></td>
+<td>tinyint</td> 
+<td>NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">will_auto_cancel</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="chase_cycle_step_id">chase_cycle_step_id</a></td>
+<td> int</td> 
+<td> NOT NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">chase_cycle_step_id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="created_date">created_date</a></td>
+<td>datetime</td> 
+<td>NOT NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">created_date</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="due_date">due_date</a></td>
+<td>datetime</td> 
+<td>NOT NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">due_date</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="letter_sent">letter_sent</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">letter_sent </span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="pmuser_group_id">pmuser_group_id</a></td>
+<td> int</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmuser_group_id </span></td>
+</tr>
+
+
+<tr>
+<td><a class="name" name="pmuser_id">pmuser_id</a></td>
+<td> int</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmuser_id </span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="letter_sent">is_deleted</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is_deleted </span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="insurance_folder_cnt">risk_cnt </a></td>
+<td>int</td> 
+<td>NOT NULL </td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="risk.html#risk_cnt">risk.risk_cnt</a> The Risk</td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>chase_cycle_item_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr>
+<td>FK</td>
+<td>insurance_folder_cnt </td>
+<td><a href="insurance_folder.html">Insurance Folder</a></td>
+<td>insurance_folder_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurance_file_cnt</td>
+<td><a href="Insurance_file.html">Insurance File</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+
+<td>FK</td>
+<td>risk_cnt</td>
+<td><a href="risk.html">Risk</a></td>
+<td>risk_cnt</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>insurance_folder_cnt </td>
+<td><a href="insurance_folder.html">Insurance Folder</a></td>
+<td>insurance_folder_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurance_file_cnt</td>
+<td><a href="Insurance_file.html">Insurance File</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+
+<td>FK</td>
+<td>risk_cnt</td>
+<td><a href="risk.html">Risk</a></td>
+<td>risk_cnt</td>
+<td>&nbsp;</td>
+</tr>
+
+</tbody>
+</table>

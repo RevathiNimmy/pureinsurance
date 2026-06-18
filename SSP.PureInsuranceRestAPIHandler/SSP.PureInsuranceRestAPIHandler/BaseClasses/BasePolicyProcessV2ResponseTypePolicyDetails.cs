@@ -1,0 +1,93 @@
+﻿using SSP.PureInsuranceRestAPIHandler.Enums;
+
+namespace SSP.PureInsuranceRestAPIHandler.BaseClasses
+{
+    public class BasePolicyProcessV2ResponseTypePolicyDetails
+    {
+        public string AccountHandler { get; set; }
+        public int AccountHandlerCnt { get; set; }
+        public bool AccountHandlerCntSpecified { get; set; }
+        public string AccountHandlerCode { get; set; }
+        public string AlternativeRef { get; set; }
+        public string AnalysisCode { get; set; }
+        public bool AnniversaryCopy { get; set; }
+        public double AnnualPremium { get; set; }
+        public bool AnnualPremiumSpecified { get; set; }
+        public int BaseInsuranceFolderKey { get; set; }
+        public string BranchCode { get; set; }
+        public string BusinessTypeCode { get; set; }
+        public bool ConsolidatedLeadAgentCommission { get; set; }
+        public bool ConsolidatedSubAgentCommission { get; set; }
+        public string ContactUserEmail { get; set; }
+        public string ContactUserFullName { get; set; }
+        public string ContactUserName { get; set; }
+        public int ContactuserKey { get; set; }
+        public System.DateTime CoverEndDate { get; set; }
+        public System.DateTime CoverStartDate { get; set; }
+        public string CurrencyCode { get; set; }
+        public string Description { get; set; }
+        public double GrossPremium { get; set; }
+        public System.DateTime HCExpiryDate { get; set; }
+        public bool HasClaimLink { get; set; }
+        public System.DateTime InceptionDt { get; set; }
+        public System.DateTime InceptionTPI { get; set; }
+        public int InsuranceFileKey { get; set; }
+        public string InsuranceFileRef { get; set; }
+        public int InsuranceFolderKey { get; set; }
+        public string InsuredName { get; set; }
+        public int IsDeletedContactuser { get; set; }
+        public bool IsValidAnniversaryToAccept { get; set; }
+        public System.DateTime IssueDate { get; set; }
+        public bool IssueDateSpecified { get; set; }
+        public System.DateTime LTUExpiryDate { get; set; }
+        public bool LTUExpiryDateSpecified { get; set; }
+        public System.DateTime LapseDate { get; set; }
+        public bool LapseDateSpecified { get; set; }
+        public string LapsedReasonCode { get; set; }
+        public string LeadAgent { get; set; }
+        public string LeadAgentCode { get; set; }
+        public int LeadAgentKey { get; set; }
+        public bool MarkedForCollection { get; set; }
+        public double NetPremium { get; set; }
+        public bool NetPremiumSpecified { get; set; }
+        public int PartyKey { get; set; }
+        public string PolicyDeductible { get; set; }
+        public BaseTaxesAndFeesType PolicyLevelTaxesAndFees { get; set; }
+        public string PolicyLimits { get; set; }
+        public string PolicyStatusCode { get; set; }
+        public string PolicyStyleCode { get; set; }
+        public string PolicyTypeCode { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductName { get; set; }
+        public System.DateTime ProposalDate { get; set; }
+        public bool ProposalDateSpecified { get; set; }
+        public bool PutOnNextMTAInstallmentRenewal { get; set; }
+        public System.DateTime QuoteExpiryDate { get; set; }
+        public bool QuoteIsLocked { get; set; }
+        public QuoteStatusType QuoteStatusKey { get; set; }
+        public byte[] QuoteTimeStamp { get; set; }
+        public int QuoteVersion { get; set; }
+        public bool ReferredAtRenewal { get; set; }
+        public bool ReferredOnMTA { get; set; }
+        public string Regarding { get; set; }
+        public System.DateTime RenewalDate { get; set; }
+        public int RenewalDayNo { get; set; }
+        public string RenewalFrequencyCode { get; set; }
+        public string RenewalMethodCode { get; set; }
+        public string RenewalStatusTypeCode { get; set; }
+        public string RenewalStatusTypeDesc { get; set; }
+        public int RenewedCount { get; set; }
+        public string StandardPolicyDescription { get; set; }
+        public string StandardPolicyWordingCode { get; set; }
+        public string StopReasonCode { get; set; }
+        public string SubBranchCode { get; set; }
+        public double TaxAmount { get; set; }
+        public bool TaxAmountSpecified { get; set; }
+        public double ThisPremium { get; set; }
+        public bool ThisPremiumSpecified { get; set; }
+        public double TotalCommission { get; set; }
+        public double TotalFees { get; set; }
+        public string UnderwritingYear { get; set; }
+        public int UnderwritingYearId { get; set; }
+    }
+}

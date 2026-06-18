@@ -1,0 +1,290 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57CF2683-F59C-4C99-B49F-572F40A0CAA4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Artinsoft.VB6</RootNamespace>
+    <AssemblyName>Artinsoft.VB6</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Common Dlls\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1607,0618</NoWarn>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Artinsoft.VB6.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1607,0618</NoWarn>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CustomMarshalers" />
+    <Reference Include="Microsoft.stdformat, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Artinsoft\VB6\Activex\ComponentServerHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Activex\MSXMLHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\ActivateHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\CommandButtonHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\CommandButtonHelper.Designer.cs">
+      <DependentUpon>CommandButtonHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ContainerHelper.cs">
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ControlHelper.cs">
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\DataEnvironmentNETHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\DataHelper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\DataHelper.designer.cs">
+      <DependentUpon>DataHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\DataHelperDesignerEditor.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\DataHelperDesignerModalView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\DataHelperDesignerModalView.Designer.cs">
+      <DependentUpon>DataHelperDesignerModalView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\FormHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\ImageListHelper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ImageListHelper.designer.cs">
+      <DependentUpon>ImageListHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ListBoxHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ListBoxHelper.designer.cs">
+      <DependentUpon>ListBoxHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ListControlHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ListControlHelper.Designer.cs">
+      <DependentUpon>ListControlHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ListViewHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ListViewHelper.Designer.cs">
+      <DependentUpon>ListViewHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MenuHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MenuHelper.Designer.cs">
+      <DependentUpon>MenuHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MSDataGridHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MSDataGridHelper.Designer.cs">
+      <DependentUpon>MSDataGridHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MSDataGridHelperDesignerEditor.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\MSDataGridHelperDesignerModalView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MSDataGridHelperDesignerModalView.Designer.cs">
+      <DependentUpon>MSDataGridHelperDesignerModalView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\MSDataGridHelperTypes.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\PictureBoxHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Gui\ShapeHelper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\ShapeHelper.Designer.cs">
+      <DependentUpon>ShapeHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\SSTabHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\SSTabHelper.Designer.cs">
+      <DependentUpon>SSTabHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Gui\TreeViewHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Help\HelpSupportClass.cs" />
+    <Compile Include="Artinsoft\VB6\Help\HelpSupportComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Help\HelpSupportComponent.designer.cs">
+      <DependentUpon>HelpSupportComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\Properties\AssemblyInfo.cs" />
+    <Compile Include="Artinsoft\VB6\Resources\Artinsoft.VB6.Designer.cs" />
+    <Compile Include="Artinsoft\VB6\Resources\Images.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\ArraysHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\AssemblyHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\DateTimeHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\DefaultPropHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\ExcelHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\MemoryHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\MidAssignHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\ReflectionHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\StringsHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\NotUpgradedHelper.cs" />
+    <Compile Include="Artinsoft\VB6\Utils\XArrayHelper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Artinsoft\VB6\VB\Err.cs" />
+    <Compile Include="Artinsoft\VB6\VB\PrinterHelper.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Artinsoft\VB6\Gui\DataHelper.resx">
+      <DependentUpon>DataHelper.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Artinsoft\VB6\Gui\DataHelperDesignerModalView.resx">
+      <DependentUpon>DataHelperDesignerModalView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Artinsoft\VB6\Gui\ImageListHelper.resx">
+      <DependentUpon>ImageListHelper.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Artinsoft\VB6\Gui\MSDataGridHelperDesignerModalView.resx">
+      <DependentUpon>MSDataGridHelperDesignerModalView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Artinsoft\VB6\Gui\ShapeHelper.resx">
+      <DependentUpon>ShapeHelper.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Artinsoft\VB6\Resources\Artinsoft.VB6.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Artinsoft\VB6\Utils\DefaultProperties.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Artinsoft\VB6\Global\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

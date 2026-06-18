@@ -1,0 +1,114 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>BatchRenewalWinController.My.MyApplication</StartupObject>
+    <MyType>WindowsForms</MyType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>C:\Pure\Application\</OutputPath>
+    <DocumentationFile>BatchRenewalWinController.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineDebug>false</DefineDebug>
+    <DocumentationFile>BatchRenewalWinController.xml</DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>Off</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyTitle>BatchRenewalWinController</AssemblyTitle>
+    <Product>BatchRenewalWinController</Product>
+    <Copyright>Copyright ©  2012</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Sirius.Architecture.Caching">
+      <HintPath>..\..\..\..\New Development\BinRef\Sirius.Architecture.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Configuration.Database">
+      <HintPath>..\..\..\..\New Development\BinRef\Sirius.Architecture.Configuration.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Configuration.Local">
+      <HintPath>..\..\..\..\New Development\BinRef\Sirius.Architecture.Configuration.Local.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Data">
+      <HintPath>..\..\..\..\New Development\BinRef\Sirius.Architecture.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Security">
+      <HintPath>..\..\..\..\New Development\BinRef\Sirius.Architecture.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Utility">
+      <HintPath>..\..\..\..\New Development\BinRef\Sirius.Architecture.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="MainForm.Designer.vb">
+      <DependentUpon>MainForm.vb</DependentUpon>
+    </Compile>
+    <Compile Update="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Update="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\RenewalList.xsd">
+      <Link>RenewalList.xsd</Link>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Update="wse3policyCache.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sirius.BatchRenewal\Sirius.BatchRenewal.vbproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.8" />
+  </ItemGroup>
+</Project>

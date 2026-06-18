@@ -1,0 +1,175 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Chase_Cycle_Step</h1>
+<p>Stores Steps for a rule defined on the bases of telematics.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Underwriting<br></p>
+<h2>Definition</h2>
+
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="chase_cycle_step_id">chase_cycle_step_id </a></td>
+<td>int</td>
+<td> NOT NULL </td>
+<td>PK</td>
+<td><span class="autodesc">chase cycle step id</span></td>
+</tr>
+
+<td><a class="name" name="chase_cycle_rule_id">chase_cycle_rule_id </a></td>
+<td>int</td>
+<td> NOT NULL </td>
+<td>&nbsp;</td>
+<td><span class="autodesc">chase cycle rule id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="number_of_days">number_of_days </a></td>
+<td>smallint</td> 
+<td>NULL </td>
+<td>&nbsp;</td>
+<td><span class="autodesc">number of days</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="document_template_id">document_template_id </a></td>
+<td>int</td> 
+<td>NULL </td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="source.html#source_id">Document_Template.Document_Template_id</a> Document Template ID</td>
+</tr>
+
+<tr>
+<td><a class="name" name="pmwrk_task_id">pmwrk_task_id</a></td>
+<td> int</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmwrk task id</span></td>
+</tr>
+
+<tr>
+<td>
+<a class="name" name="pmuser_group_id">pmuser_group_id</a></td>
+<td> int</td>
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmuser group id</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="check_auto_cancel">check_auto_cancel</a></td>
+<td>tinyint</td> 
+<td>NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">check auto cancel</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="auto_cancel_policy">auto_cancel_policy</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">auto cancel policy</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="next_step">next_step</a></td>
+<td> smallint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">next step</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="previous_step">previous_step</a></td>
+<td> tinyint</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">previous step </span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="step_description">step_description</a></td>
+<td> varchar(255)</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">step description</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="pmwrk_task_group_id">pmwrk_task_group_id</a></td>
+<td> int</td> 
+<td> NULL</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pmwrk task group id</span></td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>chase_cycle_step_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+
+<tr>
+<td>FK</td>
+<td>Document_Template_id </td>
+<td><a href="Document_Template.html">Document Template</a></td>
+<td>Document_Template_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<tr>
+<td>FK</td>
+<td>Document_Template_id </td>
+<td><a href="Document_Template.html">Document Template</a></td>
+<td>Document_Template_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>

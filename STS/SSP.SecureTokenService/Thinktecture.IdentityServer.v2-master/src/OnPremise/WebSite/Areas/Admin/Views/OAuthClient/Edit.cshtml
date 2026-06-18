@@ -1,0 +1,53 @@
+@model OAuthClientViewModel
+@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.OAuthClient
+
+@{
+    if (Model.IsNew)
+    {
+        ViewBag.Title = Edit_cshtml.NewOAuthClient;
+    }
+    else
+    {
+        ViewBag.Title = string.Format(Edit_cshtml.OAuthClient, Model.Client.Name);
+    }
+}
+@{
+    var action = Model.IsNew ? "Create" : "Update";
+}
+@using (Html.BeginForm(action, "OAuthClient"))
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @Html.EditorFor(x=>x.Client)
+               </div>
+               <div class="p-v-sm text-right">
+                <button type="reset" class="btn btn-sm btn-dark">@Edit_cshtml.Cancel</button>
+                 @if (!Model.IsNew)
+                {
+                    <button type="submit" name="action" value="delete" class="btn btn-sm btn-dark">@Edit_cshtml.Delete</button>
+                    <button type="submit" name="action" value="save" class="btn btn-sm btn-primary">@Edit_cshtml.SaveChanges</button>
+                
+                }
+                else
+                {
+                    <button type="submit" name="action" value="create" class="btn btn-sm btn-primary">@Edit_cshtml.Create</button>
+                }
+            
+            </div>
+              <div class="p-v-sm">
+                @if (Model.IsOAuthRefreshTokenEnabled)
+                {
+                   @Html.ActionLink("tokens", "Index", "OAuthRefreshToken", new { ClientID = Model.Client.ID }, new { @class = "btn btn-sm btn-primary"})
+                }
+            </div>
+           </div>
+        
+   </div>
+  
+      @Html.ValidationSummary(Edit_cshtml.ErrorUpdatingClient)
+}

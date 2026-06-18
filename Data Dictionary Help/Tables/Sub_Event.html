@@ -1,0 +1,202 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Sub_Event</h1>
+<p><span class="autodesc">Sub Event</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="main_event_id">main_event_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Main_Event.html#main_event_id">Main_Event.main_event_id</a> <span class="autodesc">main event</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_event_id">sub_event_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">sub event</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_event_type_id">sub_event_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Sub_Event_Type.html#sub_event_type_id">Sub_Event_Type.sub_event_type_id</a> <span class="autodesc">sub event type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_created">date_created</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>I</td>
+<td>date created</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="started_date">started_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">started date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="completed_date">completed_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">completed date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="debit_credit">debit_credit</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">debit credit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="document_ref">document_ref</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">document ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_permanent">is_permanent</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is permanent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="user_id">user_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> <span class="autodesc">user</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>main_event_id, sub_event_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>main_event_id</td>
+<td><a href="Main_Event.html">Main_Event</a></td>
+<td>main_event_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>user_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>sub_event_type_id</td>
+<td><a href="Sub_Event_Type.html">Sub_Event_Type</a></td>
+<td>sub_event_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>date_created</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>main_event_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>sub_event_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>user_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>main_event_id, sub_event_id</td>
+<td><a href="Event_Media.html">Event_Media</a></td>
+<td>main_event_id, sub_event_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>main_event_id, sub_event_id</td>
+<td><a href="MTA.html">MTA</a></td>
+<td>main_event_id, sub_event_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

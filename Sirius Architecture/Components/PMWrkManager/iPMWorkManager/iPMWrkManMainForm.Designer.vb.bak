@@ -1,0 +1,1455 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmMain
+#Region "Windows Form Designer generated code "
+	Public Sub New()
+		MyBase.New()
+		isInitializingComponent = True
+		InitializeComponent()
+		isInitializingComponent = False
+		InitializemnuViewSortBy()
+		InitializemnuLinksWebsite()
+		InitializelblTitle()
+        lstScheduledTasks_InitializeColumnKeys()
+        lstBatchTasksStatus_InitializeColumnKeys()
+        tabMainPreviousTab = tabMain.SelectedIndex
+	End Sub
+    Private Sub Ctx_mnuAvailTask_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Ctx_mnuAvailTask.Opening
+        Dim list As System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem) = New System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem)()
+        Ctx_mnuAvailTask.Items.Clear()
+        'We are moving the submenus from original menu to the context menu before displaying it
+        For Each item As System.Windows.Forms.ToolStripItem In mnuAvailTask.DropDownItems
+            list.Add(item)
+        Next item
+        For Each item As System.Windows.Forms.ToolStripItem In list
+            Ctx_mnuAvailTask.Items.Add(item)
+        Next item
+        e.Cancel = False
+    End Sub
+    Private Sub Ctx_mnuAvailTask_Closing(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosingEventArgs) Handles Ctx_mnuAvailTask.Closing
+        Dim list As System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem) = New System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem)()
+        'We are moving the submenus the context menu back to the original menu after displaying
+        For Each item As System.Windows.Forms.ToolStripItem In Ctx_mnuAvailTask.Items
+            list.Add(item)
+        Next item
+        For Each item As System.Windows.Forms.ToolStripItem In list
+            mnuAvailTask.DropDownItems.Add(item)
+        Next item
+    End Sub
+    Private Sub Ctx_mnuTask_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles Ctx_mnuTask.Opening
+        Dim list As System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem) = New System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem)()
+        Ctx_mnuTask.Items.Clear()
+        'We are moving the submenus from original menu to the context menu before displaying it
+        For Each item As System.Windows.Forms.ToolStripItem In mnuTask.DropDownItems
+            list.Add(item)
+        Next item
+        For Each item As System.Windows.Forms.ToolStripItem In list
+            Ctx_mnuTask.Items.Add(item)
+        Next item
+        e.Cancel = False
+    End Sub
+    Private Sub Ctx_mnuTask_Closing(ByVal sender As Object, ByVal e As System.Windows.Forms.ToolStripDropDownClosingEventArgs) Handles Ctx_mnuTask.Closing
+        Dim list As System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem) = New System.Collections.Generic.List(Of System.Windows.Forms.ToolStripItem)()
+        'We are moving the submenus the context menu back to the original menu after displaying
+        For Each item As System.Windows.Forms.ToolStripItem In Ctx_mnuTask.Items
+            list.Add(item)
+        Next item
+        For Each item As System.Windows.Forms.ToolStripItem In list
+            mnuTask.DropDownItems.Add(item)
+        Next item
+    End Sub
+    Private Sub ReleaseResources(ByVal eventSender As Object, ByVal eventArgs As System.EventArgs) Handles MyBase.Closed
+        Dispose(True)
+    End Sub
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+     Protected Overloads Overrides Sub Dispose(ByVal Disposing As Boolean)
+        If Disposing Then
+            If Not (components Is Nothing) Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(Disposing)
+    End Sub
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+    Public ToolTip1 As System.Windows.Forms.ToolTip
+    Public WithEvents mnuFileExit As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuFile As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskNew As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskEdit As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskAssign As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskView As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskStart As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskComplete As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskIncomplete As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskDelete As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTaskLog As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuTask As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewToolbar As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewAvailableTasks As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewStatusBar As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewSplashScreen As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewGridLines As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewBar2 As System.Windows.Forms.ToolStripSeparator
+    Private WithEvents _mnuViewSortBy_1 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_2 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_3 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_4 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_5 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_6 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_7 As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuViewSortBy_8 As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewSortSchedule As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewBar4 As System.Windows.Forms.ToolStripSeparator
+    Public WithEvents mnuViewRefresh As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewBar5 As System.Windows.Forms.ToolStripSeparator
+    Public WithEvents mnuViewColumns As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewBar51 As System.Windows.Forms.ToolStripSeparator
+    Public WithEvents mnuViewUserOptions As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewSystemOptions As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuView As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents _mnuLinksWebsite_0 As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuLinks As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuHelpContents As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuHelpSearch As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuHelpPMSiriusSupport As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewBar7 As System.Windows.Forms.ToolStripSeparator
+    Public WithEvents mnuHelpPMProductUpdateHistory As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuViewBar8 As System.Windows.Forms.ToolStripSeparator
+    Public WithEvents mnuHelpAbout As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuHelp As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuAvailTaskScheduleNew As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuAvailTaskAddToFavourites As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuAvailTaskRemoveFromFavourites As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuAvailTaskDoNow As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents mnuAvailTask As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents MainMenu1 As System.Windows.Forms.MenuStrip
+    Private WithEvents _tbToolBar_Button2 As System.Windows.Forms.ToolStripButton
+    Private WithEvents _tbToolBar_Button3 As System.Windows.Forms.ToolStripSeparator
+    Private WithEvents _tbToolBar_Button4 As System.Windows.Forms.ToolStripButton
+    Private WithEvents _tbToolBar_Button5 As System.Windows.Forms.ToolStripSeparator
+    Public WithEvents tbToolBar As System.Windows.Forms.ToolStrip
+    Public WithEvents picSplitter As System.Windows.Forms.PictureBox
+    'Public WithEvents albAvailableTasks As AxListbar.AxSSListBar
+    Friend WithEvents albAvailableTasks As SListBar.ListBarControl.ListBar
+    Public WithEvents cboUser As PMUserLookupControl.cboPMUserLookup
+    Public WithEvents cboTaskGroups As PMLookupControl.cboPMLookup
+    Private WithEvents _lstScheduledTasks_ColumnHeader_1 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_2 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_3 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_4 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_5 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_6 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_7 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_8 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_9 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstScheduledTasks_ColumnHeader_10 As System.Windows.Forms.ColumnHeader
+    Public WithEvents lstScheduledTasks As System.Windows.Forms.ListView
+    Public WithEvents cboTaskStatus As System.Windows.Forms.ComboBox
+    Public WithEvents cboDateRange As System.Windows.Forms.ComboBox
+    Public WithEvents cboUserGroup As PMUGroupLookupCtrl.cboPMUserGroupByUser
+    Public WithEvents cboShowSystem As System.Windows.Forms.ComboBox
+    Public WithEvents cboAllUsers As PMUserLookupControl.cboPMUserLookup
+    Private WithEvents _tabMain_TabPage0 As System.Windows.Forms.TabPage
+    Private WithEvents _tabMain_TabPage1 As System.Windows.Forms.TabPage
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_1 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_2 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_3 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_4 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_5 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_6 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_7 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_8 As System.Windows.Forms.ColumnHeader
+    Private WithEvents _lstBatchTasksStatus_ColumnHeader_9 As System.Windows.Forms.ColumnHeader
+    Public WithEvents lstBatchTasksStatus As System.Windows.Forms.ListView
+    Public WithEvents cboBatchTaskStatus As PMLookupControl.cboPMLookup
+    Public WithEvents cboBatchTaskDateRange As System.Windows.Forms.ComboBox
+    Public WithEvents btnBatchTaskRefresh As System.Windows.Forms.Button
+    Public WithEvents tabMain As System.Windows.Forms.TabControl
+    Public WithEvents panMainTab As System.Windows.Forms.Panel
+    Private WithEvents _lblTitle_2 As System.Windows.Forms.Label
+    Private WithEvents _lblTitle_1 As System.Windows.Forms.Label
+    Public WithEvents picTitles As System.Windows.Forms.PictureBox
+    Private WithEvents _sbStatusBar_Panel1 As System.Windows.Forms.ToolStripStatusLabel
+    Private WithEvents _sbStatusBar_Panel2 As System.Windows.Forms.ToolStripStatusLabel
+    Private WithEvents _sbStatusBar_Panel3 As System.Windows.Forms.ToolStripStatusLabel
+    Private WithEvents _sbStatusBar_Panel4 As System.Windows.Forms.ToolStripStatusLabel
+    Public WithEvents sbStatusBar As System.Windows.Forms.StatusStrip
+    Public WithEvents tmrSystemTasks As System.Windows.Forms.Timer
+    Public dlgHelp As System.Windows.Forms.OpenFileDialog
+    'Public dlgHelpOpen As System.Windows.Forms.OpenFileDialog
+    'Public dlgHelpSave As System.Windows.Forms.SaveFileDialog
+    'Public dlgHelpFont As System.Windows.Forms.FontDialog
+    'Public dlgHelpColor As System.Windows.Forms.ColorDialog
+    'Public dlgHelpPrint As System.Windows.Forms.PrintDialog
+    Public WithEvents uctPMResizer1 As PMResizerControl.uctPMResizer
+    Public WithEvents tmrRefreshTimer As System.Windows.Forms.Timer
+    Public WithEvents imlAvailableTasks As System.Windows.Forms.ImageList
+    Public WithEvents imlScheduledTasks As System.Windows.Forms.ImageList
+    Public WithEvents imgSplitter As System.Windows.Forms.PictureBox
+    Public WithEvents imlQuickStartButtons As System.Windows.Forms.ImageList
+    Public WithEvents imlToolbarIcons As System.Windows.Forms.ImageList
+    Public lblTitle(2) As System.Windows.Forms.Label
+    Public mnuLinksWebsite(0) As System.Windows.Forms.ToolStripMenuItem
+    Public mnuViewSortBy(11) As System.Windows.Forms.ToolStripMenuItem
+    Public WithEvents Ctx_mnuAvailTask As System.Windows.Forms.ContextMenuStrip
+    Public WithEvents Ctx_mnuTask As System.Windows.Forms.ContextMenuStrip
+    'Private WithEvents listViewHelper1 As Artinsoft.VB6.Gui.ListViewHelper
+    Private tabMainPreviousTab As Integer
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.
+    'Do not modify it using the code editor.
+    '<System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.MainMenu1 = New System.Windows.Forms.MenuStrip
+        Me.mnuFile = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuFileExit = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTask = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskNew = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskEdit = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskAssign = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskView = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskStart = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskComplete = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskIncomplete = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskDelete = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuTaskLog = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuView = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewToolbar = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewAvailableTasks = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewStatusBar = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewSplashScreen = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewGridLines = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewBar2 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuViewSortSchedule = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_1 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_2 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_3 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_4 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_5 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_6 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_7 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_8 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_9 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_10 = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuViewSortBy_11 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewBar4 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuViewRefresh = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewBar5 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuViewColumns = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewBar51 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuViewUserOptions = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewSystemOptions = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuLinks = New System.Windows.Forms.ToolStripMenuItem
+        Me._mnuLinksWebsite_0 = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuHelp = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuHelpContents = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuHelpSearch = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuHelpPMSiriusSupport = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewBar7 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuHelpPMProductUpdateHistory = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuViewBar8 = New System.Windows.Forms.ToolStripSeparator
+        Me.mnuHelpAbout = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAvailTask = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAvailTaskScheduleNew = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAvailTaskAddToFavourites = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAvailTaskRemoveFromFavourites = New System.Windows.Forms.ToolStripMenuItem
+        Me.mnuAvailTaskDoNow = New System.Windows.Forms.ToolStripMenuItem
+        Me.tbToolBar = New System.Windows.Forms.ToolStrip
+        Me.imlToolbarIcons = New System.Windows.Forms.ImageList(Me.components)
+        Me._tbToolBar_Button2 = New System.Windows.Forms.ToolStripButton
+        Me._tbToolBar_Button4 = New System.Windows.Forms.ToolStripButton
+        Me._tbToolBar_Button3 = New System.Windows.Forms.ToolStripSeparator
+        Me._tbToolBar_Button5 = New System.Windows.Forms.ToolStripSeparator
+        Me.picSplitter = New System.Windows.Forms.PictureBox
+        Me.panMainTab = New System.Windows.Forms.Panel
+        Me.tabMain = New System.Windows.Forms.TabControl
+        Me._tabMain_TabPage0 = New System.Windows.Forms.TabPage
+        Me._tabMain_TabPage1 = New System.Windows.Forms.TabPage
+        Me.cboParty = New System.Windows.Forms.ComboBox
+        Me.lstScheduledTasks = New System.Windows.Forms.ListView
+        Me._lstScheduledTasks_ColumnHeader_1 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_2 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_3 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_4 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_5 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_6 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_7 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_8 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_9 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_10 = New System.Windows.Forms.ColumnHeader
+        Me._lstScheduledTasks_ColumnHeader_11 = New System.Windows.Forms.ColumnHeader
+        Me.lstBatchTasksStatus = New System.Windows.Forms.ListView
+        Me._lstBatchTasksStatus_ColumnHeader_1 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_2 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_3 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_4 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_5 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_6 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_7 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_8 = New System.Windows.Forms.ColumnHeader
+        Me._lstBatchTasksStatus_ColumnHeader_9 = New System.Windows.Forms.ColumnHeader
+        Me.cboBatchTaskStatus = New PMLookupControl.cboPMLookup
+        Me.cboBatchTaskDateRange = New System.Windows.Forms.ComboBox
+        Me.btnBatchTaskRefresh = New System.Windows.Forms.Button
+        Me.imlScheduledTasks = New System.Windows.Forms.ImageList(Me.components)
+        Me.cboUser = New PMUserLookupControl.cboPMUserLookup
+        Me.cboTaskGroups = New PMLookupControl.cboPMLookup
+        Me.cboTaskStatus = New System.Windows.Forms.ComboBox
+        Me.cboDateRange = New System.Windows.Forms.ComboBox
+        Me.cboUserGroup = New PMUGroupLookupCtrl.cboPMUserGroupByUser
+        Me.cboShowSystem = New System.Windows.Forms.ComboBox
+        Me.cboAllUsers = New PMUserLookupControl.cboPMUserLookup
+        Me.picTitles = New System.Windows.Forms.PictureBox
+        Me._lblTitle_2 = New System.Windows.Forms.Label
+        Me._lblTitle_1 = New System.Windows.Forms.Label
+        Me.sbStatusBar = New System.Windows.Forms.StatusStrip
+        Me._sbStatusBar_Panel1 = New System.Windows.Forms.ToolStripStatusLabel
+        Me._sbStatusBar_Panel2 = New System.Windows.Forms.ToolStripStatusLabel
+        Me._sbStatusBar_Panel3 = New System.Windows.Forms.ToolStripStatusLabel
+        Me._sbStatusBar_Panel4 = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tmrSystemTasks = New System.Windows.Forms.Timer(Me.components)
+        Me.uctPMResizer1 = New PMResizerControl.uctPMResizer
+        Me.tmrRefreshTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.imlAvailableTasks = New System.Windows.Forms.ImageList(Me.components)
+        Me.imgSplitter = New System.Windows.Forms.PictureBox
+        Me.imlQuickStartButtons = New System.Windows.Forms.ImageList(Me.components)
+        Me.Ctx_mnuAvailTask = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.Ctx_mnuTask = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.albAvailableTasks = New AxListbar.AxSSListBar
+        Me.txtFilter = New System.Windows.Forms.TextBox
+        Me.MainMenu1.SuspendLayout()
+        Me.tbToolBar.SuspendLayout()
+        CType(Me.picSplitter, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panMainTab.SuspendLayout()
+        Me.tabMain.SuspendLayout()
+        Me._tabMain_TabPage0.SuspendLayout()
+        Me._tabMain_TabPage1.SuspendLayout()
+        CType(Me.picTitles, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.picTitles.SuspendLayout()
+        Me.sbStatusBar.SuspendLayout()
+        CType(Me.imgSplitter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.albAvailableTasks, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'MainMenu1
+        '
+        Me.MainMenu1.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.MainMenu1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MainMenu1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFile, Me.mnuTask, Me.mnuView, Me.mnuLinks, Me.mnuHelp, Me.mnuAvailTask})
+        Me.MainMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.MainMenu1.Name = "MainMenu1"
+        Me.MainMenu1.Size = New System.Drawing.Size(841, 24)
+        Me.MainMenu1.TabIndex = 20
+        '
+        'mnuFile
+        '
+        Me.mnuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFileExit})
+        Me.mnuFile.Name = "mnuFile"
+        Me.mnuFile.Size = New System.Drawing.Size(37, 20)
+        Me.mnuFile.Text = "&File"
+        '
+        'mnuFileExit
+        '
+        Me.mnuFileExit.AccessibleDescription = ""
+        Me.mnuFileExit.AccessibleName = ""
+        Me.mnuFileExit.Name = "mnuFileExit"
+        Me.mnuFileExit.ShortcutKeyDisplayString = "E&xit"
+        Me.mnuFileExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.mnuFileExit.ShowShortcutKeys = False
+        Me.mnuFileExit.Size = New System.Drawing.Size(85, 22)
+        Me.mnuFileExit.Text = "E&xit"
+        '
+        'mnuTask
+        '
+        Me.mnuTask.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuTaskNew, Me.mnuTaskEdit, Me.mnuTaskAssign, Me.mnuTaskView, Me.mnuTaskStart, Me.mnuTaskComplete, Me.mnuTaskIncomplete, Me.mnuTaskDelete, Me.mnuTaskLog})
+        Me.mnuTask.Name = "mnuTask"
+        Me.mnuTask.Size = New System.Drawing.Size(41, 20)
+        Me.mnuTask.Text = "&Task"
+        '
+        'mnuTaskNew
+        '
+        Me.mnuTaskNew.Name = "mnuTaskNew"
+        Me.mnuTaskNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.mnuTaskNew.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskNew.Text = "Schedule &New Task"
+        '
+        'mnuTaskEdit
+        '
+        Me.mnuTaskEdit.Name = "mnuTaskEdit"
+        Me.mnuTaskEdit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
+        Me.mnuTaskEdit.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskEdit.Text = "&Edit"
+        '
+        'mnuTaskAssign
+        '
+        Me.mnuTaskAssign.Name = "mnuTaskAssign"
+        Me.mnuTaskAssign.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+        Me.mnuTaskAssign.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskAssign.Text = "&Assign"
+        '
+        'mnuTaskView
+        '
+        Me.mnuTaskView.Name = "mnuTaskView"
+        Me.mnuTaskView.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.mnuTaskView.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskView.Text = "&View"
+        '
+        'mnuTaskStart
+        '
+        Me.mnuTaskStart.Name = "mnuTaskStart"
+        Me.mnuTaskStart.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.mnuTaskStart.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskStart.Text = "&Start"
+        '
+        'mnuTaskComplete
+        '
+        Me.mnuTaskComplete.Name = "mnuTaskComplete"
+        Me.mnuTaskComplete.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.mnuTaskComplete.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskComplete.Text = "&Complete"
+        '
+        'mnuTaskIncomplete
+        '
+        Me.mnuTaskIncomplete.Name = "mnuTaskIncomplete"
+        Me.mnuTaskIncomplete.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
+        Me.mnuTaskIncomplete.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskIncomplete.Text = "&Incomplete"
+        '
+        'mnuTaskDelete
+        '
+        Me.mnuTaskDelete.Name = "mnuTaskDelete"
+        Me.mnuTaskDelete.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
+        Me.mnuTaskDelete.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskDelete.Text = "&Delete"
+        '
+        'mnuTaskLog
+        '
+        Me.mnuTaskLog.Name = "mnuTaskLog"
+        Me.mnuTaskLog.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
+        Me.mnuTaskLog.Size = New System.Drawing.Size(213, 22)
+        Me.mnuTaskLog.Text = "Task &Log"
+        '
+        'mnuView
+        '
+        Me.mnuView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuViewToolbar, Me.mnuViewAvailableTasks, Me.mnuViewStatusBar, Me.mnuViewSplashScreen, Me.mnuViewGridLines, Me.mnuViewBar2, Me.mnuViewSortSchedule, Me.mnuViewBar4, Me.mnuViewRefresh, Me.mnuViewBar5, Me.mnuViewColumns, Me.mnuViewBar51, Me.mnuViewUserOptions, Me.mnuViewSystemOptions})
+        Me.mnuView.Name = "mnuView"
+        Me.mnuView.Size = New System.Drawing.Size(44, 20)
+        Me.mnuView.Text = "&View"
+        '
+        'mnuViewToolbar
+        '
+        Me.mnuViewToolbar.Checked = True
+        Me.mnuViewToolbar.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.mnuViewToolbar.Name = "mnuViewToolbar"
+        Me.mnuViewToolbar.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewToolbar.Text = "&Toolbar"
+        '
+        'mnuViewAvailableTasks
+        '
+        Me.mnuViewAvailableTasks.Checked = True
+        Me.mnuViewAvailableTasks.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.mnuViewAvailableTasks.Name = "mnuViewAvailableTasks"
+        Me.mnuViewAvailableTasks.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewAvailableTasks.Text = "&Available Tasks"
+        '
+        'mnuViewStatusBar
+        '
+        Me.mnuViewStatusBar.Checked = True
+        Me.mnuViewStatusBar.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.mnuViewStatusBar.Name = "mnuViewStatusBar"
+        Me.mnuViewStatusBar.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewStatusBar.Text = "Status &Bar"
+        '
+        'mnuViewSplashScreen
+        '
+        Me.mnuViewSplashScreen.Checked = True
+        Me.mnuViewSplashScreen.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.mnuViewSplashScreen.Name = "mnuViewSplashScreen"
+        Me.mnuViewSplashScreen.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewSplashScreen.Text = "&Splash Screen"
+        '
+        'mnuViewGridLines
+        '
+        Me.mnuViewGridLines.Checked = True
+        Me.mnuViewGridLines.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.mnuViewGridLines.Name = "mnuViewGridLines"
+        Me.mnuViewGridLines.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewGridLines.Text = "&Grid Lines"
+        '
+        'mnuViewBar2
+        '
+        Me.mnuViewBar2.Name = "mnuViewBar2"
+        Me.mnuViewBar2.Size = New System.Drawing.Size(188, 6)
+        '
+        'mnuViewSortSchedule
+        '
+        Me.mnuViewSortSchedule.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me._mnuViewSortBy_1, Me._mnuViewSortBy_2, Me._mnuViewSortBy_3, Me._mnuViewSortBy_4, Me._mnuViewSortBy_5, Me._mnuViewSortBy_6, Me._mnuViewSortBy_7, Me._mnuViewSortBy_8, Me._mnuViewSortBy_9, Me._mnuViewSortBy_10, Me._mnuViewSortBy_11})
+        Me.mnuViewSortSchedule.Name = "mnuViewSortSchedule"
+        Me.mnuViewSortSchedule.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewSortSchedule.Text = "Sort Schedule"
+        '
+        '_mnuViewSortBy_1
+        '
+        Me._mnuViewSortBy_1.Name = "_mnuViewSortBy_1"
+        Me._mnuViewSortBy_1.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_1.Text = "by Urgency"
+        '
+        '_mnuViewSortBy_2
+        '
+        Me._mnuViewSortBy_2.Name = "_mnuViewSortBy_2"
+        Me._mnuViewSortBy_2.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_2.Text = "by Status"
+        '
+        '_mnuViewSortBy_3
+        '
+        Me._mnuViewSortBy_3.Name = "_mnuViewSortBy_3"
+        Me._mnuViewSortBy_3.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_3.Text = "by Due Date"
+        '
+        '_mnuViewSortBy_4
+        '
+        Me._mnuViewSortBy_4.Name = "_mnuViewSortBy_4"
+        Me._mnuViewSortBy_4.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_4.Text = "by Description"
+        '
+        '_mnuViewSortBy_5
+        '
+        Me._mnuViewSortBy_5.Name = "_mnuViewSortBy_5"
+        Me._mnuViewSortBy_5.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_5.Text = "by Customer"
+        '
+        '_mnuViewSortBy_6
+        '
+        Me._mnuViewSortBy_6.Name = "_mnuViewSortBy_6"
+        Me._mnuViewSortBy_6.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_6.Text = "by Type"
+        '
+        '_mnuViewSortBy_7
+        '
+        Me._mnuViewSortBy_7.Name = "_mnuViewSortBy_7"
+        Me._mnuViewSortBy_7.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_7.Text = "by User Group"
+        '
+        '_mnuViewSortBy_8
+        '
+        Me._mnuViewSortBy_8.Name = "_mnuViewSortBy_8"
+        Me._mnuViewSortBy_8.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_8.Text = "by User"
+        '
+        '_mnuViewSortBy_9
+        '
+        Me._mnuViewSortBy_9.Enabled = False
+        Me._mnuViewSortBy_9.Name = "_mnuViewSortBy_9"
+        Me._mnuViewSortBy_9.ShowShortcutKeys = False
+        Me._mnuViewSortBy_9.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_9.Text = "by DueDate"
+        '
+        '_mnuViewSortBy_10
+        '
+        Me._mnuViewSortBy_10.Enabled = False
+        Me._mnuViewSortBy_10.Name = "_mnuViewSortBy_10"
+        Me._mnuViewSortBy_10.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_10.Text = "by ClientCode"
+        '
+        '_mnuViewSortBy_11
+        '
+        Me._mnuViewSortBy_11.Name = "_mnuViewSortBy_11"
+        Me._mnuViewSortBy_11.Size = New System.Drawing.Size(158, 22)
+        Me._mnuViewSortBy_11.Text = "by Agent/Broker"
+        '
+        'mnuViewBar4
+        '
+        Me.mnuViewBar4.Name = "mnuViewBar4"
+        Me.mnuViewBar4.Size = New System.Drawing.Size(188, 6)
+        '
+        'mnuViewRefresh
+        '
+        Me.mnuViewRefresh.Name = "mnuViewRefresh"
+        Me.mnuViewRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.mnuViewRefresh.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewRefresh.Text = "&Refresh"
+        '
+        'mnuViewBar5
+        '
+        Me.mnuViewBar5.Name = "mnuViewBar5"
+        Me.mnuViewBar5.Size = New System.Drawing.Size(188, 6)
+        '
+        'mnuViewColumns
+        '
+        Me.mnuViewColumns.Name = "mnuViewColumns"
+        Me.mnuViewColumns.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewColumns.Text = "Default column widths"
+        '
+        'mnuViewBar51
+        '
+        Me.mnuViewBar51.Name = "mnuViewBar51"
+        Me.mnuViewBar51.Size = New System.Drawing.Size(188, 6)
+        '
+        'mnuViewUserOptions
+        '
+        Me.mnuViewUserOptions.Name = "mnuViewUserOptions"
+        Me.mnuViewUserOptions.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewUserOptions.Text = "&User Options..."
+        '
+        'mnuViewSystemOptions
+        '
+        Me.mnuViewSystemOptions.Name = "mnuViewSystemOptions"
+        Me.mnuViewSystemOptions.Size = New System.Drawing.Size(191, 22)
+        Me.mnuViewSystemOptions.Text = "&System Options..."
+        '
+        'mnuLinks
+        '
+        Me.mnuLinks.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me._mnuLinksWebsite_0})
+        Me.mnuLinks.Name = "mnuLinks"
+        Me.mnuLinks.Size = New System.Drawing.Size(45, 20)
+        Me.mnuLinks.Text = "&Links"
+        '
+        '_mnuLinksWebsite_0
+        '
+        Me._mnuLinksWebsite_0.Name = "_mnuLinksWebsite_0"
+        Me._mnuLinksWebsite_0.Size = New System.Drawing.Size(136, 22)
+        Me._mnuLinksWebsite_0.Text = "PlaceMarker"
+        '
+        'mnuHelp
+        '
+        Me.mnuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuHelpContents, Me.mnuHelpSearch, Me.mnuHelpPMSiriusSupport, Me.mnuViewBar7, Me.mnuHelpPMProductUpdateHistory, Me.mnuViewBar8, Me.mnuHelpAbout})
+        Me.mnuHelp.Name = "mnuHelp"
+        Me.mnuHelp.Size = New System.Drawing.Size(43, 20)
+        Me.mnuHelp.Text = "&Help"
+        '
+        'mnuHelpContents
+        '
+        Me.mnuHelpContents.Name = "mnuHelpContents"
+        Me.mnuHelpContents.Size = New System.Drawing.Size(202, 22)
+        Me.mnuHelpContents.Text = "&Contents"
+        '
+        'mnuHelpSearch
+        '
+        Me.mnuHelpSearch.Name = "mnuHelpSearch"
+        Me.mnuHelpSearch.Size = New System.Drawing.Size(202, 22)
+        Me.mnuHelpSearch.Text = "&Search For Help On..."
+        '
+        'mnuHelpPMSiriusSupport
+        '
+        Me.mnuHelpPMSiriusSupport.Enabled = False
+        Me.mnuHelpPMSiriusSupport.Name = "mnuHelpPMSiriusSupport"
+        Me.mnuHelpPMSiriusSupport.Size = New System.Drawing.Size(202, 22)
+        Me.mnuHelpPMSiriusSupport.Text = "Sirius Support &Web Page"
+        Me.mnuHelpPMSiriusSupport.Visible = False
+        '
+        'mnuViewBar7
+        '
+        Me.mnuViewBar7.Name = "mnuViewBar7"
+        Me.mnuViewBar7.Size = New System.Drawing.Size(199, 6)
+        '
+        'mnuHelpPMProductUpdateHistory
+        '
+        Me.mnuHelpPMProductUpdateHistory.Name = "mnuHelpPMProductUpdateHistory"
+        Me.mnuHelpPMProductUpdateHistory.Size = New System.Drawing.Size(202, 22)
+        Me.mnuHelpPMProductUpdateHistory.Text = "&Product Update History"
+        '
+        'mnuViewBar8
+        '
+        Me.mnuViewBar8.Name = "mnuViewBar8"
+        Me.mnuViewBar8.Size = New System.Drawing.Size(199, 6)
+        '
+        'mnuHelpAbout
+        '
+        Me.mnuHelpAbout.Name = "mnuHelpAbout"
+        Me.mnuHelpAbout.Size = New System.Drawing.Size(202, 22)
+        Me.mnuHelpAbout.Text = "&About Work Manager..."
+        '
+        'mnuAvailTask
+        '
+        Me.mnuAvailTask.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAvailTaskScheduleNew, Me.mnuAvailTaskAddToFavourites, Me.mnuAvailTaskRemoveFromFavourites, Me.mnuAvailTaskDoNow})
+        Me.mnuAvailTask.Name = "mnuAvailTask"
+        Me.mnuAvailTask.Size = New System.Drawing.Size(12, 20)
+        Me.mnuAvailTask.Visible = False
+        '
+        'mnuAvailTaskScheduleNew
+        '
+        Me.mnuAvailTaskScheduleNew.Name = "mnuAvailTaskScheduleNew"
+        Me.mnuAvailTaskScheduleNew.Size = New System.Drawing.Size(199, 22)
+        Me.mnuAvailTaskScheduleNew.Text = "Schedule &New Task"
+        '
+        'mnuAvailTaskAddToFavourites
+        '
+        Me.mnuAvailTaskAddToFavourites.Name = "mnuAvailTaskAddToFavourites"
+        Me.mnuAvailTaskAddToFavourites.Size = New System.Drawing.Size(199, 22)
+        Me.mnuAvailTaskAddToFavourites.Text = "&Add to Favourites"
+        '
+        'mnuAvailTaskRemoveFromFavourites
+        '
+        Me.mnuAvailTaskRemoveFromFavourites.Name = "mnuAvailTaskRemoveFromFavourites"
+        Me.mnuAvailTaskRemoveFromFavourites.Size = New System.Drawing.Size(199, 22)
+        Me.mnuAvailTaskRemoveFromFavourites.Text = "&Remove From Favourites"
+        '
+        'mnuAvailTaskDoNow
+        '
+        Me.mnuAvailTaskDoNow.Name = "mnuAvailTaskDoNow"
+        Me.mnuAvailTaskDoNow.Size = New System.Drawing.Size(199, 22)
+        Me.mnuAvailTaskDoNow.Text = "&Do Now"
+        '
+        'tbToolBar
+        '
+        Me.tbToolBar.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.tbToolBar.CanOverflow = False
+        Me.tbToolBar.ImageList = Me.imlToolbarIcons
+        Me.tbToolBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me._tbToolBar_Button2, Me._tbToolBar_Button4})
+        Me.tbToolBar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
+        Me.tbToolBar.Location = New System.Drawing.Point(0, 24)
+        Me.tbToolBar.Name = "tbToolBar"
+        Me.tbToolBar.Size = New System.Drawing.Size(841, 25)
+        Me.tbToolBar.TabIndex = 1
+        '
+        'imlToolbarIcons
+        '
+        Me.imlToolbarIcons.ImageStream = CType(resources.GetObject("imlToolbarIcons.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imlToolbarIcons.TransparentColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.imlToolbarIcons.Images.SetKeyName(0, "LEFT")
+        Me.imlToolbarIcons.Images.SetKeyName(1, "RIGHT")
+        Me.imlToolbarIcons.Images.SetKeyName(2, "CUT")
+        Me.imlToolbarIcons.Images.SetKeyName(3, "COPY")
+        Me.imlToolbarIcons.Images.SetKeyName(4, "PASTE")
+        Me.imlToolbarIcons.Images.SetKeyName(5, "DELETE")
+        Me.imlToolbarIcons.Images.SetKeyName(6, "PROPERTIES")
+        Me.imlToolbarIcons.Images.SetKeyName(7, "LARGEICONS")
+        Me.imlToolbarIcons.Images.SetKeyName(8, "SMALLICONS")
+        Me.imlToolbarIcons.Images.SetKeyName(9, "LISTICON")
+        Me.imlToolbarIcons.Images.SetKeyName(10, "DETAILS")
+        Me.imlToolbarIcons.Images.SetKeyName(11, "REDO")
+        Me.imlToolbarIcons.Images.SetKeyName(12, "")
+        Me.imlToolbarIcons.Images.SetKeyName(13, "")
+        Me.imlToolbarIcons.Images.SetKeyName(14, "HOURGLASS")
+        Me.imlToolbarIcons.Images.SetKeyName(15, "")
+        Me.imlToolbarIcons.Images.SetKeyName(16, "REFRESH")
+        Me.imlToolbarIcons.Images.SetKeyName(17, "SUPPORT")
+        Me.imlToolbarIcons.Images.SetKeyName(18, "DESKTOP")
+        Me.imlToolbarIcons.Images.SetKeyName(19, "WEBSITE")
+        Me.imlToolbarIcons.Images.SetKeyName(20, "")
+        '
+        '_tbToolBar_Button2
+        '
+        Me._tbToolBar_Button2.AutoSize = False
+        Me._tbToolBar_Button2.ImageIndex = 15
+        Me._tbToolBar_Button2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me._tbToolBar_Button2.Name = "_tbToolBar_Button2"
+        Me._tbToolBar_Button2.Size = New System.Drawing.Size(28, 19)
+        Me._tbToolBar_Button2.Tag = ""
+        Me._tbToolBar_Button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me._tbToolBar_Button2.ToolTipText = "View Available Tasks"
+        '
+        '_tbToolBar_Button4
+        '
+        Me._tbToolBar_Button4.AutoSize = False
+        Me._tbToolBar_Button4.ImageIndex = 16
+        Me._tbToolBar_Button4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me._tbToolBar_Button4.Name = "_tbToolBar_Button4"
+        Me._tbToolBar_Button4.Size = New System.Drawing.Size(28, 20)
+        Me._tbToolBar_Button4.Tag = ""
+        Me._tbToolBar_Button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        Me._tbToolBar_Button4.ToolTipText = "Refresh"
+        '
+        '_tbToolBar_Button3
+        '
+        Me._tbToolBar_Button3.AutoSize = False
+        Me._tbToolBar_Button3.Name = "_tbToolBar_Button3"
+        Me._tbToolBar_Button3.Size = New System.Drawing.Size(7, 19)
+        Me._tbToolBar_Button3.Tag = ""
+        '
+        '_tbToolBar_Button5
+        '
+        Me._tbToolBar_Button5.AutoSize = False
+        Me._tbToolBar_Button5.Name = "_tbToolBar_Button5"
+        Me._tbToolBar_Button5.Size = New System.Drawing.Size(7, 19)
+        Me._tbToolBar_Button5.Tag = ""
+        '
+        'picSplitter
+        '
+        Me.picSplitter.BackColor = System.Drawing.Color.Gray
+        Me.picSplitter.Cursor = System.Windows.Forms.Cursors.Default
+        Me.picSplitter.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.picSplitter.Location = New System.Drawing.Point(136, 120)
+        Me.picSplitter.Name = "picSplitter"
+        Me.picSplitter.Size = New System.Drawing.Size(1, 496)
+        Me.picSplitter.TabIndex = 17
+        Me.picSplitter.TabStop = False
+        Me.picSplitter.Visible = False
+        '
+        'panMainTab
+        '
+        Me.panMainTab.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.panMainTab.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.panMainTab.Controls.Add(Me.tabMain)
+        Me.panMainTab.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.panMainTab.Location = New System.Drawing.Point(137, 72)
+        Me.panMainTab.Name = "panMainTab"
+        Me.panMainTab.Size = New System.Drawing.Size(660, 496)
+        Me.panMainTab.TabIndex = 4
+        '
+        'tabMain
+        '
+        Me.tabMain.Controls.Add(Me._tabMain_TabPage0)
+        Me.tabMain.Controls.Add(Me._tabMain_TabPage1)
+        Me.tabMain.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tabMain.ItemSize = New System.Drawing.Size(329, 30)
+        Me.tabMain.Location = New System.Drawing.Point(0, 0)
+        Me.tabMain.Multiline = True
+        Me.tabMain.Name = "tabMain"
+        Me.tabMain.SelectedIndex = 0
+        Me.tabMain.Size = New System.Drawing.Size(653, 479)
+        Me.tabMain.TabIndex = 6
+        '
+        '_tabMain_TabPage0
+        '
+        Me._tabMain_TabPage0.Controls.Add(Me.cboParty)
+        Me._tabMain_TabPage0.Controls.Add(Me.lstScheduledTasks)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboUser)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboTaskGroups)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboTaskStatus)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboDateRange)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboUserGroup)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboShowSystem)
+        Me._tabMain_TabPage0.Controls.Add(Me.cboAllUsers)
+        Me._tabMain_TabPage0.Location = New System.Drawing.Point(4, 34)
+        Me._tabMain_TabPage0.Name = "_tabMain_TabPage0"
+        Me._tabMain_TabPage0.Size = New System.Drawing.Size(645, 441)
+        Me._tabMain_TabPage0.TabIndex = 0
+        Me._tabMain_TabPage0.Text = "Scheduled Tasks"
+        Me._tabMain_TabPage0.UseVisualStyleBackColor = True
+        '
+        '_tabMain_TabPage1
+        '
+        Me._tabMain_TabPage1.Controls.Add(Me.lstBatchTasksStatus)
+        Me._tabMain_TabPage1.Controls.Add(Me.cboBatchTaskStatus)
+        Me._tabMain_TabPage1.Controls.Add(Me.cboBatchTaskDateRange)
+        Me._tabMain_TabPage1.Controls.Add(Me.btnBatchTaskRefresh)
+        Me._tabMain_TabPage1.Location = New System.Drawing.Point(4, 34)
+        Me._tabMain_TabPage1.Name = "_tabMain_TabPage1"
+        Me._tabMain_TabPage1.Size = New System.Drawing.Size(645, 441)
+        Me._tabMain_TabPage1.TabIndex = 1
+        Me._tabMain_TabPage1.Text = "Batch Task Status"
+        Me._tabMain_TabPage1.UseVisualStyleBackColor = True
+        '
+        'cboParty
+        '
+        Me.cboParty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboParty.FormattingEnabled = True
+        Me.cboParty.Location = New System.Drawing.Point(545, 7)
+        Me.cboParty.Name = "cboParty"
+        Me.cboParty.Size = New System.Drawing.Size(97, 21)
+        Me.cboParty.TabIndex = 23
+        '
+        'lstScheduledTasks
+        '
+        Me.lstScheduledTasks.BackColor = System.Drawing.SystemColors.Window
+        Me.lstScheduledTasks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lstScheduledTasks.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me._lstScheduledTasks_ColumnHeader_1, Me._lstScheduledTasks_ColumnHeader_2, Me._lstScheduledTasks_ColumnHeader_3, Me._lstScheduledTasks_ColumnHeader_4, Me._lstScheduledTasks_ColumnHeader_5, Me._lstScheduledTasks_ColumnHeader_6, Me._lstScheduledTasks_ColumnHeader_7, Me._lstScheduledTasks_ColumnHeader_8, Me._lstScheduledTasks_ColumnHeader_9, Me._lstScheduledTasks_ColumnHeader_10, Me._lstScheduledTasks_ColumnHeader_11})
+        Me.lstScheduledTasks.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lstScheduledTasks.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.lstScheduledTasks.GridLines = True
+        Me.lstScheduledTasks.HideSelection = False
+        Me.lstScheduledTasks.Location = New System.Drawing.Point(3, 31)
+        Me.lstScheduledTasks.Name = "lstScheduledTasks"
+        Me.lstScheduledTasks.Size = New System.Drawing.Size(645, 414)
+        Me.lstScheduledTasks.SmallImageList = Me.imlScheduledTasks
+        Me.lstScheduledTasks.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lstScheduledTasks.TabIndex = 7
+        Me.lstScheduledTasks.UseCompatibleStateImageBehavior = False
+        Me.lstScheduledTasks.View = System.Windows.Forms.View.Details
+        '
+        '_lstScheduledTasks_ColumnHeader_1
+        '
+        Me._lstScheduledTasks_ColumnHeader_1.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_1.Text = "Urgent"
+        Me._lstScheduledTasks_ColumnHeader_1.Width = 48
+        '
+        '_lstScheduledTasks_ColumnHeader_2
+        '
+        Me._lstScheduledTasks_ColumnHeader_2.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_2.Text = "Status"
+        Me._lstScheduledTasks_ColumnHeader_2.Width = 54
+        '
+        '_lstScheduledTasks_ColumnHeader_3
+        '
+        Me._lstScheduledTasks_ColumnHeader_3.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_3.Text = "Due Date"
+        Me._lstScheduledTasks_ColumnHeader_3.Width = 53
+        '
+        '_lstScheduledTasks_ColumnHeader_4
+        '
+        Me._lstScheduledTasks_ColumnHeader_4.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_4.Text = "Description"
+        Me._lstScheduledTasks_ColumnHeader_4.Width = 41
+        '
+        '_lstScheduledTasks_ColumnHeader_5
+        '
+        Me._lstScheduledTasks_ColumnHeader_5.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_5.Text = "Customer"
+        Me._lstScheduledTasks_ColumnHeader_5.Width = 77
+        '
+        '_lstScheduledTasks_ColumnHeader_6
+        '
+        Me._lstScheduledTasks_ColumnHeader_6.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_6.Text = "Type"
+        Me._lstScheduledTasks_ColumnHeader_6.Width = 70
+        '
+        '_lstScheduledTasks_ColumnHeader_7
+        '
+        Me._lstScheduledTasks_ColumnHeader_7.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_7.Text = "User Group"
+        Me._lstScheduledTasks_ColumnHeader_7.Width = 82
+        '
+        '_lstScheduledTasks_ColumnHeader_8
+        '
+        Me._lstScheduledTasks_ColumnHeader_8.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_8.Text = "User"
+        Me._lstScheduledTasks_ColumnHeader_8.Width = 75
+        '
+        '_lstScheduledTasks_ColumnHeader_9
+        '
+        Me._lstScheduledTasks_ColumnHeader_9.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_9.Text = "DueDateSortable"
+        Me._lstScheduledTasks_ColumnHeader_9.Width = 0
+        '
+        '_lstScheduledTasks_ColumnHeader_10
+        '
+        Me._lstScheduledTasks_ColumnHeader_10.Tag = ""
+        Me._lstScheduledTasks_ColumnHeader_10.Text = "ClientCodeSortable"
+        Me._lstScheduledTasks_ColumnHeader_10.Width = 0
+        '
+        '_lstScheduledTasks_ColumnHeader_11
+        '
+        Me._lstScheduledTasks_ColumnHeader_11.Text = "Agent/Broker"
+        '
+        'imlScheduledTasks
+        '
+        Me.imlScheduledTasks.ImageStream = CType(resources.GetObject("imlScheduledTasks.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imlScheduledTasks.TransparentColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.imlScheduledTasks.Images.SetKeyName(0, "")
+        Me.imlScheduledTasks.Images.SetKeyName(1, "Urgent")
+        Me.imlScheduledTasks.Images.SetKeyName(2, "")
+        Me.imlScheduledTasks.Images.SetKeyName(3, "")
+        Me.imlScheduledTasks.Images.SetKeyName(4, "")
+        Me.imlScheduledTasks.Images.SetKeyName(5, "")
+        Me.imlScheduledTasks.Images.SetKeyName(6, "")
+        Me.imlScheduledTasks.Images.SetKeyName(7, "")
+        '
+        'cboUser
+        '
+        Me.cboUser.DefaultUserID = 0
+        Me.cboUser.FirstItem = "()"
+        Me.cboUser.ListIndex = -1
+        Me.cboUser.Location = New System.Drawing.Point(250, 7)
+        Me.cboUser.Name = "cboUser"
+        Me.cboUser.PMUserGroupID = 0
+        Me.cboUser.SingleUserID = 0
+        Me.cboUser.Size = New System.Drawing.Size(108, 21)
+        Me.cboUser.Sorted = True
+        Me.cboUser.TabIndex = 10
+        Me.cboUser.ToolTipText = ""
+        Me.cboUser.UserID = 0
+        '
+        'cboTaskGroups
+        '
+        Me.cboTaskGroups.DefaultItemId = 0
+        Me.cboTaskGroups.FirstItem = ""
+        Me.cboTaskGroups.ItemId = 0
+        Me.cboTaskGroups.ListIndex = -1
+        Me.cboTaskGroups.Location = New System.Drawing.Point(640, -25)
+        Me.cboTaskGroups.Name = "cboTaskGroups"
+        Me.cboTaskGroups.PMLookupProductFamily = 1
+        Me.cboTaskGroups.SingleItemId = 0
+        Me.cboTaskGroups.Size = New System.Drawing.Size(17, 21)
+        Me.cboTaskGroups.Sorted = True
+        Me.cboTaskGroups.TabIndex = 9
+        Me.cboTaskGroups.TableName = "PMWrk_Task_Group"
+        Me.cboTaskGroups.ToolTipText = ""
+        Me.cboTaskGroups.Visible = False
+        Me.cboTaskGroups.WhereClause = ""
+        '
+        'cboTaskStatus
+        '
+        Me.cboTaskStatus.BackColor = System.Drawing.SystemColors.Window
+        Me.cboTaskStatus.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cboTaskStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboTaskStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboTaskStatus.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.cboTaskStatus.Location = New System.Drawing.Point(5, 7)
+        Me.cboTaskStatus.Name = "cboTaskStatus"
+        Me.cboTaskStatus.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cboTaskStatus.Size = New System.Drawing.Size(113, 21)
+        Me.cboTaskStatus.TabIndex = 11
+        '
+        'cboDateRange
+        '
+        Me.cboDateRange.BackColor = System.Drawing.SystemColors.Window
+        Me.cboDateRange.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cboDateRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboDateRange.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboDateRange.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.cboDateRange.Location = New System.Drawing.Point(364, 7)
+        Me.cboDateRange.Name = "cboDateRange"
+        Me.cboDateRange.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cboDateRange.Size = New System.Drawing.Size(105, 21)
+        Me.cboDateRange.TabIndex = 12
+        '
+        'cboUserGroup
+        '
+        Me.cboUserGroup.DefaultTaskGroupID = 0
+        Me.cboUserGroup.FirstItem = "()"
+        Me.cboUserGroup.ListIndex = -1
+        Me.cboUserGroup.Location = New System.Drawing.Point(124, 7)
+        Me.cboUserGroup.Name = "cboUserGroup"
+        Me.cboUserGroup.PMUserID = 0
+        Me.cboUserGroup.SingleUserGroupID = 0
+        Me.cboUserGroup.Size = New System.Drawing.Size(120, 21)
+        Me.cboUserGroup.Sorted = True
+        Me.cboUserGroup.TabIndex = 13
+        Me.cboUserGroup.ToolTipText = ""
+        Me.cboUserGroup.UserGroupID = 0
+        '
+        'cboShowSystem
+        '
+        Me.cboShowSystem.BackColor = System.Drawing.SystemColors.Window
+        Me.cboShowSystem.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cboShowSystem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboShowSystem.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboShowSystem.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.cboShowSystem.Location = New System.Drawing.Point(475, 7)
+        Me.cboShowSystem.Name = "cboShowSystem"
+        Me.cboShowSystem.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cboShowSystem.Size = New System.Drawing.Size(64, 21)
+        Me.cboShowSystem.TabIndex = 15
+        '
+        'cboAllUsers
+        '
+        Me.cboAllUsers.DefaultUserID = 0
+        Me.cboAllUsers.FirstItem = "()"
+        Me.cboAllUsers.ListIndex = -1
+        Me.cboAllUsers.Location = New System.Drawing.Point(612, -25)
+        Me.cboAllUsers.Name = "cboAllUsers"
+        Me.cboAllUsers.PMUserGroupID = 0
+        Me.cboAllUsers.SingleUserID = 0
+        Me.cboAllUsers.Size = New System.Drawing.Size(17, 21)
+        Me.cboAllUsers.Sorted = True
+        Me.cboAllUsers.TabIndex = 22
+        Me.cboAllUsers.ToolTipText = ""
+        Me.cboAllUsers.UserID = 0
+        Me.cboAllUsers.Visible = False
+        '
+        'lstBatchTasksStatus
+        '
+        Me.lstBatchTasksStatus.BackColor = System.Drawing.SystemColors.Window
+        Me.lstBatchTasksStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lstBatchTasksStatus.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me._lstBatchTasksStatus_ColumnHeader_1, Me._lstBatchTasksStatus_ColumnHeader_2, Me._lstBatchTasksStatus_ColumnHeader_3, Me._lstBatchTasksStatus_ColumnHeader_4, Me._lstBatchTasksStatus_ColumnHeader_6, Me._lstBatchTasksStatus_ColumnHeader_7, Me._lstBatchTasksStatus_ColumnHeader_8, Me._lstBatchTasksStatus_ColumnHeader_9, Me._lstBatchTasksStatus_ColumnHeader_5})
+        Me.lstBatchTasksStatus.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lstBatchTasksStatus.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.lstBatchTasksStatus.GridLines = True
+        Me.lstBatchTasksStatus.HideSelection = False
+        Me.lstBatchTasksStatus.Location = New System.Drawing.Point(3, 31)
+        Me.lstBatchTasksStatus.Name = "lstBatchTasksStatus"
+        Me.lstBatchTasksStatus.Size = New System.Drawing.Size(645, 414)
+        Me.lstBatchTasksStatus.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lstBatchTasksStatus.TabIndex = 7
+        Me.lstBatchTasksStatus.UseCompatibleStateImageBehavior = False
+        Me.lstBatchTasksStatus.View = System.Windows.Forms.View.Details
+        '
+        '_lstBatchTasksStatus_ColumnHeader_1
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_1.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_1.Text = "Process"
+        Me._lstBatchTasksStatus_ColumnHeader_1.Width = 160
+        '
+        '_lstBatchTasksStatus_ColumnHeader_2
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_2.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_2.Text = "Description"
+        Me._lstBatchTasksStatus_ColumnHeader_2.Width = 190
+        '
+        '_lstBatchTasksStatus_ColumnHeader_3
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_3.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_3.Text = "Start Date & Time"
+        Me._lstBatchTasksStatus_ColumnHeader_3.Width = 140
+        '
+        '_lstBatchTasksStatus_ColumnHeader_4
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_4.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_4.Text = "End Date & Time"
+        Me._lstBatchTasksStatus_ColumnHeader_4.Width = 140
+        '
+        '_lstBatchTasksStatus_ColumnHeader_5
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_5.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_5.Text = "Batch Job Status"
+        Me._lstBatchTasksStatus_ColumnHeader_5.Width = 100
+        '
+        '_lstBatchTasksStatus_ColumnHeader_6
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_6.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_6.Text = "File Name"
+        Me._lstBatchTasksStatus_ColumnHeader_6.Width = 160
+        '
+        '_lstBatchTasksStatus_ColumnHeader_7
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_7.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_7.Text = "Passed Records"
+        Me._lstBatchTasksStatus_ColumnHeader_7.Width = 100
+        '
+        '_lstBatchTasksStatuss_ColumnHeader_8
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_8.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_8.Text = "Failed Records"
+        Me._lstBatchTasksStatus_ColumnHeader_8.Width = 100
+        '
+        '_lstBatchTasksStatus_ColumnHeader_9
+        '
+        Me._lstBatchTasksStatus_ColumnHeader_9.Tag = ""
+        Me._lstBatchTasksStatus_ColumnHeader_9.Text = "Total Records"
+        Me._lstBatchTasksStatus_ColumnHeader_9.Width = 100
+        '
+        'cboBatchTaskStatus
+        '
+        Me.cboBatchTaskStatus.BackColor = System.Drawing.SystemColors.Window
+        Me.cboBatchTaskStatus.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cboBatchTaskStatus.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboBatchTaskStatus.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.cboBatchTaskStatus.Location = New System.Drawing.Point(5, 7)
+        Me.cboBatchTaskStatus.Name = "cboBatchTaskStatus"
+        Me.cboBatchTaskStatus.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cboBatchTaskStatus.Size = New System.Drawing.Size(113, 21)
+        Me.cboBatchTaskStatus.TabIndex = 11
+        Me.cboBatchTaskStatus.TableName = "BatchStatus"
+        Me.cboBatchTaskStatus.WhereClause = "code in ('C','BI','F')"
+        Me.cboBatchTaskStatus.FirstItem = "(All Status)"
+        Me.cboBatchTaskStatus.DefaultItemId = 0
+        Me.cboBatchTaskStatus.ItemId = 0
+        Me.cboBatchTaskStatus.ListIndex = 0
+        '
+        'cboBatchTaskDateRange
+        '
+        Me.cboBatchTaskDateRange.BackColor = System.Drawing.SystemColors.Window
+        Me.cboBatchTaskDateRange.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cboBatchTaskDateRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBatchTaskDateRange.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboBatchTaskDateRange.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.cboBatchTaskDateRange.Location = New System.Drawing.Point(120, 7)
+        Me.cboBatchTaskDateRange.Name = "cboBatchTaskDateRange"
+        Me.cboBatchTaskDateRange.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.cboBatchTaskDateRange.Size = New System.Drawing.Size(90, 21)
+        Me.cboBatchTaskDateRange.TabIndex = 12
+        '
+        'btnBatchTaskRefresh
+        '
+        Me.btnBatchTaskRefresh.BackColor = System.Drawing.SystemColors.Window
+        Me.btnBatchTaskRefresh.Cursor = System.Windows.Forms.Cursors.Default
+        Me.btnBatchTaskRefresh.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBatchTaskRefresh.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.btnBatchTaskRefresh.Location = New System.Drawing.Point(600, 7)
+        Me.btnBatchTaskRefresh.Name = "btnBatchTaskRefresh"
+        Me.btnBatchTaskRefresh.Text = "Refresh"
+        Me.btnBatchTaskRefresh.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.btnBatchTaskRefresh.Size = New System.Drawing.Size(80, 21)
+        Me.btnBatchTaskRefresh.TabIndex = 13
+        '
+        'picTitles
+        '
+        Me.picTitles.BackColor = System.Drawing.SystemColors.Control
+        Me.picTitles.Controls.Add(Me._lblTitle_2)
+        Me.picTitles.Controls.Add(Me._lblTitle_1)
+        Me.picTitles.Cursor = System.Windows.Forms.Cursors.Default
+        Me.picTitles.Dock = System.Windows.Forms.DockStyle.Top
+        Me.picTitles.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.picTitles.Location = New System.Drawing.Point(0, 49)
+        Me.picTitles.Name = "picTitles"
+        Me.picTitles.Size = New System.Drawing.Size(841, 20)
+        Me.picTitles.TabIndex = 2
+        Me.picTitles.TabStop = False
+        '
+        '_lblTitle_2
+        '
+        Me._lblTitle_2.BackColor = System.Drawing.SystemColors.Control
+        Me._lblTitle_2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me._lblTitle_2.Cursor = System.Windows.Forms.Cursors.Default
+        Me._lblTitle_2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me._lblTitle_2.ForeColor = System.Drawing.SystemColors.ControlText
+        Me._lblTitle_2.Location = New System.Drawing.Point(137, 1)
+        Me._lblTitle_2.Name = "_lblTitle_2"
+        Me._lblTitle_2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me._lblTitle_2.Size = New System.Drawing.Size(663, 18)
+        Me._lblTitle_2.TabIndex = 5
+        Me._lblTitle_2.Tag = " ListView:"
+        Me._lblTitle_2.Text = " Scheduled Tasks && Reminders"
+        '
+        '_lblTitle_1
+        '
+        Me._lblTitle_1.BackColor = System.Drawing.SystemColors.Control
+        Me._lblTitle_1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me._lblTitle_1.Cursor = System.Windows.Forms.Cursors.Default
+        Me._lblTitle_1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me._lblTitle_1.ForeColor = System.Drawing.SystemColors.ControlText
+        Me._lblTitle_1.Location = New System.Drawing.Point(0, 1)
+        Me._lblTitle_1.Name = "_lblTitle_1"
+        Me._lblTitle_1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me._lblTitle_1.Size = New System.Drawing.Size(143, 18)
+        Me._lblTitle_1.TabIndex = 3
+        Me._lblTitle_1.Tag = " ListView:"
+        Me._lblTitle_1.Text = " Available Tasks:"
+        '
+        'sbStatusBar
+        '
+        Me.sbStatusBar.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sbStatusBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible
+        Me.sbStatusBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me._sbStatusBar_Panel1, Me._sbStatusBar_Panel2, Me._sbStatusBar_Panel3, Me._sbStatusBar_Panel4})
+        Me.sbStatusBar.Location = New System.Drawing.Point(0, 556)
+        Me.sbStatusBar.Name = "sbStatusBar"
+        Me.sbStatusBar.ShowItemToolTips = True
+        Me.sbStatusBar.Size = New System.Drawing.Size(841, 22)
+        Me.sbStatusBar.TabIndex = 0
+        '
+        '_sbStatusBar_Panel1
+        '
+        Me._sbStatusBar_Panel1.AutoSize = False
+        Me._sbStatusBar_Panel1.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me._sbStatusBar_Panel1.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter
+        Me._sbStatusBar_Panel1.DoubleClickEnabled = True
+        Me._sbStatusBar_Panel1.Margin = New System.Windows.Forms.Padding(0)
+        Me._sbStatusBar_Panel1.Name = "_sbStatusBar_Panel1"
+        Me._sbStatusBar_Panel1.Size = New System.Drawing.Size(143, 22)
+        Me._sbStatusBar_Panel1.Tag = ""
+        Me._sbStatusBar_Panel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        '_sbStatusBar_Panel2
+        '
+        Me._sbStatusBar_Panel2.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me._sbStatusBar_Panel2.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter
+        Me._sbStatusBar_Panel2.DoubleClickEnabled = True
+        Me._sbStatusBar_Panel2.Margin = New System.Windows.Forms.Padding(0)
+        Me._sbStatusBar_Panel2.Name = "_sbStatusBar_Panel2"
+        Me._sbStatusBar_Panel2.Size = New System.Drawing.Size(4, 22)
+        Me._sbStatusBar_Panel2.Tag = ""
+        Me._sbStatusBar_Panel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        '_sbStatusBar_Panel3
+        '
+        Me._sbStatusBar_Panel3.AutoSize = False
+        Me._sbStatusBar_Panel3.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me._sbStatusBar_Panel3.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter
+        Me._sbStatusBar_Panel3.DoubleClickEnabled = True
+        Me._sbStatusBar_Panel3.Margin = New System.Windows.Forms.Padding(0)
+        Me._sbStatusBar_Panel3.Name = "_sbStatusBar_Panel3"
+        Me._sbStatusBar_Panel3.Size = New System.Drawing.Size(134, 22)
+        Me._sbStatusBar_Panel3.Tag = ""
+        Me._sbStatusBar_Panel3.Text = "x Item(s) Found"
+        Me._sbStatusBar_Panel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        '_sbStatusBar_Panel4
+        '
+        Me._sbStatusBar_Panel4.AutoSize = False
+        Me._sbStatusBar_Panel4.BorderSides = CType((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) _
+                    Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom), System.Windows.Forms.ToolStripStatusLabelBorderSides)
+        Me._sbStatusBar_Panel4.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter
+        Me._sbStatusBar_Panel4.DoubleClickEnabled = True
+        Me._sbStatusBar_Panel4.Margin = New System.Windows.Forms.Padding(0)
+        Me._sbStatusBar_Panel4.Name = "_sbStatusBar_Panel4"
+        Me._sbStatusBar_Panel4.Size = New System.Drawing.Size(632, 22)
+        Me._sbStatusBar_Panel4.Tag = ""
+        Me._sbStatusBar_Panel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me._sbStatusBar_Panel4.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
+        '
+        'tmrSystemTasks
+        '
+        Me.tmrSystemTasks.Enabled = True
+        Me.tmrSystemTasks.Interval = 60000
+        '
+        'uctPMResizer1
+        '
+        Me.uctPMResizer1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.uctPMResizer1.Location = New System.Drawing.Point(112, 224)
+        Me.uctPMResizer1.Name = "uctPMResizer1"
+        Me.uctPMResizer1.Size = New System.Drawing.Size(32, 30)
+        Me.uctPMResizer1.TabIndex = 18
+        Me.uctPMResizer1.Visible = False
+        '
+        'tmrRefreshTimer
+        '
+        Me.tmrRefreshTimer.Enabled = True
+        Me.tmrRefreshTimer.Interval = 60000
+        '
+        'imlAvailableTasks
+        '
+        Me.imlAvailableTasks.ImageStream = CType(resources.GetObject("imlAvailableTasks.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imlAvailableTasks.TransparentColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.imlAvailableTasks.Images.SetKeyName(0, "NavigatorProcess")
+        Me.imlAvailableTasks.Images.SetKeyName(1, "SingleComponent")
+        Me.imlAvailableTasks.Images.SetKeyName(2, "TaskGroup")
+        Me.imlAvailableTasks.Images.SetKeyName(3, "Memo")
+        Me.imlAvailableTasks.Images.SetKeyName(4, "System")
+        '
+        'imgSplitter
+        '
+        Me.imgSplitter.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.imgSplitter.Cursor = System.Windows.Forms.Cursors.SizeWE
+        Me.imgSplitter.Location = New System.Drawing.Point(136, 72)
+        Me.imgSplitter.Name = "imgSplitter"
+        Me.imgSplitter.Size = New System.Drawing.Size(5, 496)
+        Me.imgSplitter.TabIndex = 19
+        Me.imgSplitter.TabStop = False
+        '
+        'imlQuickStartButtons
+        '
+        Me.imlQuickStartButtons.ImageStream = CType(resources.GetObject("imlQuickStartButtons.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imlQuickStartButtons.TransparentColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.imlQuickStartButtons.Images.SetKeyName(0, "Client")
+        Me.imlQuickStartButtons.Images.SetKeyName(1, "Policy")
+        Me.imlQuickStartButtons.Images.SetKeyName(2, "Quote")
+        Me.imlQuickStartButtons.Images.SetKeyName(3, "Claim")
+        Me.imlQuickStartButtons.Images.SetKeyName(4, "Account")
+        Me.imlQuickStartButtons.Images.SetKeyName(5, "Report")
+        Me.imlQuickStartButtons.Images.SetKeyName(6, "Agent")
+        Me.imlQuickStartButtons.Images.SetKeyName(7, "Admin")
+        Me.imlQuickStartButtons.Images.SetKeyName(8, "Renewals")
+        Me.imlQuickStartButtons.Images.SetKeyName(9, "Statistics")
+        Me.imlQuickStartButtons.Images.SetKeyName(10, "General")
+        Me.imlQuickStartButtons.Images.SetKeyName(11, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(12, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(13, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(14, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(15, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(16, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(17, "")
+        Me.imlQuickStartButtons.Images.SetKeyName(18, "")
+        '
+        'Ctx_mnuAvailTask
+        '
+        Me.Ctx_mnuAvailTask.Name = "Ctx_mnuAvailTask"
+        Me.Ctx_mnuAvailTask.Size = New System.Drawing.Size(61, 4)
+        '
+        'Ctx_mnuTask
+        '
+        Me.Ctx_mnuTask.Name = "Ctx_mnuTask"
+        Me.Ctx_mnuTask.Size = New System.Drawing.Size(61, 4)
+        '
+        'albAvailableTasks
+        '
+        Me.albAvailableTasks.Location = New System.Drawing.Point(4, 93)
+        Me.albAvailableTasks.Name = "albAvailableTasks"
+        Me.albAvailableTasks.OcxState = CType(resources.GetObject("albAvailableTasks.OcxState"), System.Windows.Forms.AxHost.State)
+        Me.albAvailableTasks.Size = New System.Drawing.Size(129, 460)
+        Me.albAvailableTasks.TabIndex = 16
+        '
+        'txtFilter
+        '
+        Me.txtFilter.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFilter.Location = New System.Drawing.Point(4, 70)
+        Me.txtFilter.Name = "txtFilter"
+        Me.txtFilter.Size = New System.Drawing.Size(126, 22)
+        Me.txtFilter.TabIndex = 21
+        Me.txtFilter.Text = "Search..."
+        '
+        'frmMain
+        '
+        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 14)
+        Me.BackColor = System.Drawing.SystemColors.Control
+        Me.ClientSize = New System.Drawing.Size(841, 578)
+        Me.Controls.Add(Me.imgSplitter)
+        Me.Controls.Add(Me.sbStatusBar)
+        Me.Controls.Add(Me.txtFilter)
+        Me.Controls.Add(Me.picSplitter)
+        Me.Controls.Add(Me.panMainTab)
+        Me.Controls.Add(Me.albAvailableTasks)
+        Me.Controls.Add(Me.picTitles)
+        Me.Controls.Add(Me.uctPMResizer1)
+        Me.Controls.Add(Me.tbToolBar)
+        Me.Controls.Add(Me.MainMenu1)
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Location = New System.Drawing.Point(102, 77)
+        Me.Name = "frmMain"
+        Me.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "SSP Pure: Work Manager  "
+        Me.MainMenu1.ResumeLayout(False)
+        Me.MainMenu1.PerformLayout()
+        Me.tbToolBar.ResumeLayout(False)
+        Me.tbToolBar.PerformLayout()
+        CType(Me.picSplitter, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panMainTab.ResumeLayout(False)
+        Me.tabMain.ResumeLayout(False)
+        Me._tabMain_TabPage0.ResumeLayout(False)
+        Me._tabMain_TabPage1.ResumeLayout(False)
+        CType(Me.picTitles, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.picTitles.ResumeLayout(False)
+        Me.sbStatusBar.ResumeLayout(False)
+        Me.sbStatusBar.PerformLayout()
+        CType(Me.imgSplitter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.albAvailableTasks, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+    Sub InitializemnuViewSortBy()
+        Me.mnuViewSortBy(1) = _mnuViewSortBy_1
+        Me.mnuViewSortBy(2) = _mnuViewSortBy_2
+        Me.mnuViewSortBy(3) = _mnuViewSortBy_3
+        Me.mnuViewSortBy(4) = _mnuViewSortBy_4
+        Me.mnuViewSortBy(5) = _mnuViewSortBy_5
+        Me.mnuViewSortBy(6) = _mnuViewSortBy_6
+        Me.mnuViewSortBy(7) = _mnuViewSortBy_7
+        Me.mnuViewSortBy(8) = _mnuViewSortBy_8
+        Me.mnuViewSortBy(9) = _mnuViewSortBy_9
+        Me.mnuViewSortBy(10) = _mnuViewSortBy_10
+        Me.mnuViewSortBy(11) = _mnuViewSortBy_11
+    End Sub
+    Sub InitializemnuLinksWebsite()
+        Me.mnuLinksWebsite(0) = _mnuLinksWebsite_0
+    End Sub
+    Sub InitializelblTitle()
+        Me.lblTitle(2) = _lblTitle_2
+        Me.lblTitle(1) = _lblTitle_1
+    End Sub
+    Sub lstScheduledTasks_InitializeColumnKeys()
+        Me._lstScheduledTasks_ColumnHeader_1.Name = "Urgent"
+        Me._lstScheduledTasks_ColumnHeader_2.Name = "Status"
+        Me._lstScheduledTasks_ColumnHeader_3.Name = "DueDate"
+        Me._lstScheduledTasks_ColumnHeader_4.Name = "Description"
+        Me._lstScheduledTasks_ColumnHeader_5.Name = "Customer"
+        Me._lstScheduledTasks_ColumnHeader_6.Name = "Type"
+        Me._lstScheduledTasks_ColumnHeader_7.Name = "UserGroup"
+        Me._lstScheduledTasks_ColumnHeader_8.Name = "User"
+        Me._lstScheduledTasks_ColumnHeader_9.Name = "DueDateSortable"
+        Me._lstScheduledTasks_ColumnHeader_10.Name = "ClientCodeSortable"
+        Me._lstScheduledTasks_ColumnHeader_11.Name = "Agent/Broker"
+    End Sub
+    Sub lstBatchTasksStatus_InitializeColumnKeys()
+        Me._lstBatchTasksStatus_ColumnHeader_1.Name = "Process"
+        Me._lstBatchTasksStatus_ColumnHeader_2.Name = "Description"
+        Me._lstBatchTasksStatus_ColumnHeader_3.Name = "Start Date & Time"
+        Me._lstBatchTasksStatus_ColumnHeader_4.Name = "End Date & time"
+        Me._lstBatchTasksStatus_ColumnHeader_5.Name = "Batch Job Status"
+        Me._lstBatchTasksStatus_ColumnHeader_6.Name = "File Name"
+        Me._lstBatchTasksStatus_ColumnHeader_7.Name = "Passed records"
+        Me._lstBatchTasksStatus_ColumnHeader_8.Name = "Failed Records"
+        Me._lstBatchTasksStatus_ColumnHeader_9.Name = "Total Records"
+    End Sub
+    Friend WithEvents txtFilter As System.Windows.Forms.TextBox
+    Friend WithEvents cboParty As System.Windows.Forms.ComboBox
+    Private WithEvents _lstScheduledTasks_ColumnHeader_11 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents _mnuViewSortBy_9 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _mnuViewSortBy_10 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents _mnuViewSortBy_11 As System.Windows.Forms.ToolStripMenuItem
+#End Region
+End Class

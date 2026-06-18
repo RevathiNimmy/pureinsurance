@@ -1,0 +1,1770 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FAD872C-8144-4D27-A69C-312FD58ABC40}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SiriusFS.SAM.CoreImplementation</RootNamespace>
+    <AssemblyName>SiriusFS.SAM.CoreImplementation</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>SiriusFS.SAM.CoreImplementation.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>SiriusFS.SAM.CoreImplementation.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Words, Version=10.3.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="bACTAccount, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Common Dlls\bACTAccount.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTAllocate, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Common Dlls\bACTAllocate.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTAllocation, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTAllocationCalculate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTAllocationCalculate.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTAllocationCreate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTAllocationCreate.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTAllocationDetail, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTAllocationDetail.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTAllocationManual, Version=4000.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTAllocationManual.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTAllocationPost, Version=4000.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTAllocationPost.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTAuditSet, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTAutoNumber, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTAutoNumber.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTBank, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTBank.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTBankAccount, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTBankAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTBankReconciliation, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTBankReconciliation.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTBudget, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTBudget.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTBudgetDetail, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTBudgetDetail.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCashList, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCashList.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCashListDrawer, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCashListDrawer.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCashlistitem, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTCashListPost, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTChequeProduction, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTChequeProduction.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCommissionPayments, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCommissionPayments.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCommissionPost, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCommissionPost.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCompany, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCompany.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCompanyCurrency, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCompanyCurrency.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCreditCard, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCreditCard.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCreditControl, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCreditControl.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCreditControlItem, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCreditControlItem.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCreditControlProcessing, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCreditControlProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCurrency, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCurrency.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTCurrencyConvert, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTCurrencyRate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTCurrencyRate.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTDocument, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bACTDocument.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTDocumentPost, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bACTDocumentPost.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTDocumentReversal, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTDocumentReversal.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTExplorer, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTExplorer.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTExportCashListItems, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTExportCashListItems.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTExportPFTrans, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTExportPFTrans.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFinanceSpoke, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFinanceSpoke.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindAccount, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+      <HintPath>..\..\..\..\Binaries\bACTFindAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindBank, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFindBank.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindBudget, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFindBudget.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindCashList, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFindCashList.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindCashListItem, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFindCashListItem.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindDocument, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFindDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindInvoice, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTFindInvoice.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFindTransaction, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bACTFindTransaction.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTImportExport, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTImportExport.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTImportSiriusTrans, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTImportSiriusTrans.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTInstalments, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Binaries\bACTInstalments.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTInsurerPaymentAllocate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTInsurerPaymentAllocate.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTInsurerPaymentGroups, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTInsurerPaymentGroups.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTInsurerPaymentSFU, Version=1140.0.3890.34493, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Binaries\bACTInsurerPaymentSFU.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTInvoice, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTInvoice.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTInvoiceItem, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTInvoiceItem.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTLedger, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTLedger.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTMaintainMediaTypeStatus, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTMaintainMediaTypeStatus.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTMatchgroup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTMatchgroup.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTMatchPost, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTMatchPost.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTMisallocationsHelper, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTMisallocationsHelper.exe</HintPath>
+    </Reference>
+    <Reference Include="bACTPaymentMaintenance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTPaymentMaintenance.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTPeriod, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTPeriod.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTPeriodEnd, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTPeriodEnd.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTPremiumFinance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTPremiumFinance.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTReleaseManualTransactions, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTReleaseManualTransactions.exe</HintPath>
+    </Reference>
+    <Reference Include="bACTTransDetail, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTTransDetail.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTTransmatch, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTTransmatch.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTTypeTable, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTTypeTable.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTUserAuthorities, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTUserAuthorities.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTWriteOffReason, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bACTWriteOffReason.dll</HintPath>
+    </Reference>
+    <Reference Include="BatchNotificationDocGen, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\BatchNotificationDocGen.exe</HintPath>
+    </Reference>
+    <Reference Include="BatchNotificationDocGen.vshost, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\BatchNotificationDocGen.vshost.exe</HintPath>
+    </Reference>
+    <Reference Include="BatchNotificationExport, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\BatchNotificationExport.exe</HintPath>
+    </Reference>
+    <Reference Include="bBackOfficeLink, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bClientManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bClientManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMAddress, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMAddress.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMAuthorisePayments, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bCLMAuthorisePayments.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bCLMCase, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMCase.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMChangeClaimStatus, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bCLMChangeClaimStatus.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bCLMCheckDeferredRI, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMCheckDeferredRI.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMCheckUnpaidPremium, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMCheckUnpaidPremium.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMClaimParty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMClaimParty.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMClaimPartyLink, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMClaimPartyLink.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMCloseClaim, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMCloseClaim.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMCoinsuranceRecoveries, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMCoinsuranceRecoveries.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMDefnFlds, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMDefnFlds.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMFindClaim, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bCLMFindClaim.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bCLMFindParty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMFindParty.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMFinSumm, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMFinSumm.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMGetClaimDocument, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMGetClaimDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMGetClaimLetter, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMGetClaimLetter.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMInfoChklst, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMInfoChklst.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMLossSchedule, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMLossSchedule.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMPaymentMethod, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMPaymentMethod.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMPeril, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bCLMPeril.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bCLMPerilReserveType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMPerilReserveType.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMPerilType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMPerilType.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMRecovery, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMRecovery.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMReinsurance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMReinsurance.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMReinsuranceRI2007, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMReinsuranceRI2007.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMResvDefn, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMResvDefn.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMRiskDetails, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMRiskDetails.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMRiskType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMRiskType.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMRTInfoChkLst, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMRTInfoChkLst.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMSalvageRecovery, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMSalvageRecovery.dll</HintPath>
+    </Reference>
+    <Reference Include="bCLMThirdParty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bCLMThirdParty.dll</HintPath>
+    </Reference>
+    <Reference Include="bControlTrans, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bControlTrans.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bControlTransClaims, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bControlTransClaims.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCAnnotation, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCAnnotation.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCAPI, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bDOCAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bDOCCommit, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCCommit.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCCommitServer, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCCommitServer.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCDocInfo, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCDocInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCDocKeyword, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCDocKeyword.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCDocName, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCDocName.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCDocNameAdmin, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCDocNameAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCDocTrans, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCDocTrans.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCDocument, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCFind, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCFind.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCFolder, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCFolder.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCHistory, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCHistory.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCInformation, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCKeyword, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCKeyword.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCKeywordAdmin, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCKeywordAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCOptions, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCOptions.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCPage, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCPage.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCPassword, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCPassword.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCPMBAPI, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCPMBAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCPMBLog, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCPMBLog.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCScan, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCScan.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCSetAccessLevel, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCSetAccessLevel.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCTransfer, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCTransfer.exe</HintPath>
+    </Reference>
+    <Reference Include="bDOCUserAdmin, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCUserAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="bDOCViewBatch, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bDOCViewBatch.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMListCustom, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMListCustom.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMListManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMListManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMListMgr, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMListMgr.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMLists, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMLists.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMListUpdate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMListUpdate.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMListUser, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMListUser.dll</HintPath>
+    </Reference>
+    <Reference Include="bGEMLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGEMLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bGIS, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bGISAddOn, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISAddOn.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISBOMAOL, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISBOMAOL.dll</HintPath>
+    </Reference>
+    <Reference Include="bGisGroupImport, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGisGroupImport.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISList, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISList.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISListGrouping, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISListGrouping.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISListMaint, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISListMaint.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISListManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISListManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISLookupManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISLookupManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISMaintainDataDictionary, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISMaintainDataDictionary.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISPMUExtras, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISPMUExtras.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISPremiumFinance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISPremiumFinance.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISPromptInterface, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISPromptInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISQEMDRE, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISQEMDRE.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISQEMPMU, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISQEMPMU.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISRating, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISRating.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISSchemeBusiness, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISSchemeBusiness.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISUserDefDetail, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISUserDefDetail.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISUserDefDetailRates, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISUserDefDetailRates.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISUserDefHeader, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISUserDefHeader.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISUserDefHeaderRates, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISUserDefHeaderRates.dll</HintPath>
+    </Reference>
+    <Reference Include="bGISUserDefLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bGISUserDefLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bLicenceManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bLicenceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bObjectManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bObjectManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bOpenClaim, Version=1140.0.3826.35153, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bOpenClaim.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bPBFindControl, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Binaries\bPBFindControl.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bPMAddressControl, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMAddressControl.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMAutoNumber, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMAutoNumber.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMBDocLink, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bPMBDocLink.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bPMBDocManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMBDocManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMBOrionLink, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMBOrionLink.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMBTransactions, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bPMBTransactions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bPMCaption, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMCaption.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMCurrency, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMCurrency.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMDataControl, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMDataControl.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMEventTask, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMEventTask.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMLicenceAdmin, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMLicenceAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMLicenceManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMLicenceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMLocalLicenceManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMLocalLicenceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMLock, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMLock.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMMaintainLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMMaintainLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMMaintainLookupWrapper, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMMaintainLookupWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMMaintainTask, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMMaintainTask.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMMaintainTaskAction, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMMaintainTaskAction.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMMaintainTaskGroupAction, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMMaintainTaskGroupAction.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMMessage, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMMessage.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMNavBatch, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMNavBatch.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMNavEditor, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMNavEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMNavigator, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMNavigator.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMNavigatorXM, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMNavigatorXM.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMNavXMEditor, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMNavXMEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMPackageStep, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMPackageStep.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMProduct, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMProduct.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMProductClientInstall, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMProductClientInstall.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMProductLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMProductLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMProductUpdateHistory, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMProductUpdateHistory.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMPropertyManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMPropertyManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMRemoteLicenceManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMRemoteLicenceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMServerRegistry, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMServerRegistry.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMSource, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bPMSource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bPMStepMaintenance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMStepMaintenance.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMSystem, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMTask, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMTask.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMTaskCategory, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMTaskCategory.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMTaskGroup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMTaskGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMTaskGroupCategory, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMTaskGroupCategory.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMTaskOutcomeBatch, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMTaskOutcomeBatch.exe</HintPath>
+    </Reference>
+    <Reference Include="bPMUFollowUpTasks, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUFollowUpTasks.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMUList, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUList.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMUPolicy, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUPolicy.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMUProduceCertificates, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUProduceCertificates.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMUser, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUser.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMUserGroup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUserGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMUSourceDefaults, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMUSourceDefaults.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMWorkflowMaintenance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMWorkflowMaintenance.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMWrkManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMWrkManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMWrkTaskInstance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMWrkTaskInstance.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMWrkTaskInstanceTemp, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMWrkTaskInstanceTemp.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMWrkTaskInstLog, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMWrkTaskInstLog.dll</HintPath>
+    </Reference>
+    <Reference Include="bPMZipper, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bPMZipper.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRAccountTrans, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRAccountTrans.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRAccumulationLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRAccumulationLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRAccumulationValues, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRAccumulationValues.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRAddress, Version=1144.0.1.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRAddress.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSirAgentCommission, Version=1144.0.3813.30149, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSirAgentCommission.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRAutomaticRenewalsAccept, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRAutomaticRenewalsAccept.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRAutomaticRenewalsInvite, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRAutomaticRenewalsInvite.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRAutomaticRenewalsSel, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRAutomaticRenewalsSel.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRAutoMTA, Version=4000.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Pure\Application\bSIRAutoMTA.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRBankGuarantee, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRBankGuarantee.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRBatchQuoteDeletion, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRBatchQuoteDeletion.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRBatchQuoteDeletion.vshost, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRBatchQuoteDeletion.vshost.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRBatchRenewalController, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRBatchRenewalController.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRBatchRenewalController.vshost, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRBatchRenewalController.vshost.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRBatchRenewalJobs, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRBatchRenewalJobs.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRCacheController, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRCacheController.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRCashDeposit, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRCashDeposit.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRChangePolicyStatus, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRChangePolicyStatus.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRChaseCycle, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRChaseCycle.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRCheckAuthorityLevel, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRCheckAuthorityLevel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRClientTransPolicySel, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRClientTransPolicySel.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRCloneRIBatchProcess, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Pure\Application\bSIRCloneRIBatchProcess.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRCoinsurance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRCoinsurance.dll</HintPath>
+    </Reference>
+    <Reference Include="bSirCommissionRate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSirCommissionRate.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRContact, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRContact.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRContactType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRContactType.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRCoverNote, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRCoverNote.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRDebugTimings, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRDebugTimings.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRDeferredRIAuto, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRDeferredRIAuto.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRDOCAPI, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRDOCAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRDocManagerWrapper, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRDocManagerWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRDocSpooler, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRDocSpooler.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRDocTemplate, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRDocumentType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRDocumentType.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIREmail, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIREmail.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIREvent, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIREvent.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSirExportControl, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSirExportControl.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFieldManager, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFieldManager.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFindBankGuarantee, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFindBankGuarantee.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFindDocTemplate, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRFindDocTemplate.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRFindInsurance, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRFindInsurance.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRFindParty, Version=1140.0.0.0, Culture=neutral">
+      <HintPath>..\..\..\..\Common Dlls\bSIRFindParty.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRFindProductType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFindProductType.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFindRIParty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFindRIParty.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFindRisk, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFindRisk.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFindRiskType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFindRiskType.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFindScreen, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFindScreen.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFreeFormText, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFreeFormText.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRFutureAddressUpdate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRFutureAddressUpdate.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRGetChangeReason, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRGetChangeReason.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRGetDocument, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRGetDocument.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRHandlerTransfer, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRHandlerTransfer.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRIndexLinkingDetail, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRIndexLinkingDetail.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRInsuranceFile, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRInsuranceFileSystem, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRInsuranceFileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRInsuranceFolder, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRInsuranceFolder.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRIUSLink, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRIUSLink.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRLaunchAutoRenewalsAccept, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLaunchAutoRenewalsAccept.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRLaunchAutoRenewalsInvite, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLaunchAutoRenewalsInvite.exe</HintPath>
+    </Reference>
+    <Reference Include="bSIRLifeStyle, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLifeStyle.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRListRisks, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRListRisks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRListScreen, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRListScreen.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRLookupDetail, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLookupDetail.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRLookupDetailRates, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLookupDetailRates.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRLookupHeader, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLookupHeader.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRLookupHeaderRates, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRLookupHeaderRates.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRMaintainAURule, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRMaintainAURule.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRMaintainAuthority, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRMaintainAuthority.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRMaintainRelation, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRMaintainRelation.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRMaintainScreenData, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRMaintainScreenData.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRMediaTypeValidation, Version=3010.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\..\Pure\Application\bSIRMediaTypeValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIROnlineParty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIROnlineParty.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIROptions, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIROptions.dll</HintPath>
+    </Reference>
+    <Reference Include="bSirOrionLink, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSirOrionLink.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIROrionUpdate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIROrionUpdate.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRParty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRParty.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyAG, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyAG.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyAGG, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyAGG.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyAH, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyAH.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyBank, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyBank.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyCC, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyCC.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyConviction, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyConviction.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyEX, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyEX.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyFee, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyFee.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyFP, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyFP.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyGC, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyGC.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyIN, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyIN.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyLifestyle, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyLifestyle.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyLoyaltyScheme, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyLoyaltyScheme.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyNC, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyNC.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyNetData, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyNetData.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyOT, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyOT.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPartyPC, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPartyPC.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPaymentHubWrapper, Version=5030.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Pure\Application\bSIRPaymentHubWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPayNowOptions, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPayNowOptions.dll</HintPath>
+    </Reference>
+    <Reference Include="bSirPerilAllocation, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSirPerilAllocation.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPerilTypeUsage, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPerilTypeUsage.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPFEDIMessage, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPFEDIMessage.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPFExport, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPFExport.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPFInstalments, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRPFInstalments.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRPFRF, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPFRF.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPFScheme, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPFScheme.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPFSubmit, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPFSubmit.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRPolicyNumMaint, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRPolicyNumMaint.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRPremiumFinance, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRPrimCauseRiskType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRPrimCauseRiskType.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRProduct, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRProduct.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRProductOptions, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRProductOptions.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRProspect, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRProspect.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRReinsurance, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRReinsurance.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRReinsuranceRI2007, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRReinsuranceRI2007.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRenewal, Version=1144.0.3796.32958, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRRenewal.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRRenewalBatchJobs, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRenewalBatchJobs.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRenewalLaunch, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRenewalLaunch.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRenewalProcess, Version=1144.0.3796.34239, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Binaries\bSIRRenewalProcess.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRRenInvitePrint, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRRenInvitePrint.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRRenSelection, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRRenSelection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRReportGroup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRReportGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRReportPrint, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRReportPrint.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRReportScheduler, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRReportScheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRIModel, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRIModel.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRIModelUsage, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRIModelUsage.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRIPortfolioTransfer, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRIPortfolioTransfer.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRiskData, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRiskData.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRiskGroup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRiskGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRiskScreen, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\bSIRRiskScreen.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRRiskType, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRiskType.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRiskTypeRILimits, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRiskTypeRILimits.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRiskTypeRIValues, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRiskTypeRIValues.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRITax, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRRoadmap, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRoadmap.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRRuleLookup, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRRuleLookup.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRSelectClauses, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRSelectClauses.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRSharepoint, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRSharepointOnline, Version=4020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRSharepointOnline.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRShortPeriodRate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRShortPeriodRate.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRSolutionConfig, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRSolutionConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRTaskList, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRTaskList.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRTaxBandRate, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRTaxBandRate.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRTaxGroupBands, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRTaxGroupBands.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRTextFile, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRTextFile.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRTextFileDesc, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRTextFileDesc.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRTreaty, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRTreaty.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRUnpostedTransactions, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRUnpostedTransactions.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRUserCompetenceTask, Version=3020.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\bSIRUserCompetenceTask.dll</HintPath>
+    </Reference>
+    <Reference Include="cGISDataSetControl, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\_PublishedWebsites\SiriusFS.SAM.WCFService\bin\cGISDataSetControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Utility, Version=2002.0.0.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Pure\Application\Sirius.Architecture.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="SSP.Shared, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Pure\Application\SSP.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="dPMDAO, Version=1810.0.0.0, Culture=neutral">
+      <HintPath>..\..\..\..\Common Dlls\dPMDAO.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="dPMDAOBridge, Version=2002.0.0.0, Culture=neutral">
+      <HintPath>..\..\..\..\..\..\..\Pure\Application\dPMDAOBridge.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1055.17156, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Share\bin - Copy\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.ExceptionManagement, Version=1.0.1069.26924, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Share\bin - Copy\Microsoft.ApplicationBlocks.ExceptionManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=5.0.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\..\Pure\Application\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling, Version=5.0.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Pure\Application\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging, Version=5.0.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\..\Pure\Application\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Pure\Application\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Configuration.Database, Version=2000.8.1.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+      <HintPath>..\..\..\..\..\..\Share\bin - Copy\Sirius.Architecture.Configuration.Database.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Data, Version=2002.0.0.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+      <HintPath>..\..\..\..\..\..\..\Pure\Application\Sirius.Architecture.Data.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sirius.Architecture.ExceptionHandling, Version=2000.8.1.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Security, Version=2000.8.1.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+      <HintPath>..\..\..\..\..\..\Share\bin - Copy\Sirius.Architecture.Security.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SSP.S4I.Interfaces, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\rkFiles\Source\MigratedCode-115\Common Dlls\SSP.S4I.Interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="System" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.Web.Services3" />
+    <Import Include="Sirius.Architecture.Data" />
+    <Import Include="Sirius.Architecture.ExceptionHandling" />
+    <Import Include="Sirius.Architecture.Security" />
+    <Import Include="Sirius.Architecture.Utility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Data.SqlClient" />
+    <Import Include="System.Data.SqlTypes" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.Mail" />
+    <Import Include="System.Web.Services" />
+    <Import Include="System.Web.Services.Protocols" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+    <Import Include="System.Xml" />
+    <Import Include="System.Xml.Schema" />
+    <Import Include="System.Xml.Serialization" />
+    <Import Include="System.Xml.XPath" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Claims\General.vb" />
+    <Compile Include="CoreBusiness.vb" />
+    <Compile Include="CoreSAMBusiness-Accounts.vb" />
+    <Compile Include="CoreSamBusiness-AddPolicyRisk.vb" />
+    <Compile Include="CoreSamBusiness-Address.vb" />
+    <Compile Include="CoreSAMBusiness-Claims - Mark.vb" />
+    <Compile Include="CoreSAMBusiness-Claims.vb" />
+    <Compile Include="CoreSAMBusiness-Data Transfer.vb" />
+    <Compile Include="CoreSAMBusiness-DeleteRisk.vb" />
+    <Compile Include="CoreSamBusiness-Instalments.vb" />
+    <Compile Include="CoreSAMBusiness-Messaging.vb" />
+    <Compile Include="CoreSAMBusiness-Party.vb" />
+    <Compile Include="CoreSamBusiness-Quote.vb" />
+    <Compile Include="CoreSAMBusiness-UserAccess.vb" />
+    <Compile Include="CoreSAMBusiness.vb" />
+    <Compile Include="DataTransfer\General.vb" />
+    <Compile Include="InternalTypes.vb" />
+    <Compile Include="MainModule.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ParameterDefinitions.vb" />
+    <Compile Include="SAMConstants.vb" />
+    <Compile Include="STS_EDI_COMMON.vb" />
+    <Compile Include="XBuilder\Party.vb" />
+    <Compile Include="XMLSupport.vb" />
+    <Compile Include="XMLTransRiskScreenLoadScreen.vb" />
+    <Compile Include="XMLTransRiskScreenOKClick.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SiriusFS.SAM.Structures\SiriusFS.SAM.Structure.vbproj">
+      <Project>{eb42ffc6-4038-415d-8d75-bba154c80722}</Project>
+      <Name>SiriusFS.SAM.Structure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

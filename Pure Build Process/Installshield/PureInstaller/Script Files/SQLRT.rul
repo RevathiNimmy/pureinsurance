@@ -1,0 +1,915 @@
+/**************************************************************************************************
+* NOTICE OF COPYRIGHT AND OWNERSHIP OF SOFTWARE:
+*
+* Copyright © 1997-2009 Flexera Software, Inc. and/or InstallShield Co. Inc.  All Rights Reserved.  
+*
+* This computer program is the property of Flexera Software, Inc. and InstallShield Co. Inc. of 
+* Schaumburg, Illinois, U.S.A.  Any use, copy, publication, distribution, display, modification, or 
+* transmission of this computer program in whole or in part in any form or by any means without
+* the prior express written permission of Flexera Software, Inc. or InstallShield Co. Inc. is 
+* strictly prohibited.
+* 
+* Except when expressly provided by Flexera Software, Inc. or InstallShield Co. Inc. in writing,
+* possession of this computer program shall not be construed to confer any license or rights under 
+* any of Flexera Software, Inc.’s or InstallShield Co. Inc.’s intellectual property rights, whether by
+* estoppel, implication, or otherwise.  
+* 
+* ALL COPIES OF THIS PROGRAM MUST DISPLAY THIS NOTICE OF COPYRIGHT AND OWNERSHIP IN FULL.
+**************************************************************************************************/
+//
+//                                  File: SQLRT.rul                                                  
+//                                                                                  
+//  Description:  implementations for the non-dialog functions in the
+//                SQLRT.obl for SQL Server support
+//
+//===========================================================================
+
+// Include files ------------------------------------------------------------
+#include "IfxSQLRT.h"
+
+#include "ISRT.h"
+#include "ISRTPriv.h"  
+
+#include "SQLRT.h"
+
+//---------------------------------------------------------------------------
+// SQLRTInitalize
+//
+// Must be the first function in SQLRT called.
+// Loads the SQLRT.dll, and initializes it using the settings file
+//---------------------------------------------------------------------------
+function void SQLRTInitialize( szSettingsFile )
+    number nResult;
+    LIST listServers;
+    string szMessage;
+    string sDLL;
+begin
+
+    if ( !g_bSQLRTInitialized ) then
+        // First load runtime DLL
+        sDLL = SUPPORTDIR ^ "SQLRT.dll";
+        nResult = UseDLL( sDLL );
+
+        if( nResult < ISERR_SUCCESS ) then
+            // Failed to load dll
+            Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_FILE_LOAD ), "SQLRT.dll");
+            MessageBox( szMessage, MB_OK );
+            UnUseDLL("SQLRT.DLL");
+            abort;
+        endif;
+
+        // Initialize runtime with settings file
+        ISSQLServerInitialize( szSettingsFile, __hContext );
+
+        g_bSQLRTInitialized = TRUE;
+
+        if( ISSQLServerGetBatchMode( ) = 1 ) then
+            g_bSQLRTBatchMode = TRUE;
+        else
+            g_bSQLRTBatchMode = FALSE;
+        endif;
+
+        // Make sure you have access to servers/connections
+        listServers = SQLRTGetServers( TRUE );
+
+    endif;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTInitalize2
+//
+// Must be the first function in SQLRT called.
+// Loads the SQLRT.dll, and initializes it using the settings file
+//---------------------------------------------------------------------------
+function void SQLRTInitialize2( )
+    string szSettingsFile;
+begin
+
+    // Initialize runtime with settings file
+	szSettingsFile = SUPPORTDIR ^ "SQLRT.ini";
+	SQLRTInitialize( szSettingsFile );
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetServers
+//
+// Retrieves a stringlist of servers available on the target system.  
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function LIST SQLRTGetServers( bFilter )
+begin
+    
+	return SQLRTGetServers2( "", bFilter );
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetServers2
+//
+// Retrieves a stringlist of servers available on the target system.  
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function LIST SQLRTGetServers2( szConnection, bFilter )
+    LIST   listServers;
+    string szServers;
+    string szMessage;
+    number nResult, nLen;
+begin
+
+    // Initialize list
+    listServers = ListCreate( STRINGLIST );
+
+    if( g_bSQLRTInitialized ) then
+
+        nLen = Resize( szServers, 65535 );
+        // Call DLL to get servers
+        nResult = ISSQLServerGetServers( szConnection, bFilter, szServers ); 
+        if( nResult = SQL_ERROR_ODBC_MISSING ) then
+
+            // ODBC32.dll is missing, could not get the servers
+            szMessage = SdLoadString( IDS_IFX_SQL_ERROR_ODBC_MISSING );
+            MessageBox( szMessage, MB_OK );
+            UnUseDLL("SQLRT.DLL");
+            abort;
+
+        endif;
+
+        // Tokenize servers string into list
+        StrGetTokens( listServers, szServers, "," );
+
+    endif;
+
+    return listServers;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetDatabases
+//
+// Retrieves a stringlist of databases available on the target database server.  
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function LIST SQLRTGetDatabases( szConnection, szServer, bTrust, szUserName, szPassword )
+    LIST   listDBs;
+    string szDBs, szMessage;
+    number nResult, nLen;
+begin
+
+    // Initialize list
+    listDBs = LIST_NULL;
+
+    if( g_bSQLRTInitialized ) then
+
+        nLen = Resize( szDBs, 65535 );
+        // Call DLL to get databases
+        nResult = ISSQLServerGetDatabases( szConnection, szServer, bTrust, szUserName, szPassword, szDBs ); 
+
+        if( nResult < ISERR_SUCCESS ) then
+
+            // Get error message
+			SQLRTGetErrorMessage( szMessage );
+
+			// Display error
+			MessageBox( szMessage, MB_OK );
+
+        else
+
+            // Create list
+            listDBs = ListCreate( STRINGLIST );
+    
+            // Tokenize servers string into list
+            StrGetTokens( listDBs, szDBs, "," );
+
+        endif;
+
+    endif;
+
+    return listDBs;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetConnections
+//
+// Retrieves a stringlist of connections present in the settings file.  
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function LIST SQLRTGetConnections()
+    LIST   listConnections;
+    string szConnections;
+    number nResult, nLen;
+begin
+
+    // Initialize list
+    listConnections = ListCreate( STRINGLIST );
+
+    if( g_bSQLRTInitialized ) then
+
+        nLen = Resize( szConnections, 4096 );
+        // Call DLL to get servers
+        ISSQLServerGetConnections( szConnections ); 
+
+        // Tokenize servers string into list
+        StrGetTokens( listConnections, szConnections, "," );
+
+    endif;
+
+    return listConnections;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetConnectionInfo
+//
+// Retrieves strings containing the connection info (the default server, 
+// database, default username, and default password).  
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTGetConnectionInfo( szConnection, szServer, szDatabase, szUserName, szPassword )
+    number nResult, nLen;
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    nLen = Resize( szServer, 256 );
+    nLen = Resize( szDatabase, 256 );
+    nLen = Resize( szUserName, 256 );
+    nLen = Resize( szPassword, 256 );
+    // Call DLL using the variables allocated
+    nResult = ISSQLServerGetConnectionInfo( szConnection, szServer, szDatabase, szUserName, szPassword );
+
+    return nResult;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetConnectionAuthentication
+//---------------------------------------------------------------------------
+function BOOL SQLRTGetConnectionAuthentication( szConnection )
+    BOOL bResult;
+begin
+
+    if( g_bSQLRTInitialized ) then
+
+        // Call DLL function
+        bResult = ISSQLServerGetConnectionAuthentication( szConnection );
+
+    endif;
+
+    return bResult;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTPutConnectionAuthentication
+//---------------------------------------------------------------------------
+function void SQLRTPutConnectionAuthentication( szConnection, bWinLogin )
+    BOOL bResult;
+begin
+
+    if( g_bSQLRTInitialized ) then
+
+        // Call DLL function
+        ISSQLServerPutConnectionAuthentication( szConnection, bWinLogin );
+
+    endif;
+
+end;
+
+
+//---------------------------------------------------------------------------
+// SQLRTPutConnectionInfo
+//
+// Set the connection info (the default server, default username, and 
+// default password) so that it is available in the future.  This is useful 
+// in situations where there may need to recall what a user previously 
+// entered, such as when the BACK button is used.
+// 
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTPutConnectionInfo( szConnection, szServer, szUserName, szPassword )
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    return ISSQLServerPutConnectionInfo( szConnection, szServer, szUserName, szPassword );
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTPutConnectionInfo2
+//
+// Set the connection info (the default server, default username, default 
+// database and default password) so that it is available in the future.
+// This is useful in situations where there may need to recall what a user
+// previously entered, such as when the BACK button is used.
+// 
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUserName, szPassword )
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    return ISSQLServerPutConnectionInfo2( szConnection, szServer, szDB, szUserName, szPassword );
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTConnect
+//
+// Establish connection.  This function must be called before file transfer 
+// if the connection is to be used to run scripts during installation.
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTConnect( szConnection, szServer, bTrust, szUserName, szPassword )
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    return ISSQLServerConnect( szConnection, szServer, bTrust, szUserName, szPassword );
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTConnect2
+//
+// Establish connection.  This function must be called before file transfer 
+// if the connection is to be used to run scripts during installation.
+// This function returns the database server name when it fails to establish
+// the connection.
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTConnect2( szConnection, szServer, bTrust, szUserName, szPassword, szDatabaseServer)
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    return ISSQLServerConnect2( szConnection, szServer, bTrust, szUserName, szPassword, szDatabaseServer);
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTConnectDB
+//
+// Establish connection.  This function must be called before file transfer 
+// if the connection is to be used to run scripts during installation.
+// This function is the same as SQLRTConnect, except that it takes the 
+// database name as a parameter instead of using the DB specified in the 
+// settings file.
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTConnectDB( szConnection, szDB, szServer, bTrust, szUserName, szPassword )
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    return ISSQLServerConnectDB( szConnection, szDB, szServer, bTrust, szUserName, szPassword );
+
+end;
+
+
+//---------------------------------------------------------------------------
+// SQLRTComponentInstall
+//
+// Install SQL Scripts related to the specific component.
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTComponentInstall( szComponent )
+    number nResult, nLen;
+    string szStatus;
+    string szNewStatus;
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    nLen = Resize( szStatus, 256 );
+    ISSQLServerGetInstallText( szComponent, szStatus );
+    nResult = StrLengthChars( szStatus );
+
+    nResult = StrLengthChars( szStatus );
+    if( nResult > 0 ) then
+        nResult = LoadStringFromStringTable ( szStatus, szNewStatus );
+        if( nResult < ISERR_SUCCESS ) then
+            SetStatusWindow( -1, szStatus );
+        else
+            SetStatusWindow( -1, szNewStatus );
+        endif;
+    endif;
+
+    nResult = ISSQLServerComponentInstall( szComponent );
+    
+	if( !SQLRTGetBatchMode() ) then
+		ISSQLServerLogUninstallComponent( szComponent, LOGEX );
+	endif;
+    
+	return nResult;
+
+end;
+
+//---------------------------------------------------------------------------
+// Function: SQLRTComponentUninstall
+//
+//           Uninstall SQL Scripts related to the specific component.
+//  
+//           Uses SQLRT.dll and settings from the SQL settings file, so can
+//           only be called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function SQLRTComponentUninstall( szComponent )
+    number nResult, nLen;
+    string szStatus;
+    string szNewStatus;
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+    nLen = Resize( szStatus, 256 );
+    ISSQLServerGetUninstallText( szComponent, szStatus );
+    nResult = StrLengthChars( szStatus );
+    if( nResult > 0 ) then
+
+        nResult = LoadStringFromStringTable ( szStatus, szNewStatus );
+
+        if( nResult < ISERR_SUCCESS ) then
+            SetStatusWindow( -1, szStatus );
+        else
+            SetStatusWindow( -1, szNewStatus );
+        endif;
+
+    endif;
+    return ISSQLServerComponentUninstall( szComponent );
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTAddToBatchInstall
+//
+// Add install SQL Scripts related to the specific component to batch.
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTAddToBatchInstall( szComponent )
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+	ISSQLServerAddToBatchInstall( szComponent );
+    ISSQLServerLogUninstallComponent( szComponent, LOGEX );
+
+    return 0;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTAddToBatchUninstall
+//
+// Add uninstall SQL Scripts related to the specific component to batch. 
+//
+// Uses SQLRT.dll, so can only be called after SQLRTInitalize has already 
+// been called.
+//---------------------------------------------------------------------------
+function number SQLRTAddToBatchUninstall( szComponent )
+begin
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+	ISSQLServerAddToBatchUninstall( szComponent );
+
+    return 0;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetComponentScriptError
+//
+// Returns true if the script failed, and returns error message, type, and 
+// line number through the parameters/
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function BOOL SQLRTGetComponentScriptError( szComponent, szMessage, nvErrorType, nvErrorLine )
+BOOL bResult;
+number nLen;
+begin
+
+    // Handle not initialized.
+    if( !g_bSQLRTInitialized ) then
+        return TRUE;
+    endif;
+
+    // Get error
+    nLen = Resize( szMessage, 256 );
+    bResult = ISSQLServerGetComponentScriptError( szComponent, szMessage, nvErrorType, nvErrorLine );
+    return bResult;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetComponentScriptError2
+//
+// Returns true if the script failed, and returns error message, type, and 
+// line number through the parameters/
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function BOOL SQLRTGetComponentScriptError2( szComponent, szMessage, nvErrorType, nvErrorLine, szScriptName, szProductName, szServer, szDB )
+BOOL bResult;
+number nLen;
+begin
+
+    // Handle not initialized.
+    if( !g_bSQLRTInitialized ) then
+        return TRUE;
+    endif;
+
+    // Get error
+    nLen = Resize( szMessage, 256 );
+    nLen = Resize( szScriptName, 256 );
+    nLen = Resize( szProductName, 256 );
+    nLen = Resize( szServer, 256 );
+    nLen = Resize( szDB, 256 );
+    bResult = ISSQLServerGetComponentScriptError2( szComponent, szMessage, nvErrorType, nvErrorLine, szScriptName, szProductName, szServer, szDB );
+    return bResult;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetLastError
+//
+// Returns the text of the last error encountered by the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function void SQLRTGetLastError( szMessage )
+number nLen;
+begin
+
+    if( g_bSQLRTInitialized ) then
+        
+        nLen = Resize( szMessage, 256 );
+        ISSQLServerGetLastError( szMessage );
+
+    endif;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetLastError2
+//
+// Returns the text of the last error encountered by the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function void SQLRTGetLastError2( nErrorCode, szMessage, szTechnology, szConnection, szServer, szDB )
+number nLen;
+begin
+
+    if( g_bSQLRTInitialized ) then
+        
+        nLen = Resize( szMessage, MAX_STRING+1 );
+
+        nLen = Resize( szTechnology, MAX_STRING+1 );
+
+        nLen = Resize( szConnection, MAX_STRING+1 );
+
+        nLen = Resize( szServer, MAX_STRING+1 );
+
+        nLen = Resize( szDB, MAX_STRING+1 );
+
+        ISSQLServerGetLastError2( nErrorCode, szMessage, szTechnology, szConnection, szServer, szDB );
+
+    endif;
+
+end;
+
+
+//---------------------------------------------------------------------------
+// SQLRTGetBatchMode
+//
+// Simply returns the global variable, so it doesn't have to be accessed 
+// directly in the script.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can
+// only be called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function BOOL SQLRTGetBatchMode( )
+begin
+    return g_bSQLRTBatchMode;
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetBatchList
+//
+// Returns a string list of components that have been queued up for running
+// scripts in batch mode (where order from IDE view is preserved)
+//---------------------------------------------------------------------------
+function LIST SQLRTGetBatchList( nOperation )
+BOOL bInstall;
+string szComponent;
+LIST lstComponents;
+number nResult, nLen;
+begin
+
+    if( nOperation = SQL_BATCH_INSTALL ) then
+        bInstall = TRUE;
+    else
+        bInstall = FALSE;
+    endif;
+
+    lstComponents = ListCreate( STRINGLIST );
+
+    if( !g_bSQLRTInitialized ) then
+        SetExtendedErrInfo( __FILE__, __LINE__, ISERR_GEN_FAILURE );
+        return lstComponents;
+    endif;
+
+
+    szComponent = "";
+    nLen = Resize( szComponent, 256 );
+    nResult = ISSQLServerGetNextComponentInBatch( szComponent, bInstall );
+    while( nResult = 0 )
+        
+        ListAddString( lstComponents, szComponent, AFTER );
+        nResult = ISSQLServerGetNextComponentInBatch( szComponent, bInstall );
+
+    endwhile;
+
+    return lstComponents;
+        
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTDoRollbackAll
+//
+// Performs a rollback of SQL Scripts run.  Usually called if there was an
+// error running a script
+//---------------------------------------------------------------------------
+function number SQLRTDoRollbackAll( )
+begin
+
+    if( g_bSQLRTInitialized ) then  
+        return ISSQLServerDoRollbackAll();
+    else     
+        return SQL_ERROR_NOT_INITIALIZED;
+    endif;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetErrorMessage
+//
+// Returns the error message of the last SQL connection error encountered by
+// the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function number SQLRTGetErrorMessage( szMessage )
+	string szError, szScriptName;
+	number nErrorCode, nScriptErrorCode, nErrorLine;
+	string szConnection, szServer, szDB, szTechnology;
+begin
+
+    if( !g_bSQLRTInitialized ) then
+    
+	    return SQL_ERROR_NOT_INITIALIZED;
+	
+	endif;
+
+    SQLRTGetLastError2( nErrorCode, szError, szTechnology, szConnection, szServer, szDB );
+
+	if (nErrorCode = SQL_ERROR_LOGIN_FAILED) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_LOGIN_FAILED ), szTechnology, szError);
+
+    elseif (nErrorCode = SQL_ERROR_VERSION_MISSING) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_VERSION_MISSING ), szTechnology);
+
+    elseif (nErrorCode = SQL_ERROR_VERSION_INADEQUATE) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_INADEQUATE_VERSION ), szServer, szTechnology, szError);
+
+    elseif (nErrorCode = SQL_ERROR_MSDE_DISALLOWED) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_MSDE_DISALLOWED ), szServer);
+
+    elseif (nErrorCode = SQL_ERROR_ODBC_DRIVER_NOT_FOUND) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_ODBC_DRIVER_NOT_FOUND ), szTechnology, szTechnology);
+
+    elseif (nErrorCode = SQL_ERROR_NO_VALID_METADATA) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_NO_VALID_METADATA ), szConnection);
+
+    elseif (nErrorCode = SQL_ERROR_FAILED_CREATE_DATABASE) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_FAILED_CREATE_DATABASE ), szDB, szTechnology, szServer, szError);
+
+    elseif (nErrorCode = SQL_ERROR_FAILED_CONNECT_DATABASE) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_FAILED_CONNECT_DATABASE ), szDB, szTechnology, szServer, szError);
+
+    elseif (nErrorCode = SQL_ERROR_GET_SCHEMA_VERSION) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_GET_SCHEMA_VERSION ), szTechnology, szServer, szDB, szError);
+
+    elseif (nErrorCode = SQL_ERROR_SET_SCHEMA_VERSION) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_SET_SCHEMA_VERSION ), szTechnology, szServer, szDB, szError);
+
+    elseif (nErrorCode = SQL_ERROR_SCRIPT_UNABLE_OPEN_FILE) then
+
+        SQLRTGetComponentScriptError2("", szError, nErrorCode, nErrorLine, szScriptName, szTechnology, szServer, szDB);
+		Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_SCRIPT_UNABLE_OPEN_FILE ), szScriptName);
+
+    elseif (nErrorCode = SQL_ERROR_SCRIPT_COMMAND_ERROR) then
+
+        SQLRTGetComponentScriptError2("", szError, nScriptErrorCode, nErrorLine, szScriptName, szTechnology, szServer, szDB);
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_RUN_FAILED ), szScriptName, nErrorLine, szError);
+
+    elseif (nErrorCode = SQL_ERROR_SCRIPT_CONNECTION_NOT_OPEN) then
+
+        SQLRTGetComponentScriptError2("", szError, nScriptErrorCode, nErrorLine, szScriptName, szTechnology, szServer, szDB);
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_RUN_SCRIPT_NO_CONNECTION ), szScriptName);
+
+    elseif (nErrorCode = SQL_ERROR_ODBC_MISSING) then
+
+        szMessage = SdLoadString( IDS_IFX_SQL_ERROR_ODBC_MISSING );
+
+	else
+
+        //Unknown error
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_LOGIN_FAILED ), szServer, SdLoadString( ISCRIPT_E_UNKNOWN_ERROR_DESC ));
+
+    endif;
+
+    return ISERR_SUCCESS;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetScriptErrorMessage
+//
+// Returns the error message of the last SQL scripting error encountered
+// by the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function number SQLRTGetScriptErrorMessage( szMessage )
+	string szError;
+	string szTechnology, szServer, szDB, szComponent, szScriptName;
+	number nErrorCode, nErrorLine;
+begin
+
+    if( !g_bSQLRTInitialized ) then
+    
+	    return SQL_ERROR_NOT_INITIALIZED;
+	
+	endif;
+
+    // Get error message
+    SQLRTGetComponentScriptError2( szComponent, szError, nErrorCode, nErrorLine, szScriptName, szTechnology, szServer, szDB );
+
+    if( nErrorCode = SQL_ERROR_SCRIPT_UNABLE_OPEN_FILE ) then
+	
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_SCRIPT_UNABLE_OPEN_FILE ), szScriptName);
+
+	elseif( nErrorCode = SQL_ERROR_SCRIPT_COMMAND_ERROR ) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_RUN_FAILED ), szScriptName, nErrorLine, szError);
+    
+	elseif( nErrorCode = SQL_ERROR_SCRIPT_CONNECTION_NOT_OPEN ) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_RUN_SCRIPT_NO_CONNECTION ), szScriptName);
+
+    elseif( nErrorCode = SQL_ERROR_GET_SCHEMA_VERSION ) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_GET_SCHEMA_VERSION ), szTechnology, szServer, szDB, szError);
+
+    elseif( nErrorCode = SQL_ERROR_SET_SCHEMA_VERSION ) then
+
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_SET_SCHEMA_VERSION ), szTechnology, szServer, szDB, szError);
+
+	else
+	
+        Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_RUN_SCRIPT_UNEXPECTED ));
+
+	endif;
+
+    return ISERR_SUCCESS;
+
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTGetBrowseOption
+//
+// Returns the SQL Server browse option used by the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function number SQLRTGetBrowseOption( )
+begin
+    if( g_bSQLRTInitialized ) then
+    
+		return ISSQLServerGetBrowseOption();
+	
+	endif;
+
+	return SQL_BROWSE_ALL;
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTSetBrowseOption
+//
+// Sets the SQL Server browse option used by the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function void SQLRTSetBrowseOption( nBrowseOption )
+begin
+    if( g_bSQLRTInitialized ) then
+    
+		ISSQLServerSetBrowseOption( nBrowseOption );
+	
+	endif;
+end;
+
+//---------------------------------------------------------------------------
+// SQLRTSetMetaData
+//
+// Sets the metadata of the database server used by the SQL runtime.
+//
+// Uses SQLRT.dll and settings from the SQL settings file, so can only be 
+// called after SQLRTInitalize has already been called.
+//---------------------------------------------------------------------------
+function void SQLRTSetMetadata( szName, nPropId, szPropValue )
+begin
+    if( g_bSQLRTInitialized ) then
+    
+		ISSQLServerSetMetadata( szName, nPropId, szPropValue );
+	
+	endif;
+end;
+
+#include "EventsSetup.rul"

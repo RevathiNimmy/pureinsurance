@@ -1,0 +1,27 @@
+Imports System.Web.Configuration.WebConfigurationManager
+Imports Nexus.Library
+Imports CMS.Library
+Imports System.IdentityModel.Services
+Imports System.IdentityModel.Services.Configuration
+
+Namespace Nexus
+
+    Partial Class Controls_LoginCntrl : Inherits System.Web.UI.UserControl
+
+        Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+            txtUsername.Focus()
+        End Sub
+
+        Protected Sub BtnSubmit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSubmit.Click
+
+            If (Context.User.Identity.AuthenticationType = "Federation") Then
+                Dim oFederationConfiguration As FederationConfiguration = FederatedAuthentication.FederationConfiguration
+                Dim oFederatedAuthentication = FederatedAuthentication.WSFederationAuthenticationModule
+                oFederatedAuthentication.SignOut(False)
+                Dim oSignOutRequestMessage = New SignOutRequestMessage(New Uri(oFederatedAuthentication.Issuer), oFederatedAuthentication.Realm)
+                Response.Redirect(New SignOutRequestMessage(New Uri(oFederatedAuthentication.Issuer), oFederatedAuthentication.Realm).WriteQueryString())
+            
+            End If
+        End Sub
+    End Class
+End Namespace

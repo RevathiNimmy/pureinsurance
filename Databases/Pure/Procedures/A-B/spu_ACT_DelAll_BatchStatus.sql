@@ -1,0 +1,16 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_ACT_DelAll_BatchStatus'
+GO
+
+
+CREATE PROCEDURE spu_ACT_DelAll_BatchStatus
+AS
+
+
+DELETE FROM BatchStatus
+GO
+
+

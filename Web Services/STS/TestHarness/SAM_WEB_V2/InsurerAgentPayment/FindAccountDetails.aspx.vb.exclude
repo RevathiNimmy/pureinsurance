@@ -1,0 +1,476 @@
+Imports Microsoft.Web.Services3.Security.Tokens
+Imports SAMForInsuranceV2
+Imports System.Data.SqlClient
+Imports System.Data
+
+
+Partial Class Lookup_Screens_FindAccountDetails
+  
+    Inherits System.Web.UI.Page
+    Dim oSAM As New SAMForInsuranceV2
+    Dim totalCount As Double
+
+    Dim UserToken As UsernameToken = GetUserToken("sirius", "sirius")
+       
+
+    Protected Sub mnuGetAccountDetails_MenuItemClick(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.MenuEventArgs) Handles mnuGetAccountDetails.MenuItemClick
+        mvGetAccountDetails.ActiveViewIndex = Int32.Parse(e.Item.Value)
+    End Sub
+
+    Private Sub BuildLists(ByVal oSAM As SAMForInsuranceV2, ByRef objControl As DropDownList, ByVal ESTSLookup As STSListType, ByVal ListCode As String, ByVal BindValue As String)
+        Dim oRequest As New GetListRequestType
+        Dim oResponse As New GetListResponseType
+
+        oRequest.BranchCode = "HeadOff"
+        oRequest.ListType = STSListType.PMLookup
+        oRequest.ListCode = ListCode
+        oRequest.ExcludeDeletedRecords = True
+
+
+        Try
+            oResponse = oSAM.GetList(oRequest)
+
+
+            With oResponse
+                If Not (.Errors) Is Nothing Then
+                    'errors returned, so throw an exception
+                    Throw New SamResponseException(.Errors)
+                Else
+                    objControl.DataSource = oResponse.List
+                    objControl.DataTextField = "Description"
+                    objControl.DataValueField = "Code"
+
+                    objControl.DataBind()
+                    If (BindValue = "") Then
+                        objControl.Items.Insert(0, New ListItem("", ""))
+                    Else
+                        objControl.SelectedValue = BindValue
+                    End If
+                End If
+            End With
+
+
+        Catch os As SamResponseException
+            'should do some error handling here. Just output error for now
+            Response.Write("An error occured calling SAM:<br>" & os.Message)
+
+        Catch oe As Exception
+            'should do some error handling here. Just output error for now
+            Response.Write("An error occured:<br>" & oe.Message)
+
+        Finally
+            'clean up any objects here
+        End Try
+
+    End Sub
+
+    Private Sub BuildListsKey(ByVal oSAM As SAMForInsuranceV2, ByRef objControl As DropDownList, ByVal ESTSLookup As STSListType, ByVal ListCode As String, ByVal BindValue As String)
+        Dim oRequest As New GetListRequestType
+        Dim oResponse As New GetListResponseType
+
+        oRequest.BranchCode = "HeadOff"
+        oRequest.ListCode = ListCode
+        oRequest.ListType = STSListType.PMLookup
+        oRequest.ExcludeDeletedRecords = True
+
+
+        Try
+            oResponse = oSAM.GetList(oRequest)
+
+
+            With oResponse
+                If Not (.Errors) Is Nothing Then
+                    'errors returned, so throw an exception
+                    Throw New SamResponseException(.Errors)
+                Else
+                    objControl.DataSource = oResponse.List
+                    objControl.DataTextField = "Description"
+                    objControl.DataValueField = "Key"
+
+                    objControl.DataBind()
+                    If (BindValue = "") Then
+                        objControl.Items.Insert(0, New ListItem("", ""))
+                    Else
+                        objControl.SelectedValue = BindValue
+                    End If
+                End If
+            End With
+
+        Catch os As SamResponseException
+            'should do some error handling here. Just output error for now
+            Response.Write("An error occured calling SAM:<br>" & os.Message)
+
+        Catch oe As Exception
+            'should do some error handling here. Just output error for now
+            Response.Write("An error occured:<br>" & oe.Message)
+
+        Finally
+            'clean up any objects here
+        End Try
+
+    End Sub
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Dim UserToken As UsernameToken = GetUserToken("sirius", "sirius")
+
+        mvGetAccountDetails.ActiveViewIndex = 1
+        txtDocRef.Text = Session("DocRef")
+        'set up the proxy object
+        Dim oSAM As New SAMForInsuranceV2
+        oSAM.SetClientCredential(UserToken)
+        oSAM.SetPolicy("SamClientPolicy")
+        lblAccountName.Text = Session("AccountCode")
+        txtShortName.Text = Session("AccountCode")
+        If Not Page.IsPostBack Then
+            Try
+                'Dim oFindPartyResponse As New BaseFindPartyResponseTypeRow
+                'oFindPartyResponse = DirectCast(Session("FindPartyResponse"), BaseFindPartyResponseTypeRow)
+                'lblAccountName.Text = oFindPartyResponse.ResolvedName
+                'lblContactName.Text = oFindPartyResponse.ResolvedName
+                'lblAccountCode.Text = oFindPartyResponse.ShortName
+                'lblTele1.Text = oFindPartyResponse.ContactTelephoneNumber
+                RadioButtonList1.Items(0).Enabled = True
+                RadioButtonList2.Items(0).Enabled = True
+                ' radOsBaseCurrency.Checked = True
+                ' radTransactionCur.Checked = True
+                chkShowOutstanding.Checked = True
+                chkonlyfivehundred.Checked = True
+                chkReverse.Checked = True
+
+
+                BuildLists(oSAM, ddlBranch, STSListType.PMLookup, "SOURCE", "")
+                BuildLists(oSAM, ddlDocGroup, STSListType.PMLookup, "DOCTYPEGROUP", "")
+                BuildLists(oSAM, ddlDocType, STSListType.PMLookup, "DOCUMENTtYPE", "")
+                BuildLists(oSAM, ddlCurrency, STSListType.PMLookup, "CURRENCY", "")
+                BuildLists(oSAM, ddlDepartment, STSListType.PMLookup, "DEPARTMENT", "")
+
+
+                'User defined Approach to bind the values
+                PopulatePeriod()
+                PopulateOperator()
+                'Session("InsuranceFolderKey") = oResponse.InsuranceFolderKey
+                'Session("InsuranceFileKey") = oResponse.InsuranceFileKey
+                'Session("QuoteTimeStamp") = oResponse.QuoteTimeStamp
+                'mvPolicyHeaders.ActiveViewIndex = 0
+
+
+                'set up the proxy object
+
+                oSAM.SetClientCredential(UserToken)
+                oSAM.SetPolicy("SamClientPolicy")
+
+                'txtDocRef.Text = Session("DocRef")
+                Dim oFindAccountDetailsRequest As New GetAccountDetailsRequestType
+                Dim oFindAccountDetailsResponse As New GetAccountDetailsResponseType
+
+                With oFindAccountDetailsRequest
+
+                    'Mandatory Input Fields
+                   
+                    .PartyCntSpecified = False
+                    .AccountKeySpecified = False
+                    '.PartyCnt = Convert.ToInt32(Session("PartyKey"))
+                    .BranchCode = "HEADOFF"
+                    .TransDetailKeys = Nothing
+                    .DocumentKeySpecified = True
+                    .DocumentRef = Session("DocRef")
+
+                End With
+
+                oFindAccountDetailsResponse = oSAM.GetAccountDetails(oFindAccountDetailsRequest)
+
+                With oFindAccountDetailsResponse
+                    If .Errors IsNot Nothing Then
+                        'errors returned, so throw an exception
+                        Throw New SamResponseException(.Errors)
+                    End If
+                End With
+                ' lblTransactions.Text = "Transactions  Found : " & oFindAccountDetailsResponse.Transactions.Length
+                gvSearchResult.DataSource = oFindAccountDetailsResponse.Transactions
+                'oFindAccountDetailsResponse.Transactions(0).
+                gvSearchResult.DataBind()
+                total()
+                'gv1.DataSource = oFindAccountDetailsResponse.Transactions
+                'gv1.DataBind()
+                lblAccountBalance.Text = totalCount
+
+            Catch ex As Exception
+                lblTransactions.Text = ex.Message
+            End Try
+        End If
+
+    End Sub
+
+    Protected Sub btnFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnFind.Click
+        Dim UserToken As UsernameToken = GetUserToken("sirius", "sirius")
+
+        'set up the proxy object
+        Dim oSAM As New SAMForInsuranceV2
+        oSAM.SetClientCredential(UserToken)
+        oSAM.SetPolicy("SamClientPolicy")
+
+
+        Dim oFindAccountDetailsRequest As New GetAccountDetailsRequestType
+        Dim oFindAccountDetailsResponse As New GetAccountDetailsResponseType
+
+        With oFindAccountDetailsRequest
+
+            'Mandatory Input Fields
+            .AccountKeySpecified = True
+            .AccountKey = Session("AccountKey")
+
+            '.PartyCnt = Convert.ToInt32(Session("PartyKey"))
+            .PartyCntSpecified = False
+            .AccountKeySpecified = True
+            .BranchCode = ddlBranch.SelectedValue
+            .TransDetailKeys = Nothing
+            .CurrencyCode = ddlCurrency.SelectedValue
+            .DocumentTypeCode = ddlDocType.SelectedValue
+            .DocTypeGroupCode = ddlDocGroup.SelectedValue
+
+            If chkShowOutstanding.Checked = True Then
+                .OutstandingOnlySpecified1 = True
+                .OutstandingOnlySpecified = True
+                .OutstandingOnly = True
+
+            Else
+                .OutstandingOnlySpecified = False
+                .OutstandingOnly = False
+                .OutstandingOnlySpecified1 = False
+            End If
+
+            If (chkReverse.Checked) Then
+                .IncludeReversedTran = chkReverse.Checked
+                .IncludeReversedTranSpecified = True
+            End If
+            If (chkIncludeFutureTransactions.Checked) Then
+                .IsNewPFSpecified = True
+                .IsNewPFSpecified1 = True
+                .IsNewPF = True
+
+            End If
+
+            If (chkonlyfivehundred.Checked) Then
+                .Display500Specified = True
+                .Display500 = True
+
+            End If
+            If (chkReverse.Checked) Then
+                .IncludeReversedTranSpecified = True
+                .IncludeReversedTran = True
+
+            End If
+            If .ToleranceSpecified = True And .ToleranceSpecified1 = True Then
+                .Tolerance = Convert.ToDouble(txtTolerance.Text)
+            End If
+            .OrderBySpareSpecified = True
+            .OrderBySpare = True
+
+            'Non- Mandatory Input Fields
+
+            '.OutstandingOnly = chkShowOutstanding.Checked
+
+            '.DocumentRef = txtDocRef.Text.Trim()
+            'If (Not ddlDocGroup.SelectedValue.Equals(String.Empty)) Then
+            '    .DocTypeGroupKey = Convert.ToInt32(ddlDocGroup.SelectedValue)
+            '    .DocTypeGroupKeySpecified = True
+            'End If
+
+            'If (Not ddlDocType.SelectedValue.Equals(String.Empty)) Then
+            '    .DocumentTypeKey = Convert.ToInt32(ddlDocType.SelectedValue)
+            '    .DocumentTypeKeySpecified = True
+            'End If
+
+            'If (Not ddlCurrency.SelectedValue.Equals(String.Empty)) Then
+            '    .CurrencyKey = Convert.ToInt32(ddlCurrency.SelectedValue)
+            '    .CurrencyKeySpecified = True
+            'End If
+
+            'If (Not txtAmount.Text.Equals(String.Empty)) Then
+            '    .CurrencyAmount = Convert.ToString(txtAmount.Text)
+            '    .CurrencyAmountSpecified = True
+            'End If
+
+            'If (Not txtTolerance.Text.Equals(String.Empty)) Then
+            '    .Tolerance = Convert.ToString(txtTolerance.Text)
+
+            'End If
+
+            'If (Not ddlPeriod.SelectedValue.Equals(String.Empty)) Then
+            '    .PeriodKey = Convert.ToInt32(ddlPeriod.SelectedValue)
+            '    .PeriodKeySpecified = True
+            'End If
+
+            'If (Not txtPurchaseInvoice.Text.Equals(String.Empty)) Then
+            '    .PurchaseInvoiceNo = Convert.ToString(txtPurchaseInvoice.Text)
+
+            'End If
+
+            'If (Not txtPurchaseOrderNo.Text.Equals(String.Empty)) Then
+            '    .PurchaseOrderNo = Convert.ToString(txtPurchaseOrderNo.Text)
+            'End If
+
+            'If (Not ddlDepartment.SelectedValue.Equals(String.Empty)) Then
+            '    .Department = ddlDepartment.SelectedValue
+            'End If
+            'If (chkonlyfivehundred.Checked) Then
+            '    .Display500 = chkonlyfivehundred.Checked
+            '    .Display500Specified = True
+            'End If
+
+            '.AltReference = txtAlternateReference.Text
+
+
+
+            '.OutstandingOnly = chkShowOutstanding.Checked
+            'If (Not txtPolicyNo.Text.Equals(String.Empty)) Then
+            '    .InsuranceRef = Convert.ToString(txtPolicyNo.Text)
+
+            'End If
+            'If (Not txtDocRef.Text.Equals(String.Empty)) Then
+            '    .DocumentRef = Convert.ToString(txtDocRef.Text)
+
+            'End If
+            'If (Not txtFrom.Text.Equals(String.Empty)) Then
+            '    .DateFrom = Convert.ToDateTime(txtFrom.Text)
+            '    .DateFromSpecified = True
+            'End If
+            'If (Not txtTo.Text.Equals(String.Empty)) Then
+            '    .DateTo = Convert.ToDateTime(txtTo.Text)
+            '    .DateToSpecified = True
+            'End If
+            'If (Not txtPolicyNo.Text.Equals(String.Empty)) Then
+            '    .InsuranceRef = Convert.ToString(txtPolicyNo.Text)
+
+            'End If
+            'If (Not ddlOperatorName.SelectedValue.Equals(String.Empty)) Then
+            '    .Username = ddlOperatorName.SelectedValue
+            'End If
+            'If (Not txtMediaRef.Text.Equals(String.Empty)) Then
+            '    .Spare = Convert.ToString(txtMediaRef.Text)
+            'End If
+            '.IsNewPF = chkIncludeFutureTransactions.Checked
+
+            '.Rollup = True
+            '.RollupSpecified = True
+
+
+            '.OrderBySpare = True
+            '.OrderBySpareSpecified = True
+
+        End With
+
+        oFindAccountDetailsResponse = oSAM.GetAccountDetails(oFindAccountDetailsRequest)
+        If oFindAccountDetailsResponse.Transactions IsNot Nothing Then
+            lblTransactions.Text = "Transactions  Found : " & oFindAccountDetailsResponse.Transactions.Length
+            gvSearchResult.DataSource = oFindAccountDetailsResponse.Transactions
+            'oFindAccountDetailsResponse.Transactions(0).
+            'lblAccountBalance.Text = totalCount
+
+            gvSearchResult.DataBind()
+            total()
+        Else
+            lblTransactions.Text = "Transactions  Not Found "
+            gvSearchResult.DataSource = Nothing
+            'oFindAccountDetailsResponse.Transactions(0).
+            gvSearchResult.DataBind()
+        End If
+
+    End Sub
+#Region "Developed new-- Combo Box filling -- Jigar"
+    Public Sub PopulatePeriod()
+        Dim cn As New SqlConnection("Data Source=localhost;Initial Catalog=Sirius_UIIC;Integrated Security=True")
+        Dim cntI As Integer
+        Dim objDataReader As SqlDataReader
+        Dim objCmdAllGroups As SqlCommand
+
+        If (cn.State = ConnectionState.Closed) Then
+            cn.Open()
+        End If
+
+        cntI = 0
+        objCmdAllGroups = New SqlCommand("select year_name + ':' + period_name as description,period_id as code from period where year_name=@yearname", cn)
+        objCmdAllGroups.CommandType = CommandType.Text
+        objCmdAllGroups.Parameters.Add("yearname", SqlDbType.VarChar)
+        objCmdAllGroups.Parameters("yearname").Value = Year(System.DateTime.Now)
+        objDataReader = objCmdAllGroups.ExecuteReader()
+        ddlPeriod.Items.Clear()
+        While (objDataReader.Read())
+            ddlPeriod.Items.Insert(++cntI, New ListItem(objDataReader("description"), objDataReader("code")))
+        End While
+        ddlPeriod.Items.Insert(0, New ListItem("(all)", "0"))
+        objDataReader.Close()
+    End Sub
+
+    Public Sub PopulateOperator()
+        Dim cn As New SqlConnection("Data Source=localhost;Initial Catalog=Sirius_UIIC;Integrated Security=True")
+        Dim cntI As Integer
+        Dim objDataReader As SqlDataReader
+        Dim objCmdAllUsers As SqlCommand
+
+        If (cn.State = ConnectionState.Closed) Then
+            cn.Open()
+        End If
+        cntI = 0
+        objCmdAllUsers = New SqlCommand("spu_pmuser_all_users_sel", cn)
+        objCmdAllUsers.CommandType = CommandType.StoredProcedure
+        objCmdAllUsers.Parameters.Add("effective_date", SqlDbType.DateTime)
+        objCmdAllUsers.Parameters("effective_date").Value = System.DateTime.Now
+
+        objDataReader = objCmdAllUsers.ExecuteReader()
+        ddlOperatorName.Items.Clear()
+        While (objDataReader.Read())
+            ddlOperatorName.Items.Insert(++cntI, New ListItem(objDataReader("username"), objDataReader("user_id")))
+        End While
+        ddlOperatorName.Items.Insert(0, New ListItem("", ""))
+        objDataReader.Close()
+    End Sub
+#End Region
+
+    Protected Sub btnFindParty_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnFindParty.Click
+        'Response.Redirect("Find Party.aspx")
+    End Sub
+    Protected Sub btnViewAllocation_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnViewAllocation.Click
+        Response.Redirect("ViewAllocationDetails.aspx")
+    End Sub
+
+    Protected Sub gvSearchResult_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvSearchResult.SelectedIndexChanged
+        Session("TransactionDetailId") = gvSearchResult.SelectedRow.Cells(11).Text
+    End Sub
+
+    Protected Sub btnInsuredAccount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnInsuredAccount.Click
+
+    End Sub
+
+    Protected Sub gvSearchResult_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvSearchResult.RowDataBound
+        'im oDataItem As New BaseGetAccountDetailsResponseTypeRow
+        If (e.Row.RowType = DataControlRowType.DataRow) Then
+            totalCount += Convert.ToDouble(e.Row.Cells(15).Text)
+        End If
+    End Sub
+
+ 
+
+    
+
+  
+
+    'Protected Sub btnok_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnok.Click
+    '    Response.Redirect("FindAccount.aspx")
+    'End Sub
+
+
+    Public Sub total()
+        Dim total1 As Double = 0
+        Dim total2 As Double = 0
+
+        For i As Integer = 0 To gvSearchResult.Rows.Count - 1
+            total1 += Convert.ToDouble(gvSearchResult.Rows(i).Cells(9).Text)
+            total2 += Convert.ToDouble(gvSearchResult.Rows(i).Cells(15).Text)
+        Next
+        'lbltotal.Text = total1
+        'lbltotal2.Text = total2
+        lblAccountBalance.Text = total1
+
+    End Sub
+End Class

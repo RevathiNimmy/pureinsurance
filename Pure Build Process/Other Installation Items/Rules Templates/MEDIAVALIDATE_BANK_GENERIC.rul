@@ -1,0 +1,28 @@
+' ---------------------------------------------------------------------------
+' SCRIPT NAME: 	MEDIAVALIDATE_BANK_GENERIC
+' PURPOSE:	Validation of standard Bank Account Numbers
+' AUTHOR: 	Danny Davis
+' DATE: 	06 March 2007
+' RETURNS: 	oSharedStorage.vValid (True/False)
+' CHANGES:
+' ---------------------------------------------------------------------------
+
+Sub Start()
+	' Entry point for Script from bSIRMediaTypeValidation component
+	' if country specific 
+	
+	' oSharedStorage object is already available with two incoming properties
+	' oSharedStorage.vReference = Bank Code and Account Number (as one string, seperated by a bar |) OR Credit Card Number
+	' oSharedStorage.vAmount = Amount for rounding
+	'
+	' Two return properties must be set once the script completes
+	'
+	' oSharedStorage.vValid = True if oSharedStorage.vReference is valid, False if not valid
+	' oSharedStorage.vRoundedAmount = Rounded oSharedStorage.vAmount
+	'
+	' This is just a template file for you to build your own localised validator
+	
+
+	oSharedStorage.vValid = True
+	oSharedStorage.vRoundedAmount = oSharedStorage.vAmount
+End Sub

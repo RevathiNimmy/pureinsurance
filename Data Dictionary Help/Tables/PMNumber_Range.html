@@ -1,0 +1,276 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNumber_Range</h1>
+<p>Customer defined policy number support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnumber_range_id">pmnumber_range_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnumber range</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnumber_group_id">pmnumber_group_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNumber_Group.html#pmnumber_group_id">PMNumber_Group.pmnumber_group_id</a> <span class="autodesc">pmnumber group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="end_date">end_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">end date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="range_start">range_start</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">range start</span></td>
+</tr>
+<tr>
+<td><a class="name" name="range_end">range_end</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">range end</span></td>
+</tr>
+<tr>
+<td><a class="name" name="next_range_id">next_range_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNumber_Range.html#pmnumber_range_id">PMNumber_Range.pmnumber_range_id</a> <span class="autodesc">next range</span></td>
+</tr>
+<tr>
+<td><a class="name" name="prefix">prefix</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">prefix</span></td>
+</tr>
+<tr>
+<td><a class="name" name="suffix">suffix</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">suffix</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnumber_range_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnumber_group_id</td>
+<td><a href="PMNumber_Group.html">PMNumber_Group</a></td>
+<td>pmnumber_group_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>next_range_id</td>
+<td><a href="PMNumber_Range.html">PMNumber_Range</a></td>
+<td>pmnumber_range_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>next_range_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnumber_group_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pmnumber_range_id</td>
+<td><a href="PMNumber.html">PMNumber</a></td>
+<td>pmnumber_range_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnumber_range_id</td>
+<td><a href="PMNumber_Range.html">PMNumber_Range</a></td>
+<td>next_range_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnumber_range_id</td>
+<td><a href="Product_Analysis.html">Product_Analysis</a></td>
+<td>pmnumber_range_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnumber_range_id</td>
+<td>pmnumber_group_id</td>
+<td>description</td>
+<td>code</td>
+<td>caption_id</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>end_date</td>
+<td>range_start</td>
+<td>range_end</td>
+<td>next_range_id</td>
+<td>prefix</td>
+<td>suffix</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>All</td>
+<td>ALL</td>
+<td>207</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>EDI</td>
+<td>EDI</td>
+<td>208</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1900-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

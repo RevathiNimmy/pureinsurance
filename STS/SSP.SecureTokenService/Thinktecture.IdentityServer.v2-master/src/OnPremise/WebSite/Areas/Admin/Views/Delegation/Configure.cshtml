@@ -1,0 +1,110 @@
+﻿@model DelegationSettingsForUserViewModel
+@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.Delegation
+@using Thinktecture.IdentityServer.Web.Utility
+
+@{
+    if (Model.IsNew)
+    {
+        ViewBag.Title = Configure_cshtml.NewDelegationConfiguration;
+    }
+    else
+    {
+        ViewBag.Title = string.Format(Configure_cshtml.DelegationConfigurationForUser, Model.UserName);
+    }
+}
+
+
+
+<div class="card">
+        <div class="card-heading">
+             <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @using (Html.BeginForm("Add", "Delegation"))
+                    {
+                            @Html.AntiForgeryToken()
+                                            var model = new Thinktecture.IdentityServer.Models.DelegationSetting()
+                                            {
+                                                UserName = Model.UserName
+                                            };
+
+                                            if (Model.IsNew)
+                                            {
+                                 <div class="form-group form-group-sm">
+                                    @Html.LabelFor(x => model.UserName, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                    @Html.ValidatorFor(x => model.UserName)
+                                    <div class="Col-lg-8 col-md-8">
+                                    @Html.DropDownListFor(x => model.UserName, Model.AllUserNames)
+                                    </div>
+                                    
+                                </div>
+                                            }
+                                            else
+                                            {
+                                <div class="form-group form-group-sm">
+                                    @Html.HiddenFor(x => model.UserName)
+                                    @Html.LabelFor(x => model.UserName, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                    <div class="Col-lg-8 col-md-8">
+                                        <p class="form-control-static font-bold">
+                                           @Html.DisplayFor(x => model.UserName)
+                                        </p>
+                                    </div>
+                                </div>
+                                            }
+        
+                             <div class="form-group form-group-sm">
+                                @Html.LabelFor(x => model.Description, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                 @Html.ValidatorFor(x => model.Description)
+                                <div class="Col-lg-8 col-md-8">
+                                @Html.EditorFor(x => model.Description)
+                                </div>
+                               
+                            </div>
+                             <div class="form-group form-group-sm">
+                                @Html.LabelFor(x => model.Realm, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                 @Html.ValidatorFor(x => model.Realm)
+                                <div class="Col-lg-8 col-md-8">
+                                @Html.EditorFor(x => model.Realm)
+                                </div>
+                               
+                            </div>
+                            <div class="p-v-sm text-right">
+                                <button type="reset" class="btn btn-sm btn-dark">@Configure_cshtml.Cancel</button>
+                                <button type="submit" class="btn btn-sm btn-primary">@Configure_cshtml.AddRealm</button>
+                            </div>
+                                        }
+                       
+                        @foreach (var model in Model.DelegationSettings)
+                        {
+                            using (Html.BeginForm("Remove", "Delegation"))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(x => model.UserName)
+                                 <div class="form-group form-group-sm">
+                                    @Html.LabelFor(x => model.Description, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                     <div class="Col-lg-8 col-md-8">
+                                         <p class="form-control-static font-bold">
+                                            @Html.DisplayFor(x => model.Description)
+                                         </p>
+                                    @Html.HiddenFor(x => model.Description)
+                                    </div>
+                                </div>
+                                 <div class="form-group form-group-sm">
+                                    @Html.LabelFor(x => model.Realm, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                     <div class="Col-lg-8 col-md-8">
+                                         <p class="form-control-static font-bold">
+                                            @Html.DisplayFor(x => model.Realm)
+                                         </p>
+                                    @Html.HiddenFor(x => model.Realm)
+                                    </div>
+                                </div>
+                                <div class="p-v-sm text-right">
+                                    <button type="submit" class="btn btn-sm btn-dark">@Configure_cshtml.DeleteRealm</button>
+                                </div>            
+                            }
+                        }
+               </div>
+           </div>
+ </div>
+@Html.ValidationSummary(Configure_cshtml.ErrorCreatingDelegationConfiguration)

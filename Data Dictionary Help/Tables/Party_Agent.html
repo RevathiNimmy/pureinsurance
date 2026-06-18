@@ -1,0 +1,673 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Agent</h1>
+<p>Holds extra data for Parties of type "AG" (Agent).</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_agent_type_id">party_agent_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">party agent type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_agent_origin_id">party_agent_origin_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party_Agent_Origin.html#party_agent_origin_id">Party_Agent_Origin.party_agent_origin_id</a> <span class="autodesc">party agent origin</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agency_agreement_date">agency_agreement_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">agency agreement date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agency_next_review_date">agency_next_review_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">agency next review date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agency_account_number">agency_account_number</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">agency account number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_branch">is_branch</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is branch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_head_office">is_head_office</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is head office</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_commission_percent">default_commission_percent</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default commission percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trading_name">trading_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>trading name</td>
+</tr>
+<tr>
+<td><a class="name" name="binder_indicator">binder_indicator</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">binder indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="report_indicator">report_indicator</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">report indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_account_executive_id">linked_account_executive_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linked account executive</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linked_account_group">linked_account_group</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linked account group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_method">payment_method</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment method</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_frequency">payment_frequency</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment frequency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address_on_notice">address_on_notice</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">address on notice</span></td>
+</tr>
+<tr>
+<td><a class="name" name="type_of_statement">type_of_statement</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">type of statement</span></td>
+</tr>
+<tr>
+<td><a class="name" name="source">source</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="title">title</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">title</span></td>
+</tr>
+<tr>
+<td><a class="name" name="multipac">multipac</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">multipac</span></td>
+</tr>
+<tr>
+<td><a class="name" name="contact_person">contact_person</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">contact person</span></td>
+</tr>
+<tr>
+<td><a class="name" name="first_name">first_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>first name</td>
+</tr>
+<tr>
+<td><a class="name" name="bank_account">bank_account</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">bank account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_cancelled">date_cancelled</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">date cancelled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_status_id">agent_status_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="FSA_Agent_Status.html#fsa_agent_status_id">FSA_Agent_Status.fsa_agent_status_id</a> <span class="autodesc">agent status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="fsa_registration_number">fsa_registration_number</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">fsa registration number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="broker_abi_id">broker_abi_id</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">broker abi</span></td>
+</tr>
+<tr>
+<td><a class="name" name="expense_account_id">expense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">expense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_in_transfer_mode">is_in_transfer_mode</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is in transfer mode</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transfer_to_business_type_id">transfer_to_business_type_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Business_Type.html#business_type_id">Business_Type.business_type_id</a> <span class="autodesc">transfer to business type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transfer_to_party_cnt">transfer_to_party_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">transfer to party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_consolidated_commission">allow_consolidated_commission</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow consolidated commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="use_override_commission_rate">use_override_commission_rate</a></td>
+<td>tinyint</td>
+<td>null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">use override commission rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="domiciled_for_tax">domiciled_for_tax</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">domiciled for tax</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_invoice">can_make_live_invoice</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live invoice</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_instalments">can_make_live_instalments</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live instalments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_paynow">can_make_live_paynow</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live paynow</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_standard_account">is_standard_account</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is standard account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_float_balance_account">is_float_balance_account</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is float balance account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_overdraft_account">is_overdraft_account</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is overdraft account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_prepayment_account">is_prepayment_account</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is prepayment account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="expected_daily_premium">expected_daily_premium</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">expected daily premium</span></td>
+</tr>
+<tr>
+<td><a class="name" name="days_allowed">days_allowed</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">days allowed</span></td>
+</tr>
+<tr>
+<td><a class="name" name="float_balance_limit">float_balance_limit</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">float balance limit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="overdraft_limit">overdraft_limit</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">overdraft limit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="overdraft_expiry">overdraft_expiry</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">overdraft expiry</span></td>
+</tr>
+<tr>
+<td><a class="name" name="alternate_reference_mandatory">alternate_reference_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">alternate reference mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="alternate_reference_for_each_transaction">alternate_reference_for_each_transaction</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">alternate reference for each transaction</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_posting_type_id">commission_posting_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">commission posting type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_viewable_only">is_viewable_only</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is viewable only</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_ssp_subagent">is_ssp_subagent</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is ssp subagent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_single_instalment_plan">is_single_instalment_plan</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is single instalment plan</span></td>
+</tr>
+<tr>
+<td><a class="name" name="common_renewal_date">common_renewal_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">common renewal date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="produce_agent_renewal_list">produce_agent_renewal_list</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">produce agent renewal list</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_BankGuarantee">can_make_live_BankGuarantee</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live Bank Guarantee</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_level_id">commission_level_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Commission_level.html#commission_level_id">Commission_level.commission_level_id</a> <span class="autodesc">Commission level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="use_override_commission_renewal">use_override_commission_renewal</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Use Override Commission Renewal</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>transfer_to_business_type_id</td>
+<td><a href="Business_Type.html">Business_Type</a></td>
+<td>business_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_status_id</td>
+<td><a href="FSA_Agent_Status.html">FSA_Agent_Status</a></td>
+<td>fsa_agent_status_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>transfer_to_party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>party_agent_origin_id</td>
+<td><a href="Party_Agent_Origin.html">Party_Agent_Origin</a></td>
+<td>party_agent_origin_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>commission_level_id</td>
+<td><a href="commission_level.html">commission_level</a></td>
+<td>commission_level_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>broker_abi_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_agent_origin_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_agent_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>party_cnt</td>
+<td><a href="Party_Agent_Branch.html">Party_Agent_Branch</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>party_cnt</td>
+<td><a href="Source_Defaults.html">Source_Defaults</a></td>
+<td>agent_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>party_cnt</td>
+<td>party_agent_type_id</td>
+<td>party_agent_origin_id</td>
+<td>agency_agreement_date</td>
+<td>agency_next_review_date</td>
+<td>agency_account_number</td>
+<td>is_branch</td>
+<td>is_head_office</td>
+<td>default_commission_percent</td>
+<td>trading_name</td>
+<td>binder_indicator</td>
+<td>report_indicator</td>
+<td>linked_account_executive_id</td>
+<td>linked_account_group</td>
+<td>payment_method</td>
+<td>payment_frequency</td>
+<td>address_on_notice</td>
+<td>type_of_statement</td>
+<td>source</td>
+<td>title</td>
+<td>multipac</td>
+<td>contact_person</td>
+<td>first_name</td>
+<td>bank_account</td>
+<td>date_cancelled</td>
+<td>agent_status_id</td>
+<td>fsa_registration_number</td>
+<td>broker_abi_id</td>
+<td>expense_account_id</td>
+<td>is_in_transfer_mode</td>
+<td>transfer_to_business_type_id</td>
+<td>transfer_to_party_cnt</td>
+<td>allow_consolidated_commission</td>
+<td>use_override_commission_rate</td>
+<td>domiciled_for_tax</td>
+<td>can_make_live_invoice</td>
+<td>can_make_live_instalments</td>
+<td>can_make_live_paynow</td>
+<td>is_standard_account</td>
+<td>is_float_balance_account</td>
+<td>is_overdraft_account</td>
+<td>is_prepayment_account</td>
+<td>expected_daily_premium</td>
+<td>days_allowed</td>
+<td>float_balance_limit</td>
+<td>overdraft_limit</td>
+<td>overdraft_expiry</td>
+<td>alternate_reference_mandatory</td>
+<td>alternate_reference_for_each_transaction</td>
+<td>commission_posting_type_id</td>
+<td>is_viewable_only</td>
+<td>is_ssp_subagent</td>
+<td>is_single_instalment_plan</td>
+<td>common_renewal_date</td>
+<td>produce_agent_renewal_list</td>
+<td>can_make_live_BankGuarantee</td>
+<td>commission_level_id</td>
+<td>use_override_commission_renewal</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>177</td>
+<td>2</td>
+<td>18</td>
+<td>1899-12-30 00:00:00</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>SSP Sub Agent</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>1899-12-29 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>True</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

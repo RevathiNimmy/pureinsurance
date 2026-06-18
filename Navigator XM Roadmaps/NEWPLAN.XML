@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd">
+<MAP WMTaskCode="PFNB" WMTaskDescription="Create a new Instalment Plan" ImageURL="http://www.siriusgroup.co.uk" TransactionType="" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="New Instalment Plan" Core="1" Version="200" ElementID="E1">
+	<STEP Description="Find Client" Component="iPMBFindParty.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2">
+		<KEY Name="include_agent" Value="1" ElementID="E7"/>
+	</STEP>
+	<STEP Description="Find Finance Plan" Component="iPMBFindFinancePlan.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"/>
+	<STEP Description="Select Finance Transactions" Component="iPMBFinanceTransactions.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"/>
+	<STEP Description="Quote Finance" Component="iPMBFinancePlanQuote.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/>
+	<STEP Description="Finance Plan Maint" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="CP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"/>
+</MAP>
+
+

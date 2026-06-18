@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>dsPURE</DataSourceReference>
+      <CommandText>select risk_type_id, Description as RiskType from risk_type WHERE is_deleted = 0 ORDER BY description</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="risk_type_id">
+        <DataField>risk_type_id</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="RiskType">
+        <DataField>RiskType</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

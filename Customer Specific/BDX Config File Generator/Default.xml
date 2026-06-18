@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IMPORT_HEADER interface_name="POLICY_BDX_IMPORT" batch_reference="POLBDXXYZ" xmlns="http://www.siriusfs.com/SFI/Import/Policy_BDX_Import/20051005" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BrokerCode="" batch_id="52" date_imported="2013-03-19T14:57:52.890" ProcessedFolder ="DirectBusiness">
+  <Worksheet name="Sheet1">
+    <HeaderStructure>
+	  <Column Location="A2" Description="Coverholder Name" />
+	  </HeaderStructure>
+    <RowMapping>
+		<Column Location="$A" Description="Coverholder Name" />	
+    </RowMapping>
+    <!-- This section defines the SQL for identifying existing policies and determining the current policy status and action required by the policy version being imported. -->
+    <PolicyMatching>
+		<SQL>C:\Pure\ImportExport\Import\DirectBusiness\SQL\WrittenPremiumPolicyMatch.sql</SQL>
+		<Parameters>
+			<Parameter Description="Policy Number" Position="0" Length="255" Datatype="String" SourceValue="$L" />
+			<Parameter Description="Alternate Policy Ref" Position="1" Length="255" Datatype="String" SourceValue="$E" />
+			<Parameter Description="Transaction Type" Position="2" Datatype="List" SourceValue="$K" />
+			<Parameter Description="Type of Business New or Renewal" Position="3" Datatype="List" SourceValue="$M" />
+			<Parameter Description="Cover Start Date" Position="4" Datatype="Date" SourceValue="$H" />
+			<Parameter Description="Cover Expiry Date" Position="5" Datatype="Date" SourceValue="$I" />
+			<Parameter Description="MTA Effective Date" Position="6" Datatype="Date" SourceValue="$N" />
+			<Parameter Description="MTA Expiry Date" Position="7" Datatype="Date" SourceValue="$O" />
+		</Parameters>
+    </PolicyMatching>
+    <!-- This section defines the SQL for identifying existing Risks and determining the current and action required by the risk version being imported. -->
+    <RiskMatching>
+		<SQL>C:\Pure\ImportExport\Import\DirectBusiness\SQL\WrittenPremiumRiskMatch.sql</SQL>
+		<Parameters>
+			<Parameter SourceValue="$E" Description="Alternate Policy Ref" Datatype="String" Length="255" Position="0" />
+		</Parameters>
+    </RiskMatching>
+	
+    <Mapping StartingRow="3" CoverHolderNameColumn="$A" CertificateRefColumn="$E" PartyType="$P" UpdateParty="$Q">
+		<!-- Core Fields -->
+		<Field SourceValue="$F" Description="Product Code" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:ProductCode">
+			<Validation>
+				<List>
+					<Item	SourceValue="PROPR"			DestValue="COM"		Description="Commercial Business Policy" />
+					<Item	SourceValue="PACCR"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item	SourceValue="CMVSPR"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="CMVUSR"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="ENGCWSING"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABGEN"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="MARCARLIAB"	DestValue="COM"		Description="Commercial Business Policy" />
+					<Item 	SourceValue="ENGCWANND"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item 	SourceValue="CYBER"			DestValue="COM"		Description="Commercial Business Policy" />
+					<Item 	SourceValue="MARCARSING"	DestValue="COM"		Description="Commercial Business Policy" />
+					<Item 	SourceValue="MARCARANND"	DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABSTAT"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABEMP"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABMAN"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABBAIL"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABDAO"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABEMPP"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="OTHER"			DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABCRIME"		DestValue="COM"		Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABPI"		DestValue="COM"		Description="Commercial Business Policy" />
+				</List>
+			</Validation>
+		</Field>
+		<Field SourceValue="$F"	Description="Risk Code" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:Risks[{0}]/bt:RiskTypeCode">
+			<Validation>
+				<List>
+					<Item	SourceValue="PROPR"			DestValue="PROPR"		Description="Property Risks" />
+					<Item	SourceValue="PACCR"		DestValue="PACCR"		Description="Personal Accident Risks" />
+					<Item	SourceValue="CMVSPR"		DestValue="CMVSPR"		Description="Commercial Motor - Specified Vehicle" />
+					<Item  	SourceValue="CMVUSR"		DestValue="CMVUSR"  	Description="Commercial Motor - Unspecified Vehicles" />
+					<Item  	SourceValue="ENGCWSING"		DestValue="ENGCWSING"	Description="Engineering_Contract Works - Single Risk" />
+					<Item  	SourceValue="LIABGEN"		DestValue="LIABGEN"		Description="Liability - General" />
+					<Item  	SourceValue="MARCARLIAB"	DestValue="MARCARLIAB"	Description="Marine - Carriers Liability" />
+					<Item 	SourceValue="ENGCWANND"		DestValue="ENGCWANND"	Description="Engineering_Contract Works - Annual Declaration" />
+					<Item 	SourceValue="CYBER"			DestValue="CYBER"		Description="Cyber Risk" />
+					<Item 	SourceValue="MARCARSING"	DestValue="MARCARSING"	Description="Marine - Single Cargo Transit" />
+					<Item 	SourceValue="MARCARANND"	DestValue="MARCARANND"	Description="Marine - Annual Cargo" />
+					<Item  	SourceValue="LIABSTAT"		DestValue="LIABSTAT"	Description="Liability - Statutory" />
+					<Item  	SourceValue="LIABEMP"		DestValue="LIABEMP"		Description="Liability - Employers" />
+					<Item  	SourceValue="LIABMAN"		DestValue="LIABMAN"		Description="Liability - Management" />
+					<Item  	SourceValue="LIABBAIL"		DestValue="LIABBAIL"	Description="Liability - Bailees" />
+					<Item  	SourceValue="LIABDAO"		DestValue="LIABDAO"		Description="Liability - Directors And Officers" />
+					<Item  	SourceValue="LIABEMPP"		DestValue="LIABEMPP"	Description="Liability - Employment Practices" />
+					<Item  	SourceValue="OTHER"			DestValue="OTHER"		Description="Other Risk" />
+					<Item  	SourceValue="LIABCRIME"		DestValue="LIABCRIME"	Description="Liability - Crime Risks" />
+					<Item  	SourceValue="LIABPI"		DestValue="LIABPI"	Description="Liability - Crime Risks" />
+
+				</List>
+			</Validation>
+		</Field>
+		<Field SourceValue="$F"	Description="Screen Code" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:Risks[{0}]/bt:ScreenCode">
+			<Validation>
+				<List>
+					<Item	SourceValue="PROPR"	DestValue="PROPR"	Description="Property Risk Screens" />
+					<Item	SourceValue="PACCR"	DestValue="PERSACC"	Description="Personal Accident Risk Screens" />
+					<Item	SourceValue="CMVSPR"	DestValue="CMVSPR"	Description="CMV - Specified Vehicle Risk Screens" />
+					<Item  	SourceValue="CMVUSR"	DestValue="CMVUSR"	Description="CMV - Unspecified Vehicles Risk Screens" />
+					<Item  	SourceValue="ENGCWSING"	DestValue="ENGCWSING"	Description="Property Risk Screens" />
+					<Item  	SourceValue="LIABGEN"	DestValue="LIABGEN"	Description="General Liability Risk Screen" />
+					<Item  	SourceValue="MARCARLIAB"	DestValue="MARCARLIAB"	Description="Marine_Carriers Liability Screen" />
+					<Item 	SourceValue="ENGCWANND"	DestValue="ENGCWANND"	Description="Property Risk Screens" />
+					<Item 	SourceValue="CYBER"	DestValue="CYBER"	Description="Cyber Risk Screen" />
+					<Item 	SourceValue="MARCARSING"	DestValue="MARCARSING"	Description="Marine - Single Transit Screen" />
+					<Item 	SourceValue="MARCARANND"	DestValue="MARCARANND"	Description="Annual Marine Cargo Screen" />
+					<Item  	SourceValue="LIABSTAT"	DestValue="LIABSTAT"	Description="Statutory Liability Risk Screen" />
+					<Item  	SourceValue="LIABEMP"	DestValue="LIABEMP"	Description="Employers Liability Risk Screen" />
+					<Item  	SourceValue="LIABMAN"	DestValue="LIABMAN"	Description="Management Liability Risk Screen" />
+					<Item  	SourceValue="LIABBAIL"	DestValue="LIABBAIL"	Description="Bailees Liability Risk Screens" />
+					<Item  	SourceValue="LIABDAO"	DestValue="LIABDAO"	Description="Directors And Officers Liability Risk Screen" />
+					<Item  	SourceValue="LIABEMPP"	DestValue="LIABEMPP"	Description="Employment Practices Liability Risk Screen" />
+					<Item  	SourceValue="OTHER"	DestValue="OTHER"	Description="Other Risk Screen" />
+					<Item  	SourceValue="LIABCRIME"		DestValue="LIABCRIME"	Description="Crime Liability Risk Screen" />
+					<Item  	SourceValue="LIABPI"	DestValue="PILIAB"	Description="Other Risk Screen" />
+				</List>
+			</Validation>
+		</Field>
+		<Field SourceValue="$F"	Description="Data Model Code" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:Risks[{0}]/bt:DataModelCode">
+			<Validation>
+				<List>
+					<Item	SourceValue="PROPR"		DestValue="PROPR"	Description="Commercial Business Policy" />
+					<Item	SourceValue="PACCR"	DestValue="PERSACC"	Description="Commercial Business Policy" />
+					<Item	SourceValue="CMVSPR"	DestValue="CMVSPR"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="CMVUSR"	DestValue="CMVUSR"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="ENGCWSING"	DestValue="ECWSINGLE"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABGEN"	DestValue="GENLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="MARCARLIAB"	DestValue="MARCARRIER"	Description="Commercial Business Policy" />
+					<Item 	SourceValue="ENGCWANND"	DestValue="ECWANNDEC"	Description="Commercial Business Policy" />
+					<Item 	SourceValue="CYBER"	DestValue="CYBER"	Description="Commercial Business Policy" />
+					<Item 	SourceValue="MARCARSING"	DestValue="MARSINGLE"	Description="Commercial Business Policy" />
+					<Item 	SourceValue="MARCARANND"	DestValue="MARINEAD"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABSTAT"	DestValue="STATLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABEMP"	DestValue="EMPLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABMAN"	DestValue="MANLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABBAIL"	DestValue="BAILLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABDAO"	DestValue="DAOLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABEMPP"	DestValue="EMPPLIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="OTHER"	DestValue="OTHER"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABCRIME"	DestValue="CRIMELIAB"	Description="Commercial Business Policy" />
+					<Item  	SourceValue="LIABPI"	DestValue="LIABPI"	Description="Commercial Business Policy" />
+				</List>
+			</Validation>
+		</Field>
+		<Field SourceValue="$K" Description="PolicyStatusCode" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:PolicyStatusCode">
+			<Validation>
+				<List>
+					<Item SourceValue="New" DestValue="POLICY" />
+					<Item SourceValue="Renewal" DestValue="RENEWAL" />
+					<Item SourceValue="Mid Term Adjustment" DestValue="POLICY" />
+					<Item SourceValue="Cancellation" DestValue="POLICY" />
+				</List>
+			</Validation>
+		</Field>		
+		<Field SourceValue="0" Description="Skip Policy Numbering" Datatype="Integer" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:SkipNumberingScheme" />
+		<Field SourceValue="$G" Description="Risk Description" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:Risks[{0}]/bt:RiskDescription" />
+		<Field SourceValue="ANDO" Description="BranchCode" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:BranchCode" />
+		<Field SourceValue="ANDO" Description="BranchCode" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:CorporateClient/bt:BranchCode" />
+		<Field SourceValue="ANDO" Description="BranchCode" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:BranchCode" />
+		<Field SourceValue="ANDO" Description="BranchCode" Datatype="String" Length="255" Required="false" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:Risks[{0}]/bt:BranchCode" />
+		<Field SourceValue="3131 XCO" Description="AddressTypeCode" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:PersonalClient/bt:Addresses/bt:AddressTypeCode" />
+		<Field SourceValue="3131 XCO" Description="AddressTypeCode" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:CorporateClient/bt:Addresses/bt:AddressTypeCode" />
+		<Field SourceValue="AB1 1AB" Description="Address Post Code" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:CorporateClient/bt:Addresses/bt:PostCode" />
+		<Field SourceValue="$K" Description="Transaction Type" Datatype="List" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:TransactionTypeCode">
+			<Validation>
+				<List>
+					<Item SourceValue="New" DestValue="POLICY" />
+					<Item SourceValue="Renewal" DestValue="POLICY" />
+					<Item SourceValue="Mid Term Adjustment" DestValue="MTA PERM" />
+					<Item SourceValue="Cancellation" DestValue="MTACAN" />
+				</List>
+			</Validation>
+		</Field>
+		<Field SourceValue="$D" Description="Transaction Currency" Datatype="List" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:CurrencyCode">
+			<Validation>
+				<List>
+					<Item SourceValue="British Pound Sterling" DestValue="GBP" />
+					<Item SourceValue="Euro" DestValue="EUR" />
+					
+					<Item SourceValue="New Zealand Dollar" DestValue="NZD" />
+					<Item SourceValue="Australian Dollar" DestValue="AUD" />
+				</List>
+			</Validation>
+		</Field>			
+		<Field SourceValue="$A"	Description="Coverholder Name" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:PersonalClient/bt:CompanyName" />
+		<Field SourceValue="$A"	Description="Coverholder Name" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:CorporateClient/bt:CompanyName" />
+		<Field SourceValue="$H"	Description="Cover Start" Datatype="Date" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:CoverStartDate">
+			<Validation>
+				<Rule LessThan="$I" />
+			</Validation>
+		</Field>
+		<Field SourceValue="$I"	Description="Cover End" Datatype="Date" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:CoverEndDate">
+			<Validation>
+				<Rule GreaterThan="$H" />
+			</Validation>
+		</Field>
+		<Field SourceValue="$S"	Description="Country" Datatype="List" Required="false" DestMapping="/PolicyProcessRequestType/bt:CorporateClient/bt:Addresses/bt:CountryCode">
+			<Validation>
+				<List>
+					<Item SourceValue="Australia" DestValue="AUS" />
+					<Item SourceValue="New Zealand" DestValue="NZL" />
+					<Item SourceValue="Northern Ireland" DestValue="NI" />
+					<Item SourceValue="United Kingdom" DestValue="GBR" />
+				</List>
+			</Validation>
+		</Field>
+		<Field SourceValue="$R" Description="Address of Risk" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:CorporateClient/bt:Addresses/bt:AddressLine1" />
+		<Field SourceValue="$C" Description="Agent Code" Datatype="String" Length="255" DestMapping="/PolicyProcessRequestType/bt:AgentCode" Required="false"/>
+		<Field SourceValue="$E" Description="Policy Ref" Datatype="String" Length="255" Required="true" DestMapping="/PolicyProcessRequestType/bt:Policy/bt:QuoteRef" />
+		<!-- /Core Fields -->

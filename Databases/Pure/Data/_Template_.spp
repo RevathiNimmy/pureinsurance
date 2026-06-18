@@ -1,0 +1,68 @@
+-- Sirius 1.8.x Database Data Upgrade file
+-- Upgrade file starts
+
+set quoted_identifier on set ansi_nulls on set nocount on
+go
+
+-- *****************************************************************************
+-- Header Template
+
+-- *****************************************************************************
+-- * <PS013>:  <GJW - Policy Fees>
+-- * Author:   <Gary Williams>
+-- * Date:     <01/05/2004>
+-- *****************************************************************************
+
+-- *****************************************************************************
+-- Build Number Check Template
+
+-- DECLARE @build_number INT
+-- EXEC spu_PM_get_build_number @build_number = @build_number OUTPUT
+-- IF @build_number < 346
+
+
+-- *****************************************************************************
+-- Underwriting / Broking wrapper - Delete else if not required
+-- *****************************************************************************
+IF EXISTS (SELECT * FROM Hidden_Options WHERE option_number = 1 and value = 'U') 
+BEGIN
+    -- Underwriting upgrade code goes here
+    Print 'Underwriting'
+END 
+ELSE 
+BEGIN
+    -- Broking upgrade code goes here
+    Print 'Broking'
+END
+-- *****************************************************************************
+
+
+
+-- *****************************************************************************
+-- * Data changes - Start
+-- *    This can include changes to start data or generic data fixes
+-- ******
+
+
+
+
+-- ******
+-- * Data changes- End
+-- * KEYWORD: DATA
+-- * Note: Always add data scripts before this comment!!!
+-- *****************************************************************************
+
+
+-- *****************************************************************************
+-- Header Template
+
+-- *****************************************************************************
+-- * <PS013>:  <GJW - Policy Fees>
+-- * Author:   <Gary Williams>
+-- * Date:     <01/05/2004>
+-- *****************************************************************************
+
+
+-- *****************************************************************************
+-- * End of File
+-- *****************************************************************************

@@ -1,0 +1,879 @@
+//===========================================================================
+//
+//  File Name:    wnet.rul
+//
+//  
+//  Comments:     This rule file contains functions for sharing/unsharing  
+//				  folders in a Windows Network System
+//===========================================================================
+#ifndef _WNET_H_
+#define _WNET_H_
+
+#include "ifx.h"
+#include "MemAlloc.rul"
+
+///////////////////////////////////////////////////////////////////////////////
+//  Constant Declarations
+///////////////////////////////////////////////////////////////////////////////
+
+#ifndef MAX_COMPUTERNAME_LENGTH
+#define MAX_COMPUTERNAME_LENGTH 	31
+#endif
+
+#ifndef NO_ERROR
+#define NO_ERROR      				0
+#endif
+
+#ifndef ERROR_ACCESS_DENIED
+#define ERROR_ACCESS_DENIED      	5
+#endif
+
+#ifndef ERROR_EXTENDED_ERROR
+#define ERROR_EXTENDED_ERROR      	1208
+#endif
+
+#ifndef ERROR_INVALID_HANDLE
+#define ERROR_INVALID_HANDLE      	6
+#endif
+
+#ifndef ERROR_INVALID_ADDRESS
+#define ERROR_INVALID_ADDRESS     	487
+#endif
+
+#ifndef ERROR_INVALID_LEVEL
+#define ERROR_INVALID_LEVEL			124
+#endif
+
+#ifndef ERROR_INVALID_PARAMETER
+#define ERROR_INVALID_PARAMETER     87
+#endif
+
+#ifndef ERROR_MORE_DATA
+#define ERROR_MORE_DATA     		234
+#endif
+
+#ifndef ERROR_NO_MORE_ITEMS
+#define ERROR_NO_MORE_ITEMS     	259
+#endif
+
+#ifndef ERROR_NO_NETWORK
+#define ERROR_NO_NETWORK      		1222
+#endif
+
+#ifndef ERROR_NOT_CONTAINER
+#define ERROR_NOT_CONTAINER      	1207
+#endif
+
+#ifndef ERROR_NOT_ENOUGH_MEMORY
+#define ERROR_NOT_ENOUGH_MEMORY     8
+#endif
+
+#define NERR_Success 				0
+
+#define NERR_BASE       			2100
+#define NERR_BufTooSmall        	( NERR_BASE + 23 ) /* The API return buffer is too small. */
+#define NERR_DuplicateShare     	( NERR_BASE + 18 ) /* The name has already been shared. */
+#define NERR_RedirectedPath     	( NERR_BASE + 17 ) /* The operation is invalid on a redirected resource. */
+#define NERR_UnknownDevDir      	( NERR_BASE + 16 ) /* The device or directory does not exist. */
+
+#define WNNC_NET_LANMAN     		0x00020000
+
+#define RESOURCE_CONNECTED      	0x00000001
+#define RESOURCE_GLOBALNET      	0x00000002
+#define RESOURCE_REMEMBERED			0x00000003
+
+#define RESOURCEDISPLAYTYPE_GENERIC	0x00000000
+#define RESOURCEDISPLAYTYPE_DOMAIN	0x00000001
+#define RESOURCEDISPLAYTYPE_SERVER	0x00000002
+#define RESOURCEDISPLAYTYPE_SHARE	0x00000003
+#define RESOURCEDISPLAYTYPE_FILE	0x00000004
+#define RESOURCEDISPLAYTYPE_GROUP	0x00000005
+
+#define RESOURCETYPE_ANY        	0x00000000
+#define RESOURCETYPE_DISK       	0x00000001
+#define RESOURCETYPE_PRINT      	0x00000002
+
+#define RESOURCEUSAGE_CONNECTABLE   0x00000001
+#define RESOURCEUSAGE_CONTAINER     0x00000002
+
+#define STYPE_DISKTREE 				0 /* disk share */
+#define STYPE_PRINTQ   				1 /* printer share */
+#define STYPE_DEVICE   				2
+#define STYPE_IPC      				3
+#define STYPE_SPECIAL           	0x80000000
+
+#ifndef ACCESS_NONE
+#define ACCESS_NONE     			0
+#endif
+
+#ifndef ACCESS_READ
+#define ACCESS_READ     			0x1
+#endif
+
+#ifndef ACCESS_WRITE
+#define ACCESS_WRITE     			0x2
+#endif
+
+#ifndef ACCESS_CREATE
+#define ACCESS_CREATE     			0x4
+#endif
+
+#ifndef ACCESS_EXEC
+#define ACCESS_EXEC     			0x8
+#endif
+
+#ifndef ACCESS_DELETE
+#define ACCESS_DELETE     			0x10
+#endif
+
+#ifndef ACCESS_ATRIB
+#define ACCESS_ATRIB     			0x20
+#endif
+
+#ifndef ACCESS_PERM
+#define ACCESS_PERM     			0x40
+#endif
+
+#ifndef ACCESS_FINDFIRST
+#define ACCESS_FINDFIRST     		0x80
+#endif
+
+#ifndef ACCESS_ALL
+#define ACCESS_ALL     				( ACCESS_READ | ACCESS_WRITE | ACCESS_CREATE | ACCESS_EXEC | ACCESS_DELETE | ACCESS_ATRIB | ACCESS_PERM | ACCESS_FINDFIRST )
+#endif
+
+#define	SHI50F_RDONLY				0x0001
+#define	SHI50F_FULL					0x0002
+#define	SHI50F_ACCESSMASK			( SHI50F_RDONLY | SHI50F_FULL )
+#define	SHI50F_PERSIST				0x0100 /* The share is restored on system startup */
+#define SHI50F_SYSTEM				0x0200 /* The share is not normally visible  */
+
+#define SHI_USES_UNLIMITED			-1
+
+#define SIZEOF_NETRESOURCE			32;
+
+typedef _NETRESOURCE
+begin
+    LONG dwScope;
+    LONG dwType;
+    LONG dwDisplayType;
+    LONG dwUsage;
+    LONG lpLocalName;
+    LONG lpRemoteName;
+    LONG lpComment;
+    LONG lpProvider;
+end;
+
+#define SIZEOF_SHARE_INFO_2			32;
+
+typedef _SHARE_INFO_2
+begin
+    LONG 	lpwstr_NetName;
+    LONG 	dw_type;
+    LONG 	lpwstr_remark;
+    LONG 	dw_permissions;
+    LONG 	dw_max_uses;
+    LONG 	dw_current_uses;
+    LONG 	lpwstr_path;
+    LONG 	lpwstr_passwd;
+end;
+
+#define LM20_NNLEN  				12 // LM 2.0 Net name length
+#define SHPWLEN     				8 // Share password length (bytes)
+#define SIZEOF_SHARE_INFO_50		47; // really 42???
+
+typedef _SHARE_INFO_50
+begin
+  	STRING 	lpstr_NetName[ LM20_NNLEN + 1 ];
+  	CHAR 	char_Type;
+  	SHORT 	s_Flags;
+  	LONG 	lpstr_Remark;
+  	LONG 	lpstr_Path;
+  	STRING	lpstr_rw_password[ SHPWLEN + 1 ];
+  	STRING	lpstr_ro_password[ SHPWLEN + 1 ];
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//  Global Variables
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//  Import Function Prototypes
+///////////////////////////////////////////////////////////////////////////////
+
+prototype STDCALL LONG KERNEL32.GetComputerNameA(
+    BYREF STRING,	// address of name buffer
+    BYREF LONG 		// address of size of name buffer
+);
+// If the function fails, the return value is zero.
+
+prototype STDCALL LONG MPR.WNetCloseEnum(
+    BYVAL LONG 		// handle to enumeration
+);
+// If the function succeeds, the return value is NO_ERROR.
+
+prototype STDCALL LONG MPR.WNetGetLastErrorA(
+	BYREF LONG, 	// pointer to error code
+    BYREF STRING, 	/* pointer to string describing error.
+    				A buffer of at least 256 characters is recommended. */
+    BYVAL LONG,		// size of description buffer, in characters
+    BYREF STRING, 	// pointer to buffer for provider name
+    BYVAL LONG		// size of provider name buffer
+);
+/* If the function successfully obtains the last error reported by the provider
+, the return value is NO_ERROR */
+
+prototype STDCALL LONG MPR.WNetOpenEnumA(
+	BYVAL LONG, 	// scope of enumeration
+    BYVAL LONG, 	// resource types to list
+    BYVAL LONG, 	// resource usage to list
+    BYVAL POINTER, 	// pointer to resource structure
+    BYREF LONG 		// pointer to enumeration handle buffer
+);
+// If the function succeeds, the return value is NO_ERROR.
+
+prototype STDCALL LONG MPR.WNetEnumResourceA(
+	BYVAL LONG, 	// handle to enumeration
+    BYREF LONG, 	/* pointer to entries to list.
+    				If the number requested is 0xFFFFFFFF
+    				, the function returns as many entries as possible. */
+    BYVAL LONG, 	// pointer to buffer for results
+    BYREF LONG 		/* pointer to buffer size variable.
+    				16 kilobytes (K) is typical. */
+);
+/* If the function succeeds, the return value is one of the following values
+NO_ERROR or ERROR_NO_MORE_ITEMS */
+
+prototype STDCALL LONG MPR.WNetGetProviderNameA(
+  BYVAL LONG, 		//  network type
+  BYREF STRING, 	// provider name buffer
+  BYREF LONG 		// size of buffer
+);
+// If the function succeeds, the return value is NO_ERROR.
+
+prototype STDCALL LONG NETAPI32.NetShareAdd(
+  	BYVAL LONG,		// LPWSTR servername
+  	BYVAL LONG,		// DWORD level
+  	BYVAL LONG,		// LPBYTE buf
+  	BYREF LONG		// LPDWORD parm_err
+);
+
+prototype STDCALL LONG NETAPI32.NetShareDel(
+    BYVAL LONG,		// LPWSTR servername
+    BYVAL LONG,		// LPWSTR netname
+    BYVAL LONG,		// DWORD reserved
+);
+
+prototype STDCALL LONG NETAPI32.NetShareGetInfo(
+    BYVAL LONG,		// LPWSTR servername
+    BYVAL LONG,		// LPWSTR netname
+    BYVAL LONG,		// DWORD level
+    BYREF LONG		// LPBYTE *bufptr
+);
+
+prototype STDCALL LONG NETAPI32.NetApiBufferFree(
+    BYVAL LONG		// LPVOID Buffer
+);
+
+prototype STDCALL LONG SVRAPI.NetShareAdd(
+  	BYVAL LONG,		// pszServer
+  	BYVAL SHORT,	// sLevel
+  	BYVAL LONG,		// pbBuffer
+  	BYVAL SHORT		// cbBuffer
+);
+
+prototype STDCALL LONG SVRAPI.NetShareDel(
+  	BYVAL LONG,		// pszServer
+  	BYVAL LONG,		// pszNetName
+  	BYVAL SHORT		// usReserved
+);
+
+prototype STDCALL LONG SVRAPI.NetShareGetInfo(
+    BYVAL LONG,		// pszServer
+    BYVAL LONG,		// pszNetName
+    BYVAL SHORT,	// sLevel
+    BYVAL LONG,		// pbBuffer
+    BYVAL SHORT,	// cbBuffer
+    BYREF SHORT		// pcbTotalAvail
+);
+
+/////////////////////////////////////////////////////////////////////////////
+// Module Function Prototypes
+/////////////////////////////////////////////////////////////////////////////
+
+prototype BOOL AddNetShare( BYVAL STRING, BYVAL STRING, BYVAL STRING
+	, BYVAL STRING, BYVAL STRING, BYVAL STRING, BYVAL LONG, BYVAL LONG
+	, BYVAL LONG, BYREF LONG
+);
+
+prototype BOOL DelNetShare( BYVAL STRING, BYVAL STRING, BYREF LONG );
+
+prototype STRING GetComputerName( BYREF LONG );
+
+prototype STRING GetNetworkProvider( BYREF LONG );
+
+prototype BOOL GetServerDiskShares( BYREF STRING, BYREF LIST, BYREF LONG
+	, BYREF STRING );
+
+prototype BOOL GetShareInfo( BYVAL STRING, BYVAL STRING, BYREF STRING
+	, BYREF STRING, BYREF LONG, BYREF LONG, BYREF LONG, BYREF LONG
+	, BYREF LONG
+);
+
+/////////////////////////////////////////////////////////////////////////////
+// Module Functions
+/////////////////////////////////////////////////////////////////////////////
+
+function BOOL AddNetShare( sz_ServerName, sz_NetName, sz_Path, sz_Remark,
+	sz_RW_Password, sz_RO_Password, l_Type, l_Permissions, l_Max_Uses
+	, lv_Error
+)
+	BOOL bool_Return;
+	LONG lptstr_NetName, lptstr_Path, lptstr_Remark;
+	LONG lptstr_ServerName, lptstr_ROPassword, lptstr_RWPassword;
+	LONG lv_ParmErr, l_Pos, l_Size, l_BuffOffset;
+	LONG lp_BufShareInfo50;
+	POINTER p_Temp;
+	_SHARE_INFO_2 t_ShareInfo2;
+	_SHARE_INFO_2 POINTER pt_ShareInfo2;
+begin;
+	bool_Return = FALSE;
+	while( StrFind( sz_ServerName, "\\" ) == 0 )
+		StrSub( sz_ServerName, sz_ServerName, 1,
+			StrLength( sz_ServerName ) - 1 );
+	endwhile;
+	repeat;
+		l_Pos = StrFind( sz_NetName, "\\" );
+		if( l_Pos >= 0 ) then
+			StrSub( sz_NetName, sz_NetName, l_Pos + 1,
+			StrLength( sz_NetName ) - l_Pos );
+		endif;
+	until( l_Pos == -1 );
+	if( SYSINFO.WINNT.bWinNT ) then
+		if( UseDLL( WINSYSDIR ^ "netapi32.dll" ) == 0 ) then
+			pt_ShareInfo2 = &t_ShareInfo2;
+			if( l_Permissions == 0 ) then
+					l_Permissions = ACCESS_ALL;
+				endif;
+			if( StrLength( sz_ServerName ) != 0) then
+				lptstr_ServerName =
+					LpwstrFromStr( "\\\\" + sz_ServerName, lv_Error );
+			else
+				lptstr_ServerName = 0;
+			endif;
+			lptstr_NetName = LpwstrFromStr( sz_NetName, lv_Error );
+			t_ShareInfo2.lpwstr_NetName = lptstr_NetName;
+			lptstr_Path = LpwstrFromStr( sz_Path, lv_Error );
+			t_ShareInfo2.lpwstr_path = lptstr_Path;
+			lptstr_Remark = LpwstrFromStr( sz_Remark, lv_Error );
+			t_ShareInfo2.lpwstr_remark = lptstr_Remark;
+			t_ShareInfo2.lpwstr_passwd = 0;
+			t_ShareInfo2.dw_type = l_Type;
+			t_ShareInfo2.dw_permissions = l_Permissions;
+			t_ShareInfo2.dw_max_uses = l_Max_Uses;
+			t_ShareInfo2.dw_current_uses = 0;
+			lv_Error = NETAPI32.NetShareAdd( lptstr_ServerName
+				, 2, pt_ShareInfo2, lv_ParmErr );
+			if( lv_Error == NERR_Success ) then
+				bool_Return = TRUE;
+			endif;
+			UnUseDLL( WINSYSDIR ^ "netapi32.dll" );
+		else
+			lv_Error = Err.LastDllError;
+		endif;
+	else
+		if( Is( PATH_EXISTS, sz_Path ) == TRUE ) then
+			if( UseDLL( WINSYSDIR ^ "svrapi.dll" ) == 0 ) then
+				StrToUpper( sz_NetName, sz_NetName );
+				StrToUpper( sz_Path, sz_Path );
+				l_BuffOffset = 0;
+				l_Size = SIZEOF_SHARE_INFO_50;
+				lp_BufShareInfo50 = GlobalAlloc( GPTR, l_Size );
+				if( lp_BufShareInfo50 > 0 ) then
+					if( l_Permissions == 0 ) then
+						l_Permissions = SHI50F_ACCESSMASK
+						| SHI50F_PERSIST;
+					endif;
+					if( StrLength( sz_ServerName ) != 0) then
+						lptstr_ServerName =
+							LpstrFromStr( "\\\\" + sz_ServerName
+							, lv_Error );
+					else
+						lptstr_ServerName = 0;
+					endif;
+					l_Size = StrLength( sz_NetName );
+					if( l_Size > LM20_NNLEN ) then
+						StrSub( sz_NetName, sz_NetName, 0
+							, LM20_NNLEN );
+						l_Size = LM20_NNLEN;
+					endif;
+					lptstr_NetName = LpstrFromStr( sz_NetName
+						, lv_Error );
+					l_Size = Kernel32.lstrlenA( lptstr_NetName );
+					KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+						l_BuffOffset, lptstr_NetName, l_Size );
+					l_BuffOffset = l_BuffOffset + LM20_NNLEN + 1;
+    				p_Temp = &l_Type;
+    				KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+    					l_BuffOffset, p_Temp, 1 );
+    				l_BuffOffset = l_BuffOffset + 1;
+    				p_Temp = &l_Permissions;
+    				KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+    					l_BuffOffset , p_Temp, 2 );
+    				l_BuffOffset = l_BuffOffset + 2;
+    				lptstr_Remark = LpstrFromStr( sz_Remark
+    					, lv_Error );
+					p_Temp = &lptstr_Remark;
+					KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+						l_BuffOffset, p_Temp, 4 );
+    				l_BuffOffset = l_BuffOffset + 4;
+    				lptstr_Path = LpstrFromStr( sz_Path, lv_Error );
+					p_Temp = &lptstr_Path;
+					KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+						l_BuffOffset, p_Temp, 4 );
+    				l_BuffOffset = l_BuffOffset + 4;
+    				l_Size = StrLength( sz_RW_Password );
+  					if( l_Size > SHPWLEN ) then
+						StrSub( sz_RW_Password, sz_RW_Password, 0
+							, SHPWLEN );
+					endif;
+  					lptstr_RWPassword = LpstrFromStr( sz_RW_Password
+  						, lv_Error );
+					l_Size = Kernel32.lstrlenA( lptstr_RWPassword );
+					KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+						l_BuffOffset, lptstr_RWPassword, l_Size );
+    				l_BuffOffset = l_BuffOffset + SHPWLEN + 1;
+    				l_Size = StrLength( sz_RO_Password );
+  					if( l_Size > SHPWLEN ) then
+						StrSub( sz_RO_Password, sz_RO_Password, 0
+							, SHPWLEN );
+					endif;
+  					lptstr_ROPassword = LpstrFromStr( sz_RO_Password
+  						, lv_Error );
+					l_Size = Kernel32.lstrlenA( lptstr_ROPassword );
+					KERNEL32.RtlMoveMemory( lp_BufShareInfo50 +
+						l_BuffOffset, lptstr_ROPassword, l_Size );
+    				l_BuffOffset = l_BuffOffset + SHPWLEN + 1;
+    				l_Size = SIZEOF_SHARE_INFO_50;
+  					lv_Error = SVRAPI.NetShareAdd( lptstr_ServerName
+  						, 50, lp_BufShareInfo50, l_Size );
+  					if( lv_Error == NERR_Success ) then
+  						bool_Return = TRUE;
+  					endif;
+  					lp_BufShareInfo50 =
+  						GlobalFree( lp_BufShareInfo50 );
+  				endif;
+  				UnUseDLL( WINSYSDIR ^ "svrapi.dll" );
+  			else
+  				lv_Error = Err.LastDllError;
+  			endif;
+  		else
+  			lv_Error = Err.LastDllError;
+  		endif;
+  	endif;
+  	if( lptstr_NetName != 0 ) then
+		lptstr_NetName = GlobalFree( lptstr_NetName );
+	endif;
+	if( lptstr_Path != 0 ) then
+		lptstr_Path = GlobalFree( lptstr_Path );
+	endif;
+	if( lptstr_Remark != 0 ) then
+		lptstr_Remark = GlobalFree( lptstr_Remark );
+	endif;
+	if( lptstr_ServerName != 0 ) then
+		lptstr_ServerName = GlobalFree( lptstr_ServerName );
+	endif;
+	if( lptstr_ROPassword != 0 ) then
+		lptstr_ROPassword = GlobalFree( lptstr_ROPassword );
+	endif;
+	if( lptstr_RWPassword != 0 ) then
+		lptstr_RWPassword = GlobalFree( lptstr_RWPassword );
+	endif;
+	return bool_Return;
+end;
+
+function BOOL DelNetShare( sz_ServerName, sz_NetName, lv_Error )
+    BOOL bool_Return;
+    LONG lptstr_NetName, lptstr_ServerName, l_Pos;
+begin;
+	bool_Return = FALSE;
+	lv_Error = 0;
+	while( StrFind( sz_ServerName, "\\" ) == 0 )
+		StrSub( sz_ServerName, sz_ServerName, 1,
+			StrLength( sz_ServerName ) - 1 );
+	endwhile;
+	repeat;
+		l_Pos = StrFind( sz_NetName, "\\" );
+		if( l_Pos >= 0 ) then
+			StrSub( sz_NetName, sz_NetName, l_Pos + 1,
+			StrLength( sz_NetName ) - l_Pos );
+		endif;
+	until( l_Pos == -1 );
+	if( SYSINFO.WINNT.bWinNT ) then
+		if( UseDLL( WINSYSDIR ^ "netapi32.dll" ) == 0 ) then
+			if( StrLength( sz_ServerName ) != 0) then
+				lptstr_ServerName =
+					LpwstrFromStr( "\\\\" + sz_ServerName, lv_Error );
+			else
+				lptstr_ServerName = 0;
+			endif;
+			lptstr_NetName = LpwstrFromStr( sz_NetName, lv_Error );
+			lv_Error = NETAPI32.NetShareDel( lptstr_ServerName
+				, lptstr_NetName, 0 );
+			if( lv_Error == NERR_Success ) then
+				bool_Return = TRUE;
+			endif;
+			UnUseDLL( WINSYSDIR ^ "netapi32.dll" );
+		else
+			lv_Error = Err.LastDllError;
+		endif;
+	else
+		if( UseDLL( WINSYSDIR ^ "svrapi.dll" ) == 0 ) then
+			StrToUpper( sz_NetName, sz_NetName );
+			if( StrLength( sz_ServerName ) != 0) then
+				lptstr_ServerName =
+					LpstrFromStr( "\\\\" + sz_ServerName, lv_Error );
+			else
+				lptstr_ServerName = 0;
+			endif;
+			lptstr_NetName = LpstrFromStr( sz_NetName, lv_Error );
+			lv_Error = SVRAPI.NetShareDel( lptstr_ServerName
+				, lptstr_NetName, 0 );
+			if( lv_Error == NERR_Success ) then
+				bool_Return = TRUE;
+			endif;
+			UnUseDLL( WINSYSDIR ^ "svrapi.dll" );
+		else
+			lv_Error = Err.LastDllError;
+		endif;
+	endif;
+	if( lptstr_NetName != 0 ) then
+		lptstr_NetName = GlobalFree( lptstr_NetName );
+	endif;
+	if( lptstr_ServerName != 0 ) then
+		lptstr_ServerName = GlobalFree( lptstr_ServerName );
+	endif;
+	return bool_Return;
+end;
+
+function STRING GetComputerName( lv_Error )
+	STRING sz_Format, sv_ComputerName;
+	LONG lv_Size;
+begin;
+	lv_Error = 0;
+	lv_Size = MAX_COMPUTERNAME_LENGTH + 1;
+	NumToStr (sz_Format, ( lv_Size ));
+	sz_Format = "%" + sz_Format + "c";
+	Sprintf( sv_ComputerName, sz_Format, "\x00");
+	if( KERNEL32.GetComputerNameA( sv_ComputerName
+		, lv_Size ) == 0
+	) then
+		lv_Error = Err.LastDllError;
+		sv_ComputerName = "";
+	endif;
+	return sv_ComputerName;
+end;
+
+function STRING GetNetworkProvider( lv_Error )
+	STRING sz_Format, sv_NetworkProvider;
+	LONG lv_Size, l_Provider;
+begin;
+	lv_Error = 0;
+	if( UseDLL( WINSYSDIR ^ "mpr.dll" ) == 0 ) then
+		lv_Size = 128;
+		l_Provider = WNNC_NET_LANMAN;
+		repeat;
+			NumToStr (sz_Format, ( lv_Size + 1 ));
+			sz_Format = "%" + sz_Format + "c";
+			Sprintf( sv_NetworkProvider, sz_Format, "\x00");
+			lv_Error = MPR.WNetGetProviderNameA(
+  				l_Provider, sv_NetworkProvider, lv_Size );
+  			if( lv_Error == NERR_BufTooSmall ) then
+  				lv_Size = lv_Size * 2;
+  			endif;
+  		until(( lv_Error != NERR_BufTooSmall ) ||
+  			( lv_Error != NERR_Success ));
+  		UnUseDLL( WINSYSDIR ^ "mpr.dll" );
+	else
+		lv_Error = Err.LastDllError;
+	endif;
+	return sv_NetworkProvider;
+end;
+
+function BOOL GetServerDiskShares( sv_ServerName, listv_ServerShares
+	, lv_Error, sv_Error
+)
+	BOOL bool_Return;
+	LONG h_WNet, h_Mem, h_NewMem, lp_Buffer, l_Index, l_Size;
+	LONG l_Count, l_Error, l_InitialSize, l_BufferSize;
+	NUMBER n_Return;
+	POINTER p_Temp;
+	STRING sz_ServerShare, sv_Provider, sz_LocalName, sz_RemoteName;
+	_NETRESOURCE t_NetResServer, t_NetResShare;
+	_NETRESOURCE POINTER pt_NetResServer;
+	_NETRESOURCE POINTER pt_NetResShare;
+begin;
+	bool_Return = FALSE;
+	lv_Error = 0;
+	pt_NetResServer = &t_NetResServer;
+	pt_NetResShare = &t_NetResShare;
+	n_Return = ListGetFirstString( listv_ServerShares, sz_ServerShare );
+	if( n_Return == 0 ) then
+		repeat
+			ListDeleteItem( listv_ServerShares );
+			n_Return = ListGetNextString( listv_ServerShares
+				, sz_ServerShare );
+		until( n_Return != 0 );
+	elseif( n_Return == -1 ) then
+		lv_Error = Err.LastDllError;
+		return bool_Return;
+	endif;
+	if( sv_ServerName == "" ) then
+		sv_ServerName = GetComputerName( lv_Error );
+	endif;
+	if(( lv_Error == 0 ) &&
+		( UseDLL( WINSYSDIR ^ "mpr.dll" ) == 0 )
+	) then
+		while( StrFind( sv_ServerName, "\\" ) == 0 )
+			StrSub( sv_ServerName, sv_ServerName, 1,
+				StrLength( sv_ServerName ) - 1 );
+		endwhile;
+		t_NetResServer.dwScope = RESOURCE_GLOBALNET;
+    	t_NetResServer.dwType = RESOURCETYPE_ANY;
+    	t_NetResServer.dwDisplayType = RESOURCEDISPLAYTYPE_SERVER;
+    	t_NetResServer.dwUsage = RESOURCEUSAGE_CONTAINER;
+    	t_NetResServer.lpLocalName = 0;
+    	t_NetResServer.lpRemoteName =
+    		LpstrFromStr( "\\\\" + sv_ServerName, l_Error );
+    	t_NetResServer.lpComment = 0;
+    	t_NetResServer.lpProvider =
+    		LpstrFromStr( GetNetworkProvider( l_Error ), l_Error );
+    	lv_Error = MPR.WNetOpenEnumA( RESOURCE_GLOBALNET
+    		, RESOURCETYPE_DISK	, RESOURCEUSAGE_CONNECTABLE,
+    		pt_NetResServer, h_WNet );
+    	if( lv_Error == NO_ERROR ) then
+    		l_InitialSize = 16 * 1024;
+    		h_Mem = KERNEL32.GlobalAlloc( GHND, l_InitialSize );
+    		if( h_Mem > 0 ) then
+    			lp_Buffer = KERNEL32.GlobalLock( h_Mem );
+    			if( lp_Buffer != 0 ) then
+    				repeat;
+    					l_Count = 0xFFFFFFFF;
+    					l_BufferSize = l_InitialSize;
+    					lv_Error = MPR.WNetEnumResourceA(
+							h_WNet, l_Count, lp_Buffer,
+							l_BufferSize );
+						if (( lv_Error == ERROR_MORE_DATA )
+							&& ( l_BufferSize > l_InitialSize )
+						) then
+							KERNEL32.GlobalUnlock( h_Mem );
+							if( Err.LastDllError == 0 ) then
+								h_NewMem = KERNEL32.GlobalReAlloc( h_Mem
+									, l_BufferSize, GMEM_MODIFY
+									| GMEM_DISCARDABLE );
+								if( h_NewMem > 0 ) then
+									h_Mem = h_NewMem;
+									lp_Buffer =
+										KERNEL32.GlobalLock( h_Mem );
+									if( lp_Buffer == 0 ) then
+										h_Mem =
+											KERNEL32.GlobalFree( h_Mem );
+									endif;
+								else
+									h_Mem = KERNEL32.GlobalFree( h_Mem );
+									lp_Buffer = 0;
+								endif;
+							else
+								h_Mem = KERNEL32.GlobalFree( h_Mem );
+								lp_Buffer = 0;
+							endif;
+						endif;
+					until(( lp_Buffer == 0 ) ||
+						((( lv_Error == NO_ERROR ) ||
+						( lv_Error == ERROR_NO_MORE_ITEMS )) ||
+						( lv_Error != ERROR_MORE_DATA ))
+					);
+					if(( lv_Error == NO_ERROR ) ||
+						( lv_Error == ERROR_NO_MORE_ITEMS )
+					) then
+						bool_Return = TRUE;
+						l_Size = SIZEOF_NETRESOURCE;
+						for l_Index = 0 to ( l_Count - 1 )
+							KERNEL32.RtlMoveMemory(
+								pt_NetResShare,
+								lp_Buffer + ( l_Index * l_Size ),
+								l_Size
+							);
+							sz_RemoteName = StrFromLpstr(
+								pt_NetResShare->lpRemoteName, l_Error );
+							ListAddString( listv_ServerShares
+								, sz_RemoteName, AFTER );
+						endfor;
+					endif;
+					if( lp_Buffer > 0 ) then
+						KERNEL32.GlobalUnlock( h_Mem );
+						lp_Buffer = 0;
+					endif;
+					if( h_Mem > 0 ) then
+						KERNEL32.GlobalFree( h_Mem );
+						h_Mem = 0;
+					endif;
+				else
+					KERNEL32.GlobalFree( h_Mem );
+					h_Mem = 0;
+				endif;
+			else
+				lv_Error = Err.LastDllError;
+			endif;
+			MPR.WNetCloseEnum( h_WNet );
+    	elseif( lv_Error == ERROR_EXTENDED_ERROR ) then
+    		Sprintf( sv_Error, "%257c", "\x00" );
+    		Sprintf( sv_Provider, "%33c", "\x00" );
+    		MPR.WNetGetLastErrorA( lv_Error, sv_Error, 256
+    			, sv_Provider, 32 );
+    	else;
+    		sv_Error = FormatMessage( lv_Error );
+    	endif;
+    	t_NetResServer.lpProvider =
+    		GlobalFree( t_NetResServer.lpProvider );
+    	t_NetResServer.lpRemoteName =
+    		GlobalFree( t_NetResServer.lpRemoteName );
+    	UnUseDLL( WINSYSDIR ^ "mpr.dll" );
+	endif;
+	return bool_Return;
+end;
+
+function BOOL GetShareInfo( sz_ServerName, sz_NetName, sv_Path
+	, sv_Remark, lv_Type, lv_Permissions, lv_Max_Uses
+	, lv_Current_Uses, lv_Error
+)
+	BOOL bool_Return;
+	NUMBER nv_OS, n_Temp;
+	LONG lp_Buffer, l_Error, l_Size, l_Pos;
+	LONG lptstr_ServerName, lptstr_NetName, lp_Temp;
+	POINTER p_TempRef;
+	SHORT n_Size, n_TotalAvail;
+	STRING sz_Error;
+	_SHARE_INFO_2 t_ShareInfo2;
+	_SHARE_INFO_2 POINTER pt_ShareInfo2;
+	_SHARE_INFO_50 t_ShareInfo50;
+	_SHARE_INFO_50 POINTER pt_ShareInfo50;
+begin;
+	bool_Return = FALSE;
+	lv_Type = 0;
+	lv_Permissions = 0;
+	lv_Max_Uses = 0;
+	lv_Current_Uses = 0;
+	lv_Error = 0;
+	sv_Path = "";
+	sv_Remark = "";
+	while( StrFind( sz_ServerName, "\\" ) == 0 )
+		StrSub( sz_ServerName, sz_ServerName, 1,
+			StrLength( sz_ServerName ) - 1 );
+	endwhile;
+	repeat;
+		l_Pos = StrFind( sz_NetName, "\\" );
+		if( l_Pos >= 0 ) then
+			StrSub( sz_NetName, sz_NetName, l_Pos + 1,
+			StrLength( sz_NetName ) - l_Pos );
+		endif;
+	until( l_Pos == -1 );
+	if( SYSINFO.WINNT.bWinNT ) then
+		if( UseDLL( WINSYSDIR ^ "netapi32.dll" ) == 0 ) then
+			pt_ShareInfo2 = &t_ShareInfo2;
+			if( StrLength( sz_ServerName ) != 0) then
+				lptstr_ServerName =
+					LpwstrFromStr( "\\\\" + sz_ServerName, l_Error );
+			else
+				lptstr_ServerName = 0;
+			endif;
+			lptstr_NetName = LpwstrFromStr( sz_NetName, l_Error );
+		    lv_Error = NETAPI32.NetShareGetInfo( lptstr_ServerName
+				, lptstr_NetName, 2, lp_Buffer );
+			if( lv_Error == NERR_Success ) then
+				l_Size = SIZEOF_SHARE_INFO_2;
+				KERNEL32.RtlMoveMemory( pt_ShareInfo2
+					, lp_Buffer, l_Size );
+				sv_Path =
+					StrFromLpwstr( t_ShareInfo2.lpwstr_path, l_Error );
+				sv_Remark =
+					StrFromLpwstr( t_ShareInfo2.lpwstr_remark, l_Error );
+				lv_Type = t_ShareInfo2.dw_type;
+    			lv_Permissions = t_ShareInfo2.dw_permissions;
+    			lv_Max_Uses = t_ShareInfo2.dw_max_uses;
+    			lv_Current_Uses = t_ShareInfo2.dw_current_uses;
+    			lp_Buffer = NETAPI32.NetApiBufferFree( lp_Buffer );
+    			bool_Return = TRUE;
+			endif;
+			UnUseDLL( WINSYSDIR ^ "netapi32.dll" );
+		else
+			lv_Error = Err.LastDllError;
+		endif;
+	else
+		if( UseDLL( WINSYSDIR ^ "svrapi.dll" ) == 0 ) then
+			StrToUpper( sz_NetName, sz_NetName );
+			pt_ShareInfo50 = &t_ShareInfo50;
+			if( StrLength( sz_ServerName ) != 0) then
+				lptstr_ServerName =
+					LpstrFromStr( "\\\\" + sz_ServerName, lv_Error );
+			else
+				lptstr_ServerName = 0;
+			endif;
+			lptstr_NetName = LpstrFromStr( sz_NetName, lv_Error );
+		    lp_Buffer = 0;
+			n_TotalAvail = 0;
+			lv_Error = SVRAPI.NetShareGetInfo( lptstr_ServerName,
+                lptstr_NetName, 50, lp_Buffer, 0, n_TotalAvail );
+            if( lv_Error == NERR_BufTooSmall ) then
+                n_Size = n_TotalAvail;
+                l_Size = n_Size;
+                lp_Buffer = GlobalAlloc( GPTR, l_Size );
+                if( lp_Buffer > 0 ) then
+                	lv_Error = SVRAPI.NetShareGetInfo(
+                		lptstr_ServerName, lptstr_NetName
+                		, 50, lp_Buffer, n_Size, n_TotalAvail );
+                	if( lv_Error == NERR_Success ) then
+                		p_TempRef = &lp_Temp;
+                		lp_Temp = 0;
+						KERNEL32.RtlMoveMemory( p_TempRef,
+                			lp_Buffer + 13, 1 );
+                		lv_Type = lp_Temp;
+                		lp_Temp = 0;
+                		KERNEL32.RtlMoveMemory( p_TempRef,
+                			lp_Buffer + 14, 2 );
+                		lv_Permissions = lp_Temp;
+                		lp_Temp = 0;
+						KERNEL32.RtlMoveMemory( p_TempRef,
+                			lp_Buffer + 16, 4 );
+                		sv_Remark =
+							StrFromLpstr( lp_Temp
+							, l_Error );
+                		KERNEL32.RtlMoveMemory( p_TempRef,
+                			lp_Buffer + 20, 4 );
+                		sv_Path =
+							StrFromLpstr( lp_Temp
+							, l_Error );
+						lp_Temp = 0;
+						p_TempRef = 0;
+						bool_Return = TRUE;
+    				endif;
+    				lp_Buffer = GlobalFree( lp_Buffer );
+    			else
+    				lv_Error = Err.LastDllError;
+    			endif;
+			endif;
+			UnUseDLL( WINSYSDIR ^ "svrapi.dll" );
+    	else
+           	lv_Error = Err.LastDllError;
+    	endif;
+	endif;
+	if( lptstr_NetName != 0 ) then
+		lptstr_NetName = GlobalFree( lptstr_NetName );
+	endif;
+	if( lptstr_ServerName != 0 ) then
+		lptstr_ServerName = GlobalFree( lptstr_ServerName );
+	endif;
+	return bool_Return;
+end;
+
+#endif // _WNET_H_

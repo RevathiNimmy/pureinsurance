@@ -1,0 +1,16 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_ACT_DelAll_PostingStatus'
+GO
+
+
+CREATE PROCEDURE spu_ACT_DelAll_PostingStatus
+AS
+
+
+DELETE FROM PostingStatus
+GO
+
+

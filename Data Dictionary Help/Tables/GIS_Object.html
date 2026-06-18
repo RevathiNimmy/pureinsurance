@@ -1,0 +1,463 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Object</h1>
+<p>GIS objects (user-defined tables)</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software module: GIS<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="gis_object_id">gis_object_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">gis object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_data_model_id">gis_data_model_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Data_Model.html#gis_data_model_id">GIS_Data_Model.gis_data_model_id</a> Parent GIS data model</td>
+</tr>
+<tr>
+<td><a class="name" name="object_name">object_name</a></td>
+<td>varchar(70)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Object name as displayed on screen<br>There are typically two default objects called &lt;dmc&gt;_policy_binder and &lt;dmc&gt;_output. <br>For user created objects the object name must not be preceded by &lt;dmc&gt;. </td>
+</tr>
+<tr>
+<td><a class="name" name="table_name">table_name</a></td>
+<td>varchar(70)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Table name as it appears in the database<br>There are typically two default objects called &lt;dmc&gt;_policy_binder and &lt;dmc&gt;_output. <br>For user created the table name is always &lt;dmc&gt;_object name.</td>
+</tr>
+<tr>
+<td><a class="name" name="max_instances">max_instances</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>This is a red hearing and is used by document production to indicate repeating child objects. A number greater than 2 causes SPs to be generated to cater for the retrival of multiple children.</td>
+</tr>
+<tr>
+<td><a class="name" name="is_quote_object">is_quote_object</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is quote object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="parent_object_id">parent_object_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Object.html#gis_object_id">GIS_Object.gis_object_id</a> <span class="autodesc">parent object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="polaris_object_id">polaris_object_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">polaris object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_selectable_for_screen">is_selectable_for_screen</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> is selectable for screen<br>Should be set to 1 if the object is to appear in the data model in the screen editor.<br>Should be set to 0 for system objects like &lt;dmc&gt;_policy_binder and &lt;dmc&gt;_output.</td>
+</tr>
+<tr>
+<td><a class="name" name="is_non_gis">is_non_gis</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\GISSpecialType.html">GISSpecialType</a> as defined in GISDataModelType.bas</td>
+</tr>
+<tr>
+<td><a class="name" name="edit_flags">edit_flags</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\GISEditFlags.html">GISEditFlags</a> This functionality is only available in 1.9</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_data_model_id</td>
+<td><a href="GIS_Data_Model.html">GIS_Data_Model</a></td>
+<td>gis_data_model_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>parent_object_id</td>
+<td><a href="GIS_Object.html">GIS_Object</a></td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_data_model_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>parent_object_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>gis_object_id</td>
+<td><a href="GIS_Object.html">GIS_Object</a></td>
+<td>parent_object_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_object_id</td>
+<td><a href="GIS_Property.html">GIS_Property</a></td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>object_name</td>
+<td><a href="GIS_Scheme_Property.html">GIS_Scheme_Property</a></td>
+<td>object_name</td>
+<td>Not linked by ID in order to support Gemini II schemes that may not have access to the GIS tables.</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_object_id</td>
+<td><a href="GIS_Screen_Detail.html">GIS_Screen_Detail</a></td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>gis_object_id</td>
+<td>gis_data_model_id</td>
+<td>object_name</td>
+<td>table_name</td>
+<td>max_instances</td>
+<td>is_quote_object</td>
+<td>parent_object_id</td>
+<td>polaris_object_id</td>
+<td>is_selectable_for_screen</td>
+<td>is_non_gis</td>
+<td>edit_flags</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>PGRMOTOR_Policy_Binder</td>
+<td>PGRMOTOR_Policy_Binder</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>S4IDEFAULT</td>
+<td>PGRMOTOR_S4IDefault</td>
+<td>100</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>PGRMOTOR_Output</td>
+<td>PGRMOTOR_Output</td>
+<td>100</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>GENERAL</td>
+<td>PGRMOTOR_GENERAL</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>PGRMOTORC_Policy_Binder</td>
+<td>PGRMOTORC_Policy_Binder</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>PGRMOTORC_Output</td>
+<td>PGRMOTORC_Output</td>
+<td>100</td>
+<td>0</td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2</td>
+<td>Work_Claim</td>
+<td>PGRMOTORC_Claim</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2</td>
+<td>Work_Claim_Peril</td>
+<td>PGRMOTORC_Claim_Peril</td>
+<td>0</td>
+<td>0</td>
+<td>7</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>3</td>
+<td>GIIM_Policy_Binder</td>
+<td>GIIM_Policy_Binder</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>3</td>
+<td>S4IDEFAULT</td>
+<td>GIIM_S4IDefault</td>
+<td>100</td>
+<td>0</td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11</td>
+<td>3</td>
+<td>GIIM_Output</td>
+<td>GIIM_Output</td>
+<td>100</td>
+<td>0</td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1</td>
+<td>VEHICLE</td>
+<td>PGRMOTOR_VEHICLE</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>1</td>
+<td>VEHICLE_C</td>
+<td>PGRMOTOR_VEHICLE_C</td>
+<td>0</td>
+<td>0</td>
+<td>12</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>1</td>
+<td>DRIVER</td>
+<td>PGRMOTOR_DRIVER</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>15</td>
+<td>1</td>
+<td>CLAIM_C</td>
+<td>PGRMOTOR_CLAIM_C</td>
+<td>0</td>
+<td>0</td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16</td>
+<td>1</td>
+<td>CANCEL_C</td>
+<td>PGRMOTOR_CANCEL_C</td>
+<td>0</td>
+<td>0</td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td>1</td>
+<td>DRIVER_C</td>
+<td>PGRMOTOR_DRIVER_C</td>
+<td>0</td>
+<td>0</td>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>18</td>
+<td>1</td>
+<td>CLAIM_GC</td>
+<td>PGRMOTOR_CLAIM_GC</td>
+<td>0</td>
+<td>0</td>
+<td>17</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>19</td>
+<td>1</td>
+<td>CANCEL_GC</td>
+<td>PGRMOTOR_CANCEL_GC</td>
+<td>0</td>
+<td>0</td>
+<td>17</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

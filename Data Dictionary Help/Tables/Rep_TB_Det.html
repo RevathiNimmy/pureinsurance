@@ -1,0 +1,155 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Rep_TB_Det</h1>
+<p>Working table for Report detail lines.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br>
+                Temporary table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="rep_tb_det_id">rep_tb_det_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">rep tb det</span></td>
+</tr>
+<tr>
+<td><a class="name" name="rep_tb_id">rep_tb_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Rep_TB.html#rep_tb_id">Rep_TB.rep_tb_id</a> <span class="autodesc">rep tb</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_id">account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ledger_id">ledger_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Ledger.html#ledger_id">Ledger.ledger_id</a> <span class="autodesc">ledger</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_code">account_code</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>account code</td>
+</tr>
+<tr>
+<td><a class="name" name="account_name">account_name</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>account name</td>
+</tr>
+<tr>
+<td><a class="name" name="short_code">short_code</a></td>
+<td>char(20)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">short code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="credit_amount">credit_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>credit amount</td>
+</tr>
+<tr>
+<td><a class="name" name="debit_amount">debit_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>debit amount</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>rep_tb_det_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>ledger_id</td>
+<td><a href="Ledger.html">Ledger</a></td>
+<td>ledger_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>rep_tb_id</td>
+<td><a href="Rep_TB.html">Rep_TB</a></td>
+<td>rep_tb_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>account_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>ledger_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>rep_tb_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

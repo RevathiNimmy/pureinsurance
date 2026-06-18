@@ -1,0 +1,363 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Report</h1>
+<p>List of crystal reports which can be linked to Report_Group via Report_Group_Contents</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Broking<br>
+                Software module: Reports<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="report_id">report_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td>report_id</td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="report_name">report_name</a></td>
+<td>varchar(260)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>report_name =  crystal report file name. e.g. Profit_&amp;_Loss_Year.rpt</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>report_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>report_id</td>
+<td><a href="Credit_Control_Step.html">Credit_Control_Step</a></td>
+<td>broker_report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>report_id</td>
+<td><a href="PFRF.html">PFRF</a></td>
+<td>statement_report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>report_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>agent_renewal_invite_report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>report_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>agent_renewal_man_review_report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>report_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>agent_renewal_update_report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>report_id</td>
+<td><a href="Report_Group_Contents.html">Report_Group_Contents</a></td>
+<td>report_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>report_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>report_name</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>570</td>
+<td>Out_Claim</td>
+<td>Oustanding Claims Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Outstanding_Claims.rpt</td>
+</tr>
+<tr>
+<td>2</td>
+<td>571</td>
+<td>Cli_Stat</td>
+<td>Client statement Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Client_Statement.rpt</td>
+</tr>
+<tr>
+<td>3</td>
+<td>572</td>
+<td>Trial_Bal</td>
+<td>Trial Balance Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Trial_Balance_U.rpt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>573</td>
+<td>Bal_Sheet</td>
+<td>Balance Sheet Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Balance_Sheet_U.rpt</td>
+</tr>
+<tr>
+<td>5</td>
+<td>574</td>
+<td>Grs_Net</td>
+<td>Premium Gross To Net Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Premium_Gross_To_Net.rpt</td>
+</tr>
+<tr>
+<td>6</td>
+<td>575</td>
+<td>Sum_Prem</td>
+<td>Summary Of Premium Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Summary_Of_Premium.rpt</td>
+</tr>
+<tr>
+<td>7</td>
+<td>576</td>
+<td>Earn_Prem</td>
+<td>Earned Premium Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Earned_Premium.rpt</td>
+</tr>
+<tr>
+<td>8</td>
+<td>577</td>
+<td>UEarn_Prem</td>
+<td>Unearned Premium Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Unearned_Premium.rpt</td>
+</tr>
+<tr>
+<td>9</td>
+<td>578</td>
+<td>Tran_Reg</td>
+<td>Transaction Register Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Transaction_Register.rpt</td>
+</tr>
+<tr>
+<td>10</td>
+<td>579</td>
+<td>Net_Prem</td>
+<td>Net Premium Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Net_Premium.rpt</td>
+</tr>
+<tr>
+<td>11</td>
+<td>580</td>
+<td>Age_Analy</td>
+<td>Age Analysis Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Age_Analysis.rpt</td>
+</tr>
+<tr>
+<td>12</td>
+<td>581</td>
+<td>Bind_Items</td>
+<td>Binder Items Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Binder_Items.rpt</td>
+</tr>
+<tr>
+<td>13</td>
+<td>582</td>
+<td>FAC_C_Reg</td>
+<td>FAC Ceeded Register Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Fac_Ceeded_Register.rpt</td>
+</tr>
+<tr>
+<td>14</td>
+<td>583</td>
+<td>Inc_Stat</td>
+<td>Income Statement Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Income_Statement.rpt</td>
+</tr>
+<tr>
+<td>15</td>
+<td>584</td>
+<td>Agt_Analy</td>
+<td>Agent Analysis Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Agent_Analysis.rpt</td>
+</tr>
+<tr>
+<td>16</td>
+<td>585</td>
+<td>Agt_Perf</td>
+<td>Agent Performance Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Agent_Performance.rpt</td>
+</tr>
+<tr>
+<td>17</td>
+<td>586</td>
+<td>Agt_Stat</td>
+<td>Agent Statement Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Agent_Statement.rpt</td>
+</tr>
+<tr>
+<td>18</td>
+<td>587</td>
+<td>Bus_Perf</td>
+<td>Business Performance Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Business_Performance.rpt</td>
+</tr>
+<tr>
+<td>19</td>
+<td>588</td>
+<td>Sales_Perf</td>
+<td>Salesman Performance Report</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Salesman_Performance.rpt</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

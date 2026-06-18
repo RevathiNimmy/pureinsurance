@@ -1,0 +1,22 @@
+EXECUTE DDLDropProcedure 'spu_PFScheme_PrintType_List'
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROCEDURE spu_PFScheme_PrintType_List
+
+AS BEGIN
+
+    SELECT PFScheme_PrintType_id, Description
+    FROM PFScheme_PrintType
+    ORDER BY code
+END
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS OFF 
+GO

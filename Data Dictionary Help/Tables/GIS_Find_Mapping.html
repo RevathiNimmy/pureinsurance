@@ -1,0 +1,480 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Find_Mapping</h1>
+<p>Saves the field mapping of find controls on risk screens to a list that the find control uses as a lookup.</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Product Builder<br>
+                Software modules: GIS, Product Builder<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="FindControl_ID">FindControl_ID</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Find Control</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ControlIndex">ControlIndex</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Control Index</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ViewFieldName">ViewFieldName</a></td>
+<td>varchar(128)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">View Field Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ControlType">ControlType</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Control Type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Fuzzy">Fuzzy</a></td>
+<td>bit</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">Fuzzy</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ViewName">ViewName</a></td>
+<td>varchar(128)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">View Name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="SearchValue">SearchValue</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Search Value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="FoundValue">FoundValue</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Found Value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_object_id">gis_object_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">gis object</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_property_id">gis_property_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">gis property</span></td>
+</tr>
+<tr>
+<td><a class="name" name="object_name">object_name</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="property_name">property_name</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">property name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="grid_caption">grid_caption</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">grid caption</span></td>
+</tr>
+<tr>
+<td><a class="name" name="grid_position">grid_position</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">grid position</span></td>
+</tr>
+<tr>
+<td><a class="name" name="grid_width">grid_width</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">grid width</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>FindControl_ID</td>
+<td>ControlIndex</td>
+<td>ViewFieldName</td>
+<td>ControlType</td>
+<td>Fuzzy</td>
+<td>ViewName</td>
+<td>SearchValue</td>
+<td>FoundValue</td>
+<td>gis_object_id</td>
+<td>gis_property_id</td>
+<td>object_name</td>
+<td>property_name</td>
+<td>grid_caption</td>
+<td>grid_position</td>
+<td>grid_width</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>55</td>
+<td>1</td>
+<td>Make</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>152</td>
+<td>VEHICLE</td>
+<td>Make</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>2</td>
+<td>Model</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>153</td>
+<td>VEHICLE</td>
+<td>Model</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>3</td>
+<td>Variant</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>154</td>
+<td>VEHICLE</td>
+<td>Variant</td>
+<td>&nbsp;</td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>4</td>
+<td>Series</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>155</td>
+<td>VEHICLE</td>
+<td>Series</td>
+<td>&nbsp;</td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>5</td>
+<td>Body_Type</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>156</td>
+<td>VEHICLE</td>
+<td>Body_Type</td>
+<td>&nbsp;</td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>8</td>
+<td>Market</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>159</td>
+<td>VEHICLE</td>
+<td>Market_Value</td>
+<td>&nbsp;</td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>9</td>
+<td>Min</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>160</td>
+<td>VEHICLE</td>
+<td>Value_Min</td>
+<td>Min</td>
+<td>10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>10</td>
+<td>Max</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>161</td>
+<td>VEHICLE</td>
+<td>Value_Max</td>
+<td>Max</td>
+<td>11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>55</td>
+<td>39</td>
+<td>UDL_VEHLIST_id</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>303</td>
+<td>VEHICLE</td>
+<td>FC_Used</td>
+<td>&nbsp;</td>
+<td>12</td>
+<td>10</td>
+</tr>
+<tr>
+<td>56</td>
+<td>1</td>
+<td>Make</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>189</td>
+<td>VEHICLE_C</td>
+<td>Make</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>2</td>
+<td>Model</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>190</td>
+<td>VEHICLE_C</td>
+<td>Model</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>3</td>
+<td>Variant</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>191</td>
+<td>VEHICLE_C</td>
+<td>Variant</td>
+<td>&nbsp;</td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>4</td>
+<td>Series</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>192</td>
+<td>VEHICLE_C</td>
+<td>Series</td>
+<td>&nbsp;</td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>5</td>
+<td>Body_Type</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>193</td>
+<td>VEHICLE_C</td>
+<td>Body_Type</td>
+<td>&nbsp;</td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>7</td>
+<td>Min</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>197</td>
+<td>VEHICLE_C</td>
+<td>Value_Min</td>
+<td>Min</td>
+<td>8</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>8</td>
+<td>Max</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>198</td>
+<td>VEHICLE_C</td>
+<td>Value_Max</td>
+<td>Max</td>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>9</td>
+<td>Market</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>196</td>
+<td>VEHICLE_C</td>
+<td>Market_Value</td>
+<td>&nbsp;</td>
+<td>10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>56</td>
+<td>17</td>
+<td>UDL_VEHLIST_id</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>13</td>
+<td>304</td>
+<td>VEHICLE_C</td>
+<td>FC_Used</td>
+<td>&nbsp;</td>
+<td>13</td>
+<td>10</td>
+</tr>
+<tr>
+<td>55</td>
+<td>54</td>
+<td>Car_Code</td>
+<td>1</td>
+<td>False</td>
+<td>UDL_VEHLIST</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>12</td>
+<td>393</td>
+<td>VEHICLE</td>
+<td>Car_Code</td>
+<td>&nbsp;</td>
+<td>13</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

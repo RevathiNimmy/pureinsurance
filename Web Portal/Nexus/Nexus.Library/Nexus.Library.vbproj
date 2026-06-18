@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DBE041F0-949E-4A3A-8604-A59F81FAF758}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Nexus.Library</RootNamespace>
+    <AssemblyName>Nexus.Library</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Nexus.Library.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Nexus.Library.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Currencies.vb" />
+    <Compile Include="IdentityProvider.vb" />
+    <Compile Include="KeyCloak.vb" />
+    <Compile Include="OpenIdConnect.vb" />
+    <Compile Include="Currency.vb" />
+    <Compile Include="FormatString.vb" />
+    <Compile Include="FormatStrings.vb" />
+    <Compile Include="KeycloakModel.vb" />
+    <Compile Include="Portals\Accounts.vb" />
+    <Compile Include="Portals\AddressControl.vb" />
+    <Compile Include="Config.vb" />
+    <Compile Include="Portals\Claims\Claims.vb" />
+    <Compile Include="Portals\Claims\ClaimRiskType.vb" />
+    <Compile Include="Portals\Claims\ClaimRiskTypes.vb" />
+    <Compile Include="Portals\Claims\PerilType.vb" />
+    <Compile Include="Portals\Claims\PerilTypes.vb" />
+    <Compile Include="Portals\Countries.vb" />
+    <Compile Include="Portals\Country.vb" />
+    <Compile Include="Portals\EServicing.vb" />
+    <Compile Include="Portals\FileType.vb" />
+    <Compile Include="Portals\FileTypes.vb" />
+    <Compile Include="Portals\Products\CoverDate.vb" />
+    <Compile Include="Portals\Products\DocTemplate.vb" />
+    <Compile Include="Portals\Products\Documents.vb" />
+    <Compile Include="EmailTemplate.vb" />
+    <Compile Include="EmailTemplates.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="NexusFrameWork.vb" />
+    <Compile Include="Portals\PaymentTypes\PaymentProviderValue.vb" />
+    <Compile Include="Portals\PaymentTypes\PaymentType.vb" />
+    <Compile Include="Portals\PaymentTypes\PaymentTypes.vb" />
+    <Compile Include="Portals\Portal.vb" />
+    <Compile Include="Portals\Portals.vb" />
+    <Compile Include="Portals\Products\Product.vb" />
+    <Compile Include="Portals\Products\Products.vb" />
+    <Compile Include="Portals\Products\RiskType.vb" />
+    <Compile Include="Portals\Products\RiskTypes.vb">
+    </Compile>
+    <Compile Include="Portals\Report.vb" />
+    <Compile Include="Portals\Reports.vb" />
+    <Compile Include="Portals\Task.vb" />
+    <Compile Include="Portals\Tasks.vb" />
+    <Compile Include="RdlReportSchema.vb" />
+    <Compile Include="ReportDataSets.vb" />
+    <Compile Include="Security.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

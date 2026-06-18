@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+    Databases must be defined in desired order of display and execution.
+    Architecture MUST be first for correct operation.
+-->
+<Installer xmlns="urn:sirius.dbinstaller.config" Licensed="yes">
+    <Database Name="Install" Abbr="Install">Install</Database>
+    <Database Name="Structure" Abbr="Structure">Structure</Database>
+    <Database Name="Procedures" Abbr="Procedures">Procedures</Database>
+    <Database Name="Views" Abbr="Views">Views</Database>
+    <Database Name="Data" Abbr="Data">Data</Database>
+    <PMDataSource>SiriusSolutions</PMDataSource>
+    <ODBCDSN>SiriusArchitecture</ODBCDSN>
+    <ODBCDSN>SiriusSolutions</ODBCDSN>
+    <ODBCDSN>Sirius</ODBCDSN>
+    <ODBCDSN>Gemini</ODBCDSN>
+    <ODBCDSN>Orion</ODBCDSN>
+    <UIDefaults
+        ODBCDSN="SiriusArchitecture"
+        ServerName="(local)"
+        DatabaseName="Sirius"
+        BackupData="yes" />
+</Installer>

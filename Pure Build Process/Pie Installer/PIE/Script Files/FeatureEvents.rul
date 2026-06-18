@@ -1,0 +1,47 @@
+
+//---------------------------------------------------------------------------
+// The Installed event is sent after the feature PIE
+// is installed.
+//---------------------------------------------------------------------------
+export prototype PIE_Installed();
+function PIE_Installed()
+STRING szFileName;
+begin
+		
+		if(g_bPIE=TRUE) then	
+			DeletePIE2Files();
+			CreatePIERegistry();
+			CopyPIEFiles();
+			//RunPureScripts();
+			
+			
+			szFileName = gPureInstallLocation ^ "Application" ^ "WCFSecurityTokenFile.txt";
+	
+			//if Is(FILE_EXISTS, szFileName) = TRUE then
+					//ReadWCFSecurityTokenFile();
+					//UpdatePIEWebConfig();
+			//endif;
+			
+			//RunStagingScript();
+			
+		endif;	
+		
+end;
+
+//---------------------------------------------------------------------------
+// The UnInstalled event is sent after the feature PIE
+// is uninstalled.
+//---------------------------------------------------------------------------
+export prototype PIE_UnInstalled();
+function PIE_UnInstalled()
+begin
+	
+	ClearReadOnly(TARGETDIR);	
+
+	if(DeleteDir(TARGETDIR, ALLCONTENTS) < 0) then
+    	WriteToLogFile(UNINSTALL_ERRORLOG, "An error occured while removing installation directory:" + TARGETDIR + ". Please remove it manually");	
+    else
+    	WriteToLogFile(UNINSTALL_LOG, "Successfully removed installation directory: " + TARGETDIR);	
+    endif;
+
+end;

@@ -1,0 +1,25 @@
+EXECUTE DDLDropProcedure 'spu_Get_Schemes'
+GO
+
+
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+CREATE PROCEDURE spu_Get_Schemes 
+
+AS
+
+SELECT DISTINCT scheme_no, scheme_desc
+FROM gis_Scheme
+ORDER BY  scheme_desc
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+
+
+

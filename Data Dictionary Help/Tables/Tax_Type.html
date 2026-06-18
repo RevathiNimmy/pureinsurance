@@ -1,0 +1,456 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Tax_Type</h1>
+<p><span class="autodesc">Tax Type</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="tax_type_id">tax_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">tax type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="tax_basis">tax_basis</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>FK</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="arrow">&#240;</span>&nbsp;<a href="Tax_Type_Basis.html#Tax_Type_Basis_ID">Tax_Type_Basis.Tax_Type_Basis_ID</a> <span class="autodesc">tax basis</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_not_applied_to_client">is_not_applied_to_client</a></td>
+<td>tinyint</td>
+<td>null default 0</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is not applied to client</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_excluded_from_age_analysis">is_excluded_from_age_analysis</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is excluded from age analysis</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_include_tax_in_instalments">is_include_tax_in_instalments</a></td>
+<td>tinyint</td>
+<td>null default 1</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is include tax in instalments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_spread_tax_across_instalments">is_spread_tax_across_instalments</a></td>
+<td>tinyint</td>
+<td>null default 1</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is spread tax across instalments</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>tax_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>tax_basis</td>
+<td><a href="Tax_Type_Basis.html">Tax_Type_Basis</a></td>
+<td>Tax_Type_Basis_ID</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>tax_type_id</td>
+<td><a href="Stats_Detail.html">Stats_Detail</a></td>
+<td>tax_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>tax_type_id</td>
+<td><a href="Tax_Band.html">Tax_Band</a></td>
+<td>tax_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>tax_type_id</td>
+<td><a href="Tax_Type_Band.html">Tax_Type_Band</a></td>
+<td>tax_type_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>tax_type_id</td>
+<td>code</td>
+<td>caption_id</td>
+<td>description</td>
+<td>tax_basis</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>is_not_applied_to_client</td>
+<td>is_excluded_from_age_analysis</td>
+<td>is_include_tax_in_instalments</td>
+<td>is_spread_tax_across_instalments</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32</td>
+<td>272003</td>
+<td>17714</td>
+<td>GST APPLICABLE</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>33</td>
+<td>GSTNAP</td>
+<td>17715</td>
+<td>GST NOT APPLICABLE</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>45</td>
+<td>GSTFEE</td>
+<td>17700</td>
+<td>GST on Policy Fee</td>
+<td>2</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>46</td>
+<td>GSTAGCOM</td>
+<td>17751</td>
+<td>GST on Agent Commission</td>
+<td>2</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>47</td>
+<td>FSLNS1</td>
+<td>17728</td>
+<td>NSW FSL FIRE - COUNTRY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>48</td>
+<td>FSLNS2</td>
+<td>17729</td>
+<td>NSW FSL FIRE - METRO</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>49</td>
+<td>FSLNS3</td>
+<td>17730</td>
+<td>NSW FSL HOUSEHOLDER - COUNTRY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>50</td>
+<td>FSLNS4</td>
+<td>17731</td>
+<td>NSW FSL HOUSEHOLDER - METRO</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>51</td>
+<td>FSLNS5</td>
+<td>17732</td>
+<td>NSW FSL MOTOR - COUNTRY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>52</td>
+<td>FSLNS6</td>
+<td>17733</td>
+<td>NSW FSL MOTOR - METRO</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>53</td>
+<td>FSLTA1</td>
+<td>17734</td>
+<td>TAS FSL - FIRE</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>54</td>
+<td>FSLVI1</td>
+<td>17735</td>
+<td>VIC FSL FIRE - COUNTRY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>55</td>
+<td>FSLVI2</td>
+<td>17736</td>
+<td>VIC FSL FIRE - METRO</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>56</td>
+<td>FSLVI3</td>
+<td>17737</td>
+<td>VIC FSL HOUSEHOLDER - COUNTRY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>57</td>
+<td>FSLVI4</td>
+<td>17738</td>
+<td>VIC FSL HOUSEHOLDER - METRO</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>58</td>
+<td>SDYAC1</td>
+<td>17739</td>
+<td>ACT STAMP DUTY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>59</td>
+<td>290714</td>
+<td>17740</td>
+<td>NSW STAMP DUTY TYPE A</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>60</td>
+<td>SDYNS2</td>
+<td>17741</td>
+<td>NSW STAMP DUTY TYPE B</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>61</td>
+<td>SDYNT1</td>
+<td>17742</td>
+<td>NT STAMP DUTY</td>
+<td>1</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

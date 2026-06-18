@@ -1,0 +1,30 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.Shared.EditorTemplates
+@{
+    var val = Model as System.Security.Cryptography.X509Certificates.X509Certificate2;
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(null);
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName(null);
+}
+
+    @if (val == null)
+    {
+        <p class="form-control-static text-danger font-bold">@X509Certificate2_cshtml.NoCertificate</p>
+    }
+    else
+    {
+        <p class="form-control-static text-primary font-bold">@val.SubjectName.Name</p>
+    }
+    @if (val != null)
+    {
+        <div>
+            @{
+        var removeID = "RemoveCert";
+            }
+            <label for="@removeID">@X509Certificate2_cshtml.Remove</label>
+            <input type="checkbox" id="@removeID" name="@removeID" value="true" />
+        </div>
+    }
+     <div class="m-v-sm">
+        <label for="@id">@X509Certificate2_cshtml.Upload</label>
+        <input class="md-btn md-raised m-b bg-white" type="file" id="@id" name="@name" />
+    </div>
+

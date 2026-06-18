@@ -1,0 +1,52 @@
+'----------- Catlin Fleet Claims Validation Rule -----------------
+
+'Private Const DMC = "FLEETCLAIM"
+
+'Private Const oPARENT = "pCATLIN"
+'Private Const oCHILD = "cVEHICLES"
+
+'Sub Start()
+'	Dim iCount, iVehicleCount
+'	iCount = Engine.Count(oPARENT)
+'	iVehicleCount = Engine.Item(oPARENT, iCount).Item("Chosen_Count").Value
+
+'	If iVehicleCount = 0 Then
+'		If Engine.Item(oPARENT, iCount).Item("No_Vehicles_Involved").Value = 1 Then
+'			'Do nothing
+'		Else
+'			Call StopIt("Decline", "You must select one or more vehicles from the list, or choose the tickbox saying there were no vehicles involved.")
+'		End If
+'	End If
+
+
+'	If iVehicleCount > 1 Then
+'		Dim MultiString
+'		If iVehicleCount > 2 Then
+'			MultiString = "deselect " & iVehicleCount-1 & " vehicles"
+'		Else
+'			MultiString = "deselect 1 vehicle"
+'		End If
+'		Call StopIt("Decline", "You can only choose one vehicle from the list on the first tab.  Please " & MultiString & ".")
+'	End If
+'
+'
+'
+'End Sub
+'
+'
+'
+'
+'Function StopIt(sTask, sMessage)	
+'Engine.NewObject(DMC & "_OUTPUT")
+'SELECT CASE Left(sTask,1)
+'CASE "D"
+'	Engine.Item(DMC & "_OUTPUT", Engine.Count(DMC & "_OUTPUT")).Item("decline_reason").Value = sMessage
+'CASE "R"
+'	Engine.Item(DMC & "_OUTPUT", Engine.Count(DMC & "_OUTPUT")).Item("refer_reason").Value = sMessage
+'CASE ELSE
+'	Engine.Item(DMC & "_OUTPUT", Engine.Count(DMC & "_OUTPUT")).Item("message").Value = sMessage
+'END SELECT
+'End Function 'Decline, refer or message
+'
+
+

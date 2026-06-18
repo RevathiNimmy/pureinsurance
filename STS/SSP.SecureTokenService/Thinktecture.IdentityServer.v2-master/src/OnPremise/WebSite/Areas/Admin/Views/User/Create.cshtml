@@ -1,0 +1,41 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.User
+@model UserInputModel
+
+@{
+    ViewBag.Title = Create_cshtml.CreateUser;
+}
+
+@using (Html.BeginForm("Create", "User"))
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+             <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                   @Html.EditorForModel()
+               </div>
+           </div>
+         <div class="card-divider">
+              <h2>@Create_cshtml.Roles</h2>
+         </div>
+          <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @for (int i = 0; i < Model.Roles.Length; i++)
+                {
+                    <div class="form-group form-group-sm">
+                        @Html.HiddenFor(x => Model.Roles[i].Role)
+                        @Html.LabelFor(x => Model.Roles[i].InRole, Model.Roles[i].Role)
+                        @Html.CheckBoxFor(x => Model.Roles[i].InRole)
+                    </div>
+                }
+               </div>
+          </div>
+        <div class="card-footer">
+             <button type="reset" class="btn btn-sm btn-dark">@Create_cshtml.Cancel</button>
+             <button type="submit" class="btn btn-sm btn-primary">@Create_cshtml.Create</button>
+        </div>
+   </div>
+    @Html.ValidationSummary(Create_cshtml.ErrorCreatingUser)
+}

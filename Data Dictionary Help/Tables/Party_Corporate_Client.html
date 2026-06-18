@@ -1,0 +1,203 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Corporate_Client</h1>
+<p>Holds extra data for Parties of type "CC" (Corporate Client).</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="company_reg">company_reg</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">company reg</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trading_since_date">trading_since_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>trading since date</td>
+</tr>
+<tr>
+<td><a class="name" name="party_business_id">party_business_id</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">party business</span></td>
+</tr>
+<tr>
+<td><a class="name" name="location">location</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>location</td>
+</tr>
+<tr>
+<td><a class="name" name="no_of_offices">no_of_offices</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>no of offices</td>
+</tr>
+<tr>
+<td><a class="name" name="no_of_employees">no_of_employees</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>no of employees</td>
+</tr>
+<tr>
+<td><a class="name" name="financial_year">financial_year</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Start of financial year. Store 29/12/1899 to indicate an unknown value.</td>
+</tr>
+<tr>
+<td><a class="name" name="trade_code">trade_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">trade code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="wage_roll">wage_roll</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">wage roll</span></td>
+</tr>
+<tr>
+<td><a class="name" name="turnover">turnover</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>turnover</td>
+</tr>
+<tr>
+<td><a class="name" name="SIC_code_id">SIC_code_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">SIC code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="salutation">salutation</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>salutation</td>
+</tr>
+<tr>
+<td><a class="name" name="trade_id">trade_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">trade</span></td>
+</tr>
+<tr>
+<td><a class="name" name="source">source</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tpsind">tpsind</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tpsind</span></td>
+</tr>
+<tr>
+<td><a class="name" name="empsind">empsind</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">empsind</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tp_password">tp_password</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tp password</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mailshot">mailshot</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">mailshot</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_fee_client">is_fee_client</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is fee client</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>SIC_code_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

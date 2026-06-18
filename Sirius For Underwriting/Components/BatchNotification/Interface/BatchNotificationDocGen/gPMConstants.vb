@@ -1,0 +1,303 @@
+Module gPMConstants
+    ' ***************************************************************** '
+    ' Return Codes
+    '
+    ' The return codes below are grouped as follows :
+    '
+    ' General   - Commonly used return codes.
+    ' System    - Return Codes used by system functions.
+    ' Interface - Interface Layer return codes.
+    ' Business  - Business Layer return codes.
+    ' Database  - Database Layer return codes.
+    '
+    ' Seporate each group by a 200 offset.
+    ' ***************************************************************** '
+
+    ' ***************************************************************** '
+    ' * Return Codes                                                  * '
+    ' ***************************************************************** '
+    Public Enum PMEReturnCode
+
+        ' General
+        '********
+        PMFalse = 0
+        PMTrue = 1
+        PMFail = 10
+        PMError = 11
+        PMSucceed = 12
+        PMOK = 20
+        PMCancel = 21
+        PMNavigate = 30
+
+        ' Broking Link Set 1
+        ' RFC070498
+        '*************
+        PMMNoAuthority = 51
+        PMMAlreadyInUse = 52
+        PMMInvalidPassword = 53
+        PMMNoAccess = 54
+
+        ' System
+        '*******
+        PMIncorrectUsername = 200
+        PMIncorrectPassword = 201
+        PMLoggedOnElsewhere = 202
+        PMLogError1 = 210
+        PMLogError2 = 211
+        PMMixedModeIncorrectUserName = 212
+        PMMixedModeUserLoggedOnElsewhere = 213
+        PMUnifiedModeIncorrectUserName = 214
+        PMUnifiedModeUserLoggedOnElsewhere = 215
+
+        ' Interface
+        '**********
+        PMMoveStatusBack = 400
+        PMMoveStatusNext = 401
+        PMMoveStatusCancel = 402
+        PMMoveStatusFinish = 403
+
+        ' Broking Link Set 2
+        ' RFC070498
+        '*************
+        PMError_argcount = 500
+        PMError_protocol = 501
+        PMError_notconnected = 502
+        PMError_timeout = 503
+        PMError_usage = 504
+
+        ' Business
+        '*********
+        PMLogonExceeded = 600
+        PMLicenceExceeded = 601
+        PMInvalidLicenceKey = 602
+        PMDataChanged = 610
+        PMMandatoryMissing = 611
+        PMDataNotChanged = 612
+        PMInvalidRequest = 620
+        PMIncorrectDateFormat = 621
+        PMIncorrectSystemDate = 622
+        'RFC180299 New Constants Added for SA1.4
+        PMEarlier = 623
+        PMLater = 624
+        PMInstallStarted = 625
+        'DAK121099 - New responses for Licencing
+        PMBlockLicenceExceeded = 626
+        PMWarnLicenceExceeded = 627
+
+        ' Navigator Return Codes
+        '***********************
+        PMNavStartNewProcess = 700
+        PMNavCallComponent = 701
+        PMNavBuildMap = 702
+        PMNavRepeatMap = 703
+        PMNavEndMap = 704
+        PMNavNavigate = 705
+        PMNavEndProcess = 706
+
+        ' Database
+        '*********
+        PMRecordChanged = 800
+        PMRecordDeleted = 801
+        PMRecordInUse = 810
+        PMNotFound = 811
+        PMBOF = 820
+        PMEOF = 821
+        PMQueryTimeout = 822
+        PMNonRaisedError = 823
+        PMDeadlock = 888
+
+        ' Broking Link Set 3
+        ' RFC070498
+        '*************
+        PMNoHostRegistry = 1002
+        PMNoPortRegistry = 1003
+        PMNoConnection = 1004
+        PMNoPMLink = 1005
+        PMNoCompanies = 1006
+
+        ' CTAF 20030722 start
+        ' Agents/Customers Online
+        ' ***********************
+        PMNoEmailAddress = 1100
+        PMFailedEmail = 1101
+        PMUpdateUserFailed = 1102
+        PMUserNotExist = 1103
+        PMUserNotLinkedAgent = 1104 ' When a user isn't linked to an agent
+        PMGISOutDated = 1105 ' When the GIS doesn't support a method that the STS requires
+
+        ' Documaster Errors
+        PMDocumasterError = 1200
+
+        ' RVH 07/06/2004
+        ' XML Serialize/Deserialize errors
+        '*********************************
+        PMXMLTooManyDimensions = 2101
+        PMXMLNotEnoughRows = 2102
+        PMXMLNotEnoughColumns = 2103
+        PMXMLParseError = 2104
+
+        PMBackOfficeError = 3000
+        PMBusinessRuleError = 3001
+
+        ' DD 04/08/2005
+        ' Additional optional actions in Roadmap
+        '***************************************
+        PMNavAction1 = 2200
+        PMNavAction2 = 2201
+
+        MandatoryInputMissing = 5001
+    End Enum
+
+    ' ***************************************************************** '
+    ' * Constants for Message Logging
+    ' ***************************************************************** '
+    ' ***************************************************************** '
+    ' * Log Levels
+    ' ***************************************************************** '
+    Public Enum PMELogLevel
+        PMLogFatal = 1
+        PMLogError = 2
+        PMLogWarning = 3
+        PMLogOnError = 4
+        PMLogInfo = 5
+        PMLogDebug1 = 6
+        PMLogDebug2 = 7
+        PMLogDebug3 = 8
+        PMLogDebug4 = 9
+        PMLogFeedback = 10
+    End Enum
+
+    ' ***************************************************************** '
+    ' Key Let/Get Column Position Constants
+    ' ***************************************************************** '
+    Public Enum PMENavKeys
+        PMKeyName = 0
+        PMKeyValue = 1
+    End Enum
+
+    ' ***************************************************************** '
+    ' Status type values.
+    ' ***************************************************************** '
+    Public Enum PMEComponentAction
+        PMView = 0
+        PMAdd = 1
+        PMEdit = 2
+        PMDelete = 3
+        PMDummyDelete = 4
+        PMAdded = 10
+        PMReverse = 11
+        PMReplace = 12
+        PMCopy = 20
+    End Enum
+
+    ' ***************************************************************** '
+    ' Status type values.
+    '
+    ' Process Mode values  (Navigator)
+    '
+    ' Only use the following values for these constants :
+    ' 0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384
+    ' ***************************************************************** '
+    Public Enum PMEProcessMode
+        PMProcessModeGeneric = 0
+        PMProcessModeEnquiry = 1
+        PMProcessModeNBQuote = 2
+        PMProcessModeNBLive = 4
+        PMProcessModeRNQuote = 8
+        PMProcessModeRNLive = 16
+        PMProcessModeMTAQuote = 32
+        PMProcessModeMTALive = 64
+        'DAK280999
+        PMProcessModeFull = 101
+        PMProcessModePostQuote = 102
+        PMProcessModeSpecific = 103
+        PMProcessModeStartAtQuote = 104
+        PMProcessModeDefault = 105
+        PMProcessModeReview = 106
+        PMProcessModeCancellations = 107
+        PMProcessModeClaims = 108
+        PMProcessModeOverride = 109
+    End Enum
+
+    ' ***************************************************************** '
+    ' Formatting values.
+    ' ***************************************************************** '
+    Public Enum PMEFormatStyle
+        PMFormatString = 0
+        PMFormatStringCase = 1
+        PMFormatDateShort = 2
+        PMFormatDateMedium = 3
+        PMFormatDateLong = 4
+        PMFormatTimeShort = 5
+        PMFormatTimeMedium = 6
+        PMFormatTimeLong = 7
+        PMFormatDateTimeShort = 8
+        PMFormatDateTimeMedium = 9
+        PMFormatDateTimeLong = 10
+        PMFormatCurrency = 11
+        PMFormatInteger = 12
+        PMFormatBoolean = 13
+        PMFormatStringUpper = 14
+        PMFormatDateYearOnly = 15
+        PMFormatPercent = 16
+        PMFormatDouble = 17
+        PMFormatLong = 18
+        ' BB151297 - Added constants for Voyager Form Tools
+        ' This format uses local currency symbol and drops decimal amounts
+        PMFormatWholeMoney = 19
+        ' This format uses local currency symbol
+        PMFormatMoney = 20
+        PMFormatDecimal = 21 'JY120298
+        ' RFC19061998 - Month & Day Long, Medium and Short added
+        PMFormatMonthOnlyLong = 22
+        PMFormatMonthOnlyMedium = 23
+        PMFormatMonthOnlyShort = 24
+        PMFormatDayOnlyLong = 25
+        PMFormatDayOnlyMedium = 26
+        PMFormatDayOnlyShort = 27
+        PMFormatStringMultiLine = 28
+        ' Lookup list refresh value.
+        PMListRefreshValue = 30
+        PMFormatPercentFourDecimal = 31
+    End Enum
+
+    ' ***************************************************************** '
+    ' PMDAO Parameter Direction
+    ' ***************************************************************** '
+    Public Enum PMEParameterDirection
+        PMParamInput = 0
+        PMParamInputOutput = 1
+        PMParamOutput = 2
+        PMParamReturnValue = 3
+        PMParamDefault = 4
+    End Enum
+
+    ' ***************************************************************** '
+    ' Data Types
+    ' ***************************************************************** '
+    Public Enum PMEDataType
+        PMString = 0
+        PMInteger = 1
+        PMLong = 2
+        PMDouble = 3
+        PMDate = 4
+        PMBoolean = 5
+        PMCurrency = 6
+        PMBinary = 7
+        ' These two are used by PMLookup
+        PMTableName = 8
+        PMFieldName = 9
+        ' These two are used by variable data
+        PMUniqueKey = 10
+        PMCode = 11
+        PMDecimal = 12
+        PMLookup = 13
+    End Enum
+
+    Public Enum DocGenOperation
+        NewRun = 0
+        Rerun = 1
+        Purge = 2
+    End Enum
+
+End Module

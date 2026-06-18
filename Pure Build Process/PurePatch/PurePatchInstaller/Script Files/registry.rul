@@ -1,0 +1,423 @@
+//===========================================================================
+//
+//  File Name:    registry.rul
+//
+//
+//  Comments:     This Rule File (registry.rul) contains all the Registry related functions
+//				  used within the Sirius Product Installation/Uninstallation.
+//
+//
+//===========================================================================
+#include "ifx.h"  //Header File for Built in Installscript function prototypes        
+//#include "wnet.rul" //Header File containing functions for Network Sharing Folders
+
+//Global Variables used across the Installer Rule Files	                        
+string g_szPMInstallPath;  	// Variable to hold the TARGETDIR path of the Sirius Product 
+string g_szPMPath;       	 // Variable to hold the PM Dir path of the Sirius Product
+string g_szAppBackupPath;	 // Variable to hold the PM Folder Backup Path
+string g_szDBBackupPath;  	//Variable to hold the backup path of the Sirius Database
+string g_szDBBackupFileName; //Variable to hold the backup file name of the Sirius Database                    
+string g_szInstalledProductVersion;  //Variable to hold the product version with convention of the old installer
+string g_szProductNewInstallerVersion;  //Variable to hold the product version with convention of the new installer                                         
+string g_szSiriusDBName;       //Variable to hold the Sirius Database name
+string g_szSiriusUserName,g_szSiriusPassword;  //Variable to hold Sirius Login/Password used for DB Scripts execution in Sirius DB
+string g_szDBServer;          //Variable to hold the DB Server name
+string g_szMasterUser,g_szMasterPassword;   //Variable to hold the Master Login/Password of the SQL server instance in DB Server
+string g_szMDFFileName,g_szLDFFileName; //Variable to hold the MDF and LDf file names of the Sirius Database
+string g_szFDate;  //Variable to hold the Formatted date used across the installer
+
+BOOL g_bFreshInstaller;	//Flag Variable to identify Fresh Installation
+BOOL g_bUpgradeInstaller; // Flag Variable to identify Upgrade Installation of this new installer
+BOOL g_bProductUpgradeNewInstaller;  //Flag Variable to identify a Sirius Product upgrade but Fresh Installation of this installer
+BOOL g_bDBBackupFlag;  //Flag Variable used to set/Reset the DB Backup 
+BOOL g_bAppBackupFlag; //Flag Variable used to set/Reset the PM Folder Backup  
+
+//Macros for Default Registry Settings across the Installer
+#define PM_DEFAULTPATH   "C:\\Program Files\\PM"
+//#define FRESHREGFILEPATH  SUPPORTDIR ^ "FreshInstallationRegistry.reg" 
+#define FRESHREGFILEPATH  "FreshInstallationRegistry.reg" 
+#define DATE_UK	"UK"
+#define DATE_US	"US"
+#define DATE_SI	"SI"
+#define DATE_EU	"EU"
+#define DATE_UK2 "UK2"
+  
+//Prototyping Functions defined in the registry Rule File
+export prototype number GetPMRegistryInstalledValuesforUpgradeInstall();
+export prototype string ParsePathString(string);
+//export prototype number SetPMRegistryInstalledValues();
+export prototype number WriteToRegistry(string,string,number,string);
+export prototype string GetFromRegistry(string,string);
+export prototype string GetCurrentDateTime(string);      
+export prototype number FormatDate(string,number,string,byref string);
+//export prototype number UpdateRegistryEntriesAfterInstallation();
+//export prototype number UpdateUpgradeInstallationHistory();
+export prototype number UpdatePatchInstallationHistory();   
+//export prototype number ValidateOldProductInstalledVersion();
+export prototype NUMBER ClearReadOnly(STRING);
+export prototype NUMBER RemoveReadOnly(STRING);
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParsePathString                                                //
+//                                                                           //
+// Purpose:   This function formats the Dir Path pattern of the PM folder    //
+//			  by placing "\\\\" instead of "\\" in the Fresh Registry file   //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+       
+function string ParsePathString(szStringName)
+number nvResult,nvStringLength;
+string szConcatenatedString,szIntermediateString;
+begin  
+nvStringLength =  StrLengthChars(szStringName);    
+szConcatenatedString = "";
+Recurse:
+nvStringLength =  StrLengthChars(szStringName);    
+nvResult = StrFind(szStringName,"\\");             
+if(nvResult >= 0) then
+	StrSub(szIntermediateString,szStringName,0,nvResult);
+	if(szConcatenatedString = "") then
+  	 	szConcatenatedString =  szIntermediateString;
+	else
+		szConcatenatedString = szConcatenatedString + "\\\\" +szIntermediateString;
+	endif;
+StrSub(szStringName,szStringName,nvResult + 1,nvStringLength);
+goto  Recurse;
+else
+szConcatenatedString = szConcatenatedString + "\\\\" + szStringName;
+endif;
+
+return szConcatenatedString;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  UpdatePatchInstallationHistory                                 //
+//                                                                           //
+// Purpose:   This function writes the installed values and parameters       //
+//			  to the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" folder  //
+//            after every Patch Installation                                 //                            
+///////////////////////////////////////////////////////////////////////////////
+
+function number UpdatePatchInstallationHistory()
+number nvResult;
+string szFoldername,szCurrentDate,szCurrentTime;
+string szDBBackupFlag;
+
+begin 
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+nvResult = RegDBCreateKeyEx("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller",g_szPatchVersion);
+if(nvResult =0) then  
+    WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Product Type",REGDB_STRING,"Insurance");
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Product Name",REGDB_STRING,"PureInstallation");
+	GetSystemInfo(TIME,nvResult,szCurrentTime);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Install Time",REGDB_STRING,szCurrentTime);
+	FormatDate("UK",4,"/",g_szFDate);
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Install Date",REGDB_STRING,g_szFDate);
+	//Registry entry to show whether the current patch in installed or uninstalled
+	WriteToRegistry("SOFTWARE\\Pure\\PureInstallation\\PatchInstaller\\"+g_szPatchVersion,"Installation Status",REGDB_STRING,"Installed");
+	WriteToLogFile(INSTALL_LOG,"Patch Installation History updated in the registry");
+else   
+	//MessageBox(" Registry Key not Created "+g_szPatchVersion,INFORMATION);  
+	WriteToLogFile(INSTALL_ERRORLOG,"Patch Installation History root cannot be updated");
+endif;
+
+return 1;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetPMRegistryInstalledValuesforUpgradeInstall                  //
+//                                                                           //
+// Purpose:   This function get the installed values and parameters          //
+//			  from the registry under "HKEY_LOCAL_MACHINE\SOFTWARE\Pure" 	     // 
+//            folder for every upgrade/product upgrade installation          //
+///////////////////////////////////////////////////////////////////////////////
+
+function number GetPMRegistryInstalledValuesforUpgradeInstall()
+string szRegFolder; 
+number nvType,nvSize;
+number nvValidateInstallPrerequisite;
+string szMajorVersion1,szMajorVersion2;
+STRING szKey,szMsg;
+ 
+begin  
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+  
+  // Disable WOW64 Windows Registry redirection
+	REGDB_OPTIONS = REGDB_OPTIONS | REGDB_OPTION_WOW64_64KEY;
+    
+
+	szKey="SOFTWARE\\Pure\\PureInstallation\\Setup";
+   
+    
+    if(RegDBKeyExist(szKey)=1) then
+		szMsg = "Pure is Installed.";
+		WriteToLogFile(INSTALL_LOG,szMsg);
+	else
+		MessageBox("Pure Insurance is not installed. Please install Pure Insurance and re-run the Pure Patch Installer.",SEVERE);
+		abort;
+	endif;    
+    
+	g_szInstalledProductVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Version");
+
+	nvSize = -1;          
+	szRegFolder ="SOFTWARE\\Pure";  
+
+	//This key  will fetch the  Sirius Product Installed Path
+	g_szPMPath = GetFromRegistry("SOFTWARE\\Pure","PMDIR");
+	StrRemoveLastSlash(g_szPMPath); 
+	WriteToLogFile(INSTALL_LOG, "PMDIR:" + g_szPMPath);
+	//g_szPMInstallPath = g_szPMPath + "\\Pure"; 
+	g_szPMInstallPath = g_szPMPath ^ "Pure"; 
+	WriteToLogFile(INSTALL_LOG, "Pure Install Path:" + g_szPMInstallPath);
+	TARGETDIR = g_szPMInstallPath;
+	WriteToLogFile(INSTALL_LOG, "TARGETDIR:" + TARGETDIR);
+	//This code will fetch MDF file name
+	g_szMDFFileName = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","DataFilesFolder");
+	//This code will fetch LDF file name
+	g_szLDFFileName = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","LogFilesFolder");
+	//This code will fetch DB Backup File Name
+	g_szDBBackupFileName = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFileName");
+	//This code will fetch DB Backup  Folder Name
+	g_szDBBackupPath = GetFromRegistry("SOFTWARE\\Pure\\DatabaseInstaller\\Server","BackupFilesFolder");
+	//This code will fetch the Sirius Product database name
+	g_szSiriusDBName = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database");
+	//This code will fetch DB server name
+	g_szDBServer =GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server");		
+	//This code will fetch whether windows authentication is set or not
+	g_szWindowsAuthenticate = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Trusted");		
+	//Set the Windows Authentication flag based on the setting above
+	if(g_szWindowsAuthenticate = "1") then
+		g_bWinLoginAuthenticate = TRUE;
+	else
+		g_bWinLoginAuthenticate = FALSE;
+	endif;
+
+	//Get the Product Major Version,Service Release Version and Build Numbers 
+	g_szInstalledBuildNumber = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Build");
+	g_szInstalledServiceReleaseAndBuildNumber = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Service Release"); 
+	//GetMajorandServiceReleaseVersionandBuildNumberforInstalledProduct(); 
+
+	StrSub(szMajorVersion1,g_szInstalledMajorVersion,0,1);
+	StrSub(szMajorVersion2,g_szInstalledMajorVersion,1,2);
+
+
+
+	g_szInstalledFullVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Full Version");
+
+		                                                             
+return 1;
+end;
+	
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: WriteToRegistry                                                 //
+//                                                                           //
+// Purpose:  This function writes the a registry key with a particular value //
+//			 under the foldername as specified in the function parameters    //
+//                                                                     		 //
+///////////////////////////////////////////////////////////////////////////////
+	
+function number WriteToRegistry(szFolderName,szKey,nvType,szValue)
+number nvResult,nvSize;
+begin   
+try
+	nvResult = RegDBSetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize);
+	if(nvResult < 0) then
+		WriteToLogFile(INSTALL_ERRORLOG,"Not able to set the Registry Value in "+szFolderName+" for "+szKey);
+	else
+		WriteToLogFile(INSTALL_LOG,"The Registry Value in "+szFolderName+" for "+szKey+" has been set successfully");	
+	endif;  
+catch 
+    WriteToLogFile(INSTALL_ERRORLOG,"Error Encountered writing value "+szValue+" to the key"+szKey+" in folder "+szFolderName);
+    return -1;
+endcatch;
+	
+return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetFromRegistry                                                 //
+//                                                                           //
+// Purpose:  This function gets  a particular value for the registry key     //
+//			 under the foldername as specified in the function parameters    //
+//                                                                      	 //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetFromRegistry(szFolderName,szKey)
+number nvResult,nvType,nvSize;
+string szValue;
+begin                         
+nvSize = -1; 
+try 
+	if(RegDBKeyExist(szFolderName) = 1) then
+		if(RegDBGetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize) < 0) then 
+			WriteToLogFile(INSTALL_ERRORLOG,"Not able to fetch the value "+szKey+ " from the folder "+szFolderName+ " registry");
+		else
+			WriteToLogFile(INSTALL_LOG,"Value fetched for "+ szKey + " from the folder "+szFolderName+ " registry");
+		endif;  
+	else
+		WriteToLogFile(INSTALL_ERRORLOG,"The Specified Folder/Key "+szFolderName+ "//" + szKey + " does not exist");
+	endif;
+catch 
+         WriteToLogFile(INSTALL_ERRORLOG,"Error Encountered fetching key value "+szKey+" from folder "+szFolderName);
+         return "";
+endcatch;
+
+return szValue;
+end;  
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetCurrentDateTime                                             //
+//                                                                           //
+// Purpose:   This function formats the date and time based on the input     //
+//			  parameter type mentioned as the function parameter             //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetCurrentDateTime(szType)
+string szDate,szTime,szHour,szMinutes,szSeconds,szMonth,szDay,szYear;
+string szRemString,szReturnString;
+number nvResult;  
+number nvPosition;
+begin     
+
+GetSystemInfo(DATE,nvResult,szDate);
+GetSystemInfo(TIME,nvResult,szTime);  
+
+StrSub(szHour,szTime,0,2);
+StrSub(szMinutes,szTime,3,2);
+StrSub(szSeconds,szTime,6,2);  
+
+nvPosition = StrFind(szDate,"-");
+StrSub(szMonth,szDate,0,nvPosition);
+StrSub(szRemString,szDate,nvPosition+1,StrLengthChars(szDate));
+nvPosition = StrFind(szRemString,"-");
+StrSub(szDay,szRemString,0,nvPosition);                        
+StrSub(szYear,szRemString,nvPosition+1,StrLengthChars(szRemString));
+
+
+if(szType = "DATETIME") then
+	szReturnString = szYear+ szMonth + szDay + szHour + szMinutes + szSeconds;
+elseif(szType = "DATE") then
+	szReturnString = szYear+ szMonth + szDay; 
+elseif(szType = "TIME") then
+	szReturnString = szHour + szMinutes + szSeconds;
+endif;                       
+	
+return szReturnString;
+end;      
+ 
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+// Function: FormatDate                                                        //
+//                                                                             //
+// Purpose:  This function returns the current system date in the requested    //
+//           format with a definable delimiter and a variable number of digits //
+//           for the year field.                                               //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
+
+function number FormatDate(szType,nDyr,szChar,g_szFDate)
+    LIST listDate;
+    string szDfulldate, szDday, svDmonth, svDyear, szDelim;
+    string szDate;
+    number nvD;
+
+begin
+
+    listDate = ListCreate(STRINGLIST);
+    szDelim = "_,.:;/-";
+
+
+    if szChar = "_" then szChar = " ";
+    elseif szChar = "" then szChar = "-";
+    elseif ((szDelim % szChar) = FALSE) then szChar = "-";
+    endif;
+
+    if (GetSystemInfo(DATE,nvD,szDfulldate) < 0) then
+        szDate = "mm" + szChar + "dd" + szChar + "yyyy";
+        return -1;
+    endif;
+
+    StrGetTokens(listDate,szDfulldate,"-");
+
+    ListGetFirstString(listDate,svDmonth);
+    ListGetNextString(listDate,szDday);
+    ListGetNextString(listDate,svDyear);
+    ListDestroy(listDate);
+
+	if (StrLength(szDday) = 1) then
+		szDday = "0" + szDday;
+	endif;
+
+	if (StrLength(svDmonth) = 1) then
+		svDmonth = "0" + svDmonth;
+	endif;
+	
+    if nDyr = 2 then
+        StrSub(svDyear,svDyear,2,2);
+    endif;
+
+    switch (szType)
+        case "UK": g_szFDate = szDday + szChar + svDmonth + szChar + svDyear;
+        case "UK2":g_szFDate = svDyear + svDmonth + szDday;
+        case "US": g_szFDate = svDmonth + szChar + szDday + szChar + svDyear;
+        case "SI": g_szFDate = svDyear + szChar + szDday + szChar + svDmonth;
+        case "EU": g_szFDate = svDyear + szChar + svDmonth + szChar + szDday;
+        default:   g_szFDate = szDate;
+    endswitch;
+
+return 1;
+
+end;
+
+ 
+////////////////////////////////////////////////////////////////////////
+// Function: ClearReadOnly
+// Purpose: Clear the Read Only attribute on all files in or below the 
+//          directory passed in
+////////////////////////////////////////////////////////////////////////
+function NUMBER ClearReadOnly(svDirectory)
+ NUMBER nFilesResult;
+ STRING svMatchingFileName;
+ 
+ begin
+  nFilesResult = FindAllFiles(svDirectory, "*.*", svMatchingFileName, RESET);
+  while(nFilesResult = 0)
+   SetFileInfo(svMatchingFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+   nFilesResult = FindAllFiles(svDirectory,"*.*", svMatchingFileName, CONTINUE);
+  endwhile;
+  
+  return nFilesResult;
+ end;
+
+
+////////////////////////////////////////////////////////////////////////
+// Function: RemoveReadOnly
+// Purpose: Removes the Read Only attribute on all files in or below the 
+//          directory passed in
+////////////////////////////////////////////////////////////////////////
+function NUMBER RemoveReadOnly(svDirectory)
+STRING szCommand;
+NUMBER nvResult;
+ 
+begin
+	//attrib -r C:\Pure\*.* /s
+   	szCommand=	"-r " +  svDirectory ^ "*.*" + " /s";
+   	WriteToLogFile(INSTALL_LOG,"Remove Read only with command=" + szCommand );
+	nvResult = LaunchAppAndWait("attrib",szCommand,WAIT);
+
+  
+  return nvResult;
+ end;
+/***********************Registry.rul File Coding Ends*********************************************/

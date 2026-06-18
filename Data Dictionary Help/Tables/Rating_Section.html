@@ -1,0 +1,821 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Rating_Section</h1>
+<p>After rating, the ???_Output records are converted to rating section records and presented in Peril Allocation.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Risk<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="risk_cnt">risk_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk.html#risk_cnt">Risk.risk_cnt</a> which risk does this record relate to</td>
+</tr>
+<tr>
+<td><a class="name" name="rating_section_id">rating_section_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, I</td>
+<td>next sequential number within risk cnt</td>
+</tr>
+<tr>
+<td><a class="name" name="rating_section_type_id">rating_section_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Rating_Section_Type.html#rating_section_type_id">Rating_Section_Type.rating_section_type_id</a> what rating section type is this</td>
+</tr>
+<tr>
+<td><a class="name" name="policy_section_type_id">policy_section_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Policy_Section_Type.html#policy_section_type_id">Policy_Section_Type.policy_section_type_id</a> what policy section type is this (usually null)</td>
+</tr>
+<tr>
+<td><a class="name" name="sequence_number">sequence_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>sequence number - same as rating section id</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="rate_type_id">rate_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td>what rate type is this</td>
+</tr>
+<tr>
+<td><a class="name" name="annual_rate">annual_rate</a></td>
+<td>numeric(21, 6)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>the annual rate</td>
+</tr>
+<tr>
+<td><a class="name" name="sum_insured">sum_insured</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>the sum insured</td>
+</tr>
+<tr>
+<td><a class="name" name="annual_premium">annual_premium</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>the annual premium</td>
+</tr>
+<tr>
+<td><a class="name" name="this_premium">this_premium</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>the actual premium</td>
+</tr>
+<tr>
+<td><a class="name" name="original_flag">original_flag</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>0 if newly generated, 1 if copied from a previous version of the risk because it's an MTA</td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="country_id">country_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="state_id">state_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">state</span></td>
+</tr>
+<tr>
+<td><a class="name" name="this_discount">this_discount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">this discount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="applied_discount">applied_discount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">applied discount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="adjusted_discount">adjusted_discount</a></td>
+<td>numeric(4, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">adjusted discount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_amended">is_amended</a></td>
+<td>tinyint</td>
+<td>null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is amended</span></td>
+</tr>
+<tr>
+<td><a class="name" name="calculated_premium">calculated_premium</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">calculated premium</span></td>
+</tr>
+<tr>
+<td><a class="name" name="override_reason">override_reason</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">override reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="discount_original_this_premium">discount_original_this_premium</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">discount original this premium</span></td>
+</tr>
+<tr>
+<td><a class="name" name="auto_calculated">auto_calculated</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">auto calculated</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Earning_Pattern_id">Earning_Pattern_id</a></td>
+<td>integer</td>
+<td>not null default 1</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Earning_Pattern.html#Earning_Pattern_id">Earning_Pattern.Earning_Pattern_id</a> <span class="autodesc">Earning Pattern</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>risk_cnt, rating_section_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Earning_Pattern_id</td>
+<td><a href="Earning_Pattern.html">Earning_Pattern</a></td>
+<td>Earning_Pattern_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>policy_section_type_id</td>
+<td><a href="Policy_Section_Type.html">Policy_Section_Type</a></td>
+<td>policy_section_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>rating_section_type_id</td>
+<td><a href="Rating_Section_Type.html">Rating_Section_Type</a></td>
+<td>rating_section_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_cnt</td>
+<td><a href="Risk.html">Risk</a></td>
+<td>risk_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>policy_section_type_id, risk_cnt, rating_section_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>rate_type_id, risk_cnt, rating_section_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>rating_section_type_id, risk_cnt, rating_section_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>risk_cnt, rating_section_id</td>
+<td><a href="Peril.html">Peril</a></td>
+<td>risk_cnt, rating_section_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>risk_cnt</td>
+<td>rating_section_id</td>
+<td>rating_section_type_id</td>
+<td>policy_section_type_id</td>
+<td>sequence_number</td>
+<td>description</td>
+<td>rate_type_id</td>
+<td>annual_rate</td>
+<td>sum_insured</td>
+<td>annual_premium</td>
+<td>this_premium</td>
+<td>original_flag</td>
+<td>currency_id</td>
+<td>country_id</td>
+<td>state_id</td>
+<td>this_discount</td>
+<td>applied_discount</td>
+<td>adjusted_discount</td>
+<td>is_amended</td>
+<td>calculated_premium</td>
+<td>override_reason</td>
+<td>discount_original_this_premium</td>
+<td>auto_calculated</td>
+<td>Earning_Pattern_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>27000</td>
+<td>297.062</td>
+<td>297.062</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>297.062</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>27000</td>
+<td>297.06</td>
+<td>-297.062</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>-297.062</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>54000</td>
+<td>805.4668</td>
+<td>805.4668</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>805.4668</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>13000</td>
+<td>403.6383</td>
+<td>403.6383</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>403.6383</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>24</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>13000</td>
+<td>513.706</td>
+<td>513.706</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>513.706</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>25</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>30000</td>
+<td>505.7192</td>
+<td>505.7192</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>505.7192</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>26</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>25000</td>
+<td>366.8855</td>
+<td>366.89</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>366.89</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>35</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>28500</td>
+<td>461.8459</td>
+<td>461.8459</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>461.8459</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>60</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>37000</td>
+<td>586.8801</td>
+<td>586.88</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>586.88</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>64</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>37000</td>
+<td>0</td>
+<td>-586.88</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>-586.88</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>64</td>
+<td>2</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>37000</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>66</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>11000</td>
+<td>511.263</td>
+<td>511.26</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>511.26</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>73</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>12000</td>
+<td>1085.8028</td>
+<td>1085.8</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1085.8</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>75</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>12500</td>
+<td>50.4297</td>
+<td>50.43</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>50.43</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>76</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>30000</td>
+<td>107.35</td>
+<td>107.35</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>107.35</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>77</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>12500</td>
+<td>57.2114</td>
+<td>57.21</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>57.21</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>78</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>30000</td>
+<td>461.7324</td>
+<td>461.73</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>461.73</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>79</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>30000</td>
+<td>588.3008</td>
+<td>588.3</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>588.3</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>80</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>0</td>
+<td>25000</td>
+<td>0</td>
+<td>-366.89</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>-366.89</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

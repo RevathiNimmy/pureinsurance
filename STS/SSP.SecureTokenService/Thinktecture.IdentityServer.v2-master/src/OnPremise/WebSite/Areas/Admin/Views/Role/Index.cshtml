@@ -1,0 +1,47 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.Role
+@model RolesViewModel
+
+@{
+    ViewBag.Title = Index_cshtml.Roles;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @{
+                        var list = Model.Roles.ToArray();
+                        }
+                        @for (int i = 0; i < list.Length; i++)
+                        {
+                           <div class="form-group form-group-sm">
+                                @Html.HiddenFor(x=>list[i].Name)
+                                @Html.LabelFor(x => list[i].Delete, list[i].Name, new { @class = "Col-lg-2 col-md-3 control-label"})
+                                @{
+                                    Dictionary<string, object> attrs = new Dictionary<string,object>();
+                                    if (!list[i].CanDelete)
+                                    {
+                                        attrs.Add("disabled", "disabled");
+                                    }
+                                }
+                               <div class="Col-lg-8 col-md-8">
+                                @Html.CheckBoxFor(x => list[i].Delete, attrs)
+                               </div>
+                            </div>
+                        }
+               </div>
+           </div>
+        <div class="card-footer">
+            <button type="reset" class="btn btn-sm btn-dark">@Index_cshtml.Cancel</button>
+            <button type="submit" name="action" value="delete" class="btn btn-sm btn-dark">@Index_cshtml.DeleteSelected</button>
+            <button type="submit" name="action" value="new" class="btn btn-sm btn-primary">@Index_cshtml.New</button>
+        </div>
+    </div>
+    @Html.ValidationSummary(Index_cshtml.ErrorDeletingRoles)
+}
+

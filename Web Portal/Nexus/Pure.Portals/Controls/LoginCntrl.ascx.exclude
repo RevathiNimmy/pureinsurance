@@ -1,0 +1,51 @@
+<%@ Control Language="VB" AutoEventWireup="false" CodeFile="LoginCntrl.ascx.vb" Inherits="Nexus.Controls_LoginCntrl"
+    EnableViewState="false" %>
+<%@ Register Src="HelpLink.ascx" TagName="HelpLink" TagPrefix="uc1" %>
+<div id="Controls_LoginCntrl">
+    <h1>
+        <asp:Literal ID="lblLoginHeader" runat="server" Text="<%$ Resources:lbl_Header %>" /></h1>
+   
+        
+    <asp:Panel ID="pnlEnterEmail" runat="server" DefaultButton="btnSubmit">
+        <div class="standard-form">
+            <div class="fieldset-wrapper">
+                <div class="top-corners">
+                </div>
+                <fieldset>
+                    <ol>
+                        <li>
+                            <asp:Label ID="lblUserName" runat="server" AssociatedControlID="txtUserName" Text="<%$ Resources:lbl_UserName %>" />
+                            <asp:TextBox ID="txtUsername" CssClass="field-medium field-mandatory" runat="server"
+                                TabIndex="1" />
+                            <asp:RequiredFieldValidator ID="vldUserName" runat="server" ControlToValidate="txtUsername"
+                                Display="None" ErrorMessage="<%$ Resources:lbl_User_err %>" SetFocusOnError="True" />
+                        </li>
+                        <li>
+                            <asp:Label ID="lblPassword" runat="server" AssociatedControlID="txtPassword" Text="<%$ Resources:lbl_Password %>" />
+                            <asp:TextBox ID="txtPassword" CssClass="field-medium field-mandatory" TextMode="Password"
+                                runat="server" TabIndex="2" />
+                            <asp:RequiredFieldValidator ID="vldPassword" runat="server" ControlToValidate="txtPassword"
+                                Display="None" ErrorMessage="<%$ Resources:lbl_Password_err %>" SetFocusOnError="True" />
+                        </li>
+                    </ol>
+                </fieldset>
+            </div>
+            <div class="bottom-corners">
+                <div>
+                </div>
+            </div>
+        </div>
+        <%--no server or client code for this validator, as the status is set from the btnsubmit click and not clientside code can be written--%>
+        <asp:CustomValidator ID="vldLogInExists" runat="server" Display="None" ErrorMessage="<%$ Resources:lbl_Err_loginfailedheading %>" />
+        <asp:ValidationSummary ID="ValidationSummary1" CssClass="error" DisplayMode="BulletList"
+            HeaderText="<%$ Resources:lbl_ValidationSummary %>" runat="server" />
+        <div class="submitarea reviewtxt">
+            <p class="left">
+                <asp:Literal ID="lblReview" runat="server" Text="<%$ Resources:lbl_Review %>" /></p>
+            <asp:Button ID="btnSubmit" CssClass="submit" runat="server" Text="<%$ Resources:btn_LogIn %>"
+                TabIndex="3" />
+            <asp:HyperLink ID="hypForgotPwd" runat="server" Text="<%$ Resources:lbl_forgotpassword_link %>"
+            NavigateUrl="~\ForgottenPassword.aspx" TabIndex="4" CssClass="forgot-pwd" />
+        </div>        
+    </asp:Panel>
+</div>

@@ -1,0 +1,25 @@
+name : $(BuildDefinitionName)_$(Date:yyyy.MM.dd)$(Rev:.r)
+trigger:
+  branches:
+    include:
+      - none
+  paths:
+    exclude:
+      - '.gitattributes'
+      - '.gitignore'
+      - 'README.md'
+      - '*.yml'
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: DevOps/Pipelines
+      ref: refs/heads/x64
+variables:
+      - template: variables/PureSTS/PureSTS_Variables_feature64bit.yml@templates
+      - group: CodeSigning
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:     
+      - template : templates/PureSTSBuildAndPackage_V1.yml@templates

@@ -1,0 +1,19 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+EXECUTE DDLDropProcedure 'spu_GIS_List_Type_del'
+GO
+
+CREATE PROCEDURE spu_GIS_List_Type_del
+    @id	int
+AS
+BEGIN
+DELETE gis_list_type WHERE gis_list_type_id=@id
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO

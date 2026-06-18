@@ -1,0 +1,519 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Rating_Section_Type</h1>
+<p>Defines the available rating section codes used in rating.  Specifies the peril group that is used to generate peril records from its use, and the default rate, which is normally ignored in rate scripts.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software modules: Product Builder, Risk<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="rating_section_type_id">rating_section_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">rating section type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td>the rating section type code</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="rate_type_id">rate_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td>what rate type is this record - value, percentage, etc.</td>
+</tr>
+<tr>
+<td><a class="name" name="peril_group_id">peril_group_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Peril_Group.html#peril_group_id">Peril_Group.peril_group_id</a> which peril group is used to create perils if this rating section type is used.</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="rate">rate</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>the actual rate</td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="country_id">country_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Country.html#country_id">Country.country_id</a> <span class="autodesc">country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="state_id">state_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="State.html#State_id">State.State_id</a> <span class="autodesc">state</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>rating_section_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Country.html">Country</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>peril_group_id</td>
+<td><a href="Peril_Group.html">Peril_Group</a></td>
+<td>peril_group_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>state_id</td>
+<td><a href="State.html">State</a></td>
+<td>State_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>peril_group_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>rate_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>rating_section_type_id</td>
+<td><a href="Earning_Pattern_Usage.html">Earning_Pattern_Usage</a></td>
+<td>Rating_Section_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>rating_section_type_id</td>
+<td><a href="Rating_Section.html">Rating_Section</a></td>
+<td>rating_section_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>rating_section_type_id</td>
+<td><a href="Risk_Type_Rating_Section_Type.html">Risk_Type_Rating_Section_Type</a></td>
+<td>rating_section_type_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>rating_section_type_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>rate_type_id</td>
+<td>peril_group_id</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+<td>rate</td>
+<td>currency_id</td>
+<td>country_id</td>
+<td>state_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>38631</td>
+<td>PMOTEST</td>
+<td>Private Motor Test</td>
+<td>2</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>38866</td>
+<td>ACPMPD</td>
+<td>ACT Private Motor PD</td>
+<td>2</td>
+<td>2</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>38867</td>
+<td>ACPMCP</td>
+<td>ACT Private Motor CP</td>
+<td>2</td>
+<td>3</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>38868</td>
+<td>ACPMFT</td>
+<td>ACT Private Motor F&amp;T</td>
+<td>2</td>
+<td>4</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>38869</td>
+<td>ACPMCL</td>
+<td>ACT Private Motor CL</td>
+<td>2</td>
+<td>5</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>38870</td>
+<td>ACPMUMPD</td>
+<td>ACT Private Motor UMPD</td>
+<td>2</td>
+<td>6</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>38871</td>
+<td>ACPMACPE</td>
+<td>ACT Private Motor ACPE</td>
+<td>2</td>
+<td>7</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>38872</td>
+<td>ACPMRENT</td>
+<td>ACT Private Motor Rental</td>
+<td>2</td>
+<td>8</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>38873</td>
+<td>NWPMPD</td>
+<td>NSW Private Motor PD</td>
+<td>2</td>
+<td>9</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>38874</td>
+<td>NWPMCP</td>
+<td>NSW Private Motor CP</td>
+<td>2</td>
+<td>10</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>38875</td>
+<td>NWPMFT</td>
+<td>NSW Private Motor F&amp;T</td>
+<td>2</td>
+<td>11</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>12</td>
+<td>38876</td>
+<td>NWPMCL</td>
+<td>NSW Private Motor CL</td>
+<td>2</td>
+<td>12</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>13</td>
+<td>38877</td>
+<td>NWPMUMPD</td>
+<td>NSW Private Motor UMPD</td>
+<td>2</td>
+<td>13</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>14</td>
+<td>38878</td>
+<td>NWPMACPE</td>
+<td>NSW Private Motor ACPE</td>
+<td>2</td>
+<td>14</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>15</td>
+<td>38879</td>
+<td>NWPMRENT</td>
+<td>NSW Private Motor Rental</td>
+<td>2</td>
+<td>15</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>16</td>
+<td>38880</td>
+<td>NOPMPD</td>
+<td>NT Private Motor PD</td>
+<td>2</td>
+<td>16</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>17</td>
+<td>38881</td>
+<td>NOPMCP</td>
+<td>NT Private Motor CP</td>
+<td>2</td>
+<td>17</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>18</td>
+<td>38882</td>
+<td>NOPMFT</td>
+<td>NT Private Motor F&amp;T</td>
+<td>2</td>
+<td>18</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>19</td>
+<td>38883</td>
+<td>NOPMCL</td>
+<td>NT Private Motor CL</td>
+<td>2</td>
+<td>19</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>0</td>
+<td>28</td>
+<td>3</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

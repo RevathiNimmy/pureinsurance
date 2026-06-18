@@ -1,0 +1,34 @@
+name : $(BuildDefinitionName)_$(Date:yyyy.MM.dd)$(Rev:.r)
+trigger:
+  branches:
+    include:
+      - none
+  paths:
+    exclude:
+      - '.gitattributes'
+      - '.gitignore'
+      - 'README.md'
+      - '*.yml'
+      - STS/SSP.SecureTokenService/*
+schedules:
+  - cron: "30 13 * * 1-5"
+    displayName: "Weekday 7PM IST trigger"
+    branches:
+      include:
+        - main
+    always: false
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: DevOps/Pipelines
+      ref: refs/heads/main
+variables:
+      - template: variables/Pure/PureInsurance_Variables_Main.yml@templates
+      - group: CodeSigning
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:     
+      - template : templates/PureInsuranceBuildAndPackage_V5.yml@templates
+

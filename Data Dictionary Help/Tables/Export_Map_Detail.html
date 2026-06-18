@@ -1,0 +1,239 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Export_Map_Detail</h1>
+<p>Used to locate transactions in Nominal Ledger</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="export_map_model_id">export_map_model_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Export_Map_Model.html#export_map_model_id">Export_Map_Model.export_map_model_id</a> <span class="autodesc">export map model</span></td>
+</tr>
+<tr>
+<td><a class="name" name="export_map_detail_id">export_map_detail_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">export map detail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="target_field_name">target_field_name</a></td>
+<td>varchar(40)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">target field name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sequence">sequence</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sequence</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>export_map_model_id, export_map_detail_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>export_map_model_id</td>
+<td><a href="Export_Map_Model.html">Export_Map_Model</a></td>
+<td>export_map_model_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>export_map_model_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>export_map_model_id, export_map_detail_id</td>
+<td><a href="Export_Map_Format.html">Export_Map_Format</a></td>
+<td>export_map_model_id, export_map_detail_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>export_map_model_id</td>
+<td>export_map_detail_id</td>
+<td>target_field_name</td>
+<td>sequence</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>INCOME</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>INSURERLED</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>AGENTLEDGR</td>
+<td>6</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>PRFINLEDGR</td>
+<td>7</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>COMMLEDGR</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>FEELEDGR</td>
+<td>9</td>
+</tr>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>DISCLEDGR</td>
+<td>10</td>
+</tr>
+<tr>
+<td>1</td>
+<td>17</td>
+<td>SALESLEDGR</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>23</td>
+<td>PURCHLEDGR</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>29</td>
+<td>EXPENSE</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>30</td>
+<td>SUBAGENTLD</td>
+<td>11</td>
+</tr>
+<tr>
+<td>1</td>
+<td>31</td>
+<td>VAT</td>
+<td>12</td>
+</tr>
+<tr>
+<td>1</td>
+<td>32</td>
+<td>INCGWP</td>
+<td>13</td>
+</tr>
+<tr>
+<td>1</td>
+<td>33</td>
+<td>LIABTAX</td>
+<td>14</td>
+</tr>
+<tr>
+<td>1</td>
+<td>34</td>
+<td>EXPCOM</td>
+<td>15</td>
+</tr>
+<tr>
+<td>1</td>
+<td>35</td>
+<td>EXPRIOUTTR</td>
+<td>16</td>
+</tr>
+<tr>
+<td>1</td>
+<td>36</td>
+<td>EXPRIOUTOT</td>
+<td>17</td>
+</tr>
+<tr>
+<td>1</td>
+<td>37</td>
+<td>INCRICOMTR</td>
+<td>18</td>
+</tr>
+<tr>
+<td>1</td>
+<td>38</td>
+<td>INCRICOMOT</td>
+<td>19</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

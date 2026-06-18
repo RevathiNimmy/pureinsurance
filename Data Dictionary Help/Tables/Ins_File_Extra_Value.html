@@ -1,0 +1,118 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Ins_File_Extra_Value</h1>
+<p><span class="autodesc">Ins File Extra Value</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Insurance_File.html#insurance_file_cnt">Insurance_File.insurance_file_cnt</a> <span class="autodesc">insurance file</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_type_id">extra_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Extra_Type.html#extra_type_id">Extra_Type.extra_type_id</a> <span class="autodesc">extra type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="percent">percent</a></td>
+<td>numeric(12, 8)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value">value</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_commissionable">is_commissionable</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is commissionable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_taxable">is_taxable</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is taxable</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>insurance_file_cnt, extra_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>extra_type_id</td>
+<td><a href="Extra_Type.html">Extra_Type</a></td>
+<td>extra_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>insurance_file_cnt</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>extra_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

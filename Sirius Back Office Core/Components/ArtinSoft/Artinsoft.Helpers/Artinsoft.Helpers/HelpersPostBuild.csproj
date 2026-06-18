@@ -1,0 +1,73 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68280947-9213-4DFB-9C37-441559366D04}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HelpersPostBuild</RootNamespace>
+    <AssemblyName>HelpersPostBuild</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>cd $(ProjectDir)
+if not exist ..\..\bin\$(ConfigurationName)\UpgradeSupport md ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)bin\$(ConfigurationName)\Artinsoft.VB6.dll ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)bin\$(ConfigurationName)\Artinsoft.VB6.XML ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)bin\$(ConfigurationName)\Artinsoft.VB6.DB.dll ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)bin\$(ConfigurationName)\Artinsoft.VB6.DB.XML ..\..\bin\$(ConfigurationName)\UpgradeSupport
+
+copy $(ProjectDir)Artinsoft.Windows.Forms\bin\$(ConfigurationName)\*.XML ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)Artinsoft.Windows.Forms\bin\$(ConfigurationName)\*.dll ..\..\bin\$(ConfigurationName)\UpgradeSupport
+
+copy $(ProjectDir)ThirdParty\FPSpread\ArtinSoft.VBUpgrade.FpSpread.dll ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)ThirdParty\FPSpread\ArtinSoft.VBUpgrade.FpSpread.XML ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)ThirdParty\XArray\bin\$(ConfigurationName)\Artinsoft.VBUpgrade.XArray.dll ..\..\bin\$(ConfigurationName)\UpgradeSupport
+copy $(ProjectDir)ThirdParty\XArray\bin\$(ConfigurationName)\Artinsoft.VBUpgrade.XArray.XML ..\..\bin\$(ConfigurationName)\UpgradeSupport
+
+if exist ..\rescue\tools\zip.exe ..\rescue\tools\zip -r ..\..\bin\$(ConfigurationName)\UpgradeSupport\ArtinSoft.Helpers.zip . -i *.cs *.csproj *.vb *.vbproj *.resx *.sln *.myapp *.settings *.cd *.xml -x  Artinsoft\VB6\DB\* Artinsoft\VB6\DAO\* Artinsoft\VB6\ADO\* *.DB.*
+
+if exist ..\rescue\tools\zip.exe ..\rescue\tools\zip -r ..\..\bin\$(ConfigurationName)\UpgradeSupport\ArtinSoft.DB.Helpers.zip . -i Artinsoft\VB6\DB\*.cs Artinsoft\VB6\DB\*.csproj Artinsoft\VB6\DB\*.resx Artinsoft\VB6\DB\*.myapp Artinsoft\VB6\DB\*.settings Artinsoft\VB6\DB\*.cd Artinsoft\VB6\DB\*.xml *.DB.csproj
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

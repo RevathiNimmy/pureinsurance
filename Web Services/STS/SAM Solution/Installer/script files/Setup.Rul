@@ -1,0 +1,1176 @@
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            
+//  File Name:	Setup.rul                                                   
+//                                                                            
+//  Description:	InstallShield script                                        
+//                                                                            
+//  Comments:	This script was generated based on the selections you made in
+//           	the Project Wizard.  Refer to the help topic entitled "Modify      
+//           	the script that the Project Wizard generates" for information
+//				on possible next steps.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// Include header files
+#include "ifx.h"      
+
+#include "sfs_setup.h"
+    
+////////////////////// string defines ////////////////////////////
+
+//////////////////// installation declarations ///////////////////
+
+// ----- DLL function prototypes -----
+
+
+    // your DLL function prototypes
+
+
+// ---- script function prototypes -----
+
+	prototype Dlg_SFSWebServerAddress();
+	prototype Dlg_SFSPreviouslyInstalled();    
+	prototype Dlg_SFSSessionState(); 
+	prototype Dlg_SFSStateServer();
+	prototype Dlg_SFSSQLMode();
+	prototype Dlg_SFSSTSMachineName(); 
+	prototype Dlg_SFSEmail();
+	prototype WebServerCheck();   
+	//prototype WebConfigCopyFile();
+	prototype WebConfigUpdate_BusinessServer(STRING, STRING);  
+	//prototype WebConfigUpdate_WebServer(STRING, STRING);  
+	//prototype RunSetupDB();
+    prototype Dlg_SFSBackOfficeType();
+    prototype STSPerformanceCounters();
+    prototype CreateEventSource();
+	prototype SetupInstallType();
+	prototype STSCreatGISLists();
+	
+    // your script function prototypes
+
+    // your global variables
+	BOOL g_bBusinessServer;
+	BOOL g_bWebServer;
+	BOOL g_bWebServerPreviouslyInstalled;           
+	STRING g_szWebServerPath; 
+	NUMBER g_nSessionState;                         
+	STRING g_szBackOfficeType;
+	STRING g_sztcpip;
+	STRING g_szSQLip, g_szSQLuserid, g_szSQLpassword; 
+	STRING g_szInstallType, g_szVirtualDirectory;  
+	STRING g_szPRODUCT_NAME, g_szIISPortNo, g_szLocalHost;
+	STRING g_szSTSMachineName; 
+	STRING g_bStandard, g_bDeveloper; 
+	STRING g_szInstallationType, g_szProductType;
+	STRING g_szReleaseFlag;  
+	STRING g_szEmailSMTPServer, g_szEmailFromName, g_szEmailFromAddress;
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+	function 	OnAppSearch()
+//
+//  EVENT:      AppSearch event is used as an entry point to implement code to 
+//              search for previous versions of the current application. This
+//		        event is sent only for a first time installation.
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nLength, nvExitCode, nvSize, nLength2; 
+	STRING	szProgram, szCmdLine, szDotNetVersion;
+begin
+                                 
+	// Get the release flag
+    nvSize = 256; 
+   	MsiGetProperty(ISMSI_HANDLE, "ISReleaseFlags", g_szReleaseFlag, nvSize);
+    if g_szReleaseFlag = 'Web' then
+    	g_bWebServer = TRUE;
+		g_bBusinessServer = FALSE;
+		nLength2 = 14;
+ 	else
+ 		g_bWebServer = FALSE;
+		g_bBusinessServer = TRUE;
+		nLength2 = 3;
+	endif;
+
+	// .NET version numbering
+	//		1,0,3705,1 = Service Pack 1
+	//		1,0,3705,2 = Service Pack 2
+ 
+ 	nLength = StrLength ( SRCDIR );                
+ 	// this will remove '\Sirius Online'          
+    StrSub ( szProgram , SRCDIR , 0 , (nLength - nLength2) );   
+  	szProgram = szProgram ^ "Utilities\\dot Net Framework\\Service Pack 2" ^ "NDP10_SP_Q321884_En.exe" ; 
+	szCmdLine = "";                                            
+	
+//    nvSize = 256; 
+//   	MsiGetProperty(ISMSI_HANDLE, "DOTNET_VERSION", szDotNetVersion, nvSize);
+
+//	if szDotNetVersion != "1,0,3705,2" then
+		
+//		SdShowMsg ( "Installing .NET Service Pack 2" , TRUE );
+//     	ExFn_LaunchAppEx ( szProgram , szCmdLine , WAIT, SW_HIDE, -1, nvExitCode );
+//    	if nvExitCode != 0 then
+//    		MessageBox ("Could not install .NET Service Pack 2.  Please install manually.", SEVERE);
+//    	endif;
+		//SdShowMsg ( "Installing .NET Service Pack 2" , FALSE );
+          
+        // because you can cancel the SR2 install, we want
+        // to abort this install until SR2 is installed
+//   		MessageBox (".NET Service Pack 2 - Exiting installation.", SEVERE);
+//    	abort;   
+    	
+//    endif;
+      
+end;
+
+
+//////////////////////////////////////////////////////////////////////////////
+//                                                                           
+	function	OnFirstUIBefore()
+//                                                                           
+//  EVENT:      FirstUIBefore event is sent when installation is run for the first
+//              time on given machine. In the handler installation usually displays
+//              UI allowing end user to specify installation parameters. After this
+//              function returns, FeatureTransferData is called to perform file
+//              transfer.
+//                                                                           
+///////////////////////////////////////////////////////////////////////////////
+    NUMBER  nResult,nSetupType, nLevel, nvSize, nvDx, nvDy;
+    STRING  szTitle, szMsg, szLicenseFile, szQuestion, szDir, szFeatures, 
+    		szTargetdir, szField1, szField2, svEdit1, svEdit2, svSetupType,
+    		svDir, szData; 
+    LIST	listStartCopy;   
+begin	                  
+
+
+	// Change the INSTALLDIR to the PM directory.
+    
+	// Get the MachineName
+    nvSize = 256;
+	MsiGetProperty (ISMSI_HANDLE, "ComputerName", g_szLocalHost, nvSize);
+
+    g_szPRODUCT_NAME = "Sirius Online";
+    
+    if g_bWebServer = TRUE then
+        g_szPRODUCT_NAME = g_szPRODUCT_NAME + " - Web Server Installer";
+    else                                    
+    	g_szPRODUCT_NAME = g_szPRODUCT_NAME + " - Business Server Installer (SAM)";
+    endif;
+
+/* 13/4/05 - Switched to BlueTC skin
+    SetFont ( FONT_TITLE, STYLE_NORMAL, "Times New Roman" );
+    SetTitle( g_szPRODUCT_NAME, 36, BLACK );                                        
+    //SetTitle( g_szPRODUCT_NAME, 0, BACKGROUNDCAPTION ); 	                   
+    Enable( FULLWINDOWMODE );						   
+    Enable( BACKGROUND );							  
+    SetColor(BACKGROUND, BK_SOLIDWHITE );					   
+    GetExtents (nvDx, nvDy); 
+    switch (nvDx)
+    	case 640 : PlaceBitmap ( SUPPORTDIR ^ "Sirius_BackGround_640x480.bmp;255,255,255", CENTERED , 0, 0, FULLSCREEN );
+    	case 800 : PlaceBitmap ( SUPPORTDIR ^ "Sirius_BackGround_800x600.bmp;255,255,255", CENTERED , 0, 0, FULLSCREEN );
+        default  : PlaceBitmap ( SUPPORTDIR ^ "Sirius_BackGround_1024x768.bmp;255,255,255", CENTERED , 0, 0, FULLSCREEN );
+    endswitch;
+*/
+
+// Set the Dialog title
+	SetDialogTitle( DLG_STATUS, "Installation of " + g_szPRODUCT_NAME + "..." );
+
+    
+    SHELL_OBJECT_FOLDER = g_szPRODUCT_NAME;
+    
+    szDir = INSTALLDIR;
+
+Dlg_Start:
+    // beginning of dialogs label  
+
+
+Dlg_SdWelcome:
+    szTitle = "Sirius Online Installation";  // @ID_STRING4 from Summary Information Stream 'Title'
+    szMsg   = "";
+    nResult = SdWelcome( szTitle, szMsg );
+    if (nResult = BACK) goto Dlg_Start;
+
+Dlg_SdLicense:
+    szLicenseFile = SUPPORTDIR ^ "license.txt";
+    szTitle    = "";
+    szMsg      = "";
+    szQuestion = "";
+    nResult    = SdLicense( szTitle, szMsg, szQuestion, szLicenseFile );
+    if (nResult = BACK) goto Dlg_SdWelcome;
+
+if g_bWebServer = TRUE then
+
+	Dlg_CustomInstallationType:
+    	szTitle    = "Installation Type";
+	    szMsg      = "";
+    	nResult = SdSetupTypeEx (szTitle, szMsg, "", svSetupType, 0);
+		switch (svSetupType)
+			case "Developer":
+				g_szInstallationType = "Developer";
+			case "Standard":                  
+				g_szInstallationType = "Standard";
+		endswitch;
+	
+		
+ 	   //nResult = Dlg_SFSInstallationType();     // ORIGINAL WAY
+   	if (nResult = BACK) goto Dlg_SdLicense;   
+	
+		FeatureSelectItem ( MEDIA , "Developer\\AgentsOnline_Developer"  , FALSE );
+		FeatureSelectItem ( MEDIA , "Developer\\CustomersOnline_Developer"  , FALSE );
+		FeatureSelectItem ( MEDIA , "Standard\\AgentsOnline"  , FALSE );
+		FeatureSelectItem ( MEDIA , "Standard\\CustomersOnline" , FALSE );
+   
+	Dlg_CustomerProductType:    
+
+	    szTitle    = "Product Type";
+    	szMsg      = "";           
+    	if g_szInstallationType = "Developer" then
+	    	nResult  = SdAskOptionsList ( szTitle , szMsg , "Developer" , EXCLUSIVE );
+		else 	                                                                           
+			nResult  = SdAskOptionsList ( szTitle , szMsg , "Standard" , EXCLUSIVE );
+		endif;
+
+  		if (nResult = BACK) goto Dlg_CustomInstallationType;
+
+	               
+		//Developer
+	    nResult = FeatureIsItemSelected (MEDIA, "Developer\\AgentsOnline_Developer");
+    	if nResult = 1 then
+				g_szProductType = "AOL";
+				g_szPRODUCT_NAME = "Sirius Online Installer\nAgents Online (Developer)";
+		endif;
+    	nResult = FeatureIsItemSelected (MEDIA, "Developer\\CustomersOnline_Developer");
+	    if nResult = 1 then
+				g_szProductType = "COL"; 
+				g_szPRODUCT_NAME = "Sirius Online Installer\nCustomers Online (Developer)";
+		endif;
+          
+    	// Standard
+    	nResult = FeatureIsItemSelected (MEDIA, "Standard\\AgentsOnline");
+    	if nResult = 1 then
+				g_szProductType = "AOL";
+				g_szPRODUCT_NAME = "Sirius Online Installer\nAgents Online";
+		endif;
+	    nResult = FeatureIsItemSelected (MEDIA, "Standard\\CustomersOnline");
+    	if nResult = 1 then
+				g_szProductType = "COL"; 
+				g_szPRODUCT_NAME = "Sirius Online Installer\nCustomers Online";
+		endif;
+          
+
+	// Set the Dialog title
+		SetDialogTitle( DLG_STATUS, g_szPRODUCT_NAME );
+		// 	SetTitle( g_szPRODUCT_NAME, 36, BLACK );                                        
+
+		// Set the install type 
+		nResult = SetupInstallType();
+           
+
+	Dlg_CustomPreviouslyInstalled: 
+        nResult = Dlg_SFSPreviouslyInstalled();
+				
+	if g_bWebServerPreviouslyInstalled = YES then
+
+		Dlg_CustomWebServerAddress:
+			nResult = Dlg_SFSWebServerAddress();
+			if (nResult = BACK) goto Dlg_CustomerProductType;
+            
+			// Check the WEB Server directory
+			nResult = WebServerCheck();
+			//if (nResult = FALSE) goto Dlg_CustomWebServerAddress;	// 
+	else
+	
+		g_szWebServerPath = "http://" + g_szLocalHost + "/";
+	                  
+		//if nResult = NO then
+		//if g_bWebServerPreviouslyInstalled = FALSE then
+	                                
+			Dlg_BackOfficeType:
+				nResult = Dlg_SFSBackOfficeType();
+				if (nResult = BACK) goto Dlg_CustomerProductType;
+				
+				                                
+			Dlg_CustomSessionState:
+				nResult = Dlg_SFSSessionState();
+				if (nResult = BACK) goto Dlg_BackOfficeType;
+
+			// Only for State Server
+			if g_nSessionState = 2 then
+				Dlg_CustomStateServer:
+					nResult = Dlg_SFSStateServer();
+					if (nResult = BACK) goto Dlg_CustomSessionState;
+			endif;
+
+			// Only for SQL Mode
+			if g_nSessionState = 3 then
+				Dlg_CustomSQLMode:              
+					nResult = Dlg_SFSSQLMode();
+					if (nResult = BACK) goto Dlg_CustomSessionState;
+     		endif;
+     
+     		Dlg_STSMachineName:
+     			nResult = Dlg_SFSSTSMachineName();
+     			if (nResult = BACK) then
+     				if g_nSessionState = 2 then
+     					goto Dlg_CustomStateServer;
+     				elseif g_nSessionState = 3 then
+     					goto Dlg_CustomSQLMode;     					
+     				else                         
+     					goto Dlg_CustomSessionState;
+     				endif;
+     			endif;
+
+	endif;
+
+else
+ 
+ 	//Get the Backoffice type 
+	nResult = Dlg_SFSBackOfficeType();
+ 
+ 	if g_szBackOfficeType = "0" then 
+		FeatureSelectItem ( MEDIA , "BusinessServer\\SAMForBroking"  , FALSE );
+		FeatureSelectItem ( MEDIA , "BusinessServer\\SAMForUnderwriting"  , TRUE );
+	else
+		FeatureSelectItem ( MEDIA , "BusinessServer\\SAMForBroking"  , TRUE );
+		FeatureSelectItem ( MEDIA , "BusinessServer\\SAMForUnderwriting"  , FALSE );	
+	endif;
+  
+	Dlg_CustomEmail:
+		nResult = Dlg_SFSEmail();
+		if (nResult = BACK) goto Dlg_SdLicense;
+	
+endif;
+
+Dlg_SdAskDestPath:
+    szTitle = "";
+    szMsg   = "";
+    nResult = SdAskDestPath( szTitle, szMsg, szDir, 0 );
+    INSTALLDIR = szDir;
+    if (nResult = BACK) then 
+    	if g_bWebServer = TRUE then
+    		goto Dlg_STSMachineName;
+    	else  
+    		goto Dlg_CustomEmail;
+    	endif;
+    endif;                          
+                        
+Dlg_SdStartCopy:
+    szTitle = "";
+    szMsg   = "";
+    listStartCopy = ListCreate( STRINGLIST );
+    //The following is an example of how to add a string(szName) to a list(listStartCopy).
+    //eg. ListAddString(listStartCopy,szName,AFTER);
+                       
+	// Installation Type
+    switch (g_szInstallationType)
+    	case "Standard":
+    	  	ListAddString (listStartCopy, "    Standard Installation", AFTER);
+    	case "Developer":
+    		ListAddString (listStartCopy, "    Developer Installation", AFTER); 
+    endswitch;
+    
+    // Add a blank line
+    ListAddString (listStartCopy, " ", AFTER);
+                     
+	// Product Type                     
+    switch (g_szProductType)
+    	case "AOL":
+    		ListAddString (listStartCopy, "    Web Server - Agents Online", AFTER);
+    	case "COL":
+    		ListAddString (listStartCopy, "    Web Server - Customers Online", AFTER);
+    	default:
+    		ListAddString (listStartCopy, "    Business Server - SAM", AFTER);
+    endswitch;
+                
+	// Display the Dialog
+    nResult = SdStartCopy( szTitle, szMsg, listStartCopy );	
+    ListDestroy(listStartCopy);
+    if (nResult = BACK) goto Dlg_SdAskDestPath;
+
+	
+// set the status window
+	SFS_StatusWindowType( "STATUSEX" );
+             
+	svDir = INSTALLDIR ^ "SiriusFS.SAM.ServiceAgent" ^ "bin";
+	if (ExistsDir (svDir) = EXISTS) then	
+		nResult = DeleteDir( svDir, ALLCONTENTS );		
+		if (nResult != 0) then 
+			MessageBox ( "Faled to delete the folder : " + svDir + ".  Please delete this folder before continuing.", WARNING );
+		endif;
+	endif;
+
+    return 0;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function	OnMaintUIBefore()
+//
+//  EVENT:      MaintUIBefore event is sent when end user runs installation that
+//              has already been installed on the machine. Usually this happens 
+//              through Add/Remove Programs applet. In the handler, installation 
+//              usually displays UI allowing end user to modify existing installation
+//              or uninstall application. After this function returns, 
+//              FeatureTransferData is called to perform file transfer.
+//
+///////////////////////////////////////////////////////////////////////////////
+    NUMBER	nResult, nType;
+    STRING	szTitle, szMsg, svDir, svResult, szCaption;
+begin
+
+    // TO DO: if you want to enable background, window title, and caption bar title   								
+    // SetTitle( @PRODUCT_NAME, 24, WHITE );					
+    // SetTitle( @PRODUCT_NAME, 0, BACKGROUNDCAPTION );  			
+    // SetColor(BACKGROUND,RGB (0, 128, 128));					
+    // Enable( FULLWINDOWMODE );						
+    // Enable( BACKGROUND );							
+	
+Dlg_Start:
+    Disable(BACKBUTTON);
+    nType = SdWelcomeMaint(szTitle, szMsg, MODIFY);
+    Enable(BACKBUTTON);
+
+    if (nType = REMOVEALL) then
+        svResult = SdLoadString(IFX_MAINTUI_MSG);
+        szCaption = SdLoadString(IFX_ONMAINTUI_CAPTION);
+        nResult = SprintfBox(MB_OKCANCEL,szCaption,"%s",svResult);
+        if (nResult = IDCANCEL) goto Dlg_Start;
+    endif;
+
+    nResult = NEXT;
+
+Dlg_SdFeatureTree:
+
+/*
+    if (nType = MODIFY) then
+        szTitle = "";
+        szMsg = "";
+        nResult = SdFeatureTree(szTitle, szMsg, TARGETDIR, "", 2);
+        if (nResult = BACK) goto Dlg_Start;
+    endif;
+*/
+
+    switch(nType)
+        case REMOVEALL: ComponentRemoveAll();
+        case REPAIR:    ComponentReinstall();  
+        case MODIFY:	OnFirstUIBefore();
+    endswitch;
+    
+    Enable(STATUSEX);
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function	OnFirstUIAfter()
+//
+//  EVENT:      FirstUIAfter event is sent after file transfer, when installation 
+//              is run for the first time on given machine. In this event handler 
+//              installation usually displays UI that will inform end user that
+//              installation has been completed successfully.
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	bOpt1, bOpt2, nResult, nvSize;
+	STRING	szTitle, szMsg1, szMsg2, szOption1, szOption2, szShareName, szPath, 
+			szLocalHost, szInstallType; 
+begin
+
+	//Disable(STATUSEX);
+    
+	// Only Update the Web.config file for the original install
+	// otherwise, copy the file from the web install to the local machine
+
+	SetStatusWindow( -1, "Updating config file . . . " );
+    //SdShowMsg ("Updating config file . . . ", TRUE);
+
+	// Update the the web.config file
+    nResult = WebConfigUpdate_BusinessServer(g_szLocalHost, g_szProductType);
+
+    //SdShowMsg ("Updating config file . . . ", FALSE);
+
+	SetStatusWindow( -1, "Updating database . . . " );
+    //SdShowMsg ("Updating database . . . ", TRUE);
+
+		//Run the scripts for the Business Server 	
+    //nResult = RunSetupDB();
+
+    //SdShowMsg ("Updating database . . . ", FALSE);
+    
+    SetStatusWindow( -1, "Updating GIS Lists . . . " );
+    
+    //call the function to update the GIS Lists
+    nResult = STSCreatGISLists();
+              
+    // Call the method to add the performance counters to the local machine
+	nResult = STSPerformanceCounters();
+		
+    // Call the method to add the Event Source to the local machine
+	nResult = CreateEventSource();
+            
+	// We have finished the install
+	bOpt1  = FALSE;
+	bOpt2  = FALSE;
+	szMsg1 = SdLoadString(IFX_SDFINISH_MSG1);
+	SdFinishEx(szTitle, szMsg1, szMsg2, szOption1, szOption2, bOpt1, bOpt2);
+ 
+ end;
+ 
+
+
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// ------------------------ S E C T I O N   B R E A K -----------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+
+
+                                   
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSStateServer()
+//
+//  COMMENTS:	Check the WEB Server for the .INI and get all the details
+//				from the setup.ini file
+//				If the file cannot be retrieved then it is incorrectly
+//				installed or the incorrect directory path
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	svString, szTitle, szMsg, szField1;
+begin
+	
+	szTitle   = "Web Configuration - State Server Mode Settings";
+	szMsg     = "Enter the ip address or machine name\n\neg. 127.0.0.1 or stsserver";
+	szField1  = "IP Address or Machine Name:";
+	g_sztcpip = "";
+	nResult   = SdShowDlgEdit1( szTitle, szMsg, szField1, g_sztcpip );     
+
+	//nResult = AskText ( szMsg, g_sztcpip, svResult);        	
+	MsiSetProperty(ISMSI_HANDLE, "WEB_CONFIG_STATE_MODE_ADDRESS", g_sztcpip);
+
+	return nResult;
+   
+end; 
+
+                                    
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSSQLMode()
+//
+//  COMMENTS:	Check the WEB Server for the .INI and get all the details
+//				from the setup.ini file
+//				If the file cannot be retrieved then it is incorrectly
+//				installed or the incorrect directory path
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult; 
+	STRING	svString, szTitle, szMsg, szField1, szField2, szField3;
+begin
+
+	szTitle  = "Web Configuration - SQL Server Mode Settings";
+	szMsg    = "Enter the SQLServer mode details";   
+	szField1 = "IP Address or Machine Name:";
+	szField2 = "SQL User ID:";                                               
+	szField3 = "SQL Password:";                                               
+	
+	g_szSQLip	 	= "127.0.0.1";
+	g_szSQLuserid	= "sa";
+	g_szSQLpassword = "";                                               
+	
+	nResult  = SdShowDlgEdit3( szTitle, szMsg, szField1, szField2, szField3, g_szSQLip, g_szSQLuserid, g_szSQLpassword );     
+
+	MsiSetProperty(ISMSI_HANDLE, "WEB_CONFIG_SQL_ADDRESS", g_szSQLip);
+	MsiSetProperty(ISMSI_HANDLE, "WEB_CONFIG_SQL_USERNAME", g_szSQLuserid);
+	MsiSetProperty(ISMSI_HANDLE, "WEB_CONFIG_SQL_PASSWORD", g_szSQLpassword);
+
+
+	return nResult;
+
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSSTSMachineName()
+//
+//  COMMENTS:	Need to get the machine name of the STS server
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	svString, szTitle, szMsg, szField1;
+begin
+	
+	szTitle   = "Web Configuration - SAM Machine Name";
+	szMsg     = "Enter the Machine Name of the SAM server (Business Server)";
+	szField1  = "SAM Server Machine Name:";
+	g_szSTSMachineName = "";
+	nResult   = SdShowDlgEdit1( szTitle, szMsg, szField1, g_szSTSMachineName );     
+
+	MsiSetProperty(ISMSI_HANDLE, "WEB_CONFIG_SAM_MACHINE_NAME", g_szSTSMachineName);
+
+	return nResult;
+   
+end; 
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSEmail()
+//
+//  COMMENTS:	Ask a couple of Email questions for the Business Server
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	svString, szTitle, szMsg, szField1, szField2, szField3;
+begin
+	
+	szTitle  = "Email Configuration";
+	szMsg    = "Enter the following Email configuration details";
+	szField1 = "SMTP server (e.g. mail.server.com):";
+	szField2 = "Email 'From' name:";
+	szField3 = "Email 'From' address:";
+	//nResult  = SdShowDlgEdit2( szTitle, szMsg, szField1, szField2, g_szEmailSMTPServer, g_szEmailFromAddress );     
+	nResult  = SdShowDlgEdit3 ( szTitle, szMsg, 
+								szField1, szField2, szField3, 
+								g_szEmailSMTPServer, g_szEmailFromName, g_szEmailFromAddress ); 
+
+
+
+//	MsiSetProperty(ISMSI_HANDLE, "WEB_CONFIG_SAM_MACHINE_NAME", g_szSTSMachineName);
+
+	return nResult;
+   
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSPreviouslyInstalled()
+//
+//  COMMENTS:	
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	svString;
+begin
+
+		// Set the flag first
+		g_bWebServerPreviouslyInstalled = FALSE;
+
+		// enter the WEB server screen
+    	if (AskYesNo("Have you previously installed the Web Server " +
+    					"on a another machine?", YES) = YES) then
+
+			g_bWebServerPreviouslyInstalled = TRUE;
+                           
+	   	endif;
+
+	
+end;
+                                    
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSWebServerAddress()
+//
+//  COMMENTS:	Check the WEB Server for the .INI and get all the details
+//				from the setup.ini file
+//				If the file cannot be retrieved then it is incorrectly
+//				installed or the incorrect directory path
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;                             
+	STRING	svString, szTitle, szMsg, szField1, svEdit1; 
+begin
+       
+	szTitle  = "Web Server Address";
+	szMsg    = "Enter the Machine Name of the Web Server";   
+	szField1 = "Web Server Machine Name:";
+	g_szWebServerPath = "WEBSERVER";
+	nResult = SdShowDlgEdit1 (szTitle, szMsg, szField1, g_szWebServerPath);
+
+	MsiSetProperty(ISMSI_HANDLE, "WEB_SERVER_MACHINE_NAME", g_szWebServerPath);
+
+	return nResult;
+
+end;
+
+
+  
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSSessionState()
+//
+//  COMMENTS:	Check the WEB Server for the .INI and get all the details
+//				from the setup.ini file
+//				If the file cannot be retrieved then it is incorrectly
+//				installed or the incorrect directory path
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult, nValue, nvCheck1, nvCheck2, nvCheck3;
+	STRING	svString, szMsg, szText1, szText2, szText3, svResult, szTitle, 
+			szField1, szField2, szField3, svEdit1, svEdit2, svEdit3;
+begin
+                                  
+	szMsg = "Which Session State is required?";
+	nValue = EXCLUSIVE; // Option box                                                      
+	
+	szText1 = "InProc Mode - Enable the use of the Server own state management";
+	szText2 = "StateServer Mode";
+	szText3 = "SQLServer Mode";
+	 
+	nvCheck1 = FALSE;
+	nvCheck2 = FALSE;
+	nvCheck3 = FALSE;
+
+	switch (g_nSessionState)
+		case 1: 
+			nvCheck1 = TRUE;
+		case 2:
+			nvCheck2 = TRUE;
+		case 3:
+			nvCheck3 = TRUE;
+		default:
+			nvCheck1 = TRUE;
+	endswitch;
+	
+    nResult = AskOptions (nValue, szMsg, szText1, nvCheck1, szText2, nvCheck2, szText3, nvCheck3);
+
+	// Nother more than set the g_nSessionState
+	if nvCheck1 = TRUE then	
+	
+		g_nSessionState = 1;
+		
+	endif;  
+	
+	// Set the Session State and get the Connection String attributes
+	if nvCheck2 = TRUE then	
+	                                            
+		g_nSessionState = 2;                                             
+		
+	endif;
+	      
+	
+	if nvCheck3 = TRUE then	
+		
+		g_nSessionState = 3;
+	 
+	endif;
+	
+	return nResult;	
+              
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	Dlg_SFSBackOfficeType()
+//
+//  COMMENTS:	0 = Underwriting, 1 = Broking
+//
+///////////////////////////////////////////////////////////////////////////////
+    NUMBER	nResult, nvExitCode, nvType, nvSize;
+    STRING	szInputString, svValue, szProgram , svKey;
+			
+begin
+
+	// Does the PM subkey exist
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+	nResult = RegDBKeyExist ( "SOFTWARE\\PM" ); 
+	
+	// set the key
+	svKey = "SOFTWARE\\PM\\SiriusSolutions\\Setup";
+
+	if ( nResult = 1 ) then
+		// Get the PMDIR registry settings	
+		nResult = RegDBGetKeyValueEx ( svKey , "Sirius Type" , nvType , svValue , nvSize );
+	endif;
+
+	if (svValue = "Underwriting") | (svValue = "Insurance") then	
+		g_szBackOfficeType = "0";
+	else
+		g_szBackOfficeType = "1";
+	endif;  
+	
+	return nResult;	
+              
+end;  
+  
+
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// ------------------------ S E C T I O N   B R E A K -----------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	WebServerCheck()
+//
+//  COMMENTS:	Check the WEB Server for the .INI and get all the details
+//				from the setup.ini file
+//				If the file cannot be retrieved then it is incorrectly
+//				installed or the incorrect directory path
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	szString, szINIFile, szSection, szKey, svResult, szString1, 
+			szString2, szWebServerComputerName, szFileName;
+begin
+     
+    // Convert the web server address
+    nResult = StrToUpper ( szWebServerComputerName, g_szWebServerPath ); 
+           
+	szWebServerComputerName = "\\\\" + szWebServerComputerName ^ "SiriusOnline";
+     
+    // Check that the Web Server Path is correct
+    if (ExistsDir ( szWebServerComputerName )) = NOTEXISTS then
+    	MessageBox ( "Web Server Share Not Found", WARNING );
+    	return FALSE;
+    endif;
+        
+    nResult = FindFile ( szWebServerComputerName , "setup.ini" , szFileName );	
+	if (nResult != 0) then
+		MessageBox ( "Can't find setup.ini from Web Server", INFORMATION );
+		return FALSE;
+	endif;
+                                           
+	szINIFile = szWebServerComputerName ^ "setup.ini";
+	
+	szSection = "web.config";
+	// Retrieve the value of a key from the file.
+	if (GetProfString (szINIFile, szSection, "SQL Address", g_szSQLip) != 0) then
+            MessageBox ("Failed to read Setup.ini file on Web Server", INFORMATION);
+            return 99;
+	endif;
+     
+    GetProfString (szINIFile, szSection, "SQL Password", g_szSQLpassword);
+	GetProfString (szINIFile, szSection, "SQL Username", g_szSQLuserid);
+	GetProfString (szINIFile, szSection, "State Mode Address", g_sztcpip);
+	GetProfString (szINIFile, szSection, "STS Machine Name", g_szSTSMachineName);
+	    
+	szSection = "Web Server";
+	GetProfString (szINIFile, szSection, "Server Machine Name", svResult);
+	    
+end;     
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	WebConfigUpdate_BusinessServer(szLocalHost, szProductType)
+//
+//  COMMENTS:	Update the Business Server Web.config with email settings
+//
+///////////////////////////////////////////////////////////////////////////////
+	NUMBER	nResult, nvLineNumber, nFileHandle, nvFileHandle, nvExitCode;   
+	STRING	svString, szUpdateString1, szUpdateString2, szInsertLine1, szInsertLine2, 
+			szInsertLine3, szInsertLine4, szFileName, svReturnLine, szBitInTheMiddle, 
+			szvalidationKey, szdecryptionKey, svLine, szFileFolder, szFullName, 
+			szProgram, szCmdLine, szLine, szInsertString;
+	LIST listID;  
+begin
+                            
+	szFileFolder = INSTALLDIR ^ "SiriusFS.SAM.ServiceAgent";
+	
+	
+	nResult = FindFile ( szFileFolder , "web.config" , szFileName );	
+	if (nResult != 0) then
+		MessageBox ( "Can't find web.config", INFORMATION );
+		return FALSE;
+	endif;
+	
+	szFullName = szFileFolder ^ szFileName;
+	
+	// Set the read-only flag OFF
+	SetFileInfo ( szFullName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "" );
+
+
+	// EmailSMTPServer	         
+    szUpdateString1 = '		<add key="EmailSMTPServer" value="' + g_szEmailSMTPServer + '"/>';
+	szInsertString  = '<!-- EmailSMTPServer Setting -->';
+	
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );		
+	if nResult = 0 then
+		FileInsertLine ( szFullName, szUpdateString1, nvLineNumber + 1, REPLACE );  
+	else
+		MessageBox ( "Can't find EmailSMTPServer tag in the Web.Config file.", INFORMATION );
+   	endif;
+
+	// FPFromName
+    szUpdateString1 = '		<add key="FPFromName" value="' + g_szEmailFromName + '"/>';
+    szInsertString  = '<!-- FPFromName Setting -->';
+    
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+		MessageBox ( "Can't find FPFromName tag in the Web.Config file.", INFORMATION );
+	endif;    		           	
+
+	// FPFromEmail
+    szUpdateString1 = '		<add key="FPFromEmail" value="' + g_szEmailFromAddress + '"/>';
+    szInsertString  = '<!-- FPFromEmail Setting -->';
+    
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+		MessageBox ( "Can't find FPFromEmail tag in the Web.Config file.", INFORMATION );
+	endif;    		           	
+
+
+	// STSListener                                                                                                   
+	szUpdateString1 = '<!--<add name="STSListener" type="System.Diagnostics.TextWriterTraceListener" initializeData="' + INSTALLDIR + 'SiriusFS.SAM.ServiceAgent\\STS_EDI_Log.log" />';
+    szInsertString  = '<!-- STSListener Setting -->';
+   
+    
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+	    nResult = NumToStr(svString, nResult);
+		MessageBox ( "Can't find STSListener tag in the Web.Config file. Return value - " + svString, INFORMATION );
+	endif;    		           	
+
+	// SiriusConfigPath 
+	szUpdateString1 = '<add key="SiriusConfigPath" value="' + INSTALLDIR + 'SiriusFS.SAM.ServiceAgent\\"/>';                                     
+    szInsertString  = '<!-- SiriusConfigPath Setting -->';
+   
+    
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+		MessageBox ( "Can't find SiriusConfigPath tag in the Web.Config file.", INFORMATION );
+	endif;    		           	
+                    
+                    
+	// TransformPath 
+	szUpdateString1 = '<add key="TransformPath" value="' + INSTALLDIR + 'SiriusFS.SAM.ServiceAgent\\EDI"/>';
+    szInsertString  = '<!-- TransformPath Setting -->';
+   
+    
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+		MessageBox ( "Can't find TransformPath tag in the Web.Config file.", INFORMATION );
+	endif;    		           	
+
+	// AnonCustomerDefaultsPath 
+	szUpdateString1 = '<add key="AnonCustomerDefaultsPath" value="' + INSTALLDIR + 'SiriusFS.SAM.ServiceAgent\\"/>';
+    szInsertString  = '<!-- AnonCustomerDefaultsPath Setting -->';
+   
+    
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+		MessageBox ( "Can't find AnonCustomerDefaultsPath tag in the Web.Config file." , INFORMATION );
+	endif; 
+	                    
+	// DebugPath 
+	szUpdateString1 = '<add key="DebugPath" value="' + INSTALLDIR + 'SiriusFS.SAM.ServiceAgent"/>';
+    szInsertString  = '<!-- DebugPath Setting -->';
+                 
+                 
+	nResult = FileGrep ( szFullName , szInsertString , svReturnLine , nvLineNumber , RESTART );
+	if nResult = 0 then
+		FileInsertLine ( szFullName , szUpdateString1, nvLineNumber + 1 , REPLACE );
+	else
+		MessageBox ( "Can't find DebugPath tag in the Web.Config file.", INFORMATION );
+	endif; 
+	
+	// Set it back to read-only
+	SetFileInfo ( szFullName, FILE_ATTRIBUTE, FILE_ATTR_READONLY, "" );
+   	
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SetupInstallType()
+//
+//  COMMENTS:	Setup the specifics for the different install types:
+//
+//				1. AgentsOnline
+//				2. CustomersOnline
+//
+///////////////////////////////////////////////////////////////////////////////                       
+	NUMBER	nResult;  
+	STRING	svString;
+begin
+
+	// Setup the Installation Directory
+	// INSTALLDIR = INSTALLDIR ^ g_szInstallType;
+	// INSTALLDIR = ProgramFilesFolder ^ "PM" ^ "Sirius Online";
+        
+    // Change the Product Name
+    g_szPRODUCT_NAME = g_szProductType;
+         
+	// Setup the Virtual directory
+	g_szVirtualDirectory = g_szProductType;
+	   
+
+    return TRUE;
+    
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+	function	STSPerformanceCounters()
+//                                                                           //
+//  Purpose:  
+//                                                                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+    NUMBER	nResult, nvExitCode, nvType, nvSize;
+    STRING	szProgram , szCmdLine, svResult, svDir, svDirTemp, svStatus, szMsg;
+begin
+
+	SetStatusWindow( -1, "Installing SAM Performance Counters" );
+	//SdShowMsg ( "Installing STS Performance Counters" , TRUE );
+
+	szProgram = TARGETDIR ^ "SiriusFS.SAM.ServiceAgent" ^ "SFSPerfMonCounters.exe";
+
+	szCmdLine = "/SILENT";
+     
+	SFS_LaunchAppAndWait ( szProgram , szCmdLine , WAIT );
+	if (nvExitCode != 0) then
+		szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		MessageBox ( szMsg, SEVERE );
+		return 0;
+	endif;
+
+	//SdShowMsg ( "Installing SAM Performance Counters" , FALSE );
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+	function	CreateEventSource()
+//                                                                           //
+//  Purpose:  
+//                                                                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+    NUMBER	nResult, nvExitCode, nvType, nvSize;
+    STRING	szProgram , szCmdLine, svResult, svDir, svDirTemp, svStatus, szMsg;
+begin
+
+	SetStatusWindow( -1, "Installing Event Source" );
+	//SdShowMsg ( "Installing STS Performance Counters" , TRUE );
+
+	szProgram = TARGETDIR ^ "SiriusFS.SAM.ServiceAgent" ^ "CreateEventSource.exe";
+
+	szCmdLine = "";
+     
+	SFS_LaunchAppAndWait ( szProgram , szCmdLine , WAIT );
+	if (nvExitCode != 0) then
+		szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		MessageBox ( szMsg, SEVERE );
+		return 0;
+	endif;
+
+	//SdShowMsg ( "Installing SAM Performance Counters" , FALSE );
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+	function	STSCreatGISLists()
+//                                                                           //
+//  Purpose:  
+//                                                                           //
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+    NUMBER	nResult, nvExitCode, nvType, nvSize;
+    STRING	szInputString, svValue, szProgram , szCmdLine, svResult, svDir, svDirTemp, svStatus, szMsg, svKey;
+    OBJECT 	oGISList;
+begin
+
+    // create the object
+    set oGISList = CreateObject("bGISList.bGISListCreate");
+	
+	// Does the PM subkey exist
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+	nResult = RegDBKeyExist ( "SOFTWARE\\PM" ); 
+	
+	// set the key
+	svKey = "SOFTWARE\\PM";
+
+	if ( nResult = 1 ) then
+		// Get the PMDIR registry settings	
+		nResult = RegDBGetKeyValueEx ( svKey , "PMDIR" , nvType , svValue , nvSize );
+		StrRemoveLastSlash ( svValue );   			
+		szInputString = svValue ^ "PM\\GIS\\Server\\Lists\\RSAList0101.txt";
+	else
+		szInputString = ProgramFilesFolder ^ "PM\\GIS\\Server\\Lists\\RSAList0101.txt";
+	endif;
+	                          
+    //Set the input file string
+    oGISList.InputFile = szInputString;
+
+	//Create the GIS Lists
+    nResult = oGISList.Create();
+ 
+ 	//If it failed then                                      
+	if (nResult != 1) then
+		szMsg = "Unable to launch : GISListCreator. it will need to be run manually.";
+		MessageBox ( szMsg, SEVERE );		
+	endif;
+ 
+    // free the object
+    set oGISList = NOTHING;
+
+end;
+//////////////////////////////////////////////////////////////////////////////
+//
+//  FUNCTION:   OnBegin
+//
+//  EVENT:      Begin event is always sent as the first event during installation.
+//
+//////////////////////////////////////////////////////////////////////////////
+function OnBegin() 
+	NUMBER	nResult;
+    STRING	szProgram , svResult, svDir, szFileName;
+begin
+	// TO DO: you may change default non-UI setting, for example
+	//
+	// You may also perform your custom initialization steps, check requirements, etc.
+
+	SetStatusWindow( -1, "Preparing Install" );
+	//SdShowMsg ( "Installing STS Performance Counters" , TRUE );
+
+	svDir = TARGETDIR ^ "SiriusFS.SAM.ServiceAgent\bin";
+
+	DeleteDir( svDir, ALLCONTENTS );		
+	
+end;
+
+// -------------------------------------------------------------------------
+// include the standard Sirius rule file
+	#include	"sfs_setup.rul"

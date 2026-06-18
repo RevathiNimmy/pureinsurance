@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EF29CE11-E31C-4F16-84AA-02240C4507FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NexusProvider</RootNamespace>
+    <AssemblyName>NexusProvider</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>NexusProvider.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>NexusProvider.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CashListReceipts.vb" />
+    <Compile Include="Config.vb" />
+    <Compile Include="Controls\LookupList.vb" />
+    <Compile Include="Controls\LookupListV2.vb" />
+    <Compile Include="Objects\AuditTrail.vb" />
+    <Compile Include="Objects\GetAuthorizationComment.vb" />
+    <Compile Include="Objects\AuthorisedPaymentList.vb" />
+    <Compile Include="Objects\BaseInsuranceFileKey.vb" />
+    <Compile Include="Objects\CheckUnPaidStatus.vb" />
+    <Compile Include="Objects\FinancePlanBankHistory.vb" />
+    <Compile Include="Objects\FinancePlanDetails.vb" />
+    <Compile Include="Objects\FinancePlanHistory.vb" />
+    <Compile Include="Objects\FinancePlanInformation.vb" />
+    <Compile Include="Objects\FinancePlanTransactions.vb" />
+    <Compile Include="Objects\InstalmentPlanDetails.vb" />
+    <Compile Include="Objects\InstalmentsHistory.vb" />
+    <Compile Include="Objects\EmailTemplateConfiguration.vb" />
+    <Compile Include="Objects\ListFilterOptions.vb" />
+    <Compile Include="Objects\Locks.vb" />
+    <Compile Include="Objects\AddDocumentToDocumasterType.vb" />
+    <Compile Include="Objects\AllocationPeriod.vb" />
+    <Compile Include="ErrorFormatter.vb" />
+    <Compile Include="Objects\AllTaxes.vb" />
+    <Compile Include="Objects\AgentCommissions.vb" />
+    <Compile Include="Objects\BankAccountDefault.vb" />
+    <Compile Include="Objects\ManualJournalApprovalTransactionDetails.vb" />
+    <Compile Include="Objects\PaymentHub.vb" />
+    <Compile Include="Objects\PaymentHubDetails.vb" />
+    <Compile Include="Objects\PaymentMethod.vb" />
+    <Compile Include="Objects\PaymentType.vb" />
+    <Compile Include="Objects\CaseDetails.vb" />
+    <Compile Include="Objects\CashClaimLink.vb" />
+    <Compile Include="Objects\ClaimPaymentsSummary.vb" />
+    <Compile Include="Objects\DME.vb" />
+    <Compile Include="Objects\DMESearchCriteria.vb" />
+    <Compile Include="Objects\DocumentDefaults.vb" />
+    <Compile Include="Objects\DocumentList.vb" />
+    <Compile Include="Objects\FinancePlan.vb" />
+    <Compile Include="Objects\Instalment.vb" />
+    <Compile Include="Objects\ManualJournal.vb" />
+    <Compile Include="Objects\MidFile.vb" />
+    <Compile Include="Objects\MidFileDetails.vb" />
+    <Compile Include="Objects\PFBankDetails.vb" />
+    <Compile Include="Objects\PolicyAssociate.vb" />
+    <Compile Include="Objects\PolicySearchCriteria.vb" />
+    <Compile Include="Objects\PremiumFinancePlan.vb" />
+    <Compile Include="Objects\ProductDocuments.vb" />
+    <Compile Include="Objects\Reinsurer.vb" />
+    <Compile Include="Objects\ReinsurerSearchCriteria.vb" />
+    <Compile Include="Objects\RIModelSummary.vb" />
+    <Compile Include="Objects\RIPropTreaties.vb" />
+    <Compile Include="Objects\RITreatyPartyWithTax.vb" />
+    <Compile Include="Objects\RITreatyParty.vb" />
+    <Compile Include="Objects\StoredProcedureParameterType.vb" />
+    <Compile Include="Objects\StoredProcedureResponseType.vb" />
+    <Compile Include="Objects\UpdateManualJournalApproversComment.vb" />
+    <Compile Include="Objects\UserPreferredColumnList.vb" />
+    <Compile Include="Objects\SubFolder.vb" />
+    <Compile Include="Objects\TaxTypesAndBands.vb" />
+    <Compile Include="Objects\UpdateAuthorizationComment.vb" />
+    <Compile Include="Objects\ValidationDetails.vb" />
+    <Compile Include="Objects\Parameters.vb" />
+    <Compile Include="Objects\UserProductByBranch.vb" />
+    <Compile Include="Objects\WorkManagerFilter.vb" />
+    <Compile Include="SortableCollectionBase.vb" />
+    <Compile Include="LogConstants.vb" />
+    <Compile Include="MediaTypeStatus.vb" />
+    <Compile Include="NexusException.vb" />
+    <Compile Include="Objects\Accident.vb" />
+    <Compile Include="Objects\AccountDetails.vb" />
+    <Compile Include="Objects\AccountDetailsDefaults.vb" />
+    <Compile Include="Objects\AccountsBalance.vb" />
+    <Compile Include="Objects\AccountSearchCriteria.vb" />
+    <Compile Include="Objects\AccountSearchResult.vb" />
+    <Compile Include="Objects\AddAgentReceipt.vb" />
+    <Compile Include="Objects\AddReceipt.vb" />
+    <Compile Include="Objects\Address.vb" />
+    <Compile Include="Objects\AdvancedTaxDetails.vb" />
+    <Compile Include="Objects\AgentCommission.vb" />
+    <Compile Include="Objects\AgentDetailsForPolicy.vb" />
+    <Compile Include="Objects\AgentSettings.vb" />
+    <Compile Include="Objects\Allocation.vb" />
+    <Compile Include="Objects\AllocationDetails.vb" />
+    <Compile Include="Objects\ApproveCashListItem.vb" />
+    <Compile Include="Objects\ArrangementLinesType.vb" />
+    <Compile Include="Objects\ArrangementsType.vb" />
+    <Compile Include="Objects\Associate.vb" />
+    <Compile Include="Objects\BalancesAndUnallocatedCredits.vb" />
+    <Compile Include="Objects\Bank.vb" />
+    <Compile Include="Objects\BankGuarantee.vb" />
+    <Compile Include="Objects\BankPaymentType.vb" />
+    <Compile Include="Objects\BankSearchCriteria.vb" />
+    <Compile Include="Objects\BaseClaimRecoveryReceiptType.vb" />
+    <Compile Include="Objects\BaseClaimTaxItemType.vb" />
+    <Compile Include="Objects\Branches.vb" />
+    <Compile Include="Objects\CardHolder.vb" />
+    <Compile Include="Objects\CashDeposit.vb" />
+    <Compile Include="Objects\CashList.vb" />
+    <Compile Include="Objects\CashListItems.vb" />
+    <Compile Include="Objects\Claim.vb" />
+    <Compile Include="Objects\ClaimCoInsurer.vb" />
+    <Compile Include="Objects\ClaimDetails.vb" />
+    <Compile Include="Objects\ClaimDocument.vb" />
+    <Compile Include="Objects\ClaimParty.vb" />
+    <Compile Include="Objects\ClaimPayment.vb" />
+    <Compile Include="Objects\ClaimPaymentItemType.vb" />
+    <Compile Include="Objects\ClaimPaymentTaxItem.vb" />
+    <Compile Include="Objects\ClaimPeril.vb" />
+    <Compile Include="Objects\ClaimPerilReservePaymentType.vb" />
+    <Compile Include="Objects\ClaimReceipt.vb" />
+    <Compile Include="Objects\ClaimReceiptItemType.vb" />
+    <Compile Include="Objects\ClaimReceiptType.vb" />
+    <Compile Include="Objects\ClaimReceiptWarning.vb" />
+    <Compile Include="Objects\ClaimResponse.vb" />
+    <Compile Include="Objects\ClaimRisk.vb" />
+    <Compile Include="Objects\ClaimRiskLink.vb" />
+    <Compile Include="Objects\ClaimSearchCriteria.vb" />
+    <Compile Include="Objects\Client.vb" />
+    <Compile Include="Objects\CoinsuranceDefaults.vb" />
+    <Compile Include="Objects\CoInsurers.vb" />
+    <Compile Include="Objects\Contact.vb" />
+    <Compile Include="Objects\Convictions.vb" />
+    <Compile Include="Objects\CashDepositPolicies.vb" />
+    <Compile Include="Objects\CashDepositsForPolicy.vb" />
+    <Compile Include="Objects\CoverNote.vb" />
+    <Compile Include="Objects\CoverNoteBookType.vb" />
+    <Compile Include="Objects\CoverNoteSheetType.vb" />
+    <Compile Include="Objects\CreditCard.vb" />
+    <Compile Include="Objects\CreditCardType.vb" />
+    <Compile Include="Objects\CreditTransaction_Abhishek.vb" />
+    <Compile Include="Objects\ConvertCurrencytoBaseParameters.vb" />
+    <Compile Include="Objects\ConvertCurrencytoBaseResponseParameters.vb" />
+    <Compile Include="Objects\Currency.vb" />
+    <Compile Include="Objects\CurrencyExchangeRateType.vb" />
+    <Compile Include="Objects\CurrencyOverride.vb" />
+    <Compile Include="Objects\DoCurrencyConversion.vb" />
+    <Compile Include="Objects\GetInsuranceFileInformation.vb" />
+    <Compile Include="Objects\Document.vb" />
+    <Compile Include="Objects\DocumentTemplates.vb" />
+    <Compile Include="Objects\EventDetails.vb" />
+    <Compile Include="Objects\Fee.vb" />
+    <Compile Include="Objects\FindControlSearchCriteria.vb" />
+    <Compile Include="Objects\FindUsersSearchCriteria.vb" />
+    <Compile Include="Objects\ForgotPassword.vb" />
+    <Compile Include="Objects\HeaderAndAgentCommission.vb" />
+    <Compile Include="Objects\HeaderAndPolicyFeesType.vb" />
+    <Compile Include="Objects\HeaderAndRisk.vb" />
+    <Compile Include="Objects\HeaderAndRiskTaxType.vb" />
+    <Compile Include="Objects\HeaderAndRiskType.vb" />
+    <Compile Include="Objects\InstallmentQuote.vb" />
+    <Compile Include="Objects\InsuranceFileDetails.vb" />
+    <Compile Include="Objects\KeyData.vb" />
+    <Compile Include="Objects\Lifestyle.vb" />
+    <Compile Include="Objects\LookupList.vb" />
+    <Compile Include="Objects\Loyalty.vb" />
+    <Compile Include="Objects\MarkUnmarkTransaction.vb" />
+    <Compile Include="Objects\MTA.vb" />
+    <Compile Include="Objects\OptionType.vb" />
+    <Compile Include="Objects\Party.vb" />
+    <Compile Include="Objects\PartyBGPolicyDetails.vb" />
+    <Compile Include="Objects\PartySearchCriteria.vb" />
+    <Compile Include="Objects\PartySummary.vb" />
+    <Compile Include="Objects\Payee.vb" />
+    <Compile Include="Objects\Payment.vb" />
+    <Compile Include="Objects\PaymentAdvancedTaxDetails.vb" />
+    <Compile Include="Objects\PaymentCashListItemType.vb" />
+    <Compile Include="Objects\PaymentItems.vb" />
+    <Compile Include="Objects\PerilRecovery.vb" />
+    <Compile Include="Objects\PerilSummary.vb" />
+    <Compile Include="Objects\Policy.vb" />
+    <Compile Include="Objects\PrimaryCauses.vb" />
+    <Compile Include="Objects\Product.vb" />
+    <Compile Include="Objects\ProductByAgent.vb" />
+    <Compile Include="Objects\ProductClaimsWorkflowOptionsValue.vb" />
+    <Compile Include="Objects\ProspectPolicies.vb" />
+    <Compile Include="Objects\Quote.vb" />
+    <Compile Include="Objects\Rating.vb" />
+    <Compile Include="Objects\RatingSectionTypes.vb" />
+    <Compile Include="Objects\ReceiptCashList.vb" />
+    <Compile Include="Objects\ReceiptCashListItems.vb" />
+    <Compile Include="Objects\ReceiptType.vb" />
+    <Compile Include="Objects\RecoveryType.vb" />
+    <Compile Include="Objects\ReinsuranceArrangementLines.vb" />
+    <Compile Include="Objects\ReinsuranceBands.vb" />
+    <Compile Include="Objects\Reinsurances.vb" />
+    <Compile Include="Objects\RenewalStatus.vb" />
+    <Compile Include="Objects\ReserveType.vb" />
+    <Compile Include="Objects\Risk.vb" />
+    <Compile Include="Objects\RiskFees.vb" />
+    <Compile Include="Objects\RiskType.vb" />
+    <Compile Include="Objects\StandardWording.vb" />
+    <Compile Include="Objects\SubAgent.vb" />
+    <Compile Include="Objects\SupplierBusiness.vb" />
+    <Compile Include="Objects\Task.vb" />
+    <Compile Include="Objects\TaskGroup.vb" />
+    <Compile Include="Objects\TaskGroupTasksDetails.vb" />
+    <Compile Include="Objects\Tax.vb" />
+    <Compile Include="Objects\TaxForClaims.vb" />
+    <Compile Include="Objects\TaxGroup.vb" />
+    <Compile Include="Objects\TaxGroups.vb" />
+    <Compile Include="Objects\Transaction.vb" />
+    <Compile Include="Objects\UnallocatedClaimPayments.vb" />
+    <Compile Include="Objects\UnallocatedCredit.vb" />
+    <Compile Include="Objects\User.vb" />
+    <Compile Include="Objects\UserAuthority.vb" />
+    <Compile Include="Objects\UserGroup.vb" />
+    <Compile Include="Objects\Versions.vb" />
+    <Compile Include="Objects\Warnings.vb" />
+    <Compile Include="Objects\WorkManager.vb" />
+    <Compile Include="Objects\Writeoff.vb" />
+    <Compile Include="ProviderHelper.vb" />
+    <Compile Include="ProviderManager.vb" />
+    <Compile Include="Objects\UserDetails.vb" />
+    <Compile Include="Objects\PolicyDiscount.vb" />
+    <Compile Include="ProviderBase.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ProviderCollection.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="default.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\default.xslt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,314 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Catastrophe_Code</h1>
+<p>Catastrophe Code - Lookup table containing list of catastrophes</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Claims<br>
+                Software module: Claims<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="catastrophe_code_id">catastrophe_code_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">catastrophe code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="from_date">from_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">from date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="to_date">to_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">to date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_catastrophe_region_id">claims_catastrophe_region_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Claims_Catastrophe_Region.html#claims_catastrophe_region_id">Claims_Catastrophe_Region.claims_catastrophe_region_id</a> <span class="autodesc">claims catastrophe region</span></td>
+</tr>
+<tr>
+<td><a class="name" name="primary_cause_id">primary_cause_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">primary cause</span></td>
+</tr>
+<tr>
+<td><a class="name" name="secondary_cause_id">secondary_cause_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">secondary cause</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>catastrophe_code_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>claims_catastrophe_region_id</td>
+<td><a href="Claims_Catastrophe_Region.html">Claims_Catastrophe_Region</a></td>
+<td>claims_catastrophe_region_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>catastrophe_code_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>Catastrophe_code_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>catastrophe_code_id</td>
+<td><a href="Claim_XOL_Arrangement.html">Claim_XOL_Arrangement</a></td>
+<td>catastrophe_code_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>catastrophe_code_id</td>
+<td><a href="Event_Claim.html">Event_Claim</a></td>
+<td>Catastrophe_code_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>catastrophe_code_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>from_date</td>
+<td>to_date</td>
+<td>claims_catastrophe_region_id</td>
+<td>primary_cause_id</td>
+<td>secondary_cause_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>18693</td>
+<td>CAT1</td>
+<td>Canberra Fires</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>2005-07-29 00:00:00</td>
+<td>2005-07-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>17430</td>
+<td>CAT2</td>
+<td>Storm - Hail</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>3819</td>
+<td>CAT3</td>
+<td>Hurricane</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>38057</td>
+<td>EVENT2005</td>
+<td>Generic event 2005</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>38058</td>
+<td>EVENT2006</td>
+<td>Generic event 2006</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>38059</td>
+<td>PERSEVENT</td>
+<td>Generic minor event P/Lines</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>38331</td>
+<td>HUNTAFLOOD</td>
+<td>Hunter River floods</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>2007-11-25 00:00:00</td>
+<td>2007-11-27 00:00:00</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>38357</td>
+<td>ICA080401</td>
+<td>Melbourne wind storms</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>2008-04-01 00:00:00</td>
+<td>2008-04-02 00:00:00</td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

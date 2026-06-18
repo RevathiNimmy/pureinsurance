@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Work Manager Dashboard - Prototype</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App css (from existing dashboard assets) -->
+    <!-- Using CDN for standalone prototype viewing -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet" />
+    <style>
+        .chart-content-bg { background-color: #f8f9fa; border-radius: 4px; padding: 10px; margin-bottom: 10px; }
+        .widget-flat { border-radius: 8px; }
+        .widget-flat .widget-icon { font-size: 24px; color: #727cf5; opacity: 0.6; }
+        .card-h-100 { height: 100%; }
+        .chart-widget-list p { margin-bottom: 8px; }
+        .table-tasks th { cursor: pointer; }
+        .table-tasks th:hover { background-color: #f1f3fa; }
+        .badge-urgent { background-color: #fa5c7c; color: #fff; }
+        .badge-normal { background-color: #0acf97; color: #fff; }
+        .filter-bar { background: #fff; border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="loading" data-layout-color="light" data-layout-mode="fluid">
+    <div class="wrapper">
+        <div class="content-page" style="margin-left: 0;">
+            <div class="content">
+                <div class="container-fluid">
+
+                    <!-- Page Title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <h4 class="page-title">Work Manager Dashboard</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Global Filters -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="filter-bar">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-semibold">Branch</label>
+                                        <select class="form-select" id="ddlBranch">
+                                            <option selected>All Branches</option>
+                                            <option>London</option>
+                                            <option>Manchester</option>
+                                            <option>Birmingham</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-semibold">Team / User Group</label>
+                                        <select class="form-select" id="ddlUserGroup">
+                                            <option selected>All Groups</option>
+                                            <option>Claims Team</option>
+                                            <option>Underwriting Team</option>
+                                            <option>Renewals Team</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-semibold">Date Range</label>
+                                        <select class="form-select" id="ddlDateRange">
+                                            <option selected>Today</option>
+                                            <option>Tomorrow</option>
+                                            <option>+2 Days</option>
+                                            <option>This Week</option>
+                                            <option>This Month</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end">
+                                        <button class="btn btn-primary mt-3 w-100"><i class="mdi mdi-refresh me-1"></i>Refresh</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROW 1: KPI Tiles + Performance Chart -->
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card widget-flat">
+                                        <div class="card-body">
+                                            <div class="float-end">
+                                                <i class="mdi mdi-alert-circle-outline widget-icon"></i>
+                                            </div>
+                                            <h5 class="text-muted fw-normal mt-0" title="Due Tasks">Due Tasks</h5>
+                                            <h3 class="mt-3 mb-3">1,247</h3>
+                                            <p class="mb-0 text-muted">
+                                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"></i> 8.3%</span>
+                                                <span class="text-nowrap">Since yesterday</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card widget-flat">
+                                        <div class="card-body">
+                                            <div class="float-end">
+                                                <i class="mdi mdi-clock-outline widget-icon"></i>
+                                            </div>
+                                            <h5 class="text-muted fw-normal mt-0" title="Upcoming Tasks">Upcoming Tasks</h5>
+                                            <h3 class="mt-3 mb-3">856</h3>
+                                            <p class="mb-0 text-muted">
+                                                <span class="text-success me-2"><i class="mdi mdi-arrow-down-bold"></i> 3.1%</span>
+                                                <span class="text-nowrap">Since yesterday</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card widget-flat">
+                                        <div class="card-body">
+                                            <div class="float-end">
+                                                <i class="mdi mdi-check-circle-outline widget-icon"></i>
+                                            </div>
+                                            <h5 class="text-muted fw-normal mt-0" title="Completed Tasks">Completed Tasks</h5>
+                                            <h3 class="mt-3 mb-3">432</h3>
+                                            <p class="mb-0 text-muted">
+                                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 12.5%</span>
+                                                <span class="text-nowrap">Since yesterday</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card widget-flat">
+                                        <div class="card-body">
+                                            <div class="float-end">
+                                                <i class="mdi mdi-trending-up widget-icon"></i>
+                                            </div>
+                                            <h5 class="text-muted fw-normal mt-0" title="Performance">Performance</h5>
+                                            <h3 class="mt-3 mb-3">+ 34.7%</h3>
+                                            <p class="mb-0 text-muted">
+                                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 4.2%</span>
+                                                <span class="text-nowrap">Since last week</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-7 col-lg-6">
+                            <div class="card card-h-100">
+                                <div class="card-body">
+                                    <h4 class="header-title mb-3">Today's Performance</h4>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <div id="performance-chart"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="mb-1 mt-0 fw-normal">Tasks Assigned</h5>
+                                            <div class="progress-w-percent mb-3">
+                                                <span class="progress-value fw-bold">1,679</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                            <h5 class="mb-1 mt-0 fw-normal">Tasks Completed</h5>
+                                            <div class="progress-w-percent mb-3">
+                                                <span class="progress-value fw-bold">432</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 26%;" aria-valuenow="26" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                            <h5 class="mb-1 mt-0 fw-normal">Tasks In Progress</h5>
+                                            <div class="progress-w-percent">
+                                                <span class="progress-value fw-bold">891</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 53%;" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROW 2: Weekly Trend + Tasks per User Group -->
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Weekly Trend of Due Tasks</h4>
+                                    <div class="chart-content-bg">
+                                        <div class="row text-center">
+                                            <div class="col-sm-6">
+                                                <p class="text-muted mb-0 mt-3">Current Week</p>
+                                                <h2 class="fw-normal mb-3">
+                                                    <small class="mdi mdi-checkbox-blank-circle text-primary align-middle me-1"></small>
+                                                    <span>8,562</span>
+                                                </h2>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="text-muted mb-0 mt-3">Previous Week</p>
+                                                <h2 class="fw-normal mb-3">
+                                                    <small class="mdi mdi-checkbox-blank-circle text-success align-middle me-1"></small>
+                                                    <span>7,924</span>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dash-item-overlay d-none d-md-block" dir="ltr">
+                                        <h5>Today's Due Tasks: 2,562</h5>
+                                    </div>
+                                    <div id="weekly-trend-chart" class="mt-3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Tasks per User Group</h4>
+                                    <div id="tasks-by-group-chart" class="mb-3 mt-3"></div>
+                                    <div class="chart-widget-list">
+                                        <p><i class="mdi mdi-square text-primary"></i> Claims Team <span class="float-end">542</span></p>
+                                        <p><i class="mdi mdi-square text-success"></i> Underwriting Team <span class="float-end">389</span></p>
+                                        <p><i class="mdi mdi-square text-danger"></i> Renewals Team <span class="float-end">216</span></p>
+                                        <p class="mb-0"><i class="mdi mdi-square text-warning"></i> Admin Team <span class="float-end">100</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROW 3: Completed vs Total + Tasks by User -->
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Completed Tasks vs Total Tasks</h4>
+                                    <div id="completed-vs-total-chart" class="mt-3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title">Work Manager Tasks by User</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-centered table-nowrap table-hover mb-0 table-tasks">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>User Name</th>
+                                                    <th>Count ▼</th>
+                                                    <th>Oldest Due Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td>John Smith</td><td><span class="badge bg-soft-danger text-danger">45</span></td><td>02-Oct-2025</td></tr>
+                                                <tr><td>Sarah Johnson</td><td><span class="badge bg-soft-danger text-danger">38</span></td><td>05-Oct-2025</td></tr>
+                                                <tr><td>Mike Williams</td><td><span class="badge bg-soft-warning text-warning">27</span></td><td>08-Oct-2025</td></tr>
+                                                <tr><td>Emma Brown</td><td><span class="badge bg-soft-warning text-warning">19</span></td><td>10-Oct-2025</td></tr>
+                                                <tr><td>David Wilson</td><td><span class="badge bg-soft-info text-info">12</span></td><td>12-Oct-2025</td></tr>
+                                                <tr><td>Lisa Taylor</td><td><span class="badge bg-soft-success text-success">5</span></td><td>15-Oct-2025</td></tr>
+                                                <tr><td>James Anderson</td><td><span class="badge bg-soft-success text-success">0</span></td><td>–</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROW 4: Tasks Due Detail Grid -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="header-title">Work Manager Tasks Due</h4>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="mdi mdi-open-in-new me-1"></i>Launch Work Manager</a>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-3">
+                                            <select class="form-select form-select-sm">
+                                                <option selected>Today</option>
+                                                <option>Tomorrow</option>
+                                                <option>+2 Days</option>
+                                                <option>This Week</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select form-select-sm">
+                                                <option selected>Self (Current User)</option>
+                                                <option>John Smith</option>
+                                                <option>Sarah Johnson</option>
+                                                <option>Mike Williams</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-centered table-nowrap table-hover mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Task Description</th>
+                                                    <th>Due Date</th>
+                                                    <th>Team/Group</th>
+                                                    <th>Branch</th>
+                                                    <th>Task Type</th>
+                                                    <th>Assigned User</th>
+                                                    <th>Urgency</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Renewal - Policy POL-2025-001234</td>
+                                                    <td>18-May-2026</td>
+                                                    <td>Renewals Team</td>
+                                                    <td>London</td>
+                                                    <td>Navigator Process</td>
+                                                    <td>John Smith</td>
+                                                    <td><span class="badge badge-urgent">Urgent</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Claim Payment Auth - CLM-98765</td>
+                                                    <td>18-May-2026</td>
+                                                    <td>Claims Team</td>
+                                                    <td>Manchester</td>
+                                                    <td>Memo</td>
+                                                    <td>Sarah Johnson</td>
+                                                    <td><span class="badge badge-urgent">Urgent</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Quote Lapse - QUO-2025-005678</td>
+                                                    <td>19-May-2026</td>
+                                                    <td>Underwriting Team</td>
+                                                    <td>London</td>
+                                                    <td>Navigator Process</td>
+                                                    <td>Mike Williams</td>
+                                                    <td><span class="badge badge-normal">Normal</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>MTA Referral - POL-2025-003456</td>
+                                                    <td>19-May-2026</td>
+                                                    <td>Underwriting Team</td>
+                                                    <td>Birmingham</td>
+                                                    <td>Navigator Process</td>
+                                                    <td>Emma Brown</td>
+                                                    <td><span class="badge badge-normal">Normal</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>New Business Referral - QUO-2025-007890</td>
+                                                    <td>20-May-2026</td>
+                                                    <td>Underwriting Team</td>
+                                                    <td>London</td>
+                                                    <td>Memo</td>
+                                                    <td>David Wilson</td>
+                                                    <td><span class="badge badge-normal">Normal</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav class="mt-3">
+                                        <ul class="pagination pagination-sm mb-0 justify-content-end">
+                                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">2026 © Pure Insurance - Work Manager Dashboard (Prototype)</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ApexCharts CDN fallback since local path may vary -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+        // Performance RadialBar Chart
+        var perfOptions = {
+            chart: { height: 250, type: 'radialBar' },
+            plotOptions: {
+                radialBar: {
+                    hollow: { size: '65%' },
+                    dataLabels: {
+                        name: { fontSize: '16px' },
+                        value: { fontSize: '22px', formatter: function(val) { return val + '%'; } }
+                    }
+                }
+            },
+            colors: ['#727cf5'],
+            series: [26],
+            labels: ['Completed']
+        };
+        new ApexCharts(document.querySelector('#performance-chart'), perfOptions).render();
+
+        // Weekly Trend Area Chart
+        var trendOptions = {
+            chart: { height: 280, type: 'area', toolbar: { show: false } },
+            dataLabels: { enabled: false },
+            stroke: { width: 2, curve: 'smooth' },
+            series: [
+                { name: 'Current Week', data: [1320, 1420, 1520, 1380, 1562, 1450, 1290] },
+                { name: 'Previous Week', data: [1120, 1280, 1350, 1200, 1400, 1320, 1254] }
+            ],
+            colors: ['#727cf5', '#0acf97'],
+            xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+            tooltip: { shared: true },
+            fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.5, opacityTo: 0.1 } }
+        };
+        new ApexCharts(document.querySelector('#weekly-trend-chart'), trendOptions).render();
+
+        // Tasks by User Group Donut
+        var groupOptions = {
+            chart: { height: 260, type: 'donut' },
+            series: [542, 389, 216, 100],
+            labels: ['Claims Team', 'Underwriting Team', 'Renewals Team', 'Admin Team'],
+            colors: ['#727cf5', '#0acf97', '#fa5c7c', '#ffbc00'],
+            legend: { show: false },
+            plotOptions: { pie: { donut: { size: '70%' } } }
+        };
+        new ApexCharts(document.querySelector('#tasks-by-group-chart'), groupOptions).render();
+
+        // Completed vs Total Bar Chart
+        var barOptions = {
+            chart: { height: 300, type: 'bar', toolbar: { show: false } },
+            plotOptions: { bar: { horizontal: false, columnWidth: '50%', borderRadius: 4 } },
+            dataLabels: { enabled: false },
+            series: [
+                { name: 'Total Tasks', data: [1800, 2100, 1950, 2300, 2150, 2400] },
+                { name: 'Completed Tasks', data: [1200, 1500, 1400, 1700, 1600, 1900] }
+            ],
+            colors: ['#e3eaef', '#727cf5'],
+            xaxis: { categories: ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'] },
+            legend: { position: 'top' },
+            tooltip: { shared: true, intersect: false }
+        };
+        new ApexCharts(document.querySelector('#completed-vs-total-chart'), barOptions).render();
+    </script>
+</body>
+</html>

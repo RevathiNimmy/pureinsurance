@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Export/Policy_Batch_Export/20060419" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.siriusfs.com/SFI/Export/Policy_Batch_Export/20060419" elementFormDefault="qualified">
+	<xs:element name="EXPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Export Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="PARTY"/>
+			</xs:sequence>
+			<xs:attribute name="parameters_used" type="xs:string"/>
+			<xs:attribute name="interface_name" type="xs:string" use="required" fixed="POLICY_BATCH_EXPORT"/>
+			<xs:attribute name="date_exported" type="xs:dateTime" use="required"/>
+			<xs:attribute name="total_transactions" type="xs:long"/>
+			<xs:attribute name="total_amount" type="xs:double"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PARTY">
+		<xs:annotation>
+			<xs:documentation>Individual Party Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="POLICY" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="PARTYCONTACT" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="PARTYADDRESS" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="PARTYBUILDER" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="party_cnt" type="xs:long"/>
+			<xs:attribute name="party_type_code" type="xs:string"/>
+			<xs:attribute name="source_code" type="xs:string"/>
+			<xs:attribute name="shortname" type="xs:string"/>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="resolved_name" type="xs:string"/>
+			<xs:attribute name="currency_code" type="xs:string"/>
+			<xs:attribute name="language_code" type="xs:string"/>
+			<xs:attribute name="agent_code" type="xs:string"/>
+			<xs:attribute name="created_by_username" type="xs:string"/>
+			<xs:attribute name="date_created" type="xs:dateTime"/>
+			<xs:attribute name="last_modified" type="xs:dateTime"/>
+			<xs:attribute name="modified_by_username" type="xs:string"/>
+			<xs:attribute name="payment_method_code" type="xs:string"/>
+			<xs:attribute name="file_code" type="xs:string"/>
+			<xs:attribute name="is_prospect" type="xs:long"/>
+			<xs:attribute name="loyalty_number" type="xs:string"/>
+			<xs:attribute name="alternative_identifier" type="xs:string"/>
+			<xs:attribute name="trading_name" type="xs:string"/>
+			<xs:attribute name="sub_branch_code" type="xs:string"/>
+			<xs:attribute name="tax_number" type="xs:string"/>
+			<xs:attribute name="domiciled_for_tax" type="xs:string"/>
+			<xs:attribute name="tax_exempt" type="xs:string"/>
+			<xs:attribute name="tax_percentage" type="xs:double"/>
+			<xs:attribute name="blacklist_reason_code" type="xs:string"/>
+			<xs:attribute name="party_title_code" type="xs:string"/>
+			<xs:attribute name="forename" type="xs:string"/>
+			<xs:attribute name="initials" type="xs:string"/>
+			<xs:attribute name="employment_status_code" type="xs:string"/>
+			<xs:attribute name="employer_business" type="xs:string"/>
+			<xs:attribute name="secondary_employer_business" type="xs:string"/>
+			<xs:attribute name="secondary_employment_status_code" type="xs:string"/>
+			<xs:attribute name="marital_status_code" type="xs:string"/>
+			<xs:attribute name="number_of_children" type="xs:string"/>
+			<xs:attribute name="Nationality_id" type="xs:long"/>
+			<xs:attribute name="country_of_origin_code" type="xs:string"/>
+			<xs:attribute name="mailshot" type="xs:string"/>
+			<xs:attribute name="is_pet_owner" type="xs:long"/>
+			<xs:attribute name="accommodation_type_code" type="xs:string"/>
+			<xs:attribute name="date_of_birth" type="xs:dateTime"/>
+			<xs:attribute name="gender_code" type="xs:string"/>
+			<xs:attribute name="occupation_code" type="xs:string"/>
+			<xs:attribute name="secondary_occupation_code" type="xs:string"/>
+			<xs:attribute name="is_smoker" type="xs:string"/>
+			<xs:attribute name="company_reg" type="xs:string"/>
+			<xs:attribute name="trading_since_date" type="xs:string"/>
+			<xs:attribute name="party_business_code" type="xs:string"/>
+			<xs:attribute name="location" type="xs:string"/>
+			<xs:attribute name="no_of_offices" type="xs:long"/>
+			<xs:attribute name="no_of_employees" type="xs:long"/>
+			<xs:attribute name="financial_year" type="xs:string"/>
+			<xs:attribute name="trade_code" type="xs:string"/>
+			<xs:attribute name="wage_roll" type="xs:string"/>
+			<xs:attribute name="trade_id" type="xs:string"/>
+			<xs:attribute name="party_group_type_code" type="xs:string"/>
+			<xs:attribute name="is_registered_charity" type="xs:string"/>
+			<xs:attribute name="charity_number" type="xs:string"/>
+			<xs:attribute name="number_of_members" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PARTYADDRESS">
+		<xs:annotation>
+			<xs:documentation>Party Address Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="party_address_cnt" type="xs:long"/>
+					<xs:attribute name="party_address_type" type="xs:string"/>
+					<xs:attribute name="party_address1" type="xs:string"/>
+					<xs:attribute name="party_address2" type="xs:string"/>
+					<xs:attribute name="party_address3" type="xs:string"/>
+					<xs:attribute name="party_address4" type="xs:string"/>
+					<xs:attribute name="party_postal_code" type="xs:string"/>
+					<xs:attribute name="party_country_code" type="xs:string"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PARTYCONTACT">
+		<xs:annotation>
+			<xs:documentation>Party Contact Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="contact_cnt" type="xs:long"/>
+					<xs:attribute name="contact_type_code" type="xs:string"/>
+					<xs:attribute name="description" type="xs:string"/>
+					<xs:attribute name="detail" type="xs:string"/>
+					<xs:attribute name="extension" type="xs:string"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="POLICY">
+		<xs:annotation>
+			<xs:documentation>Policy Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="STANDARD_WORDINGS" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RISK" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="insurance_file_cnt" type="xs:long"/>
+			<xs:attribute name="insurance_file_status_code" type="xs:string"/>
+			<xs:attribute name="insurance_file_type_code" type="xs:string"/>
+			<xs:attribute name="insurance_ref" type="xs:string"/>
+			<xs:attribute name="insurance_folder_cnt" type="xs:long"/>
+			<xs:attribute name="product_code" type="xs:string"/>
+			<xs:attribute name="lead_insurer_code" type="xs:string"/>
+			<xs:attribute name="lead_agent_code" type="xs:string"/>
+			<xs:attribute name="currency_code" type="xs:string"/>
+			<xs:attribute name="language_code" type="xs:string"/>
+			<xs:attribute name="date_issued" type="xs:dateTime"/>
+			<xs:attribute name="cover_start_date" type="xs:dateTime"/>
+			<xs:attribute name="expiry_date" type="xs:dateTime"/>
+			<xs:attribute name="renewal_date" type="xs:dateTime"/>
+			<xs:attribute name="renewal_frequency_code" type="xs:string"/>
+			<xs:attribute name="is_referred_at_renewal" type="xs:string"/>
+			<xs:attribute name="policy_version" type="xs:long"/>
+			<xs:attribute name="Analysis_code" type="xs:string"/>
+			<xs:attribute name="proposal_date" type="xs:dateTime"/>
+			<xs:attribute name="Policy_type_code" type="xs:string"/>
+			<xs:attribute name="annual_premium" type="xs:double"/>
+			<xs:attribute name="this_premium" type="xs:double"/>
+			<xs:attribute name="net_premium" type="xs:double"/>
+			<xs:attribute name="commission_amount" type="xs:double"/>
+			<xs:attribute name="iptable_amount" type="xs:double"/>
+			<xs:attribute name="ipt_percentage" type="xs:double"/>
+			<xs:attribute name="is_ipt_overridden" type="xs:string"/>
+			<xs:attribute name="tax_amount" type="xs:double"/>
+			<xs:attribute name="vatable_amount" type="xs:double"/>
+			<xs:attribute name="vat_percentage" type="xs:double"/>
+			<xs:attribute name="vat_amount" type="xs:double"/>
+			<xs:attribute name="alternate_reference" type="xs:string"/>
+			<xs:attribute name="is_client_invoiced" type="xs:string"/>
+			<xs:attribute name="quote_expiry_date" type="xs:dateTime"/>
+			<xs:attribute name="policy_status_code" type="xs:string"/>
+			<xs:attribute name="inception_date_tpi" type="xs:dateTime"/>
+			<xs:attribute name="discount_reason_code" type="xs:string"/>
+			<xs:attribute name="discounted_premium" type="xs:double"/>
+			<xs:attribute name="discount_percentage" type="xs:double"/>
+			<xs:attribute name="match_discounted_premium_flag" type="xs:string"/>
+			<xs:attribute name="Country_code" type="xs:string"/>
+			<xs:attribute name="inception_Date" type="xs:dateTime"/>
+			<xs:attribute name="policy_documents_issued_date" type="xs:dateTime"/>
+			<xs:attribute name="policy_documents_correct" type="xs:long"/>
+			<xs:attribute name="agent_name" type="xs:string"/>
+			<xs:attribute name="agent_address1" type="xs:string"/>
+			<xs:attribute name="agent_address2" type="xs:string"/>
+			<xs:attribute name="agent_address3" type="xs:string"/>
+			<xs:attribute name="agent_address4" type="xs:string"/>
+			<xs:attribute name="agent_postal_code" type="xs:string"/>
+			<xs:attribute name="agent_country_code" type="xs:string"/>
+			<xs:attribute name="agent_main_contact" type="xs:string"/>
+			<xs:attribute name="agent_telephone_number" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RISK">
+		<xs:annotation>
+			<xs:documentation>Risk Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RISKDATA" type="xs:string" minOccurs="0"/>
+				<xs:element ref="RATING_SECTION" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="risk_cnt" type="xs:long"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RATING_SECTION">
+		<xs:annotation>
+			<xs:documentation>Rating Section</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="rating_section_id" type="xs:long"/>
+			<xs:attribute name="sequence" type="xs:long"/>
+			<xs:attribute name="rating_section_type_code" type="xs:string"/>
+			<xs:attribute name="sum_insured" type="xs:double"/>
+			<xs:attribute name="annual_premium" type="xs:double"/>
+			<xs:attribute name="this_premium" type="xs:double"/>
+			<xs:attribute name="original_flag" type="xs:long"/>
+			<xs:attribute name="calculated_premium" type="xs:double"/>
+			<xs:attribute name="earning_pattern_code" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="STANDARD_WORDINGS">
+		<xs:annotation>
+			<xs:documentation>Standard Wordings</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="code" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp2 (http://www.altova.com) by S4i Development (SSP Sirius Ltd) -->
+<xs:schema xmlns="http://www.ssp-uk.com/Pure/BackgroundJob/20110301" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ssp-uk.com/Pure/BackgroundJob/20110301" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="BACKGROUND_JOB">
+		<xs:annotation>
+			<xs:documentation>Defines the specific Job to Run</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element name="JOB" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="PARAMETERS" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+									<xs:attribute name="value" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ITEM" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="PARAMETERS" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string" use="required"/>
+												<xs:attribute name="value" type="xs:string" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="code" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="jobtype" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

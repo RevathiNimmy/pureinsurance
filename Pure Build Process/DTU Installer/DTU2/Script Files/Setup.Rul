@@ -1,0 +1,3004 @@
+//===========================================================================
+//
+//  File Name:    Setup.rul
+//
+//  Description:  Blank setup main script file
+//
+//  Comments:     Blank setup is an empty setup project. If you want to
+//				  create a new project via. step-by step instructions use the
+//				  Project Assistant.
+//
+//===========================================================================
+
+// Included header files ----------------------------------------------------
+// Include header file for built-in functions
+#include "ifx.h" 
+#include "isrt.h"
+
+STRING g_InstallPath;
+string g_szHostName;  //Variable for holding the Host Name or Computer name of the target machine
+STRING g_szUserName;
+
+STRING g_ProcutVersion, g_InstalledVersion;
+STRING gInstallMode;
+
+BOOL g_bDTU,g_bCreateStagingDatabase;//g_bPureDatabase, g_bStagingDatabase,g_bCreateStagingDatabase;
+STRING gPureDBConnection, gPureDBServer, gPureDBUser, gPureDBPassword,gPureDB;
+BOOL bPureDBWinLogin;
+
+//Staging DB Connection details
+STRING gStagingDBConnection, gStagingDBServer, gStagingDBUser, gStagingDBPassword,gStagingDB;
+BOOL bStagingDBWinLogin;	
+
+//Staring db details
+BOOL g_bStagingRemoteDBServer;
+STRING gStagingSharedPath,g_StagingMDFDirPath,g_StagingDFDirPath;
+
+
+number g_nvSQLFileSuccessCount,g_nvSQLFileErrorCount;//Variable to hold the count of SQL Files Executed Successfully and with Errors
+number g_nvSQLFileSuccessTotalCount,g_nvSQLFileErrorTotalCount; //Variable to hold the total count of SQL Files Executed Successfully and with Errors
+
+LIST g_listCmdText;
+BOOL g_bPatchInstallation;//Variable for setting a flag to indicate a patch installation is happening
+
+
+BOOL g_bFreshInstaller;	//Flag Variable to identify Fresh Installation
+BOOL g_bUpgradeInstaller; // Flag Variable to identify Upgrade Installation of this new installer
+
+//Pure Installation details
+STRING gPureInstallLocation,g_szWCFSecuirtyToken;
+
+// web services XML
+#define ERROR_SUCCESS 0
+#define ERROR_XML_FILE_CREATION "Setup could not find the web.config file."
+//#define ERROR "Error"
+#define ERROR_XML_FILE_STRUCTURE "The web.config file structure is corrupted."
+#define ERROR_XML_FILE_LOAD "The web.config file was not loaded."
+
+export prototype CopyDTUFiles();
+export prototype RunPureScripts();
+export prototype RunStagingScript();
+//prototype BOOL ExecuteSQLScript(STRING);
+prototype BOOL ExecuteSQLScriptPure(STRING);
+prototype BOOL ExecuteSQLScriptStaging(STRING);
+//export prototype number DatabaseExecute(LIST,string);  
+export prototype number DatabaseExecutePure(LIST,string);  
+export prototype number DatabaseExecuteStaging(LIST,string);  
+export prototype string GetConnectionString(string);
+export prototype string GetConnectionStringStaging(string);
+//export prototype number ParseSQLFile(string); 
+export prototype number ParseSQLFilePure(string); 
+export prototype number ParseSQLFileStaging(string); 
+export prototype number AddCommandTextToList(string); 
+export prototype string TrimEnd(string,string);
+export prototype string TrimStart(string,string);
+export prototype number WriteToLogFile(string,string); 
+export prototype number CreateLogFile(string);
+export prototype number PureDatabaseDetails(); 
+//export prototype number DatabaseDetails(BYREF string,BYREF string,BYREF string,string); 
+export prototype number StagingDatabaseDetails(); 
+export prototype NUMBER ClearReadOnly(STRING);
+export prototype number CheckTypeofInstallation();
+export prototype CompareVersion();
+export prototype number onUpgradeUIBefore();  
+export prototype CopyStagingDatabasebackupToRemoteServer();
+export prototype number CreateStagingDatabaseFromBackup();
+export prototype string ADODBConnectExecuteAndReturnStaging(string,string,string,string,string,string);
+export prototype number ADODBConnectAndExecuteStaging(string,string,string,string,string);
+export prototype GetPureDBDetailFromRegistry();
+export prototype string GetFromRegistry(string,string);
+export prototype CreateDTURegistry();
+export prototype GetDTURegistry();
+export prototype RunStagingStructureScript();
+export prototype GetPureInstallPath();
+export prototype ReadWCFSecurityTokenFile();
+export prototype UpdateDTUWebConfig();
+export prototype DeleteDTU2Files();
+
+#define INSTALL_LOG	 			"DTUInstallLog.txt"
+#define INSTALL_ERROR_LOG	 			"DTUInstallErrorLog.txt"
+#define UNINSTALL_LOG	 			"DTUUnInstallLog.txt"
+#define UNINSTALL_ERRORLOG	 			"DTUUnInstallErrorLog.txt"
+
+
+#include "SQLServerSelectLoginDlg.rul"
+#include "SdStagingnewdbdetails.rul"
+
+
+
+//---------------------------------------------------------------------------
+// OnBegin
+//
+// The OnBegin event is called directly by the framework after the setup
+// initializes. Note that this event will be called AFTER "Initialization"
+// events (i.e.) OnSetTARGETDIR, OnCheckMediaPassword.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnBegin()
+begin
+    
+     if( REMOVEONLY = 0) then
+		
+		// Get the hostname of the machine.
+ 		GetEnvVar("COMPUTERNAME",g_szHostName); 
+ 		GetEnvVar("USERNAME",g_szUserName); 
+ 		
+		CheckTypeofInstallation();
+		
+		GetPureInstallPath();
+		
+		
+     endif;
+    
+end;
+
+//---------------------------------------------------------------------------                                                                        
+// OnFirstUIBefore
+//
+// First Install UI Sequence - Before Move Data
+//
+// The OnFirstUIBefore event is called by OnShowUI when the setup is
+// running in first install mode. By default this event displays UI allowing
+// the end user to specify installation parameters.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnFirstUIBefore()
+    number  nResult, nLevel, nSize, nSetupType,nvResult;
+    string  szTitle, szMsg, szOpt1, szOpt2, szLicenseFile;
+    string  szName, szCompany, szTargetPath, szDir, szFeatures;
+    BOOL    bLicenseAccepted;
+    NUMBER nvStringLocation,nvStringLength;
+    STRING szDTUfolder;
+    HWND hMSI;
+    
+begin	
+
+    // Added in InstallShield 15 - Show an appropriate error message if
+    // -removeonly is specified and the product is not installed.
+    if( REMOVEONLY ) then
+        Disable( DIALOGCACHE );
+		szMsg = SdLoadString( IDS_IFX_ERROR_PRODUCT_NOT_INSTALLED_UNINST );
+   		SdSubstituteProductInfo( szMsg );
+		MessageBox( szMsg, SEVERE );
+		abort;
+    endif;
+   
+    nSetupType = COMPLETE;	
+    szDir = TARGETDIR;
+    szName = "";
+    szCompany = "";
+    //bLicenseAccepted = FALSE;
+    
+	g_bDTU=TRUE;
+	//g_bPureDatabase=TRUE;
+    //g_bStagingDatabase=FALSE;
+    g_bCreateStagingDatabase=TRUE;
+    
+    gPureDBServer="";
+    gPureDB="";
+    gPureDBUser="";
+    gPureDBPassword="";
+    
+    gStagingDBServer="";
+    gStagingDB="";
+    gStagingDBUser="";
+    gStagingDBPassword="";
+
+// Beginning of UI Sequence
+Dlg_Start:
+    //nResult = 0;
+    
+    //WriteToLogFile(INSTALL_LOG,"Installation started =" + g_InstallPath);
+
+Dlg_SdWelcome:
+    szTitle = "";
+    szMsg = "";
+    
+    nResult = SdWelcome( szTitle, szMsg );
+    
+    if (nResult = BACK) goto Dlg_Start;
+
+Dlg_InstallationType:
+
+		//nResult    = AskOptions(NONEXCLUSIVE,'Select the type of Installation Required.',"Install DTU Files",g_bDTU,"Run Pure DTU database Scripts",g_bPureDatabase, "Run Staging Scripts", g_bStagingDatabase); 
+		nResult    = AskOptions(NONEXCLUSIVE,'Select the type of Installation Required.',"Install DTU application",g_bDTU,"Create Staging database",g_bCreateStagingDatabase);
+		
+		if (nResult = BACK) goto Dlg_SdWelcome;
+
+Dlg_SdAskDestPath2:
+   
+		TARGETDIR="C:\\DTU";
+		g_InstallPath = TARGETDIR;
+		nResult = SdAskDestPath(szTitle, szMsg, g_InstallPath, 0);
+	
+	
+	    //Check to Add Pure Folder to the Destination Path if one is not present
+	    
+	    StrRemoveLastSlash(g_InstallPath);
+	    
+	    nvStringLength = StrLengthChars(g_InstallPath);
+	    nvStringLocation = StrFind(g_InstallPath,"\DTU");
+			
+		if(nvStringLocation < 0) then 
+				// if pure is not present, then add
+				StrRemoveLastSlash(g_InstallPath);
+				g_InstallPath= g_InstallPath ^ "DTU";
+				WriteToLogFile(INSTALL_LOG,"No DTU present,DTU added in the  path" + g_InstallPath);
+	    	
+		elseif(nvStringLocation > 0)  then   
+	    	StrSub(szDTUfolder, g_InstallPath, nvStringLength - 3, nvStringLength);
+	    	
+	    	if (szDTUfolder="DTU")then
+				WriteToLogFile(INSTALL_LOG,"DTU present in the path" + g_InstallPath);
+	    	
+	    	else
+				//if pure is not the last in the path e.g C:\Pure\test\Pure, then add pure
+				g_InstallPath= g_InstallPath ^ "DTU";
+				WriteToLogFile(INSTALL_LOG,"DTU present, but not at the end, DTU added in the  path" + g_InstallPath);
+	    	
+	    	endif;
+	    endif;
+	    
+	       
+		StrRemoveLastSlash(g_InstallPath);
+	    
+	   	   
+	    TARGETDIR = g_InstallPath;
+	    WriteToLogFile(INSTALL_LOG,"Final TARGETDIR=" + g_InstallPath);
+	    
+	
+		if (nResult = BACK) goto Dlg_InstallationType;
+
+
+Dlg_PureDatabaseDetails:
+
+		if(g_bDTU=TRUE) then
+			GetPureDBDetailFromRegistry();
+			nResult= PureDatabaseDetails();
+		endif;
+		
+		if (nResult = BACK) goto Dlg_SdAskDestPath2;
+
+Dlg_StagingDatabaseDetails:
+			 /*if (gInstallMode="Fresh") then			 
+				CreateDTURegistry();
+			 else
+				GetDTURegistry();
+			 endif;	*/ 
+			 
+			 
+			nResult= StagingDatabaseDetails();
+			
+				
+			//Set Compatibility Level
+			//SetStagingCompatibilityLevel();
+			
+			if (nResult = BACK) goto Dlg_PureDatabaseDetails;	
+					
+		
+			if (g_bCreateStagingDatabase=TRUE) then
+					
+					if(StrCompare(gStagingDBServer,g_szHostName)=0)  then
+						g_bStagingRemoteDBServer = FALSE;
+					elseif(StrFind(gStagingDBServer,"(local)") >= 0) then
+						g_bStagingRemoteDBServer = FALSE;
+					elseif(StrFind(gStagingDBServer,g_szHostName) >= 0) then
+						g_bStagingRemoteDBServer = FALSE;
+					else 
+						g_bStagingRemoteDBServer = TRUE;
+					endif;   
+				
+					if(g_bStagingRemoteDBServer = TRUE) then
+						// Pass default backup DB name 
+						//Don't do anything, currently hardcoded backup file name is provided already 
+						//SelectDir ( "", "Select the Shared location:", gSharedPath, FALSE );
+						SetDialogTitle ( DLG_ASK_PATH, "Select the Share location" );
+						nResult= AskPath ( "Select the Shared folder location(UNC Path) on the database server", "", gStagingSharedPath ); 
+						StrRemoveLastSlash ( gStagingSharedPath ); 
+						
+						if (nResult = BACK) goto Dlg_StagingDatabaseDetails;
+					endif;
+			endif;
+				
+	
+// Ask new DB details
+Dlg_SdStagingnewdbdetails:
+			 if (g_bCreateStagingDatabase=TRUE) then
+
+					nvResult = SdStagingnewdbdetails(hMSI,gStagingDBServer,gStagingDBUser,gStagingDBPassword,gStagingDB,g_StagingMDFDirPath,g_StagingDFDirPath);
+						//create registry for later use
+					CreateDTURegistry();	
+					if(nvResult = BACK) then
+						goto Dlg_StagingDatabaseDetails;
+					endif;
+					
+					
+					//Create Stagingf database
+					/*Disable( DIALOGCACHE );
+					CreateStagingDatabaseFromBackup();
+					Enable( DIALOGCACHE );
+				*/
+					//Set Compatibility Level
+					//SetStagingCompatibilityLevel();
+					
+			 endif;
+			
+ 
+Dlg_SdStartCopy2:
+		szTitle = "";
+		szMsg = "";
+		
+		nResult = SdStartCopy2( szTitle, szMsg );	
+		
+   
+		if (nResult = BACK) then
+		  if (g_bCreateStagingDatabase=TRUE) then
+				goto Dlg_SdStagingnewdbdetails;
+		  else
+				goto Dlg_StagingDatabaseDetails;
+		  endif;
+		endif;
+		
+		
+		if (g_bCreateStagingDatabase=TRUE) then
+			
+			if(g_bStagingRemoteDBServer = TRUE) then
+				SdShowMsg ( "Copying database backup file to database server . . . please wait." , TRUE );
+				CopyStagingDatabasebackupToRemoteServer();
+				SdShowMsg ( "Copying database backup file to database server . . . please wait." , FALSE );
+			
+			endif;
+			
+			//Create Stagingf database
+			Disable( DIALOGCACHE );
+			CreateStagingDatabaseFromBackup();
+			Enable( DIALOGCACHE );
+				
+		endif;  
+  
+		// Added in 11.0 - Set appropriate StatusEx static text.
+		SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_FIRSTUI ) );
+ 
+    return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnMaintUIBefore
+//
+// Maintenance UI Sequence - Before Move Data
+//
+// The OnMaintUIBefore event is called by OnShowUI when the setup is
+// running in maintenance mode. By default this event displays UI that
+// allows the end user to add or remove features, repair currently
+// installed features or uninstall the application.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnMaintUIBefore()
+    number	nResult, nType;
+    string	szTitle, szMsg;
+begin
+	
+	// nType defaults to MODIFY.
+	nType = MODIFY;
+
+    //Initialize SQL
+    //OnSQLServerInitializeMaint();
+
+// Beginning of UI Sequence
+Dlg_Start:
+
+    // Added in Version 9.5 - Support for REMOVEONLY option.
+    if( !REMOVEONLY ) then
+    	// In standard mode show maintenance dialog
+	    Disable( BACKBUTTON );
+	    //nType = SdWelcomeMaint( szTitle, szMsg, nType );
+	    
+	    if(gInstallMode="Same")then
+			//MessageBox("Same",INFORMATION);
+			nType=MODIFY;
+	    endif;
+	    
+	    Enable( BACKBUTTON );
+        nResult = NEXT;
+    else
+        // Hide the initial progress dialog as otherwise the user can
+        // click on it, and hide the MessageBox.
+        Disable( DIALOGCACHE );
+
+        // In RemoveOnly mode, set to remove.
+        nType = REMOVEALL;
+    endif;
+
+	// Show Uninstall Confirmation Dialog
+    if ( nType = REMOVEALL ) then
+		nResult = MessageBox( SdLoadString( IFX_MAINTUI_MSG ), MB_YESNO );
+		if (nResult != IDYES ) then
+            
+            if( REMOVEONLY ) then
+                // In REMOVEONLY mode, abort the setup.
+                abort;
+            else
+                // In non-REMOVEONLY mode, redisplay the previous dialog.
+			    goto Dlg_Start;
+            endif;
+
+		endif;
+	endif;
+
+
+
+Dlg_ObjDialogs:
+    nResult = ShowObjWizardPages( nResult );
+    if ( ( nResult = BACK ) && ( nType != MODIFY ) ) goto Dlg_Start;
+ 
+	switch(nType)
+
+        case REMOVEALL:
+						
+			// Ensure that all previously installed features are removed.
+			FeatureRemoveAllInMediaAndLog();
+
+            // Added in 11.0 - Set appropriate StatusEx static text.
+            SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_MAINTUI_REMOVEALL ) );
+
+       case REPAIR:
+				
+			FeatureReinstall();
+           
+            // Added in 11.0 - Set appropriate StatusEx static text.
+            szMsg="The InstallShield Wizard is repairing Pure Insurance DTU.";
+            SetStatusExStaticText(szMsg);
+            //SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_MAINTUI_REPAIR ) );
+
+        case MODIFY:
+            
+            FeatureReinstall();
+            // Added in 11.0 - Set appropriate StatusEx static text.
+            szMsg="The InstallShield Wizard is modifying Pure Insurance DTU.";
+            SetStatusExStaticText(szMsg);
+            //SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_MAINTUI_MODIFY ) );
+
+    endswitch;
+ 
+end;
+
+//---------------------------------------------------------------------------
+// OnUpdateUIBefore
+//
+// Update UI Sequence - Before Move Data
+//
+// The OnUpdateUIBefore event is called when the setup is running in update
+// mode. By default this event displays UI that allows the end user to
+// update the application to the current version.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnUpdateUIBefore()
+	string szTitle, szMsg, szIgnore, szVersionInstalled, szVersionSupported, szVersionUpdate;
+	number nVersionInstalled;
+	number nIgnore, nId, nMediaFlags;
+	number nResult;
+	
+begin
+
+	Disable (DIALOGCACHE);
+	
+	Enable(STATUSEX);
+    SetStatusWindow (0, ""); 
+    StatusUpdate (ON, 99); 
+    
+	  //Call FeatureReinstall to reinstall all the files
+    FeatureReinstall();
+    FeatureTransferData(MEDIA);
+
+end;
+
+
+//---------------------------------------------------------------------------
+// OnFirstUIAfter
+//
+// First Install UI Sequence - After Move Data
+//
+// The OnFirstUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in first install mode. By default
+// this event displays UI that informs the end user that the setup has been
+// completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnFirstUIAfter()
+    STRING szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    NUMBER bvOpt1, bvOpt2;
+begin
+
+    ShowObjWizardPages(NEXT);
+    
+    szTitle = "";
+    szMsg1 = ""; 
+    szMsg2 = "";
+    szOpt1 = "";
+    szOpt2 = "";
+	bvOpt1   = FALSE;
+    bvOpt2   = FALSE;    
+    
+   
+    if ( BATCH_INSTALL ) then
+    	SdFinishReboot ( szTitle , szMsg1 , SYS_BOOTMACHINE , szMsg2 , 0 );
+    else
+	    SdFinish ( szTitle , szMsg1 , szMsg2 , szOpt1 , szOpt2 , bvOpt1 , bvOpt2 );
+	endif;
+    
+end;
+
+//---------------------------------------------------------------------------
+// OnMaintUIAfter
+//
+// The OnMaintUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in maintenance mode. By default
+// this event displays UI that informs the end user that the maintenance setup
+// has been completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnMaintUIAfter()
+    STRING szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    NUMBER bvOpt1, bvOpt2;
+begin
+
+    ShowObjWizardPages(NEXT);
+    
+    if( REMOVEALLMODE ) then
+        szTitle = SdLoadString(IFX_SDFINISH_REMOVE_TITLE);
+        szMsg1 = SdLoadString(IFX_SDFINISH_REMOVE_MSG1);
+    else
+        szTitle = SdLoadString(IFX_SDFINISH_MAINT_TITLE);    
+        szMsg1  = SdLoadString(IFX_SDFINISH_MAINT_MSG1);
+    endif;
+
+	szMsg2 = "";    
+    szOpt1 = "";
+    szOpt2 = "";
+	bvOpt1   = FALSE;
+    bvOpt2   = FALSE;    
+
+    if ( BATCH_INSTALL ) then
+    	SdFinishReboot ( szTitle , szMsg1 , SYS_BOOTMACHINE , szMsg2 , 0 );
+    else    
+       	SdFinish ( szTitle , szMsg1 , szMsg2 , szOpt1 , szOpt2 , bvOpt1 , bvOpt2 );
+    endif;
+end;
+
+//---------------------------------------------------------------------------
+// OnUpdateUIAfter
+//
+// Update Mode UI Sequence - After Move Data
+//
+// The OnUpdateUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in update mode. By default
+// this event displays UI that informs the end user that the maintenance setup
+// has been completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnUpdateUIAfter()
+    string	szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    BOOL	bOpt1, bOpt2;
+begin
+
+    ShowObjWizardPages(NEXT);
+    
+	szTitle = SdLoadString(IDS_IFX_SDFINISH_UPDATE_TITLE);    
+    szMsg1  = "The InstallShield Wizard has successfully upgraded Pure Insurance DTU. Click Finish to exit the wizard.";
+	szMsg2 = "";    
+    szOpt1 = "";
+    szOpt2 = "";
+	bOpt1   = FALSE;
+    bOpt2   = FALSE;    
+    
+    if ( BATCH_INSTALL ) then
+    	SdFinishReboot ( szTitle , szMsg1 , SYS_BOOTMACHINE , szMsg2 , 0 );
+    else    
+       	SdFinish ( szTitle , szMsg1 , szMsg2 , szOpt1 , szOpt2 , bOpt1 , bOpt2 );
+    endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CopyDTUFiles  	                                                         //
+//				                                                                     //
+// Purpose:   This function 
+//                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////
+function CopyDTUFiles()
+STRING szSource,sztarget,szPath;
+
+begin
+	
+	Disable (LOGGING);
+	
+	SdShowMsg ( "Copying files. . . please wait." , TRUE );
+	
+	szSource= SRCDIR ^ "DTU";
+	sztarget= TARGETDIR;
+	XCopyFile (szSource ^ "*.*",  sztarget ^ "*.*",COMP_NORMAL | INCLUDE_SUBDIR); 
+	
+	SdShowMsg ( "Copying files . . . please wait. . . please wait." , FALSE );	
+	
+	Enable (LOGGING);
+	 
+	return 0;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  RunPureScripts  	                                                         //
+//				                                                                     //
+// Purpose:   This function 
+//                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////
+function RunPureScripts()
+LIST lstFiles;
+NUMBER nRes,nBuffer;
+STRING sFileName, szExecutionError;
+BOOL bSuccess;
+STRING svFileName,svFileNameForList,svDir;
+NUMBER  nFlag, nFileHandle; 
+STRING svLine;
+
+
+begin
+	
+	SdShowMsg ( "Executing Pure DTU scripts . . . please wait." , TRUE );
+	WriteToLogFile(INSTALL_LOG, "Runing Pure scripts...");
+	
+	svDir= SRCDIR ^ "Scripts\\Pure";
+	
+	lstFiles = ListCreate (STRINGLIST);
+
+    OpenFileMode (FILE_MODE_NORMAL); 
+    
+    OpenFile (nFileHandle, SRCDIR, "PureScripts.txt"); 
+	
+	while (GetLine (nFileHandle, svLine) = 0) 
+        ListAddString (lstFiles, svLine, AFTER); 
+    endwhile; 
+    
+    CloseFile (nFileHandle); 
+
+    nRes = ListGetFirstString(lstFiles, sFileName);
+	while (nRes != END_OF_LIST)
+		//Add Path To File Name
+		sFileName = svDir ^ sFileName;
+		//MessageBox(sFileName,INFORMATION);
+		
+		if( !REMOVEONLY ) then
+			bSuccess = ExecuteSQLScriptPure(sFileName);
+		endif;
+		
+		if (bSuccess = FALSE) then
+			
+		endif;
+		
+		//Next entry
+		nRes = ListGetNextString(lstFiles, sFileName);
+	endwhile;
+	
+	SdShowMsg ( "Executing Pure DTU scripts . . . please wait." , FALSE );
+	
+	ListDestroy (lstFiles); 
+	
+	return 0;
+
+	
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  RunStagingScript  	                                                         //
+//				                                                                     //
+// Purpose:   This function 
+//                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////
+function RunStagingScript()
+LIST lstFiles;
+	NUMBER nRes,nBuffer;
+	STRING sFileName, szExecutionError;
+	BOOL bSuccess;
+	STRING svFileName,svFileNameForList,svDir;
+
+begin
+	
+	SdShowMsg ( "Executing Staging scripts . . . please wait." , TRUE );
+	WriteToLogFile(INSTALL_LOG, "Runing Staging scripts...");
+	lstFiles = ListCreate (STRINGLIST);
+	svDir= SRCDIR ^ "Scripts\\Staging";
+	
+	if (StrLengthChars(svDir) > 0) then
+		if (FindAllFiles(svDir, "*.sql", svFileName, RESET) = 0) then
+			ParsePath(svFileNameForList, svFileName,FILENAME); 
+			if (ListFindString(lstFiles, svFileNameForList) > 0) then
+					ListAddString(lstFiles, svFileNameForList, AFTER);
+			endif;
+			
+			while (FindAllFiles(svDir, "*.sql", svFileName, CONTINUE) = 0)
+				ParsePath(svFileNameForList, svFileName,FILENAME); 
+				if (ListFindString(lstFiles, svFileNameForList) > 0) then
+					ListAddString(lstFiles, svFileNameForList, AFTER);
+				endif;
+			endwhile;
+		endif;
+	endif;
+	
+	FindAllFiles(svDir, "*.sql", svFileName, CANCEL);
+	
+	nRes = ListGetFirstString(lstFiles, sFileName);
+	while (nRes != END_OF_LIST)
+		//Add Path To File Name
+		sFileName = svDir ^ sFileName;
+		
+		if( !REMOVEONLY ) then
+			bSuccess = ExecuteSQLScriptStaging(sFileName);
+		endif;
+		
+		if (bSuccess = FALSE) then
+			
+		endif;
+		
+		//Next entry
+		nRes = ListGetNextString(lstFiles, sFileName);
+	endwhile;
+	
+	SdShowMsg ( "Executing Staging scripts . . . please wait." , FALSE );
+	
+	return 0;
+
+		
+	
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  RunStagingStructureScript  	                                                         //
+//				                                                                     //
+// Purpose:   This function 
+//                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////
+function RunStagingStructureScript()
+LIST lstFiles;
+	NUMBER nRes,nBuffer;
+	STRING sFileName, szExecutionError;
+	BOOL bSuccess;
+	STRING svFileName,svFileNameForList,svDir;
+
+begin
+	
+	SdShowMsg ( "Executing Staging structure scripts . . . please wait." , TRUE );
+	WriteToLogFile(INSTALL_LOG, "Runing Staging scripts...");
+	svDir= SRCDIR ^ "Scripts\\Structure";
+	
+	sFileName = svDir ^ "Structure.sql";
+		
+	if( !REMOVEONLY ) then
+			bSuccess = ExecuteSQLScriptStaging(sFileName);
+	endif;
+	
+	SdShowMsg ( "Executing Staging structure scripts . . . please wait." , FALSE );
+	
+	return 0;
+
+		
+	
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//	Function: ExecuteSQLScript
+//
+//	Purpose: This function will execute a SQL script.
+//
+// 	Arguments: 	svScriptFile - A fully qualified path to a SQL script file
+//			svErrLog - Reference to a string which will contain teh log of errors occured during the execution of SQL script file
+//
+//	Usage: 
+//	ExecuteSQLScript("C:\Scripts\tables.sql", svLog)
+//
+//	Notes:		You could change this function to accept the script as a string
+//			instead of the file.  With a file, you can add the scripts
+//			as files in the installation, putting them in a directory.
+//			This would allow them to be reused later, or they can just be
+//			deleted after each script is run.
+//
+///////////////////////////////////////////////////////////////////////////////     
+function BOOL ExecuteSQLScriptPure(svScriptFile)
+	OBJECT pADOObj, pADOCommObj;
+	STRING szADOObjID, szADOCommObjID;
+	STRING svLine, szConnString, szSQL, svString;
+	STRING szHead, szTail;
+	NUMBER nResult, nRecords, nBegin, nEnd;
+	BOOL   bExitLoop;
+	LIST   listID;
+	LIST   listCmd;
+	number nRet;
+	string szErrorLog;
+begin
+	//LogErrorMessage("Entering to execute file " + svScriptFile, "ExecuteSQLScript", FALSE);
+	szErrorLog = "";
+	nRet = 0;
+	 // Create an empty string list.
+	listID = ListCreate(STRINGLIST);
+	listCmd = ListCreate(STRINGLIST);
+	
+	// Read the SQL script file into the list
+	if (ListReadFromFile(listID, svScriptFile) < 0) then // read list from file
+		//svErrLog = "Unable to open SQL script: " + svScriptFile + ".";
+		return FALSE;
+	endif;
+	
+	// Go through each list item and add it to a string (which will then hold the script)
+	szSQL = "";
+	nResult = ListGetFirstString(listID, svString);
+	while (nResult = 0)
+		if (StrFind(svString, "GO") = 0) then
+			// Remove comments
+			bExitLoop = FALSE;
+			repeat
+				nBegin = StrFind(szSQL, "/*");
+				nEnd = StrFind(szSQL, "*/");
+				if ((nBegin >= 0) && (nBegin < nEnd)) then
+					StrSub(szHead, szSQL, 0, nBegin);
+					StrSub(szTail, szSQL, nEnd+2, 65535);
+					szSQL = szHead + szTail;
+				else
+					bExitLoop = TRUE;
+				endif;
+			until (bExitLoop);
+			// Add it to commands
+			if (StrLengthChars(szSQL) > 0) then
+				ListAddString(listCmd, szSQL, AFTER);
+			endif;
+			szSQL = "";
+		elseif (StrFind(svString, "--") = 0) then
+			// It is a comment, so do nothing
+		else
+			szSQL = szSQL + "\r\n" + svString; 
+		endif;
+		nResult = ListGetNextString(listID, svString);		
+	endwhile;
+	
+	// Add it to commands
+	if (StrLengthChars(szSQL) > 0) then
+		ListAddString(listCmd, szSQL, AFTER);
+	endif;
+	
+	//szSQL = "";
+	
+	DatabaseExecutePure(listCmd,svScriptFile);
+	
+	// Be good and clean up your trash
+	ListDestroy(listID);
+	
+	// Be good and clean up your trash
+	ListDestroy(listCmd);
+	
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//	Function: ExecuteSQLScript
+//
+//	Purpose: This function will execute a SQL script.
+//
+// 	Arguments: 	svScriptFile - A fully qualified path to a SQL script file
+//			svErrLog - Reference to a string which will contain teh log of errors occured during the execution of SQL script file
+//
+//	Usage: 
+//	ExecuteSQLScript("C:\Scripts\tables.sql", svLog)
+//
+//	Notes:		You could change this function to accept the script as a string
+//			instead of the file.  With a file, you can add the scripts
+//			as files in the installation, putting them in a directory.
+//			This would allow them to be reused later, or they can just be
+//			deleted after each script is run.
+//
+///////////////////////////////////////////////////////////////////////////////     
+function BOOL ExecuteSQLScriptStaging(svScriptFile)
+	OBJECT pADOObj, pADOCommObj;
+	STRING szADOObjID, szADOCommObjID;
+	STRING svLine, szConnString, szSQL, svString;
+	STRING szHead, szTail;
+	NUMBER nResult, nRecords, nBegin, nEnd;
+	BOOL   bExitLoop;
+	LIST   listID;
+	LIST   listCmd;
+	number nRet;
+	string szErrorLog;
+begin
+	//LogErrorMessage("Entering to execute file " + svScriptFile, "ExecuteSQLScript", FALSE);
+	szErrorLog = "";
+	nRet = 0;
+	 // Create an empty string list.
+	listID = ListCreate(STRINGLIST);
+	listCmd = ListCreate(STRINGLIST);
+	
+	// Read the SQL script file into the list
+	if (ListReadFromFile(listID, svScriptFile) < 0) then // read list from file
+		//svErrLog = "Unable to open SQL script: " + svScriptFile + ".";
+		return FALSE;
+	endif;
+	
+	// Go through each list item and add it to a string (which will then hold the script)
+	szSQL = "";
+	nResult = ListGetFirstString(listID, svString);
+	while (nResult = 0)
+		if (StrFind(svString, "GO") = 0) then
+			// Remove comments
+			bExitLoop = FALSE;
+			repeat
+				nBegin = StrFind(szSQL, "/*");
+				nEnd = StrFind(szSQL, "*/");
+				if ((nBegin >= 0) && (nBegin < nEnd)) then
+					StrSub(szHead, szSQL, 0, nBegin);
+					StrSub(szTail, szSQL, nEnd+2, 65535);
+					szSQL = szHead + szTail;
+				else
+					bExitLoop = TRUE;
+				endif;
+			until (bExitLoop);
+			// Add it to commands
+			if (StrLengthChars(szSQL) > 0) then
+				ListAddString(listCmd, szSQL, AFTER);
+			endif;
+			szSQL = "";
+		elseif (StrFind(svString, "--") = 0) then
+			// It is a comment, so do nothing
+		else
+			szSQL = szSQL + "\r\n" + svString; 
+		endif;
+		nResult = ListGetNextString(listID, svString);		
+	endwhile;
+	
+	// Add it to commands
+	if (StrLengthChars(szSQL) > 0) then
+		ListAddString(listCmd, szSQL, AFTER);
+	endif;
+	
+	//szSQL = "";
+	
+	DatabaseExecuteStaging(listCmd,svScriptFile);
+	
+	// Be good and clean up your trash
+	ListDestroy(listID);
+	
+	// Be good and clean up your trash
+	ListDestroy(listCmd);
+	
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  DatabaseExecute                                        		 //
+//                                                                           //
+// Purpose:   This function takes as input the SQL file or Script for        //
+//			  Execution along with the executable statements of the file     //
+//			  in a list object and executes it on Sirius DB                  //
+///////////////////////////////////////////////////////////////////////////////            
+            
+function number DatabaseExecutePure(listCmdText,szSQLFile)
+string szConnString,szADOObjID,szString,szADOCommObjID; 
+object objADO,objADOComm;  
+number nvRet,nvResult,nvRecords,nvErrorHandlerValue;
+string szErrorLog,szInfoLog,szTitle; 
+BOOL bCatchFlag;
+BOOL bErrorCondition;
+HWND hMSI; 
+NUMBER nLocation;
+
+begin
+  
+    bCatchFlag = FALSE;
+    //To Check if any error condition happened in the SQL file
+    bErrorCondition = FALSE;
+    // Create ADO Connection Object to connect to the SQL server	               
+	szADOObjID = "ADODB.Connection";
+	try
+		set objADO = CreateObject(szADOObjID);	
+		objADO.ConnectionTimeout = 0;
+		
+		//MessageBox(szSQLFile,INFORMATION);
+		
+		//nLocation = StrFind (szSQLFile, "Pure"); 
+		
+		//if(nLocation < 0) then
+			//szConnString = GetConnectionString(gPureDB);
+			//szConnString = GetConnectionStringStaging(gStagingDB);
+		//else
+		szConnString = GetConnectionString(gPureDB);
+		
+		//endif;
+		
+		//MessageBox(szConnString,INFORMATION);
+		
+		// Open the ADO Connection 
+		objADO.Open(szConnString);
+	catch      
+		SdShowMsg("SQL File Connection Object Error",FALSE);
+		WriteToLogFile(INSTALL_ERROR_LOG,"Connection Object Error While Executing "+szSQLFile+".Continuing with next script");  
+        objADO.Close();              
+		set objADO = NOTHING;                 
+		return 1;
+	endcatch;                         
+		  
+	// Execute each command
+	nvResult = ListGetFirstString(listCmdText, szString);
+	while (nvResult = 0)
+		
+		// Create the ADO Command object to execute the script                           	
+		try		
+			szADOCommObjID = "ADODB.Command";
+			set objADOComm = CreateObject(szADOCommObjID);  
+			objADOComm.CommandTimeout = 600;
+			objADOComm.ActiveConnection = objADO;  
+		catch    
+			SdShowMsg("SQL File Command Object Error",FALSE);
+			WriteToLogFile(INSTALL_ERROR_LOG,"Command Object Error While Executing "+szSQLFile+".Continuing with next script");  	      
+		    objADO.Close();              
+			set objADO = NOTHING;                 
+			return 1;  
+		endcatch;
+	 
+		try    
+		 	 	// Execute the call to run the script
+		 	   	objADOComm.CommandText = szString;
+				objADOComm.Execute();
+		catch
+				nvRet = Err.Number;
+				szErrorLog = "Error:  " + Err.Description + "\n"
+					+ "Source: " + Err.Source + "\n\n";
+					
+			szErrorLog = "Error Occured in the File "+szSQLFile+" in Database Execute Method "+szErrorLog;		
+			bCatchFlag = TRUE;
+		endcatch;
+		
+		if(bCatchFlag = TRUE) then 
+			SdShowMsg("SQL File Error",FALSE);
+		    szTitle = "Database Execution Error Handler"; 
+			nvErrorHandlerValue = SprintfBox (MB_ABORTRETRYIGNORE,szTitle,szErrorLog); 
+		    if(nvErrorHandlerValue = IDRETRY) then
+		    	  ParseSQLFilePure(szSQLFile);
+		    elseif(nvErrorHandlerValue = IDABORT) then
+		    	  objADO.Close();              
+		    	  set objADO = NOTHING;
+		    	  WriteToLogFile(INSTALL_ERROR_LOG,szErrorLog);
+		    	  bErrorCondition = TRUE;
+		    	  szErrorLog = "";
+		      	  abort;
+		    else// IGNORE condition Execution
+		      	  WriteToLogFile(INSTALL_ERROR_LOG,szErrorLog);
+		      	  bErrorCondition = TRUE;
+		      	  szErrorLog = "";
+		    endif;    
+		    bCatchFlag = FALSE;
+		endif;                   
+	
+		set objADOComm = NOTHING;	
+		nvResult = ListGetNextString(listCmdText,szString);		
+	endwhile; 
+ 
+	objADO.Close();              
+	set objADO = NOTHING; 
+	
+	if(bErrorCondition = FALSE) then                   
+		szInfoLog = szSQLFile + " SQL File Executed Successfully";
+		WriteToLogFile(INSTALL_LOG,szInfoLog);
+		g_nvSQLFileSuccessCount =  g_nvSQLFileSuccessCount + 1;
+	else
+		bErrorCondition = FALSE;	
+		g_nvSQLFileErrorCount = g_nvSQLFileErrorCount + 1;
+	endif;
+ 	// Be good and clean up your trash
+	ListDestroy(listCmdText);     
+	SdShowMsg("SQL File Executed",FALSE);
+	
+    return 1;
+ end;           
+ 
+ 
+ ///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  DatabaseExecute                                        		 //
+//                                                                           //
+// Purpose:   This function takes as input the SQL file or Script for        //
+//			  Execution along with the executable statements of the file     //
+//			  in a list object and executes it on Sirius DB                  //
+///////////////////////////////////////////////////////////////////////////////            
+            
+function number DatabaseExecuteStaging(listCmdText,szSQLFile)
+string szConnString,szADOObjID,szString,szADOCommObjID; 
+object objADO,objADOComm;  
+number nvRet,nvResult,nvRecords,nvErrorHandlerValue;
+string szErrorLog,szInfoLog,szTitle; 
+BOOL bCatchFlag;
+BOOL bErrorCondition;
+HWND hMSI; 
+NUMBER nLocation;
+
+begin
+  
+    bCatchFlag = FALSE;
+    //To Check if any error condition happened in the SQL file
+    bErrorCondition = FALSE;
+    // Create ADO Connection Object to connect to the SQL server	               
+	szADOObjID = "ADODB.Connection";
+	try
+		set objADO = CreateObject(szADOObjID);	
+		objADO.ConnectionTimeout = 0;
+		
+		//MessageBox(szSQLFile,INFORMATION);
+		
+		//nLocation = StrFind (szSQLFile, "Pure"); 
+		
+		//if(nLocation < 0) then
+			//szConnString = GetConnectionString(gPureDB);
+		szConnString = GetConnectionStringStaging(gStagingDB);
+		//else
+		//	szConnString = GetConnectionString(gPureDB);
+		//endif;
+		
+		//MessageBox(szConnString,INFORMATION);
+		
+		// Open the ADO Connection 
+		objADO.Open(szConnString);
+	catch      
+		SdShowMsg("SQL File Connection Object Error",FALSE);
+		WriteToLogFile(INSTALL_ERROR_LOG,"Connection Object Error While Executing "+szSQLFile+".Continuing with next script");  
+        objADO.Close();              
+		set objADO = NOTHING;                 
+		return 1;
+	endcatch;                         
+		  
+	// Execute each command
+	nvResult = ListGetFirstString(listCmdText, szString);
+	while (nvResult = 0)
+		
+		// Create the ADO Command object to execute the script                           	
+		try		
+			szADOCommObjID = "ADODB.Command";
+			set objADOComm = CreateObject(szADOCommObjID);  
+			objADOComm.CommandTimeout = 600;
+			objADOComm.ActiveConnection = objADO;  
+		catch    
+			SdShowMsg("SQL File Command Object Error",FALSE);
+			WriteToLogFile(INSTALL_ERROR_LOG,"Command Object Error While Executing "+szSQLFile+".Continuing with next script");  	      
+		    objADO.Close();              
+			set objADO = NOTHING;                 
+			return 1;  
+		endcatch;
+	 
+		try    
+		 	 	// Execute the call to run the script
+		 	   	objADOComm.CommandText = szString;
+				objADOComm.Execute();
+		catch
+				nvRet = Err.Number;
+				szErrorLog = "Error:  " + Err.Description + "\n"
+					+ "Source: " + Err.Source + "\n\n";
+					
+			szErrorLog = "Error Occured in the File "+szSQLFile+" in Database Execute Method "+szErrorLog;		
+			bCatchFlag = TRUE;
+		endcatch;
+		
+		if(bCatchFlag = TRUE) then 
+			SdShowMsg("SQL File Error",FALSE);
+		    szTitle = "Database Execution Error Handler"; 
+			nvErrorHandlerValue = SprintfBox (MB_ABORTRETRYIGNORE,szTitle,szErrorLog); 
+		    if(nvErrorHandlerValue = IDRETRY) then
+		    	  ParseSQLFileStaging(szSQLFile);
+		    elseif(nvErrorHandlerValue = IDABORT) then
+		    	  objADO.Close();              
+		    	  set objADO = NOTHING;
+		    	  WriteToLogFile(INSTALL_ERROR_LOG,szErrorLog);
+		    	  bErrorCondition = TRUE;
+		    	  szErrorLog = "";
+		      	  abort;
+		    else// IGNORE condition Execution
+		      	  WriteToLogFile(INSTALL_ERROR_LOG,szErrorLog);
+		      	  bErrorCondition = TRUE;
+		      	  szErrorLog = "";
+		    endif;    
+		    bCatchFlag = FALSE;
+		endif;                   
+	
+		set objADOComm = NOTHING;	
+		nvResult = ListGetNextString(listCmdText,szString);		
+	endwhile; 
+ 
+	objADO.Close();              
+	set objADO = NOTHING; 
+	
+	if(bErrorCondition = FALSE) then                   
+		szInfoLog = szSQLFile + " SQL File Executed Successfully";
+		WriteToLogFile(INSTALL_LOG,szInfoLog);
+		g_nvSQLFileSuccessCount =  g_nvSQLFileSuccessCount + 1;
+	else
+		bErrorCondition = FALSE;	
+		g_nvSQLFileErrorCount = g_nvSQLFileErrorCount + 1;
+	endif;
+ 	// Be good and clean up your trash
+	ListDestroy(listCmdText);     
+	SdShowMsg("SQL File Executed",FALSE);
+	
+    return 1;
+ end;           
+            
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetConnectionString                                         	 //
+//                                                                           //
+// Purpose:  This function gets the Connection string for the 				 //
+//			 Sirius Database for execution of Sirius DB SQL Scripts          //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetConnectionString(szDatabaseName)
+string szConnString,szDriver;
+
+begin 
+	szDriver = "SQL Server";
+
+	if(bPureDBWinLogin = FALSE) then
+		// Create the connection string for SQL Server Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + gPureDBServer + ";";	
+		szConnString = szConnString + "uid=" + gPureDBUser + ";";    	
+		szConnString = szConnString + "pwd=" + gPureDBPassword + ";";  
+		szConnString = szConnString + "database=" + szDatabaseName;
+	else
+		// Create the connection string for Windows Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + gPureDBServer + ";";	
+		szConnString = szConnString + "database=" + szDatabaseName + ";";
+		szConnString = szConnString + "Trusted_Connection=Yes";
+	endif;
+
+
+return szConnString;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetConnectionString                                         	 //
+//                                                                           //
+// Purpose:  This function gets the Connection string for the 				 //
+//			 Sirius Database for execution of Sirius DB SQL Scripts          //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetConnectionStringStaging(szDatabaseName)
+string szConnString,szDriver;
+
+begin 
+	
+	szDriver = "SQL Server";
+
+	if(bStagingDBWinLogin = FALSE) then
+		// Create the connection string for SQL Server Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + gStagingDBServer + ";";	
+		szConnString = szConnString + "uid=" + gStagingDBUser + ";";    	
+		szConnString = szConnString + "pwd=" + gStagingDBPassword + ";";  
+		szConnString = szConnString + "database=" + szDatabaseName;
+	else
+		// Create the connection string for Windows Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + gStagingDBServer + ";";	
+		szConnString = szConnString + "database=" + szDatabaseName + ";";
+		szConnString = szConnString + "Trusted_Connection=Yes";
+	endif;
+
+
+return szConnString;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParseSQLFile                                        		     //
+//                                                                           //
+// Purpose:   This function takes as input the SQL File for Script execution //
+//			  and parses out the executable statements into a list object    //
+//			  and removes out comments                                       //
+///////////////////////////////////////////////////////////////////////////////
+function number ParseSQLFilePure(szSQLFile)
+	string  szSQL,szString;
+	number nvResult,nvRet;
+	LIST   listID;
+	string szErrorLog,szSQLFilePath;
+	int nvSrcDirLength,nvFullPathLength; 
+	HWND hMSI;    
+	number nvCommentStart;
+	number nvGoStartPosition;
+	string szTrimmedString; 
+	number nvBegin,nvEnd;  
+	
+begin     
+	szErrorLog = "";
+	nvRet = 0;
+	 // Create an empty string list.
+	listID = ListCreate(STRINGLIST);
+	g_listCmdText = ListCreate(STRINGLIST);
+	if(g_bPatchInstallation = FALSE) then
+		//Truncating the Full Disk Path to Specify the Exact Script Folder Path
+		nvSrcDirLength = StrLengthChars(SUPPORTDIR); 
+		nvFullPathLength = StrLengthChars(szSQLFile); 
+    	StrSub(szSQLFilePath,szSQLFile,nvSrcDirLength,nvFullPathLength -nvSrcDirLength);
+    	SdShowMsg("Executing SQL File: " + szSQLFilePath,TRUE);
+    else
+    	//Truncation not required in case of Patch Installation
+    	SdShowMsg("Executing SQL File: " + szSQLFile,TRUE); 
+    endif;
+	// Read the SQL script file into the list
+	if (ListReadFromFile(listID, szSQLFile) < 0) then // read list from file
+		//WriteToLogFile(DATABASE_ERRORLOG,"Unable to open SQL script: " + szSQLFile);
+		return -1;
+	endif;
+	// Go through each list item and add it to a string (which will then hold the script)
+	szSQL = ""; 
+	try
+		nvResult = ListGetFirstString(listID, szString);
+	while (nvResult = 0)
+	//If Comment Tag("--") Comes at the start of the line ignore to proceed to the next line
+		if(StrFind(szString,"--")=0) then
+		     	// It is a comment, so do nothing and proceed to the next line
+		else    
+				//If Comment Tag("--") Comes after some Text extract the text before the comments tag("--")                                    
+		    	if(StrFind(szString,"--")>0) then
+			    	nvCommentStart = StrFind(szString,"--");
+			    	nvBegin = StrFind(szString,"/*"); 
+					nvEnd = StrFind(szString,"*/");
+					if(nvBegin >= 0 && nvBegin < nvCommentStart) then
+					   //Add to the SQL Statement String till a "GO" Delimiter Statement is found
+					   //It is done at the End of Else Part of IF Statement
+			    	elseif(nvEnd >= 0 && nvCommentStart < nvEnd) then
+			    		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    		//It is done at the End of Else Part of IF Statement
+			    	else
+			    		//Else remove the Text after the Comments Tags("--") and proceed forward
+			    	   	StrSub(szString,szString,0,nvCommentStart);
+			    	endif;
+			    endif;
+			    nvGoStartPosition = StrFind(szString,"GO");  
+			    if(nvGoStartPosition = 0) then 
+			    	szTrimmedString = TrimEnd(szString," ");
+			     	szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			     	szTrimmedString = TrimEnd(szTrimmedString," "); 
+			     	szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			     	if(StrLengthChars(szTrimmedString)=2) then
+			     		AddCommandTextToList(szSQL);  
+			     		szSQL = "";
+			     	endif;
+			    elseif(nvGoStartPosition > 0) then
+			        szTrimmedString = TrimStart(szString," ");
+			        szTrimmedString = TrimStart(szTrimmedString,"\t");
+			        szTrimmedString = TrimStart(szTrimmedString," ");
+			        szTrimmedString = TrimStart(szTrimmedString,"\t");
+			        if(StrFind(szTrimmedString,"GO")=0) then
+				        szTrimmedString = TrimEnd(szTrimmedString," ");
+				        szTrimmedString = TrimEnd(szTrimmedString,"\t");
+				        szTrimmedString = TrimEnd(szTrimmedString," ");
+				        szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			            if(StrLengthChars(szTrimmedString)=2) then
+			            	AddCommandTextToList(szSQL);
+			            	szSQL = "";
+			       	    else
+			        		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    			szSQL = szSQL + "\r\n" + szString;    	    	
+			            endif;
+			        else
+			     		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    		szSQL = szSQL + "\r\n" + szString;    	
+			        endif;
+			    else 	
+			    	//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    	szSQL = szSQL + "\r\n" + szString; 
+			    endif;  
+		 endif;
+		 //Read the Next line of the SQL file from the List into the String
+		 nvResult = ListGetNextString(listID, szString);		
+		 	//End of While Statement as all the content of the SQL file is read into the List
+	endwhile;    
+    catch
+    		 MessageBox("Error Occured in the Script File"+szSQLFile,WARNING);
+	endcatch;
+	// Be good and clean up your trash
+	ListDestroy(listID); 
+	DatabaseExecutePure(g_listCmdText,szSQLFile);
+	return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParseSQLFile                                        		     //
+//                                                                           //
+// Purpose:   This function takes as input the SQL File for Script execution //
+//			  and parses out the executable statements into a list object    //
+//			  and removes out comments                                       //
+///////////////////////////////////////////////////////////////////////////////
+function number ParseSQLFileStaging(szSQLFile)
+	string  szSQL,szString;
+	number nvResult,nvRet;
+	LIST   listID;
+	string szErrorLog,szSQLFilePath;
+	int nvSrcDirLength,nvFullPathLength; 
+	HWND hMSI;    
+	number nvCommentStart;
+	number nvGoStartPosition;
+	string szTrimmedString; 
+	number nvBegin,nvEnd;  
+	
+begin     
+	szErrorLog = "";
+	nvRet = 0;
+	 // Create an empty string list.
+	listID = ListCreate(STRINGLIST);
+	g_listCmdText = ListCreate(STRINGLIST);
+	if(g_bPatchInstallation = FALSE) then
+		//Truncating the Full Disk Path to Specify the Exact Script Folder Path
+		nvSrcDirLength = StrLengthChars(SUPPORTDIR); 
+		nvFullPathLength = StrLengthChars(szSQLFile); 
+    	StrSub(szSQLFilePath,szSQLFile,nvSrcDirLength,nvFullPathLength -nvSrcDirLength);
+    	SdShowMsg("Executing SQL File: " + szSQLFilePath,TRUE);
+    else
+    	//Truncation not required in case of Patch Installation
+    	SdShowMsg("Executing SQL File: " + szSQLFile,TRUE); 
+    endif;
+	// Read the SQL script file into the list
+	if (ListReadFromFile(listID, szSQLFile) < 0) then // read list from file
+		//WriteToLogFile(DATABASE_ERRORLOG,"Unable to open SQL script: " + szSQLFile);
+		return -1;
+	endif;
+	// Go through each list item and add it to a string (which will then hold the script)
+	szSQL = ""; 
+	try
+		nvResult = ListGetFirstString(listID, szString);
+	while (nvResult = 0)
+	//If Comment Tag("--") Comes at the start of the line ignore to proceed to the next line
+		if(StrFind(szString,"--")=0) then
+		     	// It is a comment, so do nothing and proceed to the next line
+		else    
+				//If Comment Tag("--") Comes after some Text extract the text before the comments tag("--")                                    
+		    	if(StrFind(szString,"--")>0) then
+			    	nvCommentStart = StrFind(szString,"--");
+			    	nvBegin = StrFind(szString,"/*"); 
+					nvEnd = StrFind(szString,"*/");
+					if(nvBegin >= 0 && nvBegin < nvCommentStart) then
+					   //Add to the SQL Statement String till a "GO" Delimiter Statement is found
+					   //It is done at the End of Else Part of IF Statement
+			    	elseif(nvEnd >= 0 && nvCommentStart < nvEnd) then
+			    		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    		//It is done at the End of Else Part of IF Statement
+			    	else
+			    		//Else remove the Text after the Comments Tags("--") and proceed forward
+			    	   	StrSub(szString,szString,0,nvCommentStart);
+			    	endif;
+			    endif;
+			    nvGoStartPosition = StrFind(szString,"GO");  
+			    if(nvGoStartPosition = 0) then 
+			    	szTrimmedString = TrimEnd(szString," ");
+			     	szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			     	szTrimmedString = TrimEnd(szTrimmedString," "); 
+			     	szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			     	if(StrLengthChars(szTrimmedString)=2) then
+			     		AddCommandTextToList(szSQL);  
+			     		szSQL = "";
+			     	endif;
+			    elseif(nvGoStartPosition > 0) then
+			        szTrimmedString = TrimStart(szString," ");
+			        szTrimmedString = TrimStart(szTrimmedString,"\t");
+			        szTrimmedString = TrimStart(szTrimmedString," ");
+			        szTrimmedString = TrimStart(szTrimmedString,"\t");
+			        if(StrFind(szTrimmedString,"GO")=0) then
+				        szTrimmedString = TrimEnd(szTrimmedString," ");
+				        szTrimmedString = TrimEnd(szTrimmedString,"\t");
+				        szTrimmedString = TrimEnd(szTrimmedString," ");
+				        szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			            if(StrLengthChars(szTrimmedString)=2) then
+			            	AddCommandTextToList(szSQL);
+			            	szSQL = "";
+			       	    else
+			        		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    			szSQL = szSQL + "\r\n" + szString;    	    	
+			            endif;
+			        else
+			     		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    		szSQL = szSQL + "\r\n" + szString;    	
+			        endif;
+			    else 	
+			    	//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    	szSQL = szSQL + "\r\n" + szString; 
+			    endif;  
+		 endif;
+		 //Read the Next line of the SQL file from the List into the String
+		 nvResult = ListGetNextString(listID, szString);		
+		 	//End of While Statement as all the content of the SQL file is read into the List
+	endwhile;    
+    catch
+    		 MessageBox("Error Occured in the Script File"+szSQLFile,WARNING);
+	endcatch;
+	// Be good and clean up your trash
+	ListDestroy(listID); 
+	DatabaseExecuteStaging(g_listCmdText,szSQLFile);
+	return 1;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  AddCommandTextToList                                           //
+//                                                                           //
+// Purpose:  This function would take the executable SQL text as its input   //
+//			 and parses the script to remove the multi line comments         //
+//			 existing in the script	                                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number AddCommandTextToList(szSQLText)
+BOOL bExitLoop,bBeginCommentFlag,bEndCommentFlag; 
+number nvBegin,nvEnd; 
+number nvTextLength;
+string szHead,szTail;
+begin     
+
+bExitLoop = FALSE;              
+bBeginCommentFlag = FALSE;  
+bEndCommentFlag = FALSE;
+//Looping through the SQLText for any multiline comments(/* & */)
+repeat  
+	//Get the Total length of the String
+	nvTextLength = StrLengthChars(szSQLText);
+	nvBegin = StrFind(szSQLText, "/*"); 
+	if(nvBegin >= 0) then
+	  bBeginCommentFlag = TRUE;
+	endif;          
+	
+	nvEnd = StrFind(szSQLText, "*/");
+	if(nvEnd > nvBegin) then
+	  bEndCommentFlag = TRUE;
+	endif;  
+	
+	if(bBeginCommentFlag = TRUE &&  bEndCommentFlag =TRUE) then
+		if ((nvBegin >= 0) && (nvBegin < nvEnd)) then
+			StrSub(szHead, szSQLText, 0, nvBegin);
+			StrSub(szTail, szSQLText,nvEnd+2,nvTextLength);
+			szSQLText = szHead + szTail;
+		else
+			bExitLoop = TRUE;
+		endif;
+	else				
+	      bExitLoop = TRUE; 
+	endif;
+			
+until (bExitLoop);
+// Add the commandtext to the List Variable 
+if((bBeginCommentFlag = TRUE &&  bEndCommentFlag =TRUE) ||(bBeginCommentFlag = FALSE &&  bEndCommentFlag =FALSE)) then
+	if (StrLengthChars(szSQLText) > 0) then
+		ListAddString(g_listCmdText, szSQLText, AFTER);
+	endif;
+		szSQLText = "";
+endif;  
+
+return 1;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  TrimEnd                                         				 //
+//                                                                           //
+// Purpose:   This function is used to trim the end of any string text for   //
+//			  blank spaces(white spaces) and tab spaces and returns the      //
+//			  trimmed string                                                 //
+///////////////////////////////////////////////////////////////////////////////  
+
+function string TrimEnd(szString,szTrim)
+string szReturn;
+number ivStartIndex; 
+number ivTrimLength; 
+number ivStringLength;
+begin 
+szReturn = szString; 
+ivTrimLength = StrLength(szTrim);
+ivStringLength = StrLength(szReturn);
+ivStartIndex = ivStringLength - ivTrimLength; 
+
+while(StrFindEx(szReturn,szTrim, ivStartIndex) > 0)
+StrReplace(szReturn, szTrim,"",ivStartIndex);
+ivStartIndex = StrLength(szReturn) - ivTrimLength;
+endwhile;  
+
+return szReturn;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  TrimStart                                        				 //
+//                                                                           //
+// Purpose:   This function is used to trim the start of any string text for //
+//			  blank spaces(white spaces) and tab spaces and returns the      //
+//			  trimmed string                                                 //
+///////////////////////////////////////////////////////////////////////////////  
+
+function string TrimStart(szString,szTrim)
+string szReturn;
+begin   
+szReturn = szString; 
+while(StrFind(szReturn,szTrim) = 0)
+StrSub(szReturn, szReturn, StrLength(szTrim), StrLength(szReturn));
+endwhile;  
+
+return szReturn;
+end;   
+
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  WriteToLogFile                                          //
+//                                                                    //
+// Purpose:   This function takes as input the Text File name         //
+//			  and the  Log Message and writes that message to         //
+//			  the Text File                                           //
+////////////////////////////////////////////////////////////////////////
+
+function number WriteToLogFile(szFileName,szLogString)
+string  szSeperator,szLogFilePath, svResult; 
+number  nvFileHandle; 
+begin   
+szLogFilePath = WINDISK + "\\";  
+
+if (FindFile(szLogFilePath, szFileName, svResult ) < 0) then
+     CreateLogFile(szFileName);
+endif;    
+
+OpenFileMode (FILE_MODE_APPEND); 
+szSeperator = "************************************************************************************************************";
+// Create a new file and leave it open. 
+if (OpenFile(nvFileHandle,szLogFilePath,szFileName) < 0) then 
+     // Report the error. 
+       MessageBox (szFileName+ " file cannot be opened",SEVERE); 
+       abort; 
+else    
+     // Append the message to the file. 
+     if (WriteLine(nvFileHandle,szLogString) < 0) then 
+    	// Report the error. 
+	   	MessageBox ("WriteLine failed for "+szFileName,SEVERE); 
+	  endif;
+	  if(WriteLine(nvFileHandle,szSeperator) < 0) then 
+	     // Report the error. 
+	  	 MessageBox ("WriteLine failed for "+szFileName,SEVERE); 
+	  endif;  
+endif;
+// Close the file. 
+CloseFile (nvFileHandle); 
+	
+return 1;
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateLogFile                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number CreateLogFile(szFileName)
+number nvResult,nvFileHandle; 
+string szPath;
+begin         
+szPath = WINDISK + "\\";
+OpenFileMode(FILE_MODE_APPEND); 
+
+
+nvResult = CreateFile(nvFileHandle,szPath,szFileName); 
+if(nvResult < 0) then
+	MessageBox("Log File "+szFileName +" Cannot be Created",INFORMATION);
+endif;
+
+return 1;
+end;        
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  PureDatabaseDetails                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number PureDatabaseDetails()
+number nResult, nErrorCode, nErrorLine;
+number nCount;
+string szConnection;
+string szServer, szDB, szUser, szPassword;
+string szMessage;
+string szKey;
+LIST   listConnections;
+BOOL   bWinLogin;
+BOOL   bNext;
+NUMBER nvErrorCode;
+STRING svTechnology;
+NUMBER nBtn;
+begin
+
+    //First initialize SQL Server runtime
+    SQLRTInitialize2( );
+
+    //Get the names of all the necessary connections
+    listConnections = SQLRTGetConnections();
+    ListGetFirstString (listConnections, szConnection);
+
+    nCount = 0;
+
+    //determine if NEXT or BACK will be returned 
+    //if there are no connections to make
+    if( nBtn != BACK ) then
+        bNext = TRUE;
+    else
+        bNext = FALSE;
+		//start at end if going BACK
+		while (ISERR_SUCCESS = ListGetNextString( listConnections, szConnection ) );
+			nCount++;
+		endwhile;
+    endif;
+
+    // Login for each connection
+    while (nResult = ISERR_SUCCESS)
+
+        //Get Default values for connection
+        SQLRTGetConnectionInfo( szConnection, szServer, szDB, szUser, szPassword );
+        bPureDBWinLogin = SQLRTGetConnectionAuthentication( szConnection );
+        bPureDBWinLogin = FALSE;
+        
+        szServer= gPureDBServer; 
+        szDB=gPureDB;
+        
+         
+		Dlg_SQLConnection1:
+	    
+				nResult= SQLServerSelectLogin2( szConnection, szServer,szUser,szPassword, bPureDBWinLogin, szDB, FALSE, TRUE );
+				//g_bWinLoginAuthenticate = bWinLogin;
+	       
+				if(szDB="")then
+						MessageBox("Database catalog name is empty, Please specify which database catalog should be used for connection.\n\n" +
+								   "Click the Browse button to select database catalog or database name available on the database server.",WARNING);
+						goto  Dlg_SQLConnection1;
+						
+				endif;
+				
+		if( nResult = NEXT ) then
+			 //store data in case we need it again
+            SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUser, szPassword );
+
+	        SQLRTPutConnectionAuthentication( szConnection, bPureDBWinLogin );
+
+            //try connection
+            nResult = SQLRTConnect( szConnection, szServer, bPureDBWinLogin, szUser, szPassword );
+            	
+			if( nResult < ISERR_SUCCESS && MODE != SILENTMODE ) then
+
+                SQLRTGetLastError2( nvErrorCode, szMessage, svTechnology, szConnection, szServer, szDB ); 
+			    MessageBox( szMessage, MB_OK );
+
+                //Show same login dialog again
+                nResult = ListCurrentString(listConnections, szConnection);
+			
+            else //SUCCESS
+                   //Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                gPureDBServer =  szServer;
+	                gPureDB = szDB;
+	                
+	                if(bPureDBWinLogin = FALSE) then
+	                		gPureDBUser =  szUser;
+							gPureDBPassword =  szPassword;
+					endif;
+	                
+			 endif;			
+            
+         else
+            //BACK
+            nCount--;
+            bNext = FALSE;
+            nResult = ListSetIndex( listConnections, nCount );
+            ListCurrentString( listConnections, szConnection );
+
+        endif;
+
+    endwhile;
+
+    if( bNext ) then
+        return NEXT;
+    else
+        return BACK;
+    endif;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  StagingDatabaseDetails                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number StagingDatabaseDetails()
+number nResult, nErrorCode, nErrorLine;
+number nCount;
+string szConnection;
+string szServer, szDB, szUser, szPassword;
+string szMessage;
+string szKey;
+LIST   listConnections;
+BOOL   bWinLogin;
+BOOL   bNext;
+NUMBER nvErrorCode;
+STRING svTechnology;
+NUMBER nBtn;
+begin
+
+    //First initialize SQL Server runtime
+    SQLRTInitialize2( );
+
+    //Get the names of all the necessary connections
+    listConnections = SQLRTGetConnections();
+    ListGetFirstString (listConnections, szConnection);
+
+    nCount = 0;
+
+    //determine if NEXT or BACK will be returned 
+    //if there are no connections to make
+    if( nBtn != BACK ) then
+        bNext = TRUE;
+    else
+        bNext = FALSE;
+		//start at end if going BACK
+		while (ISERR_SUCCESS = ListGetNextString( listConnections, szConnection ) );
+			nCount++;
+		endwhile;
+    endif;
+
+    // Login for each connection
+    while (nResult = ISERR_SUCCESS)
+
+        //Get Default values for connection
+        SQLRTGetConnectionInfo( szConnection, szServer, szDB, szUser, szPassword );
+        bStagingDBWinLogin = SQLRTGetConnectionAuthentication( szConnection );
+        bStagingDBWinLogin = FALSE;
+        
+        if(g_bCreateStagingDatabase = TRUE) then
+	    	szDB = "master";
+	    endif;  
+	    
+        Dlg_SQLConnection1:
+        
+				if (gInstallMode!="Fresh") then
+				
+						nResult= SdSQLServerSelectLogin3( szConnection, szServer,szUser,szPassword, bStagingDBWinLogin, szDB, FALSE, TRUE );
+				
+				else    
+					if (g_bCreateStagingDatabase = FALSE) then
+						nResult= SdSQLServerSelectLogin3( szConnection, szServer,szUser,szPassword, bStagingDBWinLogin, szDB, FALSE, TRUE );
+					else
+						nResult = SdSQLServerSelectLogin3( szConnection,szServer,szUser,szPassword,bStagingDBWinLogin,szDB,FALSE,FALSE);
+					endif;
+				endif;
+	    
+				
+				//nResult = SQLServerSelectLogin2( szConnection,szServer,szUser,szPassword,bStagingDBWinLogin,szDB,FALSE,FALSE);
+	    
+				//nResult= SdSQLServerSelectLogin3( szConnection, szServer,szUser,szPassword, bStagingDBWinLogin, szDB, FALSE, FALSE );
+				//nResult= SQLServerSelectLogin2( szConnection, szServer,szUser,szPassword, bStagingDBWinLogin, szDB, FALSE, TRUE );
+				//nResult= SQLServerSelectLogin2( szConnection, szServer,szUser,szPassword, bPureDBWinLogin, szDB, FALSE, TRUE );
+				//g_bWinLoginAuthenticate = bWinLogin;
+	       
+				/*if(szDB="")then
+						MessageBox("Database catalog name is empty, Please specify which database catalog should be used for connection.\n\n" +
+								   "Click the Browse button to select database catalog or database name available on the database server.",WARNING);
+						goto  Dlg_SQLConnection1;
+						
+				endif; */
+				
+		if( nResult = NEXT ) then
+			 //store data in case we need it again
+            SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUser, szPassword );
+
+	        SQLRTPutConnectionAuthentication( szConnection, bStagingDBWinLogin );
+
+            //try connection
+            nResult = SQLRTConnect( szConnection, szServer, bStagingDBWinLogin, szUser, szPassword );
+            	
+			if( nResult < ISERR_SUCCESS && MODE != SILENTMODE ) then
+
+                SQLRTGetLastError2( nvErrorCode, szMessage, svTechnology, szConnection, szServer, szDB ); 
+			    MessageBox( szMessage, MB_OK );
+
+                //Show same login dialog again
+                nResult = ListCurrentString(listConnections, szConnection);
+			
+            else //SUCCESS
+                   //Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                gStagingDBServer =  szServer;
+	                gStagingDB = szDB;
+	                
+	                if(bStagingDBWinLogin = FALSE) then
+	                		gStagingDBUser =  szUser;
+							gStagingDBPassword =  szPassword;
+					endif;
+	                
+			 endif;			
+            
+         else
+            //BACK
+            nCount--;
+            bNext = FALSE;
+            nResult = ListSetIndex( listConnections, nCount );
+            ListCurrentString( listConnections, szConnection );
+
+        endif;
+
+    endwhile;
+
+    if( bNext ) then
+        return NEXT;
+    else
+        return BACK;
+    endif;
+
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  DatabaseDetails                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+/*
+function number DatabaseDetails(gszDBServer,gszDB,gszDBUser,gszDBPassword)
+number nResult, nErrorCode, nErrorLine;
+number nCount;
+string szConnection;
+string szServer, szDB, szUser, szPassword;
+string szMessage;
+string szKey;
+LIST   listConnections;
+BOOL   bWinLogin;
+BOOL   bNext;
+NUMBER nvErrorCode;
+STRING svTechnology;
+NUMBER nBtn;
+begin
+
+    //First initialize SQL Server runtime
+    SQLRTInitialize2( );
+
+    //Get the names of all the necessary connections
+    listConnections = SQLRTGetConnections();
+    ListGetFirstString (listConnections, szConnection);
+
+    nCount = 0;
+
+    //determine if NEXT or BACK will be returned 
+    //if there are no connections to make
+    if( nBtn != BACK ) then
+        bNext = TRUE;
+    else
+        bNext = FALSE;
+		//start at end if going BACK
+		while (ISERR_SUCCESS = ListGetNextString( listConnections, szConnection ) );
+			nCount++;
+		endwhile;
+    endif;
+
+    // Login for each connection
+    while (nResult = ISERR_SUCCESS)
+
+        //Get Default values for connection
+        SQLRTGetConnectionInfo( szConnection, szServer, szDB, szUser, szPassword );
+        bWinLogin = SQLRTGetConnectionAuthentication( szConnection );
+        bWinLogin = FALSE;
+        
+         
+		Dlg_SQLConnection1:
+	    
+				nResult= SQLServerSelectLogin2( szConnection, szServer,szUser,szPassword, bPureDBWinLogin, szDB, FALSE, TRUE );
+				//g_bWinLoginAuthenticate = bWinLogin;
+	       
+				if(szDB="")then
+						MessageBox("Database catalog name is empty, Please specify which database catalog should be used for connection.\n\n" +
+								   "Click the Browse button to select database catalog or database name available on the database server.",WARNING);
+						goto  Dlg_SQLConnection1;
+						
+				endif;
+				
+		if( nResult = NEXT ) then
+			 //store data in case we need it again
+            SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUser, szPassword );
+
+	        SQLRTPutConnectionAuthentication( szConnection, bPureDBWinLogin );
+
+            //try connection
+            nResult = SQLRTConnect( szConnection, szServer, bPureDBWinLogin, szUser, szPassword );
+            	
+			if( nResult < ISERR_SUCCESS && MODE != SILENTMODE ) then
+
+                SQLRTGetLastError2( nvErrorCode, szMessage, svTechnology, szConnection, szServer, szDB ); 
+			    MessageBox( szMessage, MB_OK );
+
+                //Show same login dialog again
+                nResult = ListCurrentString(listConnections, szConnection);
+			
+            else //SUCCESS
+                   //Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                gszDBServer =  szServer;
+	                gszDB = szDB;
+	                
+	                if(bPureDBWinLogin = FALSE) then
+	                		gszDBUser =  szUser;
+							gszDBPassword =  szPassword;
+					endif;
+	                
+			 endif;			
+            
+         else
+            //BACK
+            nCount--;
+            bNext = FALSE;
+            nResult = ListSetIndex( listConnections, nCount );
+            ListCurrentString( listConnections, szConnection );
+
+        endif;
+
+    endwhile;
+
+    if( bNext ) then
+        return NEXT;
+    else
+        return BACK;
+    endif;
+
+end;
+*/
+////////////////////////////////////////////////////////////////////////
+// Function: ClearReadOnly
+// Purpose: Clear the Read Only attribute on all files in or below the 
+//          directory passed in
+////////////////////////////////////////////////////////////////////////
+function NUMBER ClearReadOnly(svDirectory)
+ NUMBER nFilesResult;
+ STRING svMatchingFileName;
+ 
+ begin
+  nFilesResult = FindAllFiles(svDirectory, "*.*", svMatchingFileName, RESET);
+  while(nFilesResult = 0)
+   SetFileInfo(svMatchingFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+   nFilesResult = FindAllFiles(svDirectory,"*.*", svMatchingFileName, CONTINUE);
+  endwhile;
+  
+  return nFilesResult;
+ end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CheckTypeofInstallation                                        //
+//                                                                           //
+// Purpose:   This function is check the type of installation in the         //
+//			  target machine as Fresh Installation or Upgrade Installation   //
+//			  or Product Upgrade/Fresh Installation	                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number CheckTypeofInstallation()
+number nvVersion,nvRootKey;
+string szPMRegPath;
+begin   
+
+	nvVersion=VerProductCompareVersions(); 
+
+
+	// Make sure that valid data was returned by VerProductCompareVersions
+	if( nvVersion < ISERR_SUCCESS ) then
+		
+	endif;
+
+	CreateLogFile(INSTALL_LOG);  
+	CreateLogFile(INSTALL_ERROR_LOG);  
+
+	// Compare version for Fresh/upgrade/Maintanance
+	CompareVersion();
+	//gInstallMode="Upgrade";
+	switch (gInstallMode)
+	case "Upgrade":
+             WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Installer");
+             g_bFreshInstaller  = FALSE;
+			 g_bUpgradeInstaller= TRUE;
+			
+			 //Get all the required registry entries for the pure upgrade installation
+			 //GetPMRegistryInstalledValuesforUpgradeInstall();                         
+		     onUpgradeUIBefore(); 
+		     
+		     UPDATEMODE = MAINTENANCE && ( nvVersion != VERSION_COMPARE_RESULT_SAME );
+		     
+	case "Same":
+			 
+			 WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Product (Same version)");
+             g_bFreshInstaller  = FALSE;
+			 g_bUpgradeInstaller= TRUE;
+			
+			 //Get all the required registry entries for the pure upgrade installation
+			 //GetPMRegistryInstalledValuesforUpgradeInstall();                         
+		     onUpgradeUIBefore(); 
+		     
+		     UPDATEMODE = MAINTENANCE && ( nvVersion = VERSION_COMPARE_RESULT_SAME );
+		                  
+	case "Fresh":    
+			 
+             WriteToLogFile(INSTALL_LOG,"Type of installation is Fresh Install");
+			 g_bFreshInstaller  = TRUE;
+			 g_bUpgradeInstaller= FALSE;
+			
+
+	case "Older":
+			 
+			 WriteToLogFile(INSTALL_LOG,"A later version of 'Pure Insurance DTU' is already installed on this machine. The setup cannot continue.");
+			 MessageBox("A later version of 'Pure Insurance DTU' is already installed on this machine. The setup cannot continue.", SEVERE);
+			 exit;
+  
+	endswitch; 
+
+ 
+return 1;
+
+end;   
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CompareVersion  	                                                     //
+//				                                                                     //
+// Purpose:   This function                                                                       //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function CompareVersion()
+    NUMBER nResult,nPos, nLastPos, nLoop;
+	STRING svMajor,svMinor,svBuild,svRegMajor,svRegMinor,svRegBuild; 
+    NUMBER nMajor,nMinor,nBuild,nRegMajor,nRegMinor,nRegBuild; 
+    STRING	sProductVersionArray(3),sRegProductVersionArray(3), sTemp;
+    
+    STRING szUninstallKey, szDisplayVersion;
+    NUMBER nSize,nType;
+        
+begin
+
+    // Read Product Version of Installer from ProductVersion property
+    g_ProcutVersion = IFX_PRODUCT_VERSION;
+	
+  	//Look for three values - Major, Minor,Build Number
+	nLastPos = 0;
+	for nLoop = 0 to 2  
+		nPos = StrFind ( g_ProcutVersion, "." );
+		if ( nPos <= 0 ) then 
+			nPos = StrLength ( g_ProcutVersion );
+		endif;
+		StrSub ( sTemp, g_ProcutVersion, 0, nPos );
+		sProductVersionArray ( nLoop ) = sTemp; 
+		StrSub ( g_ProcutVersion, g_ProcutVersion, nPos + 1, StrLength ( g_ProcutVersion ) );
+	endfor;
+	
+	svMajor =sProductVersionArray (0);  
+	StrToNum(nMajor,svMajor); 
+	svMinor =sProductVersionArray (1);
+  	StrToNum(nMinor,svMinor);
+  	svBuild =sProductVersionArray (2); 
+  	StrToNum(nBuild,svBuild);
+  
+    // Read Product Version from regsitry
+	szUninstallKey="SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{77EEA0EA-A33E-4D37-BE72-12AE21BB617B}";
+    szDisplayVersion= "DisplayVersion"; 
+    
+    nSize= -1;
+    nType= REGDB_STRING;   
+    
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    if((RegDBKeyExist(szUninstallKey)=1)) then
+		RegDBGetKeyValueEx (szUninstallKey, szDisplayVersion, nType, g_InstalledVersion, nSize); 
+	else
+		// Not Installed, so it is Fresh Install
+		gInstallMode="Fresh";
+	endif;
+	
+	if(gInstallMode="Fresh") then
+		//
+	
+	else
+
+		//Look for three values - Major, Minor,Build Number
+		nLastPos = 0;
+		for nLoop = 0 to 2  
+			nPos = StrFind ( g_InstalledVersion, "." );
+			if ( nPos <= 0 ) then 
+				nPos = StrLength ( g_InstalledVersion );
+			endif;
+			StrSub ( sTemp, g_InstalledVersion, 0, nPos );
+			sRegProductVersionArray ( nLoop ) = sTemp; 
+			StrSub ( g_InstalledVersion, g_InstalledVersion, nPos + 1, StrLength ( g_InstalledVersion ) );
+		endfor;
+	
+		svRegMajor =sRegProductVersionArray (0);
+		StrToNum(nRegMajor,svRegMajor);
+		svRegMinor =sRegProductVersionArray (1);
+		StrToNum(nRegMinor,svRegMinor);
+		svRegBuild =sRegProductVersionArray (2); 
+		StrToNum(nRegBuild,svRegBuild);
+  	
+		// Compare the Installed Version and New version for each of the three values
+  	  	
+		if(nMajor < nRegMajor)then
+  	     	gInstallMode="Older"; 
+		else
+			if((nMajor = nRegMajor)&&(nMinor < nRegMinor))then 
+  			 		gInstallMode="Older"; 
+			else
+				if((nMajor = nRegMajor)&&(nMinor = nRegMinor)&&(nBuild < nRegBuild)) then
+  				 		gInstallMode="Older"; 
+				else
+					if((nMajor = nRegMajor)&&(nMinor = nRegMinor)&&(nBuild = nRegBuild)) then 
+  					 		gInstallMode="Same";
+							
+					else
+						gInstallMode="Upgrade";
+					endif;
+				endif;
+			endif;
+		endif;
+	endif;//if(gInstallMode="Fresh") then
+		
+   return 0; 
+    
+end;
+
+//---------------------------------------------------------------------------                                                                        
+// onUpgradeUIBefore
+
+//---------------------------------------------------------------------------
+function onUpgradeUIBefore()
+    number  nResult, nLevel, nSize, nSetupType,nvResult;
+    string  szTitle, szMsg, szOpt1, szOpt2, szLicenseFile;
+    string  szName, szCompany, szTargetPath, szDir, szFeatures;
+    BOOL    bLicenseAccepted;
+begin	
+
+    // Added in InstallShield 15 - Show an appropriate error message if
+    // -removeonly is specified and the product is not installed.
+    if( REMOVEONLY ) then
+        Disable( DIALOGCACHE );
+		szMsg = SdLoadString( IDS_IFX_ERROR_PRODUCT_NOT_INSTALLED_UNINST );
+   		SdSubstituteProductInfo( szMsg );
+		MessageBox( szMsg, SEVERE );
+		abort;
+    endif;
+   
+    nSetupType = COMPLETE;	
+    szDir = TARGETDIR;
+    szName = "";
+    szCompany = "";
+    //bLicenseAccepted = FALSE;
+    
+	g_bDTU=TRUE;
+	//g_bPureDatabase=TRUE;
+    //g_bStagingDatabase=FALSE;
+    
+    gPureDBServer="";
+    gPureDB="";
+    gPureDBUser="";
+    gPureDBPassword="";
+    
+    gStagingDBServer="";
+    gStagingDB="";
+    gStagingDBUser="";
+    gStagingDBPassword="";
+
+// Beginning of UI Sequence
+Dlg_Start:
+    //nResult = 0;
+    
+    //WriteToLogFile(INSTALL_LOG,"Installation started =" + g_InstallPath);
+
+Dlg_SdWelcome:
+    
+    szTitle = "";
+    szMsg = "The InstallShield Wizard will upgrade Pure Insurance DTU on your computer. To Continue, click Next.";
+    
+	
+    nResult = SdWelcome( szTitle, szMsg );
+    
+    if (nResult = BACK) goto Dlg_Start;
+
+Dlg_InstallationType:
+
+		//nResult    = AskOptions(NONEXCLUSIVE,'Select the type of Installation Required.',"Install DTU Files",g_bDTU,"Run Pure DTU database Scripts",g_bPureDatabase, "Run Staging Scripts", g_bStagingDatabase); 
+		nResult    = AskOptions(NONEXCLUSIVE,'Select the type of Installation Required.',"Upgrade DTU application",g_bDTU);//,"Create Staging database",g_bCreateStagingDatabase);
+		
+		if (nResult = BACK) goto Dlg_SdWelcome;
+
+Dlg_SdAskDestPath2:
+
+  /* 
+	TARGETDIR="C:\\DTU";
+	g_InstallPath = TARGETDIR;
+	nResult = SdAskDestPath(szTitle, szMsg, g_InstallPath, 0);
+	
+	
+	WriteToLogFile(INSTALL_LOG,"Installation Path=" + g_InstallPath);
+	   
+    if (nResult = BACK) goto Dlg_InstallationType;
+*/
+
+
+Dlg_PureDatabaseDetails:
+
+		if(g_bDTU=TRUE) then
+			GetPureDBDetailFromRegistry();
+			nResult= PureDatabaseDetails();
+			//nResult= DatabaseDetails(gPureDBServer,gPureDB,gPureDBUser,gPureDBPassword);
+			//WriteToLogFile(INSTALL_LOG,"Server=" + gPureDBServer + "Pure DB=" + gPureDB + "Pure User=" + gPureDBUser + "Pure password=" + gPureDBPassword);
+		endif;
+		
+		//if (nResult = BACK) goto Dlg_SdAskDestPath2;
+		if (nResult = BACK) goto Dlg_InstallationType;
+
+Dlg_StagingDatabaseDetails:
+	   
+	    if(g_bDTU=TRUE) then
+			nResult= StagingDatabaseDetails();
+			//nResult= DatabaseDetails(gStagingDBServer,gStagingDB,gStagingDBUser,gStagingDBPassword);
+			//WriteToLogFile(INSTALL_LOG,"Server=" + gStagingDBServer + "Staging DB=" + gStagingDB + "Staging User=" + gStagingDBUser + "Staging password=" + gStagingDBPassword);
+			//WriteToLogFile(INSTALL_LOG,"Server=" + gPureDBServer + "Pure DB=" + gPureDB + "Pure User=" + gPureDBUser + "Pure password=" + gPureDBPassword);
+		endif;
+			
+		if (nResult = BACK) goto Dlg_PureDatabaseDetails;		  
+		 		
+  
+Dlg_SdStartCopy2:
+		szTitle = "";
+		szMsg = "";
+		
+		nResult = SdStartCopy2( szTitle, szMsg );	
+		
+		if (nResult = BACK) goto Dlg_StagingDatabaseDetails;
+		
+		
+		// Added in 11.0 - Set appropriate StatusEx static text.
+		SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_FIRSTUI ) );
+ 
+    return 0;
+end;
+   
+
+//---------------------------------------------------------------------------
+// OnSetUpdateMode
+//
+// OnSetUpdateMode is called directly by the framework to set the UPDATEMODE
+// InstallShield system variable appropriately to control which UI events
+// are called by OnShowUI.
+//
+// Note: This event is called for all setups.
+//---------------------------------------------------------------------------
+function OnSetUpdateMode()
+	number	nIgnore, nMediaFlags, nInstalledVersion, nUpdateVersion, nResult;
+	string	szVersion, szIgnore, szMsg;
+begin
+	
+	UPDATEMODE = FALSE; // Non-update mode by default.
+
+	// Added 11.5 - Don't set UPDATEMODE when running from Add/Remove
+	if( ADDREMOVE ) then
+		return ISERR_SUCCESS;
+	endif;
+
+	// Added 11.5 - Don't set UPDATEMODE when REMOVEONLY is specified
+	if( REMOVEONLY ) then
+		return ISERR_SUCCESS;
+	endif;
+
+	// Get the media flags.
+	MediaGetData( MEDIA, MEDIA_FIELD_MEDIA_FLAGS, nMediaFlags, szIgnore );
+
+	// TODO: If you are updating an application that was installed by a previous
+	// version of InstallShield, IFX_INSTALLED_VERSION will be empty, and
+	// VERSION_COMPARE_RESULT_NOT_INSTALLED will be returned by
+	// VerProductCompareVersions. Change the value of IFX_INSTALLED_VERSION (and
+	// IFX_INSTALLED_DISPLAY_VERSION) here based on application specific version
+	// information determined by the setup. Only do this if IFX_INSTALLED_VERSION
+	// is empty.
+	//if ( !StrLengthChars( IFX_INSTALLED_VERSION ) && MAINTENANCE ) then
+	//	IFX_INSTALLED_VERSION = "X.XX.XXX";
+	//	IFX_INSTALLED_DISPLAY_VERSION = IFX_INSTALLED_VERSION;
+	//endif;
+
+	// Verify that the installed version is valid.
+	if( !StrLengthChars( IFX_INSTALLED_VERSION ) && MAINTENANCE ) then
+		// If this error occurs, IFX_INSTALLED_VERSION needs to be set manually.
+		//szMsg = SdLoadString( IDS_IFX_ERROR_UPDATE_NO_INSTALLED_VERSION );
+		//MessageBox( szMsg, SEVERE );
+		//abort;
+	endif;
+
+	// Verify that the product version is valid.
+	if( !StrLengthChars( IFX_PRODUCT_VERSION ) ) then
+		// If this error occures, IFX_PRODUCT_VERSION was not initialized correctly.
+		//szMsg = SdLoadString( IDS_IFX_ERROR_UPDATE_NO_PRODUCT_VERSION );
+		//MessageBox( szMsg, SEVERE );
+		//abort;
+	endif;
+
+	// Do the version comparison.
+	nResult = VerProductCompareVersions();
+
+	// Make sure that valid data was returned by VerProductCompareVersions
+	if( nResult < ISERR_SUCCESS ) then
+		//szMsg = SdLoadString( IDS_IFX_ERROR_UPDATE_VERSION_COMPARE_FAILURE );
+		//MessageBox( szMsg, SEVERE );
+		//abort;
+	endif;
+
+	// Set update mode if this is a differential media or the product is already installed and the versions do not match.
+	UPDATEMODE = ( nMediaFlags & MEDIA_FLAG_FORMAT_DIFFERENTIAL || ( MAINTENANCE && ( nResult != VERSION_COMPARE_RESULT_SAME ) ) );
+
+end;
+
+//////////////////////////////////////////////////////////////////////////////////
+// Function:  CopyStagingDatabasebackupToRemoteServer                                  //
+// Purpose:   This function copy the database backup file from local server to  //
+//            Remote server shared location provided by the user                //  
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+function CopyStagingDatabasebackupToRemoteServer()
+STRING szProgram,szCommand;
+STRING szStagingDBBackUpFilePath;
+begin
+			szStagingDBBackUpFilePath = SRCDIR ^ "Scripts\\PureStaging.bak";
+			szProgram=WINSYSDIR ^ "Robocopy.exe";
+			szCommand= SRCDIR ^ "Scripts";
+			WriteToLogFile(INSTALL_LOG,"Command=" + szCommand);
+			LongPathToQuote(szCommand,TRUE);
+			LongPathToQuote(gStagingSharedPath,TRUE);
+			szCommand= szCommand + " " + gStagingSharedPath + " " + "PureStaging.bak";
+			WriteToLogFile(INSTALL_LOG,"Robobopy Command=" + szCommand);
+			LaunchAppAndWait(szProgram,szCommand,WAIT);
+			LongPathToQuote(gStagingSharedPath,FALSE);
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateStagingDatabaseFromBackup                                 //
+//                                                                           //
+// Purpose:   This function is used to create or restore the Staging Database //
+//            from the backup for the suitable product version for           //
+//			  fresh installation                                             //
+///////////////////////////////////////////////////////////////////////////////           
+function number CreateStagingDatabaseFromBackup()
+number nvResult;
+string szRestoreDBScript;    
+string szStagingDBBackUpFilePath;    
+string szStagingDBFileName;
+string szStagingLogFileName;
+STRING szRestoreDBFileName,szBackupPath;
+STRING szProgram,szCommand;
+begin        
+try     
+	szStagingDBFileName = gStagingDB + "_Data.mdf" ;
+	szStagingLogFileName = gStagingDB + "_Log.ldf" ;
+	if(g_bStagingRemoteDBServer = FALSE) then
+				szStagingDBBackUpFilePath = SRCDIR ^ "Scripts\\PureStaging.bak";
+				szRestoreDBScript = "restore database "+ gStagingDB +" from disk = '"+ szStagingDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SAMStaging_Data' to '"+g_StagingMDFDirPath+"\\"+szStagingDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SAMStaging_Log' to '"+g_StagingDFDirPath+"\\"+szStagingLogFileName+"'";
+				WriteToLogFile(INSTALL_LOG,"Pure Staging database restore=" + szRestoreDBScript);
+	else
+				szStagingDBBackUpFilePath = gStagingSharedPath ^ "PureStaging.bak";
+				WriteToLogFile(INSTALL_LOG,"Shared Path=" + gStagingSharedPath);
+				WriteToLogFile(INSTALL_LOG,"Backup Path=" + szStagingDBBackUpFilePath);
+				szRestoreDBScript = "restore database "+ gStagingDB +" from disk = '"+ szStagingDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SAMStaging_Data' to '"+g_StagingMDFDirPath+"\\"+szStagingDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SAMStaging_Log' to '"+g_StagingDFDirPath+"\\"+szStagingLogFileName+"'";
+				WriteToLogFile(INSTALL_LOG,"Pure Staging database restore=" + szRestoreDBScript);
+	endif;
+catch
+	MessageBox("There was a problem with the Pure Staging Database Creation from the Pure Staging DBBackup. Please investigate.",WARNING);        
+ 	abort;       
+endcatch;
+	
+	SdShowMsg(gStagingDB + " Database Creation is in progress",TRUE);
+	nvResult = ADODBConnectAndExecuteStaging(gStagingDBServer,"master",gStagingDBUser,gStagingDBPassword,szRestoreDBScript);
+	if(nvResult = 1) then
+		SdShowMsg(gStagingDB + " Database Creation done",FALSE);
+		WriteToLogFile(INSTALL_LOG,"Database " + gStagingDB + " Creation Completed");
+	else  
+		SdShowMsg("Problem with "+ gStagingDB + " Database Creation",FALSE);
+		MessageBox("Database Creation operation Failed. Check for any Issues in the Database Error Log.",SEVERE);
+		abort;
+	endif;
+return 1;
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ADODBConnectAndExecuteStaging                                         //
+//                                                                           //
+// Purpose:  This function connects to the DB Server and executes            //
+//			 a SQL Script on the database specified in the                   //
+//			 function parameters                                             //
+///////////////////////////////////////////////////////////////////////////////
+function number ADODBConnectAndExecuteStaging(gStagingDBServer,gStagingDB,gStagingDBUser,gStagingDBPassword,szSQLScript)
+ string szADOObjID,szDriver,szConnString,szADOCommObjID,szErrorLog;
+ object objADO,objADOComm;  
+ number nvRecords;
+ begin 
+	
+	//MessageBox(gStagingDBServer + gStagingDB + gStagingDBUser + gStagingDBPassword + szSQLScript,INFORMATION);
+   	
+   	szADOObjID = "ADODB.Connection";
+	set objADO = CreateObject(szADOObjID);	
+	szConnString = GetConnectionStringStaging(gStagingDB);
+	
+	//MessageBox("Connection String=" + szConnString,INFORMATION);
+   	
+	// Open the ADO Connection 
+	objADO.Open(szConnString);
+	//MessageBox("After Open=" ,INFORMATION);
+   
+   // Create the ADO Command object to execute the script                           	
+	szADOCommObjID = "ADODB.Command";
+	set objADOComm = CreateObject(szADOCommObjID); 
+	objADOComm.CommandTimeout = 600;   
+	objADOComm.ActiveConnection = objADO;
+	try    
+	 	 	// Execute the call to run the script
+			objADOComm.CommandText = szSQLScript;
+			objADOComm.Execute(nvRecords ,0x81);
+	catch
+			szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n"; 
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(INSTALL_ERROR_LOG,szErrorLog);
+			objADO.Close(); 
+			set objADO = NOTHING; 
+			return -1;
+	endcatch;     
+	//Close the Connections after executing SQL Scripts
+	objADO.Close(); 
+	set objADO = NOTHING;
+   return 1;
+end;
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ADODBConnectExecuteAndReturnStaging                                   //
+//                                                                           //
+//  Purpose:  This function connects to the DB Server and executes a 		 //
+//			  SQL Script on the database specified in the function 			 //
+//			  parameters  and returns a value as a String Result        	 //
+///////////////////////////////////////////////////////////////////////////////
+function string ADODBConnectExecuteAndReturnStaging(gStagingDBServer,gStagingDB,gStagingDBUser,gStagingDBPassword,szSQLScript,szReturnParameter)  
+ string szADOObjID,szDriver,szConnString,szReturnValue,szErrorLog;
+ object objConnection,objRecordSet;  
+ begin 
+   	try
+   			szReturnValue = "";
+			szADOObjID = "ADODB.Connection";
+			set objConnection = CreateObject(szADOObjID);	
+		    szConnString = GetConnectionStringStaging(gStagingDB);
+			objConnection.ConnectionString = szConnString;
+			// Open the ADO Connection 
+			objConnection.Open;
+	catch
+	         szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n";
+	         return szReturnValue;  
+	endcatch;
+    try    
+	 	 	set objRecordSet = objConnection.Execute(szSQLScript);
+	        szReturnValue = objRecordSet(szReturnParameter);     
+	        return szReturnValue;    
+	         //sRetValue
+	catch
+	     	szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n";
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(INSTALL_ERROR_LOG,szErrorLog);
+			objConnection.Close();
+			set objConnection = NOTHING;
+			return szReturnValue;   
+	endcatch;  
+	//Close the Connections after executing SQL Scripts
+	objConnection.Close();
+	set objConnection = NOTHING;
+  return szReturnValue;
+end;   
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPureDBDetailFromRegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets PortalRegsitry                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+
+function GetPureDBDetailFromRegistry()
+
+begin
+
+gPureDB = GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Database");
+gPureDBServer =GetFromRegistry("SOFTWARE\\Pure\\Architecture\\Server\\Databases\\Pure","Server");
+             
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetFromRegistry                                                 //
+//                                                                           //
+// Purpose:  This function gets  a particular value for the registry key     //
+//			 under the foldername as specified in the function parameters    //
+//                                                                      	 //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetFromRegistry(szFolderName,szKey)
+number nvResult,nvType,nvSize;
+string szValue;
+begin                         
+nvSize = -1; 
+try 
+	if(RegDBKeyExist(szFolderName) = 1) then
+		if(RegDBGetKeyValueEx(szFolderName,szKey,nvType,szValue,nvSize) < 0) then 
+			WriteToLogFile(INSTALL_ERROR_LOG,"Not able to fetch the value "+szKey+ " from the folder "+szFolderName+ " registry");
+		else
+			WriteToLogFile(INSTALL_LOG,"Value fetched for "+ szKey + " from the folder "+szFolderName+ " registry");
+		endif;  
+	else
+		WriteToLogFile(INSTALL_ERROR_LOG,"The Specified Folder/Key "+szFolderName+ "//" + szKey + " does not exist");
+	endif;
+catch 
+         WriteToLogFile(INSTALL_ERROR_LOG,"Error Encountered fetching key value "+szKey+" from folder "+szFolderName);
+         return "";
+endcatch;
+
+return szValue;
+end;  
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CreateDTURegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function create DRERegsitry                                       //
+///////////////////////////////////////////////////////////////////////////////////////
+function CreateDTURegistry()
+STRING szKey;
+NUMBER nSize,nType;
+STRING szDTUDBServer,szDTUDB;
+begin 
+    
+    nSize= -1;
+    
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\DTU";
+	
+	szDTUDBServer="StagingDBServer";
+	szDTUDB="StagingDBName";
+	
+    
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    RegDBCreateKeyEx(szKey, "");
+    
+	//DTU database registry
+	RegDBSetKeyValueEx (szKey, szDTUDBServer, nType, gStagingDBServer, nSize);
+	RegDBSetKeyValueEx (szKey, szDTUDB, nType, gStagingDB, nSize);
+	
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetDTURegistry 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets PortalRegsitry                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+function GetDTURegistry()
+NUMBER nSize,nType;
+STRING svDTUDBServer,svDTUDB;
+STRING szKey;
+STRING szDTUDBServer,szDTUDB;
+
+begin 
+    nSize= -1;
+    nType= REGDB_STRING;
+	szKey="SOFTWARE\\DTU";
+	
+	
+	szDTUDBServer="StagingDBServer";
+	szDTUDB="StagingDBName";
+	
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+    if(RegDBKeyExist(szKey)=1) then
+		
+		//DTU Staging DB Server
+		if(RegDBGetKeyValueEx (szKey, szDTUDBServer, nType, svDTUDBServer, nSize) <0 ) then
+			//
+		else
+			gStagingDBServer=svDTUDBServer;
+			WriteToLogFile(INSTALL_LOG,"DTU Staging DB Server=" + gStagingDBServer);
+		endif;
+		
+		//DTU Staging DB NAME
+		if(RegDBGetKeyValueEx (szKey, szDTUDB, nType, svDTUDB, nSize) <0 ) then
+			//
+		else
+			gStagingDB=svDTUDB;
+			WriteToLogFile(INSTALL_LOG,"DTU DB=" + gStagingDB);
+		endif;
+		
+	else
+		//
+	endif;
+	
+	return 0;
+end;
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPureInstallPath 	                                                 //
+//				                                                                     //
+// Purpose:   This function gets Pure Install path                                    //
+///////////////////////////////////////////////////////////////////////////////////////
+
+function GetPureInstallPath()
+STRING szUninstallKey,szInstallLocation;
+NUMBER nSize,nType;
+begin
+
+	 // Read Pure InstallLocation from regsitry
+	szUninstallKey="SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{A5D571AB-3D05-4530-A631-74E8D1CADCA6}";
+    szInstallLocation= "InstallLocation"; 
+    
+    nSize= -1;
+    nType= REGDB_STRING;   
+    
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    if((RegDBKeyExist(szUninstallKey)=1)) then
+		RegDBGetKeyValueEx (szUninstallKey, szInstallLocation, nType, gPureInstallLocation, nSize); 
+	else
+		// Not Installed, so it is Fresh Install
+		//gInstallMode="Fresh";
+	endif;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ReadWCFSecurityTokenFile  								             //
+//                                                                           //
+// Purpose:   This function read WCFSecurityTokenFile.txt                        //
+//
+///////////////////////////////////////////////////////////////////////////////
+
+function ReadWCFSecurityTokenFile()
+STRING szDir,szFile;
+number  nvFileHandle,nvResult; 
+begin   
+	
+	szDir = gPureInstallLocation ^ "Application";
+	
+	szFile = "WCFSecurityTokenFile.txt";
+	
+	// Set the file mode to normal. 
+    OpenFileMode (FILE_MODE_NORMAL); 
+    
+    // Open the text file. 
+    if (OpenFile (nvFileHandle, szDir, szFile) < 0) then 
+        MessageBox ("OpenFile failed.", SEVERE); 
+    else
+    	nvResult = GetLine(nvFileHandle,g_szWCFSecuirtyToken);
+      
+    endif; 
+    
+    CloseFile(nvFileHandle);
+	
+return 0;
+
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdateDTUWebConfig  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for DTU         //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdateDTUWebConfig()
+STRING  szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+begin
+	
+	SdShowMsg ( "Updating SiriusFS.S4I.DataImport3.exe.config . . . please wait." , TRUE );
+	
+    szTargetPath = TARGETDIR;
+    
+    szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport3.exe.config";
+    
+    LongPathToQuote(szTargetPath, TRUE); 
+	//LongPathToQuote ( szFileName, TRUE );
+	// icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szTargetPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+   	
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	//LongPathToQuote ( szFileName, TRUE );
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+       //
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	 // Set the read-only flag OFF
+	SetFileInfo ( szTargetFile, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("*");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                try
+                    szAddKey = oNode.attributes.getNamedItem("key").value;
+                catch
+                    szAddKey = "";
+                endcatch;
+                
+                try
+                    if szAddKey = "WCFSecurityToken" then
+                        oNode.attributes.getNamedItem("value").value = g_szWCFSecuirtyToken;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, WCFSecurityToken=" + g_szWCFSecuirtyToken); 
+                    endif;
+                    
+                catch
+                endcatch;
+             endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,SEVERE);                         
+        return -1;
+    endif;
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    
+	SdShowMsg ( "Updating SiriusFS.S4I.DataImport2.exe.config . . . please wait." , FALSE );
+    return 0;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  DeleteDTU2Files  	                                                         //
+//				                                                                     //
+// Purpose:   This function 
+//                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////
+function DeleteDTU2Files()
+STRING szTargetPath,szFileName;
+
+begin
+	
+	Disable (LOGGING);
+	
+	szTargetPath = TARGETDIR;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.application";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.exe";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.exe.config";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.exe.manifest";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.pdb";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.vshost.exe";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	szFileName = szTargetPath ^ "SiriusFS.S4I.DataImport2.xml";
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+			DeleteFile ( szFileName );
+	endif;
+	
+	Enable (LOGGING);
+	 
+	return 0;
+
+end;
+
+#include "FeatureEvents.rul"

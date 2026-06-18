@@ -1,0 +1,134 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  File Name:    SQLBrowseDlg.rul
+//
+//  Description:  This file contains the InstallShield script for the SQLBrowse 
+//                dialog function, which is called from SQLServerSelect and
+//                SQLServerSelectLogin.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#include "ISRT.h"
+#include "ISRTPriv.h"  
+
+#ifdef SQLRT_OBL
+#include "SQLRT.h"
+#elif SQLCONV_OBL
+#include "SQLConv.h"
+#endif
+
+function SQLBrowse( svServer )
+begin
+
+	return SQLBrowse2( "", svServer );
+	
+end;
+
+function SQLBrowse2( szConnection, svServer )
+    LIST    listServers;
+    HWND    hwndDlg; 
+    BOOL    bDone;
+    NUMBER  nMsg, nResult;
+begin
+
+	if (EzDefineDialog( DLG_SQLBROWSE, "", "", DLG_SQLBROWSE_ID ) = DLG_ERR) then
+        return -1;
+    endif;
+
+	bDone = FALSE;
+	while (bDone = FALSE)
+		nMsg = WaitOnDialog( DLG_SQLBROWSE );
+		switch (nMsg)
+		case DLG_INIT:
+			hwndDlg = CmdGetHwndDlg( DLG_SQLBROWSE );
+			
+			// get drive list
+			listServers = SQLRTGetServers2( szConnection, FALSE );
+			CtrlSetList( DLG_SQLBROWSE, LIST_SERVERS, listServers );
+            if( StrLengthChars( svServer ) = 0 ) then
+			     ListGetFirstString( listServers, svServer );
+			endif;
+			ListDestroy( listServers );			
+
+			CtrlSetCurSel( DLG_SQLBROWSE, LIST_SERVERS, svServer );	
+			SdGeneralInit( DLG_SQLBROWSE, hwndDlg, 0, szSdProduct );
+
+		case SD_PBUT_OK:
+			CtrlGetCurSel( DLG_SQLBROWSE, LIST_SERVERS, svServer );
+            nResult = NEXT;
+			bDone = TRUE;
+	
+		case SD_PBUT_CANCEL:
+            nResult = CANCEL;
+			bDone = TRUE;
+		case DLG_CLOSE:
+            nResult = CANCEL;
+		    bDone = TRUE; 
+		    
+		endswitch;
+		
+	endwhile;
+
+	EndDialog( DLG_SQLBROWSE );
+	ReleaseDialog( DLG_SQLBROWSE );
+
+    return nResult;
+end;
+
+function SQLDatabaseBrowse( szConnection, szServer, bTrust, szUserName, szPassword, svDB )
+    LIST    listDBs;
+    HWND    hwndDlg; 
+    BOOL    bDone;
+    NUMBER  nMsg, nResult;
+begin
+
+	// get catalog list
+	listDBs = SQLRTGetDatabases( szConnection, szServer, bTrust, szUserName, szPassword );
+	if(listDBs = LIST_NULL) then
+		return -1;
+	endif;
+
+	if (EzDefineDialog( DLG_SQLBROWSE, "", "", DLG_SQLBROWSE_ID ) = DLG_ERR) then
+        return -1;
+    endif;
+
+	bDone = FALSE;
+	while (bDone = FALSE)
+		nMsg = WaitOnDialog( DLG_SQLBROWSE );
+		switch (nMsg)
+		case DLG_INIT:
+			hwndDlg = CmdGetHwndDlg( DLG_SQLBROWSE );
+			
+            SetWindowText( hwndDlg, SdLoadString(IDS_IFX_SQL_DB_BROWSE_DLG_CAPTION) );
+			CtrlSetText( DLG_SQLBROWSE, STATIC_SQLBROWSE_INTRO, SdLoadString( IDS_IFX_SQL_DB_BROWSE_INTRO ) );    
+
+			CtrlSetList( DLG_SQLBROWSE, LIST_SERVERS, listDBs );
+            if( StrLengthChars( svDB ) = 0 ) then
+			     ListGetFirstString( listDBs, svDB );
+			endif;
+			ListDestroy( listDBs );			
+
+			CtrlSetCurSel( DLG_SQLBROWSE, LIST_SERVERS, svDB );	
+			SdGeneralInit( DLG_SQLBROWSE, hwndDlg, 0, szSdProduct );
+	
+		case SD_PBUT_OK:
+			CtrlGetCurSel( DLG_SQLBROWSE, LIST_SERVERS, svDB );
+            nResult = NEXT;
+			bDone = TRUE;
+	
+		case SD_PBUT_CANCEL:
+            nResult = CANCEL;
+			bDone = TRUE;
+		case DLG_CLOSE:
+            nResult = CANCEL;
+		    bDone = TRUE; 
+		    
+		endswitch;
+		
+	endwhile;
+
+	EndDialog( DLG_SQLBROWSE );
+	ReleaseDialog( DLG_SQLBROWSE );
+
+    return nResult;
+end;

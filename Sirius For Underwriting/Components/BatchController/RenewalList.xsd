@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.siriusfs.com/SFI/Batch/Renewals/20120815"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="HEADER">
+    <xs:annotation>
+      <xs:documentation>Batch Renewal List</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="INSURANCE_FOLDER">
+          <xs:annotation>
+            <xs:documentation>Insurance folder (Policy) that must be renewed</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="RISK">
+                <xs:annotation>
+                  <xs:documentation>Risk Processing Instructions</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="risk_folder_cnt" type="xs:int" use="required" />
+                  <xs:attribute name="rerate" type="xs:boolean" use="required" />
+                  <xs:attribute name="recalculate_reinsurance" type="xs:boolean" use="optional" />
+                  <xs:attribute name="recalculate_fees" type="xs:boolean" use="optional" />
+                  <xs:attribute name="recalculate_taxes" type="xs:boolean" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="insurance_folder_cnt" type="xs:int" use="required" />
+            <xs:attribute name="recalculate_commission" type="xs:boolean" use="required" />
+            <xs:attribute name="recalculate_fees" type="xs:boolean" use="required" />
+            <xs:attribute name="recalculate_taxes" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="RENEWAL_JOB" />
+      <xs:attribute name="insurance_folder_count" type="xs:int" use="required" />
+      <xs:attribute name="batch_renewal_job_code" type="xs:string" use="required" />
+      <xs:attribute name="batch_id" type="xs:int" use="optional" />
+      <xs:attribute name="batch_reference" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

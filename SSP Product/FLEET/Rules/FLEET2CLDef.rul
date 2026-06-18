@@ -1,0 +1,126 @@
+'Dim gsRiskType
+'Dim gFlag
+'gsRiskType = "pCATLIN"
+
+
+'Sub Start()
+
+             'Call CommonClaimDefault()
+'End Sub
+
+'Sub Main()
+            'Call CommonClaimDefault()
+'End Sub
+
+
+
+'******************************************************************************************************
+'Purpose : Common Function for Sub Start and Sub Main Claims.
+'Name : CommonClaimDefault
+'******************************************************************************************************
+Sub CommonClaimDefault()
+Engine.NewObject("pCATLIN")
+
+
+Dim vClaimDetails()
+Extras.GetClaimInformationDetail(vClaimDetails)
+Dim Excess
+Excess = Trim(Extras.RiskDataEngine.Item("pCATLIN").Item("STREXCESS_I").Value)
+
+Engine.Item("pCATLIN").Item("EXCESSAPPLICABLE").Value = 3 'Excess 
+Engine.Item("pCATLIN").Item("ADDITIONALTERMS").Value = Trim(Extras.RiskDataEngine.Item("pCATLIN").Item("ADDITIONALINFORMATION").Value)
+Engine.Item("pCATLIN").Item("VehicleMake").Value = Trim(Extras.RiskDataEngine.Item("CVEHICLES").Item("Vehicle_Make").Value)
+Engine.Item("pCATLIN").Item("VehicleModel").Value = Trim(Extras.RiskDataEngine.Item("CVEHICLES").Item("Vehicle_Model").Value)
+Engine.Item("pCATLIN").Item("classofVehicle").Value =  Trim(Extras.RiskDataEngine.Item("CVEHICLES").Item("VehicleType").Value)
+Engine.Item("pCATLIN").Item("classofVehicle").Value =  Trim(Extras.RiskDataEngine.Item("CVEHICLES").Item("VehicleType").Value)
+Engine.Item("pCATLIN").Item("EventCode").Value="MDVARS"
+
+'Dim iParentCount
+'im iSelectionCount
+'iParentCount =  Extras.RiskDataEngine.Count("CVEHICLES")
+'msgbox (iParentCount)
+'With Extras.RiskDataEngine.Item("CVEHICLES",iParentCount)
+'msgbox iParentCount
+'	.NewObject("CVEHICLES")
+'	iSelectionCount = .Count("CVEHICLES")
+'	.Item("CVEHICLES",1 ).Item("Vehicle_Make").Value = "adas" 'sInsuredFisrtName
+'	.Item("CVEHICLES",1 ).Item("Vehicle_Model").Value = "asdas" ' iAge
+'	.Item("CVEHICLES",1).Item("VehicleType").Value = "asdasd" 'sGender
+'End With
+
+
+
+'msgbox(sIPT)
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'Private Const pObject = "pCATLIN"
+'Private Const cObject = "cVEHICLES"
+'
+'Sub Start()
+'
+'Dim lVehicles, aCounter
+'
+'With Engine
+'
+'	lVehicles = Extras.RiskDataEngine.item(pObject).Count(cObject)
+'		
+'	If lVehicles > 0 Then
+'
+'		.NewObject(pObject)
+'
+'		For aCounter = 1 to lVehicles
+'			.item(pObject).NewObject(cObject)
+
+''			.item(pObject).Item(cObject, aCounter).Item("Origin").value = "Risk"
+'			.item(pObject).Item(cObject, aCounter).Item("Foreign_Indicator").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("Foreign_Indicator").value
+'			.item(pObject).Item(cObject, aCounter).Item("VRM").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("VRM").value
+'			.item(pObject).Item(cObject, aCounter).Item("Trade_Plate_Indicator").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("Trade_Plate_Indicator").value
+'			.item(pObject).Item(cObject, aCounter).Item("Vehicle_Make").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("Vehicle_Make").value
+'			.item(pObject).Item(cObject, aCounter).Item("Vehicle_Model").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("Vehicle_Model").value
+'			.item(pObject).Item(cObject, aCounter).Item("On_Date").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("On_Date").value
+'			.item(pObject).Item(cObject, aCounter).Item("Off_Date").value = Extras.RiskDataEngine.item(pObject).item(cObject,aCounter).item("Off_Date").value
+'
+'		Next
+'	End If
+'	
+'	
+'End With
+'
+'End Sub
+

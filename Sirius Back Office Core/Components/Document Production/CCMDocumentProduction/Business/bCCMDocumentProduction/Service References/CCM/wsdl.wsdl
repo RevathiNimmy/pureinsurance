@@ -1,0 +1,1433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.aiasoftware.com/cloud/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.aiasoftware.com/cloud/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.aiasoftware.com/cloud/v1">
+      <xs:element name="AiaAdministrationInformativeGetLogsV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="fromdate" type="tns:message" />
+            <xs:element name="todate" type="tns:message" />
+            <xs:element minOccurs="0" name="user" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAdministrationInformativeGetLogsV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="url" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAdministrationRepositoryAddUserV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="portaluser" type="tns:message" />
+            <xs:element name="repositoryuser" type="tns:message" />
+            <xs:element name="role" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAdministrationRepositoryAddUserV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiEditFieldsetV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="project" type="tns:message" />
+            <xs:element name="context" type="tns:name" />
+            <xs:element name="fieldset" type="tns:name" />
+            <xs:element name="fieldlist" type="tns:message" />
+            <xs:element name="status" type="tns:name" />
+            <xs:element minOccurs="0" name="action" type="tns:name" />
+            <xs:element name="language" type="tns:message" />
+            <xs:element name="addexamples" type="xs:boolean" />
+            <xs:element name="letterbook" type="tns:name" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiEditFieldsetV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetDocumentTemplatesV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetDocumentTemplatesV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="documenttemplatesxml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetEnvelopeV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="envelope" type="tns:repositoryobjectname" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetEnvelopeV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="envelope" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetEnvelopesV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetEnvelopesV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="envelopesxml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetLetterbookV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="letterbook" type="tns:repositoryobjectname" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetLetterbookV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="letterbook" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetLetterbooksV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetLetterbooksV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="letterbooksxml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetProjectsV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringApiGetProjectsV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="projectsxml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringContentManagementStartSessionV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element minOccurs="0" name="user" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaAuthoringContentManagementStartSessionV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveFromSessionGetDocxBasicV3Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveFromSessionGetDocxBasicV3Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="resulttype" type="tns:interactiveresult" />
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="session" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveFromSessionGetPdfBasicV3Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+            <xs:element minOccurs="0" name="SecureDocument" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveFromSessionGetPdfBasicV3Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="resulttype" type="tns:interactiveresult" />
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="session" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveResumeSessionBasicV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="session" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveResumeSessionBasicV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveStartSessionForDocxBasicV5Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element name="preview" type="xs:boolean" />
+            <xs:element name="confirm" type="xs:boolean" />
+            <xs:element minOccurs="0" name="previewfileformat" type="tns:message" />
+            <xs:element minOccurs="0" name="confirmfileformat" type="tns:message" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveStartSessionForDocxBasicV5Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveStartSessionForPdfBasicV5Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element name="preview" type="xs:boolean" />
+            <xs:element name="confirm" type="xs:boolean" />
+            <xs:element minOccurs="0" name="previewfileformat" type="tns:message" />
+            <xs:element minOccurs="0" name="confirmfileformat" type="tns:message" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaInteractiveStartSessionForPdfBasicV5Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreateDocxBasicV4Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreateDocxBasicV4Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreateHtmlBasicV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreateHtmlBasicV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreatePdfBasicV4Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element name="isconcept" type="xs:boolean" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+            <xs:element minOccurs="0" name="securedocument" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreatePdfBasicV4Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreatePdfEnvelopeV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="envelope" type="tns:repositoryobjectname" />
+            <xs:element name="isconcept" type="xs:boolean" />
+            <xs:element name="envelopexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element name="bundledocuments" type="xs:boolean" />
+            <xs:element name="zipresults" type="xs:boolean" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+            <xs:element minOccurs="0" name="securedocument" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreatePdfEnvelopeV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="envelopexml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreatePdfEnvelopeISOFormV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="envelope" type="tns:repositoryobjectname" />
+            <xs:element name="isconcept" type="xs:boolean" />
+            <xs:element name="envelopexml" type="xs:base64Binary" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element name="bundledocuments" type="xs:boolean" />
+            <xs:element name="zipresults" type="xs:boolean" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+            <xs:element minOccurs="0" name="securedocument" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreatePdfEnvelopeISOFormV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="envelopexml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreateSmsBasicV2Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="documenttemplate" type="tns:repositoryobjectname" />
+            <xs:element name="repositoryproject" type="tns:repositoryobjectname" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+            <xs:element minOccurs="0" name="status" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaOnDemandCreateSmsBasicV2Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+            <xs:element name="databackbonexml" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaPingV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="text" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaPingV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="response" type="tns:message" />
+            <xs:element name="pdf" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaPingInteractiveV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="text" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaPingInteractiveV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+            <xs:element name="url" type="tns:url" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaPingInteractiveGetPdfV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="itpcloudid" type="tns:sessionid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaPingInteractiveGetPdfV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="document" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaFaultV1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="errorcode" type="tns:errorcode" />
+            <xs:element name="message" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="name">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="version">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^V[0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="jobid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="sessionid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9\-]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ltburi">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^ltb:[/|\*].*$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="repositoryobjectname">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[^:?/&lt;&gt;*&quot;\\()]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="url">
+        <xs:restriction base="xs:anyURI" />
+      </xs:simpleType>
+      <xs:simpleType name="mimetype">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <xs:enumeration value="application/pdf" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="interactiveresult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="document" />
+          <xs:enumeration value="session" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="message">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^.*$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="errorcode">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="AiaAdministrationInformativeGetLogsV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAdministrationInformativeGetLogsV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAdministrationInformativeGetLogsV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAdministrationInformativeGetLogsV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAdministrationRepositoryAddUserV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAdministrationRepositoryAddUserV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAdministrationRepositoryAddUserV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAdministrationRepositoryAddUserV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiEditFieldsetV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiEditFieldsetV2Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiEditFieldsetV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiEditFieldsetV2Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetDocumentTemplatesV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetDocumentTemplatesV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetDocumentTemplatesV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetDocumentTemplatesV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetEnvelopeV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetEnvelopeV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetEnvelopeV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetEnvelopeV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetEnvelopesV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetEnvelopesV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetEnvelopesV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetEnvelopesV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetLetterbookV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetLetterbookV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetLetterbookV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetLetterbookV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetLetterbooksV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetLetterbooksV2Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetLetterbooksV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetLetterbooksV2Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetProjectsV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetProjectsV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringApiGetProjectsV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringApiGetProjectsV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringContentManagementStartSessionV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringContentManagementStartSessionV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaAuthoringContentManagementStartSessionV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaAuthoringContentManagementStartSessionV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveFromSessionGetDocxBasicV3RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveFromSessionGetDocxBasicV3Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveFromSessionGetDocxBasicV3ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveFromSessionGetDocxBasicV3Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveFromSessionGetPdfBasicV3RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveFromSessionGetPdfBasicV3Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveFromSessionGetPdfBasicV3ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveFromSessionGetPdfBasicV3Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveResumeSessionBasicV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveResumeSessionBasicV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveResumeSessionBasicV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveResumeSessionBasicV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveStartSessionForDocxBasicV5RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveStartSessionForDocxBasicV5Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveStartSessionForDocxBasicV5ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveStartSessionForDocxBasicV5Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveStartSessionForPdfBasicV5RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveStartSessionForPdfBasicV5Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaInteractiveStartSessionForPdfBasicV5ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaInteractiveStartSessionForPdfBasicV5Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreateDocxBasicV4RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreateDocxBasicV4Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreateDocxBasicV4ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreateDocxBasicV4Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreateHtmlBasicV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreateHtmlBasicV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreateHtmlBasicV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreateHtmlBasicV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreatePdfBasicV4RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreatePdfBasicV4Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreatePdfBasicV4ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreatePdfBasicV4Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreatePdfEnvelopeV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreatePdfEnvelopeV2Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreatePdfEnvelopeV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreatePdfEnvelopeV2Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreatePdfEnvelopeISOFormV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreatePdfEnvelopeISOFormV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreatePdfEnvelopeISOFormV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreatePdfEnvelopeISOFormV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreateSmsBasicV2RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreateSmsBasicV2Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaOnDemandCreateSmsBasicV2ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaOnDemandCreateSmsBasicV2Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaPingV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaPingV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaPingV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaPingV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaPingInteractiveV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaPingInteractiveV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaPingInteractiveV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaPingInteractiveV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaPingInteractiveGetPdfV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:AiaPingInteractiveGetPdfV1Request" />
+  </wsdl:message>
+  <wsdl:message name="AiaPingInteractiveGetPdfV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:AiaPingInteractiveGetPdfV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaFaultV1SoapFault">
+    <wsdl:part name="fault" element="tns:AiaFaultV1" />
+  </wsdl:message>
+  <wsdl:portType name="ITPInTheCloud">
+    <wsdl:operation name="AiaAdministrationInformativeGetLogsV1">
+      <wsdl:input message="tns:AiaAdministrationInformativeGetLogsV1RequestMsg" />
+      <wsdl:output message="tns:AiaAdministrationInformativeGetLogsV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAdministrationRepositoryAddUserV1">
+      <wsdl:input message="tns:AiaAdministrationRepositoryAddUserV1RequestMsg" />
+      <wsdl:output message="tns:AiaAdministrationRepositoryAddUserV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiEditFieldsetV2">
+      <wsdl:input message="tns:AiaAuthoringApiEditFieldsetV2RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiEditFieldsetV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetDocumentTemplatesV1">
+      <wsdl:input message="tns:AiaAuthoringApiGetDocumentTemplatesV1RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiGetDocumentTemplatesV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetEnvelopeV1">
+      <wsdl:input message="tns:AiaAuthoringApiGetEnvelopeV1RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiGetEnvelopeV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetEnvelopesV1">
+      <wsdl:input message="tns:AiaAuthoringApiGetEnvelopesV1RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiGetEnvelopesV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetLetterbookV1">
+      <wsdl:input message="tns:AiaAuthoringApiGetLetterbookV1RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiGetLetterbookV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetLetterbooksV2">
+      <wsdl:input message="tns:AiaAuthoringApiGetLetterbooksV2RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiGetLetterbooksV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetProjectsV1">
+      <wsdl:input message="tns:AiaAuthoringApiGetProjectsV1RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringApiGetProjectsV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringContentManagementStartSessionV1">
+      <wsdl:input message="tns:AiaAuthoringContentManagementStartSessionV1RequestMsg" />
+      <wsdl:output message="tns:AiaAuthoringContentManagementStartSessionV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveFromSessionGetDocxBasicV3">
+      <wsdl:input message="tns:AiaInteractiveFromSessionGetDocxBasicV3RequestMsg" />
+      <wsdl:output message="tns:AiaInteractiveFromSessionGetDocxBasicV3ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveFromSessionGetPdfBasicV3">
+      <wsdl:input message="tns:AiaInteractiveFromSessionGetPdfBasicV3RequestMsg" />
+      <wsdl:output message="tns:AiaInteractiveFromSessionGetPdfBasicV3ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveResumeSessionBasicV1">
+      <wsdl:input message="tns:AiaInteractiveResumeSessionBasicV1RequestMsg" />
+      <wsdl:output message="tns:AiaInteractiveResumeSessionBasicV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveStartSessionForDocxBasicV5">
+      <wsdl:input message="tns:AiaInteractiveStartSessionForDocxBasicV5RequestMsg" />
+      <wsdl:output message="tns:AiaInteractiveStartSessionForDocxBasicV5ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveStartSessionForPdfBasicV5">
+      <wsdl:input message="tns:AiaInteractiveStartSessionForPdfBasicV5RequestMsg" />
+      <wsdl:output message="tns:AiaInteractiveStartSessionForPdfBasicV5ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreateDocxBasicV4">
+      <wsdl:input message="tns:AiaOnDemandCreateDocxBasicV4RequestMsg" />
+      <wsdl:output message="tns:AiaOnDemandCreateDocxBasicV4ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreateHtmlBasicV1">
+      <wsdl:input message="tns:AiaOnDemandCreateHtmlBasicV1RequestMsg" />
+      <wsdl:output message="tns:AiaOnDemandCreateHtmlBasicV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreatePdfBasicV4">
+      <wsdl:input message="tns:AiaOnDemandCreatePdfBasicV4RequestMsg" />
+      <wsdl:output message="tns:AiaOnDemandCreatePdfBasicV4ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreatePdfEnvelopeV2">
+      <wsdl:input message="tns:AiaOnDemandCreatePdfEnvelopeV2RequestMsg" />
+      <wsdl:output message="tns:AiaOnDemandCreatePdfEnvelopeV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreatePdfEnvelopeISOFormV1">
+      <wsdl:input message="tns:AiaOnDemandCreatePdfEnvelopeISOFormV1RequestMsg" />
+      <wsdl:output message="tns:AiaOnDemandCreatePdfEnvelopeISOFormV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreateSmsBasicV2">
+      <wsdl:input message="tns:AiaOnDemandCreateSmsBasicV2RequestMsg" />
+      <wsdl:output message="tns:AiaOnDemandCreateSmsBasicV2ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaPingV1">
+      <wsdl:input message="tns:AiaPingV1RequestMsg" />
+      <wsdl:output message="tns:AiaPingV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaPingInteractiveV1">
+      <wsdl:input message="tns:AiaPingInteractiveV1RequestMsg" />
+      <wsdl:output message="tns:AiaPingInteractiveV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+    <wsdl:operation name="AiaPingInteractiveGetPdfV1">
+      <wsdl:input message="tns:AiaPingInteractiveGetPdfV1RequestMsg" />
+      <wsdl:output message="tns:AiaPingInteractiveGetPdfV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ITPInTheCloud" type="tns:ITPInTheCloud">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AiaAdministrationInformativeGetLogsV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/administration/informative/getlogs/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAdministrationRepositoryAddUserV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/administration/repository/adduser/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiEditFieldsetV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/editfieldset/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetDocumentTemplatesV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/getdocumenttemplates/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetEnvelopeV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/getenvelope/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetEnvelopesV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/getenvelopes/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetLetterbookV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/getletterbook/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetLetterbooksV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/getletterbooks/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringApiGetProjectsV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/api/getprojects/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaAuthoringContentManagementStartSessionV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/authoring/contentmanagement/startsession/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveFromSessionGetDocxBasicV3">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/interactive/fromsession/getdocx/basic/v3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveFromSessionGetPdfBasicV3">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/interactive/fromsession/getpdf/basic/v3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveResumeSessionBasicV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/interactive/resumesession/basic/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveStartSessionForDocxBasicV5">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/interactive/startsession/fordocx/basic/v5" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaInteractiveStartSessionForPdfBasicV5">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/interactive/startsession/forpdf/basic/v5" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreateDocxBasicV4">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ondemand/createdocx/basic/v4" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreateHtmlBasicV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ondemand/createhtml/basic/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreatePdfBasicV4">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ondemand/createpdf/basic/v4" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreatePdfEnvelopeV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ondemand/createpdf/envelope/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreatePdfEnvelopeISOFormV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ondemand/createpdf/envelopeisoform/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaOnDemandCreateSmsBasicV2">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ondemand/createsms/basic/v2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaPingV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/ping/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaPingInteractiveV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/pinginteractive/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AiaPingInteractiveGetPdfV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/aia/pinginteractivegetpdf/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ITPCloudService">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="ITPInTheCloud" binding="tns:ITPInTheCloud">
+      <soap:address location="http://10.25.5.49:8081/ccm/wsdl" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

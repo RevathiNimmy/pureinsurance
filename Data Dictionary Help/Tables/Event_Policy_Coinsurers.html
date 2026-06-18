@@ -1,0 +1,245 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Event_Policy_Coinsurers</h1>
+<p>This Event Table serves as a history table for the Policy_Coinsurers table, each entry in the Policy_Coinsurers table will have a corresponding entry here. This ensures any changes to the original table are tracked.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: Events, Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Event_Log.html#event_cnt">Event_Log.event_cnt</a> <span class="autodesc">insurance file</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_count">coinsurer_count</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">coinsurer count</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_percentage">coinsurer_percentage</a></td>
+<td>numeric(7, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer percentage</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_value">coinsurer_value</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_commission_rate">coinsurer_commission_rate</a></td>
+<td>numeric(7, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer commission rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_commission_amount">coinsurer_commission_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer commission amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_ipt_amount">coinsurer_ipt_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer ipt amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_policy_number">coinsurer_policy_number</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer policy number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Base_currency_id">Base_currency_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Base currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Base_coinsurer_commission_amount">Base_coinsurer_commission_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Base coinsurer commission amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Base_coinsurer_value">Base_coinsurer_value</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Base coinsurer value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Insurance_Section_id">Insurance_Section_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Insurance Section</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_net_commission">coinsurer_net_commission</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer net commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_commission_tax">coinsurer_commission_tax</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer commission tax</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coinsurer_cover_percentage">coinsurer_cover_percentage</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">coinsurer cover percentage</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_transfer_agreement">risk_transfer_agreement</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">risk transfer agreement</span></td>
+</tr>
+<tr>
+<td><a class="name" name="signed_line_percentage">signed_line_percentage</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">signed line percentage</span></td>
+</tr>
+<tr>
+<td><a class="name" name="linestands">linestands</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">linestands</span></td>
+</tr>
+<tr>
+<td><a class="name" name="written_line_percentage">written_line_percentage</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">written line percentage</span></td>
+</tr>
+<tr>
+<td><a class="name" name="signed_line_amount">signed_line_amount</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">signed line amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="bureau_party_cnt">bureau_party_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">bureau party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="isleadunderwriter">isleadunderwriter</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">isleadunderwriter</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_transfer_editable">risk_transfer_editable</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">risk transfer editable</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>insurance_file_cnt, party_cnt, coinsurer_count</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>insurance_file_cnt</td>
+<td><a href="Event_Log.html">Event_Log</a></td>
+<td>event_cnt</td>
+<td>Linked to the event that this historical data is for</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

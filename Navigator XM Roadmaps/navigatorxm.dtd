@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NavigatorXM Data Type Definition  -->
+<!-- Revision History : CTAF 141002 Version 1.0 -->
+<!ELEMENT MAP (STEP*)>
+<!ATTLIST MAP
+	WMTaskCode CDATA #REQUIRED
+	WMTaskDescription CDATA #REQUIRED
+	ImageURL CDATA #REQUIRED
+	TransactionType CDATA #REQUIRED
+	ProcessMode CDATA #REQUIRED
+	AutoClose CDATA #REQUIRED
+	NavigatorDriven CDATA #REQUIRED
+	Title CDATA #REQUIRED
+	RoadmapName CDATA #REQUIRED
+>
+<!ELEMENT STEP (KEY*)>
+<!ATTLIST STEP
+	Description CDATA #REQUIRED
+	Component CDATA #REQUIRED
+	Type CDATA #REQUIRED
+	CancelAction CDATA #REQUIRED
+	OKAction CDATA #REQUIRED
+	OKSteps CDATA #REQUIRED
+	CancelSteps CDATA #REQUIRED
+	ComponentAction CDATA #REQUIRED
+	ServerSide CDATA #REQUIRED
+	CreateWMTask CDATA #REQUIRED
+	StepID CDATA #REQUIRED
+	ResumeStep CDATA #REQUIRED
+	Submap CDATA #REQUIRED
+>
+<!ELEMENT KEY (#PCDATA)>
+<!ATTLIST KEY
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
+>

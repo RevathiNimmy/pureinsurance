@@ -1,0 +1,154 @@
+Imports System.Web.Configuration.WebConfigurationManager
+Imports Nexus.Library
+Imports CMS.Library
+Imports Nexus.Constants
+Imports Nexus.Constants.Session
+
+Namespace Nexus
+
+    Partial Class Controls_HomeLoginCntrl : Inherits System.Web.UI.UserControl
+
+        Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+            txtUsername.Focus()
+
+        End Sub
+
+        Protected Sub BtnSubmit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSubmit.Click
+
+            Dim bValidateUser As Boolean = Membership.ValidateUser(txtUsername.Text, txtPassword.Text)
+            If bValidateUser = False Then
+                vldLogInExists.IsValid = False
+            End If
+
+        End Sub
+
+        Protected Sub ClientLogin()
+
+            Dim user As MembershipUser = Membership.GetUser(txtUsername.Text)
+
+            If Not user Is Nothing And Membership.ValidateUser(txtUsername.Text, txtPassword.Text) Then
+
+                Dim oProfile As ProfileCommon = CType(ProfileCommon.Create(txtUsername.Text, True), ProfileCommon)
+                Dim oWebService As NexusProvider.ProviderBase = New NexusProvider.ProviderManager().Provider
+                Dim oParty As NexusProvider.BaseParty
+
+                Try
+                    oParty = oWebService.GetParty(oProfile.RegistrationDetails.PartyKey)
+                    Session.Add(CNParty, oParty)
+                Finally
+                    oWebService = Nothing
+                    oParty = Nothing
+                End Try
+
+                System.Web.Security.FormsAuthentication.SetAuthCookie(txtUsername.Text, False)
+
+                Session.Add(CNLoginType, LoginType.Customer)
+                If String.IsNullOrEmpty(Request.QueryString("ReturnUrl")) Then
+                    'No return url so go home
+                    Dim sClientStartPage As String = CType(GetSection("NexusFrameWork").Portals.Portal(Portal.GetPortalID()), Config.Portal).ClientStartPage
+                    FormsAuthentication.SetAuthCookie(txtUsername.Text, False)
+                    Response.Redirect(sClientStartPage, True)
+                Else
+                    FormsAuthentication.RedirectFromLoginPage(txtUsername.Text, False)
+                End If
+
+            Else
+
+                AgentLogin()
+
+            End If
+
+        End Sub
+
+        Protected Sub AgentLogin()
+
+            'Login Agent to Nexus, login methods no longer exist in SAM, so authenticate credentials
+            'by retrieving the user details with the credentials entered.
+
+            Session.Remove(CNAgentDetails)
+
+            Dim oWebService As NexusProvider.ProviderBase
+            Dim oUserDetails As NexusProvider.UserDetails
+
+            oWebService = New NexusProvider.ProviderManager().Provider
+
+            'Retrieve the user details and authenticate
+            Try
+
+                oUserDetails = oWebService.GetUserDetails(HttpContext.Current.User.Identity.Name)
+
+                Session.Add(CNAgentDetails, oUserDetails)
+                Session.Add(CNLoginType, LoginType.Agent)
+
+                ' Claims - Set session variables
+                Call SetClaimsSessionVariables(oUserDetails)
+
+                If String.IsNullOrEmpty(Request.QueryString("ReturnUrl")) Then
+                    'No return url so go home
+                    Dim sAgentStartPage As String = CType(GetSection("NexusFrameWork").Portals.Portal(Portal.GetPortalID()), Config.Portal).AgentStartPage
+                    FormsAuthentication.SetAuthCookie(txtUsername.Text, False)
+                    Response.Redirect(sAgentStartPage, False)
+                Else
+                    FormsAuthentication.RedirectFromLoginPage(txtUsername.Text, False)
+                End If
+
+            Catch ex As System.Web.Services.Protocols.SoapHeaderException
+                'Login failed with invalid credentials, this shouldn't be capturing any other
+                'type of exception they should all be dealt with by the errorhandler module
+                vldLogInExists.IsValid = False
+            Finally
+                oWebService = Nothing
+                oUserDetails = Nothing
+            End Try
+
+        End Sub
+
+        Private Sub SetClaimsSessionVariables(ByVal oUserDetails As NexusProvider.UserDetails)
+
+            ' **TODO - Claims Integration - Following seesion variables used by claims
+            ' Will need to tidy ths up to bring it more in line with Nexus                 
+
+            Dim sAgentName As String = String.Empty
+            Dim sEmailAddress As String = String.Empty
+            Dim sFullUserName As String = String.Empty
+            Dim sPartyName As String = String.Empty
+            Dim sPartyType As String = String.Empty
+
+            Dim iNumBranches As Integer
+
+            ' Create UserToken for use by Claims
+
+            'Dim tokUsernameToken As Microsoft.Web.Services3.Security.Tokens.UsernameToken = SAM.Utils.GetUserToken(txtUsername.Text, txtPassword.Text)
+
+
+            'iNumBranches = oUserDetails.ListOfBranches.Count
+            'Dim oBranchCodes As Array = Array.CreateInstance(GetType(SAMForInsurance.BaseBranchType), iNumBranches)
+
+            ' '' Move nexus style Branch info to Claims style.
+            ''For iBranchIndex As Integer = 0 To iNumBranches - 1
+
+            ''    Dim oBranchCode As New SAMForInsurance.BaseBranchType
+            ''    oBranchCode.BranchCode = oUserDetails.ListOfBranches(iBranchIndex).Code
+            ''    oBranchCode.Description = oUserDetails.ListOfBranches(iBranchIndex).Description
+
+            ''    oBranchCodes.SetValue(oBranchCode, iBranchIndex)
+            ''Next
+
+            With Session
+                '.Add(OnlineClaims.CNAgentKey, String.Empty)
+                '.Add(OnlineClaims.CNUserName, oUserDetails.ResolvedName)
+                '.Add(OnlineClaims.CNBranchCode, String.Empty)
+                '.Add(OnlineClaims.CNBranchCodes, oBranchCodes)
+                '.Add(OnlineClaims.CNAgentName, oUserDetails.PartyName)
+                '.Add(OnlineClaims.CNEmailAddress, String.Empty)
+            End With
+
+            ' **END TODO
+
+
+        End Sub
+
+    End Class
+
+End Namespace

@@ -1,0 +1,168 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>DOC_doc_user</h1>
+<p>Holds information and permissions for the DocuMaster users.  Links to the PMUserr table.</p>
+<p>
+                Logical database: DocuMaster<br>
+                Component team: DocuMaster<br>
+                Software module: DocuMaster<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="user_id">user_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK</td>
+<td>Primary key for the table.</td>
+</tr>
+<tr>
+<td><a class="name" name="access_level">access_level</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The users access level.</td>
+</tr>
+<tr>
+<td><a class="name" name="user_name">user_name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">user name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="home_folder_num">home_folder_num</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Relates to doc_folder. This is the folder that is the users home folder. This is the first folder that gets shown when they start DME.</td>
+</tr>
+<tr>
+<td><a class="name" name="retired">retired</a></td>
+<td>char(1)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Similar to is_deleted. Bit flag to indicate if the user is still active on the system.</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>user_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>user_id</td>
+<td>access_level</td>
+<td>user_name</td>
+<td>home_folder_num</td>
+<td>retired</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>sirius</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>3</td>
+<td>9</td>
+<td>support</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>6</td>
+<td>9</td>
+<td>ba</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>7</td>
+<td>9</td>
+<td>westonsabawo</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>9</td>
+<td>9</td>
+<td>markdintino</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>11</td>
+<td>9</td>
+<td>JohnKoutsivos</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>16</td>
+<td>9</td>
+<td>bkelly</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>20</td>
+<td>9</td>
+<td>georgepaolucci</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>23</td>
+<td>9</td>
+<td>bham</td>
+<td>0</td>
+<td>N</td>
+</tr>
+<tr>
+<td>30</td>
+<td>9</td>
+<td>MatthewHarkin</td>
+<td>0</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

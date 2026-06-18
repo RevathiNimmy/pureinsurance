@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!-- pmnav_map_id = 29 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd">
+<MAP WMTaskCode="UWCancel" WMTaskDescription="Complete Underwriting Cancel Policy" ImageURL="http://www.siriusgroup.co.uk" TransactionType="MTC" 
+
+ProcessMode="32" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting Cancel Policy" Core="1" ElementID="E1" Version="200">
+	<STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E2">
+	</STEP>
+	<STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" 
+
+ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3">
+		<KEY Name="insurance_file_type" Value="5" ElementID="E4"/>
+	</STEP>
+	<STEP Description="List Policy Version" Component="iPMUListPolicyVersion.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E5">
+	</STEP>
+	<STEP Description="Policy Details" Component="" Type="" CancelAction="" OKAction="" OKSteps="" CancelSteps="" ComponentAction="" ServerSide="False" 
+
+CreateWMTask="True" Core="1" ResumeStep="" Submap="UNDERPOLCA" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6">
+		<SUBMAP Code="UNDERPOLCA" Description="Underwriting Cancel Policy Details" ElementID="E7">
+			<!-- pmnav_map_id = 30 -->
+			<STEP Description="Underwriting Policy" Component="iPMUPolicy.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E8">
+			</STEP>
+			<STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" 
+
+OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E9">
+			</STEP>
+			<STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" 
+
+CancelSteps="2" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E10" Action1Action="BX" Action1Steps="2">
+			</STEP>
+			<STEP Description="Statistics" Component="iPMUStats.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" 
+
+CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E19">
+			</STEP>
+      <STEP Description="Plan Maintenance" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E26">
+        <KEY Name="TaskGroupCode" Value="MTC" ElementID="E27"/>
+      </STEP>
+
+      <STEP Description="Accumulation Values" Component="iPMUAccumulationValues.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" 
+
+OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E20">
+			</STEP>
+			<STEP Description="Produce Cancellation Notice" Component="iPMUGetDocument.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" 
+
+OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="" Submap="" OKNewRoadmap="" CancelNewRoadmap="" 
+
+ElementID="E24">
+				<KEY Name="document_id" Value="10" ElementID="E25"/>
+			</STEP>
+		</SUBMAP>
+	</STEP>
+</MAP>
+
+

@@ -1,0 +1,338 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Sub_Branch</h1>
+<p>Organisational units within each Source (see Source table).</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="Sub_branch_id">Sub_branch_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Sub branch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="reg_no_1">reg_no_1</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reg no 1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reg_no_2">reg_no_2</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reg no 2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address1">address1</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address1</td>
+</tr>
+<tr>
+<td><a class="name" name="address2">address2</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address2</td>
+</tr>
+<tr>
+<td><a class="name" name="address3">address3</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address3</td>
+</tr>
+<tr>
+<td><a class="name" name="address4">address4</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address4</td>
+</tr>
+<tr>
+<td><a class="name" name="postal_code">postal_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>postal code</td>
+</tr>
+<tr>
+<td><a class="name" name="country_id">country_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Country.html#country_id">Country.country_id</a> <span class="autodesc">country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="phone_area_code">phone_area_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>phone area code</td>
+</tr>
+<tr>
+<td><a class="name" name="phone_number">phone_number</a></td>
+<td>varchar(15)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>phone number</td>
+</tr>
+<tr>
+<td><a class="name" name="phone_extension">phone_extension</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>phone extension</td>
+</tr>
+<tr>
+<td><a class="name" name="fax_area_code">fax_area_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>fax area code</td>
+</tr>
+<tr>
+<td><a class="name" name="fax_number">fax_number</a></td>
+<td>varchar(15)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>fax number</td>
+</tr>
+<tr>
+<td><a class="name" name="fax_extension">fax_extension</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>fax extension</td>
+</tr>
+<tr>
+<td><a class="name" name="email">email</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>email</td>
+</tr>
+<tr>
+<td><a class="name" name="vat_no">vat_no</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>vat no</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>Sub_branch_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Country.html">Country</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>country_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>source_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>Sub_branch_id</td>
+<td><a href="Party.html">Party</a></td>
+<td>sub_branch_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Sub_branch_id</td>
+<td>source_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>reg_no_1</td>
+<td>reg_no_2</td>
+<td>address1</td>
+<td>address2</td>
+<td>address3</td>
+<td>address4</td>
+<td>postal_code</td>
+<td>country_id</td>
+<td>phone_area_code</td>
+<td>phone_number</td>
+<td>phone_extension</td>
+<td>fax_area_code</td>
+<td>fax_number</td>
+<td>fax_extension</td>
+<td>email</td>
+<td>vat_no</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>65382</td>
+<td>HeadOff</td>
+<td>57</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<Runtime.Serialization.DataContract>
+Public Enum AddressTypeType
+    <Runtime.Serialization.EnumMember(Value:="3131001")>
+    Item3131001 = 0
+    <Runtime.Serialization.EnumMember(Value:="3131002")>
+    Item3131002 = 1
+    <Runtime.Serialization.EnumMember(Value:="31310X9")>
+    Item31310X9 = 2
+    <Runtime.Serialization.EnumMember(Value:="31310XR")>
+    Item31310XR = 3
+    <Runtime.Serialization.EnumMember(Value:="3131XBA")>
+    Item3131XBA = 4
+    <Runtime.Serialization.EnumMember(Value:="3131XBI")>
+    Item3131XBI = 5
+    <Runtime.Serialization.EnumMember(Value:="3131XCO")>
+    Item3131XCO = 6
+    <Runtime.Serialization.EnumMember(Value:="3131XPR")>
+    Item3131XPR = 7
+    <Runtime.Serialization.EnumMember(Value:="3131XRE")>
+    Item3131XRE = 8
+    <Runtime.Serialization.EnumMember(Value:="3131XSA")>
+    Item3131XSA = 9
+    <Runtime.Serialization.EnumMember(Value:="3131ECK")>
+    Item3131ECK = 10
+    <Runtime.Serialization.EnumMember(Value:="Home")>
+    Home = 11
+    <Runtime.Serialization.EnumMember(Value:="Business")>
+    Business = 12
+    <Runtime.Serialization.EnumMember(Value:="Other")>
+    Other = 13
+    <Runtime.Serialization.EnumMember(Value:="SubAgent")>
+    SubAgent = 14
+    <Runtime.Serialization.EnumMember(Value:="Branch")>
+    Branch = 15
+    <Runtime.Serialization.EnumMember(Value:="Billing")>
+    Billing = 16
+    <Runtime.Serialization.EnumMember(Value:="Correspondence")>
+    Correspondence = 17
+    <Runtime.Serialization.EnumMember(Value:="Previous")>
+    Previous = 18
+    <Runtime.Serialization.EnumMember(Value:="Registered")>
+    Registered = 19
+    <Runtime.Serialization.EnumMember(Value:="Site")>
+    Site = 20
+    <Runtime.Serialization.EnumMember(Value:="Email")>
+    Email = 21
+End Enum

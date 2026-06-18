@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Export/Instalment_Export/20060321" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NS="http://www.siriusfs.com/SFI/Export/Instalment_Export/20060321" targetNamespace="http://www.siriusfs.com/SFI/Export/Instalment_Export/20060321" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="EXPORT_HEADER">
+    <xs:annotation>
+      <xs:documentation>Sirius Export Header</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="SCHEME_HEADER" />
+      </xs:sequence>
+      <xs:attribute name="parameters_used" type="xs:string" use="required" />
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="Instalment_Export" />
+      <xs:attribute name="date_exported" type="xs:dateTime" use="required" />
+      <xs:attribute name="batch_id" type="xs:long" use="required" />
+      <xs:attribute name="batch_reference" type="xs:string" use="required" />
+      <xs:attribute name="total_transactions" type="xs:long" use="required" />
+      <xs:attribute name="total_amount" type="xs:double" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SCHEME_TRANSACTION">
+    <xs:annotation>
+      <xs:documentation>Individual Transaction Record</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence maxOccurs ="unbounded" minOccurs ="0">
+        <xs:element ref="SCHEME_TRANSACTION_POLICY" />
+      </xs:sequence>
+      <xs:attribute name="record_type" type="xs:long" use="required" />
+      <xs:attribute name="plan_bank_code" type="xs:string" use="required" />
+      <xs:attribute name="plan_bank_account_number" type="xs:string" use="required" />
+      <xs:attribute name="sepa_plan_bic" type="xs:string" use ="optional" />
+      <xs:attribute name="sepa_plan_iban" type="xs:string" use ="optional" />
+      <xs:attribute name="transaction_code" type="xs:long" use="required" />
+      <xs:attribute name="grouped_amount" type="xs:decimal" use="required" />
+      <xs:attribute name="client_name" type="xs:string" use="required" />
+      <xs:attribute name="grouped_reference" type="xs:string" use="required" />
+      <xs:attribute name="total_withholding_tax" type="xs:double" use="required" />
+      <xs:attribute name="grouped_instalment_number" type="xs:long" />
+      <xs:attribute name="instalment_group_id" type="xs:long" />
+      <xs:attribute name="grouped_instalment_duedate" type="xs:dateTime" />
+      <xs:attribute name="grouped_instalment_status" type="xs:long" />
+      <xs:attribute name="grouped_instalment_status_description" type="xs:string" />
+      <xs:attribute name="grouped_instalment_transaction_code" type="xs:string" />
+      <xs:attribute name="plan_company_name" type="xs:string" />
+      <xs:attribute name="plan_bank_account_name" type="xs:string" />
+      <xs:attribute name="plan_bank_sort_code" type="xs:string" />
+      <xs:attribute name="plan_bank_name" type="xs:string" />
+      <xs:attribute name="plan_cc_number" type="xs:string" />
+      <xs:attribute name="plan_cc_expiry_date" type="xs:string" />
+      <xs:attribute name="plan_cc_start_date" type="xs:string" />
+      <xs:attribute name="plan_cc_issue" type="xs:string" />
+      <xs:attribute name="plan_cc_pin" type="xs:string" />
+      <xs:attribute name="plan_party_client_name" type="xs:string" />
+      <xs:attribute name="plan_cc_auth_code" type="xs:string" />
+      <xs:attribute name="plan_party_client_alternative_identifier" type="xs:string" />
+      <xs:attribute name="cc_tracking_number" type="xs:string" use ="optional" />
+      <xs:attribute name="is_online_agent" type="xs:string" use ="optional" />
+      <xs:attribute name="plan_bank_account_type" type="xs:string" use ="optional" />
+      <xs:attribute name="plan_bank_country" type="xs:string" use ="optional" />      
+
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SCHEME_HEADER">
+    <xs:complexType>
+      <xs:sequence maxOccurs ="unbounded" minOccurs ="0">
+        <xs:element ref="SCHEME_TRANSACTION" />
+      </xs:sequence>
+      <xs:attribute name="record_type" type="xs:long" />
+      <xs:attribute name="scheme_number" type="xs:long" />
+      <xs:attribute name="scheme_version" type="xs:long" />
+      <xs:attribute name="financial_institution_code" type="xs:string" />
+      <xs:attribute name="direct_debit_supplier_name" type="xs:string" />
+      <xs:attribute name="direct_debit_supplier_id" type="xs:string" />
+      <xs:attribute name="scheme_description" type="xs:string" />
+      <xs:attribute name="processing_date" type="xs:dateTime" />
+      <xs:attribute name="scheme_bank_code" type="xs:string" />
+      <xs:attribute name="scheme_bank_number" type="xs:string" />
+      <xs:attribute name="remitter" type="xs:string" />
+      <xs:attribute name="merchant_id" type="xs:string" />
+      <xs:attribute name="sepa_scheme_bic" type="xs:string" />
+      <xs:attribute name="sepa_scheme_iban" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SCHEME_TRANSACTION_POLICY">
+    <xs:annotation>
+      <xs:documentation>Transaction Policy Information</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="policy_id" type="xs:long" use="required" />
+      <xs:attribute name="insurance_ref" type="xs:string" use="required" />
+      <xs:attribute name="currency_code" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

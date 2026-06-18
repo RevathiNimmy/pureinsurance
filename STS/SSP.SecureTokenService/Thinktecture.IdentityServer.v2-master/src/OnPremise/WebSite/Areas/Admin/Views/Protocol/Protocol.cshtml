@@ -1,0 +1,27 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.Protocol
+@model ProtocolViewModel
+
+@{
+    ViewBag.Title = string.Format(Protocol_cshtml.ProtocolConfiguration, Model.DisplayName);
+}
+
+@using (Html.BeginForm("UpdateProtocol", "Protocol", new { id = Model.ID }))
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @Html.EditorFor(x => x.Protocol)
+               </div>
+           </div>
+        <div class="card-footer">
+            <button type="reset" class="btn btn-sm btn-dark">@Protocol_cshtml.Cancel</button>
+            <button type="submit" class="btn btn-sm btn-primary">@Protocol_cshtml.SaveChanges</button>
+        </div>
+   </div>
+    @Html.ValidationSummary(Protocol_cshtml.ErrorUpdatingProtocol)
+   
+}

@@ -1,0 +1,103 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/default.master" AutoEventWireup="false" CodeFile="PFFinancePlanTransaction.aspx.vb" Inherits="Nexus.Modal_PFFinancePlanTransaction" %>
+
+<%@ Register Assembly="Nexus.Utils" Namespace="Nexus.Utils.Custom" TagPrefix="cc1" %>
+<%@ Register TagPrefix="NexusProvider" Namespace="NexusProvider" Assembly="NexusProvider" %>
+
+<asp:Content ID="Content4" ContentPlaceHolderID="cntMainBody" Runat="Server">
+<div id="Modal_PFFinancePlanTransaction">
+        <div class="nexus-fluid-layout">
+            <div class="standard-form">
+            <asp:Panel ID="PnlPremiumFinancePlanTransaction" runat="server">
+                <h1>
+                    <asp:Literal ID="lblTitle" runat="server" Text="<%$ Resources:lbl_Title %>" /></h1>
+                <div class="fieldset-wrapper">
+                    <div class="top-corners">
+                    </div>
+                    <fieldset>
+                        <legend>Details</legend>
+                        <ol>
+                            <li>
+                                <asp:Label ID="lblClientCode" runat="server" AssociatedControlID="txtClientCode"
+                                    Text="<%$ Resources:lbl_ClientCode %>" />
+                               <asp:TextBox ID="txtClientCode" runat="server" CssClass="field-medium"  />
+                            </li>
+                            <li>
+                                <asp:Label ID="lblShowTransactions" runat="server" AssociatedControlID="dd1ShowTransactions" Text="<%$ Resources:lbl_ShowTransactions %>" />
+                                <asp:DropDownList ID="dd1ShowTransactions" runat="server">
+                                <asp:ListItem>From policies already on the</asp:ListItem>
+                                </asp:DropDownList>
+                            </li>
+                            <li>
+                                <asp:Label ID="lblDateTo" runat="server" AssociatedControlID="txtDateTo"
+                                    Text="<%$ Resources:lbl_DateTo %>" />
+                                <asp:TextBox ID="txtDateTo" runat="server" CssClass="field-medium" />
+                                <asp:RequiredFieldValidator ID="RqdLookup_Locality" runat="server" ControlToValidate="txtDateTo"
+                                    ValidationGroup="AddressGroup" ErrorMessage="<%$ Resources:err_Message %>"
+                                    SetFocusOnError="True" Display="none" Enabled="false" />
+                            </li>
+                            <li>
+                                <asp:Label ID="lblPolicyNo" runat="server" AssociatedControlID="txtPolicyNo" Text="<%$ Resources:lbl_PolicyNo %>" />
+                                <asp:TextBox ID="txtPolicyNo" runat="server" CssClass="field-medium" />
+                                
+                            </li>
+                            <li class="doublewidth">
+                                <asp:Label ID="lblTotalSelected" runat="server" AssociatedControlID="txtTotalSelected"
+                                    Text="<%$ Resources:lbl_TotalSelected %>" />
+                                <asp:TextBox ID="txtTotalSelected" runat="server" CssClass="field-medium" />    
+                            </li>                          
+                        </ol>
+                    </fieldset>
+                </div>
+                <div class="bottom-corners">
+                    <div>
+                    </div>
+                </div>
+                </asp:Panel>
+            </div>
+            
+          
+            <asp:ValidationSummary ID="ValidationSummary" ShowSummary="true" CssClass="error"
+                DisplayMode="BulletList" HeaderText="<%$ Resources:lbl_FPTransaction_ValidationSummary %>"
+                runat="server" ValidationGroup="AddressGroup" />
+              
+            <div class="submitarea">
+                <asp:Button ID="btnFindNow" runat="server" Text="<%$ Resources:btn_FindNow %>"
+                    CssClass="submit" />
+                <asp:Button ID="btnNewSearch" runat="server" Text="<%$ Resources:btn_NewSearch %>"
+                    CssClass="submit"  />
+            </div>
+            
+            <div class="table-wrapper">
+                            <%--<asp:UpdatePanel  runat="server" ChildrenAsTriggers="" UpdateMode="">
+                                <ContentTemplate>--%>
+                                    <asp:GridView ID="grdvTransactionSearchResults" runat="server" AllowPaging="True" PagerSettings-Mode="Numeric"
+                                        AutoGenerateColumns="false" EmptyDataRowStyle-CssClass="noData" >
+                                        <Columns>
+                                        <asp:TemplateField>
+                                         <ItemTemplate>
+                                             <asp:CheckBox ID="chkBranch" runat="server" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                         <asp:BoundField DataField="Branch" HeaderText="<%$ Resources:grdbf_Branch%>" />
+                                        <asp:BoundField DataField="PolicyReference" HeaderText="<%$ Resources:grdbf_PolicyReference %>" />
+                                        <asp:BoundField DataField="DocumentReference" HeaderText="<%$ Resources:grdbf_DocumentReference %>" />                                        
+                                        <asp:BoundField DataField="EffectiveDate" HeaderText="<%$ Resources:grdbf_EffectiveDate %>" />
+                                        <asp:BoundField DataField="TransactionDate" HeaderText="<%$ Resources:grdbf_TransactionDate %>" />
+                                        <asp:BoundField DataField="Period" HeaderText="<%$ Resources:grdbf_Period %>" />
+                                        <asp:BoundField DataField="GrossAmount" HeaderText="<%$ Resources:grdbf_GrossAmount %>" />
+                                        <asp:BoundField DataField="BalanceOS" HeaderText="<%$ Resources:grdbf_BalanceOS %>" />
+                                        <asp:BoundField DataField="DocumentType" HeaderText="<%$ Resources:grdbf_DocumentType %>" />   
+                                        </Columns>
+                                    </asp:GridView>
+                               <div class="submitarea">
+                            <asp:Button ID="btnOK" runat="server" Text="<%$ Resources:btn_OK %>" CssClass="submit"  />               
+                         </div>
+                        </div>
+                       
+        </div>
+    </div>
+
+
+
+</asp:Content>
+

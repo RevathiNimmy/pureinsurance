@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <MyType>Windows</MyType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C25FE872-C117-4019-880B-0DA741610CF6}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>cSIRRIControls</AssemblyName>
+    <OutputType>Library</OutputType>
+    <AssemblyMajorVersion>1140</AssemblyMajorVersion>
+    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>672</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>False</GenerateRevisionNumber>
+    <AssemblyCompanyName>Sirius Financial Solutions Plc.</AssemblyCompanyName>
+    <StartWithIE>True</StartWithIE>
+    <RootNamespace>cSIRRIControls</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>cSIRRIControls.xml</DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineDebug>True</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DefineDebug>False</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Artinsoft.VB6, Version=3.0.420.97, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Pure Build\Application\Artinsoft.VB6.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bObjectManager, Version=187.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Pure Build\Application\bObjectManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRRIModel, Version=1140.0.0.0, Culture=neutral">
+      <HintPath>C:\Pure Build\Application\bSIRRIModel.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="bSIRTreaty, Version=1140.0.0.0, Culture=neutral">
+      <HintPath>C:\Pure Build\Application\bSIRTreaty.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility">
+      <Name>Microsoft.VisualBasic.Compatibility</Name>
+    </Reference>
+    <Reference Include="SharedFiles, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Pure Build\Application\SharedFiles.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SSP.S4I.Interfaces, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Pure Build\Application\SSP.S4I.Interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="netstandard" />  
+	<Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+     
+	<Reference Include="System.Xml" >
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Artinsoft.Windows.Forms">
+      <Name>Artinsoft.Windows.Forms</Name>
+      <HintPath>C:\Pure Build\Application\Artinsoft.Windows.Forms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClaimRIArrangement.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClaimTotalizer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClaimTotalizerRI2007.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="cSIRRIControls.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RIModelCache.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RiskRIArrangement.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RiskTotalizer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RiskTotalizer2007.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="uctClaimReinsuranceControl.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctClaimReinsuranceControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctClaimReinsuranceControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uctClaimReinsuranceControlRI2007.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctClaimReinsuranceControlRI2007.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctClaimReinsuranceControlRI2007.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uctRIModelSummaryControl.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctRIModelSummaryControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctRIModelSummaryControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uctRiskReinsuranceControl.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctRiskReinsuranceControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctRiskReinsuranceControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uctRiskReinsuranceControlRI2007.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>uctRiskReinsuranceControlRI2007.vb</DependentUpon>
+    </Compile>
+    <Compile Include="uctRiskReinsuranceControlRI2007.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctClaimReinsuranceControl.resX">
+      <DependentUpon>uctClaimReinsuranceControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctClaimReinsuranceControlRI2007.resX">
+      <DependentUpon>uctClaimReinsuranceControlRI2007.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctRIModelSummaryControl.resX">
+      <DependentUpon>uctRIModelSummaryControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctRiskReinsuranceControl.resX">
+      <DependentUpon>uctRiskReinsuranceControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uctRiskReinsuranceControlRI2007.resX">
+      <DependentUpon>uctRiskReinsuranceControlRI2007.vb</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="..\..\..\..\Pure Build Process\AssemblyInfo.vb">
+      <Link>AssemblyInfo.vb</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FAC.ico" />
+    <Content Include="TTY.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

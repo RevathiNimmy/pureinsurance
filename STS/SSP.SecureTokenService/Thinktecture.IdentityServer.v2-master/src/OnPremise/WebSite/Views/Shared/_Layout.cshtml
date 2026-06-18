@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap css files and othres css plugins -->
+    @Scripts.Render("~/bundles/js/modernizr")
+    @Scripts.Render("~/bundles/js/popper") 
+    @Styles.Render("~/bundles/css/site")
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @RenderSection("styles", false)
+
+</head>
+<body>
+
+    <div class="app">
+        <!-- Start Navbar -->
+        <div id="login-navbar" class="navbar md-whiteframe-z1 no-radius red">
+            <!-- Open side - Naviation on mobile -->
+            <a id="login-menu-icon" md-ink-ripple data-bs-toggle="modal" data-bs-target="#aside" class="navbar-item pull-left visible-xs visible-sm"><img src="@Url.Content("~/Content/images/logo.jpg")" alt="Logo" /></a>
+            <a id="brand-logo" class="navbar-brand navbar-item pull-left logo-left start-15"></a>
+            <!-- Page title - Bind to $state's title -->
+            @*<div class="navbar-item pull-left font-bold h4 hidden-xs">STS Application</div>*@
+            <!-- / -->
+            <!-- / End Application menu -->
+            @Html.Partial("_Header")
+            <!-- / End Application menu -->
+        </div>
+        <!-- / End Navbar -->
+        <!-- Content -->
+        @RenderBody()
+        <!-- / content -->
+        <!-- Footer -->
+        @Html.Partial("_Footer")
+        <!-- / footer -->
+    </div>
+
+    @Scripts.Render("~/bundles/js/jquery")
+    <script>
+        $(document).ready(function () {
+            $("textarea[class='text-box multi-line'], input[class='text-box single-line'], input[class='text-box single-line password']").addClass("form-control");
+            $("input[class='text-box single-line form-control']").addClass("mt-0");
+            $("input[class='input-validation-error text-box single-line'],input[class='input-validation-error text-box single-line password']").addClass("input-validation-error form-control");
+            $("img[title]").attr({
+                "data-toggle": "tooltip",
+                "data-placement": "bottom"
+            });
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+
+            })
+        });
+    </script>
+
+    @RenderSection("scripts", false)
+</body>
+</html>

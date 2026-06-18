@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp2 (http://www.altova.com) by Richard Taylor (SSP Sirius Ltd) -->
+<xs:schema xmlns:bt="http://www.siriusfs.com/SFI/SAM/BaseTypes/20050929" xmlns="http://www.siriusfs.com/SFI/SAM/MessagingTypes/20050929" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.siriusfs.com/SFI/SAM/MessagingTypes/20050929" elementFormDefault="unqualified">
+	<xs:import namespace="http://www.siriusfs.com/SFI/SAM/BaseTypes/20050929" schemaLocation="BaseTypes.xsd"/>
+	<xs:element name="NewBusinessRequest" type="NewBusinessRequestType" nillable="true"/>
+	<xs:element name="NewBusinessResponse" type="NewBusinessResponseType" nillable="true"/>
+	<xs:element name="NBTransactRequest" type="NBTransactRequestType" nillable="true"/>
+	<xs:element name="NBTransactResponse" type="NBTransactResponseType" nillable="true"/>
+	<xs:element name="PolicyProcessRequest" type="PolicyProcessRequestType" nillable="true"/>
+	<xs:element name="PolicyProcessResponse" type="PolicyProcessResponseType" nillable="true"/>
+	<xs:element name="STSError" type="bt:STSErrorType" nillable="true"/>
+	<xs:element name="STSErrorInvalidData" type="bt:STSErrorInvalidDataType" nillable="true"/>
+	<xs:element name="STSErrorInternalException" type="bt:STSErrorInternalExceptionType" nillable="true"/>
+	<xs:element name="STSErrorSiriusBackOffice" type="bt:STSErrorSiriusBackOfficeType" nillable="true"/>
+	<xs:element name="STSErrorSTSBusinessRule" type="bt:STSErrorSTSBusinessRuleType" nillable="true"/>
+	<xs:element name="GetDatasetSchemaRequest" type="GetDatasetSchemaRequestType" nillable="true"/>
+	<xs:element name="GetDatasetSchemaResponse" type="GetDatasetSchemaResponseType" nillable="true"/>
+	<xs:complexType name="GetDatasetSchemaRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseGetDatasetSchemaRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetDatasetSchemaResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseGetDatasetSchemaResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NewBusinessRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseNBQuoteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NewBusinessResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseNBQuoteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NBTransactRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseTransactRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NBTransactResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseTransactResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PolicyProcessRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseNBQuoteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PolicyProcessResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bt:BaseNBQuoteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

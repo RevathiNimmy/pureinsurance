@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://www.siriusfs.com/SFI/Export/Claims_Export/20060419" elementFormDefault="qualified" xmlns="http://www.siriusfs.com/SFI/Export/Claims_Export/20060419" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="EXPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Export Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="CLAIM" />
+			</xs:sequence>
+            <xs:attribute name="parameters_used" type="xs:string" use="required" />
+            <xs:attribute name="interface_name" type="xs:string" use="required" fixed="Claims_Export" />
+            <xs:attribute name="date_exported" type="xs:dateTime" use="required" />
+            <xs:attribute name="batch_id" type="xs:long" use="required" />
+            <xs:attribute name="batch_reference" type="xs:string" use="required" />
+            <xs:attribute name="total_transactions" type="xs:long" use="required" />
+            <xs:attribute name="total_amount" type="xs:double" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CLAIM">
+		<xs:annotation>
+			<xs:documentation>Individual Transaction Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CLAIMPERIL" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="CASEBUILDER" type="xs:string" minOccurs="0"/>
+				<xs:element name="CLAIMBUILDER" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+            <xs:attribute name="claim_id" type="xs:long" use="required" />
+            <xs:attribute name="claim_number" type="xs:string" use="required" />
+            <xs:attribute name="policy_number" type="xs:string" use="required" />
+            <xs:attribute name="claim_version" type="xs:long" />
+            <xs:attribute name="description" type="xs:string" use="required" />
+            <xs:attribute name="claim_status_code" type="xs:string" use="required" />
+            <xs:attribute name="progress_status_code" type="xs:string" use="required" />
+            <xs:attribute name="primary_cause_code" type="xs:string" />
+            <xs:attribute name="secondary_cause_code" type="xs:string" />
+            <xs:attribute name="catastrophe_code" type="xs:string" />
+            <xs:attribute name="coinsurance_treatment_code" type="xs:string" />
+            <xs:attribute name="loss_from_date" type="xs:dateTime" />
+            <xs:attribute name="loss_to_date" type="xs:dateTime" />
+            <xs:attribute name="reported_date" type="xs:dateTime" />
+            <xs:attribute name="reported_to_date" type="xs:dateTime" />
+            <xs:attribute name="claims_handler_name" type="xs:string" />
+            <xs:attribute name="loss_currency_code" type="xs:string" />
+            <xs:attribute name="info_only_code" type="xs:boolean" />
+            <xs:attribute name="likely_claim" type="xs:boolean" />
+            <xs:attribute name="location" type="xs:string" />
+            <xs:attribute name="town_description" type="xs:string" />
+            <xs:attribute name="risk_type_code" type="xs:string" />
+            <xs:attribute name="client_name" type="xs:string" />
+            <xs:attribute name="client_address1" type="xs:string" />
+            <xs:attribute name="client_address2" type="xs:string" />
+            <xs:attribute name="client_address3" type="xs:string" />
+            <xs:attribute name="client_address4" type="xs:string" />
+            <xs:attribute name="client_postal_code" type="xs:string" />
+            <xs:attribute name="client_country" type="xs:string" />
+            <xs:attribute name="client_telephone" type="xs:string" />
+            <xs:attribute name="client_fax" type="xs:string" />
+            <xs:attribute name="client_mobile" type="xs:string" />
+            <xs:attribute name="client_email" type="xs:string" />
+            <xs:attribute name="client_claim_number" type="xs:string" />
+            <xs:attribute name="insurer_name" type="xs:string" />
+            <xs:attribute name="insurer_address1" type="xs:string" />
+            <xs:attribute name="insurer_address2" type="xs:string" />
+            <xs:attribute name="insurer_address3" type="xs:string" />
+            <xs:attribute name="insurer_address4" type="xs:string" />
+            <xs:attribute name="insurer_postal_code" type="xs:string" />
+            <xs:attribute name="insurer_country" type="xs:string" />
+            <xs:attribute name="insurer_telephone" type="xs:string" />
+            <xs:attribute name="insurer_fax" type="xs:string" />
+            <xs:attribute name="insurer_email" type="xs:string" />
+            <xs:attribute name="insurer_claim_number" type="xs:string" />
+            <xs:attribute name="insurer_contact_name" type="xs:string" />
+            <xs:attribute name="domiciled_for_tax" type="xs:boolean" />
+            <xs:attribute name="tax_number" type="xs:string" />
+            <xs:attribute name="comments" type="xs:string" />
+            <xs:attribute name="underwriting_year_code" type="xs:string" />
+            <xs:attribute name="created_date" type="xs:dateTime" />
+            <xs:attribute name="created_by_username" type="xs:string" />
+            <xs:attribute name="last_modified_date" type="xs:dateTime" />
+            <xs:attribute name="last_modified_by_username" type="xs:string" />
+            <xs:attribute name="base_claim_id" type="xs:long" />
+            <xs:attribute name="case_id" type="xs:long" />
+            <xs:attribute name="case_number" type="xs:string" />
+            <xs:attribute name="case_opened_date" type="xs:dateTime" />
+            <xs:attribute name="case_version" type="xs:string" />
+            <xs:attribute name="case_progress_code" type="xs:string" />
+            <xs:attribute name="case_analyst_handler" type="xs:string" />
+            <xs:attribute name="case_admin_handler" type="xs:string" />
+            <xs:attribute name="case_base_case_id" type="xs:long" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CLAIMPERIL">
+		<xs:annotation>
+			<xs:documentation>Claim Peril Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RESERVE" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RECOVERY" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="claim_peril_id" type="xs:long"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RESERVE">
+		<xs:annotation>
+			<xs:documentation>Reserve Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="reserve_id" type="xs:long"/>
+			<xs:attribute name="reserve_description" type="xs:string"/>
+			<xs:attribute name="reserve_amount" type="xs:decimal"/>
+			<xs:attribute name="total_incurred" type="xs:decimal"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RECOVERY">
+		<xs:annotation>
+			<xs:documentation>Recovery Record</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="recovery_id" type="xs:long"/>
+			<xs:attribute name="recovery_type_code" type="xs:string"/>
+			<xs:attribute name="recovery_description" type="xs:string"/>
+			<xs:attribute name="recovery_amount" type="xs:decimal"/>
+			<xs:attribute name="total_incurred" type="xs:decimal"/>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

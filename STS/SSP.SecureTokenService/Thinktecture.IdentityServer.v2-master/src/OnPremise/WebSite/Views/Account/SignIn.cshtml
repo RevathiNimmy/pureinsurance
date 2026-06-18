@@ -1,0 +1,88 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Account
+@using Thinktecture.IdentityServer.Web.Utility
+@model Thinktecture.IdentityServer.Web.ViewModels.SignInModel
+
+@{
+    ViewBag.Title = SignIn_cshtml.UsernamePasswordSignIn;
+    if (Model.IsSigninRequest)
+    {
+        ViewBag.HideMenu = true;
+    }
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+  <div class="p-h-md m-v-sm">
+    <div class="alert alert-warning">@string.Format(SignIn_cshtml.UnauthorizedAuthenticatedUser, User.Identity.Name)</div>
+</div>  
+}
+
+@using (Html.BeginForm("SignIn", "Account", FormMethod.Post))
+{
+    
+    <div id="login-section" class="center-block p-v-md">
+    <div id="login-panel" class="p-lg panel md-whiteframe-z4 text-color m">
+         <div class="navbar">
+          <div id="login-logo" class="m-b-md text-center">
+           <img src="~/Content/images/login-logo.png"/>
+       @* <span class="m-l inline">STS</span>*@
+      </div>
+    </div>
+      <div id="login-text" class="m-b text-md font-bold text-center">
+        LOG IN
+      </div>
+      <form name="form">
+        <div class="form-group" style="display:none">
+            @Html.CheckBoxFor(model => model.IsSigninRequest)
+            @Html.TextBoxFor(model => model.ReturnUrl)
+        </div>
+        <div style="display:none">
+              @Html.TextBox("fakeusrnme", "", new { @class = "username", autocomplete = "off" })
+              @Html.TextBox("fakeusrpwd", "", new { @class = "pwd", autocomplete = "nope", type = "password" })
+        </div>
+        <div class="form-group">
+           @Html.LabelFor(m => m.UserName)
+           @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autocomplete = "off" })
+        </div>
+        <div class="form-group">
+          @Html.LabelFor(m => m.Password)
+          @Html.TextBoxFor(m => m.Password,  new {id = "hdpwd", @class = "form-control", autocomplete = "new-password", type = "password" })
+          @*@Html.HiddenFor(m => m.Password, new { id = "hdpwd" })*@
+        </div>      
+        <input type="submit" value="@SignIn_cshtml.SignIn" class="btn btn-lg btn-dark btn-block p-h-md waves-effect btn-signin" />
+      </form>
+    </div>
+    <div id="login-contact-text" class="p-v-lg text-center">
+      <div class="m-b font-bold">Need help?</div>
+      <div>Call 0000 000 0000 or Email: demodemo@demo.com</div>
+    </div>
+  </div>
+    <div class="p-h-md">
+         @Html.ValidationSummary(false, SignIn_cshtml.SignInWasUnsuccessful)
+    </div>
+}
+<link href="~/Content/login-theme.css" rel="stylesheet" />
+@section scripts
+{
+   <script type="text/javascript">
+       $(function () {
+           $("#UserName").focus();
+       });
+       $("form").submit(function () {
+           var pwd = $("#usrpwd").val();          
+           $("#usrpwd").val(makestring(50));
+       });
+
+       function makestring(len) {
+           var text = "";
+           var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+           for (var i = 0; i < len; i++)
+               text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+           return text;
+       }
+</script>
+}
+

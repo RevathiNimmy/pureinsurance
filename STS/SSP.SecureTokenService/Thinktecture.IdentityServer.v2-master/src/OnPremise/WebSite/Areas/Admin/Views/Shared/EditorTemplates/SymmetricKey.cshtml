@@ -1,0 +1,13 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.Shared.EditorTemplates
+@using Thinktecture.IdentityServer.Web.Utility
+
+@{
+    var value = Model as string;
+    var id = this.ViewData.TemplateInfo.GetFullHtmlFieldId("");
+}
+ <div class="input-group flex-nowrap">
+    @Html.TextBox("", value, new { @class="form-control base64" })
+     <span class="input-group-btn mt-1">
+       <button type="button" data-base64target="@id" class="btn btn-sm btn-default base64">@SymmetricKey_cshtml.Generate</button>
+     </span>
+</div>

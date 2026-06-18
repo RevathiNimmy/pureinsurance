@@ -1,0 +1,22 @@
+@echo off
+copy /y *interop*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y a*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y a*.pdb _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y b*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y b*.pdb _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y c*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y c*.pdb _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y d*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y d*.pdb _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y g*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y g*.pdb _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y s*.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y s*.pdb _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y iGISListManager.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y iPMMessage.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y Ionic.zip.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y iLogonManager.exe.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y iLogonManager.pdb.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y HtmlAgilityPack.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y log4net.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt
+copy /y PostSharp.dll _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WebserviceInstall.txt

@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_calc_risk_ri_band'
+GO
+
+

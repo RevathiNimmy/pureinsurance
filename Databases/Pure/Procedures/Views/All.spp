@@ -1,0 +1,42 @@
+-- Views must be defined in dependency order
+
+-- Proper generic views
+#include Clients.sql
+#include ClientsCorporate.sql
+#include ClientsGroup.sql
+#include ClientsPersonal.sql
+#include ClientsProspect.sql
+#include ClientAddresses.sql
+#include ClientAssociations.sql
+#include ClientContacts.sql
+#include ClientConvictions.sql
+#include ClientDependants.sql
+#include ClientProspectCampaigns.sql
+#include ClientProspectPolicies.sql
+#include qryClientLoyaltySchemes.sql
+#include Policy2Folders.sql
+#include Policy2Files.sql
+#include Policy2CurrentFiles.sql
+#include PolicyCoInsurers.sql
+#include PolicyDisbursements.sql
+#include PolicyWordings.sql
+#include Claims.sql
+#include ClaimPayments.sql
+#include ClaimRiskQuestions.sql
+#include ClaimPerilQuestions.sql
+#include AccountsBalanceStatement.sql
+#include QRY_FSA
+
+-- Obsolete backward compatibility views
+#include PolicyFolders.sql
+#include PolicyFiles.sql
+#include Policies.sql
+
+-- Non-generic reports for specific customers
+#include Diary.sql
+#include AccountTransactions.sql
+#include AgedDebtors.sql
+#include TransactionDetails.sql
+#include ClientsAndPolicies.sql
+#include ClientPolicyAccountTransactions.sql
+#include PolicyTransactions.sql

@@ -1,0 +1,58 @@
+﻿@model KeyConfigurationViewModel
+@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.KeyConfiguration
+@using Thinktecture.IdentityServer.Web.Utility
+
+@{
+    ViewBag.Title = Index_cshtml.KeyConfiguration;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+   
+
+    <div class="card">
+           <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+           </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                   <div class="form-group form-group-sm">
+                        @Html.LabelFor(x => x.Keys.SigningCertificate, new { @class = "Col-lg-2 col-md-3 control-label" })
+                        @Html.ValidatorFor(x => x.Keys.SigningCertificate)
+                        <div class="Col-lg-8 col-md-8">
+                        @Html.DropDownListFor(x => x.Keys.SigningCertificate, Model.AvailableSigningCerts, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        @Html.LabelFor(x => x.SigningCertificateThumbprint, new { @class = "Col-lg-2 col-md-3 control-label" })
+                        <div class="Col-lg-8 col-md-8">
+                          <p class="form-control-static font-bold">
+                            @Model.SigningCertificateThumbprint
+                          </p>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        @Html.LabelFor(x => x.Keys.DecryptionCertificate, new { @class = "Col-lg-2 col-md-3 control-label" })
+                         @Html.ValidatorFor(x => x.Keys.DecryptionCertificate)
+                        <div class="Col-lg-8 col-md-8">
+                        @Html.DropDownListFor(x => x.Keys.DecryptionCertificate, Model.AvailableDecryptionCerts, new { @class = "form-control" })
+                        </div>
+                       
+                    </div>
+                   <div class="form-group form-group-sm">
+                        @Html.LabelFor(x => x.Keys.SymmetricSigningKey, new { @class = "Col-lg-2 col-md-3 control-label" })
+                        @Html.ValidatorFor(x => x.Keys.SymmetricSigningKey)
+                        <div class="Col-lg-8 col-md-8">
+                        @Html.EditorFor(x => x.Keys.SymmetricSigningKey)
+                        </div>
+                    </div>
+              </div>
+          </div>
+          <div class="card-footer">
+            <button type="reset" class="btn btn-sm btn-dark">@Index_cshtml.Cancel</button>
+            <button type="submit" class="btn btn-sm btn-primary">@Index_cshtml.Update</button>
+          </div>
+   </div>
+     @Html.ValidationSummary(Index_cshtml.ErrorUpdatingKeys)
+}

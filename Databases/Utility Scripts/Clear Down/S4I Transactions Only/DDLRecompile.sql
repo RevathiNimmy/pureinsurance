@@ -1,0 +1,4 @@
+DDLUpdateStatsAndRecompile
+go
+DDLTruncateLogAndShrinkFiles
+go

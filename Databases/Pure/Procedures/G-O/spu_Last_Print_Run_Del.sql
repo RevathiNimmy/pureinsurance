@@ -1,0 +1,17 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_Last_Print_Run_Del'
+GO
+
+
+CREATE PROCEDURE spu_Last_Print_Run_Del
+AS
+
+
+DELETE
+FROM Last_Print_Run
+GO
+
+

@@ -1,0 +1,241 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PFPaymentMethod</h1>
+<p>Payment Methods available for Instalment Plans. These settings are driven by the Payment Method business object. (Not currently used - to be redesigned for 1.9 Instalments)</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Accounts<br>
+                Software module: Instalments<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="PFPaymentMethod_cnt">PFPaymentMethod_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(L)</td>
+<td><span class="autodesc">PFPayment Method</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Description">Description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="Directory">Directory</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Directory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Filename">Filename</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Filename</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Header">Header</a></td>
+<td>varchar(512)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Header</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Detail">Detail</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Detail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Footer">Footer</a></td>
+<td>varchar(512)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Footer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Delimeter">Delimeter</a></td>
+<td>varchar(3)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Delimeter</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ASCIIValue">ASCIIValue</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ASCIIValue</span></td>
+</tr>
+<tr>
+<td><a class="name" name="AmountInPence">AmountInPence</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Amount In Pence</span></td>
+</tr>
+<tr>
+<td><a class="name" name="QuoteCharacter">QuoteCharacter</a></td>
+<td>varchar(1)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Quote Character</span></td>
+</tr>
+<tr>
+<td><a class="name" name="QuotedNumerics">QuotedNumerics</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Quoted Numerics</span></td>
+</tr>
+<tr>
+<td><a class="name" name="QuotedStrings">QuotedStrings</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Quoted Strings</span></td>
+</tr>
+<tr>
+<td><a class="name" name="AccountNumbersOnly">AccountNumbersOnly</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Account Numbers Only</span></td>
+</tr>
+<tr>
+<td><a class="name" name="DateFormat">DateFormat</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Date Format</span></td>
+</tr>
+<tr>
+<td><a class="name" name="AllowAutoPost">AllowAutoPost</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Allow Auto Post</span></td>
+</tr>
+<tr>
+<td><a class="name" name="DisableExport">DisableExport</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">Disable Export</span></td>
+</tr>
+<tr>
+<td><a class="name" name="UseZeroInstalment">UseZeroInstalment</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Use Zero Instalment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_validation_id">mediatype_validation_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">mediatype validation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ExcludeAUDIS">ExcludeAUDIS</a></td>
+<td>tinyint</td>
+<td>null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ExcludeAUDIS</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK(L)</td>
+<td>PFPaymentMethod_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>PFPaymentMethod_cnt</td>
+<td>Description</td>
+<td>Directory</td>
+<td>Filename</td>
+<td>Header</td>
+<td>Detail</td>
+<td>Footer</td>
+<td>Delimeter</td>
+<td>ASCIIValue</td>
+<td>AmountInPence</td>
+<td>QuoteCharacter</td>
+<td>QuotedNumerics</td>
+<td>QuotedStrings</td>
+<td>AccountNumbersOnly</td>
+<td>DateFormat</td>
+<td>AllowAutoPost</td>
+<td>DisableExport</td>
+<td>UseZeroInstalment</td>
+<td>mediatype_validation_id</td>
+<td>ExcludeAUDIS</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>DDM BACS</td>
+<td>C:\</td>
+<td>DD Export.TXT</td>
+<td>HEADER FOR &lt;B&gt;</td>
+<td>&lt;BSC&gt;&lt;BAC&gt;&lt;BAN&gt;&lt;REF&gt;&lt;AMT&gt;&lt;TC&gt;</td>
+<td>FOOTER AT &lt;D&gt;
+RECORDS=&lt;RC&gt;</td>
+<td>,</td>
+<td>0</td>
+<td>0</td>
+<td>'</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>DDMMYYYY HH:NN</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

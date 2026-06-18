@@ -1,0 +1,14 @@
+Sub Start()
+
+	If Len(oSharedStorage.vPostCode) >= 6 Then
+		Dim aAllLines
+		Dim lReturn
+		Dim oPAFWrapper
+		set oPAFWrapper=CreateObject("bPMPAFWrapper.Business")		
+		lReturn=oPAFWrapper.FindAddress(oSharedStorage.vPostCode,oSharedStorage.vAddressLine1,aAllLines)
+		oSharedStorage.vValid=True
+		oSharedStorage.vAddressArray = aAllLines
+	Else
+		Msgbox "Please enter full postcode",,"Invalid Postcode"
+	End If
+End Sub

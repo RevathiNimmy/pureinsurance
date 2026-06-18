@@ -1,0 +1,280 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMSystem</h1>
+<p>Computer licencing</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                System table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="system_id">system_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">system</span></td>
+</tr>
+<tr>
+<td><a class="name" name="product_id">product_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMProduct.html#pmproduct_id">PMProduct.pmproduct_id</a> <span class="autodesc">product</span></td>
+</tr>
+<tr>
+<td><a class="name" name="system_name">system_name</a></td>
+<td>char(40)</td>
+<td>not null</td>
+<td>AK</td>
+<td><span class="autodesc">system name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_source_id">default_source_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">default source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="home_country_id">home_country_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Country.html#country_id">Country.country_id</a> <span class="autodesc">home country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="language_id">language_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Language.html#language_id">Language.language_id</a> <span class="autodesc">language</span></td>
+</tr>
+<tr>
+<td><a class="name" name="licence_limit">licence_limit</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">licence limit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="licence_key">licence_key</a></td>
+<td>varchar(30)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">licence key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="log_level">log_level</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">log level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pool_size">pool_size</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pool size</span></td>
+</tr>
+<tr>
+<td><a class="name" name="timestamp">timestamp</a></td>
+<td>timestamp</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">timestamp</span></td>
+</tr>
+<tr>
+<td><a class="name" name="AD_OU_Path">AD_OU_Path</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">AD OU Path</span></td>
+</tr>
+<tr>
+<td><a class="name" name="AD_OU_Domain">AD_OU_Domain</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">AD OU Domain</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>system_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>AK</td>
+<td>system_name</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>home_country_id</td>
+<td><a href="Country.html">Country</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>language_id</td>
+<td><a href="Language.html">Language</a></td>
+<td>language_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="PMProduct.html">PMProduct</a></td>
+<td>pmproduct_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>default_source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>default_source_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>home_country_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>language_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>product_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>system_id</td>
+<td>product_id</td>
+<td>system_name</td>
+<td>default_source_id</td>
+<td>home_country_id</td>
+<td>currency_id</td>
+<td>language_id</td>
+<td>licence_limit</td>
+<td>licence_key</td>
+<td>log_level</td>
+<td>pool_size</td>
+<td>timestamp</td>
+<td>AD_OU_Path</td>
+<td>AD_OU_Domain</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>(Template)</td>
+<td>1</td>
+<td>1</td>
+<td>28</td>
+<td>1</td>
+<td>0</td>
+<td>(Template)</td>
+<td>4</td>
+<td>4</td>
+<td>0x000000000000FC43</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>VM-SAM-PGR</td>
+<td>1</td>
+<td>1</td>
+<td>28</td>
+<td>1</td>
+<td>65</td>
+<td>5JJpBzzdW4xa83uuSSJ</td>
+<td>4</td>
+<td>4</td>
+<td>0x000000000003C669</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,120 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//  File Name:    SQLServerSelectDlg.rul
+//
+//  Description:  This file contains the InstallShield script for the 
+//                SQLServerSelect dialog function.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#include "ISRT.h"
+#include "ISRTWindows.h"
+#include "ISRTPriv.h"
+
+#ifdef SQLRT_OBL
+#include "SQLRT.h"
+#elif SQLCONV_OBL
+#include "SQLConv.h"
+#endif
+
+function SQLServerSelect( szMsg, svServer )
+    NUMBER nId, nLen, nStyle, nNil;
+    STRING szAppKey, szNil, szCaption, szTitle;
+    BOOL bDone;
+    HWND hDlg, hWnd; 
+    LIST listServers;
+begin
+    // record data produced by this dialog
+    if (MODE = SILENTMODE) then
+        SdMakeName(szAppKey, DLG_SQLSELECT, "", nDlgSQLSELECT);
+        SilentReadData(szAppKey, "Result", DATA_NUMBER, szNil, nId);
+        if ((nId != BACK) && (nId != CANCEL)) then
+            SilentReadData( szAppKey, "szServer", DATA_STRING, svServer, nNil );
+        endif;
+        return nId;
+    endif;
+
+    // ensure general initialization is complete
+    if (!bSdInit) then
+      SdInit();
+    endif;
+
+    if (EzDefineDialog(DLG_SQLSELECT, "", "", DLG_SQLSELECT_ID) = DLG_ERR) then
+        return ISERR_GEN_FAILURE;
+    endif;
+
+    // Loop in dialog until the user selects a standard button
+    bDone = FALSE;
+
+    while (!bDone)
+        nId = WaitOnDialog(DLG_SQLSELECT);
+
+        switch (nId)
+        case DLG_INIT:    
+        
+           //populate servers list
+           listServers = SQLRTGetServers( TRUE );
+           if(svServer = "" ) then
+                ListGetFirstString( listServers, svServer );
+           endif;
+           CtrlSetList( DLG_SQLSELECT, COMBO_SERVERS, listServers );
+           CtrlSetText( DLG_SQLSELECT, COMBO_SERVERS, svServer );
+            ListDestroy( listServers );
+
+            hDlg = CmdGetHwndDlg(DLG_SQLSELECT);
+            SdGeneralInit(DLG_SQLSELECT, hDlg, 0, szSdProduct);
+
+            szTitle = GetDialogTitle(DLG_ASK_TEXT);
+            SdSetDlgTitle(DLG_SQLSELECT, hDlg, szTitle);
+
+            if(szMsg != "") then
+                CtrlSetText(DLG_SQLSELECT, SD_STA_MSG, szMsg);
+            endif;
+
+        case BUTTON_BROWSE:
+        	if( SQLBrowse( svServer ) = NEXT ) then
+        	    CtrlSetText( DLG_SQLSELECT, COMBO_SERVERS, svServer );
+        	endif;
+        	
+        case SD_PBUT_CONTINUE:
+            //read server  
+            CtrlGetText( DLG_SQLSELECT, COMBO_SERVERS, svServer );
+
+            nId   = NEXT;
+            bDone = TRUE;
+
+        case SD_PBUT_BACK:
+            nId    = BACK;
+            bDone  = TRUE;
+
+        case DLG_ERR:
+            nId   = ISERR_GEN_FAILURE;
+            SdError(nId, DLG_SQLSELECT);
+            bDone = TRUE;
+
+        case DLG_CLOSE:
+            SdCloseDlg(hDlg, nId, bDone);
+
+        default:
+            // check standard handling
+            if (SdIsStdButton(nId) && SdDoStdButton(nId)) then
+                bDone = TRUE;
+            endif;
+        endswitch;
+    endwhile;
+
+    EndDialog(DLG_SQLSELECT);
+    ReleaseDialog(DLG_SQLSELECT);
+
+    SdUnInit();
+
+    // record data produced by this dialog
+    if (MODE = RECORDMODE) then
+        SdMakeName(szAppKey, DLG_SQLSELECT, "", nDlgSQLSELECT);
+        SilentWriteData( szAppKey, "szServer", DATA_STRING, svServer, nNil );
+        SilentWriteData(szAppKey, "Result", DATA_NUMBER, szNil, nId);
+    endif;
+
+    return nId;
+end;
+

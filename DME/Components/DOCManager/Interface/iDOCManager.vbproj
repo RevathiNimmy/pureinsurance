@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{03334D86-7486-4240-84AD-0D06C06011C0}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>iDOCManager</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <AssemblyMajorVersion>0</AssemblyMajorVersion>
+    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>0</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>False</GenerateRevisionNumber>
+    <AssemblyCompanyName>Software Solutions Partners Ltd</AssemblyCompanyName>
+    <StartWithIE>False</StartWithIE>
+    <RootNamespace>iDOCManager</RootNamespace>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <StartupObject>Sub Main</StartupObject>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\..\Binaries\</OutputPath>
+    <DocumentationFile>iDOCManager.xml</DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <DefineDebug>True</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>PD_EARLYBOUND = 0 : Win32 = True</DefineConstants>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>full</DebugType>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>c:\pure\application\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <DefineDebug>False</DefineDebug>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>PD_EARLYBOUND = 0 : Win32 = True</DefineConstants>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+	<PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="aPMNav, Version=186.22.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="ArtinSoft.VB6">
+      <Name>ArtinSoft.VB6</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bDOCOptions, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bObjectManager, Version=187.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bPMZipper, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCDocNameAdmin, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCFind, Version=155.0.3896.25531, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCInformation, Version=155.0.3895.32580, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCKeywordAdmin, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCOptions, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCPassword, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCScan, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCSetAccessLevel, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCSplash, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCUserAdmin, Version=155.0.3896.23684, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iDOCViewer, Version=3000.1.78.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Interop.SQLDMO, Version=8.5.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Pure Build Process\Core DLLs\Interop.SQLDMO.dll</HintPath>
+    </Reference>
+    <Reference Include="iPMAbout, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="iPMMapi, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Pure\Application\Microsoft.Office.Interop.Outlook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility">
+      <Name>Microsoft.VisualBasic.Compatibility</Name>
+    </Reference>
+    <Reference Include="PMResizerControl, Version=155.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharedFiles, Version=2.2.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SSP.S4I.Interfaces">
+      <Name>SSP.S4I.Interfaces</Name>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sspi.Common.Aws, Version=5060.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="netstandard" />  
+	<Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ADVReg.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmEditAdmin.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmEditAdmin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditAdmin.vb" />
+    <Compile Include="frmExportFolder.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmExportFolder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmExportFolder.vb" />
+    <Compile Include="frmMessage.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmMessage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMessage.vb" />
+    <Compile Include="frmProgress.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>frmProgress.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmProgress.vb" />
+    <Compile Include="iDOCEmail.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>iDOCEmail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="iDOCEmail.vb" />
+    <Compile Include="iDOCManager.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="iDOCManagerCls.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="iDOCManagerFrm.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>iDOCManagerFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="iDOCManagerFrm.vb" />
+    <Compile Include="iDOCManagerLvwSort.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="iDOCSelectFolders.Designer.vb">
+      <SubType>Code</SubType>
+      <DependentUpon>iDOCSelectFolders.vb</DependentUpon>
+    </Compile>
+    <Compile Include="iDOCSelectFolders.vb" />
+    <Compile Include="iNavigatorV3.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb" />
+    <Compile Include="My Project\Resources1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frmEditAdmin.resX">
+      <DependentUpon>frmEditAdmin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExportFolder.resX">
+      <DependentUpon>frmExportFolder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMessage.resX">
+      <DependentUpon>frmMessage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmProgress.resX">
+      <DependentUpon>frmProgress.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="iDOCEmail.resX">
+      <DependentUpon>iDOCEmail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="iDOCManagerFrm.resX">
+      <DependentUpon>iDOCManagerFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="iDOCSelectFolders.resX">
+      <DependentUpon>iDOCSelectFolders.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="..\..\..\..\Pure Build Process\AssemblyInfo.vb">
+      <Link>AssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Outlook.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\addfolder.ico" />
+    <Content Include="Images\annotation.ico" />
+    <Content Include="Images\Archive.ico" />
+    <Content Include="Images\case.ico" />
+    <Content Include="Images\copy.ico" />
+    <Content Include="Images\cut.ico" />
+    <Content Include="Images\delete.ico" />
+    <Content Include="Images\DMSSCAN.ICO" />
+    <Content Include="Images\Expand.ico" />
+    <Content Include="Images\favourites.ico" />
+    <Content Include="Images\find.ico" />
+    <Content Include="Images\folder.ico" />
+    <Content Include="Images\FOLDER2.ICO" />
+    <Content Include="Images\Globe.ico" />
+    <Content Include="Images\HEART.ICO" />
+    <Content Include="Images\home.ico" />
+    <Content Include="Images\IMAGE.ICO" />
+    <Content Include="Images\IMAGE2.ICO" />
+    <Content Include="Images\Info.ico" />
+    <Content Include="Images\KEY.ICO" />
+    <Content Include="Images\nodrop.ico" />
+    <Content Include="Images\nodrop1.ico" />
+    <Content Include="Images\open_folder.ico" />
+    <Content Include="Images\paste.ico" />
+    <Content Include="Images\PMVIEW.ICO" />
+    <Content Include="Images\print.ico" />
+    <Content Include="Images\Rtf.ico" />
+    <Content Include="Images\Rtf2.ico" />
+    <Content Include="Images\SendMail.ico" />
+    <Content Include="Images\TEXT.ICO" />
+    <Content Include="Images\TEXT2.ICO" />
+    <Content Include="Images\unknown.ico" />
+    <Content Include="Images\view_d.ico" />
+    <Content Include="Images\view_l.ico" />
+    <Content Include="Images\view_li.ico" />
+    <Content Include="Images\view_si.ico" />
+    <Content Include="Images\YINGYANG.ICO" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

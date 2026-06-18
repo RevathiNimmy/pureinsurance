@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" targetNamespace="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="STSListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GisList"/>
+			<xs:enumeration value="Missing"/>
+			<xs:enumeration value="PMLookup"/>
+			<xs:enumeration value="UserDefinedTable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="3131 001" id="HomeAddress"/>
+			<xs:enumeration value="3131 002" id="BusinessAddress"/>
+			<xs:enumeration value="3131 0X9" id="Other"/>
+			<xs:enumeration value="3131 0XR" id="SubAgent"/>
+			<xs:enumeration value="3131 XBA" id="BranchAddress"/>
+			<xs:enumeration value="3131 XBI" id="BillingAddress"/>
+			<xs:enumeration value="3131 XCO" id="CorrespondenceAddress"/>
+			<xs:enumeration value="3131 XPR" id="PreviousAddress"/>
+			<xs:enumeration value="3131 XRE" id="RegisteredAddress"/>
+			<xs:enumeration value="3131 XSA" id="SiteAddress"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CurrencyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GBP"/>
+			<xs:enumeration value="USD"/>
+			<xs:enumeration value="EUR"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DocumentTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="JN" id="Journal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PartyTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PC" id="PersonalClient"/>
+			<xs:enumeration value="GC" id="GroupClient"/>
+			<xs:enumeration value="AG" id="Agent"/>
+			<xs:enumeration value="CC" id="CorporateClient"/>
+			<xs:enumeration value="CO" id="Consultant"/>
+			<xs:enumeration value="AH" id="AccountHandler"/>
+			<xs:enumeration value="IN" id="Insurer"/>
+			<xs:enumeration value="BR" id="Broker"/>
+			<xs:enumeration value="FE" id="FeeAccount"/>
+			<xs:enumeration value="EX" id="ExtrasAccount"/>
+			<xs:enumeration value="DI" id="DiscountAccount"/>
+			<xs:enumeration value="CM" id="CommissionAccount"/>
+			<xs:enumeration value="NC" id="NetClient"/>
+			<xs:enumeration value="OTDRIVER" id="Driver"/>
+			<xs:enumeration value="OTWITNESS" id="Witness"/>
+			<xs:enumeration value="OTREPAIRER" id="Repairer"/>
+			<xs:enumeration value="OTTHIRD" id="ThirdParty"/>
+			<xs:enumeration value="FP" id="FinanceProvider"/>
+			<xs:enumeration value="AGG" id="AgentGroup"/>
+			<xs:enumeration value="OTSUPPLIER" id="Supplier"/>
+			<xs:enumeration value="OTLOSS" id="LossAdjuster"/>
+			<xs:enumeration value="OTSOL" id="Solicitor"/>
+			<xs:enumeration value="OTDOCTOR" id="Doctor"/>
+			<xs:enumeration value="OTSURVEYOR" id="BuildingSurveyor"/>
+			<xs:enumeration value="HC" id="ExecutiveHandler"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MaritalStatusCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="D" id="Divorced"/>
+			<xs:enumeration value="C" id="Married-CommonLaw"/>
+			<xs:enumeration value="M" id="Married"/>
+			<xs:enumeration value="N" id="NotApplicable"/>
+			<xs:enumeration value="O" id="NotAvailable"/>
+			<xs:enumeration value="P" id="Partnered"/>
+			<xs:enumeration value="A" id="Separated"/>
+			<xs:enumeration value="S" id="Single"/>
+			<xs:enumeration value="W" id="Widowed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GenderCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="F" id="Female"/>
+			<xs:enumeration value="M" id="Male"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EmploymentStatusCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="C" id="Company"/>
+			<xs:enumeration value="E" id="Employed"/>
+			<xs:enumeration value="H" id="HouseholdDuties"/>
+			<xs:enumeration value="F" id="InFullOrPartTimeEducation"/>
+			<xs:enumeration value="I" id="IndependentMeans"/>
+			<xs:enumeration value="N" id="NotEmployedDueToDisability"/>
+			<xs:enumeration value="R" id="Retired"/>
+			<xs:enumeration value="S" id="SelfEmployed"/>
+			<xs:enumeration value="U" id="Unemployed"/>
+			<xs:enumeration value="V" id="VoluntaryWork"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountryCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UK" id="UnitedKingdom"/>
+			<xs:enumeration value="USA" id="UnitedStatesOfAmerica"/>
+			<xs:enumeration value="AUS" id="Australia"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContactTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EMAIL" id="EmailAddress"/>
+			<xs:enumeration value="HOMEPHONE" id="HomeTelephoneNumber"/>
+			<xs:enumeration value="MOBILE" id="MobileTelephoneNumber"/>
+			<xs:enumeration value="FAX" id="FaxNumber"/>
+			<xs:enumeration value="WEB" id="WebAddress"/>
+			<xs:enumeration value="MAIN" id="MainContact"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ClaimPaymentPartyTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CLMPAYABLE" id="ClaimPaymentPartyTypeTypeCLMPAYABLE"/>
+			<xs:enumeration value="PARTY" id="ClaimPaymentPartyTypeTypeParty"/>
+			<xs:enumeration value="AGENT" id="ClaimPaymentPartyTypeTypeAgent"/>
+			<xs:enumeration value="CLIENT" id="ClaimPaymentPartyTypeTypeClient"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ClaimReceiptPartyTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CLMRECEIVABLE" id="ClaimReceiptPartyTypeTypeCLMRECEIVEABLE"/>
+			<xs:enumeration value="PARTY" id="ClaimReceiptPartyTypeTypeParty"/>
+			<xs:enumeration value="AGENT" id="ClaimReceiptPartyTypeTypeAgent"/>
+			<xs:enumeration value="CLIENT" id="ClaimReceiptPartyTypeTypeClient"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PaymentMethodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="None" id="PaymentMethodTypeNone"/>
+			<xs:enumeration value="BankersDraft" id="PaymentMethodTypeBankersDraft"/>
+			<xs:enumeration value="Cash" id="PaymentMethodTypeCash"/>
+			<xs:enumeration value="Cheque" id="PaymentMethodTypeCheque"/>
+			<xs:enumeration value="CreditCard" id="PaymentMethodTypeCreditCard"/>
+			<xs:enumeration value="DebitCard" id="PaymentMethodTypeDebitCard"/>
+			<xs:enumeration value="AgentCollection" id="PaymentMethodTypeAgentCollection"/>
+			<xs:enumeration value="AgentOverdraft" id="PaymentMethodTypeAgentOverdraft"/>
+			<xs:enumeration value="AgentFloatBalance" id="PaymentMethodTypeAgentFloatBalance"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SAMErrorCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GeneralFailure"/>
+			<xs:enumeration value="BackOfficeComponentFailed"/>
+			<xs:enumeration value="MandatoryInputMissing"/>
+			<xs:enumeration value="InvalidDateFormat"/>
+			<xs:enumeration value="InvalidLookupListValue"/>
+			<xs:enumeration value="InvalidFormat"/>
+			<xs:enumeration value="RecordLockedByAnotherUser"/>
+			<xs:enumeration value="RecordNotLockedByCurrentUser"/>
+			<xs:enumeration value="BackOfficeUnavailable"/>
+			<xs:enumeration value="UserNotAuthorisedToActOnData"/>
+			<xs:enumeration value="SecurityCheckFailed"/>
+			<xs:enumeration value="TokenExpired"/>
+			<xs:enumeration value="RecordChanged"/>
+			<xs:enumeration value="BranchCodeInvalid"/>
+			<xs:enumeration value="BranchMismatch"/>
+			<xs:enumeration value="PolicyMismatch"/>
+			<xs:enumeration value="PartyDOBIsInFuture"/>
+			<xs:enumeration value="PartyDOBIsTooOld"/>
+			<xs:enumeration value="PolicyRiskLinkRecordNotFound"/>
+			<xs:enumeration value="QuoteHeaderRecordNotFound"/>
+			<xs:enumeration value="CoverStartDateIsInThePast"/>
+			<xs:enumeration value="CoverEndDateIsBeforeCoverStartDate"/>
+			<xs:enumeration value="PartyRecordNotFound"/>
+			<xs:enumeration value="PolicyRecordNotFound"/>
+			<xs:enumeration value="FailedToLoadRiskDB"/>
+			<xs:enumeration value="FailedToRetrievePremiumDetails"/>
+			<xs:enumeration value="ListTypeNotFound"/>
+			<xs:enumeration value="AddressRecordNotFound"/>
+			<xs:enumeration value="RiskRecordNotFound"/>
+			<xs:enumeration value="DefaultXMLFileNotAvailable"/>
+			<xs:enumeration value="DefaultXMLFilePathNotFound"/>
+			<xs:enumeration value="DefaultXMLFileFailedToLoad"/>
+			<xs:enumeration value="DefaultXMLFilePathTooLong"/>
+			<xs:enumeration value="ConfigurationFileNotAvailable"/>
+			<xs:enumeration value="ConfigurationFilePathNotFound"/>
+			<xs:enumeration value="ConfigurationFileFailedToLoad"/>
+			<xs:enumeration value="ConfigurationFilePathTooLong"/>
+			<xs:enumeration value="XMLDocumentBadlyFormed"/>
+			<xs:enumeration value="FailedToCreateBackofficeComponent"/>
+			<xs:enumeration value="FailedToInitialiseBackofficeComponent"/>
+			<xs:enumeration value="BackOfficeFailed"/>
+			<xs:enumeration value="FailedToConnectToTheSiriusDatabase"/>
+			<xs:enumeration value="SQLServerReturnedAnError"/>
+			<xs:enumeration value="FailedToRetrieveDatamodelCodeFromXml"/>
+			<xs:enumeration value="XMLDataSetBadlyFormed"/>
+			<xs:enumeration value="DatasetPathRegistrySettingNotFound"/>
+			<xs:enumeration value="FailedToAddRiskRecord"/>
+			<xs:enumeration value="FailedToMergeRiskDataset"/>
+			<xs:enumeration value="UserAuthorityLevelsCheckFailed"/>
+			<xs:enumeration value="ValidationRulesFailed"/>
+			<xs:enumeration value="FailedToQuoteTheRisk"/>
+			<xs:enumeration value="FailedToSaveRiskToDatabase"/>
+			<xs:enumeration value="SchemeVersionNumberMissing"/>
+			<xs:enumeration value="SchemaForVersionMissing"/>
+			<xs:enumeration value="FileNotFound"/>
+			<xs:enumeration value="RecordNotFound"/>
+			<xs:enumeration value="StatusOfRiskPreventsDeletion"/>
+			<xs:enumeration value="AgentRecordNotFound"/>
+			<xs:enumeration value="BackOfficeComponentReturnedRecordInUse"/>
+			<xs:enumeration value="BackOfficeComponentReturnedNotFound"/>
+			<xs:enumeration value="BrokerOrSchemeInvalid"/>
+			<xs:enumeration value="ValidationRulesReferred"/>
+			<xs:enumeration value="ValidationRulesDeclined"/>
+			<xs:enumeration value="UALRulesReferred"/>
+			<xs:enumeration value="UALRulesDeclined"/>
+			<xs:enumeration value="RatingRulesReferred"/>
+			<xs:enumeration value="RatingRulesDeclined"/>
+			<xs:enumeration value="LoginFailureIncorrectUsername"/>
+			<xs:enumeration value="LoginFailureIncorrectPassword"/>
+			<xs:enumeration value="LoginFailureLoggedInElsewhere"/>
+			<xs:enumeration value="LoginFailureNotLinkedToAgent"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OptionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ProductOption"/>
+			<xs:enumeration value="SystemOption"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

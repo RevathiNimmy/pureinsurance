@@ -1,0 +1,389 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Component</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_component_id">pmnav_component_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnav component</span></td>
+</tr>
+<tr>
+<td><a class="name" name="nav_component_type">nav_component_type</a></td>
+<td>char(2)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">nav component type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="object_name">object_name</a></td>
+<td>varchar(30)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="class_name">class_name</a></td>
+<td>varchar(30)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">class name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="is_server_side">is_server_side</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is server side</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_component_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pmnav_component_id</td>
+<td><a href="PMNav_Get_Component_Key.html">PMNav_Get_Component_Key</a></td>
+<td>pmnav_component_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_component_id</td>
+<td><a href="PMNav_Set_Component_Key.html">PMNav_Set_Component_Key</a></td>
+<td>pmnav_component_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_component_id</td>
+<td><a href="PMNav_Step.html">PMNav_Step</a></td>
+<td>pmnav_component_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_component_id</td>
+<td>nav_component_type</td>
+<td>object_name</td>
+<td>class_name</td>
+<td>description</td>
+<td>caption_id</td>
+<td>is_server_side</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>FF</td>
+<td>iPMBFindParty</td>
+<td>Interface</td>
+<td>Find PMB Party</td>
+<td>44</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>DF</td>
+<td>iPMBPartyAH</td>
+<td>Interface</td>
+<td>Account Handler</td>
+<td>45</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>DF</td>
+<td>iPMBPartyAG</td>
+<td>Interface</td>
+<td>Agent</td>
+<td>46</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>BO</td>
+<td>bACTBatchWrapper</td>
+<td>NavigatorV3</td>
+<td>Batch Wrapper</td>
+<td>47</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>5</td>
+<td>FF</td>
+<td>iACTFindTransaction</td>
+<td>Interface</td>
+<td>Find Transaction</td>
+<td>48</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>6</td>
+<td>BO</td>
+<td>bACTAllocationCreate</td>
+<td>AutoForCL</td>
+<td>Create Allocation for Cash List</td>
+<td>49</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>7</td>
+<td>DF</td>
+<td>iACTAllocation</td>
+<td>NavigatorV3</td>
+<td>Allocation</td>
+<td>50</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>8</td>
+<td>BO</td>
+<td>bACTAllocationPost</td>
+<td>NavigatorV3</td>
+<td>Post Allocation</td>
+<td>51</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>9</td>
+<td>BO</td>
+<td>bACTCashListPost</td>
+<td>Automated</td>
+<td>Cash List Post</td>
+<td>52</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>10</td>
+<td>DF</td>
+<td>iACTCashList</td>
+<td>NavigatorV3</td>
+<td>Cash List</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>11</td>
+<td>DF</td>
+<td>iACTCashListItem</td>
+<td>Interface</td>
+<td>Cash List Item</td>
+<td>54</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>12</td>
+<td>DF</td>
+<td>iPMBPartyEX</td>
+<td>Interface</td>
+<td>Discounts</td>
+<td>55</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>13</td>
+<td>DF</td>
+<td>iPMBPartyIN</td>
+<td>Interface</td>
+<td>Insurer</td>
+<td>56</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>14</td>
+<td>BO</td>
+<td>bACTAllocationCreate</td>
+<td>Automated</td>
+<td>Create Allocation</td>
+<td>57</td>
+<td>1</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>15</td>
+<td>FF</td>
+<td>iCLMFindClaim</td>
+<td>Interface</td>
+<td>Find Claim</td>
+<td>58</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>16</td>
+<td>DF</td>
+<td>iOpenClaim</td>
+<td>NavigatorV3</td>
+<td>Open Claim</td>
+<td>30</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>17</td>
+<td>DF</td>
+<td>iCLMInfoChklst</td>
+<td>Interface</td>
+<td>Information Checklist</td>
+<td>59</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>18</td>
+<td>DF</td>
+<td>iCLMRiskDetails</td>
+<td>Interface</td>
+<td>Risk Details</td>
+<td>60</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>19</td>
+<td>DF</td>
+<td>iCLMCoinsuranceRecoveries</td>
+<td>Interface</td>
+<td>CoInsurance Recoveries</td>
+<td>61</td>
+<td>0</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

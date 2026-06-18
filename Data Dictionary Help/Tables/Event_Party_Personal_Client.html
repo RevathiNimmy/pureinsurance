@@ -1,0 +1,189 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Event_Party_Personal_Client</h1>
+<p>This Event Table serves as a history table for the Party_Personal_Client table, each entry in the Party_Personal_Client table will have a corresponding entry here. This ensures any changes to the original table are tracked.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: Events, Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Event_Log.html#event_cnt">Event_Log.event_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_title_code">party_title_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">party title code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="forename">forename</a></td>
+<td>varchar(60)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>forename</td>
+</tr>
+<tr>
+<td><a class="name" name="initials">initials</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>initials</td>
+</tr>
+<tr>
+<td><a class="name" name="employment_status_code">employment_status_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">employment status code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="employer_cnt">employer_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">employer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="employer_business">employer_business</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">employer business</span></td>
+</tr>
+<tr>
+<td><a class="name" name="secondary_employment_status_co">secondary_employment_status_co</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">secondary employment status co</span></td>
+</tr>
+<tr>
+<td><a class="name" name="secondary_employer_business">secondary_employer_business</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">secondary employer business</span></td>
+</tr>
+<tr>
+<td><a class="name" name="marital_status_code">marital_status_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">marital status code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="number_of_children">number_of_children</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">number of children</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Nationality_id">Nationality_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Nationality.html#Nationality_id">Nationality.Nationality_id</a> <span class="autodesc">Nationality</span></td>
+</tr>
+<tr>
+<td><a class="name" name="country_of_origin_code">country_of_origin_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">country of origin code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mailshot">mailshot</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">mailshot</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_pet_owner">is_pet_owner</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is pet owner</span></td>
+</tr>
+<tr>
+<td><a class="name" name="accommodation_type_code">accommodation_type_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">accommodation type code</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Event_Log.html">Event_Log</a></td>
+<td>event_cnt</td>
+<td>Linked to the event that this historical data is for</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>Nationality_id</td>
+<td><a href="Nationality.html">Nationality</a></td>
+<td>Nationality_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>employer_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Nationality_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

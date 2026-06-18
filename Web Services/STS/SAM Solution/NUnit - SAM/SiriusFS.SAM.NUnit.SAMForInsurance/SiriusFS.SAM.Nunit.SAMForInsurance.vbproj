@@ -1,0 +1,899 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+
+    <ProductVersion>8.0.50727</ProductVersion>
+
+    <SchemaVersion>2.0</SchemaVersion>
+
+    <ProjectGuid>{87B3F4A0-15C7-4214-A3FB-DA64FFAADF7F}</ProjectGuid>
+
+    <OutputType>Library</OutputType>
+
+    <RootNamespace>SiriusFS.SAM.Nunit.SAMForInsurance</RootNamespace>
+
+    <AssemblyName>SiriusFS.SAM.Nunit.SAMForInsurance</AssemblyName>
+
+    <MyType>Windows</MyType>
+
+    <SccProjectName>SAK</SccProjectName>
+
+    <SccLocalPath>SAK</SccLocalPath>
+
+    <SccAuxPath>SAK</SccAuxPath>
+
+    <SccProvider>SAK</SccProvider>
+
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+
+    <DebugSymbols>true</DebugSymbols>
+
+    <DebugType>full</DebugType>
+
+    <DefineDebug>true</DefineDebug>
+
+    <DefineTrace>true</DefineTrace>
+
+    <OutputPath>bin\Debug\</OutputPath>
+
+    <DocumentationFile>SiriusFS.SAM.Nunit.SAMForInsurance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+
+    <PlatformTarget>x64</PlatformTarget>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+    <DebugType>None</DebugType>
+
+    <DefineDebug>false</DefineDebug>
+
+    <DefineTrace>true</DefineTrace>
+
+    <Optimize>true</Optimize>
+
+    <OutputPath>bin\Debug\</OutputPath>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+
+      <SpecificVersion>False</SpecificVersion>
+
+      <HintPath>..\..\..\..\..\Program Files\NUnit-Net-2.0 2.2.8\bin\nunit.framework.dll</HintPath>
+
+    </Reference>
+
+    <Reference Include="Sirius.Architecture.Security, Version=2000.2.0.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+
+      <SpecificVersion>False</SpecificVersion>
+
+      <HintPath>bin\Sirius.Architecture.Security.dll</HintPath>
+
+    </Reference>
+
+    <Reference Include="netstandard" />  
+	<Reference Include="System" />
+
+    <Reference Include="System.Configuration" />
+
+    <Reference Include="System.Data" />
+
+    <Reference Include="System.Drawing" />
+
+    <Reference Include="System.EnterpriseServices" />
+
+    <Reference Include="System.Web.Services" />
+
+    <Reference Include="System.Windows.Forms" />
+
+     
+	<Reference Include="System.Xml"  />
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Import Include="Microsoft.VisualBasic" />
+
+    <Import Include="Microsoft.Web.Services3" />
+
+    <Import Include="NUnit.Framework" />
+
+    <Import Include="Sirius.Architecture.Security" />
+
+    <Import Include="System" />
+
+    <Import Include="System.Collections" />
+
+    <Import Include="System.Collections.Generic" />
+
+    <Import Include="System.Data" />
+
+    <Import Include="System.Diagnostics" />
+
+    <Import Include="System.Web.Services.Protocols" />
+
+    <Import Include="System.Xml" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Compile Include="AddAddress.vb" />
+
+    <Compile Include="AddMTAQuote.vb" />
+
+    <Compile Include="AddParty.vb" />
+
+    <Compile Include="AddQuote.vb" />
+
+    <Compile Include="AddRisk.vb" />
+
+    <Compile Include="BaseTest.vb" />
+
+    <Compile Include="BindQuote.vb" />
+
+    <Compile Include="ChangePassword.vb" />
+
+    <Compile Include="ClaimMTA.vb" />
+
+    <Compile Include="ClaimReceipt.vb" />
+
+    <Compile Include="AddClaimRisk.vb" />
+
+    <Compile Include="ClientDataImport.vb" />
+
+    <Compile Include="ClientDataImportTestData.vb" />
+
+    <Compile Include="FindInsuranceFileForClaims.vb" />
+
+    <Compile Include="FindInsuranceFileForClaimsTestData.vb" />
+
+    <Compile Include="FullOpenClaim.vb" />
+
+    <Compile Include="GetAccountBalance.vb" />
+
+    <Compile Include="GetClaimPaymentTaxGroupDetails.vb" />
+
+    <Compile Include="GetClaimReceiptTaxGroupDetails.vb" />
+
+    <Compile Include="GetClaimRiskReadOnly.vb" />
+
+    <Compile Include="FindClaim.vb" />
+
+    <Compile Include="ForgottenPassword.vb" />
+
+    <Compile Include="GenerateClaimsDocuments.vb" />
+
+    <Compile Include="GetClaimDetails.vb" />
+
+    <Compile Include="GetClaimPaymentTaxes.vb" />
+
+    <Compile Include="GetClaimReceiptTaxes.vb" />
+
+    <Compile Include="GetClaimRisk.vb" />
+
+    <Compile Include="GetClaimRiskLinks.vb" />
+
+    <Compile Include="GetCurrenciesByBranch.vb" />
+
+    <Compile Include="GetInstalmentQuotes.vb" />
+
+    <Compile Include="GetOptionSetting.vb" />
+
+    <Compile Include="GetRatingDetails.vb" />
+
+    <Compile Include="GetDatasetDefinition.vb" />
+
+    <Compile Include="DeleteRisk.vb" />
+
+    <Compile Include="FindParty.vb" />
+
+    <Compile Include="GenerateDocument.vb" />
+
+    <Compile Include="GetAddress.vb" />
+
+    <Compile Include="GetAllPolicyVersions.vb" />
+
+    <Compile Include="GetDatasetSchema.vb" />
+
+    <Compile Include="GetHeaderAndSummariesByKey.vb" />
+
+    <Compile Include="GetHeaderAndSummariesByRef.vb" />
+
+    <Compile Include="GetList.vb" />
+
+    <Compile Include="GetParty.vb" />
+
+    <Compile Include="GetPartySummary.vb" />
+
+    <Compile Include="GetProductByAgent.vb" />
+
+    <Compile Include="GetRisk.vb" />
+
+    <Compile Include="GetRiskByProduct.vb" />
+
+    <Compile Include="GetUserDetails.vb" />
+
+    <Compile Include="MaintainClaim.vb" />
+
+    <Compile Include="MTA.vb" />
+
+    <Compile Include="OpenClaim.vb" />
+
+    <Compile Include="PayClaim.vb" />
+
+    <Compile Include="PostDocument.vb" />
+
+    <Compile Include="RunDefaultRulesAdd.vb" />
+
+    <Compile Include="RunDefaultRulesEdit.vb" />
+
+    <Compile Include="RunValidationRules.vb" />
+
+    <Compile Include="SAMConstants.vb" />
+
+    <Compile Include="SAMTest.vb" />
+
+    <Compile Include="AddAgentReceipt.vb" />
+
+    <Compile Include="SaveRisk.vb" />
+
+    <Compile Include="TemplateTestCase.vb" />
+
+    <Compile Include="GetRiskData.vb" />
+
+    <Compile Include="TestDataHelper.vb" />
+
+    <Compile Include="UpdateClaimRisk.vb" />
+
+    <Compile Include="UpdatePartyOtherTestData.vb" />
+
+    <Compile Include="WSETest.vb" />
+
+    <Compile Include="TestData.vb" />
+
+    <Compile Include="My Project\AssemblyInfo.vb" />
+
+    <Compile Include="My Project\Application.Designer.vb">
+
+      <AutoGen>True</AutoGen>
+
+      <DependentUpon>Application.myapp</DependentUpon>
+
+    </Compile>
+
+    <Compile Include="My Project\Resources.Designer.vb">
+
+      <AutoGen>True</AutoGen>
+
+      <DesignTime>True</DesignTime>
+
+      <DependentUpon>Resources.resx</DependentUpon>
+
+    </Compile>
+
+    <Compile Include="My Project\Settings.Designer.vb">
+
+      <AutoGen>True</AutoGen>
+
+      <DependentUpon>Settings.settings</DependentUpon>
+
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+
+    </Compile>
+
+    <Compile Include="UpdateParty.vb" />
+
+    <Compile Include="UpdateQuote.vb" />
+
+    <Compile Include="UpdateRisk.vb" />
+
+    <Compile Include="Web References\ProxyWS\Reference.vb">
+
+      <AutoGen>True</AutoGen>
+
+      <DesignTime>True</DesignTime>
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </Compile>
+
+    <Compile Include="WSETestCaseScenario.vb" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <EmbeddedResource Include="My Project\Resources.resx">
+
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+
+      <SubType>Designer</SubType>
+
+    </EmbeddedResource>
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="My Project\Application.myapp">
+
+      <Generator>MyApplicationCodeGenerator</Generator>
+
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+
+    </None>
+
+    <None Include="My Project\Settings.settings">
+
+      <Generator>SettingsSingleFileGenerator</Generator>
+
+      <CustomToolNamespace>My</CustomToolNamespace>
+
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+
+    </None>
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <WebReferences Include="Web References\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="app.config" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <WebReferenceUrl Include="http://localhost:4462/SIRIUSFS.SAM.SERVICEAGENT/SAMForInsurance.asmx">
+
+      <UrlBehavior>Dynamic</UrlBehavior>
+
+      <RelPath>Web References\ProxyWS\</RelPath>
+
+      <UpdateFromURL>http://localhost:4462/SIRIUSFS.SAM.SERVICEAGENT/SAMForInsurance.asmx</UpdateFromURL>
+
+      <ServiceLocationURL></ServiceLocationURL>
+
+      <CachedDynamicPropName></CachedDynamicPropName>
+
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+
+      <CachedSettingsPropName>SiriusFS_SAM_Nunit_SAMForInsurance_ProxyWS_SAMForInsurance</CachedSettingsPropName>
+
+    </WebReferenceUrl>
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="Web References\ProxyWS\Reference.map">
+
+      <Generator>MSDiscoCodeGenerator</Generator>
+
+      <LastGenOutput>Reference.vb</LastGenOutput>
+
+    </None>
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Include="Web References\ProxyWS\AddAddressResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddAddressResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddAgentReceiptResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddClaimRiskResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddMtaQuoteResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddPartyResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddQuoteResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\AddRiskResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\BindQuoteResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ChangePasswordResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ClaimDataImportResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ClaimMTAResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ClaimReceiptResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ClientDataImportResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\CreateWmTaskResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\DeleteRiskResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\FindClaimResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\FindControlSearchResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\FindInsuranceFileForClaimsResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\FindPartyResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ForgottenPasswordResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GenerateClaimsDocumentsResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GenerateDocumentResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GenerateInviteResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetAccountBalanceResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetAddressResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetAllPolicyVersionsResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimDetailsResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimPaymentTaxesResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimPaymentTaxGroupsResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimReceiptTaxesResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimReceiptTaxGroupsResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimRiskLinksResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimRiskReadOnlyResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetClaimRiskResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetCurrenciesByBranchResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetDatasetDefinitionResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetDatasetSchemaResponseType2.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetDocumentListResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetDocumentResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetExistingInstalmentPlanPaymentDetailsResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetHeaderAndSummariesByKeyResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetHeaderAndSummariesByRefResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetInstalmentQuotesResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetListResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetOptionSettingResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetPartyResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetPartySummaryResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetPoliciesInRenewalResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetProductByAgentResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetRatingDetailsResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetRenewalStatusResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetRiskByProductResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetRiskResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetUserBranchesResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\GetUserDetailsResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\LapseRenewalResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\LoginResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\LogoffResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\MaintainClaimResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\OpenClaimResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\PayClaimResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\PostDocumentResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\ReplacePartyContactResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\RunDefaultRulesAddResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\RunDefaultRulesEditResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\RunValidationRulesEditResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\RunValidationRulesResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\SAMForInsurance.disco" />
+
+    <None Include="Web References\ProxyWS\SAMForInsurance.wsdl" />
+
+    <None Include="Web References\ProxyWS\SaveRiskResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\UpdateClaimRiskResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\UpdatePartyResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\UpdatePartyRiskResponseType.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\UpdateQuoteResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <None Include="Web References\ProxyWS\UpdateRiskResponseType1.datasource">
+
+      <DependentUpon>Reference.map</DependentUpon>
+
+    </None>
+
+    <Content Include="wse3policyCache.config">
+
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+
+    </Content>
+
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Folder Include="TestStub SAMForInsurance\" />
+
+  </ItemGroup>
+
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+
+
+
+Other similar extension points exist, see Microsoft.Common.targets.
+
+
+
+<Target Name="BeforeBuild">
+
+
+
+</Target>
+
+
+
+<Target Name="AfterBuild">
+
+
+
+</Target>
+
+
+
+-->
+
+</Project>

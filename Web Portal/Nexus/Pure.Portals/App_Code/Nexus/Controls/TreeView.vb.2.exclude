@@ -1,0 +1,27 @@
+﻿Imports Microsoft.VisualBasic
+Namespace Nexus
+    Public Class TreeView
+        Inherits System.Web.UI.WebControls.TreeView
+
+        Protected Overrides Function CreateNode() As System.Web.UI.WebControls.TreeNode
+            Return New Nexus.TreeNode
+        End Function
+    End Class
+
+    Public Class TreeNode
+        Inherits System.Web.UI.WebControls.TreeNode
+
+        Protected Overrides Sub RenderPreText(ByVal writer As System.Web.UI.HtmlTextWriter)
+            writer.Write("<div onclick='alert('that worked');return true;'>")
+            MyBase.RenderPreText(writer)
+        End Sub
+
+        Protected Overrides Sub RenderPostText(ByVal writer As System.Web.UI.HtmlTextWriter)
+            writer.Write("</div>")
+            MyBase.RenderPostText(writer)
+        End Sub
+    End Class
+End Namespace
+
+'http://weblogs.asp.net/dannychen/archive/2006/01/25/436454.aspx
+

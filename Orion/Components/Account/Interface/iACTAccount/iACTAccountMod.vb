@@ -1,0 +1,74 @@
+Option Strict Off
+Option Explicit On
+Imports System
+Imports SharedFiles
+Module MainModule
+	' ***************************************************************** '
+	' Module Name: MainModule
+	'
+	' Date: 23-07-1997
+	'
+	' Description: Main module containing public variable/constants.
+	'
+	' Edit History:
+	' ***************************************************************** '
+	
+	
+	' Mandatory constants
+	Public Const PMNonMandatory As Integer = 0
+	Public Const PMMandatory As Integer = 1
+	Public Const PMNotVisible As Integer = 2
+	
+	' Main public constant for all functions
+	' to identify which application this is.
+	Public Const ACApp As String = "iACTAccount"
+	
+	
+	' Public interface constants used when
+	' retrieving data from the resource file.
+	
+	' {* USER DEFINED CODE (Begin) *}
+	
+	' General Icons
+	
+	
+	' Messages
+	Public Const ACCancelDetailsTitle As Integer = 300
+	Public Const ACCancelDetails As Integer = 301
+	Public Const ACBusinessFailTitle As Integer = 302
+	Public Const ACBusinessFail As Integer = 303
+	
+	' Menus
+	
+	
+	' {* USER DEFINED CODE (End) *}
+	
+	' Public contants used for the start
+	' and end control indexes.
+	Public Const ACControlStart As Integer = 0
+	Public Const ACControlEnd As Integer = 1
+	
+	' Constant for the functions to identify
+	' which class this is.
+	Private Const ACClass As String = "MainModule"
+	
+	' Public source and language ID's from the
+	' Object Manager.
+	Public g_iSourceID As Integer
+	Public g_iLanguageID As Integer
+	
+    ' Public instance of the object manager.
+    'developer guide no. 107
+    <ThreadStatic()> _
+ Public g_oObjectManager As bObjectManager.ObjectManager
+	
+	Public g_iCurrencyID As Integer
+	
+	Public Const ScreenHelpID As Integer = 6000
+    Public g_sProductFamily As gPMConstants.PMEProductFamily = gPMConstants.PMEProductFamily.pmePFOrion
+	
+	
+	Sub Main_Renamed()
+		
+	End Sub
+End Module

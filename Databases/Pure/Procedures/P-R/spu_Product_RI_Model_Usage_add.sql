@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_Product_RI_Model_Usage_add'
+GO
+
+

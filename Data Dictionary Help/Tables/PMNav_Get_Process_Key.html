@@ -1,0 +1,232 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Get_Process_Key</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_process_id">pmnav_process_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Process.html#pmnav_process_id">PMNav_Process.pmnav_process_id</a> <span class="autodesc">pmnav process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_key_id">pmnav_key_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Key.html#pmnav_key_id">PMNav_Key.pmnav_key_id</a> <span class="autodesc">pmnav key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sequence_number">sequence_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sequence number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_process_id, pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_key_id</td>
+<td><a href="PMNav_Key.html">PMNav_Key</a></td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_process_id</td>
+<td><a href="PMNav_Process.html">PMNav_Process</a></td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_key_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_process_id</td>
+<td>pmnav_key_id</td>
+<td>sequence_number</td>
+<td>description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>54</td>
+<td>1</td>
+<td>Debit Credit</td>
+</tr>
+<tr>
+<td>13</td>
+<td>5</td>
+<td>1</td>
+<td>Cash List ID</td>
+</tr>
+<tr>
+<td>13</td>
+<td>6</td>
+<td>2</td>
+<td>Cash List Item ID</td>
+</tr>
+<tr>
+<td>13</td>
+<td>7</td>
+<td>3</td>
+<td>Cash List Type ID</td>
+</tr>
+<tr>
+<td>14</td>
+<td>3</td>
+<td>1</td>
+<td>Allocation ID</td>
+</tr>
+<tr>
+<td>34</td>
+<td>19</td>
+<td>1</td>
+<td>CLMClaimid</td>
+</tr>
+<tr>
+<td>39</td>
+<td>5</td>
+<td>1</td>
+<td>Cash List ID</td>
+</tr>
+<tr>
+<td>39</td>
+<td>6</td>
+<td>2</td>
+<td>Cash List Item ID</td>
+</tr>
+<tr>
+<td>39</td>
+<td>7</td>
+<td>3</td>
+<td>Cash List Type ID</td>
+</tr>
+<tr>
+<td>52</td>
+<td>54</td>
+<td>1</td>
+<td>Debit Credit</td>
+</tr>
+<tr>
+<td>53</td>
+<td>2</td>
+<td>3</td>
+<td>Party Cnt</td>
+</tr>
+<tr>
+<td>53</td>
+<td>38</td>
+<td>1</td>
+<td>Insurance File Cnt</td>
+</tr>
+<tr>
+<td>53</td>
+<td>39</td>
+<td>2</td>
+<td>Insurance Folder Cnt</td>
+</tr>
+<tr>
+<td>53</td>
+<td>54</td>
+<td>5</td>
+<td>Debit Credit</td>
+</tr>
+<tr>
+<td>53</td>
+<td>69</td>
+<td>4</td>
+<td>Risk Group ID</td>
+</tr>
+<tr>
+<td>54</td>
+<td>2</td>
+<td>2</td>
+<td>Party Cnt</td>
+</tr>
+<tr>
+<td>54</td>
+<td>38</td>
+<td>3</td>
+<td>Insurance File Cnt</td>
+</tr>
+<tr>
+<td>54</td>
+<td>39</td>
+<td>4</td>
+<td>Insurance Folder Cnt</td>
+</tr>
+<tr>
+<td>54</td>
+<td>54</td>
+<td>5</td>
+<td>Debit Credit</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

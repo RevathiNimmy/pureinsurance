@@ -1,0 +1,175 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Conviction</h1>
+<p>The criminal convictions that a Party has.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_conviction_id">party_conviction_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">party conviction</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="conviction_date">conviction_date</a></td>
+<td>varchar(40)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">conviction date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="fine_amt">fine_amt</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">fine amt</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sentence_code">sentence_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sentence code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sentence_description">sentence_description</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sentence description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sentence_duration">sentence_duration</a></td>
+<td>decimal(14, 2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sentence duration</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sentence_duration_qualifier">sentence_duration_qualifier</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sentence duration qualifier</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sentence_effective_date">sentence_effective_date</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sentence effective date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="status_code">status_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">status code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="alcohol_level">alcohol_level</a></td>
+<td>decimal(14, 2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">alcohol level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="alcohol_measurement_method">alcohol_measurement_method</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">alcohol measurement method</span></td>
+</tr>
+<tr>
+<td><a class="name" name="driving_licence_penalty_pts">driving_licence_penalty_pts</a></td>
+<td>decimal(14, 2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">driving licence penalty pts</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt, party_conviction_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

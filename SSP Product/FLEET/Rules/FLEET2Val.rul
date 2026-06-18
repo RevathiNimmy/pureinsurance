@@ -1,0 +1,111 @@
+'FLEET2 - Parent Screen Validation File
+'-----------------------------------
+
+Private Const DMC = "FLEET"
+Private Const oPARENT = "pCATLIN"
+
+Sub Start()
+
+
+dim iTotalPremium
+iTotalPremium = SafeCDbl(Engine.Item(oPARENT).Item("Total_Premium").Value)
+
+If(SafeCInt(Engine.Item(oParent).Item("PolicyStatus").value)=7 or SafeCInt(Engine.Item(oParent).Item("PolicyStatus").value)=9 or SafeCInt(Engine.Item(oParent).Item("PolicyStatus").value)=6) then
+
+else
+      If iTotalPremium =0 then
+	Decline("Total Premium cannot be Null - Please enter any RATE & No")
+      End if
+end if
+
+If(SafeCInt(Engine.Item(oParent).Item("PolicyStatus").value)=7 and Engine.Item(oParent).Item("NQReason").value="") then
+ Decline("NQ Reason Cannot be blank if the Policy Status is No Quote")
+End if
+
+
+  if transactiontype = "MTA"  then
+           if Engine.Item(oPARENT).Item("MTADESC").Value = "AMDPRVADJ"  and (SafeCDbl(Engine.Item(oPARENT).Item("AdjustmentAmount").Value)=0)then
+             Decline("Please Amend Adjustment Amount")
+        end if
+   end if
+
+ 
+'Pending
+
+'No Quote
+
+
+'SB : Creating Workmanager Task according to the Declaration Selected.
+Dim Q1, Q2, Q3,  Q4, Hf1
+
+Dim dCoverStartDate ,lReturn
+dim vData
+  lReturn = Extras.getBodetails(vData)
+   dCoverStartDate = vData(1,0)  
+
+
+Q1=DateAdd("m",4,dCoverStartDate )
+Q2=DateAdd("m",7,dCoverStartDate )
+Q3=DateAdd("m",10,dCoverStartDate )
+Q4=DateAdd("m",13,dCoverStartDate )
+Hf1=DateAdd("m",7,dCoverStartDate )
+
+
+if(SafeCInt(Engine.Item("General").Item("PolicyType").value)=3089) then 'Quaterly
+	call CreateTask(Q1)
+	call CreateTask(Q2)
+	call CreateTask(Q3)
+            call CreateTask(Q4)
+elseif(SafeCInt(Engine.Item("General").Item("PolicyType").value)=3090) then 'HalfYearly
+	call CreateTask(Hf1)
+	call CreateTask(Q4)
+elseif(SafeCInt(Engine.Item("General").Item("PolicyType").value)=3091) then' Annual
+	call CreateTask(Q4)
+End if
+
+'decline(DateAdd("m",4,dCoverStartDate))
+
+End Sub ' Start
+
+'############################################################
+'## Creation of Tasks
+'############################################################
+
+Function CreateTask (DueDate)
+dim mReturn
+    Extras.TaskUrgent = 1
+    Extras.TaskUser = ""
+    Extras.TaskGroup = "UNDER"
+    'Extras.TaskDescription = lTaskDescription
+    'Extras.WorkflowInformation = "Some Info"
+    Extras.TaskDueDate = DueDate
+    mReturn = Extras.AddTaskToWorkManager()
+End Function
+
+
+'Function to Decline the process
+'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Function Decline(sDeclineReason)
+    Dim iCount
+    Engine.NewObject(DMC & "_OUTPUT")
+    iCount = Engine.Count(DMC & "_OUTPUT")
+    Engine.Item(DMC & "_OUTPUT", iCount).Item("DECLINE_REASON").Value = sDeclineReason
+End Function
+
+'********** Conversion functions Start **********
+Function SafeCInt(vIn)
+    SafeCInt = 0
+    On Error Resume Next
+    SafeCInt = CInt(vIn)
+    On Error GoTo 0
+End Function ''''safecint
+
+
+Function SafeCDbl(vIn)
+    SafeCDbl = 0
+    On Error Resume Next
+    SafeCDbl = CDbl(vIn)
+    On Error GoTo 0
+End Function
+
+'********** Conversion functions End **********

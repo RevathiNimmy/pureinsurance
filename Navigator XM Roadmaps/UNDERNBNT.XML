@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- pmnav_map_id = 54 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd">
+<MAP WMTaskCode="UNDNBNT" WMTaskDescription="Underwriting New Business (No Transactions)" ImageURL="http://www.siriusgroup.co.uk" TransactionType="NB" ProcessMode="2" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting New Business (No Transactions)" Core="1" ElementID="E1" Version="200">
+	<STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/>
+	<STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3">
+		<KEY Name="insurance_file_type" Value="4" ElementID="E4"/>
+	</STEP>
+	<STEP Description="Find Product Type" Component="iPMUFindProductType.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/>
+	<STEP Description="Underwriting Policy" Component="iPMUPolicy.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10"/>
+	<STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/>
+	<STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12" Action1Action="BX" Action1Steps="2">
+		<KEY Name="TaskGroupCode" Value="New Business" ElementID="E45"/>
+		<KEY Name="claim_mode" Value="2" ElementID="E23"/>
+		<KEY Name="RoadmapDisablesInstalments" Value="true" ElementID="E43"/>
+		<KEY Name="no_transactions" Value="1" ElementID="E44"/>
+	</STEP>
+</MAP>
+

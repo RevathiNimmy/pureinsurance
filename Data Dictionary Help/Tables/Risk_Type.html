@@ -1,0 +1,775 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Risk_Type</h1>
+<p>Defines and configures the types of risk.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Risk<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="risk_type_id">risk_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">risk type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_folder_type_id">risk_folder_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk_Folder_Type.html#risk_folder_type_id">Risk_Folder_Type.risk_folder_type_id</a> <span class="autodesc">risk folder type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="var_data_structure_id">var_data_structure_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Var_Data_Structure.html#var_data_structure_id">Var_Data_Structure.var_data_structure_id</a> <span class="autodesc">var data structure</span></td>
+</tr>
+<tr>
+<td><a class="name" name="interface_object_name">interface_object_name</a></td>
+<td>char(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">interface object name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="interface_class_name">interface_class_name</a></td>
+<td>char(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">interface class name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="override_peril_ri_band">override_peril_ri_band</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">override peril ri band</span></td>
+</tr>
+<tr>
+<td><a class="name" name="override_peril_xl_band">override_peril_xl_band</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">override peril xl band</span></td>
+</tr>
+<tr>
+<td><a class="name" name="nb_premium_pro_rata_type_id">nb_premium_pro_rata_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Premium_Pro_Rata_Type.html#premium_pro_rata_type_id">Premium_Pro_Rata_Type.premium_pro_rata_type_id</a> <span class="autodesc">nb premium pro rata type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mta_premium_pro_rata_type_id">mta_premium_pro_rata_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Premium_Pro_Rata_Type.html#premium_pro_rata_type_id">Premium_Pro_Rata_Type.premium_pro_rata_type_id</a> <span class="autodesc">mta premium pro rata type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="rn_premium_pro_rata_type_id">rn_premium_pro_rata_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Premium_Pro_Rata_Type.html#premium_pro_rata_type_id">Premium_Pro_Rata_Type.premium_pro_rata_type_id</a> <span class="autodesc">rn premium pro rata type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_share_with_co_insurers">is_share_with_co_insurers</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is share with co insurers</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_share_with_re_insurers">is_share_with_re_insurers</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is share with re insurers</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_suppress_public_text">is_suppress_public_text</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is suppress public text</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_suppress_private_text">is_suppress_private_text</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is suppress private text</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_suppress_taxes">is_suppress_taxes</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is suppress taxes</span></td>
+</tr>
+<tr>
+<td><a class="name" name="report_pointer">report_pointer</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">report pointer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="section_mask">section_mask</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">section mask</span></td>
+</tr>
+<tr>
+<td><a class="name" name="stamp_duty_rate1">stamp_duty_rate1</a></td>
+<td>numeric(7, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">stamp duty rate1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="stamp_duty_rate2">stamp_duty_rate2</a></td>
+<td>numeric(7, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">stamp duty rate2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="primary_sort">primary_sort</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">primary sort</span></td>
+</tr>
+<tr>
+<td><a class="name" name="secondary_sort">secondary_sort</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">secondary sort</span></td>
+</tr>
+<tr>
+<td><a class="name" name="header_clause">header_clause</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">header clause</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trailer_clause">trailer_clause</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">trailer clause</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_ri_at_risk_level">is_ri_at_risk_level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is ri at risk level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_auto_reinsured">is_auto_reinsured</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is auto reinsured</span></td>
+</tr>
+<tr>
+<td><a class="name" name="header_clause_id">header_clause_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">header clause</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trailer_clause_id">trailer_clause_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">trailer clause</span></td>
+</tr>
+<tr>
+<td><a class="name" name="accumulation_level">accumulation_level</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">accumulation level</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_screen_id">gis_screen_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Screen.html#gis_screen_id">GIS_Screen.gis_screen_id</a> <span class="autodesc">gis screen</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deferred_RI_permitted">is_deferred_RI_permitted</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is deferred RI permitted</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_gis_screen_id">claims_gis_screen_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims gis screen</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_is_post_taxes">claims_is_post_taxes</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims is post taxes</span></td>
+</tr>
+<tr>
+<td><a class="name" name="display_reinsurance_screen">display_reinsurance_screen</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">display reinsurance screen</span></td>
+</tr>
+<tr>
+<td><a class="name" name="show_information_checklist">show_information_checklist</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">show information checklist</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_add_ratingsection">allow_add_ratingsection</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow add ratingsection</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_edit_ratingsection">allow_edit_ratingsection</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow edit ratingsection</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_delete_ratingsection">allow_delete_ratingsection</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow delete ratingsection</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_edit_ratingsection_ratetype">allow_edit_ratingsection_ratetype</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow edit ratingsection ratetype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_edit_ratingsection_rate">allow_edit_ratingsection_rate</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow edit ratingsection rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_edit_ratingsection_suminsured">allow_edit_ratingsection_suminsured</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow edit ratingsection suminsured</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_edit_ratingsection_thispremium">allow_edit_ratingsection_thispremium</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow edit ratingsection thispremium</span></td>
+</tr>
+<tr>
+<td><a class="name" name="display_claims_reinsurance_screen">display_claims_reinsurance_screen</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">display claims reinsurance screen</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Claims_Cover_basis_ID">Claims_Cover_basis_ID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Claims_Cover_basis.html#Claims_Cover_basis_ID">Claims_Cover_basis.Claims_Cover_basis_ID</a> <span class="autodesc">Claims Cover basis</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Claims_type_basis_ID">Claims_type_basis_ID</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Claims_type_basis.html#Claims_type_basis_ID">Claims_type_basis.Claims_type_basis_ID</a> <span class="autodesc">Claims type basis</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>gis_screen_id</td>
+<td><a href="GIS_Screen.html">GIS_Screen</a></td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mta_premium_pro_rata_type_id</td>
+<td><a href="Premium_Pro_Rata_Type.html">Premium_Pro_Rata_Type</a></td>
+<td>premium_pro_rata_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>nb_premium_pro_rata_type_id</td>
+<td><a href="Premium_Pro_Rata_Type.html">Premium_Pro_Rata_Type</a></td>
+<td>premium_pro_rata_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>rn_premium_pro_rata_type_id</td>
+<td><a href="Premium_Pro_Rata_Type.html">Premium_Pro_Rata_Type</a></td>
+<td>premium_pro_rata_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_folder_type_id</td>
+<td><a href="Risk_Folder_Type.html">Risk_Folder_Type</a></td>
+<td>risk_folder_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>var_data_structure_id</td>
+<td><a href="Var_Data_Structure.html">Var_Data_Structure</a></td>
+<td>var_data_structure_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_screen_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>mta_premium_pro_rata_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>nb_premium_pro_rata_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>rn_premium_pro_rata_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>var_data_structure_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>risk_folder_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Claims_Cover_basis_ID</td>
+<td><a href="Claims_Cover_basis.html">Claims_Cover_basis</a></td>
+<td>Claims_Cover_basis_ID</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Claims_type_basis_ID</td>
+<td><a href="Claims_type_basis.html">Claims_type_basis</a></td>
+<td>Claims_type_basis_ID</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Agent_Commission.html">Agent_Commission</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>Risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Claim_Risk.html">Claim_Risk</a></td>
+<td>Risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Commission_Arrangement.html">Commission_Arrangement</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Event_Claim.html">Event_Claim</a></td>
+<td>Risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Lead_Commission.html">Lead_Commission</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Risk.html">Risk</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Data_Definition.html">Risk_Data_Definition</a></td>
+<td>Risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_Expert_Service.html">Risk_Type_Expert_Service</a></td>
+<td>Risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_GIS_Screen.html">Risk_Type_GIS_Screen</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_Peril_Type.html">Risk_Type_Peril_Type</a></td>
+<td>Risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_Rating_Section_Type.html">Risk_Type_Rating_Section_Type</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_RI_Model_Usage.html">Risk_Type_RI_Model_Usage</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_RI_Properties.html">Risk_Type_RI_Properties</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_RI_Values.html">Risk_Type_RI_Values</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_Rule_Set.html">Risk_Type_Rule_Set</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Risk_Type_Usage.html">Risk_Type_Usage</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Stats_Detail.html">Stats_Detail</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_type_id</td>
+<td><a href="Tmp_Risk.html">Tmp_Risk</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>risk_type_id</td>
+<td><a href="Wording_Risk_Type_Link.html">Wording_Risk_Type_Link</a></td>
+<td>risk_type_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>risk_type_id</td>
+<td>risk_folder_type_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+<td>var_data_structure_id</td>
+<td>interface_object_name</td>
+<td>interface_class_name</td>
+<td>override_peril_ri_band</td>
+<td>override_peril_xl_band</td>
+<td>nb_premium_pro_rata_type_id</td>
+<td>mta_premium_pro_rata_type_id</td>
+<td>rn_premium_pro_rata_type_id</td>
+<td>is_share_with_co_insurers</td>
+<td>is_share_with_re_insurers</td>
+<td>is_suppress_public_text</td>
+<td>is_suppress_private_text</td>
+<td>is_suppress_taxes</td>
+<td>report_pointer</td>
+<td>section_mask</td>
+<td>stamp_duty_rate1</td>
+<td>stamp_duty_rate2</td>
+<td>primary_sort</td>
+<td>secondary_sort</td>
+<td>header_clause</td>
+<td>trailer_clause</td>
+<td>is_ri_at_risk_level</td>
+<td>is_auto_reinsured</td>
+<td>header_clause_id</td>
+<td>trailer_clause_id</td>
+<td>accumulation_level</td>
+<td>gis_screen_id</td>
+<td>is_deferred_RI_permitted</td>
+<td>claims_gis_screen_id</td>
+<td>claims_is_post_taxes</td>
+<td>display_reinsurance_screen</td>
+<td>show_information_checklist</td>
+<td>allow_add_ratingsection</td>
+<td>allow_edit_ratingsection</td>
+<td>allow_delete_ratingsection</td>
+<td>allow_edit_ratingsection_ratetype</td>
+<td>allow_edit_ratingsection_rate</td>
+<td>allow_edit_ratingsection_suminsured</td>
+<td>allow_edit_ratingsection_thispremium</td>
+<td>display_claims_reinsurance_screen</td>
+<td>Claims_Cover_basis_ID</td>
+<td>Claims_type_basis_ID</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>636</td>
+<td>PMOTOR</td>
+<td>Private Motor</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>8</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

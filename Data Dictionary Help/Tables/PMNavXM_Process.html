@@ -1,0 +1,709 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNavXM_Process</h1>
+<p><span class="autodesc">PMNavXM Process</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnavxm_process_id">pmnavxm_process_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnavxm process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="parent_id">parent_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">parent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="file_name">file_name</a></td>
+<td>varchar(100)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">file name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="file_version_number">file_version_number</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">file version number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="file_timestamp">file_timestamp</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">file timestamp</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_custom">is_custom</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is custom</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_core">is_core</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is core</span></td>
+</tr>
+<tr>
+<td><a class="name" name="xml_definition">xml_definition</a></td>
+<td>text</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">xml definition</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnavxm_process_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnavxm_process_id</td>
+<td>parent_id</td>
+<td>file_name</td>
+<td>file_version_number</td>
+<td>file_timestamp</td>
+<td>is_custom</td>
+<td>is_core</td>
+<td>xml_definition</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>ACTPAYV2.XML</td>
+<td>80</td>
+<td>2009-04-09 12:33:49</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 208 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="ACTPAYV2" WMTaskDescription="Complete Cash / Cheque Payments" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Cash / Cheque Payments" Core="1" Version="80" ElementID="E1"&gt;
+	&lt;STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"&gt;
+		&lt;KEY Name="cash_list_roadmap" Value="PAYMENTS" ElementID="E3"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Cash List Item" Component="iACTCashListItem.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"&gt;
+		&lt;KEY Name="allow_allocate_button" Value="-1" ElementID="E5"/&gt;
+		&lt;KEY Name="cash_list_allocation_roadmap" Value="ACTRCTV22P" ElementID="E6"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>ACTRCTV2.XML</td>
+<td>87</td>
+<td>2009-04-09 12:33:49</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 209 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="ACTRCTV2" WMTaskDescription="Complete Cash / Cheque Receipt" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Cash / Cheque Receipt" Core="1" ElementID="E1" Version="87"&gt;
+	&lt;STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E2"&gt;
+		&lt;KEY Name="cash_list_roadmap" Value="RECEIPT" ElementID="E3"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Cash List Item" Component="iACTCashListItem.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E4"&gt;
+		&lt;KEY Name="allow_allocate_button" Value="-1" ElementID="E5"/&gt;
+		&lt;KEY Name="cash_list_allocation_roadmap" Value="ACTRCTV22P" ElementID="E6"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>MAINCLM.XML</td>
+<td>97</td>
+<td>2009-04-09 12:33:49</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 41 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="MAINCLM" WMTaskDescription="Complete Maintain Claim" ImageURL="http://www.ssp-uk.com" TransactionType="C_CR" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Maintain Claim" Core="1" ElementID="E1" Version="97"&gt;
+	&lt;STEP Description="Find Claim" Component="iCLMFindClaim.Interface" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="12" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"/&gt;
+	&lt;STEP Description="Information Checklist" Component="iCLMInfoChklst.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="11" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"&gt;
+		&lt;KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E5"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Risk Details" Component="iCLMRiskDetails.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="10" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"/&gt;
+	&lt;STEP Description="Coinsurance Recoveries" Component="iCLMCoinsuranceRecoveries.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="9" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/&gt;
+	&lt;STEP Description="Reinsurance Recoveries" Component="iCLMReinsurance.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="8" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/&gt;
+	&lt;STEP Description="Salvage Recovery" Component="iCLMRecovery.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="7" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"&gt;
+		&lt;KEY Name="recovery_is_salvage" Value="1" ElementID="E10"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Third Party Recovery" Component="iCLMRecovery.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="6" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"&gt;
+		&lt;KEY Name="recovery_is_salvage" Value="0" ElementID="E12"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Update Claim Details" Component="iCLMChangeClaimStatus.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="5" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13"/&gt;
+	&lt;STEP Description="Check Status" Component="iCLMCloseClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E14"/&gt;
+	&lt;STEP Description="Generate Claim Notification Documents?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E15"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E16"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Claim Notification?" ElementID="E17"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Claim Notification Documents" Component="iCLMGetClaimDocuments.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E18"/&gt;
+	&lt;STEP Description="Claim Payments Process" Component="iCLMPaymentProcess.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="1" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E19"/&gt;
+	&lt;STEP Description="Unlock Claim" Component="iCLMUnlock.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E20"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>NEWPLAN.XML</td>
+<td>76</td>
+<td>2009-04-09 12:33:49</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="PFNB" WMTaskDescription="Create a new Instalment Plan" ImageURL="http://www.ssp-uk.com" TransactionType="" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="New Instalment Plan" Core="1" Version="76" ElementID="E1"&gt;
+	&lt;STEP Description="Find Client" Component="iPMBFindParty.Interface" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="Find Finance Plan" Component="iPMBFindFinancePlan.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"/&gt;
+	&lt;STEP Description="Select Finance Transactions" Component="iPMBFinanceTransactions.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"/&gt;
+	&lt;STEP Description="Quote Finance" Component="iPMBFinancePlanQuote.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/&gt;
+	&lt;STEP Description="Finance Plan Maint" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="CP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>OPENCLM.XML</td>
+<td>88</td>
+<td>2009-04-09 12:33:50</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 18 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="OPENCLM" WMTaskDescription="Complete OpenClaim" ImageURL="http://www.ssp-uk.com" TransactionType="C_CO" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Open Claim" Core="1" Version="88" ElementID="E1"&gt;
+	&lt;STEP Description="Find Policy" Component="iSIRFindInsurance.Interface" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"&gt;
+		&lt;KEY Name="claim_mode" Value="1" ElementID="E4"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Check Unpaid Status" Component="iCLMCheckUnpaidPremium.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E19"/&gt;
+	&lt;STEP Description="Information Check list" Component="iCLMInfoChklst.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"&gt;
+		&lt;KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E6"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Risk Details" Component="iCLMRiskDetails.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/&gt;
+	&lt;STEP Description="Coinsurance Recoveries" Component="iCLMCoinsuranceRecoveries.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/&gt;
+	&lt;STEP Description="Reinsurance Recoveries" Component="iCLMReinsurance.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"/&gt;
+	&lt;STEP Description="Salvage Recovery" Component="iCLMRecovery.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10"&gt;
+		&lt;KEY Name="recovery_is_salvage" Value="1" ElementID="E17"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Third Party Recovery" Component="iCLMRecovery.Interface" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"&gt;
+		&lt;KEY Name="recovery_is_salvage" Value="0" ElementID="E18"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Update Claim Details" Component="iCLMChangeClaimStatus.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12"/&gt;
+	&lt;STEP Description="Generate Claim Notification Documents?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E14"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Claim Notification?" ElementID="E15"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Claim Notification Documents" Component="iCLMGetClaimDocuments.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E16"/&gt;
+	&lt;STEP Description="Claim Payments Process" Component="iCLMPaymentProcess.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E20"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>7</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>PAYCLM.XML</td>
+<td>99</td>
+<td>2009-04-09 12:33:50</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 42 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="PAYCLM" WMTaskDescription="Complete Payment Of Claim" ImageURL="http://www.ssp-uk.com" TransactionType="C_CP" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Payment Of Claim" Core="1" ElementID="E1" Version="99"&gt;
+	&lt;STEP Description="Find Claim" Component="iCLMFindClaim.Interface" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="14" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" Action1Action="FX" Action1Steps="4" ElementID="E3"/&gt;
+	&lt;STEP Description="Check Unpaid Status" Component="iCLMCheckUnpaidPremium.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="13" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"/&gt;
+	&lt;STEP Description="Check Deferred Reinsurance" Component="iCLMCheckDeferredRI.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="12" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/&gt;
+	&lt;STEP Description="Information Checklist" Component="iCLMInfoChklst.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="11" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"&gt;
+		&lt;KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E7"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Risk Details" Component="iCLMRiskDetails.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="10" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"/&gt;
+	&lt;STEP Description="Coinsurance Payment" Component="iCLMCoinsuranceRecoveries.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="9" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/&gt;
+	&lt;STEP Description="Reinsurance Payment" Component="iCLMReinsurance.Interface" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="8" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12"/&gt;
+	&lt;STEP Description="Update Claim Details" Component="iCLMChangeClaimStatus.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="7" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" Action1Action="FX" Action1Steps="3" ElementID="E13"/&gt;
+	&lt;STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="" CancelSteps="2" ComponentAction="1" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E24"&gt;
+		&lt;KEY Name="cash_list_roadmap" Value="PAYMENTS" ElementID="E25"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Payment" Component="iACTCashListItem.Interface" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E26"&gt;
+		&lt;KEY Name="cash_list_item_mode" Value="2" ElementID="E27"/&gt;
+		&lt;KEY Name="allow_allocate_button" Value="0" ElementID="E28"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Check Status" Component="iCLMCloseClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E14"/&gt;
+	&lt;STEP Description="Generate Claim Payment Documents?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E15"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E16"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Claim Payment Advice?" ElementID="E17"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Claim Payment Documents" Component="iCLMGetClaimDocuments.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1 " Submap="" OKNewRoadmap=" " CancelNewRoadmap="" ElementID="E18"/&gt;
+	&lt;STEP Description="Do you wish to make further payments?" Component="iPMDecision.Interface" Type="QF" CancelAction="F1" OKAction="BX" OKSteps="9" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E19"&gt;
+		&lt;KEY Name="decision_title" Value="More payments" ElementID="E20"/&gt;
+		&lt;KEY Name="decision_text" Value="Do you wish to make further payments?" ElementID="E21"/&gt;
+		&lt;KEY Name="FurtherPayments" Value="1" ElementID="E22"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Unlock Claim" Component="iCLMUnlock.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E23"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>8</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>PERILTYPE.XML</td>
+<td>80</td>
+<td>2009-04-09 12:33:50</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 273 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="PerilType" WMTaskDescription="Complete Peril Type" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Peril Type" Core="1" Version="80" ElementID="E1"&gt;
+	&lt;STEP Description="Peril Type" Component="iCLMPerilType.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>9</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>PFCASH.XML</td>
+<td>76</td>
+<td>2009-04-09 12:33:50</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 44 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="PFCASH" WMTaskDescription="Complete Premium Finance Cash Payment" ImageURL="http://www.ssp-uk.com" TransactionType="NB" ProcessMode="2" AutoClose="True" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Premium Finance Cash Payment" Core="1" Version="76" ElementID="E1"&gt;
+	&lt;STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="Cash List Item" Component="iACTCashListItem.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>RESERVE.XML</td>
+<td>80</td>
+<td>2009-04-09 12:33:50</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 274 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="ResType" WMTaskDescription="Complete Reserve Type" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Reserve Type" Core="1" Version="80" ElementID="E1"&gt;
+	&lt;STEP Description="Reserve Type" Component="iCLMResvDefn.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>RISKTYPE.XML</td>
+<td>80</td>
+<td>2009-04-09 12:33:51</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 272 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="RskType" WMTaskDescription="Complete Risk Type" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Risk Type" Core="1" Version="80" ElementID="E1"&gt;
+	&lt;STEP Description="Risk Type" Component="iCLMRiskType.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>12</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>RSKTYPEINF.XML</td>
+<td>80</td>
+<td>2009-04-09 12:33:51</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 275 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="RskTypeInf" WMTaskDescription="Complete Risk Type Information Checklist" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Risk Type Information Checklist" Core="1" Version="80" ElementID="E1"&gt;
+	&lt;STEP Description="Risk Type Information Checklist" Component="iCLMRiskTypeInfoChecklist.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>13</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>UNDERMTA.XML</td>
+<td>188</td>
+<td>2009-04-09 12:33:51</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 58 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="UnderMTA" WMTaskDescription="Complete Underwriting MTA" ImageURL="http://www.ssp-uk.com" TransactionType="MTA" ProcessMode="32" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting MTA" Core="1" ElementID="E1" Version="188"&gt;
+	&lt;STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"&gt;
+		&lt;KEY Name="insurance_file_type" Value="5" ElementID="E4"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="List Policy Version" Component="iPMUListPolicyVersion.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/&gt;
+	&lt;STEP Description="Underwriting Policy" Component="iPMUPolicy.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/&gt;
+	&lt;STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"/&gt;
+	&lt;STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10" Action1Action="BX" Action1Steps="2"&gt;
+		&lt;KEY Name="claim_mode" Value="2" ElementID="E35"/&gt;
+		&lt;KEY Name="TaskGroupCode" Value="MTA" ElementID="E60"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Statistics" Component="iPMUStats.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E36"/&gt;
+	&lt;STEP Description="Plan Maintainence" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E42"&gt;
+		&lt;KEY Name="TaskGroupCode" Value="MTA" ElementID="E43"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Accumulation Values" Component="iPMUAccumulationValues.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E44"/&gt;
+	&lt;STEP Description="Produce Schedule" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E45" ResourceId="102"&gt;
+		&lt;KEY Name="document_id" Value="4" ElementID="E46"/&gt;
+		&lt;KEY Name="short_code" Value="schedule" ElementID="E47"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Certificate" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E48"&gt;
+		&lt;KEY Name="document_id" Value="5" ElementID="E49"/&gt;
+		&lt;KEY Name="short_code" Value="certificate" ElementID="E50"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Debit Note" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E51" ResourceId="101"&gt;
+		&lt;KEY Name="document_id" Value="3" ElementID="E52"/&gt;
+		&lt;KEY Name="short_code" Value="debitnote" ElementID="E53"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>UNDERMTANT.XML</td>
+<td>107</td>
+<td>2009-04-09 12:33:51</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 59 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="" WMTaskDescription="Underwriting MTA (No Transactions)" ImageURL="http://www.ssp-uk.com" TransactionType="MTA" ProcessMode="32" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting MTA (No Transactions)" Core="1" ElementID="E1" Version="107"&gt;
+	&lt;STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"&gt;
+		&lt;KEY Name="insurance_file_type" Value="5" ElementID="E4"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="List Policy Version" Component="iPMUListPolicyVersion.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/&gt;
+	&lt;STEP Description="Underwriting Policy" Component="iPMUPolicy.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"/&gt;
+	&lt;STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/&gt;
+	&lt;STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8" Action1Action="BX" Action1Steps="2"&gt;
+		&lt;KEY Name="claim_mode" Value="2" ElementID="E23"/&gt;
+		&lt;KEY Name="RoadmapDisablesInstalments" Value="true" ElementID="E43"/&gt;
+		&lt;KEY Name="no_transactions" Value="1" ElementID="E44"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>15</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>UNDERNB.XML</td>
+<td>187</td>
+<td>2009-04-09 12:33:52</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 54 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="UNDERNB" WMTaskDescription="Complete Underwriting New Business" ImageURL="http://www.ssp-uk.com" TransactionType="NB" ProcessMode="2" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting New Business" Core="1" ElementID="E1" Version="187"&gt;
+	&lt;STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"&gt;
+		&lt;KEY Name="insurance_file_type" Value="4" ElementID="E4"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Find Product Type" Component="iPMUFindProductType.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/&gt;
+	&lt;STEP Description="Underwriting Policy" Component="iPMUPolicy.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10"/&gt;
+	&lt;STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/&gt;
+	&lt;STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" Action1Action="BX" Action1Steps="2" Action2Action="QS" Action2Steps="0" ElementID="E12"&gt;
+		&lt;KEY Name="TaskGroupCode" Value="New Business" ElementID="E43"/&gt;
+		&lt;KEY Name="claim_mode" Value="2" ElementID="E37"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Statistics" Component="iPMUStats.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E38"/&gt;
+	&lt;STEP Description="Plan Maintainence" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E44"&gt;
+		&lt;KEY Name="TaskGroupCode" Value="New Business" ElementID="E45"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Accumulation Values" Component="iPMUAccumulationValues.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E46"/&gt;
+	&lt;STEP Description="Produce Schedule" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E47" ResourceId="100"&gt;
+		&lt;KEY Name="document_id" Value="4" ElementID="E48"/&gt;
+		&lt;KEY Name="short_code" Value="schedule" ElementID="E49"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Certificate" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E50"&gt;
+		&lt;KEY Name="document_id" Value="5" ElementID="E51"/&gt;
+		&lt;KEY Name="short_code" Value="certificate" ElementID="E52"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Debit Note" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E53" ResourceId="101"&gt;
+		&lt;KEY Name="document_id" Value="3" ElementID="E54"/&gt;
+		&lt;KEY Name="short_code" Value="debitnote" ElementID="E55"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>16</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>UNDERNBPFP.XML</td>
+<td>76</td>
+<td>2009-04-09 12:33:52</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Internal Use (SSP) --&gt;
+&lt;!-- pmnav_map_id = 54 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="UNDERNB" WMTaskDescription="Complete Underwriting New Business" ImageURL="http://www.ssp-uk.com" TransactionType="NB" ProcessMode="2" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Underwriting New Business" Core="1" Version="76" ElementID="E1"&gt;
+	&lt;STEP Description="Underwriting Find Party" Component="iPMBFindPartyWrapper.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/&gt;
+	&lt;STEP Description="List Policies" Component="iPMUListPolicy.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3"&gt;
+		&lt;KEY Name="insurance_file_type" Value="4" ElementID="E4"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Find Product Type" Component="iPMUFindProductType.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E7"/&gt;
+	&lt;STEP Description="Underwriting Policy" Component="iPMUPolicy.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10"/&gt;
+	&lt;STEP Description="Underwriting Coinsurance" Component="iPMUCoinsurance.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/&gt;
+	&lt;STEP Description="List Risks" Component="iPMUListRisks.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12"/&gt;
+	&lt;STEP Description="Policy Level Reinsurance" Component="iPMUReinsurance.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13"&gt;
+		&lt;KEY Name="Policy_mode" Value="1" ElementID="E14"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Policy Level Taxes" Component="iPMURITax.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E15"&gt;
+		&lt;KEY Name="policy_level" Value="1" ElementID="E16"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Agent Commission" Component="iPMUAgentCommission.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E17"/&gt;
+	&lt;STEP Description="Assign Policy Number" Component="iPMUChangePolicyStatus.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E18"&gt;
+		&lt;KEY Name="claim_mode" Value="1" ElementID="E19"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Generate Quote Document?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E20"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E21"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Quotation documentation?" ElementID="E22"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Quotation document" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E23"&gt;
+		&lt;KEY Name="document_id" Value="1" ElementID="E24"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Generate Proposal Document?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E25"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E26"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate proposal form?" ElementID="E27"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Proposal" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E28"&gt;
+		&lt;KEY Name="document_id" Value="2" ElementID="E29"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Requote?" Component="iPMDecision.Interface" Type="QF" CancelAction="F1" OKAction="BX" OKSteps="11" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E30"&gt;
+		&lt;KEY Name="decision_title" Value="Requote?" ElementID="E31"/&gt;
+		&lt;KEY Name="decision_text" Value="Requote?" ElementID="E32"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Pend for Payment?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="AP" OKSteps="0" CancelSteps="7" ComponentAction="0" ServerSide="False" CreateWMTask="True" ResumeStep="E37" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E33"&gt;
+		&lt;KEY Name="decision_title" Value="Payment?" ElementID="E34"/&gt;
+		&lt;KEY Name="decision_text" Value="Pend for Payment?" ElementID="E35"/&gt;
+		&lt;KEY Name="TaskDaysDue" Value="10" ElementID="E36"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Has payment been received?" Component="iPMDecision.Interface" Type="QF" CancelAction="F1" OKAction="FX" OKSteps="6" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E37"&gt;
+		&lt;KEY Name="decision_title" Value="Payment received?" ElementID="E38"/&gt;
+		&lt;KEY Name="decision_text" Value="Has payment been received?" ElementID="E39"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Do you want to send a reminder letter?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="5" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E40"&gt;
+		&lt;KEY Name="decision_title" Value="Reminder?" ElementID="E41"/&gt;
+		&lt;KEY Name="decision_text" Value="Do you want to send a reminder letter?" ElementID="E42"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Reminder" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E43"&gt;
+		&lt;KEY Name="document_id" Value="13" ElementID="E44"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Do you want to pend for payment?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="AP" OKSteps="0" CancelSteps="3" ComponentAction="0" ServerSide="False" CreateWMTask="True" ResumeStep="E49" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E45"&gt;
+		&lt;KEY Name="decision_title" Value="Pend payment?" ElementID="E46"/&gt;
+		&lt;KEY Name="decision_text" Value="Do you want to pend for payment?" ElementID="E47"/&gt;
+		&lt;KEY Name="TaskDaysDue" Value="10" ElementID="E48"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Do you want to lapse this policy?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E49"&gt;
+		&lt;KEY Name="decision_title" Value="Lapse Policy?" ElementID="E50"/&gt;
+		&lt;KEY Name="decision_text" Value="Do you want to lapse this policy?" ElementID="E51"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Underwriting Policy" Component="iPMUPolicy.navigatorV3" Type="DF" CancelAction="AP" OKAction="AP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E52"&gt;
+		&lt;KEY Name="Policy_Lapsed" Value="True" ElementID="E53"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Make it live?" Component="iPMDecision.Interface" Type="QF" CancelAction="CP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E54"&gt;
+		&lt;KEY Name="decision_title" Value="Change Policy Status" ElementID="E55"/&gt;
+		&lt;KEY Name="decision_text" Value="Make It Live?" ElementID="E56"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Make Policy Live" Component="iPMUChangePolicyStatus.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E57"&gt;
+		&lt;KEY Name="claim_mode" Value="2" ElementID="E58"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Statistics" Component="iPMUStats.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E59"/&gt;
+	&lt;STEP Description="Pay by Instalments" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="3" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E60"&gt;
+		&lt;KEY Name="decision_title" Value="Pay by Instalments?" ElementID="E61"/&gt;
+		&lt;KEY Name="decision_text" Value="Would you like to pay this Premium by Instalments?" ElementID="E62"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Quote Finance" Component="iPMBFinancePlanQuote.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E63"&gt;
+		&lt;KEY Name="TaskGroupCode" Value="New Business" ElementID="E64"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Plan Maintainence" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E65"&gt;
+		&lt;KEY Name="TaskGroupCode" Value="New Business" ElementID="E66"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Accumulation Values" Component="iPMUAccumulationValues.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E67"/&gt;
+	&lt;STEP Description="Generate Schedule Document?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E68"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E69"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Schedule documentation?" ElementID="E70"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Schedule" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E71"&gt;
+		&lt;KEY Name="document_id" Value="4" ElementID="E72"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Generate Certificate?" Component="iPMDecision.Interface" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E73"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E74"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Certificate?" ElementID="E75"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Certificate" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E76"&gt;
+		&lt;KEY Name="document_id" Value="5" ElementID="E77"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Generate Debit Note?" Component="iPMDecision.Interface" Type="QF" CancelAction="CP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E78"&gt;
+		&lt;KEY Name="decision_title" Value="Documentation" ElementID="E79"/&gt;
+		&lt;KEY Name="decision_text" Value="Generate Debit Note?" ElementID="E80"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Produce Debit Note" Component="iPMUGetDocument.navigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E81"&gt;
+		&lt;KEY Name="document_id" Value="3" ElementID="E82"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>17</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>VCLAIM.XML</td>
+<td>80</td>
+<td>2009-04-09 12:33:52</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- pmnav_map_id = 61 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd"&gt;
+&lt;MAP WMTaskCode="VCLAIM" WMTaskDescription="Complete View Claim" ImageURL="http://www.ssp-uk.com" TransactionType="REN" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="View Claim" Core="1" Version="80" ElementID="E1"&gt;
+	&lt;STEP Description="Find Claim" Component="iCLMFindClaim.Interface" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"&gt;
+		&lt;KEY Name="SelectVersion" Value="1" ElementID="E3"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"&gt;
+		&lt;KEY Name="claim_ref" Value="2" ElementID="E5"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Information Checklist" Component="iCLMInfoChklst.Interface" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6"&gt;
+		&lt;KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E7"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Risk Details" Component="iCLMRiskDetails.Interface" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="3" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Coinsurance Recoveries" Component="iCLMCoinsuranceRecoveries.Interface" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Reinsurance Recoveries" Component="iCLMReinsurance.Interface" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="5" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10"&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Salvage Recovery" Component="iCLMRecovery.Interface" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="6" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"&gt;
+		&lt;KEY Name="recovery_is_salvage" Value="1" ElementID="E12"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Third Party Recovery" Component="iCLMRecovery.Interface" Type="DF" CancelAction="BX" OKAction="BX" OKSteps="7" CancelSteps="7" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13"&gt;
+		&lt;KEY Name="recovery_is_salvage" Value="0" ElementID="E14"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+<tr>
+<td>18</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>OpenComplaint.XML</td>
+<td>1</td>
+<td>2005-06-15 10:28:39</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;Long Text&gt;</td>
+</tr>
+<tr>
+<td>19</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>MaintainComplaint.XML</td>
+<td>1</td>
+<td>2005-06-15 10:28:39</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;Long Text&gt;</td>
+</tr>
+<tr>
+<td>20</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>FINDPRTYFE.XML</td>
+<td>74</td>
+<td>2009-04-09 12:33:49</td>
+<td>0</td>
+<td>1</td>
+<td>&lt;?xml version="1.0"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rob Courtney (SSP) --&gt;
+&lt;!-- pmnav_map_id = 214 --&gt;
+&lt;!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"&gt;
+&lt;MAP WMTaskCode="FINDPRTYFE" WMTaskDescription="Complete Fees Maintenance" ImageURL="http://www.ssp-uk.com" TransactionType="RN D" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Fees Maintenance" Core="1" Version="74" ElementID="E1"&gt;
+	&lt;STEP Description="Find Fees Party" Component="iPMBFindParty.Interface" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E2"&gt;
+		&lt;KEY Name="special_party" Value="FE" ElementID="E3"/&gt;
+	&lt;/STEP&gt;
+	&lt;STEP Description="Fees Maintenance" Component="iPMBPartyEX.Interface" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E4"&gt;
+		&lt;KEY Name="special_party" Value="FE" ElementID="E5"/&gt;
+	&lt;/STEP&gt;
+&lt;/MAP&gt;
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

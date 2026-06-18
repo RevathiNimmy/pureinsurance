@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by Richard Taylor (SSP) -->
+<xs:schema targetNamespace="http://www.siriusfs.com/SFI/SAM/SAMForInsurance/20060627" xmlns:an="http://www.siriusfs.com/SFI/SAM/SAMForInsurance/20060627" xmlns:bs="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" xmlns="http://www.siriusfs.com/SFI/SAM/SAMForInsurance/20060627" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:import namespace="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" schemaLocation="BaseTypesBV1.xsd"/>
+	<xs:element name="AddAddressRequest" type="AddAddressRequestType" nillable="true"/>
+	<xs:complexType name="AddAddressRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddAddressRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddAddressResponse" type="AddAddressResponseType" nillable="true"/>
+	<xs:complexType name="AddAddressResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddAddressResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddAgentReceiptRequest" type="an:AddAgentReceiptRequestType"/>
+	<xs:complexType name="AddAgentReceiptRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseAddReceiptRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddAgentReceiptResponse" type="an:AddAgentReceiptResponseType"/>
+	<xs:complexType name="AddAgentReceiptResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseAddReceiptResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddClaimRiskRequest" type="an:AddClaimRiskRequestType"/>
+	<xs:complexType name="AddClaimRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskRequestType">
+				<xs:sequence>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddClaimRiskResponse" type="an:AddClaimRiskResponseType"/>
+	<xs:complexType name="AddClaimRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddMtaQuoteRequest" type="AddMtaQuoteRequestType" nillable="true"/>
+	<xs:complexType name="AddMtaQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddMtaQuoteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddMtaQuoteResponse" type="AddMtaQuoteResponseType" nillable="true"/>
+	<xs:complexType name="AddMtaQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddMtaQuoteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddPartyRequest" type="AddPartyRequestType" nillable="true"/>
+	<xs:complexType name="AddPartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddPartyRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddPartyResponse" type="AddPartyResponseType" nillable="true"/>
+	<xs:complexType name="AddPartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddPartyResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddQuoteRequest" type="AddQuoteRequestType" nillable="true"/>
+	<xs:complexType name="AddQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddQuoteRequestType">
+				<xs:sequence>
+					<xs:element name="InsuredParties" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:any/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddQuoteResponse" type="AddQuoteResponseType" nillable="true"/>
+	<xs:complexType name="AddQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddQuoteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddRiskRequest" type="AddRiskRequestType" nillable="true"/>
+	<xs:complexType name="AddRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AddRiskResponse" type="AddRiskResponseType" nillable="true"/>
+	<xs:complexType name="AddRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseAddRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BindQuoteRequest" type="BindQuoteRequestType" nillable="true"/>
+	<xs:complexType name="BindQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseBindQuoteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="BindQuoteResponse" type="BindQuoteResponseType" nillable="true"/>
+	<xs:complexType name="BindQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseBindQuoteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ChangePasswordRequest" type="ChangePasswordRequestType" nillable="true"/>
+	<xs:complexType name="ChangePasswordRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseChangePasswordRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ChangePasswordResponse" type="ChangePasswordResponseType" nillable="true"/>
+	<xs:complexType name="ChangePasswordResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseChangePasswordResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClaimDataImportRequest" type="ClaimDataImportRequestType"/>
+	<xs:complexType name="ClaimDataImportRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseCDTRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClaimDataImportResponse" type="ClaimDataImportResponseType"/>
+	<xs:complexType name="ClaimDataImportResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseCDTResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClaimMTARequest" type="ClaimMTARequestType" nillable="true"/>
+	<xs:complexType name="ClaimMTARequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseClaimMTARequestType">
+				<xs:sequence>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClaimMTAResponse" type="ClaimMTAResponseType" nillable="true"/>
+	<xs:complexType name="ClaimMTAResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseClaimMTAResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClaimReceiptRequest" type="an:ClaimReceiptRequestType"/>
+	<xs:complexType name="ClaimReceiptRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimReceiptRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClaimReceiptResponse" type="an:ClaimReceiptResponseType"/>
+	<xs:complexType name="ClaimReceiptResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClientDataImportRequest" type="ClientDataImportRequestType" nillable="true"/>
+	<xs:complexType name="ClientDataImportRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseClientDataImportRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ClientDataImportResponse" type="ClientDataImportResponseType" nillable="true"/>
+	<xs:complexType name="ClientDataImportResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseClientDataImportResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CreateWmTaskRequest" type="CreateWmTaskRequestType" nillable="true"/>
+	<xs:complexType name="CreateWmTaskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseCreateWmTaskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CreateWmTaskResponse" type="CreateWmTaskResponseType" nillable="true"/>
+	<xs:complexType name="CreateWmTaskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseCreateWmTaskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DeleteRiskRequest" type="DeleteRiskRequestType" nillable="true"/>
+	<xs:complexType name="DeleteRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseDeleteRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DeleteRiskResponse" type="DeleteRiskResponseType" nillable="true"/>
+	<xs:complexType name="DeleteRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseDeleteRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindClaimRequest" type="an:FindClaimRequestType"/>
+	<xs:complexType name="FindClaimRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseFindClaimRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindClaimResponse" type="an:FindClaimResponseType"/>
+	<xs:complexType name="FindClaimResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseFindClaimResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindControlSearchRequest" type="FindControlSearchRequestType" nillable="true"/>
+	<xs:complexType name="FindControlSearchRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseFindControlSearchRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindControlSearchResponse" type="FindControlSearchResponseType" nillable="true"/>
+	<xs:complexType name="FindControlSearchResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseFindControlSearchResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindInsuranceFileForClaimsRequest" type="FindInsuranceFileForClaimsRequestType"/>
+	<xs:complexType name="FindInsuranceFileForClaimsRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseFindInsuranceFileRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindInsuranceFileForClaimsResponse" type="FindInsuranceFileForClaimsResponseType"/>
+	<xs:complexType name="FindInsuranceFileForClaimsResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseFindInsuranceFileResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindPartyRequest" type="FindPartyRequestType" nillable="true"/>
+	<xs:complexType name="FindPartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseFindPartyRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="FindPartyResponse" type="FindPartyResponseType" nillable="true"/>
+	<xs:complexType name="FindPartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseFindPartyResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ForgottenPasswordRequest" type="an:ForgottenPasswordRequestType"/>
+	<xs:complexType name="ForgottenPasswordRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseForgottenPasswordRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ForgottenPasswordResponse" type="an:ForgottenPasswordResponseType"/>
+	<xs:complexType name="ForgottenPasswordResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseForgottenPasswordResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GenerateClaimsDocumentsRequest" type="GenerateClaimsDocumentsRequestType" nillable="true"/>
+	<xs:complexType name="GenerateClaimsDocumentsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGenerateClaimsDocumentsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GenerateClaimsDocumentsResponse" type="GenerateClaimsDocumentsResponseType" nillable="true"/>
+	<xs:complexType name="GenerateClaimsDocumentsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGenerateClaimsDocumentsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GenerateDocumentRequest" type="GenerateDocumentRequestType" nillable="true"/>
+	<xs:complexType name="GenerateDocumentRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGenerateDocumentRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GenerateDocumentResponse" type="GenerateDocumentResponseType" nillable="true"/>
+	<xs:complexType name="GenerateDocumentResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGenerateDocumentResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GenerateInviteRequest" type="GenerateInviteRequestType" nillable="true"/>
+	<xs:complexType name="GenerateInviteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGenerateInviteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GenerateInviteResponse" type="GenerateInviteResponseType" nillable="true"/>
+	<xs:complexType name="GenerateInviteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGenerateInviteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAccountBalanceRequest" type="GetAccountBalanceRequestType" nillable="true"/>
+	<xs:complexType name="GetAccountBalanceRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetAccountBalanceRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAccountBalanceResponse" type="GetAccountBalanceResponseType" nillable="true"/>
+	<xs:complexType name="GetAccountBalanceResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetAccountBalanceResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAddressRequest" type="GetAddressRequestType" nillable="true"/>
+	<xs:complexType name="GetAddressRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetAddressRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAddressResponse" type="GetAddressResponseType" nillable="true"/>
+	<xs:complexType name="GetAddressResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetAddressResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAllPolicyVersionsRequest" type="GetAllPolicyVersionsRequestType" nillable="true"/>
+	<xs:complexType name="GetAllPolicyVersionsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetAllPolicyVersionsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAllPolicyVersionsResponse" type="GetAllPolicyVersionsResponseType" nillable="true"/>
+	<xs:complexType name="GetAllPolicyVersionsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetAllPolicyVersionsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimDetailsRequest" type="an:GetClaimDetailsRequestType"/>
+	<xs:complexType name="GetClaimDetailsRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimDetailsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimDetailsResponse" type="an:GetClaimDetailsResponseType"/>
+	<xs:complexType name="GetClaimDetailsResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimDetailsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimPaymentTaxGroupsRequest" type="GetClaimPaymentTaxGroupsRequestType"/>
+	<xs:complexType name="GetClaimPaymentTaxGroupsRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimPaymentTaxGroupsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimPaymentTaxGroupsResponse" type="GetClaimPaymentTaxGroupsResponseType"/>
+	<xs:complexType name="GetClaimPaymentTaxGroupsResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimPaymentTaxGroupsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimPaymentTaxesRequest" type="GetClaimPaymentTaxesRequestType"/>
+	<xs:complexType name="GetClaimPaymentTaxesRequestType">
+		<xs:complexContent>
+			<xs:extension base="PayClaimRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimPaymentTaxesResponse" type="GetClaimPaymentTaxesResponseType"/>
+	<xs:complexType name="GetClaimPaymentTaxesResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimPaymentTaxesResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimReceiptTaxGroupsRequest" type="GetClaimReceiptTaxGroupsRequestType"/>
+	<xs:complexType name="GetClaimReceiptTaxGroupsRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimReceiptTaxGroupsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimReceiptTaxGroupsResponse" type="GetClaimReceiptTaxGroupsResponseType"/>
+	<xs:complexType name="GetClaimReceiptTaxGroupsResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimReceiptTaxGroupsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimReceiptTaxesReponse" type="an:GetClaimReceiptTaxesResponseType"/>
+	<xs:element name="GetClaimReceiptTaxesRequest" type="GetClaimReceiptTaxesRequestType"/>
+	<xs:complexType name="GetClaimReceiptTaxesRequestType">
+		<xs:complexContent>
+			<xs:extension base="an:ClaimReceiptRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetClaimReceiptTaxesResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimReceiptTaxesResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimRiskLinksRequest" type="an:GetClaimRiskLinksRequestType"/>
+	<xs:complexType name="GetClaimRiskLinksRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskLinksRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetClaimRiskLinksResponse">
+		<xs:complexContent>
+			<xs:extension base="an:GetClaimRiskLinksResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GetClaimRiskLinksResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskLinksResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimRiskReadOnlyRequest" type="an:GetClaimRiskReadOnlyRequestType"/>
+	<xs:complexType name="GetClaimRiskReadOnlyRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimRiskReadOnlyResponse" type="an:GetClaimRiskReadOnlyResponseType"/>
+	<xs:complexType name="GetClaimRiskReadOnlyResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimRiskRequest" type="an:GetClaimRiskRequestType"/>
+	<xs:complexType name="GetClaimRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetClaimRiskResponse" type="an:GetClaimRiskResponseType"/>
+	<xs:complexType name="GetClaimRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseGetClaimRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCurrenciesByBranchRequest" type="GetCurrenciesByBranchRequestType" nillable="true"/>
+	<xs:complexType name="GetCurrenciesByBranchRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetCurrenciesByBranchRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCurrenciesByBranchResponse" type="GetCurrenciesByBranchResponseType" nillable="true"/>
+	<xs:complexType name="GetCurrenciesByBranchResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetCurrenciesByBranchResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetValidPrimaryCausesRequest" type="GetValidPrimaryCausesRequestType" nillable="true"/>
+	<xs:complexType name="GetValidPrimaryCausesRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetValidPrimaryCausesRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetValidPrimaryCausesResponse" type="GetValidPrimaryCausesResponseType" nillable="true"/>
+	<xs:complexType name="GetValidPrimaryCausesResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetValidPrimaryCausesResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDatasetDefinitionRequest" type="GetDatasetDefinitionRequestType" nillable="true"/>
+	<xs:complexType name="GetDatasetDefinitionRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDatasetDefinitionRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDatasetDefinitionResponse" type="GetDatasetDefinitionResponseType" nillable="true"/>
+	<xs:complexType name="GetDatasetDefinitionResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDatasetDefinitionResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDatasetSchemaRequest" type="GetDatasetSchemaRequestType" nillable="true"/>
+	<xs:complexType name="GetDatasetSchemaRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDatasetSchemaRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDatasetSchemaResponse" type="GetDatasetSchemaResponseType" nillable="true"/>
+	<xs:complexType name="GetDatasetSchemaResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDatasetSchemaResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDefaultDatasetRequest" type="GetDefaultDatasetRequestType" nillable="true"/>
+	<xs:complexType name="GetDefaultDatasetRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDefaultDatasetRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDefaultDatasetResponse" type="GetDefaultDatasetResponseType" nillable="true"/>
+	<xs:complexType name="GetDefaultDatasetResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDefaultDatasetResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDocumentListRequest" type="GetDocumentListRequestType" nillable="true"/>
+	<xs:complexType name="GetDocumentListRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDocumentListRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDocumentListResponse" type="GetDocumentListResponseType" nillable="true"/>
+	<xs:complexType name="GetDocumentListResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDocumentListResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDocumentRequest" type="GetDocumentRequestType" nillable="true"/>
+	<xs:complexType name="GetDocumentRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDocumentRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetDocumentResponse" type="GetDocumentResponseType" nillable="true"/>
+	<xs:complexType name="GetDocumentResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetDocumentResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetExistingInstalmentPlanPaymentDetailsRequest" type="GetExistingInstalmentPlanPaymentDetailsRequestType" nillable="true"/>
+	<xs:complexType name="GetExistingInstalmentPlanPaymentDetailsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetExistingInstalmentPlanPaymentDetailsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetExistingInstalmentPlanPaymentDetailsResponse" type="GetExistingInstalmentPlanPaymentDetailsResponseType" nillable="true"/>
+	<xs:complexType name="GetExistingInstalmentPlanPaymentDetailsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetExistingInstalmentPlanPaymentDetailsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetHeaderAndSummariesByKeyRequest" type="GetHeaderAndSummariesByKeyRequestType" nillable="true"/>
+	<xs:complexType name="GetHeaderAndSummariesByKeyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetHeaderAndSummariesByKeyRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetHeaderAndSummariesByKeyResponse" type="GetHeaderAndSummariesByKeyResponseType" nillable="true"/>
+	<xs:complexType name="GetHeaderAndSummariesByKeyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetHeaderAndSummariesResponseType">
+				<xs:sequence>
+					<xs:element name="InceptionDate" type="xs:dateTime"/>
+					<xs:element name="InsuranceFileVersion" type="xs:int"/>
+					<xs:element name="InsuranceFileTypeCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFileStatusCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="PaymentMethodCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuredParties" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PartyKey" type="xs:int"/>
+											<xs:element name="IsLead" type="xs:boolean" minOccurs="0"/>
+											<xs:element name="Correspondence" type="xs:boolean" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetHeaderAndSummariesByRefRequest" type="GetHeaderAndSummariesByRefRequestType" nillable="true"/>
+	<xs:complexType name="GetHeaderAndSummariesByRefRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetHeaderAndSummariesByRefRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetHeaderAndSummariesByRefResponse" type="GetHeaderAndSummariesByRefResponseType" nillable="true"/>
+	<xs:complexType name="GetHeaderAndSummariesByRefResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetHeaderAndSummariesResponseType">
+				<xs:sequence>
+					<xs:element name="InceptionDate" type="xs:dateTime"/>
+					<xs:element name="InsuranceFileVersion" type="xs:int"/>
+					<xs:element name="InsuranceFileTypeCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFileStatusCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="PaymentMethodCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuredParties" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PartyKey" type="xs:int"/>
+											<xs:element name="IsLead" type="xs:boolean" minOccurs="0"/>
+											<xs:element name="Correspondence" type="xs:boolean" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetInstalmentQuotesRequest" type="GetInstalmentQuotesRequestType" nillable="true"/>
+	<xs:complexType name="GetInstalmentQuotesRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetInstalmentQuotesRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetInstalmentQuotesResponse" type="GetInstalmentQuotesResponseType" nillable="true"/>
+	<xs:complexType name="GetInstalmentQuotesResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetInstalmentQuotesResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetListRequest" type="GetListRequestType" nillable="true"/>
+	<xs:complexType name="GetListRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetListRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetListResponse" type="GetListResponseType" nillable="true"/>
+	<xs:complexType name="GetListResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetListResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetOptionSettingRequest" type="GetOptionSettingRequestType" nillable="true"/>
+	<xs:complexType name="GetOptionSettingRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetOptionSettingRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetOptionSettingResponse" type="GetOptionSettingResponseType" nillable="true"/>
+	<xs:complexType name="GetOptionSettingResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetOptionSettingResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPartyRequest" type="GetPartyRequestType" nillable="true"/>
+	<xs:complexType name="GetPartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetPartyRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPartyResponse" type="GetPartyResponseType" nillable="true"/>
+	<xs:complexType name="GetPartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetPartyResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPartySummaryRequest" type="GetPartySummaryRequestType" nillable="true"/>
+	<xs:complexType name="GetPartySummaryRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetPartySummaryRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPartySummaryResponse" type="GetPartySummaryResponseType" nillable="true"/>
+	<xs:complexType name="GetPartySummaryResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetPartySummaryResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPoliciesInRenewalRequest" type="GetPoliciesInRenewalRequestType" nillable="true"/>
+	<xs:complexType name="GetPoliciesInRenewalRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetPoliciesInRenewalRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPoliciesInRenewalResponse" type="GetPoliciesInRenewalResponseType" nillable="true"/>
+	<xs:complexType name="GetPoliciesInRenewalResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetPoliciesInRenewalResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetProductByAgentRequest" type="GetProductByAgentRequestType" nillable="true"/>
+	<xs:complexType name="GetProductByAgentRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetProductByAgentRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetProductByAgentResponse" type="GetProductByAgentResponseType" nillable="true"/>
+	<xs:complexType name="GetProductByAgentResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetProductByAgentResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRatingDetailsRequest" type="GetRatingDetailsRequestType" nillable="true"/>
+	<xs:complexType name="GetRatingDetailsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRatingDetailsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRatingDetailsResponse" type="GetRatingDetailsResponseType" nillable="true"/>
+	<xs:complexType name="GetRatingDetailsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRatingDetailsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRenewalStatusRequest" type="GetRenewalStatusRequestType" nillable="true"/>
+	<xs:complexType name="GetRenewalStatusRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRenewalStatusRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRenewalStatusResponse" type="GetRenewalStatusResponseType" nillable="true"/>
+	<xs:complexType name="GetRenewalStatusResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRenewalStatusResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRiskByProductRequest" type="GetRiskByProductRequestType" nillable="true"/>
+	<xs:complexType name="GetRiskByProductRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRiskByProductRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRiskByProductResponse" type="GetRiskByProductResponseType" nillable="true"/>
+	<xs:complexType name="GetRiskByProductResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRiskByProductResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRiskRequest" type="GetRiskRequestType" nillable="true"/>
+	<xs:complexType name="GetRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetRiskResponse" type="GetRiskResponseType" nillable="true"/>
+	<xs:complexType name="GetRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetUserDetailsRequest" type="GetUserDetailsRequestType" nillable="true"/>
+	<xs:complexType name="GetUserDetailsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetUserDetailsRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetUserDetailsResponse" type="GetUserDetailsResponseType" nillable="true"/>
+	<xs:complexType name="GetUserDetailsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseGetUserDetailsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LapseRenewalRequest" type="an:LapseRenewalRequestType"/>
+	<xs:complexType name="LapseRenewalRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseLapseRenewalRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="LapseRenewalResponse" type="an:LapseRenewalResponseType"/>
+	<xs:complexType name="LapseRenewalResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseLapseRenewalResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="MaintainClaimRequest" type="an:MaintainClaimRequestType"/>
+	<xs:complexType name="MaintainClaimRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimMaintainRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="MaintainClaimResponse" type="an:MaintainClaimResponseType"/>
+	<xs:complexType name="MaintainClaimResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="OpenClaimRequest" type="an:OpenClaimRequestType" nillable="true"/>
+	<xs:complexType name="OpenClaimRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimOpenRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="OpenClaimResponse" type="an:OpenClaimResponseType"/>
+	<xs:complexType name="OpenClaimResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PayClaimRequest" type="PayClaimRequestType"/>
+	<xs:complexType name="PayClaimRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimPaymentRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PayClaimResponse" type="an:PayClaimResponseType"/>
+	<xs:complexType name="PayClaimResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseClaimResponseType">
+				<xs:sequence>
+					<xs:element name="creditedAccountKey" type="xs:int"/>
+					<xs:element name="creditedDocumentKey" type="xs:int"/>
+					<xs:element name="creditedTransdetailKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PostDocumentRequest" type="PostDocumentRequestType"/>
+	<xs:complexType name="PostDocumentRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BasePostDocumentRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PostDocumentResponse" type="an:PostDocumentResponseType"/>
+	<xs:complexType name="PostDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BasePostDocumentResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ReplacePartyContactRequest" type="ReplacePartyContactRequestType" nillable="true"/>
+	<xs:complexType name="ReplacePartyContactRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseReplacePartyContactRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ReplacePartyContactResponseResponse" type="ReplacePartyContactResponseType" nillable="true"/>
+	<xs:complexType name="ReplacePartyContactResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseReplacePartyContactResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunDefaultRulesAddRequest" type="RunDefaultRulesAddRequestType" nillable="true"/>
+	<xs:complexType name="RunDefaultRulesAddRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunDefaultRulesAddRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunDefaultRulesAddResponse" type="RunDefaultRulesAddResponseType" nillable="true"/>
+	<xs:complexType name="RunDefaultRulesAddResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunDefaultRulesAddResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunDefaultRulesEditRequest" type="RunDefaultRulesEditRequestType" nillable="true"/>
+	<xs:complexType name="RunDefaultRulesEditRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunDefaultRulesEditRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunDefaultRulesEditResponse" type="RunDefaultRulesEditResponseType" nillable="true"/>
+	<xs:complexType name="RunDefaultRulesEditResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunDefaultRulesEditResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunValidationRulesRequest" type="an:RunValidationRulesRequestType"/>
+	<xs:complexType name="RunValidationRulesRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseRunValidationRulesRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunValidationRulesResponse" type="an:RunValidationRulesResponseType"/>
+	<xs:complexType name="RunValidationRulesResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseRunValidationRulesResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SAMError" type="bs:SAMError" nillable="true"/>
+	<xs:element name="SAMErrorBusinessRule" type="bs:SAMErrorBusinessRule" nillable="true"/>
+	<xs:element name="SAMErrorInvalidData" type="bs:SAMErrorInvalidData" nillable="true"/>
+	<xs:element name="SaveRiskRequest" type="an:SaveRiskRequestType"/>
+	<xs:complexType name="SaveRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseSaveRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SaveRiskResponse" type="an:SaveRiskResponseType"/>
+	<xs:complexType name="SaveRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseSaveRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateClaimRiskRequest" type="an:UpdateClaimRiskRequestType"/>
+	<xs:complexType name="UpdateClaimRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseUpdateClaimRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateClaimRiskResponse" type="an:UpdateClaimRiskResponseType"/>
+	<xs:complexType name="UpdateClaimRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseUpdateClaimRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdatePartyRequest" type="UpdatePartyRequestType" nillable="true"/>
+	<xs:complexType name="UpdatePartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdatePartyRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdatePartyResponse" type="UpdatePartyResponseType" nillable="true"/>
+	<xs:complexType name="UpdatePartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdatePartyResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdatePartyRiskRequest" type="UpdatePartyRiskRequestType"/>
+	<xs:complexType name="UpdatePartyRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseUpdatePartyRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdatePartyRiskResponse" type="UpdatePartyRiskResponseType"/>
+	<xs:complexType name="UpdatePartyRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="bs:BaseUpdatePartyRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateQuoteRequest" type="UpdateQuoteRequestType" nillable="true"/>
+	<xs:complexType name="UpdateQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdateQuoteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateQuoteResponse" type="UpdateQuoteResponseType" nillable="true"/>
+	<xs:complexType name="UpdateQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdateQuoteResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateRenewalStatusRequest" type="UpdateRenewalStatusRequestType" nillable="true"/>
+	<xs:complexType name="UpdateRenewalStatusRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdateRenewalStatusRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateRenewalStatusResponse" type="UpdateRenewalStatusResponseType" nillable="true"/>
+	<xs:complexType name="UpdateRenewalStatusResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdateRenewalStatusResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateRiskRequest" type="UpdateRiskRequestType" nillable="true"/>
+	<xs:complexType name="UpdateRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdateRiskRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateRiskResponse" type="UpdateRiskResponseType" nillable="true"/>
+	<xs:complexType name="UpdateRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseUpdateRiskResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunRenewalSelectionRequest" type="RunRenewalSelectionRequestType" nillable="true"/>
+	<xs:complexType name="RunRenewalSelectionRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunRenewalSelectionRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="RunRenewalInviteRequest" type="RunRenewalInviteRequestType" nillable="true"/>
+	<xs:complexType name="RunRenewalInviteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunRenewalInviteRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+      <xs:element name="RunRenewalAcceptRequest" type="RunRenewalAcceptRequestType" nillable="true"/>
+	<xs:complexType name="RunRenewalAcceptRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="bs:BaseRunRenewalAcceptRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+  <!-- Start-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.1.2)-->
+  <xs:element name="GetDefaultRiskClausesRequest" type="GetDefaultRiskClausesRequestType" nillable="true"/>
+  <xs:complexType name="GetDefaultRiskClausesRequestType" mixed="false">
+    <xs:complexContent mixed="false">
+      <xs:extension base="bs:BaseGetDefaultRiskClausesRequestType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- End-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.1.2)-->
+
+  <!-- Start-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.2.2)-->
+  <xs:element name="GetDefaultRiskClausesResponse" type="GetDefaultRiskClausesResponseType"/>
+  <xs:complexType name="GetDefaultRiskClausesResponseType">
+    <xs:complexContent>
+      <xs:extension base="bs:BaseGetDefaultRiskClausesResponseType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- End-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.2.2)-->
+</xs:schema>

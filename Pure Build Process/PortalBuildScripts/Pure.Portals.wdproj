@@ -1,0 +1,146 @@
+﻿<!-- 
+  Microsoft Visual Studio 2008 Web Deployment Project 
+  http://go.microsoft.com/fwlink/?LinkId=55111
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <!--<UsingTask TaskName="MyTasks.IncrementBuildNumber" AssemblyFile="../../IncrementBuildNumber.dll" />
+  <UsingTask TaskName="MyTasks.ReadBuildNumber" AssemblyFile="../../IncrementBuildNumber.dll" />
+  -->
+  
+  <PropertyGroup>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.60403</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3FC86F32-E8F3-49D3-A84B-6C1EEF59C98E}</ProjectGuid>
+    <SourceWebPhysicalPath>BuildSource\Nexus\Pure.Portals</SourceWebPhysicalPath>
+    <SourceWebProject>{B1CFBAE7-0FD4-4D26-B13E-65A9AE0BD17E}|http://localhost/Pure.Portals</SourceWebProject>
+    <SourceWebVirtualPath>BuildSource\Nexus\Pure.Portals</SourceWebVirtualPath>
+    <SourceWebMetabasePath>/LM/W3SVC/1/ROOT/Pure.Portals/</SourceWebMetabasePath>
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>.\Temp</OutputPath>
+    <UseFixedNames>true</UseFixedNames>
+    <EnableUpdateable>true</EnableUpdateable>
+    <UseMerge>false</UseMerge>
+    <SingleAssemblyName>Pure.Portals</SingleAssemblyName>
+    <StopOnFirstFailure>true</StopOnFirstFailure>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="BuildSource\CSSFriendly\CSSFriendly\CSSFriendly.csproj">
+      <Project>{1439911B-BE4E-48A0-9208-927321992C67}</Project>
+      <Name>CSSFriendly</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\CMS.Library\CMS.Library.vbproj">
+      <Project>{EA1D9D29-7FF5-4BEF-82B2-E194E85E5160}</Project>
+      <Name>CMS.Library</Name>
+    </ProjectReference>
+	<ProjectReference Include="BuildSource\Nexus\Nexus.DRE\Nexus.Dre.vbproj">
+      <Project>{FA7C0778-E4A7-49BF-B1C5-8AD4C3A46E3B}</Project>
+      <Name>Nexus.Dre</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\SAMClient\SAMClient.vbproj">
+      <Project>{E8CFB48B-53D7-471C-8D84-90EEE6670C37}</Project>
+      <Name>SiriusFS.SAM.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\NexusProvider.SAMForInsurance\NexusProvider.SAMForInsurance.vbproj">
+      <Project>{B65F4FDC-77D1-438B-8D4A-90EA76413519}</Project>
+      <Name>NexusProvider.SAMForInsurance</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\NexusProvider\NexusProvider.vbproj">
+      <Project>{EF29CE11-E31C-4F16-84AA-02240C4507FB}</Project>
+      <Name>NexusProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\Nexus.Library\Nexus.Library.vbproj">
+      <Project>{DBE041F0-949E-4A3A-8604-A59F81FAF758}</Project>
+      <Name>Nexus.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\Nexus.Utils\Nexus.Utils.vbproj">
+      <Project>{42857D04-0B2A-48A8-9B82-B272F20F81C6}</Project>
+      <Name>Nexus.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\Nexus.Reinsurance\Nexus.Reinsurance.vbproj">
+      <Project>{1d0238ea-14b4-4783-9089-981c852383d4}</Project>
+      <Name>Nexus.Reinsurance</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\Nexus.HttpModules\Nexus.HttpModules.vbproj">
+      <Project>{C34F66A4-41E7-427B-92F7-F02EF6532274}</Project>
+      <Name>Nexus.HttpModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\Nexus.PortalReWriter\Nexus.PortalReWriter.vbproj">
+      <Project>{C34F66A4-41E7-427B-92F7-F02EF6532274}</Project>
+      <Name>Nexus.PortalReWriter</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\Nexus.Session\Nexus.Constants.vbproj">
+      <Project>{04DF8BAC-221C-4D00-8CD3-0CFC2ADA4437}</Project>
+      <Name>Nexus.Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="BuildSource\Nexus\MembershipProvider\Nexus.MembershipProvider.vbproj">
+      <Project>{65B871D7-AF5C-401F-A0A0-318B5031768D}</Project>
+      <Name>Nexus.MembershipProvider</Name>
+    </ProjectReference>
+
+    <ProjectReference Include="BuildSource\Nexus\Nexus.Web.UI.WebControls\Nexus.Web.UI.WebControls.vbproj">
+      <Project>{11482402-18FB-4F5F-8D98-8B63B0EDEB33}</Project>
+      <Name>Nexus.Web.UI.WebControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\Products\**\*.*" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\App_Themes\**\*.*" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\EmailTemplates\**\*.*" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\Masterpages\**\*.*" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\TempFiles\**\*.*" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\**\*.scc" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\bin\*.xml" />
+    <ExcludeFromBuild Include="$(SourceWebPhysicalPath)\bin\*.pdb" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v8.0\Microsoft.WebDeployment.targets" />
+  <ItemGroup>
+    <MySourceFiles Include="$(MSBuildProjectDirectory)\Temp\**\*.*" />
+  </ItemGroup>
+  <Target Name="BeforeBuild">
+   <!--<IncrementBuildNumber File="$(MSBuildProjectDirectory)\BuildNumbers.txt" XMLFile="$(MSBuildProjectDirectory)\BuildSource\Nexus\Pure.Portals\web.config">
+      <Output TaskParameter="BuildNumber" PropertyName="BuildNumber" />
+      <Output TaskParameter="RevisionNumber" PropertyName="RevisionNumber" />
+    </IncrementBuildNumber>
+    -->
+    <CreateItem Include="AssemblyFileVersion" AdditionalMetadata="Value=$(MajorVersion).$(BuildNumber).$(RevisionNumber)">
+      <Output ItemName="AssemblyAttributes" TaskParameter="Include" />
+    </CreateItem>
+    <CreateItem Include="AssemblyVersion" AdditionalMetadata="Value=$(MajorVersion).$(BuildNumber).$(RevisionNumber)">
+      <Output ItemName="AssemblyAttributes" TaskParameter="Include" />
+    </CreateItem>
+    <GenerateAssemblyInfo OutputDir="$(MSBuildProjectDirectory)\AssemblyInfo" AssemblyAttributes="@(AssemblyAttributes)"/>
+  </Target>
+
+
+  <Target Name="FinalCopy">
+   <!-- <ReadBuildNumber File="$(MSBuildProjectDirectory)\BuildNumbers.txt">
+      <Output TaskParameter="BuildNumber" PropertyName="BuildNumber" />
+      <Output TaskParameter="RevisionNumber" PropertyName="RevisionNumber" />
+    </ReadBuildNumber>
+    -->
+ 
+<!--create output directory -->
+    <MakeDir Directories="$(OutputDirectory)\$(ApplicationName)\$(ApplicationName) $(MajorVersion).$(BuildNumber).$(RevisionNumber)" />
+
+
+
+    <Copy SourceFiles="@(MySourceFiles)" DestinationFiles="@(MySourceFiles->'$(OutputDirectory)\$(ApplicationName)\$(ApplicationName) $(MajorVersion).$(BuildNumber).$(RevisionNumber)\%(RecursiveDir)%(FileName)%(Extension)')" />
+    <MakeDir Directories="$(OutputDirectory)\$(ApplicationName)\$(ApplicationName) $(MajorVersion).$(BuildNumber).$(RevisionNumber)\Products" />
+
+    <MakeDir Directories="$(OutputDirectory)\$(ApplicationName)\$(ApplicationName) $(MajorVersion).$(BuildNumber).$(RevisionNumber)\App_Themes" />
+
+<MakeDir Directories="$(OutputDirectory)\$(ApplicationName)\$(ApplicationName) $(MajorVersion).$(BuildNumber).$(RevisionNumber)\EmailTemplates" />
+
+
+    <!-- rename and move the build log file 
+   
+<Exec Command="copy Build.log &quot;$(MSBuildProjectDirectory)\Logs\Pure.Portals.$(MajorVersion).$(BuildNumber).$(RevisionNumber).log&quot;" WorkingDirectory="$(MSBuildProjectDirectory)\Scripts"/>
+    -->
+
+  </Target>
+</Project>

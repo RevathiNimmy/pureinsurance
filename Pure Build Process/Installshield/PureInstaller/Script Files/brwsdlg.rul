@@ -1,0 +1,174 @@
+#ifndef _BRWSDLG_RUL_
+#define _BRWSDLG_RUL_
+
+prototype Kernel32.RtlMoveMemory(BYREF STRING, POINTER, NUMBER);
+
+typedef STR260
+begin
+   STRING sz[260];
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// FileBrowseDlg() uses the Windows GetFileNameA function to allow single file
+// selection. Callers specify filter, dialog title, and initial browse
+// directory.
+//
+// Inputs:
+//
+// szFile: String variable into which FileBrowseDlg() will place the selected
+//		file's fully qualified pathname. The variable passed in as szFile can
+//		be dynamically sized.  szFile is passed by reference.
+//
+//	nszFileSize: The size that szFile was explicitly declared as.
+//
+//	szFilter: Filter spec for dialog. In the form "<descr>|<ext>||". For example:
+//
+//	   "Text files (*.txt)|*.txt|All files (*.*)|*.*||"
+//
+//		The description ("Text files (*.txt)" above) must be separated from
+//		the extension ("*.txt" above) by a pipe "|" character. The entire
+//		string must end in a double || ("||").
+//
+//	szDialogTitle: A string containig the title to display on the file
+//		browse dialog.
+//
+//	szInitialDir: A string specifying the directory the browse dialog
+//		initially opens to.
+//
+//	bMultiSel: Set to TRUE if you wish to enable multiple selection.
+//
+//	listFiles: List that will be loaded with directory and filenames if
+//		multiple selection is enabled (i.e. bMultiSel = TRUE).
+//		List is passed by reference (by default, since list variables
+//		are pointers).
+//
+//	bDerefLinks: Set to TRUE if you want to dereference shell links (also
+//		known as shortcuts). If TRUE, then choosing a shell link causes
+//		it to be dereferenced by the shell.
+//
+// Returns:
+//
+//		Returns 0 when a file is successfully selected. Returns less than
+//		zero when when the user cancels/closes the browse dialog or an
+//		error occurs. If an error occurs, a message box displays the error
+//		identifier.
+//
+// History:
+//
+//		03-12-99 RBS Updated this header to correctly document bDerefLinks.
+//		06-01-01 RBS Merged in changes from latest on InstallShield's site.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+function FileBrowseDlg( szFile, szFilter, szDialogTitle, szInitialDir,
+						bMultiSel, listFiles, bDerefLinks)
+
+	OPENFILENAME ofn;
+	STRING szMsg, szFileTitle[260];
+	STRING szCustomFilter[260], szTemp[260];
+	LONG   nLen, nCount, nResult, n, nFlags, nErr;
+	STR260 str;
+
+begin
+
+	// Replace each '|' character in szFilter with '\0' since that is
+	// what is required by the Win32 API.
+	nLen = StrLength( szFilter );
+	nLen = nLen - 1;
+	nCount = 0;
+	for nCount = 0 to nLen
+		if ( szFilter[nCount] = '|' ) then
+			szFilter[nCount] = '\0';
+		endif;
+	endfor;
+	
+  	UseDLL(WINSYSDIR ^ "comdlg32.dll");
+  	
+  	nFlags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY
+  			 | OFN_NOCHANGEDIR | OFN_EXPLORER;
+  	if bMultiSel then
+  		nFlags = nFlags | OFN_ALLOWMULTISELECT;
+  	endif;
+  	if bDerefLinks = FALSE then
+  		nFlags = nFlags | OFN_NODEREFERENCELINKS;
+  	endif;
+
+  	nResult = GetWindowHandle(HWND_INSTALL);
+  	
+  	ofn.lStructSize = SizeOf(ofn);
+  	ofn.hwndOwner = nResult;
+
+	// The string pointed to by ofn.lpstrFile is modified by
+	// GetOpenFileName. The only way to have a string in
+	// script to reflect the change is to point lpstrFile
+	// to a structure that contains just a string member.
+	str.sz = szFile;
+  	ofn.lpstrFile = &str;
+  	ofn.nMaxFile = SizeOf(str);
+
+  	// Notice how the address of an explicitly sized string
+  	// is used when assigning to a member who was declared
+  	// as a LONG string pointer (lpstr). For example, &szFilter.
+  	ofn.lpstrFilter = &szFilter;
+  	ofn.nFilterIndex = 1;
+  	ofn.lpstrFileTitle = &szFileTitle;
+  	ofn.nMaxFileTitle = 260;
+  	ofn.lpstrTitle = &szDialogTitle;
+  	ofn.Flags = nFlags;
+  	ofn.lpstrDefExt = &szTemp;
+  	ofn.lpstrInitialDir = &szInitialDir;
+  	ofn.hInstance = 0;
+  	ofn.lpstrCustomFilter = &szCustomFilter;
+  	ofn.nMaxCustFilter = 260;
+  	ofn.lpfnHook = 0;
+  	
+  	nResult = GetOpenFileNameA(&ofn);
+  	if nResult = 1 then  	
+  		if bMultiSel then
+			// A direct assignment in the form of szFile = str.sz
+			// will result in all data beyond the first null to be
+			// lost. This only happend when the string is assigned
+			// with a structure member. This is the reason why a
+			// very indirect method is being used the transfer the
+			// contents of str.sz to szFile.
+			Resize( szFile, SizeOf(str));
+			Kernel32.RtlMoveMemory( szFile, &str, SizeOf(str));
+  			StrGetTokens( listFiles, szFile, "");
+  		else
+  			szFile = str.sz;
+  		endif;
+  	else
+  		// We had an error in GetOpenFileNameA() so get the error string.
+  		nErr = CommDlgExtendedError();
+  		switch (nErr)
+  			case CDERR_DIALOGFAILURE: szMsg = CDERR_DIALOGFAILURE_MSG;
+  			case CDERR_FINDRESFAILURE: szMsg = CDERR_FINDRESFAILURE_MSG;
+  			case CDERR_INITIALIZATION: szMsg = CDERR_INITIALIZATION_MSG;
+  			case CDERR_LOADRESFAILURE: szMsg = CDERR_LOADRESFAILURE_MSG;
+  			case CDERR_LOADSTRFAILURE: szMsg = CDERR_LOADSTRFAILURE_MSG;
+  			case CDERR_LOCKRESFAILURE: szMsg = CDERR_LOCKRESFAILURE_MSG;
+  			case CDERR_MEMALLOCFAILURE: szMsg = CDERR_MEMALLOCFAILURE_MSG;
+  			case CDERR_MEMLOCKFAILURE: szMsg = CDERR_MEMLOCKFAILURE_MSG;
+  			case CDERR_NOHINSTANCE: szMsg = CDERR_NOHINSTANCE_MSG;
+  			case CDERR_NOHOOK: szMsg = CDERR_NOHOOK_MSG;
+  			case CDERR_NOTEMPLATE: szMsg = CDERR_NOTEMPLATE_MSG;
+  			case CDERR_REGISTERMSGFAIL: szMsg = CDERR_REGISTERMSGFAIL_MSG;
+  			case CDERR_STRUCTSIZE: szMsg = CDERR_STRUCTSIZE_MSG;
+  			case FNERR_BUFFERTOOSMALL: szMsg = FNERR_BUFFERTOOSMALL_MSG;
+  			case FNERR_INVALIDFILENAME: szMsg = FNERR_INVALIDFILENAME_MSG;
+  			case FNERR_SUBCLASSFAILURE: szMsg = FNERR_SUBCLASSFAILURE_MSG;
+  		endswitch;
+  		if nErr != 0 then
+  			// User did not close or cancel dialog box.
+  			MessageBox("FileBrowseDlg() error:\n\n" + szMsg, SEVERE);
+  		endif;
+  		return -1;
+  	endif;
+  	
+  	UnUseDLL(WINSYSDIR ^ "comdlg32.dll");
+  	
+  	return 0;  	
+end;
+
+#endif

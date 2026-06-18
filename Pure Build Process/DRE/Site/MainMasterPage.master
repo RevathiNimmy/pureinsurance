@@ -1,0 +1,29 @@
+<%@ Master Language="C#" AutoEventWireup="true" Inherits="MainMasterPage" Codebehind="MainMasterPage.master.cs" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>DRE</title>
+</head>
+<body class="MasterBodyStyle">    
+    <form id="form1" runat="server">
+        <ajax:ToolkitScriptManager ID="ToolkitScriptManager1"  EnableScriptGlobalization="true" EnableScriptLocalization="true" runat="server" />
+        <div class="header">
+       
+            <div class="brandLogo">
+                <img id="Img1" runat="server" src="~/App_Themes/Images/ssp-logo-ktt1.gif" alt="SSP logo" />
+            </div>
+            <div class="version">
+                Version 
+                <%# (ConfigurationManager.AppSettings.Get("VERSION") == null) ? System.Reflection.Assembly .GetExecutingAssembly().GetName().Version.ToString() : ConfigurationManager.AppSettings.Get("VERSION") %>
+            </div>
+              
+            
+        </div>
+        <asp:contentplaceholder id="MainContent" runat="server">
+        </asp:contentplaceholder>    
+         
+    </form>
+</body>
+</html>

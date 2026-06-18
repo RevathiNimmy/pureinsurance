@@ -1,0 +1,482 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Event_Insurance_File_System</h1>
+<p>This Event Table serves as a history table for the Insurance_File_System table, each entry in the Insurance_File_System table will have a corresponding entry here. This ensures any changes to the original table are tracked.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: Events, Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Event_Log.html#event_cnt">Event_Log.event_cnt</a> <span class="autodesc">insurance file</span></td>
+</tr>
+<tr>
+<td><a class="name" name="endorsement_count">endorsement_count</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">endorsement count</span></td>
+</tr>
+<tr>
+<td><a class="name" name="created_by_id">created_by_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> User created by</td>
+</tr>
+<tr>
+<td><a class="name" name="date_created">date_created</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>date created</td>
+</tr>
+<tr>
+<td><a class="name" name="modified_by_id">modified_by_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> User modified by</td>
+</tr>
+<tr>
+<td><a class="name" name="last_modified">last_modified</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Date last modified</td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_date">last_trans_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_type_id">last_trans_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_description">last_trans_description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_debit_credit">last_trans_debit_credit</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans debit credit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_document_ref">last_trans_document_ref</a></td>
+<td>varchar(25)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans document ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_cover_start_date">last_trans_cover_start_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans cover start date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_trans_expiry_date">last_trans_expiry_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last trans expiry date</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>insurance_file_cnt</td>
+<td><a href="Event_Log.html">Event_Log</a></td>
+<td>event_cnt</td>
+<td>Linked to the event that this historical data is for</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>created_by_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>modified_by_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>created_by_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>modified_by_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>insurance_file_cnt</td>
+<td>endorsement_count</td>
+<td>created_by_id</td>
+<td>date_created</td>
+<td>modified_by_id</td>
+<td>last_modified</td>
+<td>last_trans_date</td>
+<td>last_trans_type_id</td>
+<td>last_trans_description</td>
+<td>last_trans_debit_credit</td>
+<td>last_trans_document_ref</td>
+<td>last_trans_cover_start_date</td>
+<td>last_trans_expiry_date</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-12 13:16:48</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-11-12 13:16:49</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-12 13:16:48</td>
+<td>4</td>
+<td>2008-11-12 13:18:47</td>
+<td>2008-11-12 13:16:49</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-12 13:33:35</td>
+<td>4</td>
+<td>2008-11-12 13:33:41</td>
+<td>2008-11-12 13:33:35</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-12 13:33:35</td>
+<td>4</td>
+<td>2008-11-12 13:36:12</td>
+<td>2008-11-12 13:33:35</td>
+<td>2</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-14 10:43:46</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-11-14 10:43:46</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-14 10:43:46</td>
+<td>4</td>
+<td>2008-11-14 11:23:10</td>
+<td>2008-11-14 10:43:46</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>10</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-14 10:43:46</td>
+<td>4</td>
+<td>2008-11-14 11:25:04</td>
+<td>2008-11-14 10:43:46</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>11</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-14 11:25:14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-11-14 11:25:14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>12</td>
+<td>0</td>
+<td>4</td>
+<td>2008-11-14 11:25:14</td>
+<td>4</td>
+<td>2008-11-14 15:47:11</td>
+<td>2008-11-14 11:25:14</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>19</td>
+<td>0</td>
+<td>1</td>
+<td>2008-11-21 04:20:59</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-11-21 04:21:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>NB under 500K</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>20</td>
+<td>0</td>
+<td>1</td>
+<td>2008-11-21 04:20:59</td>
+<td>1</td>
+<td>2008-11-22 02:15:16</td>
+<td>2008-11-21 04:21:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>NB under 500K</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>21</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-01 16:45:24</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-01 16:45:24</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>22</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-01 16:45:24</td>
+<td>1</td>
+<td>2008-12-01 16:47:43</td>
+<td>2008-12-01 16:45:24</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>23</td>
+<td>0</td>
+<td>1</td>
+<td>2008-11-21 04:20:59</td>
+<td>1</td>
+<td>2008-12-03 12:50:20</td>
+<td>2008-11-21 04:21:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>NB under 500K</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>24</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-01 16:45:24</td>
+<td>1</td>
+<td>2008-12-03 14:39:43</td>
+<td>2008-12-01 16:45:24</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>28</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-05 10:40:43</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-05 10:40:44</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>30</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-08 12:33:56</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-08 12:33:56</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>31</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-08 12:33:56</td>
+<td>1</td>
+<td>2008-12-08 13:03:16</td>
+<td>2008-12-08 12:33:56</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>36</td>
+<td>0</td>
+<td>1</td>
+<td>2008-12-09 14:08:48</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-09 14:08:48</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

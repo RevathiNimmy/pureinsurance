@@ -1,0 +1,130 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="CashListItemsfirstPayment.aspx.vb" Inherits="PaymentCashList_CashListItemsfirst" %>
+
+<%@ Register Src="../UserControl/Footer.ascx" TagName="Footer" TagPrefix="uc2" %>
+
+<%@ Register Src="../UserControl/Header.ascx" TagName="Header" TagPrefix="uc1" %>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    <link href="../App_Themes/GlobalTheme/GlobalStyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../App_Themes/GlobalTheme/GlobalStyleSheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    
+      <table width="100%" style="height: 100%" border="0" cellspacing="0" cellpadding="0">
+                <tr style="height: 10%">
+                    <td style="width: 10%" align="right">
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <uc1:Header ID="Header1" runat="server" />
+                                 
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <hr />
+                    </td>
+                </tr>
+                <tr style="height: 90%">
+                    <td>
+                    <div >
+    <table>
+    <tr>
+    <td>
+    <span style="color: #ffffff"><span style="background-color: #006699">Cast List Items</span><br />
+        </span>
+    </td>
+    </tr>
+    <tr>
+    </tr>
+    
+         </table>
+ 
+        
+       
+           <asp:GridView ID="gvResult" runat="server" CellPadding="3" Height="132px" Width="340px"
+                            AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None"
+                            BorderWidth="1px">
+                             <Columns>
+                           
+                            <asp:TemplateField HeaderText="MediaReference">
+                           
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="MediaType">
+                          
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Amount">
+                            
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="AccountShortCode">
+                           
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Status">
+                          
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Letter?">
+                           
+                            </asp:TemplateField>
+                            
+                        </Columns>
+                         
+                            <FooterStyle BackColor="White" ForeColor="#000066" />
+                            <RowStyle ForeColor="#000066" />
+                            <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+                            <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
+                        </asp:GridView>
+                         <table style="width: 508px">
+    <tr>
+    <td style="width: 272px">
+     <asp:Button ID="btnadd" runat="server" Text="Add" />
+        <asp:Button ID="btnview" runat="server" Text="Edit" Visible="False" />
+        <asp:Button ID="btnRemove" runat="server" Text="Remove" Enabled="False" />
+        <asp:Button ID="Btnpost" runat="server" Text="Post" Visible="False" />
+         <asp:Button ID="Btnallocate" runat="server" Text="Allocate" Enabled="False" />
+        
+                         
+    </td>
+    </tr>
+    <tr>
+    <td style="width: 272px; height: 21px;">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+     <asp:Label ID="lbltotal" runat="server" Text="Total"></asp:Label></td>
+    <td style="height: 21px">
+     <asp:TextBox ID="txttotal" runat="server"></asp:TextBox>&nbsp;
+    </td>
+   
+       
+    </tr>
+   
+    
+         </table>
+       
+                   
+      </div>
+                    </td> 
+                    </tr> 
+                    <tr>
+                    <td>
+                        <uc2:Footer ID="Footer1" runat="server" />
+                    
+                    </td></tr>
+                    </table> 
+    
+    
+  
+    </form>
+</body>
+</html>
+

@@ -1,0 +1,227 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>CashListItem_Payment_Status</h1>
+<p>The Payment Status of a payment Cash List Item record. Eg. Pending, Issued, etc.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="cashlistitem_payment_status_id">cashlistitem_payment_status_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">cashlistitem payment status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>cashlistitem_payment_status_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>cashlistitem_payment_status_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>cashlistitem_payment_status_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>cashlistitem_payment_status_id</td>
+<td>code</td>
+<td>description</td>
+<td>caption_id</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ISS</td>
+<td>Issued</td>
+<td>907</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PRES</td>
+<td>Presented</td>
+<td>908</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CAN</td>
+<td>Cancelled</td>
+<td>357</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>STALE</td>
+<td>Stale</td>
+<td>909</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>STOPREQ</td>
+<td>Stop Requested</td>
+<td>910</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>STOPPED</td>
+<td>Stopped</td>
+<td>701</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PENDING</td>
+<td>Pending Approval</td>
+<td>911</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>INCOMPLETE</td>
+<td>Incomplete</td>
+<td>912</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>REJECTED</td>
+<td>Rejected</td>
+<td>894</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>UNISS</td>
+<td>UnIssued</td>
+<td>39065</td>
+<td>2008-12-20 03:44:42</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

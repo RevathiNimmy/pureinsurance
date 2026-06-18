@@ -1,0 +1,155 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+    <style type="text/css">
+        .style1
+        {
+            height: 14px;
+        }
+    </style>
+</head>
+<body>
+<h1>Mid Vehicle</h1>
+<p></p>
+
+                
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="mid_vehicle_id">mid_vehicle_id</a></td>
+<td>integer identity</td>
+<td>not null</td>
+<td>PK</td>
+<td>mid vehicle id</td>
+</tr>
+<tr>
+<td><a class="name" name="mid_policy_id">mid_policy_id</a></td>
+<td>integer </td>
+<td>not null</td>
+<td>FK</td>
+<td>mid policy id</td>
+</tr>
+<tr>
+<td><a class="name" name="mid_status_id">mid_status_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>mid status id</td>
+</tr>
+<tr>
+<td><a class="name" name="update_type">update_type</a></td>
+<td>varchar(1)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>update type</td>
+</tr>
+<tr>
+<td><a class="name" name="Registration">Registration</a></td>
+<td>varchar(12)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Registration</td>
+</tr>
+<tr>
+<td><a class="name" name="is_foreign_registration">is_foreign_registration</a></td>
+<td>bit </td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>is foreign registration</td>
+</tr>
+<tr>
+<td><a class="name" name="is_trade_registration">is_trade_registration</a></td>
+<td>bit </td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>is trade registration</td>
+</tr>
+<tr>
+<td><a class="name" name="Make">Make</a></td>
+<td>varchar(15)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Make</td>
+</tr>
+<tr>
+<td><a class="name" name="Model">Model</a></td>
+<td>varchar(15)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Model</td>
+</tr>
+<tr>
+<td><a class="name" name="on_date">on_date</a></td>
+<td>Datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>on date</td>
+</tr>
+<tr>
+<td><a class="name" name="off_date">off_date</a></td>
+<td>Datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>off date</td>
+</tr>
+<tr>
+<td><a class="name" name="reject_reference">reject_reference</a></td>
+<td>varchar(35)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>reject reference</td>
+</tr>
+<tr>
+<td><a class="name" name="reject_error_codes">reject_error_codes</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>reject error codes</td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>mid_vehicle_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mid_policy_id</td>
+<td><a href="mid_policy.html">mid_policy</a></td>
+<td>mid_policy_id</td>
+<td>&nbsp;</td>
+</tr>
+
+
+</tbody>
+</table>
+
+</body>
+</html>

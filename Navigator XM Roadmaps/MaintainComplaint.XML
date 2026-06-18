@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Steve Thomas (Sirius Financial Systems) -->
+<!-- pmnav_map_id = ?? -->
+<!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd"[]>
+<MAP WMTaskCode="MTNCMPLT" WMTaskDescription="Maintain Complaint" ImageURL="http://www.siriusgroup.co.uk" TransactionType="NB" ProcessMode="1" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Maintain Complaint" Core="1" ElementID="E1" Version="200">
+	<STEP Description="Find Client" Component="iPMBFindParty.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E2">
+		<KEY Name="include_complaints" Value="1" ElementID="E15"/>
+	</STEP>
+	<STEP Description="Find Complaint" Component="iPMBFindComplaint.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E3"/>
+	<STEP Description="Update Complaint Details" Component="iPMBComplaint.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E8" />
+	<STEP Description="Generate Letter?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="True" ElementID="E9">
+		<KEY Name="decision_title" Value="Generate Letter?" ElementID="E10" />
+		<KEY Name="decision_text" Value="Do you wish to Generate a letter?" ElementID="E11" />
+		<KEY Name="doc_template_mode" Value="1" ElementID="E16"/>
+	</STEP>
+	<STEP Description="Select Letter" Component="iPMBFindDocTemplate.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E12" />
+	<STEP Description="Generate Letter" Component="iPMBDocTemplate.NavigatorV3" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E13">
+		<KEY Name="ArchiveAfterPrinting" Value="1" ElementID="E14" />
+	</STEP>
+</MAP>

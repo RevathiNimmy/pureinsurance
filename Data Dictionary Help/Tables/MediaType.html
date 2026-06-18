@@ -1,0 +1,601 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>MediaType</h1>
+<p>Method of payment/receipt on a Cash List Item.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="mediatype_id">mediatype_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">mediatype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>bit</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="mediatype_validation_id">mediatype_validation_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="MediaType_Validation.html#mediatype_validation_id">MediaType_Validation.mediatype_validation_id</a> <span class="autodesc">mediatype validation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_rounding_enabled">is_rounding_enabled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is rounding enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_validation_enabled">is_validation_enabled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is validation enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_banking">is_banking</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is banking</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_stoppable">is_stoppable</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is stoppable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_receipt">is_receipt</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is receipt</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_payment">is_payment</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is payment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_manual_payment">is_manual_payment</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is manual payment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_via_third_party">is_via_third_party</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is via third party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_media_reference_mandatory">is_media_reference_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is media reference mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_receipt_printed_automatically">is_receipt_printed_automatically</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is receipt printed automatically</span></td>
+</tr>
+<tr>
+<td><a class="name" name="refund_delay ">refund_delay </a></td>
+<td>integer</td>
+<td>not null default (0)</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">refund delay</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_validation_id</td>
+<td><a href="MediaType_Validation.html">MediaType_Validation</a></td>
+<td>mediatype_validation_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>mediatype_validation_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>paymenttype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="BankAccount_Default.html">BankAccount_Default</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="BankAccount_Delay.html">BankAccount_Delay</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="CashListItem.html">CashListItem</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="CashListItem_Validation.html">CashListItem_Validation</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="MediaType_Issuer.html">MediaType_Issuer</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>mediatype_id</td>
+<td><a href="PFScheme.html">PFScheme</a></td>
+<td>mediatype_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>mediatype_id</td>
+<td>caption_id</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>description</td>
+<td>code</td>
+<td>mediatype_validation_id</td>
+<td>is_rounding_enabled</td>
+<td>is_validation_enabled</td>
+<td>is_banking</td>
+<td>is_stoppable</td>
+<td>is_receipt</td>
+<td>is_payment</td>
+<td>is_manual_payment</td>
+<td>is_via_third_party</td>
+<td>is_media_reference_mandatory</td>
+<td>is_receipt_printed_automatically</td>
+<td>refund_delay </td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>511</td>
+<td>False</td>
+<td>1990-01-01 00:00:00</td>
+<td>Cheque</td>
+<td>CQ</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>510</td>
+<td>False</td>
+<td>1990-01-01 00:00:00</td>
+<td>Cash</td>
+<td>CA</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>514</td>
+<td>False</td>
+<td>1990-01-01 00:00:00</td>
+<td>Direct Debit</td>
+<td>DD</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>769</td>
+<td>False</td>
+<td>1990-01-01 00:00:00</td>
+<td>DDM</td>
+<td>DDM</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>770</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>BACS</td>
+<td>BACS</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>771</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>CHAPS</td>
+<td>CHAPS</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>772</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>Int Elec Fund Trf</td>
+<td>SWIFT</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>773</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>PDQ</td>
+<td>PDQ</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>512</td>
+<td>False</td>
+<td>1990-01-01 00:00:00</td>
+<td>Credit Card</td>
+<td>CC</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+</tr>
+<tr>
+<td>10</td>
+<td>516</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>Standing Order</td>
+<td>SO</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>12</td>
+<td>751</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>Direct to Insurer</td>
+<td>DI</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>949</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>EFT</td>
+<td>EFT</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>762</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>Premium Finance</td>
+<td>PF</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>15</td>
+<td>509</td>
+<td>True</td>
+<td>1990-01-01 00:00:00</td>
+<td>Bankers Draft</td>
+<td>BD</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16</td>
+<td>108992</td>
+<td>False</td>
+<td>1990-01-01 00:00:00</td>
+<td>Manual Credit Card</td>
+<td>MCC</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

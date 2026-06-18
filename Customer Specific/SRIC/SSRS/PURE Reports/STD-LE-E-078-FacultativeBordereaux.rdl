@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="localDSPure">
+      <DataSourceReference>dsPURE</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>5be1da0e-976f-4eb5-a143-4c0dc73124da</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="policies">
+      <Query>
+        <DataSourceName>localDSPure</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@InsuranceRef">
+            <Value>=Parameters!insurance_ref.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>dbo.spu_GetAllPolicyVersion</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="insurance_file_cnt">
+          <DataField>insurance_file_cnt</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="insurance_ref">
+          <DataField>insurance_ref</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PolicyType">
+          <DataField>PolicyType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PolicyStatus">
+          <DataField>PolicyStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cover_start_date">
+          <DataField>cover_start_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="expiry_date">
+          <DataField>expiry_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="insured_name">
+          <DataField>insured_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="insurance_file_type_id">
+          <DataField>insurance_file_type_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="insurance_file_status_id">
+          <DataField>insurance_file_status_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="policy_description">
+          <Value>=Fields!PolicyType.Value &amp; ", " &amp; Fields!PolicyStatus.Value &amp; ", " &amp; FORMAT(Fields!cover_start_date.Value,"dd/MM/yyyy") &amp; " to " &amp;Format(Fields!expiry_date.Value,"dd/MM/yyyy")</Value>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="risksForPolicy">
+      <Query>
+        <DataSourceName>localDSPure</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@insurance_file_cnt">
+            <Value>=Parameters!insurance_file_cnt.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>dbo.ReinsuranceFacultativeRisksProp</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="risk_cnt">
+          <DataField>risk_cnt</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ri_band_id">
+          <DataField>ri_band_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>localDSPure</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@insurance_file_cnt">
+            <Value>=Parameters!insurance_file_cnt.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>dbo.GetPolicyBranchDetails</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="branch_address1">
+          <DataField>branch_address1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_address2">
+          <DataField>branch_address2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_address3">
+          <DataField>branch_address3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_address4">
+          <DataField>branch_address4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_postal_code">
+          <DataField>branch_postal_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_name">
+          <DataField>branch_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_phone_area_code">
+          <DataField>branch_phone_area_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_phone_number">
+          <DataField>branch_phone_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_phone_extension">
+          <DataField>branch_phone_extension</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_fax_area_code">
+          <DataField>branch_fax_area_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_fax_number">
+          <DataField>branch_fax_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_fax_extension">
+          <DataField>branch_fax_extension</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_registration_number_1">
+          <DataField>branch_registration_number_1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_registration_number_2">
+          <DataField>branch_registration_number_2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_email">
+          <DataField>branch_email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_vat_number">
+          <DataField>branch_vat_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_abi_code">
+          <DataField>branch_abi_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="branch_code">
+          <DataField>branch_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>19cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Subreport Name="subReportDetails">
+                          <ReportName> STD-LE-E-092-FacultativeBordereau</ReportName>
+                          <Parameters>
+                            <Parameter Name="risk_id">
+                              <Value>=Fields!risk_cnt.Value</Value>
+                            </Parameter>
+                            <Parameter Name="ri_band">
+                              <Value>=Fields!ri_band_id.Value</Value>
+                            </Parameter>
+                            <Parameter Name="insurance_file_cnt">
+                              <Value>=Parameters!insurance_file_cnt.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Subreport>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Subreport Name="subReportInsuranceDetails">
+                          <ReportName>STD-LE-E-093-FacultativeBordereauInsuranceDetails</ReportName>
+                          <Parameters>
+                            <Parameter Name="risk_id">
+                              <Value>=Fields!risk_cnt.Value</Value>
+                            </Parameter>
+                            <Parameter Name="ri_band">
+                              <Value>=Fields!ri_band_id.Value</Value>
+                            </Parameter>
+                            <Parameter Name="insurance_file_cnt">
+                              <Value>=Parameters!insurance_file_cnt.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Subreport>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Subreport Name="subReportReinsuranceDetail">
+                          <ReportName>STD-LE-E-095-FacultativeBordereauReinsuranceDetails</ReportName>
+                          <Parameters>
+                            <Parameter Name="risk_id">
+                              <Value>=Fields!risk_cnt.Value</Value>
+                            </Parameter>
+                            <Parameter Name="ri_band">
+                              <Value>=Fields!ri_band_id.Value</Value>
+                            </Parameter>
+                            <Parameter Name="insurance_file_cnt">
+                              <Value>=Parameters!insurance_file_cnt.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Subreport>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Details">
+                    <PageBreak>
+                      <BreakLocation>Between</BreakLocation>
+                    </PageBreak>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>risksForPolicy</DataSetName>
+            <PageBreak>
+              <BreakLocation>StartAndEnd</BreakLocation>
+            </PageBreak>
+            <Height>1.8cm</Height>
+            <Width>19cm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>1.96737cm</Height>
+        <Style />
+      </Body>
+      <Width>19cm</Width>
+      <Page>
+        <PageHeader>
+          <Height>3.29921cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="branch_name">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!branch_name.Value, "DataSet1")</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_name</rd:DefaultName>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="branch_address1">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!branch_address1.Value, "DataSet1")</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_address1</rd:DefaultName>
+              <Top>0.4572cm</Top>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="branch_address2">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!branch_address2.Value, "DataSet1")</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_address2</rd:DefaultName>
+              <Top>0.9108cm</Top>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="branch_address3">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!branch_address3.Value, "DataSet1")</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_address3</rd:DefaultName>
+              <Top>1.33433cm</Top>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="branch_address4">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=TRIM(First(Fields!branch_address4.Value, "DataSet1") &amp;" " &amp; First(Fields!branch_postal_code.Value, "DataSet1"))</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_address4</rd:DefaultName>
+              <Top>1.78671cm</Top>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="branch_phone_area_code">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=TRIM(First(Fields!branch_phone_area_code.Value, "DataSet1") &amp;" " &amp; First(Fields!branch_phone_number.Value, "DataSet1"))</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_phone_area_code</rd:DefaultName>
+              <Top>2.28282cm</Top>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <ZIndex>5</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="branch_fax_area_code">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Trim(First(Fields!branch_fax_area_code.Value, "DataSet1") &amp;" " &amp; First(Fields!branch_fax_number.Value, "DataSet1"))</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>branch_fax_area_code</rd:DefaultName>
+              <Top>2.75221cm</Top>
+              <Left>12.40049cm</Left>
+              <Height>0.42cm</Height>
+              <Width>6.33646cm</Width>
+              <ZIndex>6</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>2.32297cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox2">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Remarks:</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox2</rd:DefaultName>
+              <Top>0.3175cm</Top>
+              <Height>0.46771cm</Height>
+              <Width>1.28292cm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Line Name="Line1">
+              <Top>0.78521cm</Top>
+              <Left>1.38687cm</Left>
+              <Height>0cm</Height>
+              <Width>17.32908cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Color>LightGrey</Color>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="Textbox3">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Signed:</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox3</rd:DefaultName>
+              <Top>1.03082cm</Top>
+              <Left>0.02646cm</Left>
+              <Height>0.4222cm</Height>
+              <Width>1.28292cm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Line Name="Line2">
+              <Top>1.45302cm</Top>
+              <Left>1.38687cm</Left>
+              <Height>0cm</Height>
+              <Width>6.41584cm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Color>LightGrey</Color>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="Textbox4">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Reference:</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox3</rd:DefaultName>
+              <Top>1.03082cm</Top>
+              <Left>10.87637cm</Left>
+              <Height>0.4222cm</Height>
+              <Width>1.38875cm</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Line Name="Line3">
+              <Top>1.45302cm</Top>
+              <Left>12.30011cm</Left>
+              <Height>0cm</Height>
+              <Width>6.41584cm</Width>
+              <ZIndex>5</ZIndex>
+              <Style>
+                <Border>
+                  <Color>LightGrey</Color>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="Textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="The Hollard Insurance Company Limited " &amp; chr(13) &amp; chr(10) &amp; " Reg. No. 1952/003004/06 A Licensed Financial Services Provider (FAIS Licence No 17698)"</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>1.6086cm</Top>
+              <Height>0.6cm</Height>
+              <Width>19cm</Width>
+              <ZIndex>6</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>1cm</LeftMargin>
+        <RightMargin>0.75cm</RightMargin>
+        <TopMargin>1.5cm</TopMargin>
+        <BottomMargin>1.5cm</BottomMargin>
+        <ColumnSpacing>1.27cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="insurance_ref">
+      <DataType>String</DataType>
+      <Prompt>Policy Number</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="insurance_file_cnt">
+      <DataType>Integer</DataType>
+      <Prompt>Policy Version</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>policies</DataSetName>
+          <ValueField>insurance_file_cnt</ValueField>
+          <LabelField>policy_description</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>2</NumberOfColumns>
+      <NumberOfRows>1</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>insurance_ref</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>insurance_file_cnt</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="HollardLogo">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="HollardLogo201402">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>614f923b-3de1-496f-9fcf-c1d35d157cb5</rd:ReportID>
+</Report>

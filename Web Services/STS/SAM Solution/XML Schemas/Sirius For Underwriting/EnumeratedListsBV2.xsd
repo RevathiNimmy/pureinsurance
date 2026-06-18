@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<xs:schema targetNamespace="http://www.siriusfs.com/SFI/SAM/BaseTypes/20080429" xmlns="http://www.siriusfs.com/SFI/SAM/BaseTypes/20080429" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+  <xs:simpleType name="STSListType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GisList"/>
+      <xs:enumeration value="Missing"/>
+      <xs:enumeration value="PMLookup"/>
+      <xs:enumeration value="UserDefinedTable"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AddressTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="3131 001" id="HomeAddress"/>
+      <xs:enumeration value="3131 002" id="BusinessAddress"/>
+      <xs:enumeration value="3131 0X9" id="Other"/>
+      <xs:enumeration value="3131 0XR" id="SubAgent"/>
+      <xs:enumeration value="3131 XBA" id="BranchAddress"/>
+      <xs:enumeration value="3131 XBI" id="BillingAddress"/>
+      <xs:enumeration value="3131 XCO" id="CorrespondenceAddress"/>
+      <xs:enumeration value="3131 XPR" id="PreviousAddress"/>
+      <xs:enumeration value="3131 XRE" id="RegisteredAddress"/>
+      <xs:enumeration value="3131 XSA" id="SiteAddress"/>
+      <!-- Vivek: 20080704 - added the missing item to fix bug in existing system (Amend Client) -->
+      <xs:enumeration value="3131 ECK" id="EmailAddress"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CurrencyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GBP"/>
+      <xs:enumeration value="USD"/>
+      <xs:enumeration value="EUR"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DocumentTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="JN" id="Journal"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PartyTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PC" id="PersonalClient"/>
+      <xs:enumeration value="GC" id="GroupClient"/>
+      <xs:enumeration value="AG" id="Agent"/>
+      <xs:enumeration value="CC" id="CorporateClient"/>
+      <xs:enumeration value="CO" id="Consultant"/>
+      <xs:enumeration value="AH" id="AccountHandler"/>
+      <xs:enumeration value="IN" id="Insurer"/>
+      <xs:enumeration value="BR" id="Broker"/>
+      <xs:enumeration value="FE" id="FeeAccount"/>
+      <xs:enumeration value="EX" id="ExtrasAccount"/>
+      <xs:enumeration value="DI" id="DiscountAccount"/>
+      <xs:enumeration value="CM" id="CommissionAccount"/>
+      <xs:enumeration value="NC" id="NetClient"/>
+      <xs:enumeration value="OTDRIVER" id="Driver"/>
+      <xs:enumeration value="OTWITNESS" id="Witness"/>
+      <xs:enumeration value="OTREPAIRER" id="Repairer"/>
+      <xs:enumeration value="OTTHIRD" id="ThirdParty"/>
+      <xs:enumeration value="FP" id="FinanceProvider"/>
+      <xs:enumeration value="AGG" id="AgentGroup"/>
+      <xs:enumeration value="OTSUPPLIER" id="Supplier"/>
+      <xs:enumeration value="OTLOSS" id="LossAdjuster"/>
+      <xs:enumeration value="OTSOL" id="Solicitor"/>
+      <xs:enumeration value="OTDOCTOR" id="Doctor"/>
+      <xs:enumeration value="OTSURVEYOR" id="BuildingSurveyor"/>
+      <xs:enumeration value="HC" id="ExecutiveHandler"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MaritalStatusCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="D" id="Divorced"/>
+      <xs:enumeration value="C" id="Married-CommonLaw"/>
+      <xs:enumeration value="M" id="Married"/>
+      <xs:enumeration value="N" id="NotApplicable"/>
+      <xs:enumeration value="O" id="NotAvailable"/>
+      <xs:enumeration value="P" id="Partnered"/>
+      <xs:enumeration value="A" id="Separated"/>
+      <xs:enumeration value="S" id="Single"/>
+      <xs:enumeration value="W" id="Widowed"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="GenderCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="F" id="Female"/>
+      <xs:enumeration value="M" id="Male"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EmploymentStatusCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="C" id="Company"/>
+      <xs:enumeration value="E" id="Employed"/>
+      <xs:enumeration value="H" id="HouseholdDuties"/>
+      <xs:enumeration value="F" id="InFullOrPartTimeEducation"/>
+      <xs:enumeration value="I" id="IndependentMeans"/>
+      <xs:enumeration value="N" id="NotEmployedDueToDisability"/>
+      <xs:enumeration value="R" id="Retired"/>
+      <xs:enumeration value="S" id="SelfEmployed"/>
+      <xs:enumeration value="U" id="Unemployed"/>
+      <xs:enumeration value="V" id="VoluntaryWork"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CountryCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UK" id="UnitedKingdom"/>
+      <xs:enumeration value="USA" id="UnitedStatesOfAmerica"/>
+      <xs:enumeration value="AUS" id="Australia"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ContactTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EMAIL" id="EmailAddress"/>
+      <xs:enumeration value="HOMEPHONE" id="HomeTelephoneNumber"/>
+      <xs:enumeration value="MOBILE" id="MobileTelephoneNumber"/>
+      <xs:enumeration value="FAX" id="FaxNumber"/>
+      <xs:enumeration value="WEB" id="WebAddress"/>
+      <xs:enumeration value="MAIN" id="MainContact"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ClaimPaymentPartyTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CLMPAYABLE" id="ClaimPaymentPartyTypeTypeCLMPAYABLE"/>
+      <xs:enumeration value="PARTY" id="ClaimPaymentPartyTypeTypeParty"/>
+      <xs:enumeration value="AGENT" id="ClaimPaymentPartyTypeTypeAgent"/>
+      <xs:enumeration value="CLIENT" id="ClaimPaymentPartyTypeTypeClient"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ClaimReceiptPartyTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CLMRECEIVABLE" id="ClaimReceiptPartyTypeTypeCLMRECEIVEABLE"/>
+      <xs:enumeration value="PARTY" id="ClaimReceiptPartyTypeTypeParty"/>
+      <xs:enumeration value="AGENT" id="ClaimReceiptPartyTypeTypeAgent"/>
+      <xs:enumeration value="CLIENT" id="ClaimReceiptPartyTypeTypeClient"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PaymentMethodType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" id="PaymentMethodTypeNone"/>
+      <xs:enumeration value="BankersDraft" id="PaymentMethodTypeBankersDraft"/>
+      <xs:enumeration value="Cash" id="PaymentMethodTypeCash"/>
+      <xs:enumeration value="Cheque" id="PaymentMethodTypeCheque"/>
+      <xs:enumeration value="CreditCard" id="PaymentMethodTypeCreditCard"/>
+      <xs:enumeration value="DebitCard" id="PaymentMethodTypeDebitCard"/>
+      <xs:enumeration value="AgentCollection" id="PaymentMethodTypeAgentCollection"/>
+      <xs:enumeration value="AgentOverdraft" id="PaymentMethodTypeAgentOverdraft"/>
+      <xs:enumeration value="AgentFloatBalance" id="PaymentMethodTypeAgentFloatBalance"/>
+
+      <!--Start (Arul Stephen) - (Tech Spec - UIICWR6 - New Payment Option at Policy Level.doc) -(7.1.2.1.1)-->
+      <xs:enumeration value="BankGuarantee" id="PaymentMethodTypeBankGuarantee"/>
+      <!--End (Arul Stephen) - (Tech Spec - UIICWR6 - New Payment Option at Policy Level.doc) -(7.1.2.1.1)-->
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SAMErrorCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GeneralFailure"/>
+      <xs:enumeration value="BackOfficeComponentFailed"/>
+      <xs:enumeration value="MandatoryInputMissing"/>
+      <xs:enumeration value="InvalidDateFormat"/>
+      <xs:enumeration value="InvalidLookupListValue"/>
+      <xs:enumeration value="InvalidFormat"/>
+      <xs:enumeration value="RecordLockedByAnotherUser"/>
+      <xs:enumeration value="RecordNotLockedByCurrentUser"/>
+      <xs:enumeration value="BackOfficeUnavailable"/>
+      <xs:enumeration value="UserNotAuthorisedToActOnData"/>
+      <xs:enumeration value="SecurityCheckFailed"/>
+      <xs:enumeration value="TokenExpired"/>
+      <xs:enumeration value="RecordChanged"/>
+      <xs:enumeration value="BranchCodeInvalid"/>
+      <xs:enumeration value="BranchMismatch"/>
+      <xs:enumeration value="PolicyMismatch"/>
+      <xs:enumeration value="PartyDOBIsInFuture"/>
+      <xs:enumeration value="PartyDOBIsTooOld"/>
+      <xs:enumeration value="PolicyRiskLinkRecordNotFound"/>
+      <xs:enumeration value="QuoteHeaderRecordNotFound"/>
+      <xs:enumeration value="CoverStartDateIsInThePast"/>
+      <xs:enumeration value="CoverEndDateIsBeforeCoverStartDate"/>
+      <xs:enumeration value="PartyRecordNotFound"/>
+      <xs:enumeration value="PolicyRecordNotFound"/>
+      <xs:enumeration value="FailedToLoadRiskDB"/>
+      <xs:enumeration value="FailedToRetrievePremiumDetails"/>
+      <xs:enumeration value="ListTypeNotFound"/>
+      <xs:enumeration value="AddressRecordNotFound"/>
+      <xs:enumeration value="RiskRecordNotFound"/>
+      <xs:enumeration value="DefaultXMLFileNotAvailable"/>
+      <xs:enumeration value="DefaultXMLFilePathNotFound"/>
+      <xs:enumeration value="DefaultXMLFileFailedToLoad"/>
+      <xs:enumeration value="DefaultXMLFilePathTooLong"/>
+      <xs:enumeration value="ConfigurationFileNotAvailable"/>
+      <xs:enumeration value="ConfigurationFilePathNotFound"/>
+      <xs:enumeration value="ConfigurationFileFailedToLoad"/>
+      <xs:enumeration value="ConfigurationFilePathTooLong"/>
+      <xs:enumeration value="XMLDocumentBadlyFormed"/>
+      <xs:enumeration value="FailedToCreateBackofficeComponent"/>
+      <xs:enumeration value="FailedToInitialiseBackofficeComponent"/>
+      <xs:enumeration value="BackOfficeFailed"/>
+      <xs:enumeration value="FailedToConnectToTheSiriusDatabase"/>
+      <xs:enumeration value="SQLServerReturnedAnError"/>
+      <xs:enumeration value="FailedToRetrieveDatamodelCodeFromXml"/>
+      <xs:enumeration value="XMLDataSetBadlyFormed"/>
+      <xs:enumeration value="DatasetPathRegistrySettingNotFound"/>
+      <xs:enumeration value="FailedToAddRiskRecord"/>
+      <xs:enumeration value="FailedToMergeRiskDataset"/>
+      <xs:enumeration value="UserAuthorityLevelsCheckFailed"/>
+      <xs:enumeration value="ValidationRulesFailed"/>
+      <xs:enumeration value="FailedToQuoteTheRisk"/>
+      <xs:enumeration value="FailedToSaveRiskToDatabase"/>
+      <xs:enumeration value="SchemeVersionNumberMissing"/>
+      <xs:enumeration value="SchemaForVersionMissing"/>
+      <xs:enumeration value="FileNotFound"/>
+      <xs:enumeration value="RecordNotFound"/>
+      <xs:enumeration value="StatusOfRiskPreventsDeletion"/>
+      <xs:enumeration value="AgentRecordNotFound"/>
+      <xs:enumeration value="BackOfficeComponentReturnedRecordInUse"/>
+      <xs:enumeration value="BackOfficeComponentReturnedNotFound"/>
+      <xs:enumeration value="BrokerOrSchemeInvalid"/>
+      <xs:enumeration value="ValidationRulesReferred"/>
+      <xs:enumeration value="ValidationRulesDeclined"/>
+      <xs:enumeration value="UALRulesReferred"/>
+      <xs:enumeration value="UALRulesDeclined"/>
+      <xs:enumeration value="RatingRulesReferred"/>
+      <xs:enumeration value="RatingRulesDeclined"/>
+      <xs:enumeration value="LoginFailureIncorrectUsername"/>
+      <xs:enumeration value="LoginFailureIncorrectPassword"/>
+      <xs:enumeration value="LoginFailureLoggedInElsewhere"/>
+      <xs:enumeration value="LoginFailureNotLinkedToAgent"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OptionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ProductOption"/>
+      <xs:enumeration value="SystemOption"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Start (Vijayakumar Ramasamy) - (Tech Spec - UIICWR23 - New Business - Pre Payment Functionality) -(7.2.1)-->
+ <xs:simpleType name="DebitAgainstAccountType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="Agent"/>
+			<xs:enumeration value="Client"/>
+		</xs:restriction>
+	</xs:simpleType>
+  <xs:simpleType name="DebitAgainstType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DebitAgainstCashListItem"/>
+      <xs:enumeration value="DebitAgainstOverDraft"/>
+      <xs:enumeration value="DebitAgainstFloatBalance"/>
+      <xs:enumeration value="DebitAgainstUnallocatedCredit"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Vijayakumar Ramasamy) - (Tech Spec - UIICWR23 - New Business - Pre Payment Functionality) -(7.2.1)-->
+  <!-- Start (Sankar) - (Tech Spec - UIIC WR33 - Work Manager - Update Task.doc) - (7.1.1) -->
+  <xs:simpleType name="WMActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Update"/>
+      <xs:enumeration value="Assign"/>
+      <xs:enumeration value="Complete"/>
+      <xs:enumeration value="InComplete"/>
+      <xs:enumeration value="Run"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Sankar) - (Tech Spec - UIIC WR33 - Work Manager - Update Task.doc) - (7.1.1) -->
+  <!--Start (Vijayakumar Ramasamy) - (Tech Spec - UIICWR22 - Capture Quote Details - Find Party (Agents).doc) -(7.1.2.1)-->
+  <xs:simpleType name="PartyAgentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Broker" />
+      <xs:enumeration value="Sub-Agent" />
+      <xs:enumeration value="Commission Account" />
+      <xs:enumeration value="Intermediary" />
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Vijayakumar Ramasamy) - (Tech Spec - UIICWR22 - Capture Quote Details - Find Party (Agents).doc) -(7.1.2.1)-->
+  <!--Start (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR33 - Work Manager - Get Tasks.doc) -(7.1.1)-->
+  <xs:simpleType name="TaskStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="New"/>
+      <xs:enumeration value="In Progress" />
+      <xs:enumeration value="InComplete"/>
+      <xs:enumeration value="Complete" />
+      <xs:enumeration value="All"/>
+      <xs:enumeration value="(Not Complete)" />
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR33 - Work Manager - Get Tasks.doc) -(7.1.1)-->
+
+  <!--Start (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR33 - Work Manager - Get Tasks.doc) -(7.1.1)-->
+  <xs:simpleType name="ShowType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="User"/>
+      <xs:enumeration value="Sys"/>
+      <xs:enumeration value="(All)"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR33 - Work Manager - Get Tasks.doc) -(7.1.1)-->
+
+  <!--Start (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR33 - Work Manager - Get Tasks.doc) -(7.1.1)-->
+  <xs:simpleType name="DateRange">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="(All Dates)" />
+      <xs:enumeration value="Today"/>
+      <xs:enumeration value="Tomorrow" />
+      <xs:enumeration value="Next 2 Days" />
+      <xs:enumeration value="Next 3 Days" />
+      <xs:enumeration value="Next 4 Days"/>
+      <xs:enumeration value="Next 5 Days" />
+      <xs:enumeration value="Next 6 Days" />
+      <xs:enumeration value="Next 7 Days" />
+      <xs:enumeration value="Next 14 Days" />
+      <xs:enumeration value="Next 28 Days" />
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR33 - Work Manager - Get Tasks.doc) -(7.1.1)-->
+
+  <!-- Start (Udaya Bhaskar K ) -(Tech Spec - UIICWR6 - Update Bank Guarantee Conditionaly.doc -(7.1.2.1) -->
+  <xs:simpleType name="BGUCActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Invoked"/>
+      <xs:enumeration value="DelUnDel"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- End (Udaya Bhaskar K ) -(Tech Spec - UIICWR6 - Update Bank Guarantee Conditionaly.doc -(7.1.2.1) -->
+
+  <!--Start (Arul Stephen) - (Tech Spec - UIICWR6 - Policy Get Bank Guarantee.doc) -(7.1.2.1.1)-->
+  <xs:simpleType name="BGPartyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration   value ="Client" />
+      <xs:enumeration  value="Agent"  />
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Arul Stephen) - (Tech Spec - UIICWR6 - Policy Get Bank Guarantee.doc) -(7.1.2.1.1)-->
+  <!--Start (Vijayakumar Ramasamy) - (Tech Spec - UIICWR6 - Get Policies on Bank Guarantee For Receipt.doc) - (7.1.2.1.1) -->
+  <xs:simpleType name="BGGetPoliciesActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="All"/>
+      <xs:enumeration value="OutStandingPremium"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Vijayakumar Ramasamy) - (Tech Spec - UIICWR6 - Get Policies on Bank Guarantee For Receipt.doc) - (7.1.2.1.1) -->
+  <!-- Start (Saurabh Agrawal) - (Tech Specs - WR22 Capture Quote Details - Update Risk Selection) - (7.1.2.1)  -->
+  <xs:simpleType name="TransactionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NB" id="NB"/>
+      <xs:enumeration value="MTA" id="MTA"/>
+      <xs:enumeration value="MTC" id="MTC"/>
+      <xs:enumeration value="MTR" id="MTR"/>
+      <xs:enumeration value="REN" id="REN"/>
+      <xs:enumeration value="EDIT" id="EDIT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End   (Saurabh Agrawal) - (Tech Specs - WR22 Capture Quote Details - Update Risk Selection) - (7.1.2.1)  -->
+  <!-- Start (Saurabh Agrawal) Tech Spec - UIIC WR6 -FindPolicy - (7.1.2.1)  -->
+
+  <xs:simpleType name="InsuranceFileType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="QUOTE" id="QUOTE"/>
+      <xs:enumeration value="MTAQUOTE" id="MTAQUOTE"/>
+      <xs:enumeration value="POLICY" id="POLICY"/>
+      <xs:enumeration value="RENEWAL" id="RENEWAL"/>
+      <xs:enumeration value="ALL" id="ALL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Saurabh Agrawal) Tech Spec - UIIC WR6 -FindPolicy - (7.1.2.1)  -->
+
+  <!--Start (Udaya Bhaskar K) - (Tech Spec - UIICWR22 - Copy Risk) - (7.1.1) -->
+  <xs:simpleType name="CopyRiskType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Comparative"/>
+      <xs:enumeration value=" Duplicate"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Udaya Bhaskar K) - (Tech Spec - UIICWR22 - Copy Risk) - (7.1.1) -->
+
+
+  <!-- Start (Vijayakumar Ramasamy) - (Tech Spec - UIIC WR22 - Tech Spec - UIIC WR63 - Insurer payments - Mark & Unmark.doc)- (7.1.2.1)-->
+  <xs:simpleType name="MarkStatusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Mark"/>
+      <xs:enumeration value="UnMark"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Vijayakumar Ramasamy) - (Tech Spec - UIIC WR22 - Tech Spec - UIIC WR63 - Insurer payments - Mark & Unmark.doc)- (7.1.2.1)-->
+  <!--Start (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR63 - Insurer Payments - Get Insurer Payments.doc) -(7.1.1)-->
+  <xs:simpleType name="InsurerPaymentsDateByType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value=" EffectiveDate"/>
+      <xs:enumeration value="TransactionDate"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Month">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="All"/>
+      <xs:enumeration value="January"/>
+      <xs:enumeration value="February"/>
+      <xs:enumeration value="March"/>
+      <xs:enumeration value="April"/>
+      <xs:enumeration value="May"/>
+      <xs:enumeration value="June"/>
+      <xs:enumeration value="July"/>
+      <xs:enumeration value="August"/>
+      <xs:enumeration value="September"/>
+      <xs:enumeration value="October"/>
+      <xs:enumeration value="November"/>
+      <xs:enumeration value="December"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="InsurerPaymentsMarkedStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="No" />
+      <xs:enumeration value="Yes"/>
+      <xs:enumeration value=" Any"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Ravikumar Pasupuleti) - (Tech Spec - UIIC WR63 - Insurer Payments - Get Insurer Payments.doc) -(7.1.1)-->
+  <!--Start (Udaya Bhaskar K) - -Tech Spec - UIICWR6 - Allocation Against Policy (7.1.1) -->
+  <xs:simpleType name="AllocationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BankGuarantee"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Udaya Bhaskar K) - Tech Spec - UIICWR6 - Allocation Against Policy - (7.1.1) -->
+  <!-- Start (Sriram P) Tech Spec - UIIC - Product Risk Maintenance - (7.1.1)  -->
+
+  <xs:simpleType name="ProductRiskOptions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CaptionId"/>
+      <xs:enumeration value="Code"/>
+      <xs:enumeration value="Description"/>
+      <xs:enumeration value="ProductEffectiveDate"/>
+      <xs:enumeration value="IsDeleted"/>
+      <xs:enumeration value="SchemeAgencyRef"/>
+      <xs:enumeration value="BlockNo"/>
+      <xs:enumeration value="IsTaxSuppressed"/>
+      <xs:enumeration value="QuoteAutoNumberingID"/>
+      <xs:enumeration value="IsShortPeriodRated"/>
+      <xs:enumeration value="IsMidnightRenewal"/>
+      <xs:enumeration value="IsAutoRenewable"/>
+      <xs:enumeration value="RenewalWeeks"/>
+      <xs:enumeration value="PolicyAutoNumberingID"/>
+      <xs:enumeration value="ProvClaimAutoNumberingID"/>
+      <xs:enumeration value="FullClaimAutoNumberingID"/>
+      <xs:enumeration value="Accumulation"/>
+      <xs:enumeration value="RIPointer"/>
+      <xs:enumeration value="ReportPointer"/>
+      <xs:enumeration value="ClaimYearToCheck"/>
+      <xs:enumeration value="MaxSingleClaimValue"/>
+      <xs:enumeration value="MaxNumberOfClaim"/>
+      <xs:enumeration value="MaxTotalClaimValue"/>
+      <xs:enumeration value="NBProrata"/>
+      <xs:enumeration value="MTAProrata"/>
+      <xs:enumeration value="RoundPremium"/>
+      <xs:enumeration value="RoundingSection"/>
+      <xs:enumeration value="PolicyNumberAtQuote"/>
+      <xs:enumeration value="FollowUpTimeFrame"/>
+      <xs:enumeration value="GracePeriod"/>
+      <xs:enumeration value="PreventCancelledAgents"/>
+      <xs:enumeration value="AllowPositiveValues"/>
+      <xs:enumeration value="MediaTypeMandatory"/>
+      <xs:enumeration value="PolicyStyleID"/>
+      <xs:enumeration value="PolicyStyleMandatory"/>
+      <xs:enumeration value="CurrencyChange"/>
+      <xs:enumeration value="LossCurrencyChange"/>
+      <xs:enumeration value="ChangePolicyNumberAtRenewal"/>
+      <xs:enumeration value="AllowStandardWordingEdit"/>
+      <xs:enumeration value="HideSummaryAtRenewalAcceptance"/>
+      <xs:enumeration value="ProductSuppressClaimTransactionsReserves"/>
+      <xs:enumeration value="ProductSuppressClaimTransactionsPayments"/>
+      <xs:enumeration value="ProductSuppressClaimTransactionsRecoveries"/>
+      <xs:enumeration value="CanMakeLiveInvoice"/>
+      <xs:enumeration value="CanMakeLiveInstalments"/>
+      <xs:enumeration value="CanMakeLivePaynow"/>
+      <xs:enumeration value="ProduceSchedule"/>
+      <xs:enumeration value="ProduceCertificate"/>
+      <xs:enumeration value="ProduceDebitNote"/>
+      <xs:enumeration value="ClaimsTypeBasis"/>
+      <xs:enumeration value="ClaimsCoverBasis"/>
+      <xs:enumeration value="TradeNbOnline"/>
+      <xs:enumeration value="TradeMtaOnline"/>
+      <xs:enumeration value="TradeRnlOnline"/>
+      <xs:enumeration value="OnlineTradingCommencedOn"/>
+      <xs:enumeration value="MTCRatingRulesEnabled"/>
+      <xs:enumeration value="CanMakeBankGuarantee"/>
+      <!-- Start (Prakash Varghese) Gap fixing as told by Gaurav  -->
+      <xs:enumeration value="CoverNoteDocTemplate"/>
+      <xs:enumeration value="IsTrueMonthlyPolicy"/>
+      <xs:enumeration value="AnniversaryRenewalWeeks"/>
+      <xs:enumeration value="UnifiedRenewalDay"/>
+      <xs:enumeration value="LeadAllowConsolidatedCommission"/>
+      <xs:enumeration value="LeadMonthInCycle"/>
+      <xs:enumeration value="LeadSuspenseAccountId"/>
+      <xs:enumeration value="SubAllowConsolidatedCommission"/>
+      <xs:enumeration value="SubMonthInCycle"/>
+      <xs:enumeration value="SubSuspenseAccountId"/>
+      <xs:enumeration value="DefaultPaymentMethod"/>
+      <xs:enumeration value="IsRenewable"/>
+      <xs:enumeration value="IsRenewalSelectionEnabled"/>
+      <xs:enumeration value="TrueMonthlyPolicyRenewalCommunication"/>
+      <xs:enumeration value="RenewalSelectionManReviewTemplateId"/>
+      <xs:enumeration value="RenewalSelectionManReviewAttachmentTemplateId"/>
+      <xs:enumeration value="RenewalSelectionInviteTemplateId"/>
+      <xs:enumeration value="RenewalSelectionInviteAttachmentTemplateId"/>
+      <xs:enumeration value="RenewalSelectionUpdateTemplate"/>
+      <xs:enumeration value="RenewalSelectionUpdateAttachmentTemplateId"/>
+      <xs:enumeration value="IsRenewalInviteEnabled"/>
+      <xs:enumeration value="RenewalInviteManReviewTemplateId"/>
+      <xs:enumeration value="RenewalInviteManReviewAttachmentTemplateId"/>
+      <xs:enumeration value="RenewalInviteInviteTemplateId"/>
+      <xs:enumeration value="RenewalInviteInviteAttachmentTemplateId"/>
+      <xs:enumeration value="RenewalInviteUpdateTemplateId"/>
+      <xs:enumeration value="RenewalInviteUpdateAttachmentTemplateId"/>
+      <xs:enumeration value="IsRenewalUpdateEnabled"/>
+      <xs:enumeration value="RenewalUpdateManReviewTemplateId"/>
+      <xs:enumeration value="RenewalUpdateManReviewAttachmentTemplateId"/>
+      <xs:enumeration value="RenewalUpdateInviteTemplateId"/>
+      <xs:enumeration value="RenewalUpdateInviteAttachmentTemplateId"/>
+      <xs:enumeration value="RenewalUpdateUpdateTemplateId"/>
+      <xs:enumeration value="RenewalUpdateUpdateAttachmentTemplateId"/>
+      <xs:enumeration value="IsAgentRenewalSelectionEnabled"/>
+      <xs:enumeration value="IsAgentRenewalInviteEnabled"/>
+      <xs:enumeration value="IsAgentRenewalUpdateEnabled"/>
+      <xs:enumeration value="AgentRenewalManReviewTemplateId"/>
+      <xs:enumeration value="AgentRenewalManReviewReportId"/>
+      <xs:enumeration value="AgentRenewalInviteTemplateId"/>
+      <xs:enumeration value="AgentRenewalInviteReportId"/>
+      <xs:enumeration value="AgentRenewalUpdateTemplateId"/>
+      <xs:enumeration value="AgentRenewalUpdateReportId"/>
+      <xs:enumeration value="MultipleClaimsPayments"/>
+      <xs:enumeration value="MaxUnauthorisedClaimValue"/>
+      <xs:enumeration value="MaxUnauthorisedNoClaimPayments"/>
+      <xs:enumeration value="RunAuthorisationScriptsClaimPayments"/>
+      <xs:enumeration value="BankAccountId"/>
+      <xs:enumeration value="ClaimValueForLargeLossAdvice"/>
+      <xs:enumeration value="InclusionOfCoInsurersOnClaims"/>
+      <xs:enumeration value="AllowNegativeReserve"/>
+      <xs:enumeration value="ExtClmHandlerAcknowledgedTaskAllowedTime"/>
+      <xs:enumeration value="ExtClmHandlerSupplyPreReportTaskAllowedTime"/>
+      <xs:enumeration value="ValidPolicyVersionAtLossDate"/>
+      <xs:enumeration value="IsGrossClaimPaymentAmount"/>
+      <xs:enumeration value="ClaimTaskGroup"/>
+      <xs:enumeration value="ClaimUserGroup"/>
+      <xs:enumeration value="ClaimsUDTA"/>
+      <xs:enumeration value="ClaimsUDTB"/>
+      <xs:enumeration value="ClaimsUDTC"/>
+      <xs:enumeration value="ClaimsUDTD"/>
+      <xs:enumeration value="ClaimsUDTE"/>
+      <xs:enumeration value="IsDuplicateClaimCheckEnabled"/>
+      <xs:enumeration value="IsAdvancedTaxScriptEnabled"/>
+      <xs:enumeration value="IsPaymentRefCheckEnabled"/>
+      <xs:enumeration value="IsRecommendClaimPayments"/>
+      <xs:enumeration value="OutOfSequenceMTAAllocation"/>
+      <xs:enumeration value="OutOfSequenceMTADates"/>
+      <xs:enumeration value="DefaultRenewalMonths"/>
+      <xs:enumeration value="PaymentCannotExceedReserve"/>
+      <xs:enumeration value="AllowBackdatedMTAs"/>
+      <xs:enumeration value="CoverNoteNumberingId"/>
+      <xs:enumeration value="CoverNoteDefaultPeriod"/>
+      <xs:enumeration value="CoverNoteReusedUpTo"/>
+      <!-- End (Prakash Varghese) Gap fixing as told by Gaurav  -->			
+ <!-- Start - Renuka - (WPR67 - Enhancement_Tax_Round Off) - Paralleling -->
+      <xs:enumeration value="RoundOffToZero"/>
+      <!-- End - Renuka - (WPR67 - Enhancement_Tax_Round Off) - Paralleling-->
+      <!-- Start - Sankar - (WPRvb64 Media Type Status) - Paralleling -->
+      <xs:enumeration value="CheckMediatypeStatusAtClaimPayment"/>
+      <xs:enumeration value="CheckMediatypeStatusAtPolicyRefund"/>
+      <!-- End - Sankar - (WPRvb64 Media Type Status) - Paralleling -->
+      <!-- Start - 'WPR 33-75,WPR36- ADDED - Paralleling -->
+      <xs:enumeration value="AllowBackdatedMTCs"/>
+      <xs:enumeration value="BackdatedMTAUserGroup"/>
+      <xs:enumeration value="BackdatedMTATaskGroup"/>
+      <!-- END - Sankar - 'WPR 33-75 END - Paralleling -->
+      <xs:enumeration value="TMPAutorenfac"/>
+      <xs:enumeration value="AllowReRateAllCancRein"/>
+      <xs:enumeration value="AllowReRateAllNBQuotation"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Sriram P) Tech Spec - UIIC - Product Risk Maintenance - (7.1.1)  -->
+  <!-- Start (Sriram P) Tech Spec - UIIC - Product Risk Maintenance - (7.1.1)  -->
+  <xs:simpleType name="RiskTypeOptions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Code"/>
+      <xs:enumeration value="Description"/>
+      <xs:enumeration value="EffectiveDate"/>
+      <xs:enumeration value="AccumulationLevel"/>
+      <xs:enumeration value="GisScreenId"/>
+      <xs:enumeration value="PrimarySort"/>
+      <xs:enumeration value="SecondarySort"/>
+      <xs:enumeration value="StampDutyRate1"/>
+      <xs:enumeration value="StampDutyRate2"/>
+      <xs:enumeration value="HeaderClauseDescription"/>
+      <xs:enumeration value="TrailerClauseDescription"/>
+      <xs:enumeration value="IsShareWithCoInsurers"/>
+      <xs:enumeration value="IsShareWithReInsurers"/>
+      <xs:enumeration value="IsSuppressPublicText"/>
+      <xs:enumeration value="IsSuppressPrivateText"/>
+      <xs:enumeration value="IsSuppressTaxes"/>
+      <xs:enumeration value="ClaimsIsPostTaxes"/>
+      <xs:enumeration value="VsectionMask"/>
+      <xs:enumeration value="IsAutoReinsured"/>
+      <xs:enumeration value="IsDeferredRiPermitted"/>
+      <xs:enumeration value="DisplayReinsurance"/>
+      <xs:enumeration value="DisplayClaimReinsurance"/>
+      <xs:enumeration value="AllowRatingSectionAdd"/>
+      <xs:enumeration value="AllowRatingSectionEdit"/>
+      <xs:enumeration value="AllowRatingSectionDelete"/>
+      <xs:enumeration value="AllowEditRatingSectionRateType"/>
+      <xs:enumeration value="AllowEditRatingSectionRate"/>
+      <xs:enumeration value="AllowEditRatingSectionSumInsured"/>
+      <xs:enumeration value="AllowEditRatingSectionThisPremium"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Sriram P) Tech Spec - UIIC - Product Risk Maintenance - (7.1.1)  -->
+  <!-- Start (Sriram P) Tech Spec - UIIC - Product Risk Maintenance - (7.1.1)  -->
+
+  <xs:simpleType name="ProductConfigActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ProductRiskMaintenance"/>
+      <xs:enumeration value="RiskTypeMaintenance"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Sriram P) Tech Spec - UIIC - Product Risk Maintenance - (7.1.1)  -->
+
+
+
+  <!-- Start (Vijayakumar Ramasamy) - Tech Spec - UIIC - User Maintenance - Get User Authorities - (7.1.1)-->
+  <xs:simpleType name="UserAuthorityOptions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HasUnrestrictedEnquiry"/>
+      <xs:enumeration value="HasUnrestrictedUpdate"/>
+      <xs:enumeration value="HasWriteOffAuthority"/>
+      <xs:enumeration value="HasPaymentsAuthority"/>
+      <xs:enumeration value="CanOverridePrePolicyDate"/>
+      <xs:enumeration value="CanOverridePrePolicyRate"/>
+      <xs:enumeration value="CanOverrideDate"/>
+      <xs:enumeration value="CanOverrideRate"/>
+      <xs:enumeration value="CanDuplicateClaimOverride"/>
+      <xs:enumeration value="CanOverridePostingPeriod"/>
+      <xs:enumeration value="CanPerformBrokerTransfer"/>
+      <xs:enumeration value="HasClaimPaymentsAuthority"/>
+      <xs:enumeration value="CanUserChangeReserves"/>
+      <xs:enumeration value="CanMakeLiveInvoice"/>
+      <xs:enumeration value="CanMakeLivePayNow"/>
+      <xs:enumeration value="CanMakeLiveInstalments"/>
+      <xs:enumeration value="HasPaynowWriteOffAuthority"/>
+      <xs:enumeration value="AllowAddRemoveRatingSections"/>
+      <xs:enumeration value="AllowEditRatingSections"/>
+      <!-- Start - Renuka - (WPR64 Paralleling) -->
+      <xs:enumeration value="AllowEditAgentCommission"/>
+     <!-- End - Renuka - (WPR64 Paralleling) -->
+      <xs:enumeration value="CanOverrideCollectionDate"/>
+      <xs:enumeration value="CanMakeLiveBankGuarantee"/>
+      <!-- Start -   'WPR 33-75 ADDED -->
+      <xs:enumeration value="BackDatedMtaAndMtcAuthorityType"/>
+      <!-- End -    'WPR 33-75 END -->
+      <!--Begin WPR36-->
+      <xs:enumeration value="DisplayReinsurance"/>
+      <xs:enumeration value="DisplayClaimReinsurance"/>
+      <xs:enumeration value="IsClientManagerViewonly"/>
+      <!--End WPR36-->
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End  (Vijayakumar Ramasamy) - Tech Spec - UIIC - User Maintenance - Get User Authorities - (7.1.1)-->
+  <!-- Start (Girija chokkalingam) - (Tech Spec - PGR025 - SAM Installment Payment Schedule.doc) - (7.1.2.3.1)-->
+  <xs:simpleType name="FinancePlanStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="000" id="All"/>
+      <xs:enumeration value="010" id="Saved"/>
+      <xs:enumeration value="011" id="Updated"/>
+      <xs:enumeration value="012" id="Printed"/>
+      <xs:enumeration value="040" id="Live"/>
+      <xs:enumeration value="140" id="OnHold"/>
+      <xs:enumeration value="900" id="Completed"/>
+      <xs:enumeration value="990" id="Superseded"/>
+      <xs:enumeration value="999" id="Cancelled"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Girija chokkalingam) - (Tech Spec - PGR025 - SAM Installment Payment Schedule.doc) - (7.1.2.3.1)-->
+
+  <!-- Start (Prakash C Varghese) Gap Fixing As told by Gaurav  -->
+  <xs:simpleType name="ClaimProcessType">
+    <xs:restriction base="xs:int">
+      <xs:enumeration value="1" id="OpenClaim"/>
+      <xs:enumeration value="2" id="MaintainClaim"/>
+      <xs:enumeration value="3" id="ClaimPayment"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- End (Prakash C Varghese) Gap Fixing As told by Gaurav  -->
+
+  <xs:simpleType name="ProductEventActionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ClaimEvent"/>
+      <xs:enumeration value="MTAEvent"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Start (Prakash C Varghese)-(PartyBank functionality)-->
+  <xs:simpleType name="LastTransactionTypeWithPartyBank">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="POLICY" id="POLICYTRANSACTION"/>
+      <xs:enumeration value="CLAIM" id="CLAIMTRANSACTION"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End (Prakash C Varghese)-(PartyBank functionality)-->
+  <!--Begin WPR36A-->
+  <!--Shubhankar-->
+  <xs:simpleType name="InstalmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="0" id="AddAndSpread"/>
+      <xs:enumeration value="1" id="AddToNext"/>
+      <xs:enumeration value="2" id="AddToNewPlan"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--End WPR36A-->
+ <xs:simpleType name="QuoteStatusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pending"/>
+      <xs:enumeration value="AgentPending"/>
+      <xs:enumeration value="AgentComplete"/>
+      <xs:enumeration value="Issued"/>
+      <xs:enumeration value="Live"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Begin WPR36-->
+  <xs:simpleType name="RowAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AddRow" />
+      <xs:enumeration value="EditRow" />
+      <xs:enumeration value="DeleteRow" />
+    </xs:restriction>
+  </xs:simpleType>
+  <!--Shubhankar-->
+  <!--<xs:simpleType name="InstalmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="0" id="AddAndSpread"/>
+      <xs:enumeration value="1" id="AddToNext"/>
+      <xs:enumeration value="2" id="AddToNewPlan"/>
+    </xs:restriction>
+  </xs:simpleType>-->
+  <!--End WPR36-->
+  <!--START(WPR 73-74)-->
+  <xs:simpleType name ="ContactUserSearchType">
+    <xs:restriction base ="xs:string">
+      <xs:enumeration value ="All"/>
+      <xs:enumeration value ="LoggedInUserOnly"/>
+    </xs:restriction>
+  </xs:simpleType >
+  <!--END(WPR73-74)-->
+  
+    <xs:simpleType name="TaxesType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RISKTAX" id="RiskTax"/>
+            <xs:enumeration value="POLICYTAX" id="PolicyTax"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

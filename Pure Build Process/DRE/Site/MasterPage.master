@@ -1,0 +1,30 @@
+<%@ Master Language="C#" AutoEventWireup="True" MasterPageFile="~/MainMasterPage.master" Inherits="MasterPage" Codebehind="MasterPage.master.cs" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">  
+
+<div class="sidebar">
+
+    <div class="sectionheader"><h2>Menu</h2></div>
+
+<ul class="dremainmenu">
+<asp:Panel ID="pnlDreMainMenu" runat="server">
+<li><asp:LinkButton ID="lbSystems" runat="server" onclick="MenuLinkButton_Click">Systems</asp:LinkButton></li>
+<li><asp:LinkButton ID="lbCustomers" runat="server" onclick="MenuLinkButton_Click">Customers</asp:LinkButton></li>
+<li><asp:LinkButton ID="lbUsers" runat="server" onclick="MenuLinkButton_Click">Users</asp:LinkButton></li>
+<li><asp:LinkButton ID="lbProfiles" runat="server" onclick="MenuLinkButton_Click">Profiles</asp:LinkButton></li>
+<li><asp:LinkButton ID="lbRuleSets" runat="server" onclick="MenuLinkButton_Click">RuleSets</asp:LinkButton></li>
+<li><asp:LinkButton ID="lbLogout" runat="server" onclick="MenuLinkButton_Click">Logout</asp:LinkButton></li>
+</asp:Panel>
+</ul>
+    
+    <asp:contentplaceholder id="ExtraContent" runat="server">
+    </asp:contentplaceholder>
+    
+</div>
+
+<div class="maincontent">
+    <div class="sectionheader"><h2><asp:Label ID="lblContentTitle" runat="server" Text=""></asp:Label></h2></div>
+    <asp:contentplaceholder id="MainContent" runat="server"></asp:contentplaceholder>    
+</div>
+
+</asp:Content>

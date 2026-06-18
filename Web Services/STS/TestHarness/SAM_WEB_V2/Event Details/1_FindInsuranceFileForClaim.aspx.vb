@@ -1,0 +1,109 @@
+Imports Microsoft.Web.Services3.Security.Tokens
+Imports SAMForInsuranceV2
+Imports System.Collections
+Partial Class OpenClaim_1_FindInsuranceFile
+    Inherits System.Web.UI.Page
+    Dim oFindInsurenceFileForClaimResponse As New FindInsuranceFileForClaimsResponseType
+
+    Protected Sub Button4_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+
+    End Sub
+
+    Protected Sub mnuFindInsuranceFile_MenuItemClick(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.MenuEventArgs) Handles mnuFindInsuranceFile.MenuItemClick
+        mvFindInsuranceFileForClaim.ActiveViewIndex = Int32.Parse(e.Item.Value)
+    End Sub
+
+    Protected Sub btnFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnFind.Click
+        Dim UserToken As UsernameToken = GetUserToken("sirius", "sirius")
+
+        'set up the proxy object
+        Dim oSAM As New SAMForInsuranceV2
+        oSAM.SetClientCredential(UserToken)
+        oSAM.SetPolicy("SamClientPolicy")
+
+        Dim oFindInsurenceFileForClaimRequest As New FindInsuranceFileForClaimsRequestType
+
+
+
+        With oFindInsurenceFileForClaimRequest
+            .BranchCode = "HeadOff"
+            .InsuranceRef = txtPolicyNumber.Text.Trim()
+            .RiskIndex = txtRiskIndex.Text.Trim
+
+            If txtClaimDate.Text <> "" Then
+                .LossDate = txtClaimDate.Text
+            End If
+            .ClientShortName = txtShortName.Text.Trim
+            .PostCode = txtPostCode.Text
+
+            If txtInForceFrom.Text <> "" Then
+                .InForceFrom = txtInForceFrom.Text
+                .InForceFromSpecified = True
+            Else
+                .InForceFrom = Nothing
+                .InForceFromSpecified = False
+
+            End If
+
+            If txtInForceTo.Text <> "" Then
+                .InForceTo = txtInForceTo.Text
+                .InForceToSpecified = True
+            Else
+                .InForceTo = Nothing
+                .InForceToSpecified = False
+
+            End If
+
+
+        End With
+        Dim oAddress As New BaseAddressType
+        Dim oGetAddress As New GetAddressRequestType
+
+
+
+        Try
+            oFindInsurenceFileForClaimResponse = oSAM.FindInsuranceFileForClaims(oFindInsurenceFileForClaimRequest)
+
+            With oFindInsurenceFileForClaimResponse
+                If Not (.Errors) Is Nothing Then
+                    'errors returned, so throw an exception
+                    Throw New SamResponseException(.Errors)
+                Else
+
+
+                    gvResult.DataSource = oFindInsurenceFileForClaimResponse.InsuranceFileDetails
+                    gvResult.DataBind()
+
+
+
+
+                End If
+                Session("FindInsurenceFileForClaimResponse") = oFindInsurenceFileForClaimResponse
+
+            End With
+        Catch os As SamResponseException
+            'should do some error handling here. Just output error for now
+            Response.Write("An error occured calling SAM:<br>" & os.Message)
+        Catch oe As Exception
+            'should do some error handling here. Just output error for now
+            Response.Write("An error occured:<br>" & oe.Message)
+        Finally
+            'clean
+        End Try
+
+    End Sub
+
+    Protected Sub btnOk_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnOk.Click
+        
+
+    End Sub
+
+    Protected Sub gvResult_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvResult.SelectedIndexChanged
+        Dim oFindInsuranceFileForClaimResponse As New FindInsuranceFileForClaimsResponseType
+        oFindInsuranceFileForClaimResponse = DirectCast(Session("FindInsurenceFileForClaimResponse"), FindInsuranceFileForClaimsResponseType)
+        Session("InsuranceFileKey") = oFindInsuranceFileForClaimResponse.InsuranceFileDetails(gvResult.SelectedIndex).InsuranceFileKey
+        Session("PolicyNumber") = oFindInsuranceFileForClaimResponse.InsuranceFileDetails(gvResult.SelectedIndex).InsuranceRef
+    End Sub
+
+   
+End Class

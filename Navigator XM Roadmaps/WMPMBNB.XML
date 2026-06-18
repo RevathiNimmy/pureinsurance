@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!-- <?xml version="1.0"?-->
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Steve Thomas (Sirius Financial Systems) -->
+<!-- pmnav_map_id = ?? -->
+<!DOCTYPE MAP SYSTEM "navigatorxmV2.dtd">
+<MAP WMTaskCode="WMPMBNB" WMTaskDescription="New Business - Generic" ImageURL="http://www.siriusgroup.co.uk" TransactionType="G_NB" ProcessMode="4" AutoClose="False" NavigatorDriven="True" Title="New Business" RoadmapName="" Core="1" ElementID="E1" Version="200">
+	<!-- select the party -->
+	<STEP Description="Find Party" Component="iPMBFindParty.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/>
+	<!-- new or existing quote -->
+	<STEP Description="Retrieve Existing Quote?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="6" ComponentAction="0" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E3">
+		<KEY Name="decision_title" Value="Retrieve Quote" ElementID="E4"/>
+		<KEY Name="decision_text" Value="Do you wish to retrieve an existing quote?" ElementID="E5"/>
+	</STEP>
+	<STEP Description="Select Quote" Component="iCNListPolicyWrapper.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6">
+		<KEY Name="insurance_file_type" Value="QUOTE" ElementID="E7"/>
+	</STEP>
+	<STEP Description="Check Quote Expiry is available" Component="iPMBQuoteExpired.Interface_Renamed" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="1" CancelSteps="7" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8"/>
+	<STEP Description="Amend Policy Start Date" Component="iSIRSchemeSelect.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"/>
+	<STEP Description="Amend Quote Policy" Component="bSIRQuotePolicy.NavigatorV3" Type="BO" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="True" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E38">
+		<KEY Name="Amend_Dates" Value="True" ElementID="E39"/>
+	</STEP>
+	<STEP Description="Check Quote Expiry date" Component="iPMBQuoteExpired.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="FX" OKSteps="5" CancelSteps="4" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10"/>
+	<STEP Description="Select Policy Package" Component="iPMBPolicyPackage.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckProductOption="75" ProductOptionValue="1" ElementID="E44"/>
+	<STEP Description="Select Product Type" Component="iSIRSchemeSelect.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/>
+	<STEP Description="Add Quote Policy" Component="bSIRQuotePolicy.NavigatorV3" Type="BO" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="1" ServerSide="True" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12">
+		<KEY Name="ACTKeyNameDocumentDate" Value="Date" ElementID="E13"/>
+	</STEP>
+	<!-- add the risk data -->
+	<STEP Description="Add Risk Data" Component="iPMBDataCapture.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ShowWMTaskInterface="False" ElementID="E14">
+		<KEY Name="capture_type" Value="pre" ElementID="E15"/>
+	</STEP>
+	<STEP Description="Quote Display" Component="iPMBQuoteDisplay.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="1" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E16">
+		<KEY Name="process_type" Value="NB_Q" ElementID="E17"/>
+		<KEY Name="wm_task" Value="WMPMBNB" ElementID="E37"/>
+	</STEP>
+	<STEP Description="Post Quote Data Capture" Component="iPMBDataCapture.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="1" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E18">
+		<KEY Name="capture_type" Value="post" ElementID="E19"/>
+	</STEP>
+	<!-- change from quote into a live policy -->
+	<STEP Description="Update Quote Policy" Component="bSIRQuotePolicy.NavigatorV3" Type="BO" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="True" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E20">
+		<KEY Name="return_status" Value="20" ElementID="E21"/>
+	</STEP>
+	<!-- optionally display the edit policy screen... -->
+	<STEP Description="Edit Policy" Component="iPMBPolicy.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="202" SystemOptionValue="1" ElementID="E33">
+		<KEY Name="branch_selection_not_required" Value="1" ElementID="E35"/>
+	</STEP>
+	<!-- ...or show payment method screen -->
+	<STEP Description="Payment Method" Component="iPMBPaymentScreen.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="201" SystemOptionValue="1" ElementID="E22"/>
+	<!-- raise a debit only if the system option allows -->
+	<!-- ...using the schemes component -->
+	<STEP Description="Raise Debit" Component="iCNCTransactionsWrapper.NavigatorV3" Type="BO" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="201" SystemOptionValue="1" ElementID="E23"/>
+	<!-- ... or using the standard back-office component -->
+	<STEP Description="Raise Debit" Component="iPMBTransactionsWrapper.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="201" SystemOptionValue="2" ElementID="E34"/>
+	<STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="1" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="120" SystemOptionValue="1" ShowWMTaskInterface="False" ElementID="E40">
+		<KEY Name="cash_list_roadmap" Value="DECIDE" ElementID="E41"/>
+	</STEP>
+	<STEP Description="Cash List Item" Component="iACTCashListItem.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="120" SystemOptionValue="1" ShowWMTaskInterface="False" ElementID="E42">
+		<KEY Name="allow_allocate_button" Value="-1" ElementID="E43"/>
+	</STEP>
+	<!-- select instalment plan only if the system option allows -->
+	<STEP Description="Instalments" Component="iCNPFQuote.Interface_Renamed" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="200" SystemOptionValue="1" ElementID="E24">
+		<KEY Name="PMKeyNameTaskGroupCode" Value="N" ElementID="E25"/>
+	</STEP>
+	<STEP Description="Finance Plan Maint" Component="iPMBFinancePlanMaint.NavigatorV3" Type="DF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" CheckSystemOption="200" SystemOptionValue="1" ElementID="E26"/>
+	<STEP Description="Do you wish to print the letter?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E27">
+		<KEY Name="decision_title" Value="Letter" ElementID="E28"/>
+		<KEY Name="decision_text" Value="Do you wish to produce a letter now?" ElementID="E29"/>
+		<KEY Name="PMKeyNameRunMode" Value="ACMergeMode" ElementID="E30"/>
+	</STEP>
+	<STEP Description="Produce Letter" Component="iPMBDocProductionWrapper.NavigatorV3" Type="PO" CancelAction="AP" OKAction="F1" OKSteps="1" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="True" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E31">
+		<KEY Name="nav_step" Value="DOCUMENT" ElementID="E32"/>
+		<KEY Name="process_type" Value="NB" ElementID="E36"/>
+	</STEP>
+</MAP>
+

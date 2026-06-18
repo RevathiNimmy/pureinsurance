@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_all_ri_models_saa'
+GO
+
+

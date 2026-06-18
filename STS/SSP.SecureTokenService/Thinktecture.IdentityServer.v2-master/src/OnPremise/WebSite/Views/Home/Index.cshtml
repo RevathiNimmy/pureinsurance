@@ -1,0 +1,22 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Home
+@{
+    ViewBag.Title = ViewBag.SiteName;
+}
+    <div class="container">
+      <div class="card m-t-lg">
+        <div class="card-heading">
+          <h1>@string.Format(Index_cshtml.WelcomeToSite, ViewBag.SiteName)</h1>
+        </div>
+        <div class="card-body clearfix text-center">
+            @Html.ActionLink(Index_cshtml.ViewWsFederationMetadata, "Generate", "FederationMetadata", new { }, new { @class = "btn btn-sm btn-primary" })
+            @Html.ActionLink(Index_cshtml.ApplicationIntegration, "appintegration", "home", new { }, new { @class = "btn btn-sm btn-primary" })
+        </div>
+      </div>
+   </div>
+
+
+
+
+    
+
+            

@@ -1,0 +1,1673 @@
+ //===========================================================================
+//
+//  File Name:    databasefunctions.rul
+//
+//
+//  Comments:     This Rule File (databasefunctions.rul) contains all the DB related
+//				  functions for use across the Installation/Uninstallation of Sirius Database
+//
+//
+//===========================================================================
+#include "ifx.h"    //Header File for Built in Installscript function prototypes                                                          
+#define COMMANDTIMEOUTVALUE 120
+#define DATABASESPPFILE  "Database.spp"  
+
+//Defining the global list for handling SQL Command Text
+LIST g_listCmdText;
+
+ 
+//Prototyping Functions defined in the Databasefunctions Rule File
+export prototype number ADODBConnectAndExecute(string,string,string,string,string);
+export prototype string ADODBConnectExecuteAndReturn(string,string,string,string,string,string);
+export prototype number ADODBConnectAndExecutePortal(string,string,string,string,string);
+export prototype string ADODBConnectExecuteAndReturnPortal(string,string,string,string,string,string);
+export prototype string GetConnectionString(string);
+export prototype string GetPortalConnectionString(string);
+export prototype number ParseSPPFile(string); 
+export prototype number ParseSQLFile(string); 
+export prototype number DatabaseExecute(LIST,string);   
+export prototype number ParseDatabaseSPP(string,string); 
+export prototype number ExecuteFilesinFolders(string);    
+export prototype number ParseUpgradeFolders(LIST,string,number);
+export prototype number HandleAbortInstallation(); 
+export prototype number DeleteCurrentSiriusDatabase();
+export prototype number CreateCopyofDatabaseSPPFile(); 
+export prototype number CreateSiriusDatabaseFromBackup();
+export prototype number CreateSiriusLogin();
+export prototype number DropSiriusLogin();
+export prototype string GetLastFolderNameFromFullPath(string);
+export prototype number AddCommandTextToList(string); 
+export prototype string TrimStart(string,string);
+export prototype string TrimEnd(string,string);
+
+export prototype number NewRunSetupDB();
+export prototype GetLogicalNameFromBackup();
+export prototype CopyDatabasebackupToRemoteServer();
+export prototype number CreatePortalDatabaseFromBackup();
+export prototype CopyPortalDatabasebackupToRemoteServer();
+export prototype CreateDashBoardDatabaseFromBackup();
+export prototype CopyDashBoardDatabasebackupToRemoteServer();
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:	NewRunSetupDB
+//
+// Description:	Calls the SetupDB which will do all the database setup and
+//           	install all the scripts
+//
+//				Using the new command line
+//
+///////////////////////////////////////////////////////////////////////////////
+function number NewRunSetupDB()
+    NUMBER  nResult, nvType, nvSize, nvCopyResult;
+    STRING  szProgram , szCmdLine, svResult, svDir, svDirTemp, svStatus, szCommandTimeout;
+    STRING	sProductType, sBackupFlag, sDatabaseName, sDatabaseServer, sSQLPath, sInstallOrder;
+    STRING  szMainCmdLine, sOverNight, szKey, szMsg, szMSMAPI32Path;  
+    STRING  szScriptsFolder;
+begin
+
+   	SdShowMsg ( "Database Setup . . . please wait." , TRUE );
+    
+	// Setup the program filename
+	szProgram = SRCDIR ^ "Scripts" ^ "SetupDB.exe";		
+
+	// Set the source directory as the CDRom\Scripts directory
+	szScriptsFolder = SRCDIR ^ "Scripts";
+		
+	// Set product type
+	sProductType = "Underwriting" ;
+
+	// Set the backup flag to 'no' as this is now asked at the start of the installation
+	sBackupFlag = "No" ;
+
+	// Get some registry settings
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+
+	nResult = RegDBGetKeyValueEx (	"SOFTWARE\\Pure\\Architecture\\Server",
+										"InstallCommandTimeOut",
+									 	nvType,
+									 	szCommandTimeout,
+									 	nvSize );											
+
+								
+	// Set the registry root	
+	if (nResult < 0) then
+			RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );	
+			szKey = "SOFTWARE\\Pure\\Architecture\\Server";
+			//RegDBCreateKeyEx (szKey, "");
+			RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );	
+			szKey = "SOFTWARE\\Pure\\Architecture\\Server";
+		// Need to up the registry setting for InstallCommandTimeOut to 3600 from 60 seconds.
+			//RegDBSetKeyValueEx ( szKey , "InstallCommandTimeOut" , REGDB_STRING , "3600" , -1 );
+	endif;
+
+	nResult = RegDBGetKeyValueEx ( 	"SOFTWARE\\PM\\SiriusArchitecture\\Server\\Databases\\SiriusSolutions",
+										"Server",
+	                                    nvType,
+	                                    sDatabaseServer,
+                                   		nvSize );	
+
+	//nResult = RegDBGetKeyValueEx ( 	"SOFTWARE\\PM\\SiriusArchitecture\\Server\\Databases\\SiriusSolutions",
+	  //                                  "Database",
+	  //                                  nvType,
+	  //                                  sDatabaseName,
+      //                             		nvSize );	
+      
+   	sDatabaseName = g_szSiriusDBName;   
+   	sDatabaseServer= g_szDBServer;
+
+	nResult = RegDBGetKeyValueEx ( "SOFTWARE\\Microsoft\\MSSQLServer\\Setup",
+										"SQLDataRoot",
+                                   		nvType,
+										sSQLPath,
+										nvSize );	
+
+	sInstallOrder = "";
+	
+	// Setup the main command line
+	szMainCmdLine = '"act=install", ' +
+				'"if=' + szScriptsFolder + '", ' +
+				'"pdf=' + sProductType + '", ' +
+				'"sn=' + sDatabaseServer + '", ' +
+				'"dn=' + sDatabaseName + '", ' +
+				'"dbk=' + sBackupFlag + '", ' +
+				'"ddf=' + sSQLPath ^ 'Data' + '", ' +
+				'"dlf=' + sSQLPath ^ 'Data' + '", ' +
+				'"lic=yes", ' +
+				'"lss=yes", ' +
+				'"iff=' + szScriptsFolder ^ 'config.xml' + '", ' +
+				'"aui=yes", ' + 
+				'"evlog=no", ' +
+				'"loginname=' + g_szSiriusUserName + '", ' +
+				'"loginpwd=' + g_szSiriusPassword + '", ' +
+				sInstallOrder;
+
+	// Setup the command line
+	szCmdLine = szMainCmdLine +
+				'"ldv=Install\\1.0", ' +
+				'"ldv=Structure\\1.0", ' +
+				'"ldv=Procedures\\1.0", ' +
+				'"ldv=Views\\1.0", ' +
+				'"ldv=SA\\2.3.0.21", ' +
+				'"ldv=GIS\\1.9.5.21", ' +
+				'"ldv=SBO\\1.8.6.21", ' +
+				'"ldv=CLM\\1.8.6.21", ' +
+				'"ldv=ORION\\1.8.6.21", ' +
+				'"ldv=Query\\(max)", ' +
+				'"ldv=GII\\(max)", ' +
+				'"ldv=Data\\1.0"' ;
+								
+		//nResult = LaunchAppAndWait ( szProgram , szCmdLine , WAIT );
+		//if (nResult < ISERR_SUCCESS) then
+		//	szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		//	MessageBox ( szMsg, SEVERE );
+		//	return 0;
+		//endif;
+
+		// Setup the command line
+		//szCmdLine = szMainCmdLine +
+		//		'"ldv=Install\\(max)", ' +
+		//		'"ldv=Structure\\(max)"' ;
+									
+		//nResult = LaunchAppAndWait ( szProgram , szCmdLine , WAIT );
+		//if (nResult < ISERR_SUCCESS) then
+		//	szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+		//	MessageBox ( szMsg, SEVERE );
+		//	return 0;
+		//endif;
+
+		
+		// Setup the command line
+		szCmdLine = szMainCmdLine +
+				'"ldv=Install\\(max)", ' +
+				'"ldv=Structure\\(max)", ' +
+				'"ldv=Procedures\\(max)", ' +
+				'"ldv=Views\\(max)", ' +
+				'"ldv=SA\\(max)", ' +
+				'"ldv=GIS\\(max)", ' +
+				'"ldv=SBO\\(max)", ' +
+				'"ldv=CLM\\(max)", ' +
+				'"ldv=ORION\\(max)", ' +
+				'"ldv=Query\\(max)", ' +
+				'"ldv=GII\\(max)", ' +
+				'"ldv=Data\\(max)"' ;
+								
+		//nResult = LaunchAppAndWait ( szProgram , szCmdLine , WAIT );
+		nResult = LaunchApplication( szProgram, szCmdLine, "", SW_SHOW, INFINITE, LAAW_OPTION_USE_SHELLEXECUTE | LAAW_OPTION_WAIT ); 
+		if (nResult < ISERR_SUCCESS) then
+			szMsg = "Unable to launch : " + szProgram + " it will need to be run manually.";
+			MessageBox ( szMsg, SEVERE );
+			return 0;
+		endif;
+		
+	
+
+	
+	SdShowMsg ( "Database Setup . . . please wait." , FALSE );  
+	
+	return 1;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ADODBConnectAndExecute                                         //
+//                                                                           //
+// Purpose:  This function connects to the DB Server and executes            //
+//			 a SQL Script on the database specified in the                   //
+//			 function parameters                                             //
+///////////////////////////////////////////////////////////////////////////////
+
+function number ADODBConnectAndExecute(g_szDBServer,szDBName,szUser,szPassword,szSQLScript)
+   
+ string szADOObjID,szDriver,szConnString,szADOCommObjID,szErrorLog;
+ object objADO,objADOComm;  
+ number nvRecords;
+ begin 
+ 
+   	szADOObjID = "ADODB.Connection";
+	set objADO = CreateObject(szADOObjID);	
+	szConnString = GetConnectionString(szDBName);
+	
+        try
+		// Open the ADO Connection 
+		objADO.Open(szConnString);
+	catch
+			szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n"; 
+				
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+			set objADO = NOTHING; 
+			return -2;
+	endcatch;     
+
+
+       try              
+		// Create the ADO Command object to execute the script                           	
+		szADOCommObjID = "ADODB.Command";
+		set objADOComm = CreateObject(szADOCommObjID);
+		objADOComm.CommandTimeout = 600;  
+		objADOComm.ActiveConnection = objADO;
+	
+	   
+	 	 	// Execute the call to run the script
+			objADOComm.CommandText = szSQLScript;
+			objADOComm.Execute(nvRecords ,0x81);
+			    
+			
+	catch
+			szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n"; 
+				
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+			objADO.Close(); 
+			set objADO = NOTHING; 
+			return -1;
+	endcatch;     
+	//Close the Connections after executing SQL Scripts
+	objADO.Close(); 
+	set objADO = NOTHING;
+	
+   return 1;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ADODBConnectAndExecutePortal                                         //
+//                                                                           //
+// Purpose:  This function connects to the DB Server and executes            //
+//			 a SQL Script on the database specified in the                   //
+//			 function parameters                                             //
+///////////////////////////////////////////////////////////////////////////////
+function number ADODBConnectAndExecutePortal(g_PortalDBServer,sz_PortaDB,g_PortalUser,g_PortalPwd,szSQLScript)
+ string szADOObjID,szDriver,szConnString,szADOCommObjID,szErrorLog;
+ object objADO,objADOComm;  
+ number nvRecords;
+ begin 
+   	szADOObjID = "ADODB.Connection";
+	set objADO = CreateObject(szADOObjID);	
+	szConnString = GetPortalConnectionString(sz_PortaDB);
+
+	try
+		// Open the ADO Connection 
+		objADO.Open(szConnString);
+	catch
+			szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n"; 
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+			set objADO = NOTHING; 
+			return -1;
+	endcatch;     
+
+         try
+   		// Create the ADO Command object to execute the script                           	
+		szADOCommObjID = "ADODB.Command";
+		set objADOComm = CreateObject(szADOCommObjID); 
+		objADOComm.CommandTimeout = 600;   
+		objADOComm.ActiveConnection = objADO;
+	  
+	 	 	// Execute the call to run the script
+			objADOComm.CommandText = szSQLScript;
+			objADOComm.Execute(nvRecords ,0x81);
+	catch
+			szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n"; 
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+			objADO.Close(); 
+			set objADO = NOTHING; 
+			return -1;
+	endcatch;     
+	//Close the Connections after executing SQL Scripts
+	objADO.Close(); 
+	set objADO = NOTHING;
+   return 1;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ADODBConnectExecuteAndReturn                                   //
+//                                                                           //
+//  Purpose:  This function connects to the DB Server and executes a 		 //
+//			  SQL Script on the database specified in the function 			 //
+//			  parameters  and returns a value as a String Result        	 //
+///////////////////////////////////////////////////////////////////////////////
+
+function string ADODBConnectExecuteAndReturn(g_szDBServer,szDBName,szUser,szPassword,szSQLScript,szReturnParameter)  
+ string szADOObjID,szDriver,szConnString,szReturnValue,szErrorLog;
+ object objConnection,objRecordSet;  
+ begin 
+   	try
+   			szReturnValue = "";
+			szADOObjID = "ADODB.Connection";
+			set objConnection = CreateObject(szADOObjID);	
+		    szConnString = GetConnectionString(szDBName);
+			objConnection.ConnectionString = szConnString;
+			// Open the ADO Connection 
+			objConnection.Open;
+	catch
+	         szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n";
+	         return szReturnValue;  
+	endcatch;
+    try    
+	 	 	set objRecordSet = objConnection.Execute(szSQLScript);
+	        szReturnValue = objRecordSet(szReturnParameter);     
+	        
+	        return szReturnValue;    
+	         //sRetValue
+	catch
+	     	szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n";
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+			objConnection.Close();
+			set objConnection = NOTHING;
+			return szReturnValue;   
+			
+	endcatch;  
+	//Close the Connections after executing SQL Scripts
+	objConnection.Close();
+	set objConnection = NOTHING;
+  return szReturnValue;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ADODBConnectExecuteAndReturn                                   //
+//                                                                           //
+//  Purpose:  This function connects to the DB Server and executes a 		 //
+//			  SQL Script on the database specified in the function 			 //
+//			  parameters  and returns a value as a String Result        	 //
+///////////////////////////////////////////////////////////////////////////////
+function string ADODBConnectExecuteAndReturnPortal(g_PortalDBServer,sz_PortaDB,g_PortalUser,g_PortalPwd,szSQLScript,szReturnParameter)  
+ string szADOObjID,szDriver,szConnString,szReturnValue,szErrorLog;
+ object objConnection,objRecordSet;  
+ begin 
+   	try
+   			szReturnValue = "";
+			szADOObjID = "ADODB.Connection";
+			set objConnection = CreateObject(szADOObjID);	
+		    szConnString = GetPortalConnectionString(sz_PortaDB);
+			objConnection.ConnectionString = szConnString;
+			// Open the ADO Connection 
+			objConnection.Open;
+	catch
+	         szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n";
+	         return szReturnValue;  
+	endcatch;
+    try    
+	 	 	set objRecordSet = objConnection.Execute(szSQLScript);
+	        szReturnValue = objRecordSet(szReturnParameter);     
+	        return szReturnValue;    
+	         //sRetValue
+	catch
+	     	szErrorLog = szErrorLog
+				+ "Error:  " + Err.Description + "\n"
+				+ "Source: " + Err.Source + "\n"
+				+ "Script:\n" + szSQLScript 	+ "\n\n";
+			//WritetoDatabaseLog(szErrorLog,TRUE);	
+			WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+			objConnection.Close();
+			set objConnection = NOTHING;
+			return szReturnValue;   
+	endcatch;  
+	//Close the Connections after executing SQL Scripts
+	objConnection.Close();
+	set objConnection = NOTHING;
+  return szReturnValue;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetConnectionString                                         	 //
+//                                                                           //
+// Purpose:  This function gets the Connection string for the 				 //
+//			 Sirius Database for execution of Sirius DB SQL Scripts          //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetConnectionString(szDatabaseName)
+string szConnString,szDriver;
+
+begin 
+szDriver = "SQL Server";
+
+try
+	if(g_bWinLoginAuthenticate = FALSE) then
+		// Create the connection string for SQL Server Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + g_szDBServer + ";";	
+		szConnString = szConnString + "uid=" + g_szSiriusUserName + ";";    	
+		szConnString = szConnString + "pwd=" + g_szSiriusPassword + ";";  
+		szConnString = szConnString + "database=" + szDatabaseName;
+	else
+		// Create the connection string for Windows Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + g_szDBServer + ";";	
+		szConnString = szConnString + "database=" + szDatabaseName + ";";
+		szConnString = szConnString + "Trusted_Connection=Yes";
+	endif;
+catch   
+	MessageBox("Installation Problem due to incorrect Database Connection String.Do Investigate",WARNING);
+	abort;
+endcatch;
+
+return szConnString;
+end;   
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function: GetPortalConnectionString                                         	 //
+//                                                                           //
+// Purpose:  This function gets the Connection string for the 				 //
+//			 Sirius Database for execution of Sirius DB SQL Scripts          //
+///////////////////////////////////////////////////////////////////////////////
+function string GetPortalConnectionString(szDatabaseName)
+string szConnString,szDriver;
+begin 
+
+szDriver = "SQL Server";
+
+try
+	if(bPurePortalDBWinLogin = FALSE) then
+		// Create the connection string for SQL Server Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + g_PortalDBServer + ";";	
+		szConnString = szConnString + "uid=" + g_PortalUser + ";";    	
+		szConnString = szConnString + "pwd=" + g_PortalPwd + ";";  
+		szConnString = szConnString + "database=" + szDatabaseName;
+	else
+		// Create the connection string for Windows Authentication
+		szConnString = "driver={" + szDriver + "};";
+		szConnString = szConnString + "server=" + g_PortalDBServer + ";";	
+		szConnString = szConnString + "database=" + szDatabaseName + ";";
+		szConnString = szConnString + "Trusted_Connection=Yes";
+	endif;
+catch   
+	MessageBox("Installation Problem due to incorrect Database Connection String.Do Investigate",WARNING);
+	abort;
+endcatch;
+
+return szConnString;
+
+end;   
+  
+  
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  DatabaseExecute                                        		 //
+//                                                                           //
+// Purpose:   This function takes as input the SQL file or Script for        //
+//			  Execution along with the executable statements of the file     //
+//			  in a list object and executes it on Sirius DB                  //
+///////////////////////////////////////////////////////////////////////////////            
+            
+function number DatabaseExecute(listCmdText,szSQLFile)
+string szConnString,szADOObjID,szString,szADOCommObjID; 
+object objADO,objADOComm;  
+number nvRet,nvResult,nvRecords,nvErrorHandlerValue;
+string szErrorLog,szInfoLog,szTitle; 
+BOOL bCatchFlag;
+BOOL bErrorCondition;
+HWND hMSI; 
+
+begin
+  
+    bCatchFlag = FALSE;
+    //To Check if any error condition happened in the SQL file
+    bErrorCondition = FALSE;
+    // Create ADO Connection Object to connect to the SQL server	               
+	szADOObjID = "ADODB.Connection";
+	try
+		set objADO = CreateObject(szADOObjID);	
+		objADO.ConnectionTimeout = 0;
+		szConnString = GetConnectionString(g_szSiriusDBName);
+		// Open the ADO Connection 
+		objADO.Open(szConnString);
+	catch      
+		SdShowMsg("SQL File Connection Object Error",FALSE);
+		WriteToLogFile(DATABASE_ERRORLOG,"Connection Object Error While Executing "+szSQLFile+".Continuing with next script");  
+        objADO.Close();              
+		set objADO = NOTHING;                 
+		return 1;
+	endcatch;                         
+		  
+	// Execute each command
+	nvResult = ListGetFirstString(listCmdText, szString);
+	while (nvResult = 0)
+		
+		// Create the ADO Command object to execute the script                           	
+		try		
+			szADOCommObjID = "ADODB.Command";
+			set objADOComm = CreateObject(szADOCommObjID);  
+			objADOComm.CommandTimeout = 600;
+			objADOComm.ActiveConnection = objADO;  
+		catch    
+			SdShowMsg("SQL File Command Object Error",FALSE);
+			WriteToLogFile(DATABASE_ERRORLOG,"Command Object Error While Executing "+szSQLFile+".Continuing with next script");  	      
+		    objADO.Close();              
+			set objADO = NOTHING;                 
+			return 1;  
+		endcatch;
+	 
+		try    
+		 	 	// Execute the call to run the script
+		 	   	objADOComm.CommandText = szString;
+				objADOComm.Execute();
+		catch
+				nvRet = Err.Number;
+				szErrorLog = "Error:  " + Err.Description + "\n"
+					+ "Source: " + Err.Source + "\n\n";
+					
+			szErrorLog = "Error Occured in the File "+szSQLFile+" in Database Execute Method "+szErrorLog;		
+			bCatchFlag = TRUE;
+		endcatch;
+		
+		if(bCatchFlag = TRUE) then 
+			SdShowMsg("SQL File Error",FALSE);
+		    szTitle = "Database Execution Error Handler"; 
+			nvErrorHandlerValue = SprintfBox (MB_ABORTRETRYIGNORE,szTitle,szErrorLog); 
+		    if(nvErrorHandlerValue = IDRETRY) then
+		    	  ParseSQLFile(szSQLFile);
+		    elseif(nvErrorHandlerValue = IDABORT) then
+		    	  objADO.Close();              
+		    	  set objADO = NOTHING;
+		    	  WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+		    	  bErrorCondition = TRUE;
+		    	  szErrorLog = "";
+		      	  abort;
+		    else// IGNORE condition Execution
+		      	  WriteToLogFile(DATABASE_ERRORLOG,szErrorLog);
+		      	  bErrorCondition = TRUE;
+		      	  szErrorLog = "";
+		    endif;    
+		    bCatchFlag = FALSE;
+		endif;                   
+	
+		set objADOComm = NOTHING;	
+		nvResult = ListGetNextString(listCmdText,szString);		
+	endwhile; 
+ 
+	objADO.Close();              
+	set objADO = NOTHING; 
+	
+	if(bErrorCondition = FALSE) then                   
+		szInfoLog = szSQLFile + " SQL File Executed Successfully";
+		WriteToLogFile(DATABASE_LOG,szInfoLog);
+		g_nvSQLFileSuccessCount =  g_nvSQLFileSuccessCount + 1;
+	else
+		bErrorCondition = FALSE;	
+		g_nvSQLFileErrorCount = g_nvSQLFileErrorCount + 1;
+	endif;
+ 	// Be good and clean up your trash
+	ListDestroy(listCmdText);     
+	SdShowMsg("SQL File Executed",FALSE);
+	
+    return 1;
+ end;           
+            
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  WriteToLogFile                                          //
+//                                                                    //
+// Purpose:   This function takes as input the Text File name         //
+//			  and the  Log Message and writes that message to         //
+//			  the Text File                                           //
+////////////////////////////////////////////////////////////////////////
+
+function number WriteToLogFile(szFileName,szLogString)
+string  szSeperator,szLogFilePath, svResult; 
+number  nvFileHandle; 
+begin   
+szLogFilePath = WINDISK + "\\";  
+
+if (FindFile(szLogFilePath, szFileName, svResult ) < 0) then
+     CreateLogFile(szFileName);
+endif;    
+
+OpenFileMode (FILE_MODE_APPEND); 
+szSeperator = "************************************************************************************************************";
+// Create a new file and leave it open. 
+if (OpenFile(nvFileHandle,szLogFilePath,szFileName) < 0) then 
+     // Report the error. 
+       MessageBox (szFileName+ " file cannot be opened",SEVERE); 
+       abort; 
+else    
+     // Append the message to the file. 
+     if (WriteLine(nvFileHandle,szLogString) < 0) then 
+    	// Report the error. 
+	   	MessageBox ("WriteLine failed for "+szFileName,SEVERE); 
+	  endif;
+	  if(WriteLine(nvFileHandle,szSeperator) < 0) then 
+	     // Report the error. 
+	  	 MessageBox ("WriteLine failed for "+szFileName,SEVERE); 
+	  endif;  
+endif;
+// Close the file. 
+CloseFile (nvFileHandle); 
+	
+return 1;
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParseSQLFile                                        		     //
+//                                                                           //
+// Purpose:   This function takes as input the SQL File for Script execution //
+//			  and parses out the executable statements into a list object    //
+//			  and removes out comments                                       //
+///////////////////////////////////////////////////////////////////////////////
+function number ParseSQLFile(szSQLFile)
+	string  szSQL,szString;
+	number nvResult,nvRet;
+	LIST   listID;
+	string szErrorLog,szSQLFilePath;
+	int nvSrcDirLength,nvFullPathLength; 
+	HWND hMSI;    
+	number nvCommentStart;
+	number nvGoStartPosition;
+	string szTrimmedString; 
+	number nvBegin,nvEnd;  
+	
+begin     
+	szErrorLog = "";
+	nvRet = 0;
+	 // Create an empty string list.
+	listID = ListCreate(STRINGLIST);
+	g_listCmdText = ListCreate(STRINGLIST);
+	if(g_bPatchInstallation = FALSE) then
+		//Truncating the Full Disk Path to Specify the Exact Script Folder Path
+		nvSrcDirLength = StrLengthChars(SUPPORTDIR); 
+		nvFullPathLength = StrLengthChars(szSQLFile); 
+    	StrSub(szSQLFilePath,szSQLFile,nvSrcDirLength,nvFullPathLength -nvSrcDirLength);
+    	SdShowMsg("Executing SQL File: " + szSQLFilePath,TRUE);
+    else
+    	//Truncation not required in case of Patch Installation
+    	SdShowMsg("Executing SQL File: " + szSQLFile,TRUE); 
+    endif;
+	// Read the SQL script file into the list
+	if (ListReadFromFile(listID, szSQLFile) < 0) then // read list from file
+		WriteToLogFile(DATABASE_ERRORLOG,"Unable to open SQL script: " + szSQLFile);
+		return -1;
+	endif;
+	// Go through each list item and add it to a string (which will then hold the script)
+	szSQL = ""; 
+	try
+		nvResult = ListGetFirstString(listID, szString);
+	while (nvResult = 0)
+	//If Comment Tag("--") Comes at the start of the line ignore to proceed to the next line
+		if(StrFind(szString,"--")=0) then
+		     	// It is a comment, so do nothing and proceed to the next line
+		else    
+				//If Comment Tag("--") Comes after some Text extract the text before the comments tag("--")                                    
+		    	if(StrFind(szString,"--")>0) then
+			    	nvCommentStart = StrFind(szString,"--");
+			    	nvBegin = StrFind(szString,"/*"); 
+					nvEnd = StrFind(szString,"*/");
+					if(nvBegin >= 0 && nvBegin < nvCommentStart) then
+					   //Add to the SQL Statement String till a "GO" Delimiter Statement is found
+					   //It is done at the End of Else Part of IF Statement
+			    	elseif(nvEnd >= 0 && nvCommentStart < nvEnd) then
+			    		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    		//It is done at the End of Else Part of IF Statement
+			    	else
+			    		//Else remove the Text after the Comments Tags("--") and proceed forward
+			    	   	StrSub(szString,szString,0,nvCommentStart);
+			    	endif;
+			    endif;
+			    nvGoStartPosition = StrFind(szString,"GO");  
+			    if(nvGoStartPosition = 0) then 
+			    	szTrimmedString = TrimEnd(szString," ");
+			     	szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			     	szTrimmedString = TrimEnd(szTrimmedString," "); 
+			     	szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			     	if(StrLengthChars(szTrimmedString)=2) then
+			     		AddCommandTextToList(szSQL);  
+			     		szSQL = "";
+			     	endif;
+			    elseif(nvGoStartPosition > 0) then
+			        szTrimmedString = TrimStart(szString," ");
+			        szTrimmedString = TrimStart(szTrimmedString,"\t");
+			        szTrimmedString = TrimStart(szTrimmedString," ");
+			        szTrimmedString = TrimStart(szTrimmedString,"\t");
+			        if(StrFind(szTrimmedString,"GO")=0) then
+				        szTrimmedString = TrimEnd(szTrimmedString," ");
+				        szTrimmedString = TrimEnd(szTrimmedString,"\t");
+				        szTrimmedString = TrimEnd(szTrimmedString," ");
+				        szTrimmedString = TrimEnd(szTrimmedString,"\t");
+			            if(StrLengthChars(szTrimmedString)=2) then
+			            	AddCommandTextToList(szSQL);
+			            	szSQL = "";
+			       	    else
+			        		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    			szSQL = szSQL + "\r\n" + szString;    	    	
+			            endif;
+			        else
+			     		//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    		szSQL = szSQL + "\r\n" + szString;    	
+			        endif;
+			    else 	
+			    	//Add to the SQL Statement String till a "GO" Delimiter Statement is found
+			    	szSQL = szSQL + "\r\n" + szString; 
+			    endif;  
+		 endif;
+		 //Read the Next line of the SQL file from the List into the String
+		 nvResult = ListGetNextString(listID, szString);		
+		 	//End of While Statement as all the content of the SQL file is read into the List
+	endwhile;    
+    catch
+    		 MessageBox("Error Occured in the Script File"+szSQLFile,WARNING);
+	endcatch;
+	// Be good and clean up your trash
+	ListDestroy(listID); 
+	DatabaseExecute(g_listCmdText,szSQLFile);
+	return 1;
+end; 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  AddCommandTextToList                                           //
+//                                                                           //
+// Purpose:  This function would take the executable SQL text as its input   //
+//			 and parses the script to remove the multi line comments         //
+//			 existing in the script	                                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number AddCommandTextToList(szSQLText)
+BOOL bExitLoop,bBeginCommentFlag,bEndCommentFlag; 
+number nvBegin,nvEnd; 
+number nvTextLength;
+string szHead,szTail;
+begin     
+
+bExitLoop = FALSE;              
+bBeginCommentFlag = FALSE;  
+bEndCommentFlag = FALSE;
+//Looping through the SQLText for any multiline comments(/* & */)
+repeat  
+	//Get the Total length of the String
+	nvTextLength = StrLengthChars(szSQLText);
+	nvBegin = StrFind(szSQLText, "/*"); 
+	if(nvBegin >= 0) then
+	  bBeginCommentFlag = TRUE;
+	endif;          
+	
+	nvEnd = StrFind(szSQLText, "*/");
+	if(nvEnd > nvBegin) then
+	  bEndCommentFlag = TRUE;
+	endif;  
+	
+	if(bBeginCommentFlag = TRUE &&  bEndCommentFlag =TRUE) then
+		if ((nvBegin >= 0) && (nvBegin < nvEnd)) then
+			StrSub(szHead, szSQLText, 0, nvBegin);
+			StrSub(szTail, szSQLText,nvEnd+2,nvTextLength);
+			szSQLText = szHead + szTail;
+		else
+			bExitLoop = TRUE;
+		endif;
+	else				
+	      bExitLoop = TRUE; 
+	endif;
+			
+until (bExitLoop);
+// Add the commandtext to the List Variable 
+if((bBeginCommentFlag = TRUE &&  bEndCommentFlag =TRUE) ||(bBeginCommentFlag = FALSE &&  bEndCommentFlag =FALSE)) then
+	if (StrLengthChars(szSQLText) > 0) then
+		ListAddString(g_listCmdText, szSQLText, AFTER);
+	endif;
+		szSQLText = "";
+endif;  
+
+return 1;
+end;
+  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParseSPPFile                                        		 	 //
+//                                                                           //
+// Purpose:   This function takes as input the SPP File and parses the spp   //
+//			  file and sends the SQL file inside the file in sequence to     //
+//			  call the parsesql file leaving out comments.                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number ParseSPPFile(szSPPFile)
+LIST   listSPPParsed;   
+string szSQLFileName,szSppFilePath,szString;
+string szInclude; 
+string szSQLExt,szDatabaseSPP;
+BOOL bExitLoop;
+BOOL bCommentStartFlag;   
+int nvLocation,nvSPPLocation,nvResult;      
+string szSQLFile,szSPPExt;
+int nvSQLFileStartLocation,nvSQLFileEndLocation,nvSQLFileLength;
+
+begin           
+szInclude = "#include";
+szSQLExt = ".sql";  
+szSPPExt = ".spp";   
+szDatabaseSPP = DATABASESPPFILE;    
+listSPPParsed =  ListCreate(STRINGLIST);
+nvSPPLocation = StrFind(szSPPFile,"All.spp");
+StrSub(szSppFilePath,szSPPFile,0,nvSPPLocation);
+if (ListReadFromFile(listSPPParsed, szSPPFile) < 0) then // read list from file
+		WriteToLogFile(DATABASE_ERRORLOG,"Unable to open SPP script: " + szSPPFile + ".");
+		return -1;
+	endif;
+	
+// Go through each list item and add it to a string (which will then hold the script)
+szSQLFileName = "";
+nvResult = ListGetFirstString(listSPPParsed, szString);
+while (nvResult = 0) 
+		if(StrFind(szString, "--") = 0) then
+			goto  WhileLoopEndLabel;  
+		endif;
+		if((StrFind(szString,"/*") = 0) && (StrFind(szString,"*/")>0)) then
+			goto  WhileLoopEndLabel;    
+		endif;                                     
+	    if(StrFind(szString,szInclude)>= 0) then
+			nvLocation = StrFind(szString,szInclude);
+			nvSQLFileStartLocation = nvLocation + 9;
+			if(StrFind(szString,szSQLExt)>= 0) then
+				nvSQLFileEndLocation = StrFind(szString,szSQLExt);   
+				nvSQLFileLength = nvSQLFileEndLocation - nvSQLFileStartLocation;
+				StrSub(szSQLFileName,szString,nvSQLFileStartLocation,nvSQLFileLength);
+				ParseSQLFile(szSppFilePath + szSQLFileName + szSQLExt);
+			endif;
+			if(StrFind(szString,szDatabaseSPP)>= 0) then
+				ParseDatabaseSPP(szSppFilePath,g_szSiriusDBName);
+				ParseSQLFile(SETUPEXEDIR + szDatabaseSPP);
+		    endif; 
+	   endif;
+		 
+  WhileLoopEndLabel:    
+  				//While Loop End Statement
+				nvResult = ListGetNextString(listSPPParsed, szString);		
+endwhile;
+	
+// Be good and clean up your trash
+ListDestroy(listSPPParsed);
+return 1;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParseDatabaseSPP                                        		 //
+//                                                                           //
+// Purpose:   This function takes as input the Database.spp file and parses  //
+//			  the file to execute database level commands executed before    //
+//			  SQL scripts execution                                          //
+///////////////////////////////////////////////////////////////////////////////
+
+function number ParseDatabaseSPP(szSPPFilePath,szSiriusDBName)
+	number nvResult;
+	string szBeforePattern,szAfterPattern,szReturnLine,szMatchPattern;
+	string szModifiedLine,szDatabaseSPP,szDatabaseSPPCopy;
+	number nvPatternStartLocation,nvLineNumber;
+begin 
+	szDatabaseSPP = szSPPFilePath + DATABASESPPFILE;    
+	szDatabaseSPPCopy = SETUPEXEDIR + DATABASESPPFILE;
+	szMatchPattern ="$(DatabaseName)";
+    //Take a copy of the database.spp file to replace match pattern for Sirius Database Name
+    //CreateCopyofDatabaseSPPFile();
+    XCopyFile(szDatabaseSPP,SETUPEXEDIR,COMP_NORMAL); 
+    
+	nvResult = FileGrep(szDatabaseSPPCopy, szMatchPattern,szReturnLine,nvLineNumber,RESTART); 
+	while (nvResult =0) 
+		nvPatternStartLocation = StrFind(szReturnLine, szMatchPattern);
+		if (nvPatternStartLocation >= 0) then    
+		     StrSub(szBeforePattern,szReturnLine,0,nvPatternStartLocation);
+		     StrSub(szAfterPattern,szReturnLine,nvPatternStartLocation+15,65535);
+		     szModifiedLine = szBeforePattern + szSiriusDBName + szAfterPattern;
+		     FileInsertLine (szDatabaseSPPCopy, szModifiedLine, nvLineNumber, REPLACE);
+		     if(nvResult < 0) then
+			 //File Insert Line of the Database.spp Failed
+			 endif;
+		 endif;
+	  nvResult = FileGrep(szDatabaseSPPCopy, szMatchPattern,szReturnLine,nvLineNumber,CONTINUE); 
+	endwhile;    
+	
+	return 1;
+end;    
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateCopyofDatabaseSPPFile                                    //
+//                                                                           //
+// Purpose:   This function creates a copy of the Database.spp file as   	 //
+//			  SQL scripts execution is done in this file instead of          //
+//			  the original file		                                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number CreateCopyofDatabaseSPPFile()
+number nvResult,nvFileHandle;
+string szCopyDatabaseSPP;
+begin      
+
+szCopyDatabaseSPP = "Copy_" + DATABASESPPFILE;    
+OpenFileMode(FILE_MODE_APPEND); 
+nvResult = CreateFile(nvFileHandle,SETUPEXEDIR,szCopyDatabaseSPP); 
+if(nvResult < 0) then  
+	WriteToLogFile(DATABASE_ERRORLOG,"Copy File for "+ DATABASESPPFILE +" Cannot be Created.Check for any errors during New Database Creation");
+else                              
+	WriteToLogFile(DATABASE_LOG,"Copy File for "+ DATABASESPPFILE +" Created Successfully");
+endif;
+
+return 1;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ExecuteFilesinFolders                                        	 //
+//                                                                           //
+// Purpose:   This function takes as input the Folder Name and executes all  //
+//			  the SQL files in the folder randomly or if an All.spp file	 //
+//			  is present,then executes the SQL scripts in the order given    //                              
+//			  by All.spp file												 //
+///////////////////////////////////////////////////////////////////////////////
+
+function number ExecuteFilesinFolders(szFolderName)
+int nvResult,nvSQLFileResult;   
+string szSPPFileName,szSPPFileIdentifier,szSQLFileIdentifier,szSQLFileName;
+begin
+szSPPFileIdentifier = "All.spp";   
+szSQLFileIdentifier = "*.sql";
+nvResult = FindFile(szFolderName,szSPPFileIdentifier,szSPPFileName); 
+if(nvResult = 0) then
+     ParseSPPFile(szFolderName +"\\" + szSPPFileName); 
+else
+	 nvSQLFileResult = FindAllFiles(szFolderName,szSQLFileIdentifier,szSQLFileName,CONTINUE);  
+	 if(nvSQLFileResult >=0) then
+	 	while(nvSQLFileResult = 0)  
+	 		ParseSQLFile(szSQLFileName); 
+	 		nvSQLFileResult = FindAllFiles(szFolderName,szSQLFileIdentifier,szSQLFileName,CONTINUE);  
+	 	endwhile;
+	 endif;
+	 if(nvSQLFileResult < 0) then
+	 	//Write to Error Log that no .sql file is found in the Directory
+	 endif;
+ 	//Write to the Error Log as the All.SPP file is not found in this Dir
+endif;
+	
+    
+return 1;    
+end;           
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ParseUpgradeFolders                                        	 //
+//                                                                           //
+// Purpose:   This function takes as input the Upgrade Folder Names List and //
+//			  executes the folders that are greater than the installed 		 //
+//			  version of the folder given by the PMLogicalDatabase table	 //                              
+///////////////////////////////////////////////////////////////////////////////
+
+function number ParseUpgradeFolders(listUpgradeFolderNames,szInstalledFolderVersion,nvFolderCounter)
+int nvResult,nvFolderCompareResult,nvFolderPathLength,nvSRCDIRLength;   
+string szTobeInstalledFolderVersion;
+string szTobeInstalledFolderPath; 
+string szPartialTobeInstalledFolderPath; 
+string szLogMessage;  
+string szNumberValue;
+begin   
+g_nvSQLFileSuccessCount = 0;
+g_nvSQLFileErrorCount = 0;
+nvResult = ListGetFirstString(listUpgradeFolderNames,szTobeInstalledFolderPath); 
+while (nvResult = 0) 
+szTobeInstalledFolderVersion = GetLastFolderNameFromFullPath(szTobeInstalledFolderPath);  
+nvFolderCompareResult = StrCompare(szInstalledFolderVersion,szTobeInstalledFolderVersion);
+if(nvFolderCompareResult >= 0) then
+	goto NextFolder;
+elseif(nvFolderCompareResult < 0) then
+	if(g_bPatchInstallation =FALSE) then
+		//Truncating the Exact Scripts Folder Name from the Full Disk Path
+		nvFolderPathLength = StrLengthChars(szTobeInstalledFolderPath);
+		nvSRCDIRLength = StrLengthChars(SETUPEXEDIR);
+		StrSub(szPartialTobeInstalledFolderPath,szTobeInstalledFolderPath,nvSRCDIRLength,nvFolderPathLength-nvSRCDIRLength);
+		StrSub(szPartialTobeInstalledFolderPath,szPartialTobeInstalledFolderPath,0,StrLengthChars(szPartialTobeInstalledFolderPath)-1);
+	endif;
+	ExecuteFilesinFolders(szTobeInstalledFolderPath);
+	NumToStr(szNumberValue,g_nvSQLFileSuccessCount);
+	if(g_bPatchInstallation = TRUE) then
+		szLogMessage = "Number of Successfully Executed SQL files in \""+szTobeInstalledFolderPath+"\" Folder = "+szNumberValue; 
+	else
+		szLogMessage = "Number of Successfully Executed SQL files in \""+szPartialTobeInstalledFolderPath+"\" Folder = "+szNumberValue; 
+	endif;
+	WriteToLogFile(INSTALL_LOG,szLogMessage);       
+	NumToStr(szNumberValue,g_nvSQLFileErrorCount);
+	if(g_bPatchInstallation = TRUE) then
+		szLogMessage = "Number of SQL files Executed with errors in \""+szTobeInstalledFolderPath+ "\" Folder = "+ szNumberValue;
+	else
+		szLogMessage = "Number of SQL files Executed with errors in \""+szPartialTobeInstalledFolderPath+ "\" Folder = "+ szNumberValue;
+	endif;
+	WriteToLogFile(INSTALL_LOG,szLogMessage);      
+	g_nvSQLFileSuccessTotalCount =  g_nvSQLFileSuccessTotalCount + g_nvSQLFileSuccessCount;
+	g_nvSQLFileErrorTotalCount =  g_nvSQLFileErrorTotalCount + g_nvSQLFileErrorCount;
+	g_nvSQLFileSuccessCount = 0;
+	g_nvSQLFileErrorCount =0;
+endif;
+NextFolder:
+nvResult = ListGetNextString(listUpgradeFolderNames,szTobeInstalledFolderPath);		
+endwhile;    
+
+//Getting the Last Installer Folder Version Name for the To be Installer DB Script Folder Variables
+switch(nvFolderCounter)
+case 0:
+        g_szFolder1_TobeInstalledVersion = szTobeInstalledFolderVersion;
+case 1:
+		g_szFolder2_TobeInstalledVersion = szTobeInstalledFolderVersion;
+case 2:
+        g_szFolder3_TobeInstalledVersion = szTobeInstalledFolderVersion;
+case 3:
+		g_szFolder4_TobeInstalledVersion = szTobeInstalledFolderVersion;
+endswitch;
+
+return 1;    
+end;      
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  GetLastFolderNameFromFullPath                                	 //
+//                                                                           //
+// Purpose:   This function takes as input the Full Folder Path				 //
+//			  and returns the Folder Name as Return Value					 //
+///////////////////////////////////////////////////////////////////////////////
+
+function string GetLastFolderNameFromFullPath(szFolderPath)
+string szFolderName;
+number nvResult,nvFolderPathLength,nvFolderNameLength;
+begin               
+nvFolderPathLength = StrLengthChars(szFolderPath); 
+nvFolderNameLength = nvFolderPathLength - (g_nvUpgradeFolderLength + 1);
+
+StrSub(szFolderName,szFolderPath,g_nvUpgradeFolderLength + 1,nvFolderNameLength);
+
+StrSub(szFolderName,szFolderName,0,StrLengthChars(szFolderName)-1);
+
+return szFolderName;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  HandleAbortInstallation                                        //
+//                                                                           //
+//  Purpose:  This function is used for handling of abort installations      //
+//			  done by using the Abort Keyword  for Fresh,Upgrade             //
+//			  and Product Upgrade/Fresh Installation                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number HandleAbortInstallation()
+string szTitle,szQuestion,szMsg;
+number nvAskButtonRetValue,nvDefault,nvExeResult;
+begin
+  if(g_bFreshInstaller = TRUE && g_bSiriusDBCreatedFlag = TRUE) then 
+   		szQuestion = "Are you sure want to delete the newly created Pure Back Office Database";
+		nvDefault = NO;
+		nvAskButtonRetValue = AskYesNo(szQuestion,nvDefault); 
+		if(nvAskButtonRetValue = YES) then
+			nvExeResult = DeleteCurrentSiriusDatabase();
+		 	if(nvExeResult = 1) then
+				WriteToLogFile(INSTALL_LOG,"Pure Database Deletion done successfully for the aborted installation");
+			else
+				WriteToLogFile(INSTALL_ERRORLOG,"Pure Database Deletion Failed Manually");
+			endif;           
+			//Delete the Sirius System DSN's Created to access this database                           
+			RemoveODBCDSNs();
+			//Drop the Sirius Login Created in the DB Server Master Database
+			DropSiriusLogin();
+		endif; 
+  endif;
+return 1;
+end;
+        
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  DeleteCurrentSiriusDatabase                                    //
+//                                                                           //
+// Purpose:   This function is used for deleting the  existing Sirius        //
+//			  database                                                       //
+///////////////////////////////////////////////////////////////////////////////
+
+function number DeleteCurrentSiriusDatabase()
+string szDeleteSiriusDBScript;
+number nvReturnValue;
+begin 
+	SdShowMsg("Deleting Database " + g_szSiriusDBName,TRUE);
+	szDeleteSiriusDBScript = "drop database " + g_szSiriusDBName;
+	nvReturnValue = ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szDeleteSiriusDBScript);
+	if(nvReturnValue = -1) then 
+	   	MessageBox("Deleting Database "+g_szSiriusDBName+" Failed",SEVERE);
+	   	SdShowMsg("Database " + g_szSiriusDBName + " Deleted" ,FALSE);
+		WriteToLogFile(DATABASE_ERRORLOG,"Database " + g_szSiriusDBName + " Deletion Failed");
+		return -1;
+	else
+		SdShowMsg("Database " + g_szSiriusDBName + " Deleted" ,FALSE);
+		WriteToLogFile(DATABASE_LOG,"Database " + g_szSiriusDBName + " Deletion Completed");
+		return 1;
+	endif;
+end;   
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateSiriusDatabaseFromBackup                                 //
+//                                                                           //
+// Purpose:   This function is used to create or restore the Sirius Database //
+//            from the backup for the suitable product version for           //
+//			  fresh installation                                             //
+///////////////////////////////////////////////////////////////////////////////           
+           
+function number CreateSiriusDatabaseFromBackup()
+number nvResult;
+string szRestoreDBScript;    
+string szSiriusDBBackUpFilePath;    
+string szSiriusDBFileName;
+string szSiriusLogFileName;
+STRING szRestoreDBFileName,szBackupPath;
+STRING szProgram,szCommand;
+
+begin        
+
+try     
+	szSiriusDBFileName = g_szSiriusDBName + "_Data.mdf" ;
+	szSiriusLogFileName = g_szSiriusDBName + "_Log.ldf" ;
+	
+	if(g_bRemoteDBServer = FALSE) then
+		if(g_blankDB=TRUE)then
+				szSiriusDBBackUpFilePath = SRCDIR ^ "Scripts\\Pure.bak";
+				szRestoreDBScript = "restore database "+ g_szSiriusDBName +" from disk = '"+ szSiriusDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'Pure_Data' to '"+g_szMDFDirPath+"\\"+szSiriusDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'Pure_log' to '"+g_szLDFDirPath+"\\"+szSiriusLogFileName+"'";
+	
+		endif;
+		
+		if(g_brestoreDB=TRUE)then
+				szSiriusDBBackUpFilePath = g_szRestoreDBFileName;
+				
+				GetLogicalNameFromBackup();
+				
+				szRestoreDBScript = "restore database "+ g_szSiriusDBName +" from disk = '"+ szSiriusDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move '" + gLogiaclDataFileName + "' to '"+g_szMDFDirPath+"\\"+szSiriusDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move '" + gLogiaclLogFileName + "' to '"+g_szLDFDirPath+"\\"+szSiriusLogFileName+"'";
+				
+		endif;
+		
+	else  
+		
+		if(g_blankDB=TRUE)then
+				
+				szSiriusDBBackUpFilePath = gSharedPath ^ "Pure.bak";
+				
+				WriteToLogFile(DATABASE_LOG,"Shared Path=" + gSharedPath);
+				
+				WriteToLogFile(DATABASE_LOG,"Backup Path=" + szSiriusDBBackUpFilePath);
+				
+				szRestoreDBScript = "restore database "+ g_szSiriusDBName +" from disk = '"+ szSiriusDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'Pure_Data' to '"+g_szMDFDirPath+"\\"+szSiriusDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'Pure_log' to '"+g_szLDFDirPath+"\\"+szSiriusLogFileName+"'";
+				
+				WriteToLogFile(DATABASE_LOG,szRestoreDBScript);
+	
+		endif;
+		
+		if(g_brestoreDB=TRUE)then
+				
+				szSiriusDBBackUpFilePath = g_szRestoreDBFileName;
+								
+				ParsePath ( szRestoreDBFileName, szSiriusDBBackUpFilePath, FILENAME );
+							
+				
+				szSiriusDBBackUpFilePath = gSharedPath ^ szRestoreDBFileName;
+				
+				//get the logical file name assign the remote server path
+				g_szRestoreDBFileName=szSiriusDBBackUpFilePath;
+				
+				GetLogicalNameFromBackup();
+				
+				szRestoreDBScript = "restore database "+ g_szSiriusDBName +" from disk = '"+ szSiriusDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move '" + gLogiaclDataFileName + "' to '"+g_szMDFDirPath+"\\"+szSiriusDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move '" + gLogiaclLogFileName + "' to '"+g_szLDFDirPath+"\\"+szSiriusLogFileName+"'";
+				
+				WriteToLogFile(DATABASE_LOG,szRestoreDBScript);
+				
+		endif;
+		
+	endif;
+catch
+	MessageBox("There was a problem with the Pure Database Creation from the Pure DBBackup. Please investigate.",WARNING);        
+ 	abort;       
+endcatch;
+	SdShowMsg(g_szSiriusDBName + " Database Creation is in progress",TRUE);
+	nvResult = ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szRestoreDBScript);
+	if(nvResult = 1) then
+		SdShowMsg(g_szSiriusDBName + " Database Creation done",FALSE);
+		WriteToLogFile(DATABASE_LOG,"Database " + g_szSiriusDBName + " Creation Completed");
+	else  
+		SdShowMsg("Problem with "+ g_szSiriusDBName + " Database Creation",FALSE);
+		MessageBox("Database Creation operation Failed. Check for any Issues in the Database Error Log.",SEVERE);
+		abort;
+	endif;
+  
+return 1;
+end;  
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateSiriusLogin                                         	 //
+//                                                                           //
+// Purpose:   This function creates the Sirius Login/Password for fresh      //
+//			  Installationfor execution of Sirius DB SQL Scripts on          //
+//			  Sirius Database                                                //
+///////////////////////////////////////////////////////////////////////////////  
+
+function number CreateSiriusLogin()
+string szCreateLoginScript,szUserAddtoAdminRoleScript,szDropLoginScript;
+string szExistsSiriusLoginScript;
+begin    
+szDropLoginScript = "execute sp_droplogin '" + SIRIUSUSER + "'";;
+ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szDropLoginScript);                                                              
+szCreateLoginScript = "CREATE LOGIN " + SIRIUSUSER + " WITH PASSWORD='" + SIRIUSPASSWORD + "',CHECK_POLICY=OFF";
+WriteToLogFile(INSTALL_LOG, "CREATING Sirius login using SQL: "+ szCreateLoginScript); 
+ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szCreateLoginScript);
+szUserAddtoAdminRoleScript = "execute sp_addsrvrolemember '" + SIRIUSUSER + "','sysadmin'"; 
+ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szUserAddtoAdminRoleScript);
+return 1;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  TrimStart                                        				 //
+//                                                                           //
+// Purpose:   This function is used to trim the start of any string text for //
+//			  blank spaces(white spaces) and tab spaces and returns the      //
+//			  trimmed string                                                 //
+///////////////////////////////////////////////////////////////////////////////  
+
+function string TrimStart(szString,szTrim)
+string szReturn;
+begin   
+szReturn = szString; 
+while(StrFind(szReturn,szTrim) = 0)
+StrSub(szReturn, szReturn, StrLength(szTrim), StrLength(szReturn));
+endwhile;  
+
+return szReturn;
+end;   
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  TrimEnd                                         				 //
+//                                                                           //
+// Purpose:   This function is used to trim the end of any string text for   //
+//			  blank spaces(white spaces) and tab spaces and returns the      //
+//			  trimmed string                                                 //
+///////////////////////////////////////////////////////////////////////////////  
+
+function string TrimEnd(szString,szTrim)
+string szReturn;
+number ivStartIndex; 
+number ivTrimLength; 
+number ivStringLength;
+begin 
+szReturn = szString; 
+ivTrimLength = StrLength(szTrim);
+ivStringLength = StrLength(szReturn);
+ivStartIndex = ivStringLength - ivTrimLength; 
+
+while(StrFindEx(szReturn,szTrim, ivStartIndex) > 0)
+StrReplace(szReturn, szTrim,"",ivStartIndex);
+ivStartIndex = StrLength(szReturn) - ivTrimLength;
+endwhile;  
+
+return szReturn;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  DropSiriusLogins                                         	 //
+//                                                                           //
+// Purpose:   This function deletes the Sirius Login/Password for any abort  //
+//			  condition of Fresh Installation							     //
+//			  	                                                             //
+///////////////////////////////////////////////////////////////////////////////  
+
+function number DropSiriusLogin()
+string szDropLoginScript;
+begin    
+szDropLoginScript = "execute sp_droplogin '" + SIRIUSUSER + "'";;
+ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szDropLoginScript);                                                              
+return 1;
+end;
+
+//////////////////////////////////////////////////////////////////////////////////
+// Function:  GetLogicalNameFromBackup                                          //
+// Purpose:   Get the logical data filename log file name from 
+//            database backup file
+//                                                                              //
+///////////////////////////////////////////////////////////////////////////////////
+function GetLogicalNameFromBackup()
+STRING szSiriusDBBackUpFilePath,szRestoreDBScript;
+begin
+		szRestoreDBScript= "SET NOCOUNT ON " +
+							"DECLARE @Table TABLE ( " +
+							"LogicalName varchar(128)," +
+							"[PhysicalName] varchar(128)," +
+							"[Type] varchar," +
+							"[FileGroupName] varchar(128)," +
+							"[Size] varchar(128)," +
+							"[MaxSize] varchar(128)," +
+							"[FileId]varchar(128)," +
+							"[CreateLSN]varchar(128)," +
+							"[DropLSN]varchar(128)," +
+							"[UniqueId]varchar(128)," +
+							"[ReadOnlyLSN]varchar(128)," +
+							"[ReadWriteLSN]varchar(128)," +
+							"[BackupSizeInBytes]varchar(128)," +
+							"[SourceBlockSize]varchar(128),"+
+							"[FileGroupId]varchar(128),"+
+							"[LogGroupGUID]varchar(128),"+
+							"[DifferentialBaseLSN]varchar(128),"+
+							"[DifferentialBaseGUID]varchar(128),"+
+							"[IsReadOnly]varchar(128),"+
+							"[IsPresent]varchar(128)," +
+							"[TDEThumbprint]varchar(128)," +
+							"[SnapshotURL]varchar(360) )";
+							
+		szRestoreDBScript = szRestoreDBScript + " DECLARE @Path varchar(1000)='" + g_szRestoreDBFileName + "'";
+		szRestoreDBScript = szRestoreDBScript + " DECLARE @LogicalNameData varchar(128),@LogicalNameLog varchar(128)";
+		szRestoreDBScript = szRestoreDBScript + " INSERT INTO @table EXEC(' RESTORE FILELISTONLY FROM DISK=''' +@Path+ ''' ') ";
+		szRestoreDBScript = szRestoreDBScript + " SET @LogicalNameData=(SELECT LogicalName FROM @Table WHERE Type='D')";
+		szRestoreDBScript = szRestoreDBScript + " SET @LogicalNameLog=(SELECT LogicalName FROM @Table WHERE Type='L')";
+		szRestoreDBScript = szRestoreDBScript + " SELECT @LogicalNameData as DBLogicalName";
+		
+		gLogiaclDataFileName = ADODBConnectExecuteAndReturn(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szRestoreDBScript,"DBLogicalName");
+		WriteToLogFile(DATABASE_LOG,"DBLogicalName=" + gLogiaclDataFileName);		
+		
+		szRestoreDBScript= "SET NOCOUNT ON " +
+							"DECLARE @Table TABLE ( " +
+							"LogicalName varchar(128)," +
+							"[PhysicalName] varchar(128)," +
+							"[Type] varchar," +
+							"[FileGroupName] varchar(128)," +
+							"[Size] varchar(128)," +
+							"[MaxSize] varchar(128)," +
+							"[FileId]varchar(128)," +
+							"[CreateLSN]varchar(128)," +
+							"[DropLSN]varchar(128)," +
+							"[UniqueId]varchar(128)," +
+							"[ReadOnlyLSN]varchar(128)," +
+							"[ReadWriteLSN]varchar(128)," +
+							"[BackupSizeInBytes]varchar(128)," +
+							"[SourceBlockSize]varchar(128),"+
+							"[FileGroupId]varchar(128),"+
+							"[LogGroupGUID]varchar(128),"+
+							"[DifferentialBaseLSN]varchar(128),"+
+							"[DifferentialBaseGUID]varchar(128),"+
+							"[IsReadOnly]varchar(128),"+
+							"[IsPresent]varchar(128)," +
+							"[TDEThumbprint]varchar(128)," +
+							"[SnapshotURL]varchar(360) )";
+							
+		szRestoreDBScript = szRestoreDBScript + " DECLARE @Path varchar(1000)='" + g_szRestoreDBFileName + "'";
+		szRestoreDBScript = szRestoreDBScript + " DECLARE @LogicalNameData varchar(128),@LogicalNameLog varchar(128)";
+		
+		
+		szRestoreDBScript = szRestoreDBScript + " INSERT INTO @table EXEC(' RESTORE FILELISTONLY FROM DISK=''' +@Path+ ''' ') ";
+		szRestoreDBScript = szRestoreDBScript + " SET @LogicalNameData=(SELECT LogicalName FROM @Table WHERE Type='D')";
+		szRestoreDBScript = szRestoreDBScript + " SET @LogicalNameLog=(SELECT LogicalName FROM @Table WHERE Type='L')";
+		szRestoreDBScript = szRestoreDBScript + " SELECT @LogicalNameLog as DBLogicalLogName";
+		
+		gLogiaclLogFileName = ADODBConnectExecuteAndReturn(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szRestoreDBScript,"DBLogicalLogName");
+		WriteToLogFile(DATABASE_LOG,"DBLogicalLogName=" + gLogiaclLogFileName);	
+		
+		return 0;	
+		
+
+end;
+
+//////////////////////////////////////////////////////////////////////////////////
+// Function:  CopyDatabasebackupToRemoteServer                                  //
+// Purpose:   This function copy the database backup file from local server to  //
+//            Remote server shared location provided by the user                //  
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+
+function CopyDatabasebackupToRemoteServer()
+STRING szRestoreDBFileName;
+STRING szProgram,szCommand;
+STRING szBackupPath,szSiriusDBBackUpFilePath;
+begin
+
+
+		if(g_blankDB=TRUE)then
+				
+				szSiriusDBBackUpFilePath = SRCDIR ^ "Scripts\\Pure.bak";
+				
+				szProgram=WINSYSDIR ^ "Robocopy.exe";
+				
+				szCommand= SRCDIR ^ "Scripts";
+				WriteToLogFile(INSTALL_LOG,"Command=" + szCommand);
+				LongPathToQuote(szCommand,TRUE);
+				
+				LongPathToQuote(gSharedPath,TRUE);
+				
+				szCommand= szCommand + " " + gSharedPath + " " + "Pure.bak";
+				
+				WriteToLogFile(INSTALL_LOG,"Robobopy Command=" + szCommand);
+				
+				LaunchAppAndWait(szProgram,szCommand,WAIT);
+				
+				LongPathToQuote(gSharedPath,FALSE);
+		endif;
+		
+		if(g_brestoreDB=TRUE)then
+				
+				szSiriusDBBackUpFilePath = g_szRestoreDBFileName;
+				
+				ParsePath ( szBackupPath, szSiriusDBBackUpFilePath, PATH );
+				StrRemoveLastSlash ( szBackupPath );
+				
+				ParsePath ( szRestoreDBFileName, szSiriusDBBackUpFilePath, FILENAME );
+			
+				szProgram=WINSYSDIR ^ "Robocopy.exe";
+				
+				szCommand= szBackupPath;
+				LongPathToQuote(szCommand,TRUE);
+				
+				WriteToLogFile(INSTALL_LOG,"Command=" + szCommand);
+				LongPathToQuote(gSharedPath,TRUE);
+				
+				szCommand= szCommand + " " + gSharedPath + " " + szRestoreDBFileName;
+				
+				WriteToLogFile(INSTALL_LOG,"Robobopy Command=" + szCommand);
+				
+				LaunchAppAndWait(szProgram,szCommand,WAIT);
+				
+				LongPathToQuote(gSharedPath,FALSE);
+		endif;
+		
+	return 0;
+		
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreatePortalDatabaseFromBackup                                 //
+//                                                                           //
+// Purpose:   This function is used to create or restore the Portal Database //
+//            from the backup for the suitable product version for           //
+//			  fresh installation                                             //
+///////////////////////////////////////////////////////////////////////////////           
+function number CreatePortalDatabaseFromBackup()
+number nvResult;
+string szRestoreDBScript;    
+string szPortalDBBackUpFilePath;    
+string szPortalDBFileName;
+string szPortalLogFileName;
+STRING szRestoreDBFileName,szBackupPath;
+STRING szProgram,szCommand;
+begin        
+try     
+	szPortalDBFileName = g_PortaDB + "_Data.mdf" ;
+	szPortalLogFileName = g_PortaDB + "_Log.ldf" ;
+	if(g_bPortalRemoteDBServer = FALSE) then
+				szPortalDBBackUpFilePath = SRCDIR ^ "Portal\\PurePortal.bak";
+				szRestoreDBScript = "restore database "+ g_PortaDB +" from disk = '"+ szPortalDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'CMS' to '"+g_PortalMDFDirPath+"\\"+szPortalDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'CMS_log' to '"+g_PortalDFDirPath+"\\"+szPortalLogFileName+"'";
+				WriteToLogFile(DATABASE_LOG,"Pure Portal database restore=" + szRestoreDBScript);
+	else
+				szPortalDBBackUpFilePath = gPortalSharedPath ^ "PurePortal.bak";
+				WriteToLogFile(DATABASE_LOG,"Shared Path=" + gPortalSharedPath);
+				WriteToLogFile(DATABASE_LOG,"Backup Path=" + szPortalDBBackUpFilePath);
+				szRestoreDBScript = "restore database "+ g_PortaDB +" from disk = '"+ szPortalDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'CMS' to '"+g_PortalMDFDirPath+"\\"+szPortalDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'CMS_log' to '"+g_PortalDFDirPath+"\\"+szPortalLogFileName+"'";
+				WriteToLogFile(DATABASE_LOG,"Pure Portal database restore=" + szRestoreDBScript);
+	endif;
+catch
+	MessageBox("There was a problem with the Pure Portal Database Creation from the Pure Portal DBBackup. Please investigate.",WARNING);        
+ 	abort;       
+endcatch;
+	SdShowMsg(g_PortaDB + " Database Creation is in progress",TRUE);
+	nvResult = ADODBConnectAndExecutePortal(g_PortalDBServer,"master",g_PortalUser,g_PortalPwd,szRestoreDBScript);
+	if(nvResult = 1) then
+		SdShowMsg(g_PortaDB + " Database Creation done",FALSE);
+		WriteToLogFile(DATABASE_LOG,"Database " + g_PortaDB + " Creation Completed");
+	else  
+		SdShowMsg("Problem with "+ g_PortaDB + " Database Creation",FALSE);
+		MessageBox("Database Creation operation Failed. Check for any Issues in the Database Error Log.",SEVERE);
+		abort;
+	endif;
+return 1;
+end;  
+//////////////////////////////////////////////////////////////////////////////////
+// Function:  CopyDatabasebackupToRemoteServer                                  //
+// Purpose:   This function copy the database backup file from local server to  //
+//            Remote server shared location provided by the user                //  
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+function CopyPortalDatabasebackupToRemoteServer()
+STRING szProgram,szCommand;
+STRING szPortalDBBackUpFilePath;
+begin
+			szPortalDBBackUpFilePath = SRCDIR ^ "Portal\\PurePortal.bak";
+			szProgram=WINSYSDIR ^ "Robocopy.exe";
+			szCommand= SRCDIR ^ "Portal";
+			WriteToLogFile(INSTALL_LOG,"Command=" + szCommand);
+			LongPathToQuote(szCommand,TRUE);
+			LongPathToQuote(gPortalSharedPath,TRUE);
+			szCommand= szCommand + " " + gPortalSharedPath + " " + "PurePortal.bak";
+			WriteToLogFile(INSTALL_LOG,"Robobopy Command=" + szCommand);
+			LaunchAppAndWait(szProgram,szCommand,WAIT);
+			LongPathToQuote(gPortalSharedPath,FALSE);
+	return 0;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateDashBoardDatabaseFromBackup                                 //
+//                                                                           //
+// Purpose:   This function is used to create or restore the Portal Database //
+//            from the backup for the suitable product version for           //
+//			  fresh installation                                             //
+///////////////////////////////////////////////////////////////////////////////           
+function number CreateDashBoardDatabaseFromBackup()
+number nvResult;
+string szRestoreDBScript;    
+string szDashBoardDBBackUpFilePath;    
+string szDashBoardDBFileName;
+string szDashBoardLogFileName;
+STRING szRestoreDBFileName,szBackupPath;
+STRING szProgram,szCommand;
+begin        
+try     
+	
+	szDashBoardDBFileName = g_DashBoardDB + "_Data.mdf" ;
+	szDashBoardLogFileName = g_DashBoardDB + "_Log.ldf" ;
+	if(g_bRemoteDBServer = FALSE) then
+				szDashBoardDBBackUpFilePath = SRCDIR ^ "Dashboard\\PureMonitorDB.bak";
+				szRestoreDBScript = "restore database "+ g_DashBoardDB +" from disk = '"+ szDashBoardDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SiriusMonitorDB' to '"+g_DashBoardMDFDirPath+"\\"+szDashBoardDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SiriusMonitorDB_log' to '"+g_DashBoardLDFDirPath+"\\"+szDashBoardLogFileName+"'";
+				WriteToLogFile(DATABASE_LOG,"DashBoard database restore=" + szRestoreDBScript);
+	else
+				szDashBoardDBBackUpFilePath = gDashBoardSharedPath ^ "PureMonitorDB.bak";
+				WriteToLogFile(DATABASE_LOG,"DashBoard Shared Path=" + gDashBoardSharedPath);
+				WriteToLogFile(DATABASE_LOG,"DashBoard Backup Path=" + szDashBoardDBBackUpFilePath);
+				szRestoreDBScript = "restore database "+ g_DashBoardDB +" from disk = '"+ szDashBoardDBBackUpFilePath +"' with ";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SiriusMonitorDB' to '"+g_DashBoardMDFDirPath+"\\"+szDashBoardDBFileName+"',";
+				szRestoreDBScript =  szRestoreDBScript + "move 'SiriusMonitorDB_log' to '"+g_DashBoardLDFDirPath+"\\"+szDashBoardLogFileName+"'";
+				WriteToLogFile(DATABASE_LOG,"DashBoard database restore=" + szRestoreDBScript);
+	endif;
+catch
+	MessageBox("There was a problem with the Pure DashBoard Database Creation from the Pure DashBoard DBBackup. Please investigate.",WARNING);        
+ 	//abort;       
+endcatch;
+	SdShowMsg(g_DashBoardDB + " Database Creation is in progress",TRUE);
+	nvResult = ADODBConnectAndExecute(g_szDBServer,"master",g_szMasterUser,g_szMasterPassword,szRestoreDBScript);
+	if(nvResult = 1) then
+		SdShowMsg(g_DashBoardDB + " Database Creation done",FALSE);
+		WriteToLogFile(DATABASE_LOG,"Database " + g_DashBoardDB + " Creation Completed");
+	else  
+		SdShowMsg("Problem with "+ g_DashBoardDB + " Database Creation",FALSE);
+		MessageBox("Database Creation operation Failed. Check for any Issues in the Database Error Log.",SEVERE);
+		//abort;
+	endif;
+return 1;
+end;  
+
+//////////////////////////////////////////////////////////////////////////////////
+// Function:  CopyDatabasebackupToRemoteServer                                  //
+// Purpose:   This function copy the database backup file from local server to  //
+//            Remote server shared location provided by the user                //  
+//                                                                              //
+//////////////////////////////////////////////////////////////////////////////////
+function CopyDashBoardDatabasebackupToRemoteServer()
+STRING szProgram,szCommand;
+STRING szDashBoardDBBackUpFilePath;
+begin
+			
+			szDashBoardDBBackUpFilePath = SRCDIR ^ "Dashboard\\PureMonitorDB.bak";
+			szProgram=WINSYSDIR ^ "Robocopy.exe";
+			szCommand= SRCDIR ^ "Dashboard";
+			WriteToLogFile(INSTALL_LOG,"Command=" + szCommand);
+			LongPathToQuote(szCommand,TRUE);
+			LongPathToQuote(gDashBoardSharedPath,TRUE);
+			szCommand= szCommand + " " + gDashBoardSharedPath + " " + "PureMonitorDB.bak";
+			WriteToLogFile(INSTALL_LOG,"Robobopy Command=" + szCommand);
+			LaunchAppAndWait(szProgram,szCommand,WAIT);
+			LongPathToQuote(gDashBoardSharedPath,FALSE);
+	return 0;
+end;
+
+
+
+/***********************DatabaseFunctions.rul File Coding Ends*********************************************/        
+
+
+
+

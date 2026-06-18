@@ -1,0 +1,1717 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Product</h1>
+<p>Product, e.g. Private Hire, Nursing Homes, Charity etc.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="product_id">product_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">product</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td>The product code.</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="scheme_agency_ref">scheme_agency_ref</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">scheme agency ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="block_no">block_no</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">block no</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_tax_suppressed">is_tax_suppressed</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is tax suppressed</span></td>
+</tr>
+<tr>
+<td><a class="name" name="quote_auto_numbering_id">quote_auto_numbering_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>If we auto number on quotation, this holds the id of the numbering scheme.</td>
+</tr>
+<tr>
+<td><a class="name" name="is_short_period_rated">is_short_period_rated</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Do we use short period rates for MTAs or cancellations?  Not that it's implemented yet.</td>
+</tr>
+<tr>
+<td><a class="name" name="is_midnight_renewal">is_midnight_renewal</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this product renewed at midnight (cover dates 1/1/1 to 31/12/1) or not (cover dates 1/1/1 to 1/1/2).</td>
+</tr>
+<tr>
+<td><a class="name" name="is_auto_renewable">is_auto_renewable</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Can we select policies of this product type for renewal automatically.</td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_weeks">renewal_weeks</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The number of weeks in advance of the renewal date that policies of this product type can be selected for renewal.</td>
+</tr>
+<tr>
+<td><a class="name" name="policy_auto_numbering_id">policy_auto_numbering_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>If we auto number on making a policy live, this holds the id of the numbering scheme.</td>
+</tr>
+<tr>
+<td><a class="name" name="prov_claim_auto_numbering_id">prov_claim_auto_numbering_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>If we auto number on opening a claim, this holds the id of the numbering scheme.</td>
+</tr>
+<tr>
+<td><a class="name" name="full_claim_auto_numbering_id">full_claim_auto_numbering_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>If we auto number on really opening a claim, this holds the id of the numbering scheme.</td>
+</tr>
+<tr>
+<td><a class="name" name="is_accumulation">is_accumulation</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Do we generate accumulation records for this product.</td>
+</tr>
+<tr>
+<td><a class="name" name="ri_pointer">ri_pointer</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ri pointer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="report_pointer">report_pointer</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">report pointer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_year_to_check">claim_year_to_check</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The number of years back we go to check claims in renewal.</td>
+</tr>
+<tr>
+<td><a class="name" name="max_single_claim_value">max_single_claim_value</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>What's the maximum single claim value that's allowed before renewal is stopped.</td>
+</tr>
+<tr>
+<td><a class="name" name="max_number_of_claim">max_number_of_claim</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>What's the maximum number of claims that are allowed before renewal is stopped.</td>
+</tr>
+<tr>
+<td><a class="name" name="max_total_claim_value">max_total_claim_value</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>What's the total claim value that's allowed before renewal is stopped.</td>
+</tr>
+<tr>
+<td><a class="name" name="nb_prorata">nb_prorata</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Do we prorata at new business.</td>
+</tr>
+<tr>
+<td><a class="name" name="mta_prorata">mta_prorata</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Do we prorata at MTA.</td>
+</tr>
+<tr>
+<td><a class="name" name="round_prem_to_nearest_unit">round_prem_to_nearest_unit</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>What do we round to, 50p, £1, etc.  Not yet implemented.</td>
+</tr>
+<tr>
+<td><a class="name" name="rounding_section_id">rounding_section_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Which rating section type do we use to hold the rounding amount.</td>
+</tr>
+<tr>
+<td><a class="name" name="is_policy_number_at_quote">is_policy_number_at_quote</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Do we generate a policy number at quotation stage?</td>
+</tr>
+<tr>
+<td><a class="name" name="follow_up_time_frame">follow_up_time_frame</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">follow up time frame</span></td>
+</tr>
+<tr>
+<td><a class="name" name="grace_period">grace_period</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">grace period</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_positive_cancellation">allow_positive_cancellation</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow positive cancellation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="media_type_mandatory">media_type_mandatory</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">media type mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="policy_style_id">policy_style_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">policy style</span></td>
+</tr>
+<tr>
+<td><a class="name" name="policy_style_mandatory">policy_style_mandatory</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">policy style mandatory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="prevent_cancelled_agents">prevent_cancelled_agents</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">prevent cancelled agents</span></td>
+</tr>
+<tr>
+<td><a class="name" name="change_policy_number_at_renewal">change_policy_number_at_renewal</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">change policy number at renewal</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_currency_change">allow_currency_change</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow currency change</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_loss_currency_change">allow_loss_currency_change</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow loss currency change</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_standard_wording_edit">allow_standard_wording_edit</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow standard wording edit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Hide_Summary_At_Renewal_Acceptance">Hide_Summary_At_Renewal_Acceptance</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Hide Summary At Renewal Acceptance</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_true_monthly_policy">is_true_monthly_policy</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is true monthly policy</span></td>
+</tr>
+<tr>
+<td><a class="name" name="anniversary_renewal_weeks">anniversary_renewal_weeks</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">anniversary renewal weeks</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Suppress_Reserves">Suppress_Reserves</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Suppress Reserves</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Suppress_Payments">Suppress_Payments</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Suppress Payments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Suppress_Recoveries">Suppress_Recoveries</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Suppress Recoveries</span></td>
+</tr>
+<tr>
+<td><a class="name" name="unified_renewal_day">unified_renewal_day</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">unified renewal day</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lead_allow_consolidated_commission">lead_allow_consolidated_commission</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lead allow consolidated commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lead_month_in_cycle">lead_month_in_cycle</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lead month in cycle</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lead_suspense_account_id">lead_suspense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lead suspense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_allow_consolidated_commission">sub_allow_consolidated_commission</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sub allow consolidated commission</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_month_in_cycle">sub_month_in_cycle</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sub month in cycle</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_suspense_account_id">sub_suspense_account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sub suspense account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Default_Payment_Method">Default_Payment_Method</a></td>
+<td>varchar(12)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Default Payment Method</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_invoice">can_make_live_invoice</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live invoice</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_instalments">can_make_live_instalments</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live instalments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_paynow">can_make_live_paynow</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live paynow</span></td>
+</tr>
+<tr>
+<td><a class="name" name="produce_schedule">produce_schedule</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">produce schedule</span></td>
+</tr>
+<tr>
+<td><a class="name" name="produce_certificate">produce_certificate</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">produce certificate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="produce_debit_note">produce_debit_note</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">produce debit note</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TradeNBOnline">TradeNBOnline</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TradeNBOnline</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TradeMTAOnline">TradeMTAOnline</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TradeMTAOnline</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TradeRNLOnline">TradeRNLOnline</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">TradeRNLOnline</span></td>
+</tr>
+<tr>
+<td><a class="name" name="OnlineTradingCommencedOn">OnlineTradingCommencedOn</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Online Trading Commenced On</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_renewable">is_renewable</a></td>
+<td>tinyint</td>
+<td>not null default 1</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is renewable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_renewal_selection_enabled">is_renewal_selection_enabled</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is renewal selection enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="true_monthly_policy_renewal_communication">true_monthly_policy_renewal_communication</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">true monthly policy renewal communication</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_selection_man_review_template_id">renewal_selection_man_review_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal selection man review template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_selection_man_review_attachment_template_id">renewal_selection_man_review_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal selection man review attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_selection_invite_template_id">renewal_selection_invite_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal selection invite template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_selection_invite_attachment_template_id">renewal_selection_invite_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal selection invite attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_selection_update_template_id">renewal_selection_update_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal selection update template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_selection_update_attachment_template_id">renewal_selection_update_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal selection update attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_renewal_invite_enabled">is_renewal_invite_enabled</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is renewal invite enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_invite_man_review_template_id">renewal_invite_man_review_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal invite man review template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_invite_man_review_attachment_template_id">renewal_invite_man_review_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal invite man review attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_invite_invite_template_id">renewal_invite_invite_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal invite invite template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_invite_invite_attachment_template_id">renewal_invite_invite_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal invite invite attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_invite_update_template_id">renewal_invite_update_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal invite update template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_invite_update_attachment_template_id">renewal_invite_update_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal invite update attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_renewal_update_enabled">is_renewal_update_enabled</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is renewal update enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_update_man_review_template_id">renewal_update_man_review_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal update man review template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_update_man_review_attachment_template_id">renewal_update_man_review_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal update man review attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_update_invite_template_id">renewal_update_invite_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal update invite template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_update_invite_attachment_template_id">renewal_update_invite_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal update invite attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_update_update_template_id">renewal_update_update_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal update update template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="renewal_update_update_attachment_template_id">renewal_update_update_attachment_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">renewal update update attachment template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_agent_renewal_selection_enabled">is_agent_renewal_selection_enabled</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is agent renewal selection enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_agent_renewal_invite_enabled">is_agent_renewal_invite_enabled</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is agent renewal invite enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_agent_renewal_update_enabled">is_agent_renewal_update_enabled</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is agent renewal update enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_renewal_man_review_template_id">agent_renewal_man_review_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">agent renewal man review template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_renewal_man_review_report_id">agent_renewal_man_review_report_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Report.html#report_id">Report.report_id</a> <span class="autodesc">agent renewal man review report</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_renewal_invite_template_id">agent_renewal_invite_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">agent renewal invite template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_renewal_invite_report_id">agent_renewal_invite_report_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Report.html#report_id">Report.report_id</a> <span class="autodesc">agent renewal invite report</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_renewal_update_template_id">agent_renewal_update_template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">agent renewal update template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_renewal_update_report_id">agent_renewal_update_report_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Report.html#report_id">Report.report_id</a> <span class="autodesc">agent renewal update report</span></td>
+</tr>
+<tr>
+<td><a class="name" name="multiple_claims_payments">multiple_claims_payments</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">multiple claims payments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="max_unauthorised_claim_value">max_unauthorised_claim_value</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">max unauthorised claim value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="max_unauthorised_no_claim_payments">max_unauthorised_no_claim_payments</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">max unauthorised no claim payments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="run_authorisation_scripts_claim_payments">run_authorisation_scripts_claim_payments</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">run authorisation scripts claim payments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="bankAccount_Id">bankAccount_Id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">bank Account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_Value_For_Large_Loss_Advice">claim_Value_For_Large_Loss_Advice</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim Value For Large Loss Advice</span></td>
+</tr>
+<tr>
+<td><a class="name" name="inclusion_of_CoInsurers_On_Claims">inclusion_of_CoInsurers_On_Claims</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">inclusion of Co Insurers On Claims</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_Negative_Reserve">allow_Negative_Reserve</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow Negative Reserve</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ext_Clm_Handler_Acknowledged_Task_Allowed_Time">ext_Clm_Handler_Acknowledged_Task_Allowed_Time</a></td>
+<td>numeric(3, 0)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ext Clm Handler Acknowledged Task Allowed Time</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ext_Clm_Handler_Supply_Pre_Report_Task_Allowed_Time">ext_Clm_Handler_Supply_Pre_Report_Task_Allowed_Time</a></td>
+<td>numeric(3, 0)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ext Clm Handler Supply Pre Report Task Allowed Time</span></td>
+</tr>
+<tr>
+<td><a class="name" name="valid_Policy_Version_At_Loss_Date">valid_Policy_Version_At_Loss_Date</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">valid Policy Version At Loss Date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_Gross_Claim_Payment_Amount">is_Gross_Claim_Payment_Amount</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is Gross Claim Payment Amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_Task_Group">claim_Task_Group</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim Task Group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_User_Group">claim_User_Group</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim User Group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_UDT_A">claims_UDT_A</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims UDT A</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_UDT_B">claims_UDT_B</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims UDT B</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_UDT_C">claims_UDT_C</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims UDT C</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_UDT_D">claims_UDT_D</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims UDT D</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_UDT_E">claims_UDT_E</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims UDT E</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_Duplicate_Claim_Check_Enabled">is_Duplicate_Claim_Check_Enabled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is Duplicate Claim Check Enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_Advanced_Tax_Script_Enabled">is_Advanced_Tax_Script_Enabled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is Advanced Tax Script Enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_Payment_Ref_Check_Enabled">is_Payment_Ref_Check_Enabled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is Payment Ref Check Enabled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_Recommend_Claim_Payments">is_Recommend_Claim_Payments</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is Recommend Claim Payments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="out_of_sequence_mta_allocation">out_of_sequence_mta_allocation</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">out of sequence mta allocation</span></td>
+</tr>
+<tr>
+<td><a class="name" name="out_of_sequence_mta_dates">out_of_sequence_mta_dates</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">out of sequence mta dates</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_renewal_months">default_renewal_months</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default renewal months</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_cannot_exceed_reserve">payment_cannot_exceed_reserve</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment cannot exceed reserve</span></td>
+</tr>
+<tr>
+<td><a class="name" name="enable_mtc_rating_rule">enable_mtc_rating_rule</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">enable mtc rating rule</span></td>
+</tr>
+<tr>
+<td><a class="name" name="can_make_live_BankGuarantee">can_make_live_BankGuarantee</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">can make live Bank Guarantee</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Cover_Note_numbering_id">Cover_Note_numbering_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Cover Note numbering</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Cover_Note_Default_Period">Cover_Note_Default_Period</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Cover Note Default Period</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Cover_Note_reused_upto">Cover_Note_reused_upto</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Cover Note reused upto</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Cover_Note_doc_Template_id">Cover_Note_doc_Template_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Document_Template.html#document_template_id">Document_Template.document_template_id</a> <span class="autodesc">Cover Note doc Template</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_backdated_mtas">allow_backdated_mtas</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow backdated mtas</span></td>
+</tr>
+<tr>
+<td><a class="name" name="allow_written_status">allow_written_status</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">allow written status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="written_task_manager_days">written_task_manager_days</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">written task manager days</span></td>
+</tr>
+<tr>
+<td><a class="name" name="written_rem_user_group">written_rem_user_group</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">written rem user group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="written_rem_task_group">written_rem_task_group</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">written rem task group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_enable_PrePayment">is_enable_PrePayment</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is_enable_PrePayment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Mandatory_Risk_Type_Id">Mandatory_Risk_Type_Id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Mandatory_Risk_Type_Id</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>product_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_renewal_invite_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_renewal_man_review_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_renewal_update_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Cover_Note_doc_Template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_invite_invite_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_invite_invite_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_invite_man_review_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_invite_man_review_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_invite_update_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_invite_update_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_selection_invite_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_selection_invite_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_selection_man_review_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_selection_man_review_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_selection_update_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_selection_update_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_update_invite_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_update_invite_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_update_man_review_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_update_man_review_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_update_update_attachment_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>renewal_update_update_template_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>document_template_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_renewal_invite_report_id</td>
+<td><a href="Report.html">Report</a></td>
+<td>report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_renewal_man_review_report_id</td>
+<td><a href="Report.html">Report</a></td>
+<td>report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_renewal_update_report_id</td>
+<td><a href="Report.html">Report</a></td>
+<td>report_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Agent_Product_Usage.html">Agent_Product_Usage</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Batch_Renewal_Job_Products.html">Batch_Renewal_Job_Products</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="BG_Product_Link.html">BG_Product_Link</a></td>
+<td>Product_Id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Commission_Arrangement.html">Commission_Arrangement</a></td>
+<td>Product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Cover_Note_Book_Products.html">Cover_Note_Book_Products</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Credit_Control_Rule.html">Credit_Control_Rule</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Event_Insurance_File.html">Event_Insurance_File</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="GIS_New_Property.html">GIS_New_Property</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="GIS_Property.html">GIS_Property</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>original_product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>renewal_product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="MTA_Type_Usage.html">MTA_Type_Usage</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="PFSchemeProducts.html">PFSchemeProducts</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="PMB_Doc_Link.html">PMB_Doc_Link</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="PMUser_Authority_Level.html">PMUser_Authority_Level</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="PMUser_Authority_Rule_Set_Link.html">PMUser_Authority_Rule_Set_Link</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Product_Allowed_Causation.html">Product_Allowed_Causation</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Product_Claims_Workflow.html">Product_Claims_Workflow</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Product_Risk_Type_Group.html">Product_Risk_Type_Group</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Renewal_Control.html">Renewal_Control</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Renewal_Settings.html">Renewal_Settings</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Renewal_Stats.html">Renewal_Stats</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Renewal_Status.html">Renewal_Status</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Short_Period_Rates.html">Short_Period_Rates</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Stats_Folder.html">Stats_Folder</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Summary_Stats_Agent.html">Summary_Stats_Agent</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Summary_Stats_Day.html">Summary_Stats_Day</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Summary_Stats_Holder.html">Summary_Stats_Holder</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Summary_Stats_Month.html">Summary_Stats_Month</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Summary_Stats_Premium.html">Summary_Stats_Premium</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Transaction_Export_Folder.html">Transaction_Export_Folder</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Wording_Product_Link.html">Wording_Product_Link</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>product_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+<td>scheme_agency_ref</td>
+<td>block_no</td>
+<td>is_tax_suppressed</td>
+<td>quote_auto_numbering_id</td>
+<td>is_short_period_rated</td>
+<td>is_midnight_renewal</td>
+<td>is_auto_renewable</td>
+<td>renewal_weeks</td>
+<td>policy_auto_numbering_id</td>
+<td>prov_claim_auto_numbering_id</td>
+<td>full_claim_auto_numbering_id</td>
+<td>is_accumulation</td>
+<td>ri_pointer</td>
+<td>report_pointer</td>
+<td>claim_year_to_check</td>
+<td>max_single_claim_value</td>
+<td>max_number_of_claim</td>
+<td>max_total_claim_value</td>
+<td>nb_prorata</td>
+<td>mta_prorata</td>
+<td>round_prem_to_nearest_unit</td>
+<td>rounding_section_id</td>
+<td>is_policy_number_at_quote</td>
+<td>follow_up_time_frame</td>
+<td>grace_period</td>
+<td>allow_positive_cancellation</td>
+<td>media_type_mandatory</td>
+<td>policy_style_id</td>
+<td>policy_style_mandatory</td>
+<td>prevent_cancelled_agents</td>
+<td>change_policy_number_at_renewal</td>
+<td>allow_currency_change</td>
+<td>allow_loss_currency_change</td>
+<td>allow_standard_wording_edit</td>
+<td>Hide_Summary_At_Renewal_Acceptance</td>
+<td>is_true_monthly_policy</td>
+<td>anniversary_renewal_weeks</td>
+<td>Suppress_Reserves</td>
+<td>Suppress_Payments</td>
+<td>Suppress_Recoveries</td>
+<td>unified_renewal_day</td>
+<td>lead_allow_consolidated_commission</td>
+<td>lead_month_in_cycle</td>
+<td>lead_suspense_account_id</td>
+<td>sub_allow_consolidated_commission</td>
+<td>sub_month_in_cycle</td>
+<td>sub_suspense_account_id</td>
+<td>Default_Payment_Method</td>
+<td>can_make_live_invoice</td>
+<td>can_make_live_instalments</td>
+<td>can_make_live_paynow</td>
+<td>produce_schedule</td>
+<td>produce_certificate</td>
+<td>produce_debit_note</td>
+<td>TradeNBOnline</td>
+<td>TradeMTAOnline</td>
+<td>TradeRNLOnline</td>
+<td>OnlineTradingCommencedOn</td>
+<td>is_renewable</td>
+<td>is_renewal_selection_enabled</td>
+<td>true_monthly_policy_renewal_communication</td>
+<td>renewal_selection_man_review_template_id</td>
+<td>renewal_selection_man_review_attachment_template_id</td>
+<td>renewal_selection_invite_template_id</td>
+<td>renewal_selection_invite_attachment_template_id</td>
+<td>renewal_selection_update_template_id</td>
+<td>renewal_selection_update_attachment_template_id</td>
+<td>is_renewal_invite_enabled</td>
+<td>renewal_invite_man_review_template_id</td>
+<td>renewal_invite_man_review_attachment_template_id</td>
+<td>renewal_invite_invite_template_id</td>
+<td>renewal_invite_invite_attachment_template_id</td>
+<td>renewal_invite_update_template_id</td>
+<td>renewal_invite_update_attachment_template_id</td>
+<td>is_renewal_update_enabled</td>
+<td>renewal_update_man_review_template_id</td>
+<td>renewal_update_man_review_attachment_template_id</td>
+<td>renewal_update_invite_template_id</td>
+<td>renewal_update_invite_attachment_template_id</td>
+<td>renewal_update_update_template_id</td>
+<td>renewal_update_update_attachment_template_id</td>
+<td>is_agent_renewal_selection_enabled</td>
+<td>is_agent_renewal_invite_enabled</td>
+<td>is_agent_renewal_update_enabled</td>
+<td>agent_renewal_man_review_template_id</td>
+<td>agent_renewal_man_review_report_id</td>
+<td>agent_renewal_invite_template_id</td>
+<td>agent_renewal_invite_report_id</td>
+<td>agent_renewal_update_template_id</td>
+<td>agent_renewal_update_report_id</td>
+<td>multiple_claims_payments</td>
+<td>max_unauthorised_claim_value</td>
+<td>max_unauthorised_no_claim_payments</td>
+<td>run_authorisation_scripts_claim_payments</td>
+<td>bankAccount_Id</td>
+<td>claim_Value_For_Large_Loss_Advice</td>
+<td>inclusion_of_CoInsurers_On_Claims</td>
+<td>allow_Negative_Reserve</td>
+<td>ext_Clm_Handler_Acknowledged_Task_Allowed_Time</td>
+<td>ext_Clm_Handler_Supply_Pre_Report_Task_Allowed_Time</td>
+<td>valid_Policy_Version_At_Loss_Date</td>
+<td>is_Gross_Claim_Payment_Amount</td>
+<td>claim_Task_Group</td>
+<td>claim_User_Group</td>
+<td>claims_UDT_A</td>
+<td>claims_UDT_B</td>
+<td>claims_UDT_C</td>
+<td>claims_UDT_D</td>
+<td>claims_UDT_E</td>
+<td>is_Duplicate_Claim_Check_Enabled</td>
+<td>is_Advanced_Tax_Script_Enabled</td>
+<td>is_Payment_Ref_Check_Enabled</td>
+<td>is_Recommend_Claim_Payments</td>
+<td>out_of_sequence_mta_allocation</td>
+<td>out_of_sequence_mta_dates</td>
+<td>default_renewal_months</td>
+<td>payment_cannot_exceed_reserve</td>
+<td>enable_mtc_rating_rule</td>
+<td>can_make_live_BankGuarantee</td>
+<td>Cover_Note_numbering_id</td>
+<td>Cover_Note_Default_Period</td>
+<td>Cover_Note_reused_upto</td>
+<td>Cover_Note_doc_Template_id</td>
+<td>allow_backdated_mtas</td>
+<td>is_enable_PrePayment</td>
+<td>Mandatory_Risk_Type_Id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>636</td>
+<td>PMOTOR</td>
+<td>Private Motor</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>False</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+<td>100000</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>9</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

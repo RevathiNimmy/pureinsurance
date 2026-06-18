@@ -1,0 +1,505 @@
+prototype number SetPureConfig(string , string, string );
+prototype STRING GetPureConfig(STRING, STRING );
+export prototype CheckOrCreatePureConfig();
+prototype STRING DecryptData(STRING);
+export prototype ReadDecryptFile();
+
+prototype STRING EncryptData(STRING);
+
+prototype STRING RemoveBOM(STRING);
+export prototype ReadEncryptedFile();
+export prototype GetPureInstallLocation();
+
+#include "ifx.h"
+#include "isrt.h"
+#define PURE_CONFIG_PATH "C:\\Pure\\PureConfiguration.xml"
+
+#define PURE_CONFIG_DIR  "C:\\Pure"
+#define PURE_CONFIG_FILE "PureConfiguration.xml"
+
+
+
+
+
+
+
+
+
+// --- GET FUNCTION ---
+// Get value from Pure node attribute
+function STRING GetPureConfig(szFilePath, szAttribute)
+    OBJECT oDoc, oNode;
+    STRING szValue;
+begin
+    szValue = "";
+
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0");
+    if (IsObject(oDoc) = FALSE) then
+        return "";
+    endif;
+
+    oDoc.async = FALSE;
+    oDoc.validateOnParse = FALSE;
+    oDoc.resolveExternals = FALSE;
+    oDoc.preserveWhiteSpace = FALSE;
+    oDoc.setProperty("SelectionLanguage", "XPath");
+
+    if oDoc.load(szFilePath) then
+        // find root node <Pure>
+        set oNode = oDoc.selectSingleNode("/Pure");
+        if (IsObject(oNode)) then
+            try
+                szValue = oNode.attributes.getNamedItem(szAttribute).value;
+            catch
+                szValue = "";
+            endcatch;
+        endif;
+    else
+        // optional: log parse error reason
+        // SprintfMsiLog("XML load failed: %s", oDoc.parseError.reason);
+    endif;
+
+    set oDoc = NOTHING;
+    return szValue;
+end;
+
+//------------------------------------------------------------------------------------------------------
+
+
+
+
+// Explicitly declare return type as VOID (no return value expected)
+function number CheckOrCreatePureConfig()
+    STRING szFolder, szFileName, szFullPath ,STRConfigLine, SqlLogin, SQLPassword;
+    NUMBER nvResult, nvFileHandle;
+    string szMajorVersion1,szMajorVersion2,szMinorVersion;
+begin
+g_szPMInstallPath = TARGETDIR;
+
+
+// Check if there's no drive letter and add C:\ if missing
+if (StrLength(g_szPMInstallPath) < 3 || g_szPMInstallPath[1] != ':') then
+    g_szPMInstallPath = "C:\\" + g_szPMInstallPath;
+endif;
+
+    szFolder = g_szPMInstallPath;
+    szFileName = "PureConfiguration.xml";
+    szFullPath = szFolder ^ "\\" ^ szFileName;
+
+    // Ensure the folder exists
+    nvResult = CreateDir(szFolder);
+    // CreateDir returns <0 if fails, 0 if already exists
+    if (nvResult < 0) then
+        MessageBox("Cannot create folder: " + szFolder, SEVERE);
+        return -1;
+    endif;
+
+    // Use working CreateFile pattern
+    OpenFileMode(FILE_MODE_APPEND);
+    nvResult = CreateFile(nvFileHandle, szFolder, szFileName);
+    if (nvResult < 0) then
+        MessageBox("File " + szFileName + " cannot be created or opened.", INFORMATION);
+        return -1;
+    endif;
+
+
+StrSub(szMajorVersion1,g_szTobeInstalledMajorVersion,0,1);
+StrSub(szMajorVersion2,g_szTobeInstalledMajorVersion,1,2);
+StrSub(szMinorVersion,g_szTobeInstalledMajorVersion,2,1);
+
+
+StrSub(g_szTobeInstalledServiceRelease,g_szTobeInstalledMinorVersion,1,2); 
+
+STRConfigLine = "  <Pure Provider=\"SQLOLEDB\"";
+STRConfigLine = STRConfigLine + " Server=\"" + g_szDBServer + "\" Database=\"" + g_szSiriusDBName + "\"";
+
+// Check if it's Windows Authentication or not
+if (g_bWinLoginAuthenticate = 1) then
+    STRConfigLine = STRConfigLine + " Trusted=\"1\"";
+else
+    // SQL authentication
+    SqlLogin = EncryptData(g_szMasterUser);
+	SQLPassword = EncryptData(g_szMasterPassword);
+    STRConfigLine = STRConfigLine + " SQLLogin=\"" + SqlLogin + "\"";
+    STRConfigLine = STRConfigLine + " SecureKey=\"" + SQLPassword + "\"";
+    
+endif;
+
+
+//STRConfigLine = STRConfigLine +  " PureReleaseVersion=\"5.6\"" ;
+STRConfigLine = STRConfigLine + " PureReleaseVersion=\"" + szMajorVersion1 + "." + szMinorVersion + "\"";
+//STRConfigLine = STRConfigLine +   " Servicerelease=\"0.5784\"" ;
+STRConfigLine = STRConfigLine + " Servicerelease=\"" + g_szTobeInstalledBuildNumber + "\"";
+STRConfigLine = STRConfigLine +   " ArchitectureInDebug=\"0\"" ;
+STRConfigLine = STRConfigLine +   " UserLogLevel=\"4\""        ;
+STRConfigLine = STRConfigLine +   " EventLogMessaging=\"1\""   ;
+STRConfigLine = STRConfigLine +    " LogFileName=\"C:\\Pure\\Sirius_Pure\" />";	
+	
+
+    // Write XML content
+       WriteLine(nvFileHandle,STRConfigLine);
+
+
+    CloseFile(nvFileHandle);
+
+    return 1; // success
+end;
+
+
+
+
+#include "ifx.h"
+#include "textsub.h"
+function STRING DecryptData(EncryptedString)
+    STRING UnencryptedData, DecryptFile;
+    STRING szCommand, szProgram, szBuffer;
+    NUMBER nvResult, nvLineNumber, nAttempts;
+    STRING svReturnLine;
+    BOOL bSuccess;
+begin
+    // Fallback value
+   
+
+    szProgram   = SUPPORTDIR ^ "PureDecrypt.exe";
+    DecryptFile = SUPPORTDIR ^ "decrypted.txt";
+
+    WriteToLogFile(INSTALL_LOG, "DecryptData started");
+    WriteToLogFile(INSTALL_LOG, "Program path: " + szProgram);
+    WriteToLogFile(INSTALL_LOG, "Decrypt file path: " + DecryptFile);
+
+    // Run external decryptor
+    szCommand = "/C " + szProgram + " \"" + EncryptedString + "\" \"" + DecryptFile + "\"";
+    WriteToLogFile(INSTALL_LOG, "Executing: " + szCommand);
+    nvResult = LaunchAppAndWait("CMD.EXE", szCommand, WAIT);
+    NumToStr(szBuffer, nvResult);
+    WriteToLogFile(INSTALL_LOG, "LaunchAppAndWait result: " + szBuffer);
+
+    // Retry reading file up to 10 seconds
+    svReturnLine = "";
+    bSuccess = FALSE;
+
+ReadDecryptFile();
+
+    // Delete temporary file
+    if (Is(FILE_EXISTS, DecryptFile)) then
+        if (DeleteFile(DecryptFile) = 0) then
+            WriteToLogFile(INSTALL_LOG, "Temporary decrypt file deleted");
+        else
+            WriteToLogFile(INSTALL_ERRORLOG, "Failed to delete temporary decrypt file");
+        endif;
+    endif;
+
+    if (svReturnLine = "") then
+        WriteToLogFile(INSTALL_ERRORLOG, "Decryption failed - no content retrieved");
+    else
+        WriteToLogFile(INSTALL_LOG, "Decryption succeeded");
+    endif;
+UnencryptedData = RemoveBOM(DecryptedData);
+    return UnencryptedData;
+end;
+
+
+function ReadDecryptFile()
+STRING szDir,szFile,szPermission,szFilePath,szGroup,szUsersGroupPermission,szUsersGroup;
+//STRING szCommand,szCommandUsers
+number  nvFileHandle,nvResult; 
+begin   
+	
+	szDir = "C:\\TEMP\\";
+	szDir = SUPPORTDIR;
+	szFile = "Decrypted.txt";
+	szFilePath = szDir ^ szFile;
+	szGroup="Pure Users";
+    LongPathToQuote(szGroup, TRUE); 
+    
+    szUsersGroup="Users";
+	szUsersGroupPermission="(OI)(CI)F";
+	szPermission="(OI)(CI)R";
+	
+	//nvResult = SetPermission(szFilePath, szPermission, g_szWebservicesUser);
+	//nvResult = SetPermission(szFilePath, szUsersGroupPermission, szGroup);
+	//nvResult = SetPermission(szFilePath, szUsersGroupPermission, szUsersGroup);
+	
+	// Set the file mode to normal. 
+    OpenFileMode (FILE_MODE_NORMAL); 
+   
+   	//WriteToLogFile(INSTALL_LOG,"Setting up permissions to WCFSecuirtyToken TextFile for " + szGroup+","+szUsersGroup+","+g_szWebservicesUser);
+   	
+	// Open the text file. 
+   if (OpenFile (nvFileHandle, szDir, szFile) < 0) then 
+        WriteToLogFile(INSTALL_LOG,"Failed to open decrypt file, most likely incorrect username or password");
+        
+    else
+    	nvResult = GetLine(nvFileHandle,DecryptedData);
+      
+    endif; 
+    
+    CloseFile(nvFileHandle);
+	
+return 0;
+
+end; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function STRING EncryptData(DecryptedString)
+    STRING DecryptedData, EncryptFile;
+    STRING szCommand, szProgram, szBuffer;
+    NUMBER nvResult, nvLineNumber, nAttempts;
+    STRING svReturnLine;
+    BOOL bSuccess;
+begin
+    // Fallback value
+   
+
+    szProgram   = SUPPORTDIR ^ "PureEncrypt.exe";
+    //EncryptFile = "C:\\TEMP\\" ^ "encrypted.txt";
+    EncryptFile = SUPPORTDIR ^ "encrypted.txt";
+
+    WriteToLogFile(INSTALL_LOG, "EncryptData started");
+    WriteToLogFile(INSTALL_LOG, "Program path: " + szProgram);
+    WriteToLogFile(INSTALL_LOG, "Decrypt file path: " + EncryptFile);
+
+    // Run external decryptor
+      //szCommand = "/C " + szProgram + " \"" + DecrypdedString + "\" \"" + EncryptFile + "\"";
+      szCommand = "/C " + szProgram + " \"" + DecryptedString + "\" \"" + EncryptFile + "\"";
+      //szCommand = "/K \"" + szProgram + "\" \"" + DecryptedString + "\" \"" + EncryptFile + "\"";
+      
+    WriteToLogFile(INSTALL_LOG, "Executing: " + szCommand);
+    nvResult = LaunchAppAndWait("CMD.EXE", szCommand, WAIT);
+    NumToStr(szBuffer, nvResult);
+    WriteToLogFile(INSTALL_LOG, "LaunchAppAndWait result: " + szBuffer);
+
+    // Retry reading file up to 10 seconds
+    svReturnLine = "";
+    bSuccess = FALSE;
+
+ReadEncryptedFile();
+
+    // Delete temporary file
+    if (Is(FILE_EXISTS, EncryptFile)) then
+        if (DeleteFile(EncryptFile) = 0) then
+            WriteToLogFile(INSTALL_LOG, "Temporary Encrypt file deleted");
+        else
+            WriteToLogFile(INSTALL_ERRORLOG, "Failed to delete temporary encrypt file");
+        endif;
+    endif;
+
+    if (svReturnLine = "") then
+        WriteToLogFile(INSTALL_ERRORLOG, "Encryption failed - no content retrieved");
+    else
+        WriteToLogFile(INSTALL_LOG, "Encryption succeeded");
+    endif;
+
+    return RemoveBOM(UnencryptedData);
+end;
+
+
+function ReadEncryptedFile()
+STRING szDir,szFile,szPermission,szFilePath,szGroup,szUsersGroupPermission,szUsersGroup;
+//STRING szCommand,szCommandUsers
+number  nvFileHandle,nvResult; 
+begin   
+	
+	szDir = "C:\\TEMP\\";
+	szDir = SUPPORTDIR;
+	szFile = "encrypted.txt";
+	szFilePath = szDir ^ szFile;
+	szGroup="Pure Users";
+    LongPathToQuote(szGroup, TRUE); 
+    
+    szUsersGroup="Users";
+	szUsersGroupPermission="(OI)(CI)F";
+	szPermission="(OI)(CI)R";
+	
+	//nvResult = SetPermission(szFilePath, szPermission, g_szWebservicesUser);
+	//nvResult = SetPermission(szFilePath, szUsersGroupPermission, szGroup);
+	//nvResult = SetPermission(szFilePath, szUsersGroupPermission, szUsersGroup);
+	
+	// Set the file mode to normal. 
+    OpenFileMode (FILE_MODE_NORMAL); 
+   
+   	//WriteToLogFile(INSTALL_LOG,"Setting up permissions to WCFSecuirtyToken TextFile for " + szGroup+","+szUsersGroup+","+g_szWebservicesUser);
+   	
+	// Open the text file. 
+   if (OpenFile (nvFileHandle, szDir, szFile) < 0) then 
+        MessageBox ("OpenFile failed.", SEVERE); 
+    else
+    	nvResult = GetLine(nvFileHandle,UnencryptedData);
+      
+    endif; 
+    
+    CloseFile(nvFileHandle);
+	
+return 0;
+
+end; 
+
+
+
+
+
+
+
+
+
+
+function STRING RemoveBOM(szInput)
+    STRING szOutput, szBOM;
+    NUMBER nLength;
+begin
+    szOutput = szInput;
+    nLength = StrLength(szOutput);
+    
+    // Handle empty or very short strings
+    if (nLength < 2) then
+        return szOutput;
+    endif;
+    
+    // UTF-8 BOM (EF BB BF) - most common case
+    if (nLength >= 3) then
+        StrSub(szBOM, szOutput, 0, 3);
+        if (szBOM = "ï»¿") then
+            StrSub(szOutput, szOutput, 3, nLength - 3);
+            return szOutput;
+        endif;
+    endif;
+    
+    // UTF-16 BE BOM (FE FF)
+    StrSub(szBOM, szOutput, 0, 2);
+    if (szBOM = "þÿ") then
+        StrSub(szOutput, szOutput, 2, nLength - 2);
+        return szOutput;
+    endif;
+    
+    // UTF-16 LE BOM (FF FE) 
+    if (szBOM = "ÿþ") then
+        StrSub(szOutput, szOutput, 2, nLength - 2);
+        return szOutput;
+    endif;
+    
+    // Fallback: try common double-encoded UTF-8 BOM patterns
+    if (nLength >= 6) then
+        StrSub(szBOM, szOutput, 0, 6);
+        if (szBOM = "Ã¯Â»Â¿") then
+            StrSub(szOutput, szOutput, 6, nLength - 6);
+            return szOutput;
+        endif;
+    endif;
+    
+    // No BOM found, return original
+    return szOutput;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  GetPureInstallLocation  	                                             //
+//				                                                                     //
+// Purpose:   This function will find the Pure install folder                        //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function GetPureInstallLocation()
+    NUMBER nResult,nPos, nLastPos, nLoop;
+	STRING svMajor,svMinor,svBuild,svRegMajor,svRegMinor,svRegBuild; 
+    NUMBER nMajor,nMinor,nBuild,nRegMajor,nRegMinor,nRegBuild; 
+    STRING	sProductVersionArray(3),sRegProductVersionArray(3), sTemp;
+    
+    STRING szUninstallKey, InstallLocation;
+    NUMBER nSize,nType;
+        
+begin
+
+
+  
+    // Read Product Version from regsitry
+	szUninstallKey="SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{A5D571AB-3D05-4530-A631-74E8D1CADCA6}";
+    InstallLocation= "InstallLocation"; 
+    
+    nSize= -1;
+    nType= REGDB_STRING;   
+    
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    if((RegDBKeyExist(szUninstallKey)=1)) then
+	 WriteToLogFile(INSTALL_LOG,"Uninstall key exists");
+		RegDBGetKeyValueEx (szUninstallKey, InstallLocation, nType, g_InstallLocation, nSize); 
+	else
+		// Not Installed, so it is Fresh Install
+		gInstallMode="Fresh";
+	endif;
+	
+	
+		
+   return 0; 
+    
+end;
+
+
+
+// --- SET FUNCTION ---
+// Set value to Pure node attribute
+function NUMBER SetPureConfig(szFilePath, szAttribute, szValue)
+    OBJECT oDoc, oNode, oAttribute;
+    NUMBER bSuccess;
+begin
+    bSuccess = FALSE;
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0");
+    if (IsObject(oDoc) = FALSE) then
+        return FALSE;
+    endif;
+    
+    oDoc.async = FALSE;
+    oDoc.validateOnParse = FALSE;
+    oDoc.resolveExternals = FALSE;
+    oDoc.preserveWhiteSpace = FALSE;
+    oDoc.setProperty("SelectionLanguage", "XPath");
+    
+    if oDoc.load(szFilePath) then
+        // find root node <Pure>
+        set oNode = oDoc.selectSingleNode("/Pure");
+        if (IsObject(oNode)) then
+            try
+                // Get or create the attribute
+                set oAttribute = oNode.attributes.getNamedItem(szAttribute);
+                if (IsObject(oAttribute) = FALSE) then
+                    // Attribute doesn't exist, create it
+                    set oAttribute = oDoc.createAttribute(szAttribute);
+                    oNode.attributes.setNamedItem(oAttribute);
+                endif;
+                // Set the value
+                oAttribute.value = szValue;
+                
+                // Save the document
+                oDoc.save(szFilePath);
+                bSuccess = TRUE;
+            catch
+                bSuccess = FALSE;
+            endcatch;
+        endif;
+    else
+        // optional: log parse error reason
+        // SprintfMsiLog("XML load failed: %s", oDoc.parseError.reason);
+    endif;
+    
+    set oDoc = NOTHING;
+    return bSuccess;
+end;
+   

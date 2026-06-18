@@ -1,0 +1,546 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>UDL_VEHLIST</h1>
+<p><span class="autodesc">UDL VEHLIST</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="UDL_VEHLIST_id">UDL_VEHLIST_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">UDL VEHLIST</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="Year">Year</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Year</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Make">Make</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Make</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Model">Model</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Model</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Variant">Variant</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Variant</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Series">Series</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Series</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Body_Type">Body_Type</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Body Type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Market">Market</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Market</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Min">Min</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Min</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Max">Max</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Max</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Car_Code">Car_Code</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Car Code</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>UDL_VEHLIST_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>UDL_VEHLIST_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>Year</td>
+<td>Make</td>
+<td>Model</td>
+<td>Variant</td>
+<td>Series</td>
+<td>Body_Type</td>
+<td>Market</td>
+<td>Min</td>
+<td>Max</td>
+<td>Car_Code</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>82189</td>
+<td>1</td>
+<td>1980 Alfa Romeo Alfasud, Sprint, , 2D Coupe</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Alfa Romeo</td>
+<td>Alfasud</td>
+<td>Sprint</td>
+<td>&nbsp;</td>
+<td>2D Coupe</td>
+<td>$3,000</td>
+<td>$1,500</td>
+<td>$4,500</td>
+<td>80ALFASDSP--2CP</td>
+</tr>
+<tr>
+<td>2</td>
+<td>82190</td>
+<td>2</td>
+<td>1980 Alfa Romeo Alfasud, Ti, , 2D Coupe</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Alfa Romeo</td>
+<td>Alfasud</td>
+<td>Ti</td>
+<td>&nbsp;</td>
+<td>2D Coupe</td>
+<td>$76,000</td>
+<td>$38,000</td>
+<td>$114,000</td>
+<td>80ALFASDTI--2CP</td>
+</tr>
+<tr>
+<td>3</td>
+<td>82191</td>
+<td>3</td>
+<td>1980 Alfa Romeo Alfetta, 2000L, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Alfa Romeo</td>
+<td>Alfetta</td>
+<td>2000L</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$77,000</td>
+<td>$38,500</td>
+<td>$115,500</td>
+<td>80ALFAFT2L--4SD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>82192</td>
+<td>4</td>
+<td>1980 Alfa Romeo Alfetta, 2000L Gle, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Alfa Romeo</td>
+<td>Alfetta</td>
+<td>2000L Gle</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$49,000</td>
+<td>$24,500</td>
+<td>$73,500</td>
+<td>80ALFAFT2G--4SD</td>
+</tr>
+<tr>
+<td>5</td>
+<td>82193</td>
+<td>5</td>
+<td>1980 Alfa Romeo Alfetta, Gtv 2000L, , 2D Coupe</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Alfa Romeo</td>
+<td>Alfetta</td>
+<td>Gtv 2000L</td>
+<td>&nbsp;</td>
+<td>2D Coupe</td>
+<td>$122,000</td>
+<td>$61,000</td>
+<td>$183,000</td>
+<td>80ALFAFTGL--2CP</td>
+</tr>
+<tr>
+<td>6</td>
+<td>82194</td>
+<td>6</td>
+<td>1980 Alfa Romeo Giulietta, 1.8, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Alfa Romeo</td>
+<td>Giulietta</td>
+<td>1.8</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$98,000</td>
+<td>$49,000</td>
+<td>$147,000</td>
+<td>80ALFGIV18--4SD</td>
+</tr>
+<tr>
+<td>7</td>
+<td>82195</td>
+<td>7</td>
+<td>1980 Aston Martin V8, , , 2D Saloon</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Aston Martin</td>
+<td>V8</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2D Saloon</td>
+<td>$108,000</td>
+<td>$54,000</td>
+<td>$162,000</td>
+<td>80AST-V8----2SL</td>
+</tr>
+<tr>
+<td>8</td>
+<td>82196</td>
+<td>8</td>
+<td>1980 Audi 5E, CD, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Audi</td>
+<td>5E</td>
+<td>CD</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$128,000</td>
+<td>$64,000</td>
+<td>$192,000</td>
+<td>80AUD-5ECD--4SD</td>
+</tr>
+<tr>
+<td>9</td>
+<td>82197</td>
+<td>9</td>
+<td>1980 Audi 5E, GL, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Audi</td>
+<td>5E</td>
+<td>GL</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$94,000</td>
+<td>$47,000</td>
+<td>$141,000</td>
+<td>80AUD-5EGL--4SD</td>
+</tr>
+<tr>
+<td>10</td>
+<td>82198</td>
+<td>10</td>
+<td>1980 Bedford CFL, , , Van</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Bedford</td>
+<td>CFL</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Van</td>
+<td>$103,000</td>
+<td>$51,500</td>
+<td>$154,500</td>
+<td>80BEDCFL----VAN</td>
+</tr>
+<tr>
+<td>11</td>
+<td>82199</td>
+<td>11</td>
+<td>1980 Bedford CFS, , , Van</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Bedford</td>
+<td>CFS</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Van</td>
+<td>$61,000</td>
+<td>$30,500</td>
+<td>$91,500</td>
+<td>80BEDCFS----VAN</td>
+</tr>
+<tr>
+<td>12</td>
+<td>82200</td>
+<td>12</td>
+<td>1980 Bentley Corniche, , , 2D Convertible</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Bentley</td>
+<td>Corniche</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2D Convertible</td>
+<td>$75,000</td>
+<td>$37,500</td>
+<td>$112,500</td>
+<td>80BENCOR----2CV</td>
+</tr>
+<tr>
+<td>13</td>
+<td>82201</td>
+<td>13</td>
+<td>1980 Bentley T Series, , , 4D Saloon</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>Bentley</td>
+<td>T Series</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>4D Saloon</td>
+<td>$116,000</td>
+<td>$58,000</td>
+<td>$174,000</td>
+<td>80BENTSE---24SL</td>
+</tr>
+<tr>
+<td>14</td>
+<td>82202</td>
+<td>14</td>
+<td>1980 BMW 3, 18i, , 2D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>BMW</td>
+<td>3</td>
+<td>18i</td>
+<td>&nbsp;</td>
+<td>2D Sedan</td>
+<td>$38,000</td>
+<td>$19,000</td>
+<td>$57,000</td>
+<td>80BMW--31I--2SD</td>
+</tr>
+<tr>
+<td>15</td>
+<td>82203</td>
+<td>15</td>
+<td>1980 BMW 3, 20, , 2D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>BMW</td>
+<td>3</td>
+<td>20</td>
+<td>&nbsp;</td>
+<td>2D Sedan</td>
+<td>$124,000</td>
+<td>$62,000</td>
+<td>$186,000</td>
+<td>80BMW--320--2SD</td>
+</tr>
+<tr>
+<td>16</td>
+<td>82204</td>
+<td>16</td>
+<td>1980 BMW 3, 23i, , 2D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>BMW</td>
+<td>3</td>
+<td>23i</td>
+<td>&nbsp;</td>
+<td>2D Sedan</td>
+<td>$146,000</td>
+<td>$73,000</td>
+<td>$219,000</td>
+<td>80BMW--33I--2SD</td>
+</tr>
+<tr>
+<td>17</td>
+<td>82205</td>
+<td>17</td>
+<td>1980 BMW 5, 28i, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>BMW</td>
+<td>5</td>
+<td>28i</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$71,000</td>
+<td>$35,500</td>
+<td>$106,500</td>
+<td>80BMW--58I--4SD</td>
+</tr>
+<tr>
+<td>18</td>
+<td>82206</td>
+<td>18</td>
+<td>1980 BMW 6, 33 Csi, , 2D Coupe</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>BMW</td>
+<td>6</td>
+<td>33 Csi</td>
+<td>&nbsp;</td>
+<td>2D Coupe</td>
+<td>$81,000</td>
+<td>$40,500</td>
+<td>$121,500</td>
+<td>80BMW--633--2CP</td>
+</tr>
+<tr>
+<td>19</td>
+<td>82207</td>
+<td>19</td>
+<td>1980 BMW 7, 33i, , 4D Sedan</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>1980</td>
+<td>BMW</td>
+<td>7</td>
+<td>33i</td>
+<td>&nbsp;</td>
+<td>4D Sedan</td>
+<td>$14,000</td>
+<td>$7,000</td>
+<td>$21,000</td>
+<td>80BMW--733--4SD</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

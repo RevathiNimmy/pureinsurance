@@ -1,0 +1,195 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Insurer_Group_Rate</h1>
+<p><span class="autodesc">Insurer group rate</span></p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Broking<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Scheme">Scheme</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Scheme</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_group_id">risk_group_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Risk_Group.html#risk_group_id">Risk_Group.risk_group_id</a> <span class="autodesc">risk group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>PK</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="rate1">rate1</a></td>
+<td>numeric(7, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">rate1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value1">value1</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">value1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="minimum_total1">minimum_total1</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">minimum total1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="rate2">rate2</a></td>
+<td>numeric(7, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">rate2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value2">value2</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">value2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="minimum_total2">minimum_total2</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">minimum total2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="rate3">rate3</a></td>
+<td>numeric(7, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">rate3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value3">value3</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">value3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="minimum_total3">minimum_total3</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">minimum total3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address_cnt">address_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Address.html#address_cnt">Address.address_cnt</a> <span class="autodesc">address</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Tax_Group_id">Tax_Group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Tax Group</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt, Scheme, risk_group_id, effective_date</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>address_cnt</td>
+<td><a href="Address.html">Address</a></td>
+<td>address_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>risk_group_id</td>
+<td><a href="Risk_Group.html">Risk_Group</a></td>
+<td>risk_group_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>address_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>risk_group_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

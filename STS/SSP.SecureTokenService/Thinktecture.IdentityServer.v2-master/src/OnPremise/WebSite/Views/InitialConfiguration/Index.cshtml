@@ -1,0 +1,75 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.InitialConfiguration
+@model Thinktecture.IdentityServer.Web.ViewModels.InitialConfigurationModel
+
+@{
+    ViewBag.Title = Index_cshtml.InitialConfiguration;
+}
+    @using (Html.BeginForm())
+    {
+        <div class="container">
+         <div class="card m-t-lg">
+       
+            <div class="card-heading">
+                <h1>@ViewBag.Title</h1>
+            </div>
+            <div class="card-divider">
+                 <h2>@Index_cshtml.Settings</h2>
+                </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.SiteName, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    @Html.ValidationMessageFor(model => model.SiteName)
+                    <div class="Col-lg-8 col-md-8">
+                     @Html.EditorFor(model => model.SiteName, new { @class = "form-control" })
+                    </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.IssuerUri, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    @Html.ValidationMessageFor(model => model.IssuerUri)
+                    <div class="Col-lg-8 col-md-8">
+                    @Html.EditorFor(model => model.IssuerUri, new { @class = "form-control" })
+                    </div>
+                   </div>
+                   <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.SigningCertificate, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    <div class="Col-lg-8 col-md-8">
+                    @Html.DropDownList("SigningCertificate", Model.AvailableCertificatesList, new { @class = "form-control" })
+                    </div>
+                   </div>
+               </div>
+           </div>
+            <div class="card-divider">
+                  <h2>@Index_cshtml.DefaultAccounts</h2>
+            </div>
+            <div class="card-body clearfix">
+               <div class="form-horizontal">
+                   <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.CreateDefaultAccounts, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    <div class="Col-lg-8 col-md-8">
+                    @Html.EditorFor(model => model.CreateDefaultAccounts, new { @class = "form-control" })
+                    </div>
+                   </div>
+                   <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.UserName, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    <div class="Col-lg-8 col-md-8">
+                    @Html.EditorFor(model => model.UserName, new { @class = "form-control" })
+                    </div>
+                   </div>
+                   <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.Password, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    <div class="Col-lg-8 col-md-8">
+                    @Html.EditorFor(model => model.Password, new { @class = "form-control" })
+                    </div>
+                   </div>
+               </div>
+           </div>
+        <div class="card-footer">
+             <input type="submit" value="@Index_cshtml.Save"  class="btn btn-sm btn-primary" />
+        </div>
+       
+          </div>
+        </div>
+ @Html.ValidationSummary(true)
+    }
+

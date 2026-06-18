@@ -1,0 +1,2229 @@
+//////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_OnBegin()
+//
+//  EVENT:	  Begin event is always sent as the first event during installation.
+//
+//////////////////////////////////////////////////////////////////////////////
+	NUMBER	nvResult, nvType, nvValue;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_OnBegin", LOGGING );
+
+// TO DO: you may change default non-UI setting, for example
+//
+// You may also perform your custom initialization steps, check requirements, etc.
+
+// Run the dummy procedure
+	SFS_Dummy();
+	
+// Get the computer name
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+	nvType = REGDB_STRING;
+	RegDBGetKeyValueEx ( "SYSTEM\\CurrentControlSet\\Control\\ComputerName\\ActiveComputerName",
+							 "ComputerName" , nvType , g_sComputerName, nvValue );
+   	MsiSetProperty(ISMSI_HANDLE, "COMPUTER_NAME", g_sComputerName);
+
+// Set up the versions numbers
+   	SFS_SetVersions();
+   	
+// Set the installer into read mode
+   	MsiSetProperty(ISMSI_HANDLE, "READ_WRITE", "READ"); 
+   	
+// Get all the properties for the installation  
+	SFS_GetAllProperties();
+
+// Check Administrator permissions for Windows NT users
+	SFS_CheckPermissions();
+
+// Get the PMDIR if it exists
+	nvResult = SFS_GetInstallDir();
+	if ( nvResult < 0 ) then
+		// The product is not installed
+	else
+		// It has been installed before
+	endif;
+   
+// Get the version of the PreReqs currently installed and 
+// check a version of PreReqs exists on the CD
+	SFS_PreReqs_GetInstalledVersion();
+	SFS_PreReqs_GetCDVersion();
+
+// Exit the function
+	return 0;
+
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_OnGeneratingMSIScript()
+//
+//  EVENT:      GeneratingMSIScript event is sent just before the 
+//              MSI standard action LauchConditions is executed.
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING	szFileSharePath, szComputerName;
+	NUMBER	nvSize;	
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_OnGeneratingMSIScript", LOGGING );
+
+// ---- Get the MSI Properties ----
+	SFS_MsiGetProperty (ISMSI_HANDLE, "FILE_SHARE_PATH", szFileSharePath, nvSize);
+	SFS_MsiGetProperty (ISMSI_HANDLE, "COMPUTER_NAME", szComputerName, nvSize);
+
+// Set the File Share Path
+	if ( szFileSharePath = "" ) then 
+		if ( g_bServer ) then
+ 			
+ 		else
+ 		// so set up the UNC path for the client machine
+			MsiSetProperty(ISMSI_HANDLE, "FILE_SHARE_PATH", "\\\\" + szComputerName + "\\" );
+		endif;
+	endif;
+ 
+// Install the prereqs if required
+	SFS_PreReqs_Install();
+	
+end;                                                                            
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_PostFileInstall()
+//
+//  EVENT:      Moved event is sent just before the standard MSI action 
+//				InstallFinalize is executed.
+//
+///////////////////////////////////////////////////////////////////////////////
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_PostFileInstall", LOGGING );
+
+// On run on server
+	if ( g_bServer ) then
+
+	// make sure the PMSetup share is setup
+		SFS_DlgPMSetupShare( FALSE );
+		
+	// Copy the install set to the PMSetup
+		SFS_ClientInstall(  "SIRSOL",
+							 	IFX_PRODUCT_NAME,
+								IFX_PRODUCT_NAME + " - Client Installation",
+								PACKAGE_LOCATION );	
+
+	// Update the Product History
+		SFS_ProductUpdateHistory();
+
+	endif;
+	
+end;
+
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// ------------------------ S E C T I O N   B R E A K -----------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+// --------------------------------------------------------------------------
+// ==========================================================================
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_DlgInstallationType()
+//
+//  COMMENTS:	What sort of installation type is required
+//
+//				- File Share Server
+//				- Primary Server
+//				- Application Server
+//				- Client
+///////////////////////////////////////////////////////////////////////////////
+	STRING 	svString, szTitle, szMsg, szField1;
+	NUMBER 	nResult;
+	LIST	listButtons, listDesc;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_DlgInstallationType", LOGGING );
+
+	szTitle  = "Sirius - Select Installation Type";
+	szMsg	 = "Select the type of installation required"; 
+
+// Disable the Next buttons in setup dialogs.
+	Disable (NEXTBUTTON);
+
+// Create the lists for buttons and descriptions.
+	listButtons = ListCreate (STRINGLIST);
+	listDesc = ListCreate (STRINGLIST);
+
+	if ( listButtons = LIST_NULL ) || ( listDesc = LIST_NULL ) then
+	// Report the error; then terminate.
+		SFS_MessageBox ("Unable to create lists.", INFORMATION);
+		abort;
+	endif;
+
+// Add the bitmap buttons to listButtons.
+	ListAddString (listButtons, "@12004;1;255,0,255", AFTER);
+	ListAddString (listButtons, "@12001;1;255,0,255", AFTER);
+
+// Add the descriptions to listDesc.
+	ListAddString (listDesc, "Client\n" +
+				  "Client Installation.", AFTER);
+	ListAddString (listDesc, "Server\n" +
+				  "Server Installation (including all the Client components).", AFTER);
+
+// Display the dialog box.
+	nResult = SdOptionsButtons (szTitle, szMsg, listButtons, listDesc);
+
+	switch ( nResult )
+		case 101:
+			g_bClient = TRUE;
+			g_bServer = FALSE;
+			FeatureSetupTypeSet (MEDIA, "Client");				
+		// Update the StartCopy list
+			ListAddString(g_listStartCopy, "Installation Type: Client", AFTER);
+
+		case 102:
+			g_bClient = FALSE;
+			g_bServer = TRUE;
+		// check administrator permissions
+			SFS_CheckPermissions();
+			FeatureSetupTypeSet (MEDIA, "Server");				
+		// Update the StartCopy list
+			ListAddString(g_listStartCopy, "Installation Type: Server", AFTER);
+
+	endswitch;
+
+	Enable(NEXTBUTTON);
+	Enable(BACKBUTTON);
+
+// Destroy the lists.
+	ListDestroy (listButtons);
+	ListDestroy (listDesc);
+
+
+	return nResult;
+
+end;	
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_DlgSelectProducts()
+//
+//  COMMENTS:	What sort of installation type is required
+//
+//				- File Share Server
+//				- Primary Server
+//				- Application Server
+//				- Client
+///////////////////////////////////////////////////////////////////////////////
+	STRING 	svString, szTitle, szMsg, szField1, svDir;
+	NUMBER 	nResult;
+	LIST	listButtons, listDesc;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_DlgSelectProducts", LOGGING );
+
+// Set the Product Version so the registry can see it
+	MsiSetInstallLevel(ISMSI_HANDLE, 1);
+
+	szTitle = "Sirius - Select Products";
+	szMsg   = "Select the products you want to install on your computer.";
+
+// Display available features.   
+	nResult = SdAskOptionsList (szTitle, szMsg, "", NONEXCLUSIVE);
+
+// Update the StartCopy list
+	// ListAddString(g_listStartCopy, "Products Selected: ", AFTER);
+
+	return nResult;
+
+end; 
+
+
+
+//---------------------------------------------------------
+//
+	function	SFS_ClientOrServer( szProduct )
+//
+//  Purpose:	This function determines whether client or
+//		   	server for Sirius Architecture is installed.
+//
+//  Parameter
+//	  szProduct - The name of the product.
+//
+//  Return values
+//	  0 = All OK
+//
+//---------------------------------------------------------
+	STRING	svClientKey, svServerKey, svValue;   
+	BOOL	bClient, bServer, nvSize, nvType;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_ClientOrServer", LOGGING );
+
+// reset client and server to FALSE
+	bClient = FALSE;
+	bServer = FALSE;
+
+// Get the registry keys
+	svClientKey = "SOFTWARE\\PM\\" + szProduct + "\\Client";
+	svServerKey = "SOFTWARE\\PM\\" + szProduct + "\\Server";
+
+// Set it to the local machine
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+
+// Set up parameters for call to RegDBSetKeyValueEx.
+	nvType = REGDB_NUMBER;
+	nvSize = -1;
+
+// Check the Client key  
+	if ( RegDBGetKeyValueEx ( svClientKey , "Version" , nvType , svValue , nvSize ) = 0 ) then
+		bClient = TRUE;
+	endif;
+
+// Check the Server key
+	if ( RegDBGetKeyValueEx ( svServerKey , "Version" , nvType , svValue , nvSize ) = 0 ) then
+		bServer = TRUE;
+	endif;
+
+	if ( szProduct = "SiriusArchitecutre" ) || ( szProduct = "GIS" ) then
+	// do not set the global client or server settings
+	else
+	// if it's SiriusSolutions then set the global variables
+		if ( bClient ) then
+			g_bClient = TRUE;
+		endif;
+	
+		if ( bServer ) then
+			g_bServer = TRUE;
+		endif;
+	endif;
+
+// If neither are installed then this is a brand new installation
+	if ( !bClient ) && ( !bServer ) then
+		return -1;
+	else
+		return 0;
+	endif;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function	SFS_Trim (svString)
+//
+//	Purpose:	Same as VB Trim function.
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING	svWrkString, svChar, svSubString;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_Trim", LOGGING );
+
+	svWrkString = svString;
+
+// Check for null string
+	if ( StrLength ( svWrkString ) < 1 ) then
+		return 0;
+	endif;
+
+// Remove trailing spaces	
+	StrSub ( svChar , svWrkString , StrLength ( svWrkString ) - 1 , 1 );
+	while (svChar = " ")
+		StrSub ( svSubString , svWrkString , 0 , StrLength ( svWrkString ) - 1 );
+		svWrkString = svSubString;
+		if StrLength ( svWrkString ) < 1 then
+			svString = "";
+			return 0;
+		endif;
+		StrSub ( svChar , svWrkString , StrLength ( svWrkString ) - 1 , 1);
+	endwhile;
+
+// Remove leading spaces
+	StrSub ( svChar , svWrkString , 0 , 1 );
+	while (svChar = " ")
+		StrSub ( svSubString , svWrkString , 1 , StrLength ( svWrkString ) - 1 );
+		svWrkString = svSubString;
+		if StrLength ( svWrkString ) < 1 then
+			svString = "";
+			return 0;
+		endif;
+		StrSub ( svChar , svWrkString , 0 , 1 );
+	endwhile;
+
+	svString = svWrkString;
+	return 0;
+
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_InstallDatabase( szProductType, szProductOrder, bBackup)
+//
+//  Purpose:  	Calls the SetupDB which will do all the database setup and	
+//				install all the scripts
+//
+//				Using the new command line
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING  szProgram , szCmdLine, svResult, svDir, svDirTemp, svStatus, 
+			szCommandTimeout, sBackupFlag, sDatabaseName, sDatabaseServer, 
+			sSQLPath, szProductTypeLine, sInstallOrder, szPath, szFilename, 
+			szKey, szMsg, svReturnString, svReturnString2 ;
+	NUMBER  nResult, nvType, nLen;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_InstallDatabase", LOGGING );
+
+// Start the processing
+	SFS_MsiGetProperty (ISMSI_HANDLE, "SETUPEXEDIR", szPath, nvSize);
+	StrRemoveLastSlash ( szPath );	
+	ParsePath ( svReturnString2 , szPath , DISK );	
+	ParsePath ( svReturnString , szPath , DIRECTORY );	
+
+	szPath = svReturnString2 ^ svReturnString ^ "Scripts";
+	szFilename = "SetupDB.exe" ;
+	szCmdLine = "";	// This is set later
+
+// Update the status window
+	SetStatusWindow ( -1, "Running the database scripts - please wait" );
+
+
+// *** NOW RUN IT FOR THE UPGRADE SCRIPTS ***		
+
+// set the backup flag
+	if ( bBackup ) then 
+		sBackupFlag = "Yes";
+	else
+		sBackupFlag = "No" ;  
+	endif;
+	
+// Set the registry root											
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );	
+	szKey = "SOFTWARE\\PM\\Swift\\Database";
+
+// Need to up the registry setting for CommandTimeout to 300 from 60 seconds.
+	RegDBGetKeyValueEx ("SOFTWARE\\PM\\Swift\\Database", "CommandTimeout",
+							nvType, szCommandTimeout, nvSize );
+
+	if ( szCommandTimeout != "" ) then 
+
+		RegDBSetKeyValueEx ( szKey , "CommandTimeout" , REGDB_STRING , 
+							"3000" , -1 );
+	endif;
+
+// --- Get some registry settings 
+
+// *** Database Server name ***
+	RegDBGetKeyValueEx ( "SOFTWARE\\PM\\SiriusArchitecture\\Server\\Databases\\SiriusSolutions",
+							"Server", nvType, sDatabaseServer, nvSize );
+
+// if the database server name is blank then get it from memory
+	if sDatabaseServer = "" then  
+		SFS_MsiGetProperty (ISMSI_HANDLE, "DATABASE_SERVER", sDatabaseServer, nvSize);
+	// if we still can't find it then the database needs to be local
+		if sDatabaseServer = "" then 
+			sDatabaseServer = "(local)";
+		endif;
+	endif;
+	
+	
+// *** Database Name ***
+	RegDBGetKeyValueEx ( "SOFTWARE\\PM\\SiriusArchitecture\\Server\\Databases\\SiriusSolutions",
+							"Database", nvType, sDatabaseName, nvSize );	
+
+// if the Database name is blank then default 'Sirius'
+	if sDatabaseName = "" then
+		sDatabaseName = "Sirius";
+	endif;
+ 
+ 
+// *** Database SQL path ***
+	RegDBGetKeyValueEx ( "SOFTWARE\\Microsoft\\MSSQLServer\\Setup",
+							"SQLDataRoot", nvType, sSQLPath, nvSize );	
+	
+	
+// Is there an order file	
+	if ( FindFile ( szPath ^ "InstallOrder" , "upgrade.lst" , svResult ) = 0) then
+		sInstallOrder = '"uof=' + szPath ^ 'InstallOrder' ^ 'upgrade.lst' + '", ';
+	else
+		sInstallOrder = "";
+	endif;
+	
+// Process the product type. Don't output if it's blank
+	SFS_Trim ( szProductType );
+	if szProductType = "" then
+		szProductTypeLine = "";
+	else
+		szProductTypeLine = '"pdf=' + szProductType + '", ';
+	endif;
+	
+// Setup the command line
+	szCmdLine = '"act=install", ' +
+				'"if=' + szPath + '", ' +
+				szProductTypeLine  +
+				'"sn=' + sDatabaseServer + '", ' +
+				'"dn=' + sDatabaseName + '", ' +
+				'"dbk=' + sBackupFlag + '", ' +
+				'"ddf=' + sSQLPath ^ 'Data' + '", ' +
+				'"dlf=' + sSQLPath ^ 'Data' + '", ' +
+				'"dbf=' + sSQLPath ^ 'Backup' + '", ' +
+				'"lic=yes", ' +
+				'"lss=yes", ' +
+				'"iff=' + szPath ^ 'config.xml' + '", ' +
+				sInstallOrder + 
+				szProductOrder ;
+
+// Run the database installer						
+	nResult = SFS_LaunchAppAndWait ( szPath ^ szFilename , szCmdLine , LAAW_OPTION_WAIT | LAAW_OPTION_SHOW_HOURGLASS );
+
+// Check that the installer has run correctly
+	if ( nResult < 0 ) then
+		szMsg = "Unable to launch : " + szPath ^ szFilename + " it will need to be run manually.";
+		SFS_MessageBox ( szMsg, SEVERE );
+
+	// Update the status window
+		SetStatusWindow ( -1, "" );
+
+		return 0;
+	endif;
+
+// Add Debugging - Check scripts have been installed correctly
+//  0 = upgrade complete
+//  1 = still running (or possibly crashed if Windows aborted it)
+//  2 = fatal error, upgrade not complete
+//  3 = cancelled by user, upgrade not complete
+
+
+// Get the version numbers of all the databases
+//  WARNING - Currently the installer is giving out false reading
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx ( "Software\\PM\\DatabaseInstaller\\Server",
+							"AppStatus" , nvType , svStatus , nvSize );											
+
+// Now remove the previous setting and restore the CommandTimeout
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );	
+	szKey = "SOFTWARE\\PM\\Swift\\Database";
+
+	if ( szCommandTimeout = "" ) then
+		RegDBDeleteValue (szKey, "CommandTimeout" );
+	else
+		RegDBSetKeyValueEx ( szKey , "CommandTimeout" , REGDB_STRING , szCommandTimeout , -1 );
+	endif;	
+
+	if ( svStatus !="0" ) then
+		szMsg = "Database Update Failed (status:" + svStatus + ") - Install Aborted.";
+		SFS_MessageBox ( szMsg, SEVERE );
+
+	// Update the status window
+		SetStatusWindow ( -1, "" );
+     
+		return 1;
+
+	endif;	
+
+// Update the status window
+	SetStatusWindow ( -1, "" );
+	
+	return 0;
+
+end;
+
+
+//---------------------------------------------------------
+//
+	function	SFS_MessageBox ( szMsg, nvMsgType )
+//
+//	Purpose:  
+//
+//	Parameter
+//
+//
+//	Return values
+//
+//
+//---------------------------------------------------------
+	STRING	svResult, szLine, szMsgType, szFilename;
+	NUMBER	nFileHandle, nvResult;
+	BOOL	g_bSilent; 
+begin
+
+// Set the file mode to normal.
+	OpenFileMode (FILE_MODE_APPEND);
+	
+// setup the log filename
+	szFilename = IFX_PRODUCT_NAME + ".log";
+
+// does the file currently exist
+	nvResult = FindFile ( WINDIR, szFilename, svResult);
+
+	if ( nvResult < 0 ) then
+	// Can't find the file so create it... so UsersLoggedOn didn't run
+		CreateFile (nFileHandle, WINDIR, szFilename);
+	else
+	// Open the file for editing.
+		OpenFile (nFileHandle, WINDIR, szFilename);
+	endif;
+	
+// Build the Output line
+	GetSystemInfo ( DATE , nvResult , svResult );
+	szLine = szLine + svResult; 
+	GetSystemInfo ( TIME , nvResult , svResult );
+	szLine = szLine + " " + svResult + " : ";
+	switch (nvMsgType)
+		case SEVERE:
+			szMsgType = "SEVERE";
+		case INFORMATION:
+			szMsgType = "INFORMATION";
+		case WARNING:
+			szMsgType = "WARNING";
+		case LOGGING:
+			szMsgType = "LOGGING";
+	endswitch;
+	szLine = szLine + szMsgType + " - " + szMsg ;
+
+// Write the line to the file
+	WriteLine ( nFileHandle , szLine );
+
+// Close the file.
+	CloseFile (nFileHandle);
+
+
+	if ( g_bSilent ) || ( nvMsgType = LOGGING ) then
+		// do nothing
+	else
+
+	// ensure that messages are only displayed for SEVERE
+		if ( nvMsgType = SEVERE ) then 
+		// Output a message box instead
+			MessageBox ( szMsg, nvMsgType );
+		endif;
+
+	endif;
+
+// exit from the procedure
+	return 0;
+
+end;
+
+//---------------------------------------------------------
+//
+	function	SFS_CheckPermissions()
+//
+//  Purpose:	This functions checks whether the User can
+//				install this product.
+//
+//  Parameter:	None
+//	  
+//
+//  Return values
+//			 0 = ALL OK
+//		 abort = The current user does not have the correct permissions
+//				 to install the product on a Windws NT machine
+//	  
+//---------------------------------------------------------
+	STRING	svResult, szMsg;
+	NUMBER	nvResult;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_CheckPermissions", LOGGING );
+
+// Set the status window description
+	SetStatusWindow ( -1, "Checking permissions - please wait" ); 
+
+// Get the operating system
+	GetSystemInfo ( OS, nvResult, svResult);
+
+// Now check if it's Windows NT
+	if ( nvResult = IS_WINDOWSNT ) || ( g_bServer ) then	
+
+		if !( Is (USER_ADMINISTRATOR, "") ) then
+		// Does not have permissions, abort the installation
+			szMsg = "You need Administrator access to install " +
+					"this product on this PC. The current user " +
+					"does not have this access.";
+			SFS_MessageBox ( szMsg, SEVERE );
+			abort;
+		endif;
+
+	endif;
+
+	return 0;
+
+end;
+
+
+//---------------------------------------------------------
+//
+	function	SFS_GetInstallDir()
+//
+//	Purpose:	This function finds out if PMDIR has been set and uses it for
+//				the Target directory. Otherwise the Program Files directory is 
+//				used.
+//
+//	Parameter:	None
+//
+//
+//  Return values
+//			 0 = ALL OK
+//
+//---------------------------------------------------------
+	STRING	svValue, svKey, szPMDir;
+	NUMBER	nvType, nvSize, nResult;
+ begin
+
+	SFS_MessageBox ( "Procedure: SFS_GetInstallDir", LOGGING );
+
+/*
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PMDIR", szPMDir, nvSize);
+
+// If the PMDir has previously been found then set the install folder and exit
+	if ( szPMDir != "" ) then  
+		INSTALLDIR = szPMDir ^ "PM";
+		return 0; 
+	else
+	// No products currently installed
+		return -1;
+	endif;
+*/
+
+
+
+// Set the status window description
+	SetStatusWindow ( -1, "Retrieving the installation folder - please wait" ); 
+
+// Does the PM subkey exist
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+	nResult = RegDBKeyExist ( "SOFTWARE\\PM" ); 
+	
+// set the key
+	svKey = "SOFTWARE\\PM";
+
+	if ( nResult = 1 ) then
+	// Get the PMDIR registry settings
+		nResult = RegDBGetKeyValueEx ( svKey , "PMDIR" , nvType , svValue , nvSize );
+
+		if ( nResult = 0 ) then
+		// Set the INSTALLDIR to the current registry setting
+			StrRemoveLastSlash ( svValue );
+//			INSTALLDIR = svValue;      
+			
+		// Set the PMDir so the registry can see it 
+			MsiSetProperty(ISMSI_HANDLE, "PMDIR", svValue );
+
+			nResult = RegDBGetKeyValueEx ( svKey , "InstallDir" , nvType , svValue , nvSize );
+
+			if ( nResult < 0 ) then
+			// set the INSTALLDIR setting
+				INSTALLDIR = svValue ^ "PM";
+			endif;			
+
+		else
+		// No products currently installed
+			return -1;
+		endif;
+
+	else
+	// No products currently installed
+		return -1;
+
+	endif;
+
+// Set the PMDir so the registry can see it 
+	MsiSetProperty(ISMSI_HANDLE, "INSTALLDIR", INSTALLDIR );
+
+	return 0;
+
+
+end;
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_RegisterSAClient()
+//
+//	Purpose:                
+//
+/////////////////////////////////////////////////////////////////////////////
+	STRING	szServerName, szPath, szFilename, szCmdLine;
+	NUMBER	nvSize;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_RegisterSAClient", LOGGING );
+       
+// do not install if this is the server installation 
+	if ( g_bServer ) then
+		return 0;
+	endif;
+
+// ---- Get the MSI Properties ----
+	SFS_MsiGetProperty (ISMSI_HANDLE, "SERVER_NAME", szServerName, nvSize);
+
+// Set the status window description
+	SetStatusWindow ( -1, "Registering the client - please wait" );
+
+// Set the registry root
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+
+// Setup the application details
+	szPath = INSTALLDIR ^ "Sirius Architecture\\Common\\Programs";
+	szFilename = "clireg32.exe";
+	szCmdLine = '"' + szPath ^ 'bPMRemoteLicenceManager.vbr"' + 
+				" -s " + szServerName +
+				" -p ncacn_ip_tcp" + 
+				" -d " + //Remote Automation not required
+				" -q ";
+
+// Launch the application
+	SFS_LaunchAppAndWait ( szPath ^ szFilename , szCmdLine , LAAW_OPTION_WAIT );
+
+// Reset the status window	
+	SetStatusWindow ( -1, "" );
+
+// Return OK
+	return 0;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_DlgPMSetupShare( bSilent )
+//
+//  Purpose:    Create the PMSetup share folder
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING 	svReturnLine, svDisk, svComputerName, szShareDrive;
+	STRING	szCommand, svResultPath, svDrive, svCreateDir, szString, svValue,  
+			szPath, szFilename, szCmdLine, svResult, szShareDir,
+			szSource, szDestination, szProductVersion, sPMSetup;
+	NUMBER  nResult, nvLineNumber, nvExitCode, nLen, nvType, nvSize, nvValue,
+			nvResult;
+	BOOL	bFlag;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_DlgPMSetupShare", LOGGING );
+
+// Get the file share server name	
+	SFS_MsiGetProperty (ISMSI_HANDLE, "COMPUTER_NAME", svComputerName, nvSize);
+
+// ---- Find the PM Share
+	FindPMShare:
+
+// Reset the share drive
+	szShareDrive = "";
+
+//	Get the disk drive letter for windows directory
+	GetDisk ( WINDIR , svDisk );	
+
+// Setup the command line
+	szPath = "";
+	szFilename = "cmd";
+	szCmdLine = " /c net share PMSetup >" + svDisk ^ "share.tmp";
+
+// Launch the command line
+	SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN );
+
+// Find out if the command worked successfully
+	nResult = FileGrep ( svDisk ^ "share.tmp",
+							 "The command completed successfully.",
+							 svReturnLine,
+							 nvLineNumber,
+							 RESTART );	
+
+// if it found the file
+	if ( nResult = 0 ) then
+
+		nResult = FileGrep ( svDisk ^ "share.tmp",
+							 "Path",
+							 svReturnLine,
+							 nvLineNumber,
+							 RESTART );	
+
+	// return the complete path
+		nLen = StrLength ( svReturnLine );
+		StrSub ( svResult , svReturnLine , 5 , nLen - 5 );
+		SdRemoveEndSpace(svResult);	
+
+		StrSub ( szShareDrive, svResult, 0, 2 );
+        
+	// setup the PMSetup path
+		sPMSetup = svResult;
+		
+	// get the drive letter
+		GetSystemInfo (DRIVE, nvResult, szShareDrive);
+		
+	// check to see if it's currently setup as the CDROM remove the share
+		if ( nvResult = IS_CDROM ) then
+
+		// Setup the command line
+			szPath = "";
+			szFilename = "cmd";
+			szCmdLine = " /c net share PMSetup /DELETE";
+
+		// Launch the command line
+			SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN );
+        
+        // set the PMSetup path to nothing so prompted for it
+        	sPMSetup = "";
+        	
+        endif;
+        
+	endif;
+
+	if ( sPMSetup = "" ) then
+
+		if ( !bSilent ) then
+			
+			while ( !bFlag );
+	
+			// Set the title
+				SetDialogTitle ( DLG_ASK_OPTIONS, "Sirius - Share Location");
+	
+			// Prompt for a target path; use C as the default.
+				AskPath ("Please select a drive for the PMSetup share:", svDisk ^ "", svResultPath);
+	
+			// Get the drive designation from the path.
+				GetDisk (svResultPath, svDrive);
+	
+				GetSystemInfo (DRIVE, nvResult, svDrive);
+				if ( nvResult = IS_CDROM ) then
+					SFS_MessageBox ( "You cannot use the CDROM as the share. Please select a local drive" , INFORMATION );
+				else
+					svCreateDir = svDrive ^ "PMSetup";
+					CreateDir ( svCreateDir );
+					bFlag = TRUE;
+				endif;
+	
+			endwhile;
+  	
+  		else
+        
+        //Get the disk drive letter for windows directory
+			GetDisk ( WINDIR , svDrive );	
+		
+		// we are in silent mode so can't ask so assume the root of WINSYS
+			svCreateDir = svDrive ^ "PMSetup";
+			CreateDir ( svCreateDir );
+
+		endif;
+		
+	// Setup the command line
+		szPath = "";
+		szFilename = "cmd";
+		szCmdLine = ' /c net share PMSetup="' + svCreateDir + '"';
+
+	// Launch the command line
+		SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN );
+        
+    // setup the PMSetup 
+    	sPMSetup = svCreateDir;
+    	
+	endif;
+
+// Setup the Product Version so the registry can see it
+	MsiSetProperty(ISMSI_HANDLE, "PMSETUP", sPMSetup);
+
+// Now delete the temp file
+	DeleteFile ( svDisk ^ "share.tmp");
+	
+// Return OK
+	return 0;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_ClientInstall( 	sProductID,
+									sFolderName,
+									sProductDescription,
+									sProgramName )
+//
+//  Purpose:
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING 	svReturnLine, svDisk, svComputerName, szShareDrive;
+	STRING	szCommand, svResultPath, svDrive, svCreateDir, szString, svValue,  
+			szPath, szFilename, szCmdLine, svResult, szShareDir,
+			szSource, szDestination, szProductVersion, sPMSetup, szClientInstall;
+	NUMBER  nResult, nvLineNumber, nvExitCode, nLen, nvType, nvSize, nvValue,
+			nvResult;
+	BOOL	bFlag;
+begin
+
+
+	SFS_MessageBox ( "Procedure: SFS_ClientInstall", LOGGING );
+
+// ---- Get the MSI Properties ----
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PMSETUP", sPMSetup, nvSize);
+	SFS_MsiGetProperty (ISMSI_HANDLE, "GENERAL_CLIENTINSTALL", szClientInstall, nvSize);
+ 	
+// only for server installation
+	if ( !g_bServer ) then
+ 		return TRUE;
+ 	endif;
+
+// Set the status window description
+	SetStatusWindow ( -1, "Updating the Client Install Process - please wait" );
+
+// ---- Remove the Previous Client Installation Set
+	RemovePreviousClientInstallSet:
+
+// Set the destination path in order to remove the previous version
+	szShareDir = sPMSetup ^ sFolderName;
+
+// Remove the previous version and all the sub folders
+	DeleteDir ( szShareDir , ALLCONTENTS );
+
+
+// ---- Copy the Current Client Install Set to PMSetup
+	CopyCurrentClientInstallSet:
+
+// Setup the source and destination folders	
+	SFS_MsiGetProperty (ISMSI_HANDLE, "SETUPEXEDIR", szSource, nvSize);
+	szSource = szSource ^ "*.*";
+	szDestination = szShareDir ^ "*.*";
+
+// Copy the files 
+	SFS_XCopyFile ( szSource, szDestination, INCLUDE_SUBDIR );
+
+// ---- Update the PMPRODUCT_CLIENT_INSTALL table
+	UpdatePMPRODUCT_CLIENT_INSTALLTable:
+
+	// Need to check if this is the Patch are it still needs to point to the Service Release
+	if ( sFolderName % "Service Release" ) then
+		sFolderName = "Service Release";	
+	endif;
+
+	sPMSetup = szShareDir ^ "";
+
+// Setup the command line
+	szPath = SUPPORTDIR;
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PRODUCT_VERSION", szProductVersion, nvSize);
+
+	szFilename = "UpdatePMProduct.exe";
+	szCmdLine = '"' + szProductVersion + '"' + "," +
+					'"' + sProductID + '"' + "," +
+					'"' + sPMSetup + '"' + "," +
+					'"' + sProductDescription + '"' + "," +
+					'"' + sProgramName + '"' ;
+
+// Launch the command line
+	SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT );
+
+
+// Reset the status window	
+	SetStatusWindow ( -1, "" );
+
+// Return OK
+	return 0;
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_ProductUpdateHistory()
+//
+//  Purpose:	When the installation has finished, the update details must be
+//				inserted into PMProductUpdateHistory.
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING	szINIDir, szINIFile,
+			szProductCode, szVersion, szHistoryFilename, szDescription,
+			szSource, szDestination,
+			szPath, szFilename, szCmdLine;
+	NUMBER	nvExitCode, nResult;
+	BOOL bServerSelected;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_ProductUpdateHistory", LOGGING );
+
+// only for server installation
+	if ( !g_bServer ) then
+ 		return TRUE;
+ 	endif;
+  
+	SFS_MsiGetProperty (ISMSI_HANDLE, "SETUPEXEDIR", szINIDir, nvSize);
+	szINIDir = szINIDir ^ ".." ^ "Release Notes";
+	
+	if ( ExistsDir ( szINIDir ) = EXISTS ) then
+
+	// Set the status window description
+		SetStatusWindow ( -1, "Updating Product Update History - please wait" );
+
+		szINIFile = szINIDir ^ "ProductUpdateHistory.ini";
+
+		// Read the ini file
+		GetProfString ( szINIFile , "ProductUpdateHistory" , "ProductCode" , szProductCode );
+//		GetProfString ( szINIFile , "ProductUpdateHistory" , "Version" , szVersion );
+		GetProfString ( szINIFile , "ProductUpdateHistory" , "Filename" , szHistoryFilename );
+		GetProfString ( szINIFile , "ProductUpdateHistory" , "Description" , szDescription );
+
+	else
+	// can't find the INI file
+		szProductCode = "SFS";
+//		szVersion = IFX_PRODUCT_VERSION;
+		szHistoryFilename = "";
+		szDescription = IFX_PRODUCT_NAME;
+		
+	endif;
+
+// Set the version to the version in the installer for IS9 projects
+	szVersion = IFX_PRODUCT_VERSION;
+
+// Copy from the source to the installation destination
+	szSource = szINIDir;
+	szDestination = INSTALLDIR ^ "Product Update History";
+	SFS_XCopyFile ( szSource ^ "*.*" , szDestination ^ "*.*" , COMP_NORMAL );
+
+// Setup the command line
+	szPath = INSTALLDIR ^ "Sirius Architecture" ^ "Server" ^ "Programs";
+	szFilename = "PMProductUpdateHist.exe";
+	szCmdLine = szProductCode + "," +
+					szVersion + "," +
+					szHistoryFilename + "," +
+					szDescription + "," + TARGETDIR ^ "Product Update History" ;
+
+// Launch the command line
+	SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT );
+
+// Reset the status description
+	SetStatusWindow ( -1, "" );
+
+
+	return 0;
+
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function	SFS_UsersLoggedOn()
+//
+//  Purpose:	VB program determines if any users are logged on. 
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING	szProgram, szCmdLine, szQuestion, szMsg, svLine,
+			szPath, szFilename, svDisk, svResult;
+	NUMBER	nResult, nvFileHandle, nvUsers, nFileHandle;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_UserLoggedOn", LOGGING );
+
+	if ( SFS_ClientOrServer( "SiriusArchitecture" ) = -1 ) then
+	// Sirius Architecture is not installed so don't run this procedure
+		return 0;
+	endif;
+
+// only for server installation
+	if ( !g_bServer ) then
+ 		return TRUE;
+ 	endif;
+
+// Set the status window description
+	SetStatusWindow ( -1, "Checking users logged on - please wait" ); 
+
+// Get the root of where the windows is installed
+	GetDisk ( WINDIR , svDisk );	
+	DeleteFile ( svDisk ^ "UsersLoggedOn.txt" );
+
+// Setup the command line
+	szPath = SUPPORTDIR;
+	szFilename = "UsersLoggedOn.exe";
+	szCmdLine = "";
+
+// Launch the command line
+	SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT );
+
+	nResult = FindFile ( svDisk, "UsersLoggedOn.txt", svResult);
+
+	if ( nResult < 0 ) then
+	// Can't find the file... so UsersLoggedOn didn't run
+		return 0;
+	endif;
+
+// Set the file mode to normal.
+	OpenFileMode ( FILE_MODE_NORMAL );
+	
+// Open the file for editing.
+	OpenFile ( nFileHandle, svDisk, "UsersLoggedOn.txt" );
+
+// Get lines from the file into the list.
+	GetLine ( nFileHandle, svLine );
+
+// Check the line
+	if ( svLine != "OK" ) then
+		szMsg = "There are still users logged on.\n\n" +
+				"Installation can not continue.";
+		SFS_MessageBox ( szMsg , INFORMATION );
+		CloseFile ( nFileHandle );
+		return -1;
+	endif;
+
+// Close the file.
+	CloseFile ( nFileHandle );
+	
+// return OK
+	return 0;
+	
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function	SFS_RemoveUnwantedFiles( szUnwantedFileList )
+//
+//	Purpose:	Read a file which contains a list of unwanted files
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING	szProgram, szCmdLine, szQuestion, szMsg, svLine,
+			szPath, szFilename, svDisk, svSubStr, svFile, svPath,
+			szUnwantedFile, szRemoveType, szFile, svResult,
+			svUnwantedFilePath, svUnwantedFileName, szSrcDir;
+	NUMBER	nResult, nvFileHandle, nvUsers, nFileHandle, nStartPos;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_RemoveUnwantedFiles", LOGGING );
+
+// Set the status window description
+	SetStatusWindow ( -1, "Removing rogue files - please wait" ); 
+
+// Set the file mode to normal.
+	OpenFileMode ( FILE_MODE_NORMAL );
+
+// Open the file for editing.
+	SFS_MsiGetProperty (ISMSI_HANDLE, "SETUPEXEDIR", szSrcDir, nvSize);
+	OpenFile ( nFileHandle, szSrcDir, szUnwantedFileList );
+
+// Get lines from the file into the list.
+	while (GetLine (nFileHandle, svLine) = 0)
+
+// Get the first character to see if it's a comment
+	StrSub ( svSubStr , svLine , 0 , 1 );
+	// Check the line
+		if ( svSubStr != ";" ) then
+
+		 // Parse the input line
+			nStartPos = StrFind ( svLine , "," );
+			StrSub ( szUnwantedFile , svLine , 0 , nStartPos ); 
+			StrSub ( szRemoveType , svLine , nStartPos + 1, StrLength (svLine) - nStartPos - 1 );
+
+		// Parse the path and filename seperate
+			ParsePath ( svUnwantedFilePath , szUnwantedFile , DIRECTORY );
+			ParsePath ( svUnwantedFileName , szUnwantedFile , FILENAME );
+
+		// Now complete the path by adding the INSTALLDIR
+			svUnwantedFilePath = INSTALLDIR ^ svUnwantedFilePath;
+   
+   		// add some debugging
+			SFS_MessageBox ( "To Delete: " + svUnwantedFilePath ^ svUnwantedFileName, LOGGING );
+			
+			switch (szRemoveType)
+
+				case "DELETE", "DEL":
+					if ( FindFile ( svUnwantedFilePath, svUnwantedFileName, svResult ) = 0 ) then  
+
+					// Setup the command line to reset the attributes
+						szPath = "";
+						szFilename = "cmd.exe";
+						szCmdLine = '/c attrib.exe "' + svUnwantedFilePath ^ svUnwantedFileName + '" -r /s /d' ;
+
+					// Launch the command line
+						SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT );
+
+					// Now delete the file
+						if (DeleteFile ( svUnwantedFilePath ^ svUnwantedFileName ) < 0) then
+						// faield
+							SFS_MessageBox ( "Delete File: FAILED " + svUnwantedFilePath ^ svUnwantedFileName, LOGGING );
+						else
+						// success
+							SFS_MessageBox ( "Delete File: " + svUnwantedFilePath ^ svUnwantedFileName, LOGGING );
+						endif;
+
+					endif;  
+
+				default:
+				// Try and unregister it first
+					if ( FindFile ( svUnwantedFilePath, svUnwantedFileName, svResult ) = 0 ) then  
+					// Found file so unregister it
+
+					// Setup the command line
+						szPath = "";
+						szFilename = "regsvr32.exe";
+						szCmdLine = ' /u /s ' + '"' + svUnwantedFilePath ^ svUnwantedFileName + '"' ;
+
+					// Launch the command line
+						SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT );
+
+					// Setup the command line to reset the attributes
+						szPath = "";
+						szFilename = "cmd.exe";
+						szCmdLine = '/c attrib.exe "' + svUnwantedFilePath ^ svUnwantedFileName + '" -r /s /d' ;
+
+					// Launch the command line
+						SFS_LaunchAppAndWait ( szPath ^ szFilename, szCmdLine, LAAW_OPTION_WAIT );
+
+					// Now delete the file
+						if (DeleteFile ( svUnwantedFilePath ^ svUnwantedFileName ) < 0) then
+						// faield
+							SFS_MessageBox ( "Delete File: FAILED " + svUnwantedFilePath ^ svUnwantedFileName, LOGGING );
+						else
+						// success
+							SFS_MessageBox ( "Delete File: " + svUnwantedFilePath ^ svUnwantedFileName, LOGGING );
+						endif;
+
+					endif;
+
+			endswitch;
+
+		endif;
+
+	endwhile;
+
+// Close the file.
+	CloseFile ( nFileHandle );
+
+// return OK
+	return 0;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+	function 	SFS_NetShareAdd( szShareName, szPath )
+//
+//	COMMENTS:	Create a share folder
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING 	szDLL, szDLL2;
+			_SHARE_INFO_2 NewShare;
+			_SHARE_INFO_2 POINTER pNewShare;
+			_WIDESTRING szDirPath,sShareName;
+			_WIDESTRING POINTER pDirPath,pShareName;
+	LONG	sdParmError, nReturn;
+	STRING	szCommand, svString;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_NetShareAdd", LOGGING );
+
+// set up the string
+	StrToUpper ( svString, szShareName );
+	
+// Set the MSI property
+	MsiSetProperty(ISMSI_HANDLE, "FILE_SHARE_" + svString, szPath );
+
+// Remove the last slash
+	StrRemoveLastSlash ( szPath ); 
+
+// Make sure it's quoted
+	LongPathToQuote(szPath, TRUE);
+
+// Remove the old share
+	szCommand = "SHARE " + szShareName + " /DELETE";
+	SFS_LaunchAppAndWait( "net", szCommand, LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN );
+
+// Make sure it's quoted
+	LongPathToQuote(szPath, FALSE);
+
+
+// Create the folder
+	if (ExistsDir (szPath) != EXISTS) then
+		CreateDir ( szPath );
+	endif;
+
+	szDLL   = WINSYSDIR ^ "netapi32.DLL";
+	szDLL2   = WINSYSDIR ^ "kernel32.DLL";
+	nReturn = UseDLL ( szDLL );
+	if (nReturn < 0) then
+		MessageBox("Unable to load netapi32.DLL", SEVERE);
+		exit;
+	endif;
+	nReturn = UseDLL ( szDLL2 );
+	if (nReturn < 0) then
+		MessageBox("Unable to load kernel32.DLL", SEVERE);
+		exit;
+	endif;
+
+	pDirPath = &szDirPath;
+	pShareName = &sShareName;
+
+	nReturn = MultiByteToWideChar(CP_ACP,MB_PRECOMPOSED,&szShareName,	// address of string to map 
+		StrLengthChars(szShareName),pShareName,200);
+
+	pNewShare = &NewShare;
+	pNewShare->shi2_netname = pShareName;
+	pNewShare->shi2_type = STYPE_DISKTREE;
+	pNewShare->shi2_remark = NULL;
+	pNewShare->shi2_permissions = ACCESS_ALL;
+	pNewShare->shi2_max_uses = SHI_USES_UNLIMITED;
+	pNewShare->shi2_current_uses = 0;
+
+	nReturn = MultiByteToWideChar(CP_ACP,MB_PRECOMPOSED,&szPath,
+		StrLengthChars(szPath), pDirPath, 200 );
+
+	pNewShare->shi2_path = pDirPath;
+	pNewShare->shi2_passwd = NULL;
+
+
+	nReturn = NetShareAdd(NULL,2,&NewShare,&sdParmError);
+
+	UnUseDLL ( szDLL );
+	UnUseDLL ( szDLL2 );
+
+end;
+
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_MsiGetProperty(hMSI, 
+									svProperty, 
+									svPropertyValue, 
+									nvBufferSize)
+//
+//	Purpose:	This function is the target of an InstallScript
+//				custom action that gets and displays the value
+//				of the DATABASE property.
+/////////////////////////////////////////////////////////////////////
+//	STRING	svPropertyValue;
+//	LONG	nvBufferSize;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_MsiGetProperty", LOGGING );
+
+// Set buffer to a NULL string and buffer size to zero.
+	svPropertyValue = "";
+	nvBufferSize = 0;
+
+// Make first call to get the actual buffer size 
+//  required for the DATABASE property.
+	MsiGetProperty(ISMSI_HANDLE, svProperty, svPropertyValue, nvBufferSize);
+
+// Increment size to account for NULL terminator
+//  and then resize the string buffer.
+	nvBufferSize++;
+	Resize(svPropertyValue, nvBufferSize);
+
+
+// Make second call to get the actual value
+//  of the DATABASE property.
+	MsiGetProperty(ISMSI_HANDLE, svProperty, svPropertyValue, nvBufferSize);
+
+
+// Now see if there is any parts of the value that needs replacing
+	SFS_Replacements ( svPropertyValue );
+
+// write a message to the log file
+	SFS_MessageBox ( "SFS_MsiGetProperty: " + svProperty + " = " + svPropertyValue , LOGGING );
+
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_GetAllProperties()
+//
+//	Purpose:	
+//
+/////////////////////////////////////////////////////////////////////
+	STRING	szSection;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_GetAllProperties", LOGGING );
+
+// Set the status window description
+	SetStatusWindow ( -1, "Retrieving properties - please wait" ); 
+
+// Setup the section and retrieve the properties  
+	szSection = "InstallShield";
+		SFS_GetProperty ( szSection, "Status" );
+                     
+	szSection = "Database";                       
+		SFS_GetProperty ( szSection, "DatabaseName" );
+		SFS_GetProperty ( szSection, "BackupDatabase" );
+  
+ end;
+ 
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_GetProperty( szSection, szName)
+//
+//	Purpose:	
+//
+/////////////////////////////////////////////////////////////////////
+	STRING	szValue, svValue, svString, szSectionProperty, szFileName,
+			szKey, szSectionUpper, szNameUpper, szPropertName;
+	NUMBER	nvType, nvSize, nResult;
+    LIST	listID;
+begin
+               
+	SFS_MessageBox ( "Procedure: SFS_GetProperty", LOGGING );
+
+// ---- Get the MSI Property ----
+	SFS_MsiGetProperty (ISMSI_HANDLE, "READ_WRITE", szValue, nvSize);
+
+// +++ WRITE THE SETTINGS +++
+
+// are we writing the registry settings
+	if szValue = "WRITE" then   
+
+	// create the property value
+		StrToUpper ( szSectionUpper , szSection );
+		StrToUpper ( szNameUpper , szName );
+		szPropertName = szSectionUpper + "_" + szNameUpper; 
+
+	// ---- Get the MSI Property ----
+		SFS_MsiGetProperty (ISMSI_HANDLE, szPropertName, szValue, nvSize);
+
+	// set it to local machine
+		RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );	
+	
+	// Set the database key
+		szKey = "SOFTWARE\\PM\\Installer" ^ szSection;
+
+	// Write the setting
+		RegDBSetKeyValueEx ( szKey , szName , REGDB_STRING , szValue , -1 );
+       
+	// Write a message to the log
+		SFS_MessageBox ( "SFS_GetProperty: " + szSection + "_" + szName + " = " + szValue , LOGGING );
+
+	// now exit the function
+		return TRUE;
+		
+	endif; 
+	
+// reset the szValue
+	szValue = "";
+		
+// +++ READ THE SETTINGS +++
+
+// create a list
+	listID = ListCreate (STRINGLIST);
+
+// Get each path from the search path into the list.
+	StrGetTokens (listID, CMDLINE, ",");
+
+// === need to check if the command line is pointing to another ini file
+
+// get the first string
+	nResult = ListGetFirstString (listID, svString);
+    
+    StrToLower ( svString , svString );
+	StrFind ( svString , "inifile=" );
+	StrSub ( szFileName , svString , 8, StrLength (svString) - 8 );
+    
+    if ( szFileName != "" ) then
+
+	// Loop while list items continue to be retrieved.
+		while (nResult != END_OF_LIST)
+		// Get the next string in the list.
+ 			nResult = ListGetNextString (listID, svString);
+
+		    StrToLower ( svString , svString );
+			StrFind ( svString , "inifile=" );
+			StrSub ( szFileName , svString , 8, StrLength (svString) - 8 );
+		    
+		endwhile;
+
+	endif; 
+
+	if szFileName = "" then 
+		SFS_MsiGetProperty (ISMSI_HANDLE, "SETUPEXEDIR", szFileName, nvSize);
+		szFileName = szFileName ^ "sidefault.ini" ;
+	endif;
+	
+
+// === NOW GET THE REGISTRY SETTING ===
+
+// Set to local machine
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+
+// Get the registry setting
+	RegDBGetKeyValueEx ( "SOFTWARE\\PM\\Installer" ^ szSection , 
+								szName , nvType , svValue , nvSize );
+
+// Store the value if it exists
+	if ( svValue != "" ) then
+		szValue = svValue;  
+		svValue = "";
+	endif;                        
+	
+// === Now read the setting from the ini file
+	GetProfString ( szFileName , szSection , szName , svValue );
+
+// Store the value if it exists (over the previous setting if required)
+	if ( svValue != "" ) then
+		szValue = svValue;
+		svValue = "";
+	endif;                        
+
+// === Now recheck the Command line for any settings to overwrite
+
+// Setup what to look for
+	szSectionProperty = szSection + "_" + szName;
+  	StrToUpper ( szSectionProperty, szSectionProperty );
+  	
+// get the first string
+	nResult = ListGetFirstString (listID, svString);
+                  
+    StrToLower ( svString , svString );
+	StrFind ( svString , szSectionProperty + "=" );
+	StrSub ( svValue , svString , StrLength (szSectionProperty) + 1 , StrLength (svString) - StrLength (szSectionProperty) - 1 );
+
+// Loop while list items continue to be retrieved.
+	while (nResult != END_OF_LIST)
+	// Get the next string in the list.
+ 		nResult = ListGetNextString (listID, svString);
+
+	    StrToLower ( svString , svString );
+		StrFind ( svString , szSectionProperty + "=" );
+		StrSub ( svValue , svString , StrLength (szSectionProperty) + 1 , StrLength (svString) - StrLength (szSectionProperty) - 1 );
+
+	endwhile;
+ 
+// Store the value if it exists (over the previous setting if required)
+	if ( svValue != "" ) then
+		szValue = svValue;
+	endif;                        
+
+// Remove the list from memory.
+	ListDestroy (listID);
+
+
+// === Now set the msi propery
+   	MsiSetProperty(ISMSI_HANDLE, szSectionProperty, szValue);
+   
+end;
+  
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_Replacements( szValue )
+//
+//	Purpose:	Do any replacements of variables	
+//
+/////////////////////////////////////////////////////////////////////
+	STRING	svSubStr1, svSubStr2, szSub, szTemp, svValue, szComputerName;
+	NUMBER	nvStart, nvEnd, nvType, nvSize;
+    LIST	listID;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_Replacements", LOGGING );
+
+// set the size to 256
+	nvSize = 256;
+
+// Get the file share server name	
+	MsiGetProperty (ISMSI_HANDLE, "COMPUTER_NAME", szComputerName, nvSize);
+
+// re-set the nvEnd value
+	nvEnd = 0;
+
+// Do any replacements - SERVER, FILESHARE, SRCDIR, INSTALLDIR
+	if ( szValue % "<SERVER>" ) then    
+		nvStart = StrFind ( szValue, "<SERVER>" );
+		nvEnd = StrLength ( "<SERVER>" );
+	// ---- Get the MSI Property ----
+		SFS_MsiGetProperty (ISMSI_HANDLE, "SERVER_NAME", szSub, nvSize);
+	endif;
+	
+	if ( szValue % "<FILESHARE>" ) then    
+		nvStart = StrFind ( szValue, "<FILESHARE>" );
+		nvEnd = StrLength ( "<FILESHARE>" );
+	// ---- Get the MSI Property ----
+		SFS_MsiGetProperty (ISMSI_HANDLE, "FILE_SHARE_SERVER", szSub, nvSize);
+	endif;
+	
+	if ( szValue % "<INSTALLDIR>" ) then    
+		nvStart = StrFind ( szValue, "<INSTALLDIR>" );
+		nvEnd = StrLength ( "<INSTALLDIR>" );
+		szSub = INSTALLDIR;
+	endif;
+	
+	if ( szValue % "<SRCDIR>" ) then    
+		nvStart = StrFind ( szValue, "<SRCDIR>" );
+		nvEnd = StrLength ( "<SRCDIR>" );
+		SFS_MsiGetProperty (ISMSI_HANDLE, "SETUPEXEDIR", szSub, nvSize);
+	endif;
+
+
+// Check to see if it currently local and change it to the real name
+    StrToUpper ( szTemp , szSub ); 
+    if szTemp = "(LOCAL)" then
+	// Get the computer name instead
+		szSub = szComputerName;  
+	endif;
+
+
+// check if there were any replacements
+	if nvEnd > 0 then
+	// build the retrun string	
+		StrSub ( svSubStr1 , szValue , 0 , nvStart );
+		StrSub ( svSubStr2 , szValue , nvStart + nvEnd , StrLength (szValue) - nvStart - nvEnd );
+		szValue = svSubStr1 + szSub + svSubStr2;
+	endif;	
+	
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_SetVersions ()
+//
+//	Purpose:	Split the versions
+//
+/////////////////////////////////////////////////////////////////////
+    LIST	listID;
+    STRING	szMajor, szMinor, szBuild, szXtra, svString, szTemp; 
+    NUMBER	nvCount, nResult;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_SetVersions", LOGGING );
+
+// Setup the Product Version so the registry can see it
+	MsiSetProperty(ISMSI_HANDLE, "PRODUCT_VERSION", IFX_PRODUCT_VERSION);
+
+// create a list
+	listID = ListCreate (STRINGLIST);
+
+// Get each path from the search path into the list.
+	StrGetTokens (listID, IFX_PRODUCT_VERSION, ".");
+
+// Set the count to 1
+	nvCount = 1;
+
+// get the first string
+	nResult = ListGetFirstString (listID, szMajor);
+    
+// Loop while list items continue to be retrieved.
+	while (nResult != END_OF_LIST)
+
+		switch ( nvCount )
+			case 1: nResult = ListGetNextString (listID, szMinor);
+			case 2: nResult = ListGetNextString (listID, szBuild);
+			case 3: nResult = ListGetNextString (listID, szXtra); 
+			default: nResult = ListGetNextString (listID, szTemp);
+		endswitch;
+	
+	// add one to the count
+		nvCount++;  
+		
+	endwhile;
+
+// Remove the list from memory.
+	ListDestroy (listID);
+
+// Setup the differnet versions
+	MsiSetProperty(ISMSI_HANDLE, "PRODUCT_VERSION_MAJOR", szMajor);
+	MsiSetProperty(ISMSI_HANDLE, "PRODUCT_VERSION_MINOR", szMinor);
+	MsiSetProperty(ISMSI_HANDLE, "PRODUCT_VERSION_BUILD", szBuild);
+	MsiSetProperty(ISMSI_HANDLE, "PRODUCT_VERSION_XTRA", szXtra);
+
+	return TRUE;
+	
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_SplitVersions (szVersion, szMajor, szMinor, szBuild)
+//
+//	Purpose:	Split the versions
+//
+/////////////////////////////////////////////////////////////////////
+    LIST	listID;
+    STRING	szXtra, svString, szTemp; 
+    NUMBER	nvCount, nResult;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_SplitVersions", LOGGING );
+
+// create a list
+	listID = ListCreate (STRINGLIST);
+
+// Get each path from the search path into the list.
+	StrGetTokens (listID, szVersion, ".");
+
+// Set the count to 1
+	nvCount = 1;
+
+// get the first string
+	nResult = ListGetFirstString (listID, szMajor);
+    
+// Loop while list items continue to be retrieved.
+	while (nResult != END_OF_LIST)
+
+		switch ( nvCount )
+			case 1: nResult = ListGetNextString (listID, szMinor);
+			case 2: nResult = ListGetNextString (listID, szBuild);
+			case 3: nResult = ListGetNextString (listID, szXtra); 
+			default: nResult = ListGetNextString (listID, szTemp);
+		endswitch;
+	
+	// add one to the count
+		nvCount++;  
+		
+	endwhile;
+
+// Remove the list from memory.
+	ListDestroy (listID);
+
+	return TRUE;
+	
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_LaunchAppAndWait( szProgram, szCmdLine, nOptions )
+//
+//	Purpose:	
+//
+/////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	svOptions, svResult;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_LaunchappAndWait", LOGGING );
+
+// Launch the application and install the roadmaps
+	nResult = LaunchAppAndWait ( szProgram , szCmdLine , nOptions ); 
+
+// Convert the number to a string
+	NumToStr ( svOptions , nOptions );
+	NumToStr ( svResult , nResult );
+		
+// write a message to the log file
+	SFS_MessageBox ( "LaunchAppAndWait: Program = " + szProgram , LOGGING );
+	SFS_MessageBox ( "LaunchAppAndWait: CmdLine = " + szCmdLine , LOGGING );
+	SFS_MessageBox ( "LaunchAppAndWait: Options = " + svOptions , LOGGING );
+	SFS_MessageBox ( "LaunchAppAndWait: Result  = " + svResult , LOGGING );
+
+	return nResult;
+
+end;
+
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_XCopyFile( szSrcFile, szTargetPath, nOp )
+//
+//	Purpose:	
+//
+/////////////////////////////////////////////////////////////////////
+	NUMBER	nResult;
+	STRING	svOptions, svResult;
+begin
+
+	SFS_MessageBox ( "Procedure: SFS_XCopyFile", LOGGING );
+
+// Launch the application and install the roadmaps
+	nResult = ( XCopyFile ( szSrcFile , szTargetPath , nOp ) );
+
+// Convert the number to a string
+	NumToStr ( svOptions , nOp );
+	NumToStr ( svResult , nResult );
+		
+// write a message to the log file
+	SFS_MessageBox ( "XCopyFile: Source  = " + szSrcFile , LOGGING );
+	SFS_MessageBox ( "XCopyFile: Target  = " + szTargetPath , LOGGING );
+	SFS_MessageBox ( "XCopyFile: Options = " + svOptions , LOGGING );
+	SFS_MessageBox ( "XCopyFile: Result  = " + svResult , LOGGING );
+
+	return nResult;
+
+end;
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//
+	function	SFS_InstallDocumentType()
+//
+//	Purpose:	Install the different Document Types
+//
+//////////////////////////////////////////////////////////////////////////////////
+	STRING	svValue, szProgram, szCmdLine, szMsg, szFileName, svSearchPath, 
+			svItem, svLine, szReturnLine, svType, szSrc, szDest, svResult;
+	NUMBER	nvType, nvSize, nResult, nvExitCode, nOp, nvFileHandle, nFileHandle, 
+			nvLineNumber;
+	LIST	listDirs;
+begin	
+
+	SFS_MessageBox ( "Procedure: SFS_InstallDocumentType", LOGGING );
+
+// setup the file to program and command line
+	szProgram = SUPPORTDIR ^ "DocTypeSearch.exe" ;
+	szFileName = "_temp_ibu.tmp" ;
+
+// setup the InstallTemp folder
+	svSearchPath = INSTALLDIR ^ "PM" ^ "SiriusInstallTemp" ^ "Document Types";
+	
+// Create a STRING list for directory names.
+	listDirs = ListCreate (STRINGLIST);
+
+// Find requested elements place them into the list.
+	nResult = FindAllDirs (svSearchPath, nOp, listDirs);
+
+// Get the first number from the list.
+	nResult = ListGetFirstString (listDirs, svItem);
+
+// Loop while not at end of list.
+   while (nResult != END_OF_LIST)
+
+	// Strip off the last backslash
+		StrRemoveLastSlash ( svItem );	
+
+	// Just get the last bit
+		StrSub ( svItem , svItem , StrLength (svSearchPath) + 1, StrLength (svItem) - StrLength (svSearchPath) );
+
+	// Set the command line up
+   		szCmdLine = svItem ;
+ 		
+	// First delete any rogue version of the temp file
+		DeleteFile ( WINDIR ^ "_temp_ibu.tmp" ) ;
+	
+	// Launch the application
+		nResult = SFS_LaunchAppAndWait ( szProgram , szCmdLine , LAAW_OPTION_WAIT | LAAW_OPTION_SHOW_HOURGLASS );
+
+	// Find the log file	
+		FindFile ( WINDIR , szFileName , svResult ) ;
+
+		if ( svResult != "" ) then
+	
+			FileGrep ( szFileName , "ID:" , szReturnLine , nvLineNumber , RESTART ) ;
+			if ( szReturnLine % "ID:" ) then
+		
+			// Just get the last bit
+				StrSub ( svType , szReturnLine , 3, StrLength (szReturnLine) - 3 );
+			
+			// setup the folders to copy
+				szSrc = TARGETDIR ^ "PM" ^ "SiriusInstallTemp" ^ "Document Types" ^ svItem;
+				szDest = TARGETDIR ^ "PM" ^ "Sirius Core" ^ "Server" ^ "PMDocs" ^ "Documents" ^ "Type " + svType;
+
+			// copy the files			
+				XCopyFile ( szSrc ^ "*.*" , szDest ^ "*.*" , COMP_NORMAL | LOCKEDFILE | COMP_UPDATE_DATE );
+			endif;
+
+		endif ;
+
+	// Get the next number from the list.
+		nResult = ListGetNextString (listDirs, svItem);
+		
+	endwhile;
+
+// Remove the list from memory.
+ 	ListDestroy (listDirs);	
+		
+// now clean up the siriusinstalltemp
+	DeleteFile ( INSTALLDIR ^ "PM" ^ "SiriusInstallTemp" ^ "Document Types" ^ "*.*" );
+	DeleteDir ( INSTALLDIR ^ "PM" ^ "SiriusInstallTemp" ^ "Document Types", ALLCONTENTS);
+
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_PreReqs_GetInstalledVersion()
+//
+//	Purpose:	Get the current version number of prereqs currently 
+//				installed
+//
+/////////////////////////////////////////////////////////////////////
+	NUMBER	nResult, nvSize, nvType;
+	STRING	svValue;
+begin
+
+// Set a registry setting
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+
+// check the registry setting
+	nResult = RegDBGetKeyValueEx ("SOFTWARE\\PM\\PreReqs\\", 
+				"Version" , nvType , svValue , nvSize );
+
+// store the version
+   	MsiSetProperty(ISMSI_HANDLE, "PREREQS_INSTALLEDVERSION", svValue);
+
+// return the result (the value is store in svValue)
+	return nResult;
+
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_PreReqs_GetCDVersion()
+//
+//	Purpose:	Get the version number of prereqs installer currently
+//				on the CD
+//
+/////////////////////////////////////////////////////////////////////
+	NUMBER	nvCDVersion, nResult;
+	STRING	svResult, svCDVersion, svPreReqsFilename, svPath, 
+			svFileSpec, svFilename;
+begin
+
+// set the filespec
+	svFileSpec = "*prereqs*.exe";
+
+// Search the current folder and search for prereqs
+	nResult = FindFile ( SRCDIR , svFileSpec , svPreReqsFilename);
+
+// check if the file was found and check a couple of other places
+    if ( nResult < 0 ) then
+	// Search other folders and store the path if found
+		nResult = FindFile ( SRCDIR ^ ".." ^ "PreReqs", svFileSpec , svPreReqsFilename );
+		if ( nResult < 0 ) then
+			nResult = FindFile ( SRCDIR ^ ".." ^ ".." ^ "PreReqs", svFileSpec , svPreReqsFilename );
+		    if ( nResult < 0 ) then
+				// do nothing
+			else
+	  			svPath = SRCDIR ^ ".." ^ ".." ^ "PreReqs";
+   			endif;
+		else
+  			svPath = SRCDIR ^ ".." ^ "PreReqs";
+   		endif;
+    else
+    	svPath = SRCDIR;
+    endif;
+
+// store the filename and path
+   	MsiSetProperty(ISMSI_HANDLE, "PREREQS_FILENAME", svPreReqsFilename);
+   	MsiSetProperty(ISMSI_HANDLE, "PREREQS_PATH", svPath);
+    
+// just get the version number
+	StrSub ( svCDVersion , svPreReqsFilename , 15 , StrLength ( svPreReqsFilename ) - 19 );
+
+// store the version number on the CD
+   	MsiSetProperty(ISMSI_HANDLE, "PREREQS_CDVERSION", svCDVersion);
+
+// return the result
+	return nResult;
+
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_PreReqs_Install()
+//
+//	Purpose:	Install the prereqs	
+//
+/////////////////////////////////////////////////////////////////////
+	NUMBER	nvSize, nInstalledVersion, nResult,
+			nIVMajor, nIVMinor, nIVBuild, nIVVersion,
+			nCDMajor, nCDMinor, nCDBuild, nCDVersion;
+	STRING	svPreReqsFilename, svInstalledVersion, svCDVersion, szCmdLine, svPath,
+			szIVMajor, szIVMinor, szIVBuild, szIVVersion,
+			szCDMajor, szCDMinor, szCDBuild, szCDVersion;
+begin
+
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PREREQS_FILENAME", svPreReqsFilename, nvSize);
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PREREQS_PATH", svPath, nvSize);
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PREREQS_INSTALLEDVERSION", svInstalledVersion, nvSize);
+	SFS_MsiGetProperty (ISMSI_HANDLE, "PREREQS_CDVERSION", svCDVersion, nvSize);
+
+// check if there is a file that can be used to be installed
+	if ( svPreReqsFilename = "" ) then
+	// couldn't find the prereq installer so exit
+		return -1;
+	endif;
+
+// check to see if it's been previously installed
+	if (svInstalledVersion != "" ) then
+	// installed so check the versions
+ 
+	// split the versions
+		SFS_SplitVersions ( svInstalledVersion, szIVMajor, szIVMinor, szIVBuild );
+		SFS_SplitVersions ( svCDVersion, szCDMajor, szCDMinor, szCDBuild );
+
+	// Convert the Installed Version Number	
+		switch ( StrLength (szIVMajor) )
+			case 1: szIVMajor = "000" + szIVMajor;
+			case 2: szIVMajor = "00" + szIVMajor;
+			case 3: szIVMajor = "0" + szIVMajor;
+		endswitch;
+		
+		switch ( StrLength (szIVMinor) )
+			case 1: szIVMinor = "000" + szIVMinor;
+			case 2: szIVMinor = "00" + szIVMinor;
+			case 3: szIVMinor = "0" + szIVMinor;
+		endswitch;
+		
+		switch ( StrLength (szIVBuild) )
+			case 1: szIVBuild = "000" + szIVBuild;
+			case 2: szIVBuild = "00" + szIVBuild;
+			case 3: szIVBuild = "0" + szIVBuild;
+		endswitch;
+		
+		szIVVersion = szIVMajor + szIVMinor + szIVBuild;
+		
+	// Convert the Version Number on the CD
+		switch ( StrLength (szCDMajor) )
+			case 1: szCDMajor = "000" + szCDMajor;
+			case 2: szCDMajor = "00" + szCDMajor;
+			case 3: szCDMajor = "0" + szCDMajor;
+		endswitch;
+		
+		switch ( StrLength (szCDMinor) )
+			case 1: szCDMinor = "000" + szCDMinor;
+			case 2: szCDMinor = "00" + szCDMinor;
+			case 3: szCDMinor = "0" + szCDMinor;
+		endswitch;
+		
+		switch ( StrLength (szCDBuild) )
+			case 1: szCDBuild = "000" + szCDBuild;
+			case 2: szCDBuild = "00" + szCDBuild;
+			case 3: szCDBuild = "0" + szCDBuild;
+		endswitch;
+		
+		szCDVersion = szCDMajor + szCDMinor + szCDBuild;
+		
+	// convert the version numbers
+		StrToNum ( nIVVersion , szIVVersion );
+		StrToNum ( nCDVersion , szCDVersion );
+
+		if ( nCDVersion <= nIVVersion ) then 
+		
+		// don't need to install so exit
+			return 0;
+		
+		endif;
+		
+	endif;
+
+// setup the command line
+	if ( g_bServer ) then
+		szCmdLine = "SERVER";
+	else
+		szCmdLine = "CLIENT";
+	endif;	
+
+// install the prereqs
+	nResult = SFS_LaunchAppAndWait ( svPath ^ svPreReqsFilename, szCmdLine, LAAW_OPTION_WAIT );
+	
+// exit the function
+	return nResult;
+
+end;
+
+/////////////////////////////////////////////////////////////////////
+//
+	function	SFS_SelectSetupType()
+//
+//	Purpose:	Install the prereqs	
+//
+/////////////////////////////////////////////////////////////////////
+    STRING szTitle, szMsg, szReserved, svSetupType;
+    NUMBER nReserved;
+begin
+    // Disable the Back button in setup dialogs.
+    Disable (BACKBUTTON);
+   
+    // Set up the variables to pass as parameters to SdSetupTypeEx.
+    szTitle	= "SdSetupTypeEx Sample";
+    szMsg	= ""; 
+    szReserved  = "";
+   	
+    // Specifies a default setup type (as specified in the Setup Type
+    // view) and returns the setup type selected by the end user
+    svSetupType = "Client";
+    nReserved   = 0;	
+    
+    // Display the SdSetupTypeEx dialog box.
+    SdSetupTypeEx(szTitle, szMsg, szReserved, svSetupType, nReserved); 
+    
+    // Display a MessageBox with the setup type selected by the end user
+    MessageBox("Setup Type selected: " + svSetupType, 0);
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  FUNCTION:   SFS_StatusWindowType
+//
+//  EVENT:      
+//
+///////////////////////////////////////////////////////////////////////////////
+function SFS_StatusWindowType( szStatus )
+begin
+
+	SetStatusWindow(0, "");
+
+// disable the previous windows
+	Disable (STATUSDLG);
+	Disable (STATUSEX);
+
+// setup default status 
+	if szStatus = "STATUSDLG" then
+		SetDialogTitle( DLG_STATUS, "Installing " + @PRODUCT_NAME );
+		Enable (STATUSDLG);
+	else
+		Enable (STATUSEX);
+   	endif;
+
+	StatusUpdate(ON, 100);   
+
+end;
+                                                                            
+///////////////////////////////////////////////////////////////////////////////
+//
+	function	SFS_Dummy()
+//
+//	Purpose:	This just contains a list of all components so they do come
+//				up as warnings when compiling
+//
+///////////////////////////////////////////////////////////////////////////////
+	STRING	sString;
+	NUMBER	nNumber;
+	BOOL	bBool;  
+	LONG	lLong;
+begin
+
+// exit out of the procedure
+	return 0;
+	
+// here are the dummy procedures
+	SFS_OnBegin();
+	SFS_OnGeneratingMSIScript();
+	SFS_PostFileInstall();
+	SFS_Dummy();
+	SFS_ClientOrServer( sString );
+	SFS_ProductUpdateHistory();
+	SFS_InstallDatabase( sString, sString, bBool ) ;
+	SFS_MessageBox ( sString, nNumber ) ;
+	SFS_DlgInstallationType();
+	SFS_DlgSelectProducts();
+	SFS_CheckPermissions();
+	SFS_GetInstallDir(); 	// was GetPMDir
+	SFS_RegisterSAClient();
+	SFS_DlgPMSetupShare( bBool );
+	SFS_ClientInstall ( sString, sString, sString, sString );
+	SFS_Trim ( sString ); // Was PMTrim
+	SFS_UsersLoggedOn();
+	SFS_RemoveUnwantedFiles( sString );
+	SFS_NetShareAdd( sString, sString );
+	SFS_MsiGetProperty ( nNumber, sString, sString, lLong );
+	SFS_GetAllProperties();
+	SFS_GetProperty ( sString, sString );
+	SFS_Replacements( sString );
+	SFS_SetVersions();
+	SFS_LaunchAppAndWait( sString, sString, nNumber);
+	SFS_XCopyFile ( sString, sString, nNumber);
+	SFS_InstallDocumentType();
+	SFS_SelectSetupType();
+ 	SFS_StatusWindowType( sString ); 
+	SFS_PreReqs_GetInstalledVersion();
+	SFS_PreReqs_GetCDVersion();
+	SFS_PreReqs_Install();  
+	SFS_SplitVersions ( sString, sString, sString, sString );
+
+end;
+                                                                            

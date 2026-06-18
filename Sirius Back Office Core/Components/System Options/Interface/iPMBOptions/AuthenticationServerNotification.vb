@@ -1,0 +1,3 @@
+﻿Public Class AuthenticationServerNotification
+
+End Class

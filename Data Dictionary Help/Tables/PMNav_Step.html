@@ -1,0 +1,640 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PMNav_Step</h1>
+<p>Navigator support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pmnav_map_id">pmnav_map_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Map.html#pmnav_map_id">PMNav_Map.pmnav_map_id</a> <span class="autodesc">pmnav map</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_step_id">pmnav_step_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">pmnav step</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_nav_map_id">sub_nav_map_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Map.html#pmnav_map_id">PMNav_Map.pmnav_map_id</a> <span class="autodesc">sub nav map</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pmnav_component_id">pmnav_component_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Component.html#pmnav_component_id">PMNav_Component.pmnav_component_id</a> <span class="autodesc">pmnav component</span></td>
+</tr>
+<tr>
+<td><a class="name" name="task">task</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">task</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ok_action">ok_action</a></td>
+<td>char(2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ok action</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cancel_action">cancel_action</a></td>
+<td>char(2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cancel action</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ok_no_of_steps">ok_no_of_steps</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ok no of steps</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cancel_no_of_steps">cancel_no_of_steps</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cancel no of steps</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ok_nav_process_id">ok_nav_process_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Process.html#pmnav_process_id">PMNav_Process.pmnav_process_id</a> <span class="autodesc">ok nav process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cancel_nav_process_id">cancel_nav_process_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMNav_Process.html#pmnav_process_id">PMNav_Process.pmnav_process_id</a> <span class="autodesc">cancel nav process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="navigate_status">navigate_status</a></td>
+<td>char(2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">navigate status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_hidden">is_hidden</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is hidden</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_logged">is_logged</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is logged</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_component_id</td>
+<td><a href="PMNav_Component.html">PMNav_Component</a></td>
+<td>pmnav_component_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_map_id</td>
+<td><a href="PMNav_Map.html">PMNav_Map</a></td>
+<td>pmnav_map_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>sub_nav_map_id</td>
+<td><a href="PMNav_Map.html">PMNav_Map</a></td>
+<td>pmnav_map_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>cancel_nav_process_id</td>
+<td><a href="PMNav_Process.html">PMNav_Process</a></td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>ok_nav_process_id</td>
+<td><a href="PMNav_Process.html">PMNav_Process</a></td>
+<td>pmnav_process_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>cancel_nav_process_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>ok_nav_process_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_component_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>pmnav_map_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>sub_nav_map_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td><a href="PMNav_Get_Step_Key.html">PMNav_Get_Step_Key</a></td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td><a href="PMNav_Set_Step_Key.html">PMNav_Set_Step_Key</a></td>
+<td>pmnav_map_id, pmnav_step_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pmnav_map_id</td>
+<td>pmnav_step_id</td>
+<td>sub_nav_map_id</td>
+<td>pmnav_component_id</td>
+<td>task</td>
+<td>ok_action</td>
+<td>cancel_action</td>
+<td>ok_no_of_steps</td>
+<td>cancel_no_of_steps</td>
+<td>ok_nav_process_id</td>
+<td>cancel_nav_process_id</td>
+<td>navigate_status</td>
+<td>is_hidden</td>
+<td>is_logged</td>
+<td>caption_id</td>
+<td>description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>138</td>
+<td>Find Account Executive</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>2</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>139</td>
+<td>Account Executive</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>140</td>
+<td>Find Account Handler</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2</td>
+<td>2</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>45</td>
+<td>Account Handler</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>141</td>
+<td>Find Agent</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>3</td>
+<td>2</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>46</td>
+<td>Agent</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>4</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>142</td>
+<td>Create Batch</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>5</td>
+<td>0</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>143</td>
+<td>Find Transaction(s)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>57</td>
+<td>Create Allocation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>7</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>50</td>
+<td>Allocation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>8</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>51</td>
+<td>Post Allocation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td>1</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>52</td>
+<td>Cash List Post</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>10</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>Cash List</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>11</td>
+<td>2</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>54</td>
+<td>Cash List Item</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>10</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>Cash List</td>
+</tr>
+<tr>
+<td>6</td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>11</td>
+<td>2</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>54</td>
+<td>Cash List Item</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>10</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>Cash List</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>11</td>
+<td>1</td>
+<td>F1</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>54</td>
+<td>Cash List Item</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>9</td>
+<td>1</td>
+<td>CP</td>
+<td>AP</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>00</td>
+<td>0</td>
+<td>0</td>
+<td>144</td>
+<td>Post Cash List</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

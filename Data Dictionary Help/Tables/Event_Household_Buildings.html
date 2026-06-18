@@ -1,0 +1,133 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Event_Household_Buildings</h1>
+<p>This Event Table serves as a history table for the Household_Buildings table, each entry in the Household_Buildings table will have a corresponding entry here. This ensures any changes to the original table are tracked.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: [Obsolete]<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Event_Log.html#event_cnt">Event_Log.event_cnt</a> <span class="autodesc">insurance file</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address_cnt">address_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Address.html#address_cnt">Address.address_cnt</a> <span class="autodesc">address</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sum_insured">sum_insured</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>sum insured (This column belongs to an obsolete table).</td>
+</tr>
+<tr>
+<td><a class="name" name="rebuild_cost">rebuild_cost</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>rebuild cost (This column belongs to an obsolete table).</td>
+</tr>
+<tr>
+<td><a class="name" name="cover_type">cover_type</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>cover type (This column belongs to an obsolete table).</td>
+</tr>
+<tr>
+<td><a class="name" name="number_of_bedrooms">number_of_bedrooms</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>number of bedrooms (This column belongs to an obsolete table).</td>
+</tr>
+<tr>
+<td><a class="name" name="type_of_property">type_of_property</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>type of property (This column belongs to an obsolete table).</td>
+</tr>
+<tr>
+<td><a class="name" name="is_subsidence">is_subsidence</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is subsidence</span></td>
+</tr>
+<tr>
+<td><a class="name" name="excess">excess</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>excess (This column belongs to an obsolete table).</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>address_cnt</td>
+<td><a href="Address.html">Address</a></td>
+<td>address_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>insurance_file_cnt</td>
+<td><a href="Event_Log.html">Event_Log</a></td>
+<td>event_cnt</td>
+<td>Linked to the event that this historical data is for</td>
+</tr>
+<tr>
+<td>I</td>
+<td>address_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Product_Claims_Workflow</h1>
+<p><span class="autodesc">Product Claims Workflow</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="product_id">product_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Product.html#product_id">Product.product_id</a> <span class="autodesc">product</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_process_type_id">claim_process_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">claim process type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="check_unpaid_status">check_unpaid_status</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">check unpaid status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reinsurance_recovery">reinsurance_recovery</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reinsurance recovery</span></td>
+</tr>
+<tr>
+<td><a class="name" name="salvage_recovery">salvage_recovery</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">salvage recovery</span></td>
+</tr>
+<tr>
+<td><a class="name" name="third_party_recovery">third_party_recovery</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">third party recovery</span></td>
+</tr>
+<tr>
+<td><a class="name" name="external_claim_handling">external_claim_handling</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">external claim handling</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description_for_change_in_reserve">description_for_change_in_reserve</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description for change in reserve</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_notification_doc_message">claim_notification_doc_message</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim notification doc message</span></td>
+</tr>
+<tr>
+<td><a class="name" name="generate_claim_notification_doc">generate_claim_notification_doc</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">generate claim notification doc</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_payment_process">claim_payment_process</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim payment process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="check_deferred_reinsurance">check_deferred_reinsurance</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">check deferred reinsurance</span></td>
+</tr>
+<tr>
+<td><a class="name" name="fast_track_claims">fast_track_claims</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">fast track claims</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reinsurance_payment">reinsurance_payment</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reinsurance payment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description_for_change_in_payment">description_for_change_in_payment</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description for change in payment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cash_payment_process">cash_payment_process</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cash payment process</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_payment_doc_message">claim_payment_doc_message</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim payment doc message</span></td>
+</tr>
+<tr>
+<td><a class="name" name="generate_claim_payment_doc">generate_claim_payment_doc</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">generate claim payment doc</span></td>
+</tr>
+<tr>
+<td><a class="name" name="make_further_payments">make_further_payments</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">make further payments</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>claim_process_type_id, product_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>product_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>product_id</td>
+<td>claim_process_type_id</td>
+<td>check_unpaid_status</td>
+<td>reinsurance_recovery</td>
+<td>salvage_recovery</td>
+<td>third_party_recovery</td>
+<td>external_claim_handling</td>
+<td>description_for_change_in_reserve</td>
+<td>claim_notification_doc_message</td>
+<td>generate_claim_notification_doc</td>
+<td>claim_payment_process</td>
+<td>check_deferred_reinsurance</td>
+<td>fast_track_claims</td>
+<td>reinsurance_payment</td>
+<td>description_for_change_in_payment</td>
+<td>cash_payment_process</td>
+<td>claim_payment_doc_message</td>
+<td>generate_claim_payment_doc</td>
+<td>make_further_payments</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

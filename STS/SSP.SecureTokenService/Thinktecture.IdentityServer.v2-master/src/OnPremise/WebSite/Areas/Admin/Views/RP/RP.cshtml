@@ -1,0 +1,42 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.RP
+@model Thinktecture.IdentityServer.Models.RelyingParty
+
+@{
+    if (Model.Id == null)
+    {
+        ViewBag.Title = RP_cshtml.NewRelyingParty;
+    }
+    else
+    {
+        ViewBag.Title = string.Format(RP_cshtml.RelyingParty, Model.Name);
+    }
+}
+@using (Html.BeginForm("RP", "RP", new { id = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+  
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @Html.EditorForModel()
+               </div>
+           </div>
+        <div class="card-footer">
+            <button type="reset" class="btn btn-sm btn-dark">@RP_cshtml.Cancel</button>
+             @if (Model.Id != null)
+             {
+                <button type="submit" name="action" class="btn btn-sm btn-dark" value="@RP_cshtml.Delete">@RP_cshtml.Delete</button>
+                <button type="submit" name="action" class="btn btn-sm btn-primary" value="@RP_cshtml.SaveChanges">@RP_cshtml.SaveChanges</button>
+             }
+             else
+             {
+                <button type="submit" name="action" class="btn btn-sm btn-primary" value="@RP_cshtml.Create">@RP_cshtml.Create</button>
+             }
+            
+        </div>
+ </div>
+     @Html.ValidationSummary(RP_cshtml.ErrorUpdatingRelyingParty)
+}

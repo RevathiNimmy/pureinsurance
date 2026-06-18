@@ -1,0 +1,616 @@
+Option Explicit
+
+
+'---------------------- ATS V1.0 ADVANCED TAX CALCULATION TP MODIFIED VERSION ---------------------------------------------------
+'---------------------- ATS V1.2 20080515 ADVANCED TAX CALCULATION SM MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.3 20080516 ADVANCED TAX CALCULATION TP MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.4 20080731 ADVANCED TAX CALCULATION AF MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.5 20080828 ADVANCED TAX CALCULATION AF MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.6 20081020 ADVANCED TAX CALCULATION AF MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.7 20081124 ADVANCED TAX CALCULATION AF MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.8 20090211 ADVANCED TAX CALCULATION PS MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V1.9 20090220 ADVANCED TAX CALCULATION AF MODIFIED VERSION ------------------------------------------
+'---------------------- ATS V2.0 20090302 ADVANCED TAX CALCULATION AF - ABN Validation ------------------------------------------
+'---------------------- ATS V2.1 20090304 ADVANCED TAX Script Cleanup -----------------------------------------------------------
+'---------------------- ATS V2.2 20090305 ADVANCED TAX CALCULATION SM - Add CLR Coding ------------------------------------------
+'---------------------- ATS V2.3 20090306 ADVANCED TAX CALCULATION AF - Salvage/Recovery changes --------------------------------
+'---------------------- ATS V2.4 20090312 ADVANCED TAX CALCULATION AF - .ReceivablePercentage code ------------------------------
+'---------------------- ATS V2.5 20090316 ADVANCED TAX CALCULATION AF - .ErrorMessage processing in CLR -------------------------
+'---------------------- ATS V2.6 20090318 ADVANCED TAX CALCULATION AF - fix ABN validation for CLR ------------------------------
+'---------------------- ATS V2.7 20090318 ADVANCED TAX CALCULATION AF - init TaxParameters.ErrorMessage -------------------------
+'---------------------- ATS V2.8 20090414 ADVANCED TAX CALCULATION AF - correct % domiciled tax formulae ------------------------
+'---------------------- ATS v3.0 20110307 ADVANCED TAX CALCULATION PS - Updated the Tax Band record-id's for Munich Re ----------
+'---------------------- ATS v3.1 20110315 ADVANCED TAX CALCULATION PS - Bypass the ABN Validation - 1 character ABN is now ok ---
+
+
+' The object passed into this script is as follows:
+
+'    TaxParameters for Claim Payment
+'	.Amount			Payment amount(including taxes) entered by user
+'	.PaymentAdjustment	Adjustment (total taxes), if any, to the payment amount
+'	.CurrencyCode		Code from Currency Table (eg. EUR)
+'	.ExcessAmount		Excess - comes in as a negative amount
+'	.InsuredPercentage 	Value from UI
+'	.InsuredDomiciled	Checkbox from UI (1/0) - DEFAULTS IN ALL CASES; FOR 'PaymentToCode' = 'INSURED' THEN INSURED =IS PAYEE
+'	.InsuredTaxNumber	String from UI
+'	.IsSettlement		Checkbox from UI (1/0)
+'	.IsTaxExempt		Checkbox from UI (1/0)
+'	.IsWHTExempt		Checkbox from UI (1/0)
+'	.Payee			String from UI
+'	.PayeeDomiciled		Checkbox from UI (1/0) - AVAILABLE IN ALL CASES EXCEPT WHERE 'PaymentToCode' = 'INSURED' 
+'	.PayeePercentage 	Value from UI
+'	.PayeeTaxNumber		String from UI
+'	.PaymentToCode		Payment To Combo Code from UI = INSURED or SUPPLIER/REPAIRER or 3PARTY or EXPENSES
+'	.ProcessType		Type of Process (CLP for Payment, CLR for Receipt)
+'	.SafeHarbourCode	Safe Hardbour Combo Code from UI
+'	.SafeHarbourPercentage	Safe Hardbour Percentage from UI
+'	.ErrorMessage		Error Message to pass back to core in the event of an error during ATS processing
+'	.TaxArray		Tax Array (could be empty) passed by Sirius as per the Tax Group dropdown
+
+'     TaxParameters for Claim Reciept
+'	
+'	.Payee = 1
+'	.ReceivablePercentage = 2
+'	.InsuredDomiciled = 3
+'	.InsuredPercentage = 4
+'	.InsuredTaxNumber = 5
+'	.IsTaxExempt = 6
+'	.IsSettlement = 7
+'	.CurrencyCode = 8
+'	.Amount = 9
+'	.TaxArray = 10
+
+
+
+'---------------- CUSTOMISED TAX CALCULATION ROUTINE -----------------
+
+
+'MUST HARD CODE THE DATABASE ID's OF THE RELEVANT TAX BANDS ... CLIENT AND DATABASE SPECIFIC
+'''|----------------------------------------------------------------------------------------|
+'''|-- (V3.0) - Record Id for Munich Re have been checked and updated on 7-MAR-2011        -|
+'''|----------------------------------------------------------------------------------------|
+Const kTaxBandDA=5
+Const kTaxBandIA=4
+Const kTaxBandITC=6
+Const kTaxBandWHT=7
+Const kTaxBandOTC=444
+
+
+
+'--------------------- ARRAY INDEXS FOR TAX ARRAY --------------------
+
+'Constants for Tax Array dimension coming in. These columns are in the first dimension.
+'The second dimension is the row for each tax line.
+'The tax rate used is held in the Percentage column and denoted with IsValue=False.
+
+Const kTaxArrayTaxGroupId = 0
+Const kTaxArrayTaxBandId = 1
+Const kTaxArrayTaxCurrencyCode = 2
+Const kTaxArrayPercentage = 3
+Const kTaxArrayValue = 4
+Const kTaxArrayIsValue = 5
+Const kTaxArrayClassOfBusinessId = 6
+Const kTaxArraySequence = 7
+Const kTaxArrayIsManuallyChanged = 8
+Const kTaxArrayTaxGroupDesc = 9
+
+Const kTaxArrayUBound = 10	'Used for Array definition
+
+
+'Based on the above ID's, these veriables will be used to store array pointers to the appropriate tax types
+Dim iTaxBand, iDARow, iIARow, iITCRow, iWHTRow, iOTCRow
+Dim iDARate, iIARate, iITCRate, iWHTRate, iOTCRate, sErrorMessage
+
+Const kPercInvoiceTaxed=100   'should not be hard coded but not passed via parameters
+
+Const kApplyPCofInvoiceTaxed=1
+Const kApplyPayeeITCDeduction=1
+
+
+
+Sub Start()
+	
+	
+	
+	Dim vArray, lRows, TaxGroupID, sTaxGroupDesc
+
+	sErrorMessage=""
+	TaxParameters.ErrorMessage = sErrorMessage
+
+	vArray = TaxParameters.TaxArray
+
+	'ShowTaxParameters()
+ 
+
+	'|-----------------------------------------------|
+	'|-- First, clear out rows copied from TaxArray -|
+	'|-----------------------------------------------|
+	If IsArray(vArray) Then 
+
+		lRows = UBound(vArray,2)
+
+		iDARow = -1
+		iIARow = -1
+		iITCRow = -1
+		iWHTRow = -1
+		iOTCRow = -1
+		iDARate = 0.0
+		iIARate = 0.0
+		iITCRate = 0.0
+		iWHTRate = 0.0
+		iOTCRate = 0.0
+
+		' Save TaxGroupId
+		TaxGroupID = vArray(kTaxArrayTaxGroupId, 0)
+		sTaxGroupDesc = vArray(kTaxArrayTaxGroupDesc, 0)
+
+
+		Do While lRows > -1
+
+			iTaxBand = int(vArray(kTaxArrayTaxBandId, lRows))
+
+			SELECT CASE iTaxBand
+			CASE kTaxBandDA
+				iDARow = lRows
+				iDARate = vArray(kTaxArrayPercentage, lRows) / 100
+			CASE kTaxBandIA
+				iIARow = lRows
+				iIARate = vArray(kTaxArrayPercentage, lRows) / 100
+			CASE kTaxBandITC
+				iITCRow = lRows
+				iITCRate = vArray(kTaxArrayPercentage, lRows) / 100
+			CASE kTaxBandWHT
+				iWHTRow = lRows
+				iWHTRate = vArray(kTaxArrayPercentage, lRows) / 100
+			CASE kTaxBandOTC
+				iOTCRow = lRows
+				iOTCRate = vArray(kTaxArrayPercentage, lRows) / 100
+			CASE Else
+				'msgbox "TaxBandId " & vArray(kTaxArrayTaxBandId, lRows) & " not found"
+			END SELECT
+
+			vArray = RemoveRow(vArray, lRows)
+			
+			lRows = lRows - 1
+			
+		Loop
+
+		If (iDARow < 0 or iIARow < 0 or iITCRow < 0 or iOTCRow < 0) and (iWHTRow < 0) Then
+			'msgbox "One or more Tax Bands could not be identified (= -1) :" & vbCrLf & _
+				'"     iDARow = " & iDARow & "  iIARow = " & iIARow & "  iITCRow = " & iITCRow & "  iOTCRow = " & iOTCRow & "  iWHTRow = " & iWHTRow & vbCrLf & _
+				'"check hard-coded Tax Band Ids in ATS rule file.  Exiting ATS script without calculating any taxes."
+			Exit Sub
+		End If
+
+
+        Else
+
+		sErrorMessage = "You must specify a Payment Amount <> 0.00"
+		TaxParameters.ErrorMessage = sErrorMessage	
+		Exit Sub
+ 
+	End If
+
+	Dim WHTAmount, DAAmount, IAAmount, ITCAmount, OTCAmount, iPaymentAdjustment, myInsuredPerc, ReceivablePerc, ITCorDA
+	
+	WHTAmount = 0
+	DAAmount = 0
+	IAAmount = 0
+	ITCAmount = 0
+	OTCAmount = 0
+	iPaymentAdjustment = 0
+	myInsuredPerc = cDbl(TaxParameters.InsuredPercentage) / 100
+
+
+	'Validate()      ' validate Tax Numbers passed from the "Reserves and Payments" screen
+
+
+	SELECT CASE TaxParameters.ProcessType
+	CASE "CLP"
+
+		
+		Dim myPayeePerc
+	
+		myPayeePerc =   cDbl(TaxParameters.PayeePercentage) / 100
+		
+		SELECT CASE Left(TaxParameters.PaymentToCode, 3)
+		CASE "INS"
+			ITCorDA = "DA"
+		CASE "SUP"
+			ITCorDA = "ITC"
+		CASE "3PA"
+			ITCorDA = "DA"
+		END SELECT
+		
+		SELECT CASE ITCorDA
+		CASE "DA"
+			If (TaxParameters.IsTaxExempt = False) And (TaxParameters.InsuredDomiciled = False) Then
+				sErrorMessage = "One of the Insured's 'Is Domiciled' checkbox, or the 'Tax Exempt' checkbox must be checked. (WHT implications)"
+				TaxParameters.ErrorMessage = sErrorMessage	
+				Exit Sub 
+			Else
+				If (TaxParameters.IsTaxExempt = False) and (myInsuredPerc < 1.0) Then 
+					DAAmount = CDBL(TaxParameters.Amount) / ( ( 1 + ( iDARate *( 1 - myInsuredPerc ) ) ) / ( iDARate *( 1 - myInsuredPerc ) ) ) 
+					iPaymentAdjustment = DAAmount
+				End If
+			End If
+		CASE "ITC"
+			If (TaxParameters.IsWHTExempt = False) And (TaxParameters.PayeeDomiciled = False) Then
+				sErrorMessage = "One of the Payee's 'Is Domiciled' checkbox, or the 'WHT Exempt' checkbox must be checked. (WHT implications)"
+				TaxParameters.ErrorMessage = sErrorMessage	
+				Exit Sub 
+			Else
+				If (TaxParameters.IsWHTExempt = False) and (myPayeePerc > 0.0) Then 
+					ITCAmount = CDBL(TaxParameters.Amount) / ( ( 1 + ( iITCRate * myPayeePerc ) ) / ( iITCRate * myPayeePerc ) )
+					iPaymentAdjustment = ITCAmount
+				End If
+			End If
+		END SELECT
+		
+		
+		TaxParameters.PaymentAdjustment = iPaymentAdjustment
+	
+
+		
+	CASE "CLR" 
+
+
+	'	.Payee = 1
+	'	.ReceivablePercentage = 2
+	'	.InsuredDomiciled = 3
+	'	.InsuredPercentage = 4
+	'	.InsuredTaxNumber = 5
+	'	.IsTaxExempt = 6
+	'	.IsSettlement = 7
+	'	.CurrencyCode = 8
+	'	.Amount = 9
+	'	.TaxArray = 10
+
+	
+                ReceivablePerc = cDbl(TaxParameters.ReceivablePercentage) / 100
+	
+		If (((TaxParameters.IsTaxExempt=TRUE) or (ReceivablePerc > 0)) AND (TaxParameters.InsuredDomiciled=TRUE)) Then
+		 	TaxParameters.ErrorMessage = "You cannot specify both Receivable tax parameters and Insured tax parameters on the Recovery screen"
+			Exit Sub
+		End If
+		
+	  '|-----------------------------------------------|
+	  '|-- IA or OTC ----------------------------------|
+	  '|-----------------------------------------------|
+		If (TaxParameters.InsuredDomiciled=TRUE) Then
+
+		     If myInsuredPerc < 1.0 Then
+				IAAmount = CDBL(TaxParameters.Amount) / ( ( 1 + ( iIARate *( 1 - myInsuredPerc ) ) ) / ( iIARate *( 1 - myInsuredPerc ) ) )
+		     End If
+		Else
+
+ 	
+		  If (TaxParameters.IsTaxExempt=FALSE) Then
+		     If ReceivablePerc > 0.0 Then 
+
+				OTCAmount =  CDBL(TaxParameters.Amount) / ( ( 1 + ( iOTCRate * ReceivablePerc ) ) / ( iOTCRate * ReceivablePerc ) )
+
+		     End If
+		  End If
+		End If
+
+  	
+	END SELECT
+
+
+
+	'|-----------------------------------------------|
+	'|-- APPLY ARRAY CHANGES FOR CLP ----------------|
+	'|-----------------------------------------------|
+	If DAAmount <> 0 Then vArray = InsertRow(vArray,-1,TaxGroupID,kTaxBandDA,"AUD",0,DAAmount,1,"",1,0)
+
+	If IAAmount <> 0 Then vArray = InsertRow(vArray,-1,TaxGroupID,kTaxBandIA,"AUD",0,IAAmount,1,"",1,0)
+
+	If ITCAmount <> 0 Then vArray = InsertRow(vArray,-1,TaxGroupID,kTaxBandITC,"AUD",0,ITCAmount,1,"",1,0)
+
+	If OTCAmount <> 0 Then vArray = InsertRow(vArray,-1,TaxGroupID,kTaxBandOTC,"AUD",0,OTCAmount,1,"",1,0)
+
+	If WHTAmount <> 0 Then vArray = InsertRow(vArray,-1,TaxGroupID,kTaxBandWHT,"AUD",0,WHTAmount,1,"",1,0)	  	
+
+
+	TaxParameters.TaxArray = vArray
+	
+End Sub
+
+
+
+
+
+
+
+'---------------- GENERIC ARRAY MANIPULATION ROUTINES ----------------
+
+'Insert a Row after lRow in the Array
+'Use lRow=-1 for Start of Array
+'Use lRow=999 for End of Array
+Function InsertRow(vArray, lRow, lTaxGroupID, lTaxBandID, sCurrency, dPercentage, cValue, bIsValue, sClassOfBusinessId, lSequence, bIsManuallyChanged)
+	Dim vNewArray
+	Dim lCurrentRow
+	Dim lNewRow
+	
+	If Not IsArray(vArray) Then
+		Redim vNewArray(kTaxArrayUBound, 0)
+		lRow = 0
+	Else
+		If lRow > UBound(vArray,2) Then
+			lRow = UBound(vArray,2)
+		End If
+		Redim vNewArray(kTaxArrayUBound, UBound(vArray,2)+1)
+	End If
+	
+	lNewRow = LBound(vNewArray,2)
+	
+	If IsArray(vArray) Then
+		For lCurrentRow = 0 To lRow
+			CopyRow vArray, lCurrentRow, vNewArray, lNewRow
+			lNewRow = lNewRow + 1
+		Next
+	End If
+	
+	'Copy in the new values
+	vNewArray(kTaxArrayTaxGroupId, lNewRow) = lTaxGroupID
+	vNewArray(kTaxArrayTaxBandId, lNewRow) = lTaxBandID
+	vNewArray(kTaxArrayTaxCurrencyCode, lNewRow) = sCurrency
+	vNewArray(kTaxArrayPercentage, lNewRow) = dPercentage
+	vNewArray(kTaxArrayValue, lNewRow) = cValue
+	vNewArray(kTaxArrayIsValue, lNewRow) = bIsValue
+	vNewArray(kTaxArrayClassOfBusinessId, lNewRow) = sClassOfBusinessId
+	vNewArray(kTaxArraySequence, lNewRow) = lSequence
+	vNewArray(kTaxArrayIsManuallyChanged, lNewRow) = bIsManuallyChanged
+	vNewArray(kTaxArrayTaxGroupDesc, lNewRow) = "GST on Claims"    'sTaxGroupDesc
+	lNewRow = lNewRow + 1
+	
+	'Loop through the start of the data
+	If IsArray(vArray) Then
+		For lCurrentRow = lRow+1 To UBound(vArray,2)
+			CopyRow vArray, lCurrentRow, vNewArray, lNewRow
+			lNewRow = lNewRow + 1
+		Next
+	End If
+	
+	InsertRow = vNewArray
+End Function
+
+
+
+
+'Remove a Row at lRow from the Array
+Function RemoveRow(vArray, lRow)
+	Dim vNewArray
+	Dim lCurrentRow
+	Dim lNewRow
+		
+	'Handle an empty array
+	If Not IsArray(vArray) Then
+		Exit Function
+	ElseIf lRow > UBound(vArray,2) Then
+		Exit Function	
+	End If
+	
+	'Create an array with one less row
+	Redim vNewArray(kTaxArrayUBound, UBound(vArray,2)-1)
+	lNewRow = LBound(vArray,2)
+	For lCurrentRow = LBound(vArray,2) To UBound(vArray,2)
+		If lCurrentRow<>lRow Then
+			CopyRow vArray, lCurrentRow, vNewArray, lNewRow
+			lNewRow = lNewRow + 1
+		End If
+	Next
+	
+	RemoveRow=vNewArray
+End Function
+
+
+
+
+'Replace the values of a row at lRow in the Array
+Function ReplaceRow(vArray, lRow, lTaxGroupID, lTaxBandID, sCurrency, dPercentage, cValue, bIsValue, sClassOfBusinessId, lSequence, bIsManuallyChanged)
+	Dim vNewArray
+		
+	'Handle an empty array
+	If Not IsArray(vArray) Then
+		Exit Function
+	ElseIf lRow > UBound(vArray,2) Then
+		Exit Function
+	End If
+	
+	'Make a copy of the Array
+	vNewArray = vArray
+	
+	'Copy in the new values
+	vNewArray(kTaxArrayTaxGroupId, lRow) = lTaxGroupID
+	vNewArray(kTaxArrayTaxBandId, lRow) = lTaxBandID
+	vNewArray(kTaxArrayTaxCurrencyCode, lRow) = sCurrency
+	vNewArray(kTaxArrayPercentage, lRow) = dPercentage
+	vNewArray(kTaxArrayValue, lRow) = cValue
+	vNewArray(kTaxArrayIsValue, lRow) = bIsValue
+	vNewArray(kTaxArrayClassOfBusinessId, lRow) = sClassOfBusinessId
+	vNewArray(kTaxArraySequence, lRow) = lSequence
+	vNewArray(kTaxArrayIsManuallyChanged, lRow) = bIsManuallyChanged
+	vNewArray(kTaxArrayTaxGroupDesc, lRow) = sTaxGroupDesc
+	
+	ReplaceRow = vNewArray
+End Function
+
+
+
+
+'Copy a row from one array to another
+Function CopyRow(vArray, lRow, vNewArray, lNewRow)
+	Dim lCol
+	For lCol= LBound(vArray, 1) To kTaxArrayUBound-1
+		vNewArray(lCol,lNewRow) = vArray(lCol,lRow)
+	Next
+End Function
+
+
+
+
+Function ShowTaxParameters()
+
+SELECT CASE TaxParameters.ProcessType
+    CASE "CLP"
+	With TaxParameters
+         MsgBox ".Amount=" & .Amount & vbCrLf & _
+                ".PaymentAdjustment=" & .PaymentAdjustment & vbCrLf & _
+                ".CurrencyCode=" & .CurrencyCode & vbCrLf & _
+                ".ExcessAmount=" & .ExcessAmount & vbCrLf & _
+                ".InsuredPercentage=" & .InsuredPercentage & vbCrLf & _
+                ".InsuredDomiciled=" & .InsuredDomiciled & vbCrLf & _
+                ".InsuredTaxNumber=" & .InsuredTaxNumber & vbCrLf & _
+                ".IsSettlement=" & .IsSettlement & vbCrLf & _
+                ".IsTaxExempt=" & .IsTaxExempt & vbCrLf & _
+                ".IsWHTExempt=" & .IsWHTExempt & vbCrLf & _
+                ".Payee=" & .Payee & vbCrLf & _
+                ".PayeeDomiciled=" & .PayeeDomiciled & vbCrLf & _
+                ".PayeePercentage=" & .PayeePercentage & vbCrLf & _
+                ".PayeeTaxNumber=" & .PayeeTaxNumber & vbCrLf & _
+                ".PaymentToCode=" & .PaymentToCode & vbCrLf & _
+                ".ProcessType=" & .ProcessType & vbCrLf & _
+                ".SafeHarbourCode=" & .SafeHarbourCode & vbCrLf & _
+                ".SafeHarbourPercentage=" & .SafeHarbourPercentage, , "TaxParameters"
+	End With
+	
+     CASE "CLR"
+
+	With TaxParameters
+
+	 MsgBox ".Payee=" & .Payee  & vbCrLf & _
+		 ".ReceivablePercentage=" & .ReceivablePercentage  & vbCrLf & _
+                 ".InsuredDomiciled=" & .InsuredDomiciled & vbCrLf & _
+                 ".InsuredPercentage=" & .InsuredPercentage & vbCrLf & _
+                 ".InsuredTaxNumber=" & .InsuredTaxNumber & vbCrLf & _
+                 ".IsTaxExempt=" & .IsTaxExempt & vbCrLf & _
+                 ".IsSettlement=" & .IsSettlement  & vbCrLf & _
+                 ".CurrencyCode=" & .CurrencyCode & vbCrLf & _
+                 ".Amount=" & .Amount
+	End With
+
+END SELECT
+
+	
+
+
+End Function
+
+Function ShowArray(status, vArray)
+    Dim lRow
+
+    MsgBox "ATS - " & status & ": TaxArray=" & UBound(TaxParameters.TaxArray, 2) + 1, , "TaxArray"
+
+    For lRow = LBound(vArray, 2) To UBound(vArray, 2)
+        MsgBox "Row: " & lRow & vbCrLf & _
+                "TaxGroupId = " & vArray(kTaxArrayTaxGroupId, lRow) & vbCrLf & _
+                "TaxBandId=" & vArray(kTaxArrayTaxBandId, lRow) & vbCrLf & _
+                "TaxCurrencyCode=" & vArray(kTaxArrayTaxCurrencyCode, lRow) & vbCrLf & _
+                "Percentage=" & vArray(kTaxArrayPercentage, lRow) & vbCrLf & _
+                "Value=" & vArray(kTaxArrayValue, lRow) & vbCrLf & _
+                "IsValue=" & vArray(kTaxArrayIsValue, lRow) & vbCrLf & _
+                "ClassOfBusinessId=" & vArray(kTaxArrayClassOfBusinessId, lRow) & vbCrLf & _
+                "Sequence=" & vArray(kTaxArraySequence, lRow) & vbCrLf & _
+                "IsManuallyChanged=" & vArray(kTaxArrayIsManuallyChanged, lRow) & vbCrLf & _
+		"TaxGroupDesc=" & vArray(kTaxArrayTaxGroupDesc, lRow), , "TaxArray"
+    Next
+End Function
+
+
+
+
+Function Validate()
+
+	Dim sMessage, Valid
+
+	Valid = True
+	sMessage = ""
+   	Call validate_ABN(TaxParameters.InsuredTaxNumber, TaxParameters.InsuredDomiciled, TaxParameters.InsuredPercentage, sMessage)
+        If sMessage <> "" Then
+		TaxParameters.ErrorMessage = "Insured " + sMessage
+		Valid = False
+	End If	
+
+	If TaxParameters.ProcessType = "CLP" then 
+		sMessage = ""
+	   	Call validate_ABN(TaxParameters.PayeeTaxNumber, TaxParameters.PayeeDomiciled, TaxParameters.PayeePercentage, sMessage)
+	        If sMessage <> "" Then
+			TaxParameters.ErrorMessage = "Payee " + sMessage
+			Valid = False	
+		End If
+	End If
+
+End Function
+
+
+
+
+Sub Validate_ABN(ABN_Number, Is_Domiciled, Percentage, sMessage)
+
+
+        Dim valid_ABN , i, w, x, y, D(11), Checksum, Remainder
+
+	valid_ABN = True
+
+        y = 0
+        ABN_Number = Replace(Replace(Replace(CStr(ABN_Number), "-", ""), " ", ""), ".", "") 'Remove spacing characters
+ 
+
+	If Len(ABN_Number) = 0 Then
+
+    '''	|------------------------------------------------------------------------------------------|
+    '''	|-- Remove check for missing ABN Number (this commenting out was done at Calliden         -|
+    '''	|------------------------------------------------------------------------------------------|
+    '''		If Is_Domiciled and Percentage > 0 Then
+    '''		sMessage = "Tax No must be specified when 'Domiciled' is checked and Percentage > 0"
+    '''		End If
+    '''		valid_ABN = False
+
+		Exit Sub
+
+    	End If
+
+        
+        If Len(ABN_Number) <> 11 Then
+
+
+    '''	|------------------------------------------------------------------------------------------|
+    '''	|-- (V3.1) - Remove check for 11 Character ABN                                            -|
+    '''	|------------------------------------------------------------------------------------------|
+    ''' 	sMessage = "Tax No " & ABN_Number & " must be 11 characters"
+    '''		valid_ABN = False
+
+                Exit Sub
+        End If
+ 
+
+    '''	|------------------------------------------------------------------------------------------|
+    '''	|-- (V3.1) - Remove requirement to process ABN right to left and removed Modular 89 test  -|
+    '''	|------------------------------------------------------------------------------------------|
+    '''    'Process digits from right to left, drop
+    '''
+    '''    For i = 1 To Len(ABN_Number)
+    '''            x = Mid(ABN_Number, i, 1)
+    '''            If x >= "0" And x <= "9" Then
+    '''                    D(i) = CInt(x)
+    '''            Else
+    '''                    MsgBox "Tax No " & ABN_Number & " must be numeric"
+    '''	                   valid_ABN = False
+    '''                    Exit Sub
+    '''            End If
+    '''    Next
+    '''    
+    '''    Checksum = ((D(1) - 1) * 10) + (D(2) * 1) + (D(3) * 3) + (D(4) * 5) + (D(5) * 7) + (D(6) * 9) + (D(7) * 11) + (D(8) * 13) + (D(9) * 15) + (D(10) * 17) + (D(11) * 19)
+    '''    Remainder = Checksum Mod 89
+    '''    ' MsgBox "ABN = " & ABN_Number & "    Checksum = " & Checksum & "    Remainder = " & Remainder 
+    '''
+    '''    If Remainder <> 0 Then
+    '''            sMessage = "Tax No " & ABN_Number & " is invalid"
+    '''	           valid_ABN = False
+    '''            Exit Sub
+    '''    End If
+ 
+	
+End Sub

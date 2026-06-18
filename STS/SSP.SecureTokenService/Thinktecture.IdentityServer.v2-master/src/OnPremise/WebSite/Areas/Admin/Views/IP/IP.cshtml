@@ -1,0 +1,46 @@
+﻿@model Thinktecture.IdentityServer.Models.IdentityProvider
+@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.IP
+@using Thinktecture.IdentityServer.Web.Utility
+
+@{
+    if (Model.ID == 0)
+    {
+        ViewBag.Title = IP_cshtml.NewIdentityProvider;
+    }
+    else
+    {
+        ViewBag.Title = string.Format(IP_cshtml.IdentityProvider, Model.Name);
+    }
+}
+@{
+    var action = Model.ID == 0 ? "Create" : "Update";
+}
+@using (Html.BeginForm(action, "IP", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+             <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @Html.EditorForModel()
+               </div>
+           </div>
+        <div class="card-footer">
+             <button type="reset" class="btn btn-sm btn-dark">@IP_cshtml.Cancel</button>
+             @if (Model.ID > 0)
+            {  
+                <button type="submit" name="action" value="delete" class="btn btn-sm btn-dark">@IP_cshtml.Delete</button>
+                <button type="submit" name="action" value="save" class="btn btn-sm btn-primary">@IP_cshtml.SaveChanges</button>
+                
+            }
+            else
+            {
+                <button type="submit" name="action" value="create" class="btn btn-sm btn-primary">@IP_cshtml.Create</button>
+            }
+           
+        </div>
+    </div>
+    @Html.ValidationSummary(IP_cshtml.ErrorUpdatingIdentityProvider)
+}

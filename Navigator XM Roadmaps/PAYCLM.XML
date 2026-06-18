@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- pmnav_map_id = 42 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd">
+<MAP WMTaskCode="PAYCLM" WMTaskDescription="Complete Payment Of Claim" ImageURL="http://www.siriusgroup.co.uk" TransactionType="C_CP" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="Payment Of Claim" Core="1" ElementID="E1" Version="200">
+	<STEP Description="Find Claim" Component="iCLMFindClaim.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2"/>
+	<STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="14" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" Action1Action="FX" Action1Steps="4" ElementID="E3"/>
+	<STEP Description="Check Unpaid Status" Component="iCLMCheckUnpaidPremium.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="13" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4"/>
+	<STEP Description="Check Deferred Reinsurance" Component="iCLMCheckDeferredRI.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="12" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E5"/>
+	<STEP Description="Information Checklist" Component="iCLMInfoChklst.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="11" ComponentAction="1" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6">
+		<KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E7"/>
+	</STEP>
+	<STEP Description="Risk Details" Component="iCLMRiskDetails.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="10" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9"/>
+	<STEP Description="Coinsurance Payment" Component="iCLMCoinsuranceRecoveries.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="9" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11"/>
+	<STEP Description="Reinsurance Payment" Component="iCLMReinsurance.Interface_Renamed" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="8" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E12"/>
+	<STEP Description="Update Claim Details" Component="iCLMChangeClaimStatus.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="7" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" Action1Action="FX" Action1Steps="3" ElementID="E13"/>
+	<STEP Description="Cash List" Component="iACTCashList.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="" CancelSteps="2" ComponentAction="1" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E24">
+		<KEY Name="cash_list_roadmap" Value="PAYMENTS" ElementID="E25"/>
+	</STEP>
+	<STEP Description="Payment" Component="iACTCashListItem.Interface_Renamed" Type="DF" CancelAction="F1" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="2" ServerSide="False" CreateWMTask="False" Core="1" ResumeStep="-1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E26">
+		<KEY Name="cash_list_item_mode" Value="2" ElementID="E27"/>
+		<KEY Name="allow_allocate_button" Value="0" ElementID="E28"/>
+	</STEP>
+	<STEP Description="Check Status" Component="iCLMCloseClaim.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="2" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E14"/>
+	<STEP Description="Generate Claim Payment Documents?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E15">
+		<KEY Name="decision_title" Value="Documentation" ElementID="E16"/>
+		<KEY Name="decision_text" Value="Generate Claim Payment Advice?" ElementID="E17"/>
+	</STEP>
+	<STEP Description="Produce Claim Payment Documents" Component="iCLMGetClaimDocuments.NavigatorV3" Type="DF" CancelAction="FX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1 " Submap="" OKNewRoadmap=" " CancelNewRoadmap="" ElementID="E18"/>
+	<STEP Description="Do you wish to make further payments?" Component="iPMDecision.Interface_Renamed" Type="QF" CancelAction="F1" OKAction="BX" OKSteps="9" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E19">
+		<KEY Name="decision_title" Value="More payments" ElementID="E20"/>
+		<KEY Name="decision_text" Value="Do you wish to make further payments?" ElementID="E21"/>
+		<KEY Name="FurtherPayments" Value="1" ElementID="E22"/>
+	</STEP>
+	<STEP Description="Unlock Claim" Component="iCLMUnlock.NavigatorV3" Type="DF" CancelAction="AP" OKAction="CP" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E23"/>
+</MAP>
+

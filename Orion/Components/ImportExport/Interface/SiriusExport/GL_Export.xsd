@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Export/GL_Export/20051005" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NS="http://www.siriusfs.com/SFI/Export/GL_Export/20051005" targetNamespace="http://www.siriusfs.com/SFI/Export/GL_Export/20051005" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="EXPORT_HEADER">
+    <xs:annotation>
+      <xs:documentation>Sirius Export Header</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TRANSACTION">
+          <xs:annotation>
+            <xs:documentation>Individual Transaction Record</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="CLAIM">
+                <xs:complexType>
+                  <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="PERILTYPE">
+                      <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                          <xs:element name="RESERVETYPE">
+                            <xs:complexType>
+                              <xs:sequence/>
+                              <xs:attribute name="id" type="xs:long"/>
+                              <xs:attribute name="description" type="xs:string"/>
+                              <xs:attribute name="total" type="xs:double"/>
+                              <xs:attribute name="name" type="xs:string"/>
+                              <xs:attribute name="is_excess" type="xs:byte"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:long"/>
+                        <xs:attribute name="description" type="xs:string"/>
+                        <xs:attribute name="code" type="xs:string"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:long"/>
+                  <xs:attribute name="underwriting_year_code" type="xs:string"/>
+                  <xs:attribute name="claim_number" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="document_id" type="xs:long" use="required"/>
+            <xs:attribute name="company_code" type="xs:string" use="required"/>
+            <xs:attribute name="sub_branch_code" type="xs:string" use="required"/>
+            <xs:attribute name="postingstatus_code" type="xs:string" use="required"/>
+            <xs:attribute name="documenttype_code" type="xs:string" use="required"/>
+            <xs:attribute name="auditset_code" type="xs:string" use="optional"/>
+            <xs:attribute name="document_ref" type="xs:string" use="required"/>
+            <xs:attribute name="document_date" type="xs:dateTime" use="required"/>
+            <xs:attribute name="created_date" type="xs:dateTime" use="required"/>
+            <xs:attribute name="authorised_date" type="xs:dateTime" use="required"/>
+            <xs:attribute name="document_comment" type="xs:string" use="optional"/>
+            <xs:attribute name="write_off_reason_code" type="xs:string" use="optional"/>
+            <xs:attribute name="insurance_file_cnt" type="xs:long" use="optional"/>
+            <xs:attribute name="insurance_file_ref" type="xs:string" use="optional"/>
+            <xs:attribute name="reason" type="xs:string" use="optional"/>
+            <xs:attribute name="effective_date" type="xs:dateTime" use="optional"/>
+			      <xs:attribute name="due_date" type="xs:dateTime" use="optional"/>
+            <xs:attribute name="cover_start_date" type="xs:dateTime" use="optional"/>
+            <xs:attribute name="expiry_date" type="xs:dateTime" use="optional"/>
+            <xs:attribute name="insurance_holder_shortname" type="xs:string" use="optional"/>
+            <xs:attribute name="product_code" type="xs:string" use="optional"/>
+            <xs:attribute name="business_type_code" type="xs:string" use="optional"/>
+            <xs:attribute name="account_handler_shortname" type="xs:string" use="optional"/>
+            <xs:attribute name="agent_shortname" type="xs:string" use="optional"/>
+            <xs:attribute name="loss_code" type="xs:string" use="optional"/>
+            <xs:attribute name="loss_date" type="xs:dateTime" use="optional"/>
+            <xs:attribute name="created_by_username" type="xs:string" use="optional"/>
+            <xs:attribute name="mediatype_code" type="xs:string" use="optional"/>
+            <xs:attribute name="transdetail_id" type="xs:long" use="required"/>
+            <xs:attribute name="account_code" type="xs:string" use="required"/>
+            <xs:attribute name="transaction_currency_code" type="xs:string" use="required"/>
+            <xs:attribute name="period_id" type="xs:long" use="required"/>
+            <xs:attribute name="period_name" type="xs:string" use="required"/>
+            <xs:attribute name="document_sequence" type="xs:integer" use="required"/>
+            <xs:attribute name="transaction_amount" type="xs:double" use="required"/>
+            <xs:attribute name="outstanding_transaction_amount" type="xs:double" use="required"/>
+            <xs:attribute name="transaction_base_rate" type="xs:double" use="required"/>
+            <xs:attribute name="base_currency_code" type="xs:string" use="required"/>
+            <xs:attribute name="base_amount" type="xs:double" use="required"/>
+            <xs:attribute name="outstanding_base_amount" type="xs:double" use="required"/>
+            <xs:attribute name="transaction_account_rate" type="xs:double" use="required"/>
+            <xs:attribute name="account_currency_code" type="xs:string" use="required"/>
+            <xs:attribute name="account_amount" type="xs:double" use="required"/>
+            <xs:attribute name="outstanding_account_amount" type="xs:double" use="required"/>
+            <xs:attribute name="transaction_system_rate" type="xs:double" use="required"/>
+            <xs:attribute name="system_currency_code" type="xs:string" use="required"/>
+            <xs:attribute name="system_amount" type="xs:double" use="required"/>
+            <xs:attribute name="outstanding_system_amount" type="xs:double" use="required"/>
+            <xs:attribute name="transaction_comment" type="xs:string" use="optional"/>
+            <xs:attribute name="purchase_order_no" type="xs:string" use="optional"/>
+            <xs:attribute name="purchase_invoice_no" type="xs:string" use="optional"/>
+            <xs:attribute name="department" type="xs:string" use="optional"/>
+            <xs:attribute name="spare" type="xs:string" use="optional"/>
+            <xs:attribute name="underwriting_year_code" type="xs:string" use="optional"/>
+            <xs:attribute name="reference" type="xs:string" use="optional"/>
+            <xs:attribute name="transdetail_type_code" type="xs:string" use="optional"/>
+            <xs:attribute name="ledger_code" type="xs:string" use="required"/>
+            <xs:attribute name="reference_1" type="xs:string" use="optional"/>
+            <xs:attribute name="correspondence_address_1" type="xs:string" use="optional"/>
+            <xs:attribute name="correspondence_address_2" type="xs:string" use="optional"/>
+            <xs:attribute name="correspondence_address_3" type="xs:string" use="optional"/>
+            <xs:attribute name="correspondence_address_4" type="xs:string" use="optional"/>
+            <xs:attribute name="correspondence_postal_code" type="xs:string" use="optional"/>
+            <xs:attribute name="correspondence_country" type="xs:string" use="optional"/>
+            <xs:attribute name="payee_name" type="xs:string" use="optional"/>
+            <xs:attribute name="payee_branch_code" type="xs:string" use="optional"/>
+            <xs:attribute name="payee_account_code" type="xs:string" use="optional"/>
+            <xs:attribute name="sepa_payee_bic" type="xs:string" use="optional"/>
+            <xs:attribute name="sepa_payee_iban" type="xs:string" use="optional"/>
+            <xs:attribute name="balance_type" type="xs:string" use="optional"/>
+            <xs:attribute name="cashdeposit_number" type="xs:string" use="optional"/>
+            <xs:attribute name="term" type="xs:string" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="GL_EXPORT"/>
+      <xs:attribute name="date_exported" type="xs:dateTime" use="required"/>
+      <xs:attribute name="batch_id" type="xs:long" use="required"/>
+      <xs:attribute name="batch_reference" type="xs:string" use="required"/>
+      <xs:attribute name="total_transactions" type="xs:long" use="required"/>
+      <xs:attribute name="total_amount" type="xs:double" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B65F4FDC-77D1-438B-8D4A-90EA76413519}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NexusProvider.SAMForInsurance</RootNamespace>
+    <AssemblyName>NexusProvider.SAMForInsurance</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>NexusProvider.SAMForInsurance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <CodeAnalysisRules>-Microsoft.Design#CA1026;-Microsoft.Globalization#CA1305</CodeAnalysisRules>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>NexusProvider.SAMForInsurance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>NexusProvider.SAMForInsurance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <CodeAnalysisRules>-Microsoft.Design#CA1026;-Microsoft.Globalization#CA1305</CodeAnalysisRules>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>NexusProvider.SAMForInsurance.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BCrypt.Net, Version=0.1.4056.18965, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalLibrary\BCrypt.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalLibrary\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=2.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.8</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Nexus.Constants" />
+    <Import Include="Nexus.Utils" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiMethods.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ProviderSAMForInsuranceV2.Account.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.Security.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.Claims.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.Core.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.Party.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.Policy.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.Discount.vb" />
+    <Compile Include="ProviderSAMForInsuranceV2.vb" />
+    <Compile Include="PureService.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SSP.PureInsuranceRestAPIHandler\SSP.PureInsuranceRestAPIHandler\SSP.PureInsuranceRestAPIHandler.csproj">
+      <Project>{b005c9f8-13a2-4d03-860c-09e440aadc0c}</Project>
+      <Name>SSP.PureInsuranceRestAPIHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SAMClient\SAMClient.vbproj">
+      <Project>{e8cfb48b-53d7-471c-8d84-90eee6670c37}</Project>
+      <Name>SAMClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Library\Nexus.Library.vbproj">
+      <Project>{DBE041F0-949E-4A3A-8604-A59F81FAF758}</Project>
+      <Name>Nexus.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Session\Nexus.Constants.vbproj">
+      <Project>{04DF8BAC-221C-4D00-8CD3-0CFC2ADA4437}</Project>
+      <Name>Nexus.Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nexus.Utils\Nexus.Utils.vbproj">
+      <Project>{42857D04-0B2A-48A8-9B82-B272F20F81C6}</Project>
+      <Name>Nexus.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NexusProvider\NexusProvider.vbproj">
+      <Project>{EF29CE11-E31C-4F16-84AA-02240C4507FB}</Project>
+      <Name>NexusProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalLibrary\dznet.dll" />
+    <Content Include="ExternalLibrary\Ionic.Zip.dll" />
+    <Content Include="ExternalLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="ExternalLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
+    <Content Include="ExternalLibrary\Sirius.Architecture.Security.dll" />
+    <Content Include="ExternalLibrary\Sirius.Architecture.Utility.dll" />
+    <Content Include="ExternalLibrary\SiriusFS.SAM.Client.XmlSerializers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

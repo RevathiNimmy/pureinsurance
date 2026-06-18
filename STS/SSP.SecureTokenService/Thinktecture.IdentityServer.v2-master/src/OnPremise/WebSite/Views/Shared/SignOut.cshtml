@@ -1,0 +1,27 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Shared
+@model IEnumerable<string>
+
+@{
+    ViewBag.Title = SignOut_cshtml.SignOut;
+    ViewBag.HideMenu = true;
+}
+
+ <div class="container">
+      <div class="card m-t-lg">
+        <div class="card-heading">
+          <h1>@SignOut_cshtml.SignOut</h1>
+        </div>
+        <div class="card-body clearfix">
+          @if (!string.IsNullOrWhiteSpace(ViewBag.ReturnUrl))
+            {
+                 <div class="p-v-lg">
+                    <a class="btn btn-lg brtn-default btn-dark" href='@ViewBag.ReturnUrl'>@SignOut_cshtml.ReturnToRP</a>
+                 </div>
+            }
+        </div>
+      </div>
+   </div>
+@foreach (var link in Model)
+{
+    <iframe style="visibility: hidden; width: 1px; height: 1px" src="@link?wa=wsignoutcleanup1.0"></iframe>
+}

@@ -1,0 +1,1206 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ArtinSoft.VBUpgrade.FpSpread</name>
+    </assembly>
+    <members>
+        <member name="T:Artinsoft.VBUpgrade.Spread.FpSpread">
+            <summary>
+            Farpoint Helper Class for VB6 control equivalence
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.InitializeSheetView(FarPoint.Win.Spread.SheetView)">
+            <summary>
+            Initialize Sheet View
+            </summary>
+            <param name="sheet">SheetView to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.InitializeSpread">
+            <summary>
+            Initialize default parameters for FP Spread
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.ValidRowAndCol(System.Int32,System.Int32)">
+            <summary>
+            Validates if a Row,Col pair is within the bounds of the Grid 
+            </summary>
+            <param name="Row">Row to validate</param>
+            <param name="Col">Column to validate</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetRowHeight(System.Int32)">
+            <summary>
+            Get Row Height
+            </summary>
+            <param name="Row">row to look at</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetCellHeight(System.Int32,System.Int32)">
+            <summary>
+            Get Cell Height
+            </summary>
+            <param name="Row">Row to look at</param>
+            <param name="Col">Column to look at</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetBackColor(System.Drawing.Color)">
+            <summary>
+            This method is the equivalent to. Backcolor of farpoint 3.0
+            </summary>
+            <param name="setColor"></param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.MaxTextRowHeight(System.Int32)">
+            <summary>
+            Returns the Preferred RowHeight
+            This method might behave diferently than the VB6 version of it.
+            </summary>
+            <param name="Row">Row to look at</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetRowHeight(System.Int32,System.Single)">
+            <summary>
+            Set the Height for a row using the value
+            </summary>
+            <param name="Row">Row to look at</param>
+            <param name="Value">Value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetColWidth(System.Int32)">
+            <summary>
+            Get Column Width
+            </summary>
+            <param name="Col">Column to look at</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetColWidth(System.Int32,System.Single)">
+            <summary>
+            Set Column Width
+            </summary>
+            <param name="Col">Column to look at</param>
+            <param name="Value">Value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetRowHidden(System.Int32)">
+            <summary>
+            Get hidden condition for a specific row
+            </summary>
+            <param name="Row">Row to look at</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetRowHidden(System.Int32,System.Boolean)">
+            <summary>
+            Set hidden state for a specific row
+            </summary>
+            <param name="Row">Row to look at</param>
+            <param name="Value">Value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetColHidden(System.Int32)">
+            <summary>
+            Get Column Hidden state for a specific Column
+            </summary>
+            <param name="Col">Column to look at</param>
+            <returns>True if column specified has visible false state</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetColHidden(System.Int32,System.Boolean)">
+            <summary>
+            Set Column Hidden state for specified column
+            </summary>
+            <param name="Col">Column to look at</param>
+            <param name="Value">Value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetLastNonEmptyRow(FarPoint.Win.Spread.NonEmptyItemFlag)">
+            <summary>
+            Get Last non empty Row using the NonEmptyItemFlag
+            </summary>
+            <param name="dataFlag">NonEmptyItemFlag to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetLastNonEmptyColumn(FarPoint.Win.Spread.NonEmptyItemFlag)">
+            <summary>
+            Get Last non Empty Column using the NonEmptyItemFlag
+            </summary>
+            <param name="dataFlag">NonEmptyItemFlag to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.ColWidthFromPixels(System.Single)">
+            <summary>
+            Converts a pixel width to Column Width
+            </summary>
+            <param name="Width">value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.ColWidthToPixels(System.Single)">
+            <summary>
+            Convert Width Column to Pixels
+            </summary>
+            <param name="Width">value to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetActiveCell(System.Int32,System.Int32,FarPoint.Win.Spread.VerticalPosition,FarPoint.Win.Spread.HorizontalPosition)">
+            <summary>
+            Set Active Cell
+            </summary>
+            <param name="Row">row to look at</param>
+            <param name="Col">column to look at</param>
+            <param name="VPosition">vertical position</param>
+            <param name="HPosition">horizontal position</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetActiveCell(System.Int32,System.Int32)">
+            <summary>
+            Set Active Cell
+            </summary>
+            <param name="Row">row to look at</param>
+            <param name="Col">column to look at</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.ClearRange(System.Int32,System.Int32)">
+            <summary>
+            Clear Range
+            </summary>
+            <param name="Row">row to look at</param>
+            <param name="Col">column to look at</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.ClearRange(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Clear Range
+            </summary>
+            <param name="Row1">Left Row to look at</param>
+            <param name="Col1">Top column to look at</param>
+            <param name="Row2">Right Row to look at</param>
+            <param name="Col2">Bottom column to look at</param>
+            <param name="DataOnly">if only data</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.ClearSelection">
+            <summary>
+            Clears selection
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetSelection(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Set Selection
+            </summary>
+            <param name="Col">Top Column</param>
+            <param name="Row">Left Row</param>
+            <param name="Col2">Bottom Column</param>
+            <param name="Row2">Right Row</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetSelection(System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Get Selection
+            </summary>
+            <param name="BlockNo">Block number</param>
+            <param name="Col">returned top column</param>
+            <param name="Row">returned left row</param>
+            <param name="Col2">returned bottom column</param>
+            <param name="Row2">returned right row</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetMultiSelItem(System.Int32)">
+            <summary>
+            Get Multi Selection items
+            </summary>
+            <param name="SelPrev">Selected Previous</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.DeleteRow(System.Int32)">
+            <summary>
+            Delete Row
+            </summary>
+            <param name="Row">row to delete</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.InsertRow(System.Int32)">
+            <summary>
+            Insert a row after indicated Row
+            </summary>
+            <param name="Row">Row number</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetCellType(System.Int32,System.Int32)">
+            <summary>
+            Get Cell Type for specified row and column
+            </summary>
+            <param name="Row">row to look at</param>
+            <param name="Col">column to look at</param>
+            <returns>ICellType</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetCellType(System.Int32,System.Int32,FarPoint.Win.Spread.CellType.ICellType)">
+            <summary>
+            Set Cell Type for row and column
+            </summary>
+            <param name="Row">Row to look at</param>
+            <param name="Col">Column to look at</param>
+            <param name="Value">value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetSortKey(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="nIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetSortKey(System.Int32,System.Int32)">
+            <summary>
+            Set Sort Key for index
+            </summary>
+            <param name="nIndex">index in sort list</param>
+            <param name="value">value to set</param>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetSortKeyOrder(System.Int32)">
+            <summary>
+            Get Sort Key Order constant
+            </summary>
+            <param name="nIndex">index in sort list</param>
+            <returns>SortKeyOrderConstants constant</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetSortKeyOrder(System.Int32,Artinsoft.VBUpgrade.Spread.SortKeyOrderConstants)">
+            <summary>
+            Set Sort Key Order with SortKeyOrderConstants constant
+            </summary>
+            <param name="nIndex">index in sort list</param>
+            <param name="value">constant</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetValue(System.Int32,System.Int32)">
+            <summary>
+            Get object Value in Row, Column
+            </summary>
+            <param name="Row">Row to look at</param>
+            <param name="Col">Column to look at</param>
+            <returns>Object value</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetValue(System.Int32,System.Int32,System.Object)">
+            <summary>
+            Set Value at Row,Column
+            </summary>
+            <param name="Row">Row to set value at</param>
+            <param name="Col">Column to set value at</param>
+            <param name="value">Value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetCellFromScreenCoord(System.Int32@,System.Int32@,System.Single,System.Single)">
+            <summary>
+            Get Cell from screen coordinate
+            </summary>
+            <param name="Col">returned column</param>
+            <param name="Row">returned row</param>
+            <param name="X">X pixel position</param>
+            <param name="Y">Y pixel position</param>
+            <returns>Cell Range at X,Y position</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetCellFromPixel(System.Single,System.Single)">
+            <summary>
+            Get Cell from pixel
+            </summary>
+            <param name="X">X pixel position</param>
+            <param name="Y">Y pixel position</param>
+            <returns>Cell Range at X,Y position</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetCellPos(System.Int32,System.Int32,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Get Cell Position
+            </summary>
+            <param name="Col">Column</param>
+            <param name="Row">Row</param>
+            <param name="l">Left position</param>
+            <param name="t">Right position</param>
+            <param name="w">Width</param>
+            <param name="h">Height</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetColItemData(System.Int32@,System.Int32@)">
+            <summary>
+            ItemData is stored in a generic collection instead of the Tag property to avoid boxing/unboxing 
+            which has a performance hit
+            </summary>
+            <param name="Col">Column to set at</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.SetRowItemData(System.Int32@,System.Int32@)">
+            <summary>
+            Set Row Item Data at Row
+            </summary>
+            <param name="Row">Row to look at</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetColItemData(System.Int32)">
+            <summary>
+            Get Column Item Data
+            </summary>
+            <param name="Col">Column to look at</param>
+            <returns>Data in column position</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetRowItemData(System.Int32)">
+            <summary>
+            Get Row Item data
+            </summary>
+            <param name="Row">Row to look at</param>
+            <returns>Data in Row position</returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.FpSpread_LeaveCell(System.Object,FarPoint.Win.Spread.LeaveCellEventArgs)">
+            <summary>
+            LeaveCell event
+            </summary>
+            <param name="sender">Object sender</param>
+            <param name="eventArgs">Event arguments</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.FpSpread_LeftChange(System.Object,FarPoint.Win.Spread.LeftChangeEventArgs)">
+            <summary>
+            Left Change event
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="eventArgs">Event arguments</param>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.FpSpread_TopChange(System.Object,FarPoint.Win.Spread.TopChangeEventArgs)">
+            <summary>
+            Top Change event
+            </summary>
+            <param name="sender">Object sender</param>
+            <param name="eventArgs">Event Arguments</param>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.FpSpread.PastingHandled">
+            <summary>
+            For Pasting purposes with Clipboard
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.Clone">
+            <summary>
+            Creates a copy of the format FpSpread.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.FpSpread.GetEventSubscribers(System.Object,System.String)">
+            <summary>
+            Gets the delegates bound to an event in an object
+            </summary>
+            <param name="Target">The object</param>
+            <param name="EventName">The event name</param>
+            <returns>Null if no delegates or event where found</returns>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.Change">
+            <summary>
+            Change event handler
+            </summary>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.CellClick">
+            <summary>
+            CellClick event handler
+            </summary>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.CellRightClick">
+            <summary>
+            Cell Right click event handler
+            </summary>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.LeaveCell">
+            <summary>
+            Leave Cell event handler
+            </summary>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.LeaveRow">
+            <summary>
+            Leave Row event handler
+            </summary>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.TextTipFetch">
+            <summary>
+            TextTip Fetch Event handler
+            </summary>
+        </member>
+        <member name="E:Artinsoft.VBUpgrade.Spread.FpSpread.TopLeftChange">
+            <summary>
+            Top Left Change event handler
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.BackColor">
+            <summary>
+            Get/Set Back color
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ActiveRowIndex">
+            <summary>
+            Get/Set Active Row Index. This property is 1-based
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ActiveColumnIndex">
+            <summary>
+            Get/Set Active column index. This property is 1-based
+            </summary>        
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Row">
+            <summary>
+            Get/Set number of Rows
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Col">
+            <summary>
+            Get/Set number of Columns
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Row2">
+            <summary>
+            Get/Set number of Rows 2
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Col2">
+            <summary>
+            Get/Set number of Columns 2
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.LeftCol">
+            <summary>
+            Left Column is obsolete in FpSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.MaxCols">
+            <summary>
+            Get/Set Max of Columns
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.MaxRows">
+            <summary>
+            Get/Set Max of Rows
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.RowHidden">
+            <summary>
+            Get/Set Row Hidden state, using the actual Row value
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ColHidden">
+            <summary>
+            Get/Set Column Hidden state
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.GridWidth">
+            <summary>
+            full width of the grid object (in pixels) based on displayed column widths 
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Action">
+            <summary>
+            Set Action from Action Constants
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.CellType">
+            <summary>
+            Get/Set CellType for actual Row and Column
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.FontName">
+            <summary>
+            Get/Set FontName to use
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.GridColor">
+            <summary>
+            Get/Set Grid Color
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ShadowDark">
+            <summary>
+            Get/Set Shadow Dark
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.GridShowHoriz">
+            <summary>
+            Get/Set Grid Show Horizontal Grid Lines
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.GridShowVert">
+            <summary>
+            Get/Set Grid Show Vertical Lines
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Lock">
+            <summary>
+            Lock the Grid
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.SelBlockRow">
+            <summary>
+            Get Selected Block Row
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.SelBlockRow2">
+            <summary>
+            Get Selected Block Row 2
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.SelModeSelCount">
+            <summary>
+            Get Selected Mode Selection Count
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.SelModeSelected">
+            <summary>
+            Sets or returns the selection state of a row when the spreadsheet is in extended- or multiple-selection operation mode.
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.SortBy">
+            <summary>
+            Get/Set SortBy constant
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Text">
+            <summary>
+            Get/Set Text in actual Row,Column
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ToolTipText">
+            <summary>
+            Get/Set ToolTip text
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxList">
+            <summary>
+            Set Type combobox List using a string separated by tabs
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxListControl">
+            <summary>
+            Get/Set Type Combobox List Control
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxCount">
+            <summary>
+            Get Type ComboBox Count as string
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxCurSel">
+            <summary>
+            Get/Set Type Combobox current selection
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxEditable">
+            <summary>
+            Get/Set Type Combobox Editable property
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxString">
+            <summary>
+            Get/Set TypeComboBox String Array
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeEditMultiLine">
+            <summary>
+            Get Set Type Edit Multiline state
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeFloatDecimalChar">
+            <summary>
+            Get/Set Type Float Decimal Char Separator
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeFloatSepChar">
+            <summary>
+            Get/Set Type Float Separator Char for thousands
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeHAlign">
+            <summary>
+            Set Type Horizontal Alignment
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeVAlign">
+            <summary>
+            Set Type Vertical Align
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Value">
+            <summary>
+            Get/Set Value for actual Row, Column
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.RowsFrozen">
+            <summary>
+            Get/Set Rows Frozen state
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ColsFrozen">
+            <summary>
+            Get/Set Columns Frozen state
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ReDraw">
+            <summary>
+            Get/Set Redraw action
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.RunLocalEvents">
+            <summary>
+            Set RunLocalEvents status
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.BackColorStyle">
+            <summary>
+            BackColorStyle has no equivalent in FPSpread.NET
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.BlockMode">
+            <summary>
+            BlockMode has no equivalent in FPSpread.NET
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.ChangeMade">
+            <summary>
+            Get/Set Change Made has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Count">
+            <summary>
+            Get/Set Count has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.Item">
+            <summary>
+            Get/Set Item has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.MultiSelIndex">
+            <summary>
+            Get/Set MultSelIndex has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeComboBoxIndex">
+            <summary>
+            Get/Set TypeComboBox has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.TypeEditLen">
+            <summary>
+            Get/Set TypeEditLen has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.FormulaSync">
+            <summary>
+            Get/Set FormulaSync has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.FpSpread.NoBeep">
+            <summary>
+            Get/Set NoBeep has no equivalent en FPSpread.Net
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.CellComparer">
+            <summary>
+            Class for Cell comparison purposes
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.ChangeEventHandler">
+            <summary>
+            Change event handler
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">Change Event arguments</param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.CellClickEventHandler">
+            <summary>
+            Cell Click event handler
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">Cell Click event arguments</param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.LeaveCellEventHandler">
+            <summary>
+            Leave Cell event handler
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">Leave cell event arguments</param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.LeaveRowEventHandler">
+            <summary>
+            Leave Row event handler
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">Leave cell event arguments</param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.TextTipFetchEventHandler">
+            <summary>
+            TextTip Fetch event handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventHandler">
+            <summary>
+            Top Left Change event handler
+            </summary>
+            <param name="sender">object sender</param>
+            <param name="e">Top Left change event arguments</param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.ChangeEventArgs">
+            <summary>
+            Change Event Arguments class
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ChangeEventArgs.Row">
+            <summary>
+            Row
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ChangeEventArgs.Col">
+            <summary>
+            Column
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.ChangeEventArgs.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="Col">Column, Row</param>
+            <param name="Row"></param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.LeaveCellEventArgs">
+            <summary>
+            Leave Cell Event Arguments Class, implemented from Farpoint Leave Cell Event Args
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.LeaveCellEventArgs.#ctor(FarPoint.Win.Spread.SpreadView,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor passing all parameter to Farpoint class
+            </summary>
+            <param name="view">view</param>
+            <param name="row">row</param>
+            <param name="column">column</param>
+            <param name="newRow">new row</param>
+            <param name="newColumn">new column</param>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs">
+            <summary>
+            TextTip Fetch Event Arguments
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.#ctor(FarPoint.Win.Spread.TextTipFetchEventArgs)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.Col">
+            <summary>
+            Get Column
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.Row">
+            <summary>
+            Get Row
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.MultiLine">
+            <summary>
+            Get Set Multiline state
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.TipWidth">
+            <summary>
+            Get/Set TipWidth value
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.TipText">
+            <summary>
+            Get/Set Tip Text value
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TextTipFetchEventArgs.ShowTip">
+            <summary>
+            Get/Set Show Tip
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs">
+            <summary>
+            Top Left Change Event Arguments class
+            </summary>
+        </member>
+        <member name="M:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.#ctor(FarPoint.Win.Spread.SpreadView,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="view">SpredView</param>
+            <param name="oldLeft">old left</param>
+            <param name="newLeft">new left</param>
+            <param name="oldTop">old top</param>
+            <param name="newTop">new top</param>
+            <param name="rowViewportIndex">row view port index</param>
+            <param name="columnViewportIndex">column view port index</param>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.NewLeft">
+            <summary>
+            New Left
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.OldLeft">
+            <summary>
+            Old Left
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.NewTop">
+            <summary>
+            New Top
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.OldTop">
+            <summary>
+            Old Top
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.RowViewportIndex">
+            <summary>
+            Row view port index
+            </summary>
+        </member>
+        <member name="P:Artinsoft.VBUpgrade.Spread.TopLeftChangeEventArgs.ColumnViewportIndex">
+            <summary>
+            Column view port index
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.BackColorStyleConstants">
+            <summary>
+            Back Color style constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.BackColorStyleConstants.BackColorStyleOverGrid">
+            <summary>
+            Over Grid
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.BackColorStyleConstants.BackColorStyleUnderGrid">
+            <summary>
+            Under Grid
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.BackColorStyleConstants.BackColorStyleOverHorzGridOnly">
+            <summary>
+            Over Horizantal Grid only
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.BackColorStyleConstants.BackColorStyleOverVertGridOnly">
+            <summary>
+            Over Vertical Grid only
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.SortKeyOrderConstants">
+            <summary>
+            Sort key order constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.SortKeyOrderConstants.SortKeyOrderNone">
+            <summary>
+            No order
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.SortKeyOrderConstants.SortKeyOrderAscending">
+            <summary>
+            Order Ascending
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.SortKeyOrderConstants.SortKeyOrderDescending">
+            <summary>
+            Order Descending
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.ActionConstants">
+            <summary>
+            Action constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionActiveCell">
+            <summary>
+            Active cell
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionGotoCell">
+            <summary>
+            Goto cell
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionSelectBlock">
+            <summary>
+            Select block
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionClear">
+            <summary>
+            Clear
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionDeleteRow">
+            <summary>
+            Delete Row
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionInsertCol">
+            <summary>
+            Insert column
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionInsertRow">
+            <summary>
+            Insert row
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionClearText">
+            <summary>
+            Clear text
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionDeselectBlock">
+            <summary>
+            Deselect Block
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionAddMultiSelBlock">
+            <summary>
+            Add multiselect block
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionGetMultiSelection">
+            <summary>
+            Get multi selection
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionClipboardCopy">
+            <summary>
+            Clipboard copy
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionClipboardPaste">
+            <summary>
+            Clipboard paste
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionSort">
+            <summary>
+            Sort
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ActionConstants.ActionSmartPrint">
+            <summary>
+            Smart print
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.ClickType">
+            <summary>
+            Click Type constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ClickType.Down">
+            <summary>
+            Down
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ClickType.Up">
+            <summary>
+            Up
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ClickType.DoubleClick">
+            <summary>
+            Double click
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.PositionConstants">
+            <summary>
+            Position Constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionUpperLeft">
+            <summary>
+            Upper left
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionUpperCenter">
+            <summary>
+            Upper center
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionUpperRight">
+            <summary>
+            Upper right
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionCenterLeft">
+            <summary>
+            Center left
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionCenter">
+            <summary>
+            Center
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionCenterRight">
+            <summary>
+            Center right
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionBottomLeft">
+            <summary>
+            Bottom left
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionBottomCenter">
+            <summary>
+            Bottom center
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.PositionConstants.PositionBottomRight">
+            <summary>
+            Bottom right
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.ScrollBarsConstants">
+            <summary>
+            Scroll bars constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ScrollBarsConstants.ScrollBarsNone">
+            <summary>
+            None
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ScrollBarsConstants.ScrollBarsHorizontal">
+            <summary>
+            Horizontal
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ScrollBarsConstants.ScrollBarsVertical">
+            <summary>
+            Vertical
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.ScrollBarsConstants.ScrollBarsBoth">
+            <summary>
+            Both
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn">
+            <summary>
+            Standard Aggregate Column
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colFirst">
+            <summary>
+            First
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colName">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colIndexPercent">
+            <summary>
+            Index Percent
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colIndexValue">
+            <summary>
+            Index value
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colBenchmarkCount">
+            <summary>
+            Benchmark count
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colFundCount">
+            <summary>
+            Fund count
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colFundValuePreTrade">
+            <summary>
+            Fund value pretrade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colFundPercentPreTrade">
+            <summary>
+            Fund percent pretrade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colMisweightPercentPreTrade">
+            <summary>
+            Missing weight percent pretrade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colMisweightValuePreTrade">
+            <summary>
+            Missing weight value pretrade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colFundValuePostTrade">
+            <summary>
+            Fund value post trade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colFundPercentPostTrade">
+            <summary>
+            Fund percent post trade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colMisweightPercentPostTrade">
+            <summary>
+            Missing weight percent post trade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colMisweightValuePostTrade">
+            <summary>
+            Missing weight value post trade
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colOrderValue">
+            <summary>
+            Order value
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.ColID">
+            <summary>
+            Column Id
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumStdAggregateColumn.colLast">
+            <summary>
+            Last column
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.enumCellImage">
+            <summary>
+            Cell Image constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumCellImage.Checked">
+            <summary>
+            Checked
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumCellImage.Minus">
+            <summary>
+            Minus
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumCellImage.Plus">
+            <summary>
+            Plus
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.enumCellImage.Unchecked">
+            <summary>
+            Unchecked
+            </summary>
+        </member>
+        <member name="T:Artinsoft.VBUpgrade.Spread.SortByConstants">
+            <summary>
+            Sort by constants
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.SortByConstants.SortByRow">
+            <summary>
+            By row
+            </summary>
+        </member>
+        <member name="F:Artinsoft.VBUpgrade.Spread.SortByConstants.SortByCol">
+            <summary>
+            By column
+            </summary>
+        </member>
+    </members>
+</doc>

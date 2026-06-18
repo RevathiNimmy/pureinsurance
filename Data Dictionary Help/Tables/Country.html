@@ -1,0 +1,402 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Country</h1>
+<p>Country support</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="country_id">country_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td>Country Short Code i.e. GBR</td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Country Description - usually just Country Name, i.e. United Kingdom.</td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> Currency ID for Country, FK corresponding entry in Currency table.</td>
+</tr>
+<tr>
+<td><a class="name" name="iso_code">iso_code</a></td>
+<td>char(4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Country's corresponding ISO Code - Note this can be different to the Country.Code, Northern Ireland AND UK have have the SAME 'ISO Code' but can have different 'Code' entries.</td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="telephone_code">telephone_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Telephone STD Code</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="address_line_1_caption">address_line_1_caption</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">address line 1 caption</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address_line_2_caption">address_line_2_caption</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">address line 2 caption</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address_line_3_caption">address_line_3_caption</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">address line 3 caption</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address_line_4_caption">address_line_4_caption</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">address line 4 caption</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_state_lookup">is_state_lookup</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is state lookup</span></td>
+</tr>
+<tr>
+<td><a class="name" name="postcode_caption">postcode_caption</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">postcode caption</span></td>
+</tr>
+<tr>
+<td><a class="name" name="postcode_visibility_id">postcode_visibility_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Postcode_visibility.html#Postcode_visibility_id">Postcode_visibility.Postcode_visibility_id</a> <span class="autodesc">postcode visibility</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>country_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>postcode_visibility_id</td>
+<td><a href="Postcode_visibility.html">Postcode_visibility</a></td>
+<td>Postcode_visibility_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>address_country</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>bank_country</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>country_id</td>
+<td><a href="Address.html">Address</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Bank.html">Bank</a></td>
+<td>bank_country</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>country_id</td>
+<td><a href="Claim_Address.html">Claim_Address</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>country_id</td>
+<td><a href="Contact.html">Contact</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="GIS_Scheme.html">GIS_Scheme</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="PMSystem.html">PMSystem</a></td>
+<td>home_country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Rating_Section_Type.html">Rating_Section_Type</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="State.html">State</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Sub_Branch.html">Sub_Branch</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Tax_Band_Rate.html">Tax_Band_Rate</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Tax_Calculation.html">Tax_Calculation</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Tax_Rates.html">Tax_Rates</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>country_id</td>
+<td>code</td>
+<td>description</td>
+<td>currency_id</td>
+<td>iso_code</td>
+<td>caption_id</td>
+<td>telephone_code</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>address_line_1_caption</td>
+<td>address_line_2_caption</td>
+<td>address_line_3_caption</td>
+<td>address_line_4_caption</td>
+<td>is_state_lookup</td>
+<td>postcode_caption</td>
+<td>postcode_visibility_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>GBR</td>
+<td>United Kingdom</td>
+<td>28</td>
+<td>GBR</td>
+<td>5</td>
+<td>44</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>NI</td>
+<td>Northern Ireland</td>
+<td>28</td>
+<td>GBR</td>
+<td>6</td>
+<td>44</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>AUS</td>
+<td>Australia</td>
+<td>28</td>
+<td>AUD</td>
+<td>1253</td>
+<td>61</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>Address Line 1</td>
+<td>Address Line 2</td>
+<td>Locality/Suburb</td>
+<td>State</td>
+<td>1</td>
+<td>Postcode</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

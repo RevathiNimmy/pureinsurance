@@ -1,0 +1,84 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Renewal_EDI_Motor_Excess</h1>
+<p>Used by Gemini II renewals to store details of incomming motor edi messages.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Broking<br>
+                Software modules: Gemini II, Renewals<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="renewal_edi_audit_id">renewal_edi_audit_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, I</td>
+<td><span class="autodesc">renewal edi audit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="excess_number">excess_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">excess number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="excess_code">excess_code</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">excess code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="excess_value">excess_value</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">excess value</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>excess_number, renewal_edi_audit_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>renewal_edi_audit_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<%@ Master Language="VB" CodeFile="modal.master.vb" Inherits="Nexus.MasterPages_External_Modal" %>
+
+<%@ Register TagPrefix="Nexus" Namespace="Nexus" %>
+<!DOCTYPE html>
+<html lang="en" style="background-color: #fff;">
+<head id="Head1" runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>SSP - Pure Insurance</title>
+  <!-- Bootstrap css files and othres css plugins -->
+
+        <link rel="stylesheet" href="../../css/bootstrap/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="../../css/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="../../css/font-awesome/font-awesome.min.css" type="text/css" />
+
+    <!-- SSP css-->
+    <link rel="stylesheet" href="../../css/ssp-global.css" type="text/css" />
+    <link rel="stylesheet" href="../../css/OverrideBootstrap4.css" type="text/css" />
+
+    <asp:ContentPlaceHolder ID="ScriptIncludes" runat="server" />
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+       <asp:Literal ID="ltrScriptTag" runat="server"></asp:Literal>
+
+    
+       <!-- Bootstrap js files and othres plugins -->
+
+  <script type="text/javascript" src="<%# ResolveClientUrl("~/js/Popper.min.js")%>"></script>
+
+        <asp:Literal ID="ltrBootstrapTag" runat="server"></asp:Literal>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/libs/bootstrap-datepicker-1.6.0/bootstrap-datepicker.min.js")%>"></script>
+        
+    <link href="../../css/bootstrap-dialog/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/libs/bootstrap-dialog/bootstrap-dialog.js")%>"></script>
+    <!-- Include all individual js files as needed -->
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/Common.js")%>"></script>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/CommonFunctions.js") %>"></script>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/modal.js") %>"></script>
+    
+    <link rel="stylesheet" href="../../css/summernote/summernote-lite.min.css" type="text/css" />
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/summernote/summernote-lite.min.js") %>"></script>
+    <script type="text/javascript">
+        var loadingAnimation = "<%# ResolveClientUrl("~/App_Themes/External/images/ajax-loader.gif") %>";
+        var IsBlockUIEnabled = "false";
+
+        $(document).ready(function () {
+            setupNumericControls();
+            $('select').append(' ');
+        });
+
+        function beforeSubmit() {
+            if (typeof (ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == true) {
+                if (theForm.__EVENTARGUMENT.value.indexOf("Page$") == -1 &&
+                    theForm.__EVENTARGUMENT.value.indexOf("Sort$") == -1 &&
+                    theForm.__EVENTTARGET.value == "") {
+                    removeNumricFormatting();
+                }
+            }
+            else {
+                if (typeof Page_BlockSubmit === "undefined") {
+                    Page_BlockSubmit = false; //set default value if undefined, safecoding
+                }
+                Page_BlockSubmit = !Page_BlockSubmit;
+            }
+        }
+
+        function EndRequestHandlerForUpdatePanel(sender, args) {
+            // Check to see if there's an error on this request.
+            if (args.get_error() != undefined) {
+                var msg = args.get_error().message.replace("Sys.WebForms.PageRequestManagerServerErrorException: ", "");
+                // Show the custom error. 
+                // Here you can be creative and do whatever you want
+                // with the exception (i.e. call a modalpopup and show 
+                // a nicer error window). I will simply use 'alert'
+                alert(msg);
+                // Let the framework know that the error is handled, 
+                //  so it doesn't throw the JavaScript alert.
+                args.set_errorHandled(true);
+            }
+        }
+
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            if ($('.grid').offset() != undefined) {
+                $("html, body").animate({
+                    scrollTop: $('.grid').offset().top
+                }, 1000);
+            }
+        });
+    </script>
+
+</head>
+<body style="overflow: auto; padding: 2px 2px 0px 2px">
+    <form id="aspNetForm" runat="server">
+        <div id="MasterPages_Internal_modal">
+            <asp:ContentPlaceHolder ID="cntProgressBar" runat="server" />
+            <asp:ContentPlaceHolder ID="cntLeftContent" runat="server" />
+            <asp:ContentPlaceHolder ID="cntMainBody" runat="server" />
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.siriusfs.com/SFI/Import/MID_Import/20070716" xmlns="http://www.siriusfs.com/SFI/Import/MID_Import/20070716" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="IMPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Import Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="MID_FAILURES"/>
+			</xs:sequence>
+			<xs:attribute name="interface_name" type="xs:string" use="required" fixed="MID_IMPORT"/>
+			<xs:attribute name="batch_id" type="xs:long" use="optional"/>
+			<xs:attribute name="batch_reference" type="xs:string" use="required"/>
+			<xs:attribute name="date_imported" type="xs:string" use="optional"/>
+      <xs:attribute name="supplier_id" type="xs:long" use="optional"/>
+      <xs:attribute name="site_number" type="xs:long" use ="optional"/>
+      <xs:attribute name="is_loaded" type="xs:integer" use="optional"/>
+      <xs:attribute name="is_received" type="xs:integer" use ="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MID_FAILURES">
+		<xs:annotation>
+			<xs:documentation>Mid Failure Data</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="insurance_ref" type="xs:string" use="required"/>
+			<xs:attribute name="registration_number" type="xs:string" use="required"/>
+			<xs:attribute name="error_reference" type="xs:string" use="required"/>
+			<xs:attribute name="errors" type="xs:string" use="required"/>
+			<xs:attribute name="expected_pppc" type="xs:string" use="required"/>
+			<xs:attribute name="pppc" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

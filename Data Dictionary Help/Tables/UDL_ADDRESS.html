@@ -1,0 +1,357 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>UDL_ADDRESS</h1>
+<p><span class="autodesc">UDL ADDRESS</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="UDL_ADDRESS_id">UDL_ADDRESS_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">UDL ADDRESS</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="Postcode">Postcode</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Postcode</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Suburb">Suburb</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Suburb</span></td>
+</tr>
+<tr>
+<td><a class="name" name="State">State</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">State</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>UDL_ADDRESS_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>UDL_ADDRESS_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>Postcode</td>
+<td>Suburb</td>
+<td>State</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>65418</td>
+<td>1</td>
+<td>200 - Australian National University</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0200</td>
+<td>Australian National University</td>
+<td>Australian Capital Territory</td>
+</tr>
+<tr>
+<td>2</td>
+<td>65419</td>
+<td>2</td>
+<td>221 - Barton</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0221</td>
+<td>Barton</td>
+<td>Australian Capital Territory</td>
+</tr>
+<tr>
+<td>3</td>
+<td>65420</td>
+<td>3</td>
+<td>800 - Darwin</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0800</td>
+<td>Darwin</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>4</td>
+<td>65421</td>
+<td>4</td>
+<td>801 - Darwin</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0801</td>
+<td>Darwin</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>5</td>
+<td>65422</td>
+<td>5</td>
+<td>804 - Parap</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0804</td>
+<td>Parap</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>6</td>
+<td>65423</td>
+<td>6</td>
+<td>810 - Alawa</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Alawa</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>7</td>
+<td>65424</td>
+<td>7</td>
+<td>810 - Brinkin</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Brinkin</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>8</td>
+<td>65425</td>
+<td>8</td>
+<td>810 - Casuarina</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Casuarina</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>9</td>
+<td>65426</td>
+<td>9</td>
+<td>810 - Coconut Grove</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Coconut Grove</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>10</td>
+<td>65427</td>
+<td>10</td>
+<td>810 - Jingili</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Jingili</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>11</td>
+<td>65428</td>
+<td>11</td>
+<td>810 - Lee Point</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Lee Point</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>12</td>
+<td>65429</td>
+<td>12</td>
+<td>810 - Lyons</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Lyons</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>13</td>
+<td>65430</td>
+<td>13</td>
+<td>810 - Millner</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Millner</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>14</td>
+<td>65431</td>
+<td>14</td>
+<td>810 - Moil</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Moil</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>15</td>
+<td>65432</td>
+<td>15</td>
+<td>810 - Muirhead</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Muirhead</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>16</td>
+<td>65433</td>
+<td>16</td>
+<td>810 - Nakara</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Nakara</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>17</td>
+<td>65434</td>
+<td>17</td>
+<td>810 - Nightcliff</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Nightcliff</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>18</td>
+<td>65435</td>
+<td>18</td>
+<td>810 - Rapid Creek</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Rapid Creek</td>
+<td>Northern Territory</td>
+</tr>
+<tr>
+<td>19</td>
+<td>65436</td>
+<td>19</td>
+<td>810 - Tiwi</td>
+<td>0</td>
+<td>2000-01-01 00:00:00</td>
+<td>0810</td>
+<td>Tiwi</td>
+<td>Northern Territory</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,233 @@
+' ------ START ----
+'-- Catlin Fleet Rating Rule -----------------------------------------------------------
+'-- Edited by SSP 2/11/11, to fix Irish Levy issue
+'-- Edited by SSP 14/03/12, to fix PM018956
+
+Const DM_CODE = "FLEET"
+
+
+
+Sub Start()   
+
+dim vResult,vResult1,vResult2,lCount,vResult3 
+Extras.NumberOfFleetVehicles=Safecdbl(Engine.Count("CVEHICLES"))
+
+ 'WPR14-MID
+'Call Extras.CallNamedStoredProcedure(CLng(5935), CStr("VEHICLES_Update"), vResult1) 'Callin SP
+'Call Extras.CallNamedStoredProcedure(CLng(5935), CStr("PopulateMIDData"), vResult)  'Set PopulateMIDData
+Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("VEHICLES_Update"), vResult1) 'Callin SP
+Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("PopulateMIDData"), vResult)  'Set PopulateMIDData
+ 'END WPR14-MID
+Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("MTA_Declaration_Updation"), vResult3)
+
+Dim cPremium, rRate, cSI, bFlag
+'LASTMODIFYDATE
+Engine.Item("pCATLIN").Item("LASTMODIFYDATE").Value = NOW
+
+If (TransactionType = "NB") Then
+      Engine.Item("GENERAL").Item("PREMIUM").Value = Engine.Item("pCATLIN").Item("Total_Premium").Value
+End if
+
+'Begin - PM018956 Jai Prakash 05/03/2012
+If (TransactionType = "REN") Then
+      Engine.Item("GENERAL").Item("PREMIUM").Value = Engine.Item("pCATLIN").Item("Total_Premium").Value
+      Engine.Item("pCATLIN").Item("AdjustmentAmount").Value = ""
+      Engine.Item("pCATLIN").Item("PreviousAdjustmentAmount").Value = ""
+      'PM020319 Jai Prakash 23/05/2012
+      Engine.Item("pCATLIN").Item("InceptionTime").Value = "00:01"
+      'PM020058  Jai Prakash 07/06/2012
+ 
+      If (Engine.Item("pCATLIN").Item("PremiumOverride").Value = 1) Then
+            Engine.Item("pCATLIN").Item("Total_Premium").Value = Safecdbl(Engine.Item("pCATLIN").Item("Total_Premium").Value) - Safecdbl(Engine.Item("pCATLIN").Item("OVERRIDEAMOUNT").Value)   
+            Engine.Item("GENERAL").Item("PREMIUM").Value = Engine.Item("pCATLIN").Item("Total_Premium").Value
+            Engine.Item("pCATLIN").Item("PremiumOverride").Value = 0
+            Engine.Item("pCATLIN").Item("OVERRIDEAMOUNT").Value = ""
+       End If 
+End If
+'End - PM018956
+
+
+If bFlag = 0 Then
+            With Engine.Item("pCATLIN")
+                        bFlag = Safecdbl(.Item("Rule_Flag").Value)
+		cPremium = Safecdbl(.Item("Total_Premium").Value)
+            End With
+
+    If (TransactionType <> "MTA" and TransactionType <> "MTC") Then
+            If cPremium > 0 Then 
+                    If  Engine.Item("pCATLIN").Item("IRISHRISK").Value= 1 Then
+ 	            Call GeneratePremium(cPremium, rRate, "IRISHFLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+                    Else
+                         Call GeneratePremium(cPremium, rRate, "FLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+                    End if
+            End If
+
+     ElseIf (TransactionType = "MTA") Then
+	If  Engine.Item("pCATLIN").Item("IRISHRISK").Value = 1 Then
+                       Call GeneratePremium( Safecdbl(Engine.Item("GENERAL").Item("PREMIUM").Value), rRate, "IRISHFLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+            Else
+                       Call GeneratePremium( Safecdbl(Engine.Item("GENERAL").Item("PREMIUM").Value), rRate, "FLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+            End if
+
+             'SB -IN CASE OF DECLARATION REASON
+             Dim sMTAReasonDesc
+            sMTAReasonDesc =Engine.Item("pCATLIN").Item("MTADESC").Value
+            Dim iAdjustmentAmount
+    
+
+   
+            iAdjustmentAmount = Safecdbl(Safecdbl(Engine.Item("pCATLIN").Item("AdjustmentAmount").Value) + Safecdbl(Engine.Item("pCATLIN").Item("PreviousAdjustmentAmount").Value))
+            Call GeneratePremium(iAdjustmentAmount, rRate, "DECLARAT", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+
+  ElseIf (TransactionType = "MTC") Then
+
+If  Engine.Item("pCATLIN").Item("IRISHRISK").Value = 1 Then
+                       Call GeneratePremium( Safecdbl(Engine.Item("GENERAL").Item("PREMIUM").Value), rRate, "IRISHFLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+            Else
+                       Call GeneratePremium( Safecdbl(Engine.Item("GENERAL").Item("PREMIUM").Value), rRate, "FLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+            End if
+
+
+  ' Call GeneratePremium(2 , rRate, "FLEET", cSI)
+
+
+          '  Dim iAdjustmentAmount
+            iAdjustmentAmount= Safecdbl(Safecdbl(Engine.Item("pCATLIN").Item("AdjustmentAmount").Value) + Safecdbl(Engine.Item("pCATLIN").Item("PreviousAdjustmentAmount").Value))
+            '  If (Safecdbl(Engine.Item("pCATLIN").Item("PreviousAdjustmentAmount").Value)) = 0 then
+               Call GeneratePremium(iAdjustmentAmount, rRate, "FLEET", cSI, Engine.Item("pCATLIN").Item("IRISHRISK").Value)
+            '  End if
+     End if
+
+End If
+
+Call AddClauses()
+Call PolicyHistory()
+End Sub
+
+Function AddClauses()
+
+    Dim vResult3
+    Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("GetStandardWordingCodes"), vResult3) 'Callin SP
+    
+    Dim iiCount
+    Dim lCount
+    Dim ix
+
+'Delete entries if already there..
+With Engine.Item("pCATLIN")
+iiCount =.Count("SELECTEDENDT")
+
+	for ix=iiCount  to 1 step -1
+	 .Item("SELECTEDENDT", ix).deleteobject
+
+	next
+end with
+
+ix=0
+iiCount =0
+'NOw add new items
+If IsArray(vResult3) then
+    For lCount = lBound(vResult3,2) to uBound(vResult3,2)
+        With Engine.Item("pCATLIN")
+            .NewObject ("SELECTEDENDT")
+            iiCount =.Count("SELECTEDENDT")
+            .Item("SELECTEDENDT", iiCount).Item("code").Value = vResult3(0,lCount)
+        End With
+    Next
+End if
+End Function
+
+
+Function  PolicyHistory()
+ Dim vResult4
+    Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("Policy_Version_History"), vResult4) 'Callin SP
+    
+    Dim iiCount
+    Dim llCount
+
+If IsArray(vResult4) then
+    For llCount = lBound(vResult4,2) to uBound(vResult4,2)
+        With Engine.Item("General")
+            .NewObject ("POLICYMEMOS")
+            iiCount =.Count("POLICYMEMOS")
+            .Item("POLICYMEMOS", iiCount).Item("TEXT").Value = vResult4(0,llCount)
+        End With
+    Next
+End if
+End Function
+
+' ---- END ---------------- Catlin Fleet Rating Rule -----------------------------------------------------------
+
+Function Prorata(cCurrentPremium) ' TransactionType
+    'declaring required variables
+    Dim iNumberOfDays
+    Dim dFromDate
+    Dim dToDate
+    Dim cOneDayPremium
+    Dim cOneDayOrginialPremium
+    Dim cTotalPremium
+    Dim iDaysPaid
+    Dim arrParam
+    Dim bReturn
+    Dim cOriginalPaidPremium
+    Dim dCoverStartDate
+    
+dim vResult2
+
+    bReturn = Extras.GetBODetails(arrParam)
+
+Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("PolicyHeader"), vResult2) 'Callin SP
+
+
+
+    dFromDate = Extras.CoverStartDate
+
+'    dToDate =   Extras.ExpiryDate
+If IsArray(vResult2) Then
+dToDate = vResult2(2, 0) 'Expiry Date
+end if
+
+    iNumberOfDays = DateDiff("d", dFromDate, dToDate)
+
+    iNumberOfDays = Abs(iNumberOfDays)
+    cOneDayPremium = (cCurrentPremium) / 365
+    cTotalPremium = (cOneDayPremium) * iNumberOfDays
+    'bReturn = Extras.GetBODetails(arrParam)
+    'If TransactionType = "MTA" Then
+    '    dCoverStartDate = arrParam(1, 0)
+    'ElseIf TransactionType = "MTC" Then
+    '    dCoverStartDate = arrParam(8, 0)
+    'End If
+    'iDaysPaid = DateDiff("d", dFromDate, dCoverStartDate)
+    'iDaysPaid = Abs(iDaysPaid)
+    'cOneDayOrginialPremium = (cOriginalPremium / 365)
+    'cOriginalPaidPremium = cOneDayOrginialPremium * iDaysPaid
+    'cTotalPremium = cTotalPremium + cOriginalPaidPremium
+    Prorata = cTotalPremium
+End Function
+
+Function GeneratePremium(Premium, Rate, RST, SI, IrishRisk)
+Dim iCount
+    Engine.NewObject (DM_CODE & "_OUTPUT")
+    iCount = Engine.Count(DM_CODE & "_OUTPUT")
+    Engine.Item(DM_CODE & "_OUTPUT", iCount).Item("premium").Value = Premium
+    Engine.Item(DM_CODE & "_OUTPUT", iCount).Item("rate").Value = Rate
+    Engine.Item(DM_CODE & "_OUTPUT", iCount).Item("Risk_Rating_Section").Value = RST
+    Engine.Item(DM_CODE & "_OUTPUT", iCount).Item("Sum_Insured").Value = SI
+    If IrishRisk = 0 Then
+        Engine.Item(DM_CODE & "_OUTPUT", iCount).Item("country_id").Value = 1
+    Else
+        Engine.Item(DM_CODE & "_OUTPUT", iCount).Item("country_id").Value = 2
+    End If
+End Function
+
+Function Safecdbl(vIn)
+            safecdbl = 0
+            on error resume next
+            If right(vIn,1) = "%" then
+                        Safecdbl = cdbl(left(vIn,Len(vIn)-1))/100
+            Else                  
+                        Safecdbl = cdbl(vIn)
+            End If
+            on error goto 0
+End Function

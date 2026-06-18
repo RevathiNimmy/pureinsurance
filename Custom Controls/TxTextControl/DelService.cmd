@@ -1,0 +1,1 @@
+sc.exe delete "TX TextControl 32.0 Service"

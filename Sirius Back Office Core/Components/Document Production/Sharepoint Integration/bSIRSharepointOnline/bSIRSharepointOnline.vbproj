@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <MyType>Empty</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <StartupObject>
+    </StartupObject>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>C:\Pure\Application\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineDebug>false</DefineDebug>
+    <DocumentationFile>
+    </DocumentationFile>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\Pure Build Process\AssemblyInfo.vb">
+      <Link>AssemblyInfo.vb</Link>
+    </Compile>
+      <Reference Include="Microsoft.VisualBasic">
+		<HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.VisualBasic.dll</HintPath>
+	</Reference>
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.77.0" />
+    <PackageReference Include="Microsoft.SharePoint.Client" Version="16.0.4321.1000" />
+    <PackageReference Include="Microsoft.SharePoint.Client.Runtime" Version="16.0.4300.1000" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+	  <ProjectReference Include="..\..\..\..\..\Shared Files\Sspi.Common\Sspi.Common.Aws\Sspi.Common.Aws.csproj" />
+	  <ProjectReference Include="..\..\..\..\..\Sirius Architecture\Components\dPMDAO\dPMDAO.vbproj" />
+	  <ProjectReference Include="..\..\..\..\..\SSP.Shared\SSP.Shared.vbproj" />
+	  <ProjectReference Include="..\..\Document Manager Wrapper\Business\bSIRDocManagerWrapper\bSIRDocManagerWrapper.vbproj" />
+	  <ProjectReference Include="..\bSIRSharepointAPI\bSIRSharepointApi.csproj" />
+  </ItemGroup>
+</Project>

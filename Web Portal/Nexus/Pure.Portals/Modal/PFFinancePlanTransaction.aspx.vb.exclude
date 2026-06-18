@@ -1,0 +1,92 @@
+﻿Imports CMS.Library
+Imports Nexus.Library
+Imports Nexus.Constants.Constant
+Imports Nexus.Constants.Session
+Imports System.Web.Configuration.WebConfigurationManager
+
+
+    Namespace Nexus
+        Partial Class Modal_PFFinancePlanTransaction
+        Inherits Frontend.clsCMSPage
+        Protected Shadows Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        End Sub
+        Protected Sub Page_PreInit1(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreInit
+            'setting the default master page
+            CMS.Library.Frontend.Functions.SetTheme(Page, AppSettings("ModalPageTemplate"))
+        End Sub
+        Protected Sub Page_PreRender(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreRender
+            'btnOk.OnClientClick = "tb_show(null ,'" & AppSettings("WebRoot") & "/Modal/PremiumFinanceQuote.aspx?modal=true&KeepThis=true&ClaimFlag=1&ClientType=Claim&TB_iframe=true&height=500&width=700' , null);return false;"
+
+        End Sub
+            Protected Sub btnFindNow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnFindNow.Click
+                If Page.IsValid Then
+                    FindFinancePlanTransactions()
+                End If
+            End Sub
+        Public Sub FindFinancePlanTransactions()
+            Dim dt As New System.Data.DataTable
+            Dim dr1, dr2, dr3 As System.Data.DataRow
+
+
+            dt.Columns.Add("Branch")
+            dt.Columns.Add("PolicyReference")
+            dt.Columns.Add("DocumentReference")
+            dt.Columns.Add("EffectiveDate")
+            dt.Columns.Add("TransactionDate")
+            dt.Columns.Add("Period")
+            dt.Columns.Add("GrossAmount")
+            dt.Columns.Add("BalanceOS")
+            dt.Columns.Add("DocumentType")
+
+
+            dr1 = dt.NewRow()
+            dr2 = dt.NewRow()
+            dr3 = dt.NewRow()
+
+            dr1(0) = "aaa"
+            dr1(1) = "xxx"
+            dr1(2) = "YYY"
+            dr1(3) = "ZZZ"
+            dr1(4) = "Indemnity"
+            dr1(5) = "xxx"
+            dr1(6) = "YYY"
+            dr1(7) = "ZZZ"
+            dr1(8) = "aaa"
+
+
+
+            dr2(0) = "aaa"
+            dr2(1) = "xxx"
+            dr2(2) = "YYY"
+            dr2(3) = "ZZZ"
+            dr2(4) = "Indemnity"
+            dr2(5) = "xxx"
+            dr2(6) = "YYY"
+            dr2(7) = "ZZZ"
+            dr2(8) = "aaa"
+
+
+            dr3(0) = "vvv"
+            dr3(1) = "xxx"
+            dr3(2) = "YYY"
+            dr3(3) = "ZZZ"
+            dr3(4) = "Indemnity"
+            dr3(5) = "xxx"
+            dr3(6) = "YYY"
+            dr3(7) = "ZZZ"
+            dr3(8) = "aaa"
+
+
+
+            dt.Rows.Add(dr1)
+            dt.Rows.Add(dr2)
+            dt.Rows.Add(dr3)
+
+            grdvTransactionSearchResults.DataSource = dt
+            grdvTransactionSearchResults.DataBind()
+
+        End Sub
+
+        End Class
+    End Namespace

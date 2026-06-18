@@ -1,0 +1,3699 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>PFPremiumFinance</h1>
+<p>Premium Finance/Instalment Plan. <br><br>Links an Insurance File to a set of Instalments for repaying them.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Accounts<br>
+                Software module: Instalments<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="pfprem_finance_cnt">pfprem_finance_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">pfprem finance</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfprem_finance_version">pfprem_finance_version</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK(NC)</td>
+<td><span class="autodesc">pfprem finance version</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ClientId">ClientId</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>I</td>
+<td>Client Id = Party_cnt. The Party owning this plan.</td>
+</tr>
+<tr>
+<td><a class="name" name="CompanyNo">CompanyNo</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td>Company No </td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeNo">SchemeNo</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="autodesc">Scheme No</span></td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeVersion">SchemeVersion</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="autodesc">Scheme Version</span></td>
+</tr>
+<tr>
+<td><a class="name" name="StartDate">StartDate</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Start Date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="EndDate">EndDate</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">End Date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="SystemTag">SystemTag</a></td>
+<td>varchar(1)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>System Tag - obsolete.</td>
+</tr>
+<tr>
+<td><a class="name" name="CompanyName">CompanyName</a></td>
+<td>varchar(35)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Company Name - copied here for performance.</td>
+</tr>
+<tr>
+<td><a class="name" name="SchemeName">SchemeName</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Scheme Name - copied here for performance.</td>
+</tr>
+<tr>
+<td><a class="name" name="ProductClass">ProductClass</a></td>
+<td>varchar(3)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Product class for the EDI message.</td>
+</tr>
+<tr>
+<td><a class="name" name="TransType">TransType</a></td>
+<td>varchar(3)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Type of Transaction this plan is associated with. Eg. New Business, Renewal, etc.</td>
+</tr>
+<tr>
+<td><a class="name" name="AmountToFinance">AmountToFinance</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Total amount on this Finance Plan</td>
+</tr>
+<tr>
+<td><a class="name" name="APR">APR</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>APR - Obsolete</td>
+</tr>
+<tr>
+<td><a class="name" name="InterestRate">InterestRate</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Interest Rate used on this plan.</td>
+</tr>
+<tr>
+<td><a class="name" name="DaysDelay">DaysDelay</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Days Delay before the first instalment is taken.</td>
+</tr>
+<tr>
+<td><a class="name" name="NoOfInstallments">NoOfInstallments</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">No Of Installments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="FirstInstallment">FirstInstallment</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">First Installment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="OthInstallments">OthInstallments</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Oth Installments</span></td>
+</tr>
+<tr>
+<td><a class="name" name="CostOfProtection">CostOfProtection</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Cost Of Protecting instalments. Insurance charge for redundancy and failure to pay.</td>
+</tr>
+<tr>
+<td><a class="name" name="Deposit">Deposit</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Deposit amount taken.</td>
+</tr>
+<tr>
+<td><a class="name" name="NetAmount">NetAmount</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Net Amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="TotalCost">TotalCost</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Total Cost</span></td>
+</tr>
+<tr>
+<td><a class="name" name="InterestCost">InterestCost</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Interest Cost</span></td>
+</tr>
+<tr>
+<td><a class="name" name="MinFinanceChrge">MinFinanceChrge</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Min Finance Charge taken on this plan.</td>
+</tr>
+<tr>
+<td><a class="name" name="PayProtection">PayProtection</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Pay Protection. Y if taken.</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientName">ClientName</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Name</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientAddr1">ClientAddr1</a></td>
+<td>varchar(25)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Addr1</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientAddr2">ClientAddr2</a></td>
+<td>varchar(25)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Addr2</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientAddr3">ClientAddr3</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Addr3</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientTown">ClientTown</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Town</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientPCode">ClientPCode</a></td>
+<td>varchar(8)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Postal Code</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientAddr4">ClientAddr4</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Addr4</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientCountry">ClientCountry</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Country</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientAreaCode">ClientAreaCode</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Area Code</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientPhoneNo">ClientPhoneNo</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Phone No</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientExtension">ClientExtension</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Extension</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientFaxAreaCode">ClientFaxAreaCode</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Fax Area Code</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientFaxNo">ClientFaxNo</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Fax No</td>
+</tr>
+<tr>
+<td><a class="name" name="BankName">BankName</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Name</td>
+</tr>
+<tr>
+<td><a class="name" name="BankSortCode">BankSortCode</a></td>
+<td>varchar(8)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Sort Code</td>
+</tr>
+<tr>
+<td><a class="name" name="BankAccountNo">BankAccountNo</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Account No</td>
+</tr>
+<tr>
+<td><a class="name" name="BankBranch">BankBranch</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Branch</td>
+</tr>
+<tr>
+<td><a class="name" name="BankAddr1">BankAddr1</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Addr1</td>
+</tr>
+<tr>
+<td><a class="name" name="BankAddr2">BankAddr2</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Addr2</td>
+</tr>
+<tr>
+<td><a class="name" name="BankAddr3">BankAddr3</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Addr3</td>
+</tr>
+<tr>
+<td><a class="name" name="BankTown">BankTown</a></td>
+<td>varchar(25)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Town</td>
+</tr>
+<tr>
+<td><a class="name" name="BankPCode">BankPCode</a></td>
+<td>varchar(8)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Postal Code</td>
+</tr>
+<tr>
+<td><a class="name" name="BankRegion">BankRegion</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Region</td>
+</tr>
+<tr>
+<td><a class="name" name="BankCountry">BankCountry</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Bank Country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="BankAreaCode">BankAreaCode</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Area Code</td>
+</tr>
+<tr>
+<td><a class="name" name="BankPhoneNo">BankPhoneNo</a></td>
+<td>varchar(15)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Phone No</td>
+</tr>
+<tr>
+<td><a class="name" name="BankExtension">BankExtension</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Extension</td>
+</tr>
+<tr>
+<td><a class="name" name="BankFaxAreaCode">BankFaxAreaCode</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Fax Area Code</td>
+</tr>
+<tr>
+<td><a class="name" name="BankFaxNo">BankFaxNo</a></td>
+<td>varchar(15)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Fax No</td>
+</tr>
+<tr>
+<td><a class="name" name="StatusInd">StatusInd</a></td>
+<td>varchar(3)</td>
+<td>null</td>
+<td>I</td>
+<td>Status Indicator:<br>Saved = "010"<br>Updated = "011"<br>QuotePrinted = "012"<br>Live = "040"<br>OnHold = "140"<br>Completed = "900"<br>Superseded = "990" (new version is available)<br>Cancelled = "999"</td>
+</tr>
+<tr>
+<td><a class="name" name="BankAccountName">BankAccountName</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Bank Account Name</td>
+</tr>
+<tr>
+<td><a class="name" name="AutoGeneratedPlanRef">AutoGeneratedPlanRef</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>I</td>
+<td>Auto Generated Reference for this plan.</td>
+</tr>
+<tr>
+<td><a class="name" name="FinanceCollatedPlanRef">FinanceCollatedPlanRef</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Policy Number.</td>
+</tr>
+<tr>
+<td><a class="name" name="ClientCode">ClientCode</a></td>
+<td>varchar(12)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Client Code</td>
+</tr>
+<tr>
+<td><a class="name" name="InterestFree">InterestFree</a></td>
+<td>varchar(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Interest Free. 1 = no interest has been charged.</td>
+</tr>
+<tr>
+<td><a class="name" name="IsQuote">IsQuote</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> If true, this plan is a quote which has not been transacted. It has no associated account transactions.</td>
+</tr>
+<tr>
+<td><a class="name" name="IsParentPlan">IsParentPlan</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> If true, this plan is a parent with children.</td>
+</tr>
+<tr>
+<td><a class="name" name="Parent_finance_cnt">Parent_finance_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Parent finance cnt. FK to Parent.</td>
+</tr>
+<tr>
+<td><a class="name" name="Parent_finance_version">Parent_finance_version</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Parent finance version. FK to Parent.</td>
+</tr>
+<tr>
+<td><a class="name" name="PlanTransaction_id">PlanTransaction_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>TransDetail record that this plan is transacted against.</td>
+</tr>
+<tr>
+<td><a class="name" name="Insurance_File_Cnt">Insurance_File_Cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Insurance_File.html#insurance_file_cnt">Insurance_File.insurance_file_cnt</a> Associated Insurance File. Used by Underwriting for document production.</td>
+</tr>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfrf_id">pfrf_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pfrf</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_number">cc_number</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_expiry_date">cc_expiry_date</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc expiry date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_start_date">cc_start_date</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc start date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_issue">cc_issue</a></td>
+<td>varchar(2)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc issue</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_pin">cc_pin</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc pin</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_cost">tax_cost</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax cost</span></td>
+</tr>
+<tr>
+<td><a class="name" name="first_instalment_date">first_instalment_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">first instalment date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="next_instalment_date">next_instalment_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">next instalment date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_instalment_date">last_instalment_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last instalment date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_transdetail_id">commission_transdetail_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">commission transdetail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="financefee">financefee</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">financefee</span></td>
+</tr>
+<tr>
+<td><a class="name" name="DayOfWeekOrMonth">DayOfWeekOrMonth</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Day Of Week Or Month</span></td>
+</tr>
+<tr>
+<td><a class="name" name="original_amount">original_amount</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">original amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="last_instalment">last_instalment</a></td>
+<td>money</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">last instalment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_debt_id">claim_debt_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">claim debt</span></td>
+</tr>
+<tr>
+<td><a class="name" name="user_id">user_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> <span class="autodesc">user</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_cnt">agent_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">agent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agent_ref">agent_ref</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">agent ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_created">date_created</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Date created</td>
+</tr>
+<tr>
+<td><a class="name" name="date_modified">date_modified</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">date modified</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_confirmed">date_confirmed</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">date confirmed</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_review">date_review</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">date review</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_laststatement">date_laststatement</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">date laststatement</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_lastgeneration">date_lastgeneration</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">date lastgeneration</span></td>
+</tr>
+<tr>
+<td><a class="name" name="final_statement_set">final_statement_set</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">final statement set</span></td>
+</tr>
+<tr>
+<td><a class="name" name="no_statements">no_statements</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">no statements</span></td>
+</tr>
+<tr>
+<td><a class="name" name="statement_pffrequency_id">statement_pffrequency_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">statement pffrequency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="review_pmwrk_task_instance_id">review_pmwrk_task_instance_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">review pmwrk task instance</span></td>
+</tr>
+<tr>
+<td><a class="name" name="auth_code">auth_code</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">auth code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfprem_business_code">pfprem_business_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pfprem business code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="terms">terms</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">terms</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sgref">sgref</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sgref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sgdocurl">sgdocurl</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sgdocurl</span></td>
+</tr>
+<tr>
+<td><a class="name" name="originalrate">originalrate</a></td>
+<td>numeric(5, 0)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">originalrate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sgrefundtype">sgrefundtype</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sgrefundtype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="limitedcompany">limitedcompany</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">limitedcompany</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_cardholder">is_cardholder</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is cardholder</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cardholder_name">cardholder_name</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cardholder name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cardholder_address1">cardholder_address1</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cardholder address1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cardholder_address2">cardholder_address2</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cardholder address2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cardholder_address3">cardholder_address3</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cardholder address3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cardholder_address4">cardholder_address4</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cardholder address4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cardholder_postcode">cardholder_postcode</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cardholder postcode</span></td>
+</tr>
+<tr>
+<td><a class="name" name="datebankdetailschanged">datebankdetailschanged</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">datebankdetailschanged</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_group_id">tax_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="card_type">card_type</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">card type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="provider_collect_deposit">provider_collect_deposit</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">provider collect deposit</span></td>
+</tr>
+<tr>
+<td><a class="name" name="sub_branch_id">sub_branch_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sub branch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="batch_id">batch_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">batch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="dd_cancelled">dd_cancelled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">dd cancelled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="cc_cancelled">cc_cancelled</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">cc cancelled</span></td>
+</tr>
+<tr>
+<td><a class="name" name="paperdd">paperdd</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">paperdd</span></td>
+</tr>
+<tr>
+<td><a class="name" name="scheme_type">scheme_type</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">scheme type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="scheme_code">scheme_code</a></td>
+<td>varchar(3)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">scheme code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pfpremiumfinance_cancel_reason_id">pfpremiumfinance_cancel_reason_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PFPremiumFinance_Cancel_Reason.html#pfpremiumfinance_cancel_reason_id">PFPremiumFinance_Cancel_Reason.pfpremiumfinance_cancel_reason_id</a> <span class="autodesc">pfpremiumfinance cancel reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_cancel_policy_run">is_cancel_policy_run</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is cancel policy run</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_bank_id">party_bank_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">party bank</span></td>
+</tr>
+<tr>
+<td><a class="name" name="deposit_cc_tracking_number">deposit_cc_tracking_number</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">deposit cc tracking number</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK(NC)</td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>Insurance_File_Cnt</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>agent_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pfpremiumfinance_cancel_reason_id</td>
+<td><a href="PFPremiumFinance_Cancel_Reason.html">PFPremiumFinance_Cancel_Reason</a></td>
+<td>pfpremiumfinance_cancel_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td><a href="PFScheme.html">PFScheme</a></td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>user_id</td>
+<td><a href="PMUser.html">PMUser</a></td>
+<td>user_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>AutoGeneratedPlanRef</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>claim_debt_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>ClientId</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>CompanyNo, SchemeNo, SchemeVersion</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>date_lastgeneration</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>date_laststatement</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>date_review</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>final_statement_set</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Insurance_File_Cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>StatusInd</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td><a href="Credit_Control_Item.html">Credit_Control_Item</a></td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td><a href="PFInstalments.html">PFInstalments</a></td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td><a href="PFMediaTypeHistory.html">PFMediaTypeHistory</a></td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td><a href="Tax_Calculation.html">Tax_Calculation</a></td>
+<td>pfprem_finance_cnt, pfprem_finance_version</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>pfprem_finance_cnt</td>
+<td>pfprem_finance_version</td>
+<td>ClientId</td>
+<td>CompanyNo</td>
+<td>SchemeNo</td>
+<td>SchemeVersion</td>
+<td>StartDate</td>
+<td>EndDate</td>
+<td>SystemTag</td>
+<td>CompanyName</td>
+<td>SchemeName</td>
+<td>ProductClass</td>
+<td>TransType</td>
+<td>AmountToFinance</td>
+<td>APR</td>
+<td>InterestRate</td>
+<td>DaysDelay</td>
+<td>NoOfInstallments</td>
+<td>FirstInstallment</td>
+<td>OthInstallments</td>
+<td>CostOfProtection</td>
+<td>Deposit</td>
+<td>NetAmount</td>
+<td>TotalCost</td>
+<td>InterestCost</td>
+<td>MinFinanceChrge</td>
+<td>PayProtection</td>
+<td>ClientName</td>
+<td>ClientAddr1</td>
+<td>ClientAddr2</td>
+<td>ClientAddr3</td>
+<td>ClientTown</td>
+<td>ClientPCode</td>
+<td>ClientAddr4</td>
+<td>ClientCountry</td>
+<td>ClientAreaCode</td>
+<td>ClientPhoneNo</td>
+<td>ClientExtension</td>
+<td>ClientFaxAreaCode</td>
+<td>ClientFaxNo</td>
+<td>BankName</td>
+<td>BankSortCode</td>
+<td>BankAccountNo</td>
+<td>BankBranch</td>
+<td>BankAddr1</td>
+<td>BankAddr2</td>
+<td>BankAddr3</td>
+<td>BankTown</td>
+<td>BankPCode</td>
+<td>BankRegion</td>
+<td>BankCountry</td>
+<td>BankAreaCode</td>
+<td>BankPhoneNo</td>
+<td>BankExtension</td>
+<td>BankFaxAreaCode</td>
+<td>BankFaxNo</td>
+<td>StatusInd</td>
+<td>BankAccountName</td>
+<td>AutoGeneratedPlanRef</td>
+<td>FinanceCollatedPlanRef</td>
+<td>ClientCode</td>
+<td>InterestFree</td>
+<td>IsQuote</td>
+<td>IsParentPlan</td>
+<td>Parent_finance_cnt</td>
+<td>Parent_finance_version</td>
+<td>PlanTransaction_id</td>
+<td>Insurance_File_Cnt</td>
+<td>source_id</td>
+<td>pfrf_id</td>
+<td>cc_number</td>
+<td>cc_expiry_date</td>
+<td>cc_start_date</td>
+<td>cc_issue</td>
+<td>cc_pin</td>
+<td>tax_cost</td>
+<td>first_instalment_date</td>
+<td>next_instalment_date</td>
+<td>last_instalment_date</td>
+<td>commission_transdetail_id</td>
+<td>financefee</td>
+<td>DayOfWeekOrMonth</td>
+<td>original_amount</td>
+<td>last_instalment</td>
+<td>claim_debt_id</td>
+<td>user_id</td>
+<td>agent_cnt</td>
+<td>agent_ref</td>
+<td>date_created</td>
+<td>date_modified</td>
+<td>date_confirmed</td>
+<td>date_review</td>
+<td>date_laststatement</td>
+<td>date_lastgeneration</td>
+<td>final_statement_set</td>
+<td>no_statements</td>
+<td>statement_pffrequency_id</td>
+<td>review_pmwrk_task_instance_id</td>
+<td>auth_code</td>
+<td>pfprem_business_code</td>
+<td>terms</td>
+<td>sgref</td>
+<td>sgdocurl</td>
+<td>originalrate</td>
+<td>sgrefundtype</td>
+<td>limitedcompany</td>
+<td>is_cardholder</td>
+<td>cardholder_name</td>
+<td>cardholder_address1</td>
+<td>cardholder_address2</td>
+<td>cardholder_address3</td>
+<td>cardholder_address4</td>
+<td>cardholder_postcode</td>
+<td>datebankdetailschanged</td>
+<td>tax_group_id</td>
+<td>card_type</td>
+<td>provider_collect_deposit</td>
+<td>sub_branch_id</td>
+<td>batch_id</td>
+<td>dd_cancelled</td>
+<td>cc_cancelled</td>
+<td>paperdd</td>
+<td>scheme_type</td>
+<td>scheme_code</td>
+<td>pfpremiumfinance_cancel_reason_id</td>
+<td>is_cancel_policy_run</td>
+<td>party_bank_id</td>
+<td>deposit_cc_tracking_number</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2008-12-21 00:00:00</td>
+<td>2009-12-15 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>580.65</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>48.44</td>
+<td>48.38</td>
+<td>0</td>
+<td>96.79</td>
+<td>483.86</td>
+<td>483.86</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>4</td>
+<td>5898000401</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>87</td>
+<td>25</td>
+<td>1</td>
+<td>1</td>
+<td>9123456780</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-21 00:00:00</td>
+<td>2009-01-16 00:00:00</td>
+<td>2009-09-16 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-20 00:00:00</td>
+<td>2008-12-20 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-20 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mastercard</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>77</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-12-25 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>127</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>10.61</td>
+<td>10.58</td>
+<td>0</td>
+<td>21.17</td>
+<td>105.83</td>
+<td>105.83</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RND Martin</td>
+<td>Fearnley Mill</td>
+<td>Dean Clough</td>
+<td>Halifax</td>
+<td>&nbsp;</td>
+<td>HX3 5AX</td>
+<td>West Yorkshire</td>
+<td>United Kingdom</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>010</td>
+<td>&nbsp;</td>
+<td>5</td>
+<td>5898000501</td>
+<td>PC-15-53</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>74</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-01-26 00:00:00</td>
+<td>2009-09-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>77</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-12-25 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>127</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>10.61</td>
+<td>10.58</td>
+<td>0</td>
+<td>21.17</td>
+<td>105.83</td>
+<td>105.83</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RND Martin</td>
+<td>Fearnley Mill</td>
+<td>Dean Clough</td>
+<td>Halifax</td>
+<td>&nbsp;</td>
+<td>HX3 5AX</td>
+<td>West Yorkshire</td>
+<td>United Kingdom</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>010</td>
+<td>&nbsp;</td>
+<td>6</td>
+<td>5898000601</td>
+<td>PC-15-53</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>74</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-01-26 00:00:00</td>
+<td>2009-09-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>77</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-12-25 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>127</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>10.61</td>
+<td>10.58</td>
+<td>0</td>
+<td>21.17</td>
+<td>105.83</td>
+<td>105.83</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RND Martin</td>
+<td>Fearnley Mill</td>
+<td>Dean Clough</td>
+<td>Halifax</td>
+<td>&nbsp;</td>
+<td>HX3 5AX</td>
+<td>West Yorkshire</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>7</td>
+<td>5898000701</td>
+<td>PC-15-53</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>99</td>
+<td>74</td>
+<td>1</td>
+<td>1</td>
+<td>951452452125</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-01-26 00:00:00</td>
+<td>2009-09-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 00:00:00</td>
+<td>2008-12-26 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mastercard</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2008-12-17 00:00:00</td>
+<td>2009-12-14 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Pay In F</td>
+<td>NB</td>
+<td>NB</td>
+<td>645.57</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>645.57</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>990</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>5898000101</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>43</td>
+<td>23</td>
+<td>1</td>
+<td>4</td>
+<td>915418946154</td>
+<td>10/09</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-17 00:00:00</td>
+<td>2008-12-17 00:00:00</td>
+<td>2008-12-17 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-16 00:00:00</td>
+<td>2008-12-16 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-16 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>11</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2008-12-17 00:00:00</td>
+<td>2009-12-14 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Pay In F</td>
+<td>MTA</td>
+<td>MTA</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>010</td>
+<td>&nbsp;</td>
+<td>1</td>
+<td>5898000102</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>24</td>
+<td>1</td>
+<td>5</td>
+<td>915418946154</td>
+<td>10/09</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-17 00:00:00</td>
+<td>2008-12-17 00:00:00</td>
+<td>2008-12-17 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2008-12-19 00:00:00</td>
+<td>2009-11-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Pay In F</td>
+<td>NB</td>
+<td>NB</td>
+<td>403.58</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>403.58</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr S MacKenzie</td>
+<td>3 Woodland Street</td>
+<td>&nbsp;</td>
+<td>Carindale</td>
+<td>&nbsp;</td>
+<td>4152</td>
+<td>Queensland</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>900</td>
+<td>&nbsp;</td>
+<td>2</td>
+<td>5898000201</td>
+<td>PCMACKENZS</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>61</td>
+<td>6</td>
+<td>1</td>
+<td>4</td>
+<td>916143165431</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-19 00:00:00</td>
+<td>2008-12-19 00:00:00</td>
+<td>2008-12-19 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-18 00:00:00</td>
+<td>2008-12-18 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-18 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>103</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2008-12-21 00:00:00</td>
+<td>2009-12-19 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Pay In F</td>
+<td>NB</td>
+<td>NB</td>
+<td>410.15</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>410.15</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr I Main</td>
+<td>1 Test Street</td>
+<td>Adelaide</td>
+<td>South Australia</td>
+<td>&nbsp;</td>
+<td>5000</td>
+<td>Address 4</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>900</td>
+<td>&nbsp;</td>
+<td>3</td>
+<td>5898000301</td>
+<td>PCMAINI012</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>77</td>
+<td>41</td>
+<td>1</td>
+<td>4</td>
+<td>3213213213213213</td>
+<td>11/09</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-21 00:00:00</td>
+<td>2008-12-21 00:00:00</td>
+<td>2008-12-21 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-20 00:00:00</td>
+<td>2008-12-20 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-20 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-12-21 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>249.02</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>20.76</td>
+<td>20.75</td>
+<td>0</td>
+<td>41.51</td>
+<td>207.51</td>
+<td>207.51</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>900</td>
+<td>&nbsp;</td>
+<td>8</td>
+<td>5898000801</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>113</td>
+<td>56</td>
+<td>1</td>
+<td>1</td>
+<td>95116196231</td>
+<td>10/11</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-01-22 00:00:00</td>
+<td>2009-09-22 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 00:00:00</td>
+<td>2008-12-26 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mastercard</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-12-25 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>151.42</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>12.69</td>
+<td>12.61</td>
+<td>0</td>
+<td>25.24</td>
+<td>126.18</td>
+<td>126.18</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>9</td>
+<td>5898000901</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>127</td>
+<td>75</td>
+<td>1</td>
+<td>1</td>
+<td>94125220532</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-27 00:00:00</td>
+<td>2009-01-26 00:00:00</td>
+<td>2009-09-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-26 00:00:00</td>
+<td>2008-12-26 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-26 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>VISA</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>144</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2008-12-31 00:00:00</td>
+<td>2009-10-31 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Pay In F</td>
+<td>NB</td>
+<td>NB</td>
+<td>12.87</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>12.87</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Dr RND Evans</td>
+<td>25351 25th St</td>
+<td>&nbsp;</td>
+<td>Kulja</td>
+<td>&nbsp;</td>
+<td>6470</td>
+<td>Western Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>900</td>
+<td>&nbsp;</td>
+<td>10</td>
+<td>5898001001</td>
+<td>PC-5-97</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>139</td>
+<td>87</td>
+<td>1</td>
+<td>4</td>
+<td>12345678654320</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2008-12-31 00:00:00</td>
+<td>2008-12-31 00:00:00</td>
+<td>2008-12-31 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-30 00:00:00</td>
+<td>2008-12-30 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>11</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-01 00:00:00</td>
+<td>2009-12-30 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>152.9</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>12.75</td>
+<td>12.74</td>
+<td>0</td>
+<td>25.49</td>
+<td>127.41</td>
+<td>127.41</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>11</td>
+<td>5898001101</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>156</td>
+<td>101</td>
+<td>1</td>
+<td>1</td>
+<td>951025215623</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-01 00:00:00</td>
+<td>2009-01-31 00:00:00</td>
+<td>2009-09-30 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2008-12-31 00:00:00</td>
+<td>2008-12-31 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2008-12-31 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mastercard</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>12</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-03 00:00:00</td>
+<td>2009-12-14 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>149.83</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>12.53</td>
+<td>12.48</td>
+<td>0</td>
+<td>24.98</td>
+<td>124.85</td>
+<td>124.85</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>12</td>
+<td>5898001201</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>181</td>
+<td>110</td>
+<td>1</td>
+<td>1</td>
+<td>952140552152</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-03 00:00:00</td>
+<td>2009-01-15 00:00:00</td>
+<td>2009-09-15 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-02 00:00:00</td>
+<td>2009-01-02 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2009-01-02 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>13</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-03 00:00:00</td>
+<td>2009-12-28 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>149.83</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>12.53</td>
+<td>12.48</td>
+<td>0</td>
+<td>24.98</td>
+<td>124.85</td>
+<td>124.85</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr RV Moore</td>
+<td>7806 Lexington St</td>
+<td>&nbsp;</td>
+<td>Lexington</td>
+<td>&nbsp;</td>
+<td>73360</td>
+<td>South Australia</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>13</td>
+<td>5898001301</td>
+<td>PCMOORERV</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>196</td>
+<td>111</td>
+<td>1</td>
+<td>1</td>
+<td>95014502502</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-03 00:00:00</td>
+<td>2009-01-29 00:00:00</td>
+<td>2009-09-29 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-02 00:00:00</td>
+<td>2009-01-02 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2009-01-02 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mastercard</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>14</td>
+<td>1</td>
+<td>167</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-05 00:00:00</td>
+<td>2010-01-01 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>585.5</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>48.88</td>
+<td>48.78</td>
+<td>0</td>
+<td>97.6</td>
+<td>487.9</td>
+<td>487.9</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr J Smith</td>
+<td>54 Rollins Bolivea Avenue</td>
+<td>&nbsp;</td>
+<td>ALISON</td>
+<td>&nbsp;</td>
+<td>2259</td>
+<td>New South Wales</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>990</td>
+<td>&nbsp;</td>
+<td>14</td>
+<td>5898001401</td>
+<td>PCSMITHJ054</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>230</td>
+<td>113</td>
+<td>1</td>
+<td>1</td>
+<td>951152520521</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-05 00:00:00</td>
+<td>2009-02-02 00:00:00</td>
+<td>2009-10-02 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-04 00:00:00</td>
+<td>2009-01-04 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2009-01-04 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>15</td>
+<td>1</td>
+<td>167</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-05 00:00:00</td>
+<td>2010-01-03 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>NB</td>
+<td>NB</td>
+<td>149.83</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>10</td>
+<td>12.53</td>
+<td>12.48</td>
+<td>0</td>
+<td>24.98</td>
+<td>124.85</td>
+<td>124.85</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr J Smith</td>
+<td>54 Rollins Bolivea Avenue</td>
+<td>&nbsp;</td>
+<td>ALISON</td>
+<td>&nbsp;</td>
+<td>2259</td>
+<td>New South Wales</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>990</td>
+<td>&nbsp;</td>
+<td>15</td>
+<td>5898001501</td>
+<td>PCSMITHJ054</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>249</td>
+<td>116</td>
+<td>1</td>
+<td>1</td>
+<td>95140152005</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-05 00:00:00</td>
+<td>2009-02-04 00:00:00</td>
+<td>2009-10-04 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-04 00:00:00</td>
+<td>2009-01-04 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>1</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>2009-01-04 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>Mastercard</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>14</td>
+<td>2</td>
+<td>167</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-05 00:00:00</td>
+<td>2010-01-01 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>MTA</td>
+<td>MTA</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>12</td>
+<td>40.75</td>
+<td>40.65</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>487.9</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr J Smith</td>
+<td>54 Rollins Bolivea Avenue</td>
+<td>&nbsp;</td>
+<td>ALISON</td>
+<td>&nbsp;</td>
+<td>2259</td>
+<td>New South Wales</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>010</td>
+<td>&nbsp;</td>
+<td>14</td>
+<td>5898001402</td>
+<td>PCSMITHJ054</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>115</td>
+<td>1</td>
+<td>2</td>
+<td>951152520521</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-05 00:00:00</td>
+<td>2009-02-02 00:00:00</td>
+<td>2009-12-02 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>15</td>
+<td>2</td>
+<td>167</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-05 00:00:00</td>
+<td>2010-01-03 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>MTA</td>
+<td>MTA</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>12</td>
+<td>10.45</td>
+<td>10.4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>124.85</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr J Smith</td>
+<td>54 Rollins Bolivea Avenue</td>
+<td>&nbsp;</td>
+<td>ALISON</td>
+<td>&nbsp;</td>
+<td>2259</td>
+<td>New South Wales</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>990</td>
+<td>&nbsp;</td>
+<td>15</td>
+<td>5898001502</td>
+<td>PCSMITHJ054</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>117</td>
+<td>1</td>
+<td>2</td>
+<td>95140152005</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-05 00:00:00</td>
+<td>2009-02-04 00:00:00</td>
+<td>2009-12-04 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>15</td>
+<td>3</td>
+<td>167</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2009-01-05 00:00:00</td>
+<td>2010-01-03 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Progressive Monthly</td>
+<td>MTA</td>
+<td>MTA</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>12</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>Mr J Smith</td>
+<td>54 Rollins Bolivea Avenue</td>
+<td>&nbsp;</td>
+<td>ALISON</td>
+<td>&nbsp;</td>
+<td>2259</td>
+<td>New South Wales</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>Australia</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>040</td>
+<td>&nbsp;</td>
+<td>15</td>
+<td>5898001503</td>
+<td>PCSMITHJ054</td>
+<td>N</td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>117</td>
+<td>1</td>
+<td>2</td>
+<td>95140152005</td>
+<td>10/10</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>2009-01-05 00:00:00</td>
+<td>2009-02-04 00:00:00</td>
+<td>2009-12-04 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>6</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>2009-01-06 00:00:00</td>
+<td>2009-01-06 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td>2003-03-24 00:00:00</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>1</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Risk_Claim</h1>
+<p><span class="autodesc">risk claim</span></p>
+<p>
+                Logical database: Claims<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Insurance_File.html#insurance_file_cnt">Insurance_File.insurance_file_cnt</a> <span class="autodesc">insurance file</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_buildings">is_buildings</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">is buildings</span></td>
+</tr>
+<tr>
+<td><a class="name" name="record_no">record_no</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">record no</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_date">claim_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claim_value">claim_value</a></td>
+<td>numeric(19, 4)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claim value</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>insurance_file_cnt, is_buildings, record_no</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurance_file_cnt</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

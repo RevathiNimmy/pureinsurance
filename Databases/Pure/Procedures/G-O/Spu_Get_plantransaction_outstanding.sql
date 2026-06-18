@@ -1,0 +1,13 @@
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON
+GO
+Execute DDLDropProcedure 'spu_get_plantransaction_outstanding_amount'
+GO
+
+CREATE PROCEDURE spu_get_plantransaction_outstanding_amount
+@nPlanTransactionId INT
+AS
+SELECT outstanding_system_amount,outstanding_currency_amount,outstanding_account_amount,outstanding_amount from transdetail WHERE transdetail_id=@nPlanTransactionId
+
+GO

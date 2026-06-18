@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="DynamicRuleEngineTaskConfig">
+        <xs:complexType>
+            <xs:sequence>
+
+                <xs:element name="Tasks"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Task"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="InternalName"
+                                                    type="InternalTaskNames"
+                                                    minOccurs="1"
+                                                    maxOccurs="1"/>
+                                        <xs:element name="DisplayName"
+                                                    type="xs:string"
+                                                    minOccurs="1"
+                                                    maxOccurs="1" />
+                                        <xs:element name="GridFieldType"
+                                                    type="GridFieldTypes"
+                                                    minOccurs="0"
+                                                    maxOccurs="1"/>
+                                        <xs:element name="AutoCreateEndTask"
+                                                    type="InternalTaskNames"
+                                                    minOccurs="0"
+                                                    maxOccurs="1"/>
+                                        <xs:element name="FieldsEnabled"
+                                                    minOccurs="0"
+                                                    maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="Field"
+                                                                minOccurs="1"
+                                                                maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="InternalName"
+                                                                            type="FieldNames"
+                                                                            minOccurs="1"
+                                                                            maxOccurs="1" />
+                                                                <xs:element name="DisplayName"
+                                                                            type="xs:string"
+                                                                            minOccurs="1"
+                                                                            maxOccurs="1" />
+                                                                <xs:element name="ListName"
+                                                                            type="xs:string"
+                                                                            minOccurs="0"
+                                                                            maxOccurs="1" />
+                                                                <xs:element name="MustBeGenericType"
+                                                                            type="xs:boolean"
+                                                                            minOccurs="0"
+                                                                            maxOccurs="1" />
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+
+                    <xs:unique name="UniqueTaskNames">
+                        <xs:selector xpath=".//Task"/>
+                        <xs:field xpath="InternalName"/>
+                    </xs:unique>
+
+                </xs:element>
+
+                <xs:element name="Lists"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="List"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="ListName"
+                                                    type="xs:string"
+                                                    minOccurs="1"
+                                                    maxOccurs="1" />
+                                        <xs:element name="ListEntries"
+                                                    minOccurs="1"
+                                                    maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+
+                                                    <xs:element name="ListEntry"
+                                                                minOccurs="1"
+                                                                maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="Name"
+                                                                            type="xs:string"
+                                                                            minOccurs="1"
+                                                                            maxOccurs="1" />
+                                                                <xs:element name="Value"
+                                                                            type="xs:string"
+                                                                            minOccurs="1"
+                                                                            maxOccurs="1" />
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+
+                    <xs:unique name="UniqueListNames">
+                        <xs:selector xpath=".//List"/>
+                        <xs:field xpath="ListName"/>
+                    </xs:unique>                    
+                    
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="FieldNames">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Variable1" />
+            <xs:enumeration value="Function" />
+            <xs:enumeration value="Variable2" />
+            <xs:enumeration value="Operator" />
+            <xs:enumeration value="Variable3" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="InternalTaskNames">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Assign" />
+            <xs:enumeration value="If" />
+            <xs:enumeration value="Else" />
+            <xs:enumeration value="EndIf" />
+            <xs:enumeration value="Loop" />
+            <xs:enumeration value="EndLoop" />
+            <xs:enumeration value="Grid" />
+            <xs:enumeration value="Grid_MDT" />
+            <xs:enumeration value="Numerics" />
+            <xs:enumeration value="Custom" />
+            <xs:enumeration value="AddEntity" />
+            <xs:enumeration value="Comment" />
+            <xs:enumeration value="EngineMessage" />
+            <xs:enumeration value="DateTimeCalculation" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="GridFieldTypes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TwoDimensional" />
+            <xs:enumeration value="MultiDimensionalTable" />
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

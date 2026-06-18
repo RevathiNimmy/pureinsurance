@@ -1,0 +1,161 @@
+//===========================================================================
+//
+//  File Name:    CmICCSNumber.rul
+//
+//
+//  Comments:     This Rule File (CmICCSNumber.rul) provides the function to
+//				  input ICCS number used by Sirius Support for installation purpose
+//
+//	
+//===========================================================================
+
+#include "Ifx.h" //Header File for Built in Installscript function prototypes                                                          
+
+// Dialog and control IDs. 
+#define RES_ICCS_DIALOG_ID       589   // ID of dialog itself 
+#define RES_ICCS_PBUT_NEXT         1   // ID of Next button 
+#define RES_ICCS_PBUT_CANCEL       9   // ID of Cancel button 
+#define RES_ICCS_PBUT_BACK        12   // ID of Back button 
+#define RES_Edit_ICCS		 		 1133  // ID of ICCS Text Box	 
+#define RES_LABEL_ICCS		 		 1201  // ID of ICCS Label
+#define RES_LABEL_HEADTITLE  		 1207  // ID of the ICCS Number Dialog Title Label
+#define RES_LABEL_TITLEDESC		     1206  // ID of the ICCS Number Dialog Title Label
+
+//Prototyping Functions defined in the cmiccsnumber Rule File
+export prototype number ExFn_ICCSNumberDialog(HWND,byref string);   
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ExFn_ICCSNumberDialog                                      //                                                                                     
+//  Purpose:  This function creates the ICCS number Custom Dialog and        //
+//			  gets the input for ICCS number used for Sirius Support         //
+//  		                                                                 //
+///////////////////////////////////////////////////////////////////////////////
+function number ExFn_ICCSNumberDialog(hMSI,g_szICCSNumber) 
+   string szDialogName,szDLLName,szDialog,szProperty[256]; 
+   number nvResult,nvCmdValue,nvRetValue,nvTemp,nvNum,nvDialogNumber; 
+   number nvText_ICCS,nvLabel_ICCS;
+   BOOL bDone;   
+   HWND hwndInstance,hwndParent;   
+   //for Silent Mode and Record Mode Installations
+   string szSection,szValue;
+   number nvCommDialog,nvReturnResult;
+   //for Font Setting in Dialog title
+   HWND hFont;
+ begin 
+     szDialogName = "cmiccsnumberdialog";
+     nvNum=256;
+     nvRetValue=0;
+     hwndInstance = 0; 
+     // DefineDialog's third parameter will be null; installation will 
+     // search for the dialog in _isuser.dll and _isres.dll. 
+     szDLLName = ""; 
+     // DefineDialog's fifth parameter will be null because the 
+     // dialog is identified by its ID in the fourth parameter. 
+     szDialog = ""; 
+     // This value is reserved and must be 0. 
+     hwndParent = 0;  
+	 hFont = GetFont("MS Sans Serif",9,STYLE_BOLD);
+
+     
+     // If operating in silent mode, then read from the .ISS file. 
+	 if (MODE=SILENTMODE) then 
+ 	       SdMakeName(szSection,"cmiccsnumberdialog","",nvCommDialog); 
+  	       SilentReadData(szSection,"Result",DATA_NUMBER,szValue,nvReturnResult); 
+   	       if (nvReturnResult = 1) then 
+             // Read the data from the .ISS file. For purposes of 
+             // writing the results to a text file, read the 
+             // data as strings. 
+             SilentReadData(szSection,"ICCS",DATA_STRING,g_szICCSNumber,nvReturnResult);  
+           endif;
+    else //Normal Mode Installation Code Execution Flow  
+    
+         // Define the dialog. The installation's main window will own the 
+	  	 // dialog (indicated by HWND_INSTALL in parameter 7). 
+	     nvResult  = DefineDialog (szDialogName, hwndInstance, szDLLName, RES_ICCS_DIALOG_ID, szDialog, hwndParent, HWND_INSTALL, DLG_MSG_STANDARD|DLG_CENTERED);
+	          
+	     // Check for an error. 
+	     if (nvResult < 0) then 
+	        MessageBox ("An error occurred while defining the dialog.", SEVERE); 
+	        bDone = TRUE; 
+	        abort; 
+	     endif;
+	     
+	     bDone = FALSE; 
+	     repeat 
+	     // Display the dialog and return the next dialog event. 
+	     nvCmdValue = WaitOnDialog(szDialogName);  
+	     	
+	     switch (nvCmdValue) 
+	          case DLG_CLOSE: 
+	                  // The user clicked the window's Close button. 
+	         	 	  Do (EXIT); 
+	
+	           case DLG_ERR:   
+	           		  //An Error Condition has happened during initialization of dialog
+	            	  MessageBox ("Unable to display dialog. Setup canceled.", SEVERE); 
+	             	  abort; 
+	
+	            case DLG_INIT: 
+	            	  //Custom Dialog Initialization happens.First Event called by default
+	            	  	nvDialogNumber = CmdGetHwndDlg(szDialogName); 
+	                    nvText_ICCS	    =  GetDlgItem(nvDialogNumber,RES_Edit_ICCS);
+						nvLabel_ICCS      = GetDlgItem(nvDialogNumber,RES_LABEL_ICCS);
+						//Place the ICCS number during initialization if already it has been set
+						CtrlSetText(szDialogName,RES_Edit_ICCS,g_szICCSNumber);
+						//Font Setting for Dialog Title
+	      		        CtrlSetFont (szDialogName, hFont, RES_LABEL_HEADTITLE);
+	      		        
+	            case RES_ICCS_PBUT_CANCEL: 
+	         	      // The user clicked the Cancel button. 
+	       		      Do (EXIT); 
+	
+	            case RES_ICCS_PBUT_NEXT: 
+	          	    	// The user clicked the NEXT button.
+	           		  	// Get the text from the edit box for ICCS number.
+	                    CtrlGetText(szDialogName,RES_Edit_ICCS,g_szICCSNumber);
+	            		if(g_bAppServerWithDB = TRUE) then         
+		   	          		// Verify that the ICCS number Field contains text  and ICCS number total digit equals 4
+		   	          		if (StrLengthChars(g_szICCSNumber) = 0) then 
+		        				MessageBox ("Please enter the ICCS number", SEVERE);
+		        				CtrlSetText(szDialogName, RES_Edit_ICCS,""); 
+		        			elseif (StrToNum (nvTemp, g_szICCSNumber) < 0) then 
+		        				MessageBox ("ICCS Number should be numeric.", SEVERE);
+		        				CtrlSetText(szDialogName, RES_Edit_ICCS,"");	
+		          	   		elseif (StrLengthChars(g_szICCSNumber) != 4) then 
+		        				MessageBox ("ICCS Number should be 4 digit.", SEVERE);
+		        				CtrlSetText(szDialogName, RES_Edit_ICCS,"");			
+		           			else
+		         	  	 		nvRetValue = 1;
+		   	    				bDone = TRUE;                                           
+			             	endif;
+			           endif;
+		       	             	  	 
+	           	case RES_ICCS_PBUT_BACK: 
+	                //The User clicked the BACK button
+	                bDone = TRUE;  
+	                nvRetValue = -1;  
+	         endswitch; 
+	    until bDone; 
+	    // Close the dialog. 
+	    EndDialog (szDialogName); 
+	    // Free the dialog from memory. 
+	    ReleaseDialog (szDialogName); 
+	    //Recording the Dialog Selections into .iss file for Silent Mode Installations
+	    
+	    SdMakeName(szSection,"cmiccsnumberdialog","",nvCommDialog); 
+	    SilentWriteData(szSection,"ICCS",DATA_STRING,g_szICCSNumber,nvReturnResult);
+        SilentWriteData(szSection,"Result",DATA_NUMBER,"",nvRetValue);
+    
+	endif;//End of Installation Mode Condition for Silent or Normal Mode of Installations        
+	
+    return nvRetValue;    
+    
+ end;    
+     	
+/***********************CmICCSNumber.rul File Coding Ends*********************************************/     	
+     	                
+                            
+      
+      
+    

@@ -1,0 +1,20 @@
+
+sub start()
+
+	oSharedStorage.AutoCancel=False
+
+	If oSharedStorage.BusinessType="INSTALMENTS" Then
+		If oSharedStorage.ServiceLevel<>"" AND oSharedStorage.CanAutoCancel=True AND oSharedStorage.PolicyVersion=1 AND oSharedStorage.ClaimRegistered=False Then
+			oSharedStorage.AutoCancel=True
+		End If
+	ElseIf oSharedStorage.BusinessType="BROKER" Then
+		If oSharedStorage.ServiceLevel<>"" AND oSharedStorage.PartiallyPaid=False AND oSharedStorage.CanAutoCancel=True AND oSharedStorage.PolicyVersion=1 AND oSharedStorage.ClaimRegistered=False Then
+			oSharedStorage.AutoCancel=True
+		End If
+	ElseIf oSharedStorage.BusinessType="DIRECT" Then
+		If oSharedStorage.ServiceLevel<>"" AND oSharedStorage.Credit=0 AND oSharedStorage.PartiallyPaid=False AND oSharedStorage.CanAutoCancel=True AND oSharedStorage.PolicyVersion="1" AND oSharedStorage.ClaimRegistered=False Then
+			oSharedStorage.AutoCancel=True
+		End If
+	End If
+
+end sub

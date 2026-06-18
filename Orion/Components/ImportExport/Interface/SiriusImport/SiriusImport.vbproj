@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BB690F4C-8061-4B25-AB25-544A653CB426}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>Sirius.SBO.Import</RootNamespace>
+    <AssemblyName>SiriusImport</AssemblyName>
+    <MyType>Console</MyType>
+    <SignAssembly>false</SignAssembly>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>false</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <OptionStrict>Off</OptionStrict>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.8.10.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>C:\Pure\Application\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>false</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=6.0.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Pure\Application\Aspose.Cells.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="bACTAccount, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTAllocationManual, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTAutoNumber, Version=5040.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Pure\Application\bACTAutoNumber.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTBankReconciliation, Version=1140.0.3859.21007, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTCashlistitem, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTCashListPost, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTCreditControlItem, Version=1140.0.3859.23263, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTCurrencyConvert, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTDocument, Version=1144.0.3812.35872, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTDocumentPost, Version=1140.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTDocumentReversal, Version=5040.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Pure\Application\bACTDocumentReversal.dll</HintPath>
+    </Reference>
+    <Reference Include="bACTFinanceSpoke, Version=1140.0.3859.21388, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bACTFindTransaction, Version=5040.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Pure\Application\bACTFindTransaction.dll</HintPath>
+    </Reference>
+    <Reference Include="BCrypt.Net, Version=0.1.4056.18965, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Pure\Application\BCrypt.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="bSIRAutomaticRenewalsAccept, Version=1140.0.3824.24702, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRMediaTypeValidation, Version=1140.0.3827.17341, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIROptions, Version=1144.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="bSIRPFInstalments, Version=1144.0.3803.30588, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="dPMDAO, Version=1810.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Microsoft WSE\v3.0\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Security, Version=2000.13.0.0, Culture=neutral, PublicKeyToken=afac53f54d148101">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sirius.Architecture.Security.AspWse3.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=afac53f54d148101" />
+    <Reference Include="SSP.S4I.Interfaces, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sspi.Common.Aws, Version=5060.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Web Portal\Nexus\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath> 
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="system.net.http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading">
+      <HintPath>..\..\..\..\..\..\Windows\WinSxS\msil_system.threading_b03f5f7f11d50a3a_4.0.9200.16384_none_24f205435720fe79\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\..\..\..\..\..\Windows\WinSxS\msil_system.threading.tasks_b03f5f7f11d50a3a_4.0.9200.16384_none_ea038c873f2bfbb9\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SharedFiles">
+      <Name>SharedFiles</Name>
+    </Reference>
+    <Reference Include="System.XML.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agent_Reconciliation_Import.vb" />
+    <Compile Include="Cash_Allocation_Import.vb" />
+    <Compile Include="Claim_BDX_Import.vb">
+      <DependentUpon>Claim_BDX_Import.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="MID2_Import.vb" />
+    <Compile Include="Premium_BDX_Import.vb">
+      <DependentUpon>Premium_BDX_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Cover_Note_Import.vb" />
+    <Compile Include="Excel_Import_Library.vb" />
+    <Compile Include="Exchanges_Rates_Import.vb" />
+    <Compile Include="Instalment_Import.vb" />
+    <Compile Include="MID_Import.vb" />
+    <Compile Include="Policy_BDX_Import.vb">
+      <DependentUpon>Policy_BDX_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Receipt_Import.vb" />
+    <Compile Include="ImportFile.vb" />
+    <Compile Include="Payment_Import.vb" />
+    <Compile Include="DatabaseHelper.vb" />
+    <Compile Include="ImportBase.vb" />
+    <Compile Include="PolicyProcessRequest.vb" />
+    <Compile Include="Reference_Import.vb" />
+    <Compile Include="Bank_Reconciliation_Import.vb" />
+    <Compile Include="gPMConstants.vb" />
+    <Compile Include="RestContracts\ApiClient.vb" />
+    <Compile Include="RestContracts\TokenManager.vb" />
+    <Compile Include="RestContracts\TokenResponse.vb" />
+    <Compile Include="RestContracts\SAMErrors.vb" />
+    <Compile Include="RestContracts\STSErrorType.vb" />
+    <Compile Include="RestContracts\CurrencyType.vb" />
+    <Compile Include="RestContracts\PolicyProcessTypes.vb" />
+    <Compile Include="RestContracts\AddressTypeType.vb" />
+    <Compile Include="RestContracts\ContactTypeType.vb" />
+    <Compile Include="RestContracts\ItemChoiceType.vb" />
+    <Compile Include="RestContracts\BaseAddressType.vb" />
+    <Compile Include="RestContracts\BaseContactDetailType.vb" />
+    <Compile Include="RestContracts\BaseContactType.vb" />
+    <Compile Include="RestContracts\BasePartyType.vb" />
+    <Compile Include="RestContracts\BasePartyPCType.vb" />
+    <Compile Include="RestContracts\BasePartyCCType.vb" />
+    <Compile Include="RestContracts\BaseTaxesType.vb" />
+    <Compile Include="RestContracts\BaseProductBuilderRiskTypeProductBuilderData.vb" />
+    <Compile Include="RestContracts\BaseProductBuilderRiskType.vb" />
+    <Compile Include="RestContracts\BaseUpdateCoinsuranceValuesRequestTypeRow.vb" />
+    <Compile Include="RestContracts\BaseRiskRatingSectionType.vb" />
+    <Compile Include="RestContracts\BaseQuoteRiskMsgTypeRisks.vb" />
+    <Compile Include="RestContracts\BaseQuoteRiskMsgType.vb" />
+    <Compile Include="RestContracts\PolicyProcessCommand.vb" />
+    <Compile Include="RestContracts\PolicyProcessCommandResponse.vb" />
+    <Compile Include="RestContracts\PolicyProcessResponsePolicy.vb" />
+    <Compile Include="RestContracts\ClaimPaymentPartyTypeType.vb" />
+    <Compile Include="RestContracts\ClaimReceiptPartyTypeType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessBuilderRiskTypeClaimBuilderData.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessBuilderRiskType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessPaymentDetailsType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessReceiptDetailsType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessPerilReserveType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessPerilRecoveryType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessPerilType.vb" />
+    <Compile Include="RestContracts\BaseClaimPayeeType.vb" />
+    <Compile Include="RestContracts\BaseClaimReceiptPayeeType.vb" />
+    <Compile Include="RestContracts\BaseClaimProcessType.vb" />
+    <Compile Include="RestContracts\BaseClaimResponseTypeWarnings.vb" />
+    <Compile Include="RestContracts\ProcessClaimCommandResponse.vb" />
+    <Compile Include="RestContracts\ProcessClaimCommand.vb" />
+    <Compile Include="RestContracts\BaseCoreCashListType.vb" />
+    <Compile Include="RestContracts\BaseCoreCashListItemType.vb" />
+    <Compile Include="RestContracts\BaseReceiptCashListType.vb" />
+    <Compile Include="RestContracts\BaseReceiptCashListItemType.vb" />
+    <Compile Include="RestContracts\BaseReceiptCashListItemTypePolicies.vb" />
+    <Compile Include="RestContracts\BasePaymentCashListType.vb" />
+    <Compile Include="RestContracts\BasePaymentCashListItemType.vb" />
+    <Compile Include="RestContracts\BasePaymentCashListItemTypePolicies.vb" />
+    <Compile Include="RestContracts\CreateReceiptCashListWithItemsCommand.vb" />
+    <Compile Include="RestContracts\CreateReceiptCashListWithItemsCommandResponse.vb" />
+    <Compile Include="RestContracts\CreatePaymentCashListWithItemsCommand.vb" />
+    <Compile Include="RestContracts\BaseRequestType.vb" />
+    <Compile Include="RestContracts\BaseClientSharedDataType.vb" />
+    <Compile Include="RestContracts\BasePartyPCTypeLifestyle.vb" />
+    <Compile Include="RestContracts\Enums\MaritalStatusCodeType.vb" />
+    <Compile Include="RestContracts\Enums\EmploymentStatusCodeType.vb" />
+    <Compile Include="RestContracts\CreatePaymentCashListWithItemsCommandResponse.vb" />
+    <Compile Include="MainModule.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Util.vb" />
+    <Compile Include="XmlDocument.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Aspose.Total.lic" />
+    <None Include="Agent_Reconciliation_Import.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cash_Allocation_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cover_Note_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Cover_Note_Import.xsx">
+      <DependentUpon>Cover_Note_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Exchange_Rates_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Exchange_Rates_Import.xsx">
+      <DependentUpon>Exchange_Rates_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Instalments_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Instalments_Import.xsx">
+      <DependentUpon>Instalments_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MID2_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MID2_Import.xsx">
+      <DependentUpon>MID2_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MID_Import.xsd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MID_Import.xsx">
+      <DependentUpon>MID_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Policy_BDX_Import.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Policy_BDX_Import.xsx">
+      <DependentUpon>Policy_BDX_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Receipt_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Receipt_Import.xsx">
+      <DependentUpon>Receipt_Import.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Payment_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Payment_Import.xsx">
+      <DependentUpon>Payment_Import.xsd</DependentUpon>
+    </None>
+    <None Include="Reference_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Reference_Import.xsx">
+      <DependentUpon>Reference_Import.xsd</DependentUpon>
+    </None>
+    <None Include="Bank_Reconciliation_Import.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Bank_Reconciliation_Import.xsx">
+      <DependentUpon>Bank_Reconciliation_Import.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Premium_BDX_Import.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Premium_BDX_Import.xsx">
+      <DependentUpon>Premium_BDX_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Claim_BDX_Import.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Claim_BDX_Import.xsx">
+      <DependentUpon>Claim_BDX_Import.xsd</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wse3policyCache.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MID2_Import.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MID_Import.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+ <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+
+
+
+Other similar extension points exist, see Microsoft.Common.targets.
+
+
+
+<Target Name="BeforeBuild">
+
+
+
+</Target>
+
+
+
+<Target Name="AfterBuild">
+
+
+
+</Target>
+
+
+
+-->
+</Project>

@@ -1,0 +1,48 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.User
+@model UsersViewModel
+
+@{
+    ViewBag.Title = Index_cshtml.Users;
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+             <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                    @{
+                      var list = Model.UsersDeleteList;
+                    }
+                    @for (int i = 0; i < list.Length; i++)
+                    {
+                        <div class="form-group form-group-sm">
+                            @Html.HiddenFor(x => list[i].Username)
+                            @Html.LabelFor(x => list[i].Delete, list[i].Username, new { @class = "Col-lg-2 col-md-3 control-label"})
+                            <div class="Col-lg-8 col-md-8">
+                            @Html.CheckBoxFor(x => list[i].Delete)
+                            @Html.ActionLink(Index_cshtml.Roles, "Roles", new{username=list[i].Username}, new { @class = "btn btn-xs btn-primary"})
+                            @Html.ActionLink("password", "ChangePassword", new { username = list[i].Username }, new { @class = "btn btn-xs btn-primary"})
+                            @if (Model.IsProfileEnabled)
+                            {
+                                @Html.ActionLink(Index_cshtml.Profile, "Profile", new{username=list[i].Username}, new { @class = "btn btn-xs btn-primary"})
+                            }
+                            @if (Model.IsOAuthRefreshTokenEnabled)
+                            {
+                                @Html.ActionLink("tokens", "Index", "OAuthRefreshToken", new{ username= list[i].Username }, new { @class = "btn btn-xs btn-primary"})
+                            }
+                            </div>
+                        </div>
+                    }
+               </div>
+           </div>
+        <div class="card-footer">
+             <button type="reset" class="btn btn-sm btn-dark">@Index_cshtml.Cancel</button>
+             <button type="submit" name="action" value="delete" class="btn btn-sm btn-dark">@Index_cshtml.DeleteSelected</button>
+             <button type="submit" name="action" value="new" class="btn btn-sm btn-primary">@Index_cshtml.New</button>
+        </div>
+ </div>
+    @Html.ValidationSummary(Index_cshtml.ErrorDeletingUsers)
+}

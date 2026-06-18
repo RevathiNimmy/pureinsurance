@@ -1,0 +1,171 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Renewal_Exception_Reason</h1>
+<p><span class="autodesc">Renewal Exception Reason</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="renewal_exception_reason_id">renewal_exception_reason_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">renewal exception reason</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>varchar(20)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>renewal_exception_reason_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>renewal_exception_reason_id</td>
+<td><a href="Renewal_Status.html">Renewal_Status</a></td>
+<td>renewal_exception_reason_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>renewal_exception_reason_id</td>
+<td>code</td>
+<td>description</td>
+<td>caption_id</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>POLNUM</td>
+<td>Product Flagged for policy number change - manual acceptance required</td>
+<td>39029</td>
+<td>2008-12-20 03:36:35</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>INSTAL</td>
+<td>Insufficient Instalment Details</td>
+<td>39030</td>
+<td>2008-12-20 03:36:36</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PREPAY</td>
+<td>Prepayment Required</td>
+<td>39031</td>
+<td>2008-12-20 03:36:37</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TEMPLATE</td>
+<td>No Renewal Document Template configured</td>
+<td>39032</td>
+<td>2008-12-20 03:36:38</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>OTHER</td>
+<td>Other Exception occured</td>
+<td>39033</td>
+<td>2008-12-20 03:36:40</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

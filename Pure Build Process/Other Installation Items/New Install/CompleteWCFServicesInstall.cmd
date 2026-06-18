@@ -1,0 +1,24 @@
+@echo off
+copy /y *interop*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y a*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y a*.pdb _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y b*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y b*.pdb _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y c*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y c*.pdb _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y d*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y d*.pdb _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y g*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y g*.pdb _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y s*.dll _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y s*.pdb _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y iGISListManager.* _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y iPMMessage.* _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y Ionic.zip.* _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y iLogonManager.exe.* _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y iLogonManager.pdb.* _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y HtmlAgilityPack.* _PublishedWebsites\SiriusFS.SAM.WCFService\bin >> C:\WCFserviceInstall.txt
+copy /y log4net.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WCFserviceInstall.txt
+copy /y PostSharp.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WCFserviceInstall.txt
+copy /y Microsoft.SharePoint.Client.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WCFserviceInstall.txt
+copy /y Microsoft.SharePoint.Client.Runtime.* _PublishedWebsites\SAM.SERVICEAGENT\bin >> C:\WCFserviceInstall.txt

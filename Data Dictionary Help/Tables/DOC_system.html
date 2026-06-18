@@ -1,0 +1,168 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>DOC_system</h1>
+<p>Holds the permission levels and details of the next available page.</p>
+<p>
+                Logical database: DocuMaster<br>
+                Component team: DocuMaster<br>
+                Software module: DocuMaster<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="system_id">system_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td>Primary key for the table.</td>
+</tr>
+<tr>
+<td><a class="name" name="doc_date">doc_date</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Default number of days to subtract from todays date for new documents added to the system.<br>This is set to 2 by default. The reason for this is that they may receive the post at the office, but not get round to processing it (adding it to DME or what have you) for a few days.</td>
+</tr>
+<tr>
+<td><a class="name" name="expiry_date">expiry_date</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Default expiry date for documents.</td>
+</tr>
+<tr>
+<td><a class="name" name="admin_level">admin_level</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The level at which users become an administrator for the DME system.</td>
+</tr>
+<tr>
+<td><a class="name" name="next_page">next_page</a></td>
+<td>char(15)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>File path to be used when the next page is created. </td>
+</tr>
+<tr>
+<td><a class="name" name="update_history">update_history</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Indicates whether the doc_history table should be updated after given actions. This is for UNIX integration.</td>
+</tr>
+<tr>
+<td><a class="name" name="File_Delete_Level">File_Delete_Level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The user level required to perform a file delete action.</td>
+</tr>
+<tr>
+<td><a class="name" name="File_Move_Level">File_Move_Level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The user level required to perform a file move action.</td>
+</tr>
+<tr>
+<td><a class="name" name="File_Copy_Level">File_Copy_Level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The user level required to perform a file copy action.</td>
+</tr>
+<tr>
+<td><a class="name" name="Folder_Delete_Level">Folder_Delete_Level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The user level required to perform a folder delete action.</td>
+</tr>
+<tr>
+<td><a class="name" name="Folder_Move_Level">Folder_Move_Level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The user level required to perform a folder move action.</td>
+</tr>
+<tr>
+<td><a class="name" name="Folder_Copy_Level">Folder_Copy_Level</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The user level required to perform a folder copy action.</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>system_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>system_id</td>
+<td>doc_date</td>
+<td>expiry_date</td>
+<td>admin_level</td>
+<td>next_page</td>
+<td>update_history</td>
+<td>File_Delete_Level</td>
+<td>File_Move_Level</td>
+<td>File_Copy_Level</td>
+<td>Folder_Delete_Level</td>
+<td>Folder_Move_Level</td>
+<td>Folder_Copy_Level</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>365</td>
+<td>1</td>
+<td>\00\00\00\05\68</td>
+<td>Y</td>
+<td>1</td>
+<td>9</td>
+<td>9</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

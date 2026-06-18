@@ -1,0 +1,16 @@
+SET QUOTED_IDENTIFIER  OFF    SET ANSI_NULLS  ON 
+GO
+
+EXECUTE DDLDropProcedure 'spu_ACT_GetBankByShortCode'
+GO
+
+CREATE PROCEDURE spu_ACT_GetBankByShortCode
+    @Code varchar(10)
+ AS
+
+SELECT bank_id FROM Bank WHERE code = @Code 
+
+GO
+SET QUOTED_IDENTIFIER  OFF    SET ANSI_NULLS  ON 
+GO
+

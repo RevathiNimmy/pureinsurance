@@ -1,0 +1,68 @@
+  
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON
+GO
+
+EXECUTE DDLDropProcedure 'spu_ACT_Update_Batch_Transdetail_ID'
+GO 
+CREATE PROCEDURE spu_ACT_Update_Batch_Transdetail_ID  
+    @nBatchID INT,  
+    @nTransdetailID INT
+AS  
+  
+  
+BEGIN  
+    
+  
+ DECLARE @KEYVALUE INT  
+  SELECT @KEYVALUE= PBKV.key_value   
+ FROM  PMNav_Batch_Key_Value  PBKV    
+ JOIN PMNav_Batch PB ON PBKV.pmnav_batch_id =PB.pmnav_batch_id     
+ WHERE pmnav_batch_set_id=@nBatchID  AND PB.code ='ACTINSPAY' AND  PBKV.key_value =@nTransdetailID  
+  
+IF ISNULL(@KEYVALUE,0)=0   
+BEGIN  
+CREATE TABLE #TMPTABLE (  
+PMNAV_BATCH_SET_ID INT,PMNAV_BATCH_RECORD_ID INT,  
+PMNAV_BATCH_KEY_VALUE_ID INT,PMNAV_BATCH_ID INT,  
+PMNAV_KEY_ID INT,KEY_VALUE INT)  
+  
+DECLARE @PMNAV_BATCH_RECORD_ID INT  
+  
+SELECT @PMNAV_BATCH_RECORD_ID=PMNAV_BATCH_RECORD_ID  
+FROM PMNAV_BATCH_RECORD  
+WHERE pmnav_batch_set_id= @nBatchID  
+  
+SELECT @PMNAV_BATCH_RECORD_ID=@PMNAV_BATCH_RECORD_ID+1  
+  
+INSERT INTO #TMPTABLE   
+SELECT PMNAV_BATCH_SET_ID ,MAX(@PMNAV_BATCH_RECORD_ID) ,  
+MAX(PMNAV_BATCH_KEY_VALUE_ID) ,MAX(PMNAV_BATCH_ID) ,  
+MAX(PMNAV_KEY_ID) ,MAX(@nTransdetailID)   
+FROM PMNAV_BATCH_KEY_VALUE WHERE PMNAV_BATCH_SET_ID=@nBatchID GROUP BY PMNAV_BATCH_SET_ID  
+select * from #TMPTABLE  
+BEGIN  
+INSERT INTO PMNav_Batch_Record(pmnav_batch_set_id,pmnav_batch_record_id)   
+VALUES(@nBatchID,@PMNAV_BATCH_RECORD_ID)  
+END  
+  
+INSERT INTO PMNav_Batch_Key_Value(pmnav_batch_set_id,pmnav_batch_record_id,pmnav_batch_key_value_id,pmnav_batch_id,pmnav_key_id,key_value)   
+SELECT PMNAV_BATCH_SET_ID ,MAX(PMNAV_BATCH_RECORD_ID) ,  
+MAX(PMNAV_BATCH_KEY_VALUE_ID) ,MAX(PMNAV_BATCH_ID) ,  
+MAX(PMNAV_KEY_ID) ,MAX(KEY_VALUE)   
+FROM #TMPTABLE GROUP BY PMNAV_BATCH_SET_ID  
+  
+DROP TABLE #TMPTABLE   
+  
+   
+END  
+  
+END 
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+ 

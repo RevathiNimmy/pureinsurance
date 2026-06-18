@@ -1,0 +1,248 @@
+//===========================================================================
+//
+//  File Name:    SdStagingnewdbdetails.rul
+//
+//
+//  Comments:     This Rule File (cmnewdbdetails.rul) provides the function to
+//				  input new Staging Database name and location for MDF and LDF file path
+//
+//
+//===========================================================================
+
+#include "Ifx.h"   //Header File for Built in Installscript function prototypes          
+ 
+// Dialog and control IDs. 
+#define RES_SD_STAGING_DIALOG_ID       601   // ID of dialog itself 
+#define RES_PBUT_NEXT         1   // ID of Next button 
+#define RES_PBUT_CANCEL       9   // ID of Cancel button 
+#define RES_PBUT_BACK        12   // ID of Back button 
+
+//Prototyping Functions defined in the cmnewdbdetails Rule File
+export prototype number SdStagingnewdbdetails(HWND,byref string,byref string,byref string,byref string,byref string,byref string); 
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SdStagingnewdbdetails                                                                                                                           //
+//  Purpose:  This function creates the Fresh DB Details Input Custom Dialog and 
+//			  gets the input for New Database Name and its MDF and LDF path for 
+//			  Fresh Installation
+///////////////////////////////////////////////////////////////////////////////
+function number SdStagingnewdbdetails(hMSI,gStagingDBServer,gStagingDBUser,gStagingDBPassword,gStagingDB,g_StagingMDFDirPath,g_StagingDFDirPath) 
+   string  szDialogName, szDLLName, szDialog,szTitle,szMsg,szDir,szDBText;
+   number  nvResult, nvCmdValue,nvRetValue,nvDialogNumber,nvPBUT_MDFPATH,nvPBUT_LDFPATH; 
+   BOOL    bDone,bCreateDIR; 
+   HWND    hwndInstance, hwndParent; 
+   string  szExistsDBScript; 
+   string  szReturnValue;
+   string  szQuestion;
+   number  nvDefault;
+   //for Silent Mode and Record Mode Installations
+   string szSection,szValue;
+   number nvCommDialog,nvReturnResult;
+   //for Font Setting in Dialog title
+   HWND hFont;
+ 
+begin                    
+   nvRetValue = 0;
+   // Define the name of a dialog to pass as first 
+   // parameter to DefineDialog. 
+   szDialogName = "SdStagingnewdbdetails"; 
+   // DefineDialog's second parameter will be 0 because the 
+   // .dll file is in _isres.dll. 
+   hwndInstance = 0; 
+  // DefineDialog's third parameter will be null; installation will 
+  // search for the dialog in _isuser.dll and _isres.dll.    
+  szDLLName = ""; 
+  // DefineDialog's fifth parameter will be null because the 
+  // dialog is identified by its ID in the fourth parameter. 
+  szDialog = ""; 
+  // This value is reserved and must be 0. 
+  hwndParent = 0;     
+  hFont = GetFont("MS Sans Serif",9,STYLE_BOLD);
+  // Define the dialog. The installation's main window will own the 
+  // dialog (indicated by HWND_INSTALL in parameter 7). 
+  // If operating in silent mode, then read from the .ISS file. 
+  if (MODE=SILENTMODE) then 
+ 	       SdMakeName(szSection,"SdStagingnewdbdetails","",nvCommDialog); 
+  	       SilentReadData(szSection,"Result",DATA_NUMBER,szValue,nvReturnResult); 
+   	       if (nvReturnResult = 1) then 
+             // Read the data from the .ISS file. For purposes of 
+             // writing the results to a text file, read the 
+             // data as strings. 
+             SilentReadData(szSection,"DBName",DATA_STRING,gStagingDB,nvReturnResult);
+             SilentReadData(szSection,"MDFPath",DATA_STRING,g_StagingMDFDirPath,nvReturnResult);  
+             SilentReadData(szSection,"LDFPath",DATA_STRING,g_StagingDFDirPath,nvReturnResult);    
+           endif;
+  else //Normal Mode Installation Code Execution Flow 
+	  nvResult  = DefineDialog (szDialogName, hwndInstance, szDLLName, 
+	                                RES_SD_STAGING_DIALOG_ID, szDialog, hwndParent, 
+	                                HWND_INSTALL, DLG_MSG_STANDARD|DLG_CENTERED); 
+	  // Check for an error. 
+	  if (nvResult < 0) then 
+	        MessageBox ("An error occurred while defining the dialog.", SEVERE); 
+	        bDone = TRUE; 
+	        abort; 
+	   endif;  
+	                                                           
+	   bDone = FALSE; 
+	   // Loop until done. 
+	   repeat 
+	      // Display the dialog and return the next dialog event. 
+	        nvCmdValue = WaitOnDialog(szDialogName); 
+	       // Respond to the event. 
+	        switch (nvCmdValue) 
+	           case DLG_CLOSE: 
+	                	 // The user clicked the window's Close button. 
+	             	 	 Do (EXIT); 
+	
+	            case DLG_ERR:  
+	            		 //An Error Condition has happened during initialization of dialog
+	            	 	 MessageBox ("Unable to display dialog. Setup canceled.", SEVERE); 
+	             		 abort; 
+	
+	            case DLG_INIT: 
+	                    //Custom Dialog Initialization happens.First Event called by default
+	                    gStagingDB="";
+	                    CtrlSetText(szDialogName,50,"Pure Staging Database Details");
+	                    CtrlSetText(szDialogName,1201,gStagingDB);
+	            		CtrlSetText (szDialogName, 1202, g_StagingMDFDirPath);
+						CtrlSetText (szDialogName, 1203, g_StagingDFDirPath);
+						
+	                	nvDialogNumber = CmdGetHwndDlg(szDialogName); 
+						nvPBUT_MDFPATH =  GetDlgItem(nvDialogNumber,1202);
+						nvPBUT_LDFPATH = GetDlgItem(nvDialogNumber,1203);                      
+						if(StrCompare(gStagingDBServer,g_szHostName)=0)  then
+	            	 		EnableWindow(nvPBUT_MDFPATH,TRUE);   
+							EnableWindow(nvPBUT_LDFPATH,TRUE);
+							g_bStagingRemoteDBServer = FALSE;
+						elseif(StrFind(gStagingDBServer,"(local)") >= 0) then
+							EnableWindow(nvPBUT_MDFPATH,TRUE);   
+							EnableWindow(nvPBUT_LDFPATH,TRUE); 
+							g_bStagingRemoteDBServer = FALSE;
+						elseif(StrFind(gStagingDBServer,g_szHostName) >= 0) then
+							EnableWindow(nvPBUT_MDFPATH,TRUE);   
+							EnableWindow(nvPBUT_LDFPATH,TRUE); 
+							g_bStagingRemoteDBServer = FALSE;
+						else
+						    //EnableWindow(nvPBUT_MDFPATH,FALSE);   
+							//EnableWindow(nvPBUT_LDFPATH,FALSE);
+							EnableWindow(nvPBUT_MDFPATH,TRUE);   
+							EnableWindow(nvPBUT_LDFPATH,TRUE); 
+							g_bStagingRemoteDBServer = TRUE;
+						endif;  
+	            	 	//Font Setting for Dialog Title
+           			    //CtrlSetFont(szDialogName,hFont,RES_LABEL_HEADTITLE);
+	            	 	//Create database normal/error log files 
+	            	 	//CreateLogFile(INSTALL_LOG);       
+	            	 	//CreateLogFile(INSTALL_ERROR_LOG);
+	           case RES_PBUT_CANCEL: 
+	         	        // The user clicked the Cancel button. 
+	       		          Do (EXIT); 
+	
+	            case RES_PBUT_NEXT: 
+	          	    	// The user clicked the NEXT button.
+	           		  	// Get the text from all the entry fields
+	                    CtrlGetText (szDialogName, 1201, gStagingDB);
+	 	           	    CtrlGetText (szDialogName, 1202, g_StagingMDFDirPath);
+	  	 	         	CtrlGetText (szDialogName, 1203, g_StagingDFDirPath);
+	  	 	         	
+	  	 	         	 
+	                            
+			   	         // Verify that the DB Name,MDF and LDF path are all entered.
+			             if (StrLength(gStagingDB) = 0) then
+			             	  MessageBox ("Please enter the DBName", WARNING);
+			             	  CtrlSetText(szDialogName,1201,"");
+			             elseif (StrLength(g_StagingMDFDirPath) = 0) then
+			                  MessageBox ("Please enter or browse for the MDF File Path", WARNING);
+			                  CtrlSetText (szDialogName,1202,"");
+			             elseif (StrLength(g_StagingDFDirPath) = 0) then
+			                  MessageBox ("Please enter or browse for the LDF File Path", WARNING);
+			                  CtrlSetText (szDialogName,1203,"");
+			             elseif(g_bStagingRemoteDBServer = TRUE) then
+			             	   //Renamed SiriusBackOffice.exe to Setup.exe	
+			             	   //szQuestion = "Please Make Sure that the MDF and LDF path provided for the Remote DBServer Exists and the Folder Containing Setup.exe in this Machine is Shared and Accessible by the Remote DB Server";
+			             	   szQuestion = "Please Make Sure that the MDF and LDF path provided for the Remote DBServer Exists.";
+			             	   nvDefault = NO;
+			                   nvResult = AskYesNo(szQuestion,nvDefault);
+     	  	             	   if(nvResult = YES) then
+     	  	             	   		 //Check if the Database Name Entered is already available in the DBServer and Inform the User        
+     	  	             	   		 szExistsDBScript ="if exists(select name from sysdatabases where name like '" + gStagingDB + "') select sRetValue='YES' else select sRetValue='NO' ";
+									 szReturnValue = ADODBConnectExecuteAndReturnStaging(gStagingDBServer,"master",gStagingDBUser,gStagingDBPassword,szExistsDBScript,"sRetValue");
+									 if(szReturnValue = "YES") then
+		 	    			  			MessageBox("Database with the Same Name Already Exist.Enter a New Name for the Database",WARNING);
+		 	    			 		 else
+		 	   	      					nvRetValue = 1;
+		 	   	    					bDone = TRUE;
+		 	   	    		         endif;
+							   else
+									//Stay at the CreateNewDB Dialog to validate the MDF and LDF path
+							   endif; 
+						 else  
+						      //Check if the Database Name Entered is already available in the DBServer and Inform the User        
+						      szExistsDBScript ="if exists(select name from sysdatabases where name like '" + gStagingDB + "') select sRetValue='YES' else select sRetValue='NO' ";
+							  //MessageBox("Test=" + szExistsDBScript,INFORMATION);
+			             	  szReturnValue = ADODBConnectExecuteAndReturnStaging(gStagingDBServer,"master",gStagingDBUser,gStagingDBPassword,szExistsDBScript,"sRetValue");
+							  //MessageBox("Test=" ,INFORMATION);
+			             	  if(szReturnValue = "YES") then
+		 	    			  	 MessageBox("Database with the Same Name Already Exist.Enter a New Name for the Database",WARNING);
+		 	    			  else
+		 	   	       	         nvRetValue = 1;
+		 	   	    			 bDone = TRUE;
+		 	   	    		  endif;
+                         endif;
+	            case RES_PBUT_BACK:   
+	 	   	   			 //User clicked the BACK button
+	 	   	   			 CtrlGetText(szDialogName,1201,gStagingDB);
+	 	           	     CtrlGetText(szDialogName,1202,g_StagingMDFDirPath);
+	  	 	             CtrlGetText(szDialogName,1203,g_StagingDFDirPath);
+	 	   	   			 bDone = TRUE;  
+	          			 nvRetValue = -1;   
+	          			 
+	                
+	            case 1204:
+	            		// Gets the MDF file name path input
+	            		bCreateDIR = TRUE;
+	                    nvResult = SelectDir( "","", szDir, bCreateDIR); 
+	                    if(nvResult = 1)	then
+	                   	     CtrlSetText (szDialogName, 1202,szDir); 
+	                   	     g_StagingMDFDirPath = szDir;       
+	                   	endif;
+	                   	 if (nvResult < 0) then
+	                   			MessageBox ("Unable to display dialog or Create the Specified Folder.", WARNING); 
+	                     endif;		
+	                     
+	             case 1205:
+	                    // Gets the LDF file name path input  
+	            		bCreateDIR = TRUE;
+	                    nvResult = SelectDir( "","", szDir, bCreateDIR); 
+	                    if(nvResult = 1)	then
+	                   	     CtrlSetText (szDialogName, 1203,szDir); 
+	                   	     g_StagingDFDirPath = szDir;
+	                   	 endif;
+	                   	 if (nvResult < 0)  then
+	                   			MessageBox ("Unable to display dialog or Create the Specified Folder.", WARNING); 
+	                   	  endif;  
+	         endswitch; 
+	    until bDone; 
+	        
+	    // Close the dialog. 
+	    EndDialog (szDialogName); 
+	    // Free the dialog from memory. 
+	    ReleaseDialog (szDialogName); 
+	    
+	    SdMakeName(szSection,"SdStagingnewdbdetails","",nvCommDialog); 
+	    
+	    SilentWriteData(szSection,"DBName",DATA_STRING,gStagingDB,nvReturnResult);
+        SilentWriteData(szSection,"MDFPath",DATA_STRING,g_StagingMDFDirPath,nvReturnResult);
+        SilentWriteData(szSection,"LDFPath",DATA_STRING,g_StagingDFDirPath,nvReturnResult);        
+        SilentWriteData(szSection,"Result",DATA_NUMBER,"",nvRetValue);
+    
+	
+	endif;//End of Installation Mode Condition for Silent or Normal Mode of Installations        
+	       
+    //return nvRetValue;  
+    return nvCmdValue;  
+
+end;    
+
+/***********************CmNewDBDetails.rul File Coding Ends*********************************************/

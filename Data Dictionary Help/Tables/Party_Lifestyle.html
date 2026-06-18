@@ -1,0 +1,353 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Lifestyle</h1>
+<p>Holds extra data for Parties of type "PC" (Personal Client). Although this table appears to hold multiple rows per Party, in fact it is expected to behave just like a one-to-one subtable. It is mandatory to have one row in for each personal client. Other types of Party, e.g. Drivers, Witnesses, etc. may optionally have data defined in here. Also used to capture personal details of family members of a Party.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_lifestyle_id">party_lifestyle_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">party lifestyle</span></td>
+</tr>
+<tr>
+<td><a class="name" name="name">name</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="category">category</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">category</span></td>
+</tr>
+<tr>
+<td><a class="name" name="date_of_birth">date_of_birth</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Date of birth. Store 29/12/1899 to indicate an unknown value.</td>
+</tr>
+<tr>
+<td><a class="name" name="gender_code">gender_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Accepts values of "Male" or "Female".</td>
+</tr>
+<tr>
+<td><a class="name" name="occupation_code">occupation_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">occupation code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="secondary_occupation_code">secondary_occupation_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">secondary occupation code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_smoker">is_smoker</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Smoker?</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt, party_lifestyle_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>party_cnt</td>
+<td>party_lifestyle_id</td>
+<td>name</td>
+<td>category</td>
+<td>date_of_birth</td>
+<td>gender_code</td>
+<td>occupation_code</td>
+<td>secondary_occupation_code</td>
+<td>is_smoker</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>Scott MacKenzie</td>
+<td>1</td>
+<td>1972-05-09 00:00:00</td>
+<td>Male</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1</td>
+<td>Lonnie Brooks</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11</td>
+<td>1</td>
+<td>Roger Moore</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1</td>
+<td>Asa Thompson</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>1</td>
+<td>Brendon Kelly</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>1</td>
+<td>Larry Sanders</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>69</td>
+<td>1</td>
+<td>Vince Ramirez</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>70</td>
+<td>1</td>
+<td>Dan Alexander</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>71</td>
+<td>1</td>
+<td>Rian Williams</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>72</td>
+<td>1</td>
+<td>Jim Smith</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>73</td>
+<td>1</td>
+<td>Abe Lopez</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>74</td>
+<td>1</td>
+<td>Bob Kell</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>75</td>
+<td>1</td>
+<td>Zander Williams</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>76</td>
+<td>1</td>
+<td>Sue Price</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>77</td>
+<td>1</td>
+<td>Paul Martin</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>78</td>
+<td>1</td>
+<td>Michael Bennett</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>79</td>
+<td>1</td>
+<td>Asa Kelly</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>80</td>
+<td>1</td>
+<td>Tammy Reed</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+<tr>
+<td>81</td>
+<td>1</td>
+<td>Derek Howard</td>
+<td>1</td>
+<td>1899-12-29 00:00:00</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

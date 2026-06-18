@@ -1,0 +1,56 @@
+
+Sub start()
+	dim oPayment, bStatus
+
+	set oPayment = CreateObject("ProcessPaymentGateway.Payment")
+
+        oPayment.ServiceUrl = "https://transact.nab.com.au/xmlapidemo/periodic"
+        oPayment.ServiceMerchantID = "XYZ0010"
+        oPayment.ServicePassword = "abcd1234"
+	
+	bStatus = oPayment.TriggeredPayment(oSharedStorage.PaymentReference, oSharedStorage.Amount*100, oSharedStorage.Currency)
+	
+	If bStatus Then
+		oSharedStorage.Status=1
+	Else
+		oSharedStorage.Status=0
+	End If	
+end sub
+
+
+
+sub main()
+
+	dim oPayment, bStatus
+
+	set oPayment = CreateObject("ProcessPaymentGateway.Payment")
+
+        oPayment.ServiceUrl = "https://transact.nab.com.au/xmlapidemo/periodic"
+        oPayment.ServiceMerchantID = "XYZ0010"
+        oPayment.ServicePassword = "abcd1234"
+
+
+	bStatus = oPayment.UpdatePolicyDetailsToNAB(oSharedStorage.PaymentReference, oSharedStorage.PolicyNumber)
+
+	If bStatus Then
+
+		oSharedStorage.Status=1
+
+		Extras.EventTypeCode = "N_POLICY"
+		Extras.EventDescription = "Token updated with Bank for Quote Reference = " & oSharedStorage.PaymentReference &  " and Policy Reference = " & oSharedStorage.PolicyNumber
+		Extras.AddEvent
+
+
+	Else
+		oSharedStorage.Status=0
+
+		Extras.TaskCode = "MEMO"
+		Extras.TaskDescription = "Update Token request with the Bank has failed for Quote Reference  = " & oSharedStorage.PaymentReference &  " and Policy Reference = " & oSharedStorage.PolicyNumber
+		Extras.TaskGroup = "COMMON"
+
+		Extras.AddTaskToWorkManager
+
+	End If	
+
+end sub
+

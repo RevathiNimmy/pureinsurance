@@ -1,0 +1,280 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Currency_Denomination</h1>
+<p>List of different denominations (coins and notes) that a currency contains. Eg. 1p, 2p, 5p, etc.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="currency_denomination_id">currency_denomination_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">currency denomination</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="currency_id">currency_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="value">value</a></td>
+<td>float</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">value</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>currency_denomination_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>currency_denomination_id</td>
+<td><a href="CashList_Cash.html">CashList_Cash</a></td>
+<td>currency_denomination_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>currency_denomination_id</td>
+<td>code</td>
+<td>description</td>
+<td>caption_id</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+<td>currency_id</td>
+<td>value</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$50</td>
+<td>$50</td>
+<td>929</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>50</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$20</td>
+<td>$20</td>
+<td>930</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$10</td>
+<td>$10</td>
+<td>931</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>$5</td>
+<td>$5</td>
+<td>932</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>5</td>
+</tr>
+<tr>
+<td>5</td>
+<td>$1</td>
+<td>$1</td>
+<td>933</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>50c</td>
+<td>50c</td>
+<td>934</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>20c</td>
+<td>20c</td>
+<td>935</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>10c</td>
+<td>10c</td>
+<td>936</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>5c</td>
+<td>5c</td>
+<td>937</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>0.05</td>
+</tr>
+<tr>
+<td>10</td>
+<td>2c</td>
+<td>2c</td>
+<td>938</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>0.02</td>
+</tr>
+<tr>
+<td>11</td>
+<td>1c</td>
+<td>1c</td>
+<td>939</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+<td>28</td>
+<td>0.01</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

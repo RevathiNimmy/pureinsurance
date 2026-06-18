@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Import/Policy_BDX_Import/20051005" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.siriusfs.com/SFI/Import/Policy_BDX_Import/20051005" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="IMPORT_HEADER">
+    <xs:annotation>
+      <xs:documentation>Sirius Import Header.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Worksheet">
+          <xs:annotation>
+            <xs:documentation>Defines the configuration for a given Worksheet within the spreadsheet.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="interface_name" type="xs:string" use="required" fixed="POLICY_BDX_IMPORT">
+        <xs:annotation>
+          <xs:documentation>This describes the SiriusImport interface to use and should be set to POLICY_BDX_IMPORT for the Policy Import.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="batch_id" type="xs:long" use="optional">
+        <xs:annotation>
+          <xs:documentation>Identifies a Batch Id to record the Import against.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="batch_reference" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>Specifies the Batch reference to be used by the Import.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="date_imported" type="xs:dateTime" use="optional">
+        <xs:annotation>
+          <xs:documentation>The date on which the data is imported.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="BrokerCode" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>The Broker Reference (as it appears in Pure - Agent Maintenance) for the broker to which this configuration file relates to.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ProcessedFolder" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>The Third Party Reference  for the processed folder to which this configuration file relates to.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Worksheet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="HeaderStructure">
+          <xs:annotation>
+            <xs:documentation>Header structure is used to define the structure of the header cells in the source spreadsheet.  The purpose of this is to validate the structural integrity of the spreadsheet and ensure that all data items are in the correct locations.  </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Column" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="Location" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The location of the Cell being validated in the source spreadsheet.  It is identified by the Cell reference e.g. "A1"</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Description" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The expected contents of the Cell being validated in the source spreadsheet.  The text in the Cell specified in the Location attribute must match the value specified in this Description Attribute.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RowMapping" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>RowMapping is used to compare a row of data in the spreadsheet to the next row down.  The columns specified in the Row Mapping section will be used for the comparison.  If all columns listed in the RowMapping section match then the rows are assumed to be risk records belonging to the same policy and as such will be built into a single multi-risk policy request to be sent to Pure.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Column" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="Location" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The column location of the Cell being used for the Row Mapping in the source spreadsheet.  It is identified by the Cell reference prefixed with a "$" sign e.g. "$A"</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Description" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Information only description</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PolicyMatching" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>PolicyMatching defines the location of a custom SQL file and the associated parameters which will search for and identify matching policies for a given record in the spreadsheet. </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SQL" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Path and Filename of the file containing the Policy Matching SQL.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Parameters" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Parameter" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="SourceValue" use="required">
+                          <xs:annotation>
+                            <xs:documentation>The SourceValue can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="Description" use="required">
+                          <xs:annotation>
+                            <xs:documentation>Information only description.</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="Datatype" use="required">
+                          <xs:annotation>
+                            <xs:documentation>
+                              The data type of the Field.  This can be one of the following:
+                              * String
+                              * Percent
+                              * Integer
+                              * Date
+                              * List
+                              * Currency	
+			  </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="Currency"/>
+                              <xs:enumeration value="Date"/>
+                              <xs:enumeration value="List"/>
+                              <xs:enumeration value="String"/>
+                              <xs:enumeration value="Integer"/>
+                              <xs:enumeration value="Percent"/>
+			     </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Length" type="xs:integer">
+                          <xs:annotation>
+                            <xs:documentation>The maximum length of the field.  This only applies to Fields of String datat ype</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="Position" type="xs:integer">
+                          <xs:annotation>
+                            <xs:documentation>The Position attribute identifies the position in the SQL that the parameter will be inserted.  This is identified in the SQL as a position number contained in curly brackets, i.e. {0} </xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RiskMatching" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>RiskMatching defines the location of a custom SQL file and the associated parameters which will search for and identify matching Risk for a given record in the spreadsheet. </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SQL" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Path and Filename of the file containing the Risk Matching SQL.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Parameters" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Parameter" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="SourceValue" use="required">
+                          <xs:annotation>
+                            <xs:documentation>The SourceValue can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="Description" use="required">
+                          <xs:annotation>
+                            <xs:documentation>Information only description.</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="Datatype" use="required">
+                          <xs:annotation>
+                            <xs:documentation>
+                              The data type of the Field.  This can be one of the following:
+                              * String
+                              * Percent
+                              * Integer
+                              * Date
+                              * List
+                              * Currency
+			     </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="Currency"/>
+                              <xs:enumeration value="Date"/>
+                              <xs:enumeration value="List"/>
+                              <xs:enumeration value="String"/>
+                              <xs:enumeration value="Integer"/>
+                              <xs:enumeration value="Percent"/>
+			     </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Length" type="xs:integer">
+                          <xs:annotation>
+                            <xs:documentation>The maximum length of the field.  This only applies to Fields of String datat ype</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="Position" type="xs:integer">
+                          <xs:annotation>
+                            <xs:documentation>The Position attribute identifies the position in the SQL that the parameter will be inserted.  This is identified in the SQL as a position number contained in curly brackets, i.e. {0} </xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Mapping">
+          <xs:annotation>
+            <xs:documentation>The Mapping section of the configuration file describes the individual field level mapping that will map values from cells in the spreadsheet across to values in the SAM request structure.  </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Field" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>The Field element contains the details of each field in the mapping.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Validation" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>The Validation element allows you to implement basic validation rules against the value being imported.  You have the choice of List validation or Rule validation.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:choice>
+                          <xs:element name="List">
+                            <xs:annotation>
+                              <xs:documentation>List validation allows you to specify a list of values which the incoming value will be validated against.  If a matching list item cannot be found the value is rejected.  It also allows you to specify an output value in DestValue so that incoming list values can be translated into Pure list values.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Item" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:attribute name="SourceValue" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The value expected in the Source spreadsheet file.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="DestValue">
+                                      <xs:annotation>
+                                        <xs:documentation>The value of the list item with Pure.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="Description">
+                                      <xs:annotation>
+                                        <xs:documentation>An information only description</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Rule">
+                            <xs:annotation>
+                              <xs:documentation>Rule validation which allows you to perform a greater than or less than comparison against another cell value on the same row in the spreadsheet. This can be used to perform basic validation on values such as Cover dates, i.e. the Cover Start date could be compared to check that it is Less Than the Cover End date.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="LessThan">
+                                <xs:annotation>
+                                  <xs:documentation>
+                                    The reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value,
+                                    The data item being Validated must be Less Than the value identified here.
+                                  </xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="GreaterThan">
+                                <xs:annotation>
+                                  <xs:documentation>
+                                    The reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value,
+                                    The data item being Validated must be Greater Than the value identified here.
+                                  </xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:choice>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Tax" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>The Validation element allows you to implement basic validation rules against the value being imported.  You have the choice of List validation or Rule validation.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="TaxItem" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>List validation allows you to specify a list of values which the incoming value will be validated against.  If a matching list item cannot be found the value is rejected.  It also allows you to specify an output value in DestValue so that incoming list values can be translated into Pure list values.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="TaxBandCode" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The TypeCode can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="TaxAmount" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The RevisionAmount can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="IsValue" type="xs:boolean" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The TypeCode can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Type" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="CoInsurers" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>The Validation element allows you to implement basic validation rules against the value being imported.  You have the choice of List validation or Rule validation.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="CoInsurer" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>List validation allows you to specify a list of values which the incoming value will be validated against.  If a matching list item cannot be found the value is rejected.  It also allows you to specify an output value in DestValue so that incoming list values can be translated into Pure list values.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="Co-InsCode" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The Co-InsCode can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="ArrangementRef">
+                                <xs:annotation>
+                                  <xs:documentation>The Arrangement reference can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="Co-InsShare" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The SharePerc can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="Co-InsComm" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The CommPerc can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Contacts" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>The Validation element allows you to implement basic validation rules against the value being imported.  You have the choice of List validation or Rule validation.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Contact" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>List validation allows you to specify a list of values which the incoming value will be validated against.  If a matching list item cannot be found the value is rejected.  It also allows you to specify an output value in DestValue so that incoming list values can be translated into Pure list values.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="ContactType" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The Contact Type can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="ContactNumber" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>The Contact Number can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="AreaCode" use="optional">
+                                <xs:annotation>
+                                  <xs:documentation>The area code can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Lookup" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Lookup allows you to specify a list of values which the incoming value will be validated against. If a matching list item cannot be found the value is rejected. It also allows you to specify an output value in DestValue so that incoming list values can be translated into Pure list values.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Parameters" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Parameter" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:attribute name="SourceValue" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>The SourceValue can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="Description" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>Information only description.</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="Datatype" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>
+                                          The data type of the Field. This can be one of the following:
+                                          * String
+                                          * Percent
+                                          * Integer
+                                          * Date
+                                          * List
+                                          * Currency
+                                        </xs:documentation>
+                                      </xs:annotation>
+                                      <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                          <xs:enumeration value="Currency"/>
+                                          <xs:enumeration value="Date"/>
+                                          <xs:enumeration value="List"/>
+                                          <xs:enumeration value="String"/>
+                                          <xs:enumeration value="Integer"/>
+                                          <xs:enumeration value="Percent"/>
+                                          <xs:enumeration value="Lookup"/>
+                                        </xs:restriction>
+                                      </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="Length" type="xs:integer">
+                                      <xs:annotation>
+                                        <xs:documentation>The maximum length of the field. This only applies to Fields of String datat ype</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="Position" type="xs:integer">
+                                      <xs:annotation>
+                                        <xs:documentation>The Position attribute identifies the position in the SQL that the parameter will be inserted. This is identified in the SQL as a position number contained in curly brackets, i.e. {​​0}​​ </xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="SQL" use="required">
+                          <xs:annotation>
+                            <xs:documentation>Path and Filename of the file containing the Lookup Matching SQL</xs:documentation>
+                          </xs:annotation>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="SourceValue" use="required">
+                    <xs:annotation>
+                      <xs:documentation>The SourceValue can be either a reference to a cell in the spreadsheet, identified by using a “$” prefix and the letter of the column, or a fixed value, e.g. the value for the branch to be used.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="DestMapping" use="required">
+                    <xs:annotation>
+                      <xs:documentation>This is the XPath for the position of the value in the SAM method.  Product Builder fields are identified by prefixing the Xpath with "[PB]".</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Description" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Information only description.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Datatype" use="required">
+                    <xs:annotation>
+                      <xs:documentation>
+                        The data type of the Field.  This can be one of the following:
+                        * String
+                        * Percent
+                        * Integer
+                        * Date
+                        * List
+                        * Currency
+                        * CoInsurers
+                        * Contacts
+                        * Lookup
+                      </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="Currency"/>
+                        <xs:enumeration value="Date"/>
+                        <xs:enumeration value="List"/>
+                        <xs:enumeration value="String"/>
+                        <xs:enumeration value="Integer"/>
+                        <xs:enumeration value="Percent"/>
+                        <xs:enumeration value="Tax"/>
+                        <xs:enumeration value="CoInsurers"/>
+                        <xs:enumeration value="Contacts"/>
+                        <xs:enumeration value="Lookup"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Length" type="xs:integer">
+                    <xs:annotation>
+                      <xs:documentation>The maximum length of the field.  This only applies to Fields of String datat ype</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Required" type="xs:boolean" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Indicates whether the field is deemed mandatory or optional.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="IdentifyingValue" type="xs:boolean"/>
+                  <xs:attribute name="MultiplyPercent" type="xs:boolean" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>Indicates whether to multiply Percent field with 100.</xs:documentation>
+                  </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="StartingRow" type="xs:integer" use="required">
+              <xs:annotation>
+                <xs:documentation>Defines the starting row of the data in the spreadsheet file.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="CertificateRefColumn" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>Defines the column in which to find the Certificate Reference.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="CoverHolderNameColumn" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>Defines the column in which to find the Cover Holder Name.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="PartyType" type="xs:string" use="optional" >
+              <xs:annotation>
+                <xs:documentation>Defines the column in which to find the Cover Holder Name.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="UpdateParty" type="xs:string" use="optional" >
+              <xs:annotation>
+                <xs:documentation>Defines the column set the flag to update party details.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" use="required">
+        <xs:annotation>
+          <xs:documentation>Specifies the name of the Worksheet within the spreadsheet that is to be imported.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

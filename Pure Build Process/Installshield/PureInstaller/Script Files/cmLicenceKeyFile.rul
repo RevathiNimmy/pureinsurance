@@ -1,0 +1,244 @@
+#include "ifx.h"
+#include "brwsdlg.rul"  // Must be present and valid
+
+// --- Dialog and Control Definitions ---
+#undef RES_DIALOG_ID
+#define RES_DIALOG_ID           7000    // Your dialog's resource ID
+#define RES_EDIT_FILEPATH       1225    // ? Text box where .lic path goes
+#define RES_PBUT_BROWSE_TOP     1228    // ? Top Browse button (triggers file browser)
+#define RES_EDIT_FOLDERPATH     1224    // ? Text box where folder path goes (LicenceStorePath)
+#define RES_PBUT_BROWSE_FOLDER  1229    // ? Second Browse button (triggers folder browser)
+#define RES_PBUT_NEXT           1
+#define RES_PBUT_BACK           12
+#define RES_PBUT_CANCEL         9
+
+// Global variables to store paths (optional)
+STRING LICPath;
+STRING FolderPath;
+NUMBER SystemID;
+
+// Function prototypes
+export prototype number SdLicenceFileDialog(string, string, byref string);
+export prototype number SdFolderBrowseDialog(string, string, byref string);
+
+// Main function - Original 3-parameter version for backward compatibility
+function number SdLicenceFileDialog(szTitle, szMsg, szLicenceFile)
+    // === ALL VARIABLES DECLARED AT TOP (Required by InstallScript) ===
+    NUMBER nResult, nCmd, nLen, nCopyResult;
+    STRING szFilePath, szFolderPath, szMsgText, szExt, szDestFile, szFileName;
+    BOOL bDone;
+    LIST listFiles;
+begin
+    // Initialize
+    szFilePath = szLicenceFile;
+    szFolderPath = "";  // Initialize folder path
+    bDone = FALSE;
+
+    // Define the dialog
+    nResult = DefineDialog("cmLicenceFileDialog", 0, "", RES_DIALOG_ID, "", 0,
+                          HWND_INSTALL, DLG_MSG_STANDARD | DLG_CENTERED);
+
+    if (nResult < 0) then
+        szMsgText = "Error: Failed to define dialog. Check if dialog ID 7000 exists.";
+        MessageBox(szMsgText, SEVERE);
+        return -1;
+    endif;
+
+    // Dialog message loop
+    repeat
+        nCmd = WaitOnDialog("cmLicenceFileDialog");
+
+        switch (nCmd)
+            case DLG_INIT:
+                // Set initial text in control 1225 (file path)
+                CtrlSetText("cmLicenceFileDialog", RES_EDIT_FILEPATH, szFilePath);
+                
+                // Set initial text in control 1224 (LicenceStorePath)
+                CtrlSetText("cmLicenceFileDialog", RES_EDIT_FOLDERPATH, szFolderPath);
+
+                // Set dialog title
+                if (szTitle != "") then
+                    SetDialogTitle(RES_DIALOG_ID, szTitle);
+                endif;
+
+            case RES_PBUT_BROWSE_TOP:
+                // Get current path from text box 1225
+                CtrlGetText("cmLicenceFileDialog", RES_EDIT_FILEPATH, szFilePath);
+
+                // Open file browser for .lic files
+                nResult = FileBrowseDlg(szFilePath, 
+                                       "License Files (*.lic)|*.lic|All Files (*.*)|*.*||", 
+                                       "Select License File", 
+                                       "", 
+                                       FALSE, 
+                                       listFiles, 
+                                       TRUE);
+
+                // If file selected, update text box 1225
+                if (nResult = 0) then
+                    CtrlSetText("cmLicenceFileDialog", RES_EDIT_FILEPATH, szFilePath);
+                endif;
+
+            case RES_PBUT_BROWSE_FOLDER:
+                // Debug: Show that button was clicked
+                //MessageBox("Browse folder button clicked", INFORMATION);
+                
+                // Get current folder path from text box 1224 (LicenceStorePath)
+                CtrlGetText("cmLicenceFileDialog", RES_EDIT_FOLDERPATH, szFolderPath);
+                
+                // Debug: Show current path
+                //MessageBox("Current path: " + szFolderPath, INFORMATION);
+
+                // Open folder browser using SelectDir
+                nResult = SelectDir("Select Folder", 
+                                   "Please select a folder:", 
+                                   szFolderPath, 
+                                   TRUE);
+
+                // Debug: Show SelectDir result
+                if (nResult = 1) then
+                  //  MessageBox("SelectDir succeeded (returned 1)", INFORMATION);
+                else
+                    //MessageBox("SelectDir failed or cancelled (0)", INFORMATION);
+                endif;
+                //MessageBox("Selected path: " + szFolderPath, INFORMATION);
+
+                // If folder selected, update text box 1224 (LicenceStorePath)
+                if (nResult = 1) then
+                    CtrlSetText("cmLicenceFileDialog", RES_EDIT_FOLDERPATH, szFolderPath);
+                  //  MessageBox("Updated textbox with: " + szFolderPath, INFORMATION);
+                else
+                    //MessageBox("Folder selection cancelled or failed", INFORMATION);
+                endif;
+
+            case RES_PBUT_NEXT:
+                // Get paths from both controls
+                CtrlGetText("cmLicenceFileDialog", RES_EDIT_FILEPATH, szLicenceFile);
+                CtrlGetText("cmLicenceFileDialog", RES_EDIT_FOLDERPATH, szFolderPath);
+                StrTrim(szLicenceFile);
+                StrTrim(szFolderPath);
+
+                // Check if file path is provided
+                if (szLicenceFile != "") then
+                    // Validate file exists and has .lic extension
+                    if (Is(FILE_EXISTS, szLicenceFile) = FALSE) then
+                      //  MessageBox("The license file does not exist.", WARNING);
+                    else
+                        nLen = StrLength(szLicenceFile);
+                        if (nLen < 4) then
+                        //    MessageBox("Invalid file path.", WARNING);
+                        else
+                            szExt = "";
+                            StrSub(szExt, szLicenceFile, nLen - 3, nLen);  // Last 3 chars (.lic)
+                            StrToLower(szExt, szExt);
+                            if (szExt != "lic") then
+                                MessageBox("Please select a .lic file.", WARNING);
+                            else
+                                // File is valid, now check if folder path is provided
+                                if (szFolderPath = "") then
+                                    MessageBox("Please select a destination folder for the license file.", WARNING);
+                                else
+                                    // Debug: Show the folder path we're checking
+                          //          MessageBox("Checking if folder exists: [" + szFolderPath + "]", INFORMATION);
+                                    
+                                    // Validate folder exists - correct InstallScript syntax
+                                    if (ExistsDir(szFolderPath) != EXISTS) then
+                            //            MessageBox("The destination folder does not exist: " + szFolderPath, WARNING);
+                                    else
+                                        // Both file and folder are valid, copy the file
+                                        
+                                        // Extract filename from full path - FIXED TO INCLUDE EXTENSION
+                                        ParsePath(szFileName, szLicenceFile, FILENAME);
+                                        
+                                        // Debug: Show what filename was extracted
+                              //          MessageBox("Original file: " + szLicenceFile, INFORMATION);
+                              //          MessageBox("Extracted filename: [" + szFileName + "]", INFORMATION);
+                                        
+                                        // Build destination path
+                                        szDestFile = szFolderPath;
+                                        if (szDestFile[StrLength(szDestFile)-1] != "\\") then
+                                            szDestFile = szDestFile + "\\";
+                                        endif;
+                                        szDestFile = szDestFile + szFileName;
+                                        
+                                        // Copy the file
+                                        nCopyResult = CopyFile(szLicenceFile, szDestFile);
+                                        
+                                        if (nCopyResult < 0) then
+                                            MessageBox("Failed to copy license file to destination folder.", SEVERE);
+                                        else
+                                            // Success: save paths and proceed
+                                            LICPath = szLicenceFile;      // Store source path globally
+                                            FolderPath = szFolderPath;    // Store folder path globally
+                                            MessageBox("License file copied successfully to: " + szDestFile, INFORMATION);
+                                            // Inserting the file into the registry
+                                            SystemID = CurrentSystemID();
+                                            InsertRegistrySetting("HKEY_LOCAL_MACHINE\\SOFTWARE\\Pure\\Architecture\\Setup","LicenceKeyPath","String",szDestFile,SystemID);
+                                            
+                                            // FIXED: Close dialog immediately after success
+                                            EndDialog("cmLicenceFileDialog");
+                                            ReleaseDialog("cmLicenceFileDialog");
+                                            	Disable( DIALOGCACHE );
+                                            return NEXT;  // Return immediately, don't continue loop
+                                        endif;
+                                    endif;
+                                endif;
+                            endif;
+                        endif;
+                    endif;
+                else
+                    // No file specified - allow to proceed (assuming this is optional)
+                    bDone = TRUE;
+                    nResult = NEXT;
+                endif;
+
+            case RES_PBUT_BACK:
+                bDone = TRUE;
+                nResult = BACK;
+
+            case RES_PBUT_CANCEL:
+                if (AskYesNo("Are you sure you want to cancel?", YES) = YES) then
+                    abort;
+                endif;
+
+            case DLG_ERR:
+                MessageBox("An error occurred in the dialog.", SEVERE);
+                bDone = TRUE;
+                nResult = -1;
+
+            case DLG_CLOSE:
+                bDone = TRUE;
+                nResult = CANCEL;
+
+        endswitch;
+
+    until bDone;
+
+    // Clean up (only reached for BACK, CANCEL, or error cases)
+    EndDialog("cmLicenceFileDialog");
+    ReleaseDialog("cmLicenceFileDialog");
+
+    return nResult;
+end;
+
+// Separate folder browse function
+function number SdFolderBrowseDialog(szTitle, szMsg, szFolder)
+    NUMBER nResult;
+    STRING szFolderPath;
+begin
+    szFolderPath = szFolder;
+    
+    // Open folder browser using SelectDir
+    nResult = SelectDir(szTitle, 
+                       szMsg, 
+                       szFolderPath, 
+                       TRUE);
+
+    // If folder selected (nResult = 0), return the path
+    if (nResult = 0) then
+        szFolder = szFolderPath;
+        return NEXT;
+    else
+        return CANCEL;
+    endif;
+end;

@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ProjectType>Local</ProjectType>
+    <MyType>Windows</MyType>
+    <OutputType>Library</OutputType>
+    <StartupObject>bACTInstalments.MainModule</StartupObject>
+    <AssemblyMajorVersion>0</AssemblyMajorVersion>
+    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <AssemblyRevisionNumber>0</AssemblyRevisionNumber>
+    <GenerateRevisionNumber>False</GenerateRevisionNumber>
+    <AssemblyCompanyName>Software Solutions Partners Ltd</AssemblyCompanyName>
+    <StartWithIE>False</StartWithIE>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>C:\Pure\Application</OutputPath>
+    <DocumentationFile>bACTInstalments.xml</DocumentationFile>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>C:\Pure\Application</OutputPath>
+    <DefineDebug>False</DefineDebug>
+    <NoWarn>42016,42017,42018,42019,42032</NoWarn>
+    <DebugType>none</DebugType>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Update="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Update="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\..\Pure Build Process\AssemblyInfo.vb">
+      <Link>AssemblyInfo.vb</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic">
+		<HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.VisualBasic.dll</HintPath>
+	</Reference>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="bACTInstalmentsAssemblyInfo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Sirius Architecture\Components\dPMDAO\dPMDAO.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\Sirius Back Office Core\Components\System Options\Business\bSirOptions\bSIROptions.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\SSP.Shared\SSP.Shared.vbproj" />
+    <ProjectReference Include="..\..\..\AllocationManual\Business\bACTAllocationManual\bACTAllocationManual.vbproj" />
+    <ProjectReference Include="..\..\..\AutoNumber\Business\bACTAutoNumber\bACTAutoNumber.vbproj" />
+    <ProjectReference Include="..\..\..\CreditControlItem\Business\bACTCreditControlItem\bACTCreditControlItem.vbproj" />
+    <ProjectReference Include="..\..\..\CurrencyConvert\Business\bACTCurrencyConvert\bACTCurrencyConvert.vbproj" />
+    <ProjectReference Include="..\..\..\DocumentPost\Business\bACTDocumentPost\bACTDocumentPost.vbproj" />
+    <ProjectReference Include="..\..\..\DocumentReversal\Business\bACTDocumentReversal\bACTDocumentReversal.vbproj" />
+    <ProjectReference Include="..\..\..\TransDetail\Business\bACTTransdetail\bACTTransdetail.vbproj" />
+  </ItemGroup>
+  <PropertyGroup />
+</Project>

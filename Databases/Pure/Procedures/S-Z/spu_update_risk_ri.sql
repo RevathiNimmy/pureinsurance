@@ -1,0 +1,8 @@
+SET QUOTED_IDENTIFIER ON SET ANSI_NULLS ON
+GO
+
+
+EXECUTE DDLDropProcedure 'spu_update_risk_ri'
+GO
+
+

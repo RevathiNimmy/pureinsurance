@@ -1,0 +1,98 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Claim_Comments</h1>
+<p>Contains any free-format comments entered against a claim</p>
+<p>
+                Logical database: Claims<br>
+                Component team: Pure Claims<br>
+                Software module: Claims<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="Claim_id">Claim_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Claim.html#Claim_id">Claim.Claim_id</a> <span class="autodesc">Claim</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Comment_Type">Comment_Type</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Comment Type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Entity_id">Entity_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Entity</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Claim_comment_id">Claim_comment_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Claim comment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Comment_line">Comment_line</a></td>
+<td>varchar(255)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Comment line</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>Claim_id, Comment_Type, Entity_id, Claim_comment_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>Claim_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>Claim_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Claim_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

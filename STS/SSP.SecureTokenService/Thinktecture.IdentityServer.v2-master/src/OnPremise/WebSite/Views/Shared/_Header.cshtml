@@ -1,0 +1,44 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Shared
+@*<div class="masterHeader">
+    <img src="@Url.Content("~/Content/images/logo.jpg")" alt="Logo" />
+    <h2 class="masterHeaderText">@ViewBag.SiteName</h2>
+</div>*@
+
+<ul class="nav nav-sm navbar-tool pull-right-override">
+
+     
+    @if (!(ViewBag.HideMenu == true))
+    {
+
+        if (ViewBag.IsAdministrator)
+        {
+        <li>
+            @Html.ActionLink(_Menu_cshtml.Administration, "index", "home", new { area = "Admin" }, null)
+        </li>
+        }
+
+        if (ViewBag.IsSignedIn)
+        {  
+        <li>
+            @Html.ActionLink(_Menu_cshtml.Home, "index", "home", new { area = "" }, null)
+        </li>
+        <li>
+            @Html.ActionLink(_Menu_cshtml.SignOut, "signout", "account", new { area = "" }, null)
+        </li>
+        <li>
+           <a class="text-dark dk" style="cursor:default"> @string.Format(_Menu_cshtml.SignedUser, @Context.User.Identity.Name)</a>
+        </li>
+        }
+        else
+        {
+        <li>
+            @Html.ActionLink(_Menu_cshtml.Home, "index", "home", new { area = "" }, null)
+        </li>
+        <li>
+            @Html.ActionLink(_Menu_cshtml.SignIn, "signin", "account", new { area = "" }, null)
+        </li>
+        }
+
+    }
+
+</ul>

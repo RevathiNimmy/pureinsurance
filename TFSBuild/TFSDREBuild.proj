@@ -1,0 +1,99 @@
+﻿<?xml version="1.0"?>
+  <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="DesktopBuild" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets"/>
+  <ProjectExtensions>
+    <ProjectFileVersion>2</ProjectFileVersion>
+    <Description/>
+    <BuildMachine>VMB-TFS-AGENT1</BuildMachine>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <BuildDirectoryPath>$(BuildProjectFolderPath)\..\Binaries</BuildDirectoryPath>
+    <DropLocation>\\sfs-vm08\BuildsPure</DropLocation>
+    <RunTest>false</RunTest>
+    <RunCodeAnalysis>Never</RunCodeAnalysis>
+    <WorkItemType>Bug</WorkItemType>
+    <WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
+    <WorkItemTitle>Build failure in build:</WorkItemTitle>
+    <DescriptionText>This work item was created by Team Build on a build failure.</DescriptionText>
+    <BuildlogText>The build log file is at:</BuildlogText>
+    <ErrorWarningLogText>The errors/warnings log file is at:</ErrorWarningLogText>
+    <UpdateAssociatedWorkItems>true</UpdateAssociatedWorkItems>
+    <AdditionalVCOverrides/>
+    <CustomPropertiesForClean/>
+    <CustomPropertiesForBuild/>
+    <CustomizableOutDir>True</CustomizableOutDir>
+    <StopOnFirstFailure>false</StopOnFirstFailure>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>$(BuildProjectFolderPath)\..\Binaries</OutputPath>
+    <OutDir>$(BuildProjectFolderPath)\..\Binaries</OutDir>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>$(BuildProjectFolderPath)\..\Binaries</OutputPath>
+    <OutDir>$(BuildProjectFolderPath)\..\Binaries</OutDir>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalReferencePath Include="$(BuildProjectFolderPath)\..\Binaries"/>
+    <AdditionalReferencePath Include="$(BuildProjectFolderPath)\..\Pure Build Process\Core DLLs"/>
+    <AdditionalReferencePath Include="$(BuildProjectFolderPath)\..\Pure Build Process\DRE\Site\bin"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ConfigurationToBuild Include="Debug|x64">
+      <FlavorToBuild>Debug</FlavorToBuild>
+      <PlatformToBuild>x64</PlatformToBuild>
+    </ConfigurationToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsProperties\RulesEngine.Website.PureInsProperties.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddOutputTax\RulesEngine.Website.PureInsAddOutputTax.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddOutputReferralsAudit\RulesEngine.Website.PureInsAddOutputReferralsAudit.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddOutputReferrals\RulesEngine.Website.PureInsAddOutputReferrals.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddOutputPremiumBreakdown\RulesEngine.Website.PureInsAddOutputPremiumBreakdown.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddOutputCommission\RulesEngine.Website.PureInsAddOutputCommission.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddOutput\RulesEngine.Website.PureInsAddOutput.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddEntity\RulesEngine.Website.PureInsAddEntity.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/..\DRE Integration\RulesEngine.Website.PureInsAddDecline\RulesEngine.Website.PureInsAddDecline.vbproj">
+      <Targets/>
+      <Properties>OutputPath=$(BuildProjectFolderPath)\..\DREBinaries\</Properties>
+    </SolutionToBuild>     
+   </ItemGroup>
+  <PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+  </PropertyGroup>
+</Project>

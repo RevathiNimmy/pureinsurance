@@ -1,0 +1,684 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Property</h1>
+<p>GIS properties (user-defined table columns)</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software module: GIS<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="gis_property_id">gis_property_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">gis property</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_object_id">gis_object_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Object.html#gis_object_id">GIS_Object.gis_object_id</a> Parent GIS object</td>
+</tr>
+<tr>
+<td><a class="name" name="property_name">property_name</a></td>
+<td>varchar(70)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Property name as displayed on screen</td>
+</tr>
+<tr>
+<td><a class="name" name="column_name">column_name</a></td>
+<td>varchar(70)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Column name as it appears in the database table</td>
+</tr>
+<tr>
+<td><a class="name" name="data_type">data_type</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\GISDataType.html">GISDataType</a> On-screen data type. This translates into a physical table data type as follows:<br>GISDataTypeNumeric ----&gt; INTEGER<br>GISDataTypeDate ----&gt; DATETIME<br>GISDataTypeOption ----&gt; TINYINT<br>GISDataTypeComment ----&gt; VARCHAR(4000)<br>GISDataTypeCurrency ----&gt; NUMERIC(19,4)<br>GISDataTypePercentage ----&gt; NUMERIC(7,4)<br>GISDataTypeText ----&gt; VARCHAR(255)<br>If is_search_property is true then 40 instead of 255<br>If specials_type = ACOGISListID then 70 instead of 255</td>
+</tr>
+<tr>
+<td><a class="name" name="is_input_property">is_input_property</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>if not null then editable on a risk screen, else read only</td>
+</tr>
+<tr>
+<td><a class="name" name="is_identifying_property">is_identifying_property</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td><a class="name" name="is_primary_key">is_primary_key</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is primary key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="polaris_property_id">polaris_property_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">polaris property</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="is_search_property">is_search_property</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>if not null causes generation of appropriate index and can then be searched for in the Risk Index: field</td>
+</tr>
+<tr>
+<td><a class="name" name="index_linking_id">index_linking_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Index_Linking.html#index_linking_id">Index_Linking.index_linking_id</a> Only applicable to currency fields. Index linking is used in the renewal process. At renewal time, when a policy and its risks are copied, such fields have their values multiplied by the factor associated with the id before the risk is saved and re-rated.</td>
+</tr>
+<tr>
+<td><a class="name" name="Edit_Flags">Edit_Flags</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\GISEditFlags.html">GISEditFlags</a> Edit flags</td>
+</tr>
+<tr>
+<td><a class="name" name="Specials_Type">Specials_Type</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>I</td>
+<td><a class="enumname" href="..\Enumerations\GISSpecialType.html">GISSpecialType</a> Special type</td>
+</tr>
+<tr>
+<td><a class="name" name="Specials_Type_Reference">Specials_Type_Reference</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Special type reference:<br>For ACOGISListID it holds the list id<br>For ACOPMLookupTableName it holds the table name<br>For ACOPartyTypeID it holds the party type id<br>For ACOSumInsuredTypeID t holds the sum insured type<br>For ACOGISUserDefHeaderID it holds the user defined table id<br>For ACOProductID it holds the product id<br>For ACOSwiftCommonCode it holds the Swift common code identifier</td>
+</tr>
+<tr>
+<td><a class="name" name="is_in_mis_export">is_in_mis_export</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">is in mis export</span></td>
+</tr>
+
+<tr>
+<td><a class="name" name="is_formatted_text">is_formatted_text</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is formatted text</span></td>
+</tr>
+
+
+<tr>
+<td><a class="name" name="is_chase_cycle_property">is_chase_cycle_property</a></td>
+<td>int</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is chase cycle property</span></td>
+</tr>
+
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>gis_property_id, gis_object_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_object_id</td>
+<td><a href="GIS_Object.html">GIS_Object</a></td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>index_linking_id</td>
+<td><a href="Index_Linking.html">Index_Linking</a></td>
+<td>index_linking_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_type_id</td>
+<td><a href="Party_Type.html">Party_Type</a></td>
+<td>party_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>product_id</td>
+<td><a href="Product.html">Product</a></td>
+<td>product_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>sum_insured_type_id</td>
+<td><a href="Sum_Insured_Type.html">Sum_Insured_Type</a></td>
+<td>sum_insured_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_object_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>index_linking_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Specials_Type</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>is_in_mis_export</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>gis_property_id, gis_object_id</td>
+<td><a href="GIS_Cobol_Linkage.html">GIS_Cobol_Linkage</a></td>
+<td>gis_property_id, gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>property_name</td>
+<td><a href="GIS_Scheme_Property.html">GIS_Scheme_Property</a></td>
+<td>property_name</td>
+<td>Not linked by ID in order to support Gemini II schemes that may not have access to the GIS tables.</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>gis_property_id, gis_object_id</td>
+<td><a href="GIS_Screen_Detail.html">GIS_Screen_Detail</a></td>
+<td>gis_property_id, gis_object_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>gis_property_id</td>
+<td>gis_object_id</td>
+<td>property_name</td>
+<td>column_name</td>
+<td>data_type</td>
+<td>is_input_property</td>
+<td>is_identifying_property</td>
+<td>is_primary_key</td>
+<td>polaris_property_id</td>
+<td>is_deleted</td>
+<td>is_search_property</td>
+<td>index_linking_id</td>
+<td>Edit_Flags</td>
+<td>Specials_Type</td>
+<td>Specials_Type_Reference</td>
+<td>is_in_mis_export</td>
+<td>is_formatted_text</td>
+<td>is_chase_cycle_property</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>PGRMOTOR_Policy_binder_id</td>
+<td>PGRMOTOR_Policy_binder_id</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>gis_policy_link_id</td>
+<td>gis_policy_link_id</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>PGRMOTOR_Policy_binder_id</td>
+<td>PGRMOTOR_Policy_binder_id</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>PGRMOTOR_S4IDefault_id</td>
+<td>PGRMOTOR_S4IDefault_id</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>Retroactive_Date</td>
+<td>Retroactive_Date</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>PGRMOTOR_Policy_binder_id</td>
+<td>PGRMOTOR_Policy_binder_id</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>PGRMOTOR_Output_id</td>
+<td>PGRMOTOR_Output_id</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>3</td>
+<td>Decline_reason</td>
+<td>Decline_reason</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td>3</td>
+<td>Refer_reason</td>
+<td>Refer_reason</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>10</td>
+<td>3</td>
+<td>policy_rating_section</td>
+<td>policy_rating_section</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>11</td>
+<td>3</td>
+<td>risk_rating_section</td>
+<td>risk_rating_section</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>12</td>
+<td>3</td>
+<td>Sum_insured</td>
+<td>Sum_insured</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>13</td>
+<td>3</td>
+<td>Premium</td>
+<td>Premium</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>14</td>
+<td>3</td>
+<td>Rate</td>
+<td>Rate</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>15</td>
+<td>3</td>
+<td>Message</td>
+<td>Message</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>16</td>
+<td>3</td>
+<td>rate_type_id</td>
+<td>rate_type_id</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>17</td>
+<td>3</td>
+<td>state_id</td>
+<td>state_id</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>18</td>
+<td>3</td>
+<td>country_id</td>
+<td>country_id</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>19</td>
+<td>3</td>
+<td>lapsed_reason_code</td>
+<td>lapsed_reason_code</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

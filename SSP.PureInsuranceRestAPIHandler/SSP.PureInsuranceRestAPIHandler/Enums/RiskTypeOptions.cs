@@ -1,0 +1,39 @@
+﻿namespace SSP.PureInsuranceRestAPIHandler.Enums
+{
+    public enum RiskTypeOptions : long
+    {
+        Code,
+        Description,
+        EffectiveDate,
+        AccumulationLevel,
+        GisScreenId,
+        PrimarySort,
+        SecondarySort,
+        StampDutyRate1,
+        StampDutyRate2,
+        HeaderClauseDescription,
+        TrailerClauseDescription,
+        IsShareWithCoInsurers,
+        IsShareWithReInsurers,
+        IsSuppressPublicText,
+        IsSuppressPrivateText,
+        IsSuppressTaxes,
+        ClaimsIsPostTaxes,
+        VsectionMask,
+        IsAutoReinsured,
+        IsDeferredRiPermitted,
+        DisplayReinsurance,
+        DisplayClaimReinsurance,
+        AllowRatingSectionAdd,
+        AllowRatingSectionEdit,
+        AllowRatingSectionDelete,
+        AllowEditRatingSectionRateType,
+        AllowEditRatingSectionRate,
+        AllowEditRatingSectionSumInsured,
+        AllowEditRatingSectionThisPremium,
+        ClaimsTypeBasis,
+        ClaimsCoverBasis,
+        AttachClaimOutsideOfPolicyPeriod
+    }
+
+}

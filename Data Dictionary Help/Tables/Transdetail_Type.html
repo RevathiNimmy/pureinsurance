@@ -1,0 +1,290 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Transdetail_Type</h1>
+<p><span class="autodesc">Transdetail Type</span></p>
+<p></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="transdetail_type_id">transdetail_type_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">transdetail type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>varchar(20)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Is this record marked as deleted?</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>transdetail_type_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK</td>
+<td>transdetail_type_id</td>
+<td><a href="Suspended_Accounts_Transactions.html">Suspended_Accounts_Transactions</a></td>
+<td>transdetail_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>transdetail_type_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>transdetail_type_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>transdetail_type_id</td>
+<td>code</td>
+<td>description</td>
+<td>caption_id</td>
+<td>effective_date</td>
+<td>is_deleted</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>TRANS</td>
+<td>Transaction</td>
+<td>69</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GROSS</td>
+<td>Gross</td>
+<td>324</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>COMM</td>
+<td>Commission</td>
+<td>765</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>BROK</td>
+<td>Potential Commission</td>
+<td>1158</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>COMMADJ</td>
+<td>Commission Adjustment</td>
+<td>1159</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>AGENT</td>
+<td>Agent Transaction</td>
+<td>1160</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>AGENTADJ</td>
+<td>Agent Adjustment</td>
+<td>1161</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>8</td>
+<td>TAX</td>
+<td>Tax</td>
+<td>1162</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>DIRECTDEBIT</td>
+<td>Direct Debit</td>
+<td>514</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>DDREV</td>
+<td>Direct Debit Reversal</td>
+<td>1163</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11</td>
+<td>REVGROSS</td>
+<td>Reversed Gross</td>
+<td>1164</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>12</td>
+<td>REVCOMM</td>
+<td>Reversed Commission</td>
+<td>1165</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>13</td>
+<td>COMSUSP</td>
+<td>Suspended Commission</td>
+<td>1166</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>REV</td>
+<td>Brokerage Reversal</td>
+<td>1167</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>15</td>
+<td>BROK ADJ</td>
+<td>Brokerage Adjustment</td>
+<td>1168</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16</td>
+<td>RECONCILED</td>
+<td>Reconciled Bank Transaction</td>
+<td>1169</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td>COMMPAY</td>
+<td>Commission Payment</td>
+<td>1170</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>18</td>
+<td>ROUNDING</td>
+<td>Rounding Transaction</td>
+<td>1171</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>19</td>
+<td>DEPOSIT</td>
+<td>Instalments Deposit</td>
+<td>1172</td>
+<td>1990-01-01 00:00:00</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

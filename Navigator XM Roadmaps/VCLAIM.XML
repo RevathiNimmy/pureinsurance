@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!-- pmnav_map_id = 61 -->
+<!DOCTYPE MAP SYSTEM "navigatorxmv2.dtd">
+<MAP WMTaskCode="VCLAIM" WMTaskDescription="Complete View Claim" ImageURL="http://www.siriusgroup.co.uk" TransactionType="REN" ProcessMode="0" AutoClose="False" NavigatorDriven="True" Title="NavigatorXM" RoadmapName="View Claim" Core="1" Version="200" ElementID="E1">
+	<STEP Description="Find Claim" Component="iCLMFindClaim.Interface_Renamed" Type="FF" CancelAction="AP" OKAction="F1" OKSteps="0" CancelSteps="0" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E2">
+		<KEY Name="SelectVersion" Value="1" ElementID="E3"/>
+	</STEP>
+	<STEP Description="Claim Details" Component="iOpenClaim.NavigatorV3" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="1" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E4">
+		<KEY Name="claim_ref" Value="2" ElementID="E5"/>
+	</STEP>
+	<STEP Description="Information Checklist" Component="iCLMInfoChklst.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="2" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E6">
+		<KEY Name="DeleteWorkTableFlag" Value="1" ElementID="E7"/>
+	</STEP>
+	<STEP Description="Risk Details" Component="iCLMRiskDetails.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="3" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E8">
+	</STEP>
+	<STEP Description="Coinsurance Recoveries" Component="iCLMCoinsuranceRecoveries.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="4" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E9">
+	</STEP>
+	<STEP Description="Reinsurance Recoveries" Component="iCLMReinsurance.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="5" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E10">
+	</STEP>
+	<STEP Description="Salvage Recovery" Component="iCLMRecovery.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="F1" OKSteps="0" CancelSteps="6" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E11">
+		<KEY Name="recovery_is_salvage" Value="1" ElementID="E12"/>
+	</STEP>
+	<STEP Description="Third Party Recovery" Component="iCLMRecovery.Interface_Renamed" Type="DF" CancelAction="BX" OKAction="BX" OKSteps="7" CancelSteps="7" ComponentAction="0" ServerSide="False" CreateWMTask="False" ResumeStep="" Core="1" Submap="" OKNewRoadmap="" CancelNewRoadmap="" ElementID="E13">
+		<KEY Name="recovery_is_salvage" Value="0" ElementID="E14"/>
+	</STEP>
+</MAP>
+

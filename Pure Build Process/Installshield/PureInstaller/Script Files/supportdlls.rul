@@ -1,0 +1,116 @@
+//===========================================================================
+//
+//  File Name:    supportdlls.rul
+//
+//  
+//  Comments:     This rule file contains methods that is called ony during fresh instalaltion
+//				  and it handles copying all the support dlls to the "system32" or "system64" folders
+//				  for use by Sirius Application
+//
+//===========================================================================
+
+//Support Dlls Folder Name
+#define SUPPORTDLLSDIR "SupportDlls"   
+//Microsoft C++ 7.0 runtime dll name
+#define VCRUNTIMEDLL	"msvcr70.dll"
+
+//Global List Variable to hold the list of supportdlls to be copied to the target machine
+LIST g_listTobeCopiedDlls;
+
+//Prototyping Functions defined in the supportdlls Rule File
+export prototype number GetAllTobeCopiedSupportDllNames();
+export prototype number FindDllandAddToCopyList(string,string);
+export prototype number CopySupportDlls();
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+//                                                                           
+// Function:  GetAllTobeCopiedSupportDllNames                                                                                                                           //
+// Purpose:   This function parses the support dlls folder and compares the dlls with
+//			  dlls in the "System32" or "System64" folder and adds the to be copied dlls 
+//			  list name to the collection
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+function number GetAllTobeCopiedSupportDllNames()
+number nvResult,nvSupportDllsPathLength,nvFullPathFileLength,nvFileNameLength;
+string szFileName,szFullPathFileName;
+string szSupportDllsPath; 
+begin     
+g_listTobeCopiedDlls = ListCreate(STRINGLIST);
+szSupportDllsPath  = SRCDIR ^ SUPPORTDLLSDIR;
+nvSupportDllsPathLength = StrLengthChars(szSupportDllsPath); 
+nvResult = FindAllFiles(szSupportDllsPath,"*.*",szFullPathFileName,CONTINUE); 
+if(nvResult >= 0) then
+	while(nvResult = 0)  
+	nvFullPathFileLength = StrLengthChars(szFullPathFileName);
+	nvFileNameLength = nvFullPathFileLength - nvSupportDllsPathLength;
+	StrSub(szFileName,szFullPathFileName,nvSupportDllsPathLength+1,nvFileNameLength);
+	FindDllandAddToCopyList(szFullPathFileName,szFileName);
+	nvResult = FindAllFiles(szSupportDllsPath,"*.*",szFullPathFileName,CONTINUE); 
+	endwhile;
+endif;  
+
+if(nvResult < 0) then
+   WriteToLogFile(INSTALL_LOG,"Geting all the To be Copied SupportDlls is complete");
+endif;                                          
+
+return 1;
+end; 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                           
+// Function:  FindDllandAddToCopyList                                                                                                                           //
+// Purpose:   This function searches for the "System32" or "System64" Folder 
+//			  for the specified dll in the function parameter and adds to the global list
+//			  collection if not found that folder
+//  		  
+///////////////////////////////////////////////////////////////////////////////////////////
+ 
+function number FindDllandAddToCopyList(szFullPathFileName,szFileName)
+number nvResult;
+string szReturnFilename;
+string szSystemFolder;
+begin                 
+szSystemFolder = WINSYSDIR;
+nvResult = FindFile(szSystemFolder,szFileName,szReturnFilename);
+if(nvResult < 0) then
+	ListAddString(g_listTobeCopiedDlls,szFullPathFileName,AFTER);	
+endif;       
+return 1;
+end;
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                           
+// Function:  CopySupportDlls                                                                                                                           //
+// Purpose:  This function does a copy of the support dlls available in the global list "g_listTobeCopiedDlls"
+//			  to the "system32" or "system64" folder
+//  		  
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+function number CopySupportDlls()
+number nvResult,nvCopyResult;      
+string szSupportDll, svMessage;
+begin  
+
+nvResult = ListGetFirstString(g_listTobeCopiedDlls,szSupportDll);
+while (nvResult = 0)  
+if(szSupportDll = VCRUNTIMEDLL || szSupportDll="ssce5532.dll") then
+	//Normal Copy for VC++ 7.0 Runtime and ssce5532 dll
+ 	nvCopyResult = XCopyFile(szSupportDll,WINSYSDIR,COMP_NORMAL);
+ 	svMessage = "Support dll " + szSupportDll + " copied successfully"; 
+else    
+	//Copy and Register for all other dlls in the Supportdlls folder
+	svMessage = "Support dll " + szSupportDll + " copied and registered successfully"; 
+	nvCopyResult = XCopyFile(szSupportDll,WINSYSDIR,COMP_NORMAL|SELFREGISTER|SHAREDFILE);
+endif;	
+if(nvCopyResult = 0) then
+ 	WriteToLogFile(INSTALL_LOG,svMessage);
+else
+    WriteToLogFile(INSTALL_ERRORLOG,"Error copying Support dll "+szSupportDll);
+endif;
+nvResult = ListGetNextString(g_listTobeCopiedDlls,szSupportDll);		
+endwhile; 
+         
+return 1;
+end;

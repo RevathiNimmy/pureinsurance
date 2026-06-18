@@ -1,0 +1,18 @@
+﻿@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.Menu
+@model MenuViewModel
+<li>
+    @Html.ActionLink(Index_cshtml.GeneralConfiguration, "Index", "General")
+
+</li>
+<li>@Html.ActionLink(Index_cshtml.KeyConfiguration, "Index", "KeyConfiguration")</li>
+
+
+
+<li>
+    @Html.ActionLink(Index_cshtml.RelyingPartiesResources, "Index", "RP")
+    @Html.Action("ChildMenu", "Menu", new { controllerName = "RP" })
+</li>
+
+
+
+

@@ -1,0 +1,40 @@
+<%@ Master Language="VB" CodeFile="default.master.vb" Inherits="Nexus.Masterpages_default" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Unbranded</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+
+    <!-- third party css -->
+    <link href="<%= ResolveUrl("~/dashboard/assets/css/vendor/britecharts.min.css") %>" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+    <link href="<%= ResolveUrl("~/dashboard/assets/css/icons.min.css") %>" rel="stylesheet" type="text/css" />
+    <link id="app-style" href="<%= ResolveUrl("~/dashboard/assets/css/app.min.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%= ResolveUrl("~/dashboard/assets/css/Custom.css") %>" rel="stylesheet" type="text/css" />
+</head>
+<body class="nobg">
+    <form id="aspNetForm" runat="server">
+        <asp:Literal ID="ltMetaTags" runat="server" />
+        <asp:ContentPlaceHolder ID="ScriptIncludes" runat="server" />
+        <asp:ContentPlaceHolder ID="cntLeftContent" runat="server" />
+        <asp:ContentPlaceHolder ID="cntProgressBar" runat="server" />
+        <asp:ContentPlaceHolder ID="cntMainBody" runat="server" />
+    </form>
+
+
+    <script type="text/javascript" src='<%= ResolveUrl("~/dashboard/assets/js/vendor.min.js") %>'></script>
+    <script type="text/javascript" src='<%= ResolveUrl("~/dashboard/assets/js/app.min.js") %>'></script>
+
+    <!-- third party:js -->
+    <script type="text/javascript" src='<%= ResolveUrl("~/dashboard/assets/js/vendor/d3.min.js") %>'></script>
+    <script type="text/javascript" src='<%= ResolveUrl("~/dashboard/assets/js/vendor/chart.min.js") %>'></script>
+
+    <!-- third party end -->
+
+    <!-- demo:js -->
+    <script type="text/javascript" src='<%= ResolveUrl("~/dashboard/assets/js/pages/demo.chartjs.js") %>'></script>
+</body>
+</html>

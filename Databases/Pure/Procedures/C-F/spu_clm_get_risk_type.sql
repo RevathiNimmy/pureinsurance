@@ -1,0 +1,13 @@
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+EXECUTE DDLDropProcedure 'spu_CLM_Get_Risk_Type'
+GO
+
+CREATE PROCEDURE spu_CLM_Get_Risk_Type
+@RiskId int
+AS
+	SELECT Risk_Type_Id FROM Risk WHERE Risk_Cnt= @RiskId
+GO

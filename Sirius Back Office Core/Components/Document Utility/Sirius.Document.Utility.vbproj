@@ -1,0 +1,56 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>SiriusDocumentUtility</RootNamespace>
+    <AssemblyName>SiriusDocumentUtility</AssemblyName>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>C:\Pure\Application</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>C:\Pure\Application</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Document Utility\**" />
+    <Compile Remove="Sirius.Document.UtilityCore\**" />
+    <EmbeddedResource Remove="Document Utility\**" />
+    <EmbeddedResource Remove="Sirius.Document.UtilityCore\**" />
+    <None Remove="Document Utility\**" />
+    <None Remove="Sirius.Document.UtilityCore\**" />
+    
+	  
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="My Project\Settings.Designer.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="My Project\Settings.settings" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
+    <PackageReference Include="SSP.Aspose.Pdf" Version="24.2.0" />
+    <PackageReference Include="SSP.Aspose.Words" Version="24.2.0" />
+    <PackageReference Include="SSP.SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="SSP.System.Drawing.Common" Version="4.6.29719.1" />
+    <PackageReference Include="SSP.System.Memory" Version="4.6.31308.1" />
+    <PackageReference Include="SSP.System.Runtime.CompilerServices.Unsafe" Version="4.6.26919.2" />
+    <PackageReference Include="SSP.System.Text.Encoding.CodePages" Version="4.6.26515.6" />
+    <PackageReference Include="System.Buffers" Version="4.6.1" />
+    <Reference Include="Microsoft.VisualBasic">
+      <HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.VisualBasic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\SSP.Shared\SSP.Shared.vbproj" />
+		<ProjectReference Include="..\Document Production\CCMDocumentProduction\Business\bCCMDocumentProduction\bCCMDocumentProduction.vbproj" />
+	</ItemGroup>
+	<ItemGroup>
+    <None Update="Aspose.Words.NET.lic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

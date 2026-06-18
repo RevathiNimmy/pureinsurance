@@ -1,0 +1,31 @@
+﻿@using Thinktecture.IdentityServer.Web.Utility
+
+@{
+    foreach(var prop in this.ViewData.ModelMetadata.Properties)
+    {
+        if (prop.ShowForEdit)
+        {
+            <div class="form-group form-group-sm">
+                @if (prop.TemplateHint == "HiddenInput")
+                {
+                    @Html.Hidden(prop.PropertyName, prop.Model)
+                }
+                else
+                {
+                    @Html.Label(prop.PropertyName, new { @class = "Col-lg-2 col-md-3 control-label" })
+                    @Html.Validator(prop)
+                    if(prop.IsReadOnly)
+                    {
+                        @Html.Display(prop.PropertyName)
+                    }
+                    else
+                    {
+                        <div class="Col-lg-8 col-md-8">
+                        @Html.Editor(prop.PropertyName)
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+}

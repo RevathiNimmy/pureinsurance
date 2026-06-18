@@ -1,0 +1,533 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Report_Transaction</h1>
+<p>Working table for the Transaction report.</p>
+<p>
+                Logical database: Orion<br>
+                Component team: Pure Accounts<br>
+                Software module: Accounts<br>
+                Temporary table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="transdetail_id">transdetail_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="TransDetail.html#transdetail_id">TransDetail.transdetail_id</a> <span class="autodesc">transdetail</span></td>
+</tr>
+<tr>
+<td><a class="name" name="amount">amount</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">amount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="document_sequence">document_sequence</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">document sequence</span></td>
+</tr>
+<tr>
+<td><a class="name" name="policy_number">policy_number</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">policy number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="branch_id">branch_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Branch.html#branch_id">Branch.branch_id</a> <span class="autodesc">branch</span></td>
+</tr>
+<tr>
+<td><a class="name" name="comment">comment</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">comment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="document_ref">document_ref</a></td>
+<td>varchar(25)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">document ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="document_date">document_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">document date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="documenttype_id">documenttype_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="DocumentType.html#documenttype_id">DocumentType.documenttype_id</a> <span class="autodesc">documenttype</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_id">account_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Account.html#account_id">Account.account_id</a> <span class="autodesc">account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_code">account_code</a></td>
+<td>char(20)</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">account code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_name">account_name</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>account name</td>
+</tr>
+<tr>
+<td><a class="name" name="account_type">account_type</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ledger_type">ledger_type</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ledger type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="branch_name">branch_name</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>branch name</td>
+</tr>
+<tr>
+<td><a class="name" name="period_id">period_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Period.html#period_id">Period.period_id</a> <span class="autodesc">period</span></td>
+</tr>
+<tr>
+<td><a class="name" name="record_type">record_type</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">record type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="transdetail_id2">transdetail_id2</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">transdetail id2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="amount2">amount2</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">amount2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="document_sequence2">document_sequence2</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">document sequence2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="policy_number2">policy_number2</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">policy number2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="branch_id2">branch_id2</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">branch id2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="comment2">comment2</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">comment2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_id2">account_id2</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account id2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_code2">account_code2</a></td>
+<td>char(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account code2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_name2">account_name2</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account name2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="account_type2">account_type2</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">account type2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="ledger_type2">ledger_type2</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">ledger type2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="branch_name2">branch_name2</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">branch name2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="period_id2">period_id2</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">period id2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="record_type2">record_type2</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">record type2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char1">extra_char1</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char2">extra_char2</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char3">extra_char3</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char4">extra_char4</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char5">extra_char5</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char5</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char6">extra_char6</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char6</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_char7">extra_char7</a></td>
+<td>varchar(100)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra char7</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_int1">extra_int1</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra int1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_int2">extra_int2</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra int2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_int3">extra_int3</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra int3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_int4">extra_int4</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra int4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_int5">extra_int5</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra int5</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_int6">extra_int6</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra int6</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extar_int7">extar_int7</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extar int7</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime1">extra_datetime1</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime2">extra_datetime2</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime3">extra_datetime3</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime4">extra_datetime4</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime5">extra_datetime5</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime5</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime6">extra_datetime6</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime6</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_datetime7">extra_datetime7</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra datetime7</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric1">extra_numeric1</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric2">extra_numeric2</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric3">extra_numeric3</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric3</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric4">extra_numeric4</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric4</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric5">extra_numeric5</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric5</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric6">extra_numeric6</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric6</span></td>
+</tr>
+<tr>
+<td><a class="name" name="extra_numeric7">extra_numeric7</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">extra numeric7</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>account_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>account_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>branch_id</td>
+<td><a href="Branch.html">Branch</a></td>
+<td>branch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>documenttype_id</td>
+<td><a href="DocumentType.html">DocumentType</a></td>
+<td>documenttype_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>period_id</td>
+<td><a href="Period.html">Period</a></td>
+<td>period_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>transdetail_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>transdetail_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>account_code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>account_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>document_ref</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>documenttype_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>period_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>transdetail_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

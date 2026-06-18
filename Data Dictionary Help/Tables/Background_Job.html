@@ -1,0 +1,202 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+    <style type="text/css">
+        .style1
+        {
+            height: 21px;
+        }
+    </style>
+</head>
+<body>
+<h1>Background_Job</h1>
+<p>Background_Job</p>
+<p>
+                                <br>
+                </p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="background_job_id">background_job_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">Background Job ID</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>nvarchar(255) </td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="job_xml">job_xml</a></td>
+<td>nvarchar(max)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>job_xml </td>
+</tr>
+<tr>
+<td><a class="name" name="job_status">job_status</a></td>
+<td>nvarchar(1)</td>
+<td>not null</td>
+<td>I</td>
+<td>Job Status</td>
+</tr>
+<tr>
+<td><a class="name" name="job_service">job_service</a></td>
+<td>nvarchar(255)</td>
+<td>null</td>
+<td>I</td>
+<td>Job Service</td>
+</tr>
+<tr>
+<td><a class="name" name="job_created">job_created</a></td>
+<td>Datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Job Created</td>
+</tr>
+<tr>
+<td><a class="name" name="job_when_to_start">job_when_to_start</a></td>
+<td>Datetime</td>
+<td>not null</td>
+<td>I</td>
+<td>Job When To Start</td>
+</tr>
+<tr>
+<td><a class="name" name="job_started">job_started</a></td>
+<td>Datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Job Started</td>
+</tr>
+<tr>
+<td><a class="name" name="job_completed">job_completed</a></td>
+<td>Datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Job Completed</td>
+</tr>
+<tr>
+<td><a class="name" name="job_expiry">job_expiry</a></td>
+<td>Datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>Job Expiry</td>
+</tr>
+<tr>
+<td><a class="name" name="job_user_id">job_user_id</a></td>
+<td>smallint</td>
+<td>not null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMUser.html#user_id">PMUser.user_id</a> User Id</td>
+</tr>
+<tr>
+<td><a class="name" name="failure_description">failure_description</a></td>
+<td>nvarchar(1000)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Failure Description</td>
+</tr>
+<tr>
+<td><a class="name" name="job_retry_count">job_retry_count</a></td>
+<td>integer</td>
+<td>null&nbsp;</td>
+<td></td>
+<td><span class="autodesc">job retry count</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_code">party_code</a></td>
+<td>nvarchar(255)</td>
+<td>null</td>
+<td></td>
+<td>party code</td>
+</tr>
+<tr>
+<td><a class="name" name="insurance_ref">insurance_ref</a></td>
+<td>nvarchar(255)</td>
+<td> null</td>
+<td></td>
+<td>insurance ref</td>
+</tr>
+<tr>
+<td><a class="name" name="claim_number">claim_number</a></td>
+<td>nvarchar(255)</td>
+<td> null</td>
+<td></td>
+<td>claim number</td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>background_job_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td class="style1">FK</td>
+<td class="style1">job_user_id</td>
+<td class="style1"><a href="PMUser.html">PMUser</a></td>
+<td class="style1">user_id</td>
+<td class="style1"></td>
+</tr>
+<tr>
+<td>I</td>
+<td>job_user_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>job_status</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>job_service</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>job_when_to_start</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>&nbsp;</h2>
+</body>
+</html>

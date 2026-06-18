@@ -1,0 +1,190 @@
+//===========================================================================
+//
+//  File Name:    SdPortalConfigPath.rul
+//
+//
+//  Comments:     This Rule File (SdPurePortal.rul) provides the function to
+//				   gets the input for Pure Portal Application                 
+//
+//
+//===========================================================================
+
+#include "Ifx.h"   //Header File for Built in Installscript function prototypes          
+ 
+// Dialog and control IDs. 
+#define RES_SDPORTALCONFIG_ID       602   // ID of dialog itself 
+#define RES_PBUT_NEXT         1   // ID of Next button 
+#define RES_PBUT_CANCEL       9   // ID of Cancel button 
+#define RES_PBUT_BACK        12   // ID of Back button 
+
+export prototype number SdPortalConfigPath(); 
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SdPurePortal                                                   //                                                                        //
+// Purpose:  This function creates the Custom Dialog and  gets the input     //
+//            for Pure Portal Application                                    // 
+///////////////////////////////////////////////////////////////////////////////
+function number SdPortalConfigPath() 
+   STRING  szDialogName, szDLLName;
+   NUMBER  nvResult,nvCmdValue,nvRetValue; 
+   BOOL    bDone,bCreateDIR; 
+   STRING  szSection,szValue;
+   NUMBER  nvCommDialog,nvReturnResult,nResult;
+   STRING szWebServiceUrl,szDocumentsLocation,szReportsLocation,szTempFileLocation;
+   
+begin                    
+   nvRetValue = 0;
+   szDialogName = "SdPortalConfigPath"; 
+   szDLLName = ""; 
+   
+ 
+  if (MODE=SILENTMODE) then 
+ 	       SdMakeName(szSection,"SdPortalConfigPath","",nvCommDialog); 
+  	       SilentReadData(szSection,"Result",DATA_NUMBER,szValue,nvReturnResult); 
+   	       if (nvReturnResult = 1) then 
+               //SilentReadData(szSection,"WebServiceUrl",DATA_STRING,g_szWebServiceUrl,nvReturnResult);
+               SilentReadData(szSection,"PureAppServerName",DATA_STRING,g_szPureAppServerName,nvReturnResult);
+               SilentReadData(szSection,"DocumentsLocation",DATA_STRING,g_szDocumentsLocation,nvReturnResult);
+               SilentReadData(szSection,"ReportsLocation",DATA_STRING,g_szReportsLocation,nvReturnResult);
+               SilentReadData(szSection,"TempFileLocation",DATA_STRING,g_szTempFileLocation,nvReturnResult);
+           endif;
+  else //Normal Mode Installation Code Execution Flow 
+	
+	  nvResult = EzDefineDialog (szDialogName, ISUSER, "", RES_SDPORTALCONFIG_ID); 
+	  
+	                                                           
+	   bDone = FALSE; 
+	   repeat 
+	        nvCmdValue = WaitOnDialog(szDialogName); 
+	       // Respond to the event. 
+	        switch (nvCmdValue) 
+	           case DLG_CLOSE: 
+	                	 // The user clicked the window's Close button. 
+	             	 	 Do (EXIT); 
+	
+	            case DLG_ERR:  
+	            		 //An Error Condition has happened during initialization of dialog
+	            	 	 MessageBox ("Unable to display dialog. Setup canceled.", SEVERE); 
+	             		 abort; 
+	
+	            case DLG_INIT: 
+	                     CtrlSetText(szDialogName,50,"Pure Portal Application Details");
+	                     //CtrlSetText(szDialogName,1201,g_szWebServiceUrl);
+	                     CtrlSetText(szDialogName,1201,g_szPureAppServerName);
+	                     CtrlSetText(szDialogName,1202,g_szDocumentsLocation);
+	                     CtrlSetText(szDialogName,1203,g_szReportsLocation);
+	                     CtrlSetText(szDialogName,1204,g_szTempFileLocation);
+	                    
+	            case RES_PBUT_CANCEL: 
+	         	        // The user clicked the Cancel button. 
+	       		          Do (EXIT); 
+	
+	            case RES_PBUT_NEXT: 
+						 bDone = TRUE; 
+	          	    	
+						 //CtrlGetText(szDialogName,1201,g_szWebServiceUrl);
+						 CtrlGetText(szDialogName,1201,g_szPureAppServerName);
+	                     CtrlGetText(szDialogName,1202,g_szDocumentsLocation);
+	                     CtrlGetText(szDialogName,1203,g_szReportsLocation);
+	                     CtrlGetText(szDialogName,1204,g_szTempFileLocation);
+	          	    	  
+	          	    	/*
+	          	    	 if(g_szWebServiceUrl="")then
+							MessageBox("Webservice URL is empty, please specify Webservice URL.",INFORMATION);
+							SdPortalConfigPath();
+						 endif;
+						 */
+						 
+						 
+	          	    	 if(g_szPureAppServerName="")then
+							MessageBox("Pure Application Server Name is empty, please specify Pure Application Server Name.",INFORMATION);
+							SdPortalConfigPath();
+						 endif;
+						
+	          	    	 
+	          	    	 if(g_szDocumentsLocation="")then
+							MessageBox("Documents location is empty, please specify Documents location.",INFORMATION);
+							SdPortalConfigPath();
+						 endif;
+	          	    	 
+	          	    	 if(g_szReportsLocation="")then
+							MessageBox("Reports Location is empty, please specify Reports Location.",INFORMATION);
+							SdPortalConfigPath();
+						 endif;
+	          	    	 
+	          	    	 if(g_szTempFileLocation="")then
+							MessageBox("TempFileLocation is empty, please specify TempFileLocation.",INFORMATION);
+							SdPortalConfigPath();
+						 endif;
+	          	    	 nvRetValue=1;
+	          	    	
+	            case RES_PBUT_BACK:   
+	 	   	   			 bDone = TRUE;  
+	          			 nvRetValue=-1;
+	          			 
+	            case 1205:
+	            
+						bCreateDIR = TRUE;
+	                    nvResult = SelectDir( "","", szDocumentsLocation, bCreateDIR); 
+	                    if(nvResult = 1)	then
+	                   	     CtrlSetText (szDialogName,1202,szDocumentsLocation); 
+	                   	     g_szDocumentsLocation = szDocumentsLocation;       
+	                   	endif;
+	                   	
+	                   	if (nvResult < 0) then
+	                   			MessageBox ("Unable to display dialog or Create the Specified Folder.", WARNING); 
+	                    endif;	
+	                    
+	              case 1206:
+	            
+						bCreateDIR = TRUE;
+	                    nvResult = SelectDir( "","", szReportsLocation, bCreateDIR); 
+	                    if(nvResult = 1)	then
+	                   	     CtrlSetText (szDialogName,1203,szReportsLocation); 
+	                   	     g_szReportsLocation = szReportsLocation;       
+	                   	endif;
+	                   	
+	                   	if (nvResult < 0) then
+	                   			MessageBox ("Unable to display dialog or Create the Specified Folder.", WARNING); 
+	                    endif;
+	                    
+	                    
+	               case 1207:
+	            
+						bCreateDIR = TRUE;
+	                    nvResult = SelectDir( "","", szTempFileLocation, bCreateDIR); 
+	                    if(nvResult = 1)	then
+	                   	     CtrlSetText (szDialogName,1204,szTempFileLocation); 
+	                   	     g_szTempFileLocation = szTempFileLocation;       
+	                   	endif;
+	                   	
+	                   	if (nvResult < 0) then
+	                   			MessageBox ("Unable to display dialog or Create the Specified Folder.", WARNING); 
+	                    endif;	
+						
+			endswitch; 
+	    until bDone; 
+	    
+	        
+	    // Close the dialog. 
+	    EndDialog (szDialogName); 
+	    ReleaseDialog (szDialogName); 
+	    
+	    SdMakeName(szSection,"SdPortalConfigPath","",nvCommDialog); 
+	    
+	    //SilentWriteData(szSection,"WebServiceUrl",DATA_STRING,g_szWebServiceUrl,nvReturnResult);
+	    SilentWriteData(szSection,"PureAppServerName",DATA_STRING,g_szPureAppServerName,nvReturnResult);
+        SilentWriteData(szSection,"DocumentsLocation",DATA_STRING,g_szDocumentsLocation,nvReturnResult);
+        SilentWriteData(szSection,"ReportsLocation",DATA_STRING,g_szReportsLocation,nvReturnResult);
+        SilentWriteData(szSection,"TempFileLocation",DATA_STRING,g_szTempFileLocation,nvReturnResult);
+	    
+        SilentWriteData(szSection,"Result",DATA_NUMBER,"",nvRetValue);
+    
+	endif;        
+	       
+    //return nvRetValue;  
+    return nvCmdValue;  
+
+end;    
+
+/***********************SdPortalConfigPath.rul File Coding Ends*********************************************/

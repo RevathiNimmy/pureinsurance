@@ -1,0 +1,1933 @@
+//===========================================================================
+//
+//  File Name:    Setup.rul
+//
+//  
+//  Comments:     This rule file is the entry point of the Installation Script Execution
+//				  and it handles all the installation events from beginning to end as well as various 
+//				  miscalleneous functions.
+//
+//===========================================================================
+
+STRING g_szUserName;// Varibale for holding the username
+string g_szHostName;  //Variable for holding the Host Name or Computer name of the target machine
+string g_szShareDrive;//Variable used in the sirius_clientinstallset rule file to find out the Shared Drive for PMSetup Folder
+string g_szMDFDirPath,g_szLDFDirPath;//Variables for Setting Sirius Database MDF Path and LDF Path in case of fresh installations
+string g_szWindowsAuthenticate; //Variable to hold the Windows Authentication Flag done during a previous installation
+
+BOOL g_bPreRequisiteFailure; // Variable for setting Installer Prerequisite Failure Flag
+
+BOOL g_bSiriusDBCreatedFlag; // Variable for setting SiriusDB/Login Created  Flag in case of Fresh Installation for use in 
+BOOL g_bSiriusDBUpgradedFlag; // Variable for setting SiriusDB upgraded  Flag in case of Fresh Installation for use in 
+BOOL g_bPatchInstallation;//Variable for setting a flag to indicate a patch installation is happening
+BOOL g_bWinLoginAuthenticate; //Variable to hold whether the SQL Server authentication is Windows or SQL Server Authentication
+BOOL g_bRemoteDBServer;//Flag Variable which holds whether the DB to be installed is on a Remote DB Server or Local DB Server
+
+//Variables to hold Installed Product DB Version Structure
+string g_szTobeInstalledFullVersion,g_szTobeInstalledSubVersion;
+string g_szInstalledFullVersion;  
+// UserID and Password for webservices Installation
+string g_szWebservicesUser,g_szWebservicesPassword;
+
+number g_nvSQLFileSuccessCount,g_nvSQLFileErrorCount;//Variable to hold the count of SQL Files Executed Successfully and with Errors
+number g_nvSQLFileSuccessTotalCount,g_nvSQLFileErrorTotalCount; //Variable to hold the total count of SQL Files Executed Successfully and with Errors
+
+
+//New variable for database restore
+NUMBER g_blankDB,g_brestoreDB;
+STRING g_szRestoreDBFileName;
+STRING gTemp;
+STRING gSharedPath;
+
+// List for file in use
+LIST listInUseApplications;
+
+STRING gLogiaclDataFileName,gLogiaclLogFileName;
+BOOL gRestoreBackupFile;
+STRING gBackupPath;
+
+STRING g_szApplicationDRESite,g_szPhysicalPathDRESite,g_szAppPoolDRESite;
+STRING g_szApplicationDREServices,g_szPhysicalPathDREServices,g_szAppPoolDREServices;
+
+BOOL  g_bDRESite,g_bDREServices,g_bDREDatabase;
+
+//
+STRING g_PureDBServer,g_PureDB,g_PureUser,g_PurePassword;
+
+//
+STRING g_ProcutVersion, g_InstalledVersion;
+STRING gInstallMode;
+
+
+//Default SQL Server defined MDF and LDF PATH
+#define DEFAULTMDFPATH 		"Microsoft SQL Server\\MSSQL10.MSSQLSERVER\\MSSQL\\Data"
+#define DEFAULTLDFPATH      "Microsoft SQL Server\\MSSQL10.MSSQLSERVER\\MSSQL\\Data"
+#define DEFAULTBAKUPPATH    "Microsoft SQL Server\\MSSQL10.MSSQLSERVER\\MSSQL\\Backup"
+
+
+//Log File Names used for Installation/Uninstallation for logging normal operations as well as errors
+#define INSTALL_LOG	 			"DREInstallLog.txt"
+#define UNINSTALL_LOG	 		"DREUnInstallLog.txt"
+#define UNINSTALL_ERRORLOG	 	"DREUnInstallErrorLog.txt"
+#define INSTALL_ERRORLOG	 	"DREInstallErrorLog.txt"
+#define DATABASE_ERRORLOG		"DREDatabaseErrorLog.txt"
+#define DATABASE_LOG			"DREDatabaseFinishLog.txt"  
+
+//ODBC Driver Constants
+#define ODBCSQLDriverName  "SQL Server"
+
+//Sirius User Name and Password used by the Sirius Back Office Application
+#define SIRIUSUSER     	"SIRIUS"
+#define SIRIUSPASSWORD  "$1R1U5" 
+
+//Share Name for the Sirius Installer Folder
+#define SIRIUSSHARENAME  "DISK1"          
+
+// Path to logo
+#define SSPLOGO "SSP.jpg" 
+// web services XML
+#define ERROR_SUCCESS 0
+#define ERROR_XML_FILE_CREATION "Setup could not find the web.config file."
+//#define ERROR "Error"
+#define ERROR_XML_FILE_STRUCTURE "The web.config file structure is corrupted."
+#define ERROR_XML_FILE_LOAD "The web.config file was not loaded."
+ 
+ 
+export prototype number CreateLogFile(string);
+export prototype number WriteToLogFile(string,string); 
+export prototype CheckNET4version();
+export prototype number CheckTypeofInstallation();
+export prototype number onUpgradeUIBefore();  
+export prototype UpdateDRESiteWebConfig();
+export prototype UpdateDREServicesWebConfig();
+export prototype UpdateDREServicesApplicationSettingsWebConfig();
+export prototype CompareVersion();
+export prototype CheckPrerequisites();
+export prototype number SetFreshDBCompatibilityLevel();
+export prototype BackupWebConfigFile();
+
+// Include header file for built-in functions
+// Include header file for built-in functions
+#include "ifx.h"   				 	  //Header File for Built in Installscript function prototypes       
+#include "isrt.h"					  //Header File for MSI API functions and constants
+//#include "iswi.h"                     //Header File for Built in Installscript function prototypes       
+#include "Registry.rul"    			  //Rule File for Performing Registry Related Operations
+#include "DatabaseFunctions.rul" //Rule File containing Database functions
+#include "cmnewdbdetails.rul"		  //Rule File for Custom Dialog asking for Database Name,Data Files,Log Files Input
+#include "brwsdlg.h"
+#include "brwsdlg.rul"
+#include "SdBrowseFile.rul"
+#include "SdPureDatabaseConnection.rul"
+
+//---------------------------------------------------------------------------
+// OnBegin
+//
+// The OnBegin event is called directly by the framework after the setup
+// initializes. Note that this event will be called AFTER "Initialization"
+// events (i.e.) OnSetTARGETDIR, OnCheckMediaPassword.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnBegin()
+string szResult;
+number nvResult;  
+number nBuffer;
+
+begin
+     
+    if( REMOVEONLY = 0) then
+    
+        //Setting False to All Scenarios of Installation
+	 	g_bFreshInstaller = FALSE;
+	 	g_bUpgradeInstaller = FALSE;	
+	 	
+	 	nBuffer = 261; // initialize size buffer before calling MsiGetProperty
+		
+		// Get the hostname of the machine.
+ 		GetEnvVar("COMPUTERNAME",g_szHostName); 
+ 		GetEnvVar("USERNAME",g_szUserName); 
+ 		GetEnvVar ("TEMP", gTemp); 
+      
+
+ 		//Initializing the Sirius Database Name and MDF/LDF Path
+ 		g_szSiriusDBName = "";                                  
+ 		g_szMDFDirPath   = "";
+ 		g_szLDFDirPath   = "";
+ 		//Initializing the Windows Authentication Mechanism Flag to False for SQL Server Authentication
+ 		g_szWindowsAuthenticate = "";                                                                  
+ 	
+ 			
+		CheckTypeofInstallation();
+	
+	            
+	endif;
+
+end;
+
+//---------------------------------------------------------------------------                                                                        
+// OnFirstUIBefore
+//
+// First Install UI Sequence - Before Move Data
+//
+// The OnFirstUIBefore event is called by OnShowUI when the setup is
+// running in first install mode. By default this event displays UI allowing
+// the end user to specify installation parameters.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnFirstUIBefore()
+    number nvResult,nvStringLocation,nvStringLength,nvPMStartLocation;
+    string szTitle,szMsg,szQuestion;
+    string szLicenseFile;
+    HWND hMSI;
+    string szExistsSiriusLoginScript;
+    BOOL bDBChkState;   
+    string szReturnValue;    
+    number nvDefault,nvAskButtonRetValue;
+    string szUser,szPassword;
+    STRING szICCSPath;
+    STRING svBackupLocation,svTargetLocation;
+    
+begin	
+   
+    
+    if( REMOVEONLY ) then
+        Disable( DIALOGCACHE );
+		szMsg = SdLoadString(IDS_IFX_ERROR_PRODUCT_NOT_INSTALLED_UNINST);
+   		SdSubstituteProductInfo(szMsg);
+		MessageBox(szMsg,SEVERE);
+		abort;
+    endif;
+    
+
+//Setting defaults for database type
+g_blankDB = FALSE;
+g_brestoreDB = TRUE;
+
+//default backup file name
+g_szRestoreDBFileName="";
+
+		CheckPrerequisites();
+
+	
+Dlg_Start:
+	    // beginning of dialogs label  
+	    //This Label indicates the Start of Dialog Sequences in case of Fresh Installation
+	    // as well as product upgrade but fresh installation
+	
+Dlg_SdWelcome:
+		//This Dialog is used to show the Welcome Screen indicating the Start of Fresh Installation
+	    szTitle = "DRE Installation";  // @ID_STRING4 from Summary Information Stream 'Title'
+	    //szMsg   = "Welcome to the Installation of DRE.";
+		nvResult = SdWelcome(szTitle,szMsg);
+	    if (nvResult = BACK) goto Dlg_Start;
+	    
+ 	
+Dlg_SdAskDestPath: 
+	    //This Dialog gets the destination path in case of fresh installation
+	 	szTitle = "";
+	 	szMsg   = "Specify the Destination folder for your installation components";      	
+		TARGETDIR="C:\\DRE";
+		
+	 	g_szPMInstallPath = TARGETDIR;
+	 	
+	    nvResult = SdAskDestPath(szTitle, szMsg, g_szPMInstallPath, 0);
+	    //Check to Add Pure Folder to the Destination Path if one is not present
+	    StrRemoveLastSlash(g_szPMInstallPath);
+	    nvStringLength = StrLengthChars(g_szPMInstallPath);
+	    nvStringLocation = StrFind(g_szPMInstallPath,"\DRE");
+	    //Standard PM Location
+	    nvPMStartLocation =  nvStringLength - 3;
+	    if(nvStringLocation < 0) then 
+	    	StrRemoveLastSlash(g_szPMInstallPath);
+	    elseif((nvStringLocation > 0) && (nvStringLocation = nvPMStartLocation)) then   
+	    	g_szPMPath = g_szPMInstallPath;
+	    	StrSub(g_szPMPath, g_szPMPath, 0, nvStringLocation);
+	    	StrRemoveLastSlash(g_szPMPath);
+	    endif;
+	    TARGETDIR = g_szPMInstallPath;
+		
+	    if (nvResult = BACK) goto Dlg_SdWelcome;    
+
+
+Dlg_AskInstallationType:
+		//This Dialog is used to take 2 inputs of type
+		//Appserver only which does a AppServer only Installation
+		//Appserver with DB only which does a Appserver as well as Database Installation
+     	szTitle    = "DRE Installation Type";
+	    szMsg      = "This specifies the type of installation as Application only or Application with Database";   
+	    
+	    g_bDRESite = TRUE;
+	    g_bDREServices = TRUE;
+	    g_bDREDatabase = TRUE;
+	   
+		nvResult    = AskOptions(NONEXCLUSIVE,"Select the type of Installation Required.","DRE Site",g_bDRESite,"DRE Services",g_bDREServices, "DRE Database", g_bDREDatabase); 
+	    
+	    //select features based on selection
+	    if(g_bDRESite=TRUE) then
+			FeatureSelectItem (MEDIA, "DRESite", TRUE);
+		else
+			FeatureSelectItem (MEDIA, "DRESite", FALSE);
+		endif;
+		
+		if(g_bDREServices=TRUE) then
+			FeatureSelectItem (MEDIA, "DREServices", TRUE);
+		else
+			FeatureSelectItem (MEDIA, "DREServices", FALSE);
+		endif;
+		
+		if(g_bDREDatabase=TRUE) then
+			FeatureSelectItem (MEDIA, "Database", TRUE);
+		else
+			FeatureSelectItem (MEDIA, "Database", FALSE);
+		endif;
+				
+	    
+	    if (nvResult = BACK) then
+	    	    goto Dlg_SdAskDestPath;
+	    else
+			
+				if(g_bDRESite=TRUE && g_bDREDatabase=FALSE) then
+						  goto Dlg_SQLTestConnectDBforAppServerOnlyFreshInstallation; 
+	        		 	  //goto Dlg_SdStartCopy;
+	        	else
+						if (g_bDREDatabase=TRUE) then 
+	   				 	 	goto Dlg_SQLConnectToDBforAppWithDBFreshInstallation;
+	   				 	endif;
+	     		endif;			
+		endif;
+	    
+
+Dlg_SQLTestConnectDBforAppServerOnlyFreshInstallation:
+	
+	  nvResult=OnSQLServerInitialize(NEXT);
+
+	  if (nvResult = BACK) then
+	    	  	 goto Dlg_AskInstallationType;
+	  endif;
+	  
+	  SetFreshDBCompatibilityLevel();
+	  
+	  goto Dlg_SdStartCopy;
+        
+  
+//DB Server Connection Details for AppServer with DB type Fresh Installation		   
+ Dlg_SQLConnectToDBforAppWithDBFreshInstallation:
+	  //This Dialog is used in case of Appserver with DB only type of Fresh Installation
+	  nvResult=OnSQLServerInitialize(NEXT);
+
+	  if (nvResult = BACK) then
+	    	  	 goto Dlg_AskInstallationType;
+	  endif;
+	    
+
+	  if(StrLengthChars(g_szMDFDirPath) = 0) then
+	  	if(StrCompare(g_szDBServer,g_szHostName)=0)  then
+	 	 	//g_szMDFDirPath = PROGRAMFILES ^ DEFAULTMDFPATH;
+		  	g_bRemoteDBServer = FALSE;
+	  	elseif(StrFind(g_szDBServer,"(local)") >= 0) then
+	  		//g_szMDFDirPath = PROGRAMFILES ^ DEFAULTMDFPATH;
+		  	g_bRemoteDBServer = FALSE;
+		elseif(StrFind(g_szDBServer,g_szHostName) >= 0) then
+	  		//g_szMDFDirPath = PROGRAMFILES ^ DEFAULTMDFPATH;
+		  	g_bRemoteDBServer = FALSE;
+	  	else 
+	  	    g_bRemoteDBServer = TRUE;
+	  	endif;    
+	  endif;
+	  
+	  //Setting the LDF Path
+	  if(StrLengthChars(g_szLDFDirPath) = 0) then
+	  	if(StrCompare(g_szDBServer,g_szHostName)=0)  then
+	 	 	//g_szLDFDirPath = PROGRAMFILES ^ DEFAULTLDFPATH;
+		  	g_bRemoteDBServer = FALSE;
+	  	elseif(StrFind(g_szDBServer,"(local)") >= 0) then
+	  		//g_szLDFDirPath = PROGRAMFILES ^ DEFAULTLDFPATH;
+		  	g_bRemoteDBServer = FALSE;
+		elseif(StrFind(g_szDBServer,g_szHostName) >= 0) then
+	  		//g_szMDFDirPath = PROGRAMFILES ^ DEFAULTLDFPATH;
+		  	g_bRemoteDBServer = FALSE;
+	  	else 
+	  	    g_bRemoteDBServer = TRUE;
+	  	endif;        
+	 endif;
+	  
+	  if(nvResult = NEXT) goto Dlg_DBDetails;
+
+		
+Dlg_DBDetails:
+
+		szTitle    = "DRE database creation Type";
+	    
+	    //for remote db ask for UNC path of shared location with Full permission on remote server such that 
+		if(g_bRemoteDBServer = TRUE) then
+				// Pass default backup DB name 
+				//Don't do anything, currently hardcoded backup file name is provided already 
+				//SelectDir ( "", "Select the Shared location:", gSharedPath, FALSE );
+				SetDialogTitle ( DLG_ASK_PATH, "Select the Share location" );
+				AskPath ( "Select the Shared folder location(UNC Path) on the database server", "", gSharedPath ); 
+				StrRemoveLastSlash ( gSharedPath ); 
+				//goto Dlg_DBDetails;
+			
+		endif;
+		
+		if(g_bRemoteDBServer = TRUE) then
+				SdShowMsg ( "Copying database backup file to database server . . . please wait." , TRUE );
+				CopyDREDatabasebackupToRemoteServer();
+				SdShowMsg ( "Copying database backup file to database server . . . please wait." , FALSE );
+		endif;
+		
+		//This Dialog is used in case of AppServer with DB only type of Fresh Installation
+	    //for getting New Sirius DB name and MDF/LDF path  
+	    nvResult = ExFn_NewDBDetailsDefineDialog(hMSI,g_szDBServer,g_szMasterUser,g_szMasterPassword,g_szSiriusDBName,g_szMDFDirPath,g_szLDFDirPath);
+	    if(nvResult = -1) then
+	       		goto Dlg_SQLConnectToDBforAppWithDBFreshInstallation;
+	    endif;
+	    
+   
+		//Create database normal/error log files 
+	 	CreateLogFile(DATABASE_LOG);       
+	 	CreateLogFile(DATABASE_ERRORLOG);			
+		
+		//Create the New Sirius Database from the backup file
+		CreateDREDatabaseFromBackup();           
+		         
+		//Set the Compatibility level of the newly created DB to SQLSERVER 2000 format
+		SetFreshDBCompatibilityLevel();
+		
+	            
+		if(g_bWinLoginAuthenticate =FALSE) then
+			//Create the Inbuilt Sirius Username/Password for use by Sirius Back Office Application
+        	//CreateSiriusLogin();
+        else
+        	//Leave as such without creating the Sirius Username/Password 
+        	//as Windows Authentication is used by Sirius BackOffice Application
+		endif;			            
+		
+		//Method Call to Run Upgrade DBScripts for higher version on top of the Sirius DB
+		Disable( DIALOGCACHE );
+		//StartUpgradeDBScriptsExecution(SRCDIR ^ "Scripts");                                                
+		Enable( DIALOGCACHE );
+
+
+//Dlg_PureDatabaseConnection:
+
+		 //nvResult = SdPureDatabaseConnection();
+	
+Dlg_SdStartCopy:
+
+		
+	        
+        //This Dialog initiates the start copy of the Appserver components
+		if(g_bFreshInstaller = TRUE) then
+			//Allow the Default Title and Message to be displayed for Fresh Installation
+			szTitle = "";
+			szMsg   = "Click Install to begin the Installation of DRE.";
+		else 
+			//Customise the Title and Message to be displayed for Product Upgrade but Fresh Installation
+			szTitle = "Upgrade Installation";
+			szMsg   = "Click Install to begin the Upgrade Installation of DRE.";
+		endif;
+		
+		nvResult = SdStartCopy2(szTitle,szMsg);			
+		//for Back Button Click
+		if (nvResult = BACK) then       
+			if(g_bFreshInstaller = TRUE) then
+					goto Dlg_SQLConnectToDBforAppWithDBFreshInstallation;
+			endif;
+		endif;                 
+		//for Next Button Click
+		if(g_bFreshInstaller = TRUE) then
+			goto Dlg_DialogEnd;
+		endif;
+		
+    
+Dlg_DialogEnd:
+
+	CreateDRERegistry();
+	
+    if(g_bFreshInstaller = TRUE) then
+		//Status Message for Fresh Installation of Sirius Back Office 
+    	// Added in IS 2009 - Set appropriate StatusEx static text.
+    	szMsg = "Installer is Installing the DRE in your system."; 
+    	SetStatusExStaticText(szMsg);
+    	//SetStatusExStaticText(SdLoadString(IDS_IFX_STATUSEX_STATICTEXT_FIRSTUI));
+    else
+     	//Status Message for Product Upgrade but Fresh Installation of Sirius Back Office.
+    	// Added in IS 2009 - Set appropriate StatusEx static text.
+    	 szMsg = "Installer is Upgrading the DRE";
+    	SetStatusExStaticText(szMsg);
+    endif;
+    
+
+    // setup default status
+    Enable(STATUSEX);
+ 
+    return 0;
+end;
+
+//---------------------------------------------------------------------------
+// OnMaintUIBefore
+//
+// Maintenance UI Sequence - Before Move Data
+//
+// The OnMaintUIBefore event is called by OnShowUI when the setup is
+// running in maintenance mode. By default this event displays UI that
+// allows the end user to add or remove features, repair currently
+// installed features or uninstall the application.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnMaintUIBefore()
+    number	nResult, nType;
+    string	szTitle, szMsg;
+begin
+	
+// nType defaults to MODIFY.
+	nType = MODIFY;
+
+    //Initialize SQL
+    //OnSQLServerInitializeMaint();
+
+// Beginning of UI Sequence
+Dlg_Start:
+
+    // Added in Version 9.5 - Support for REMOVEONLY option.
+    if( !REMOVEONLY ) then
+    	// In standard mode show maintenance dialog
+	    Disable( BACKBUTTON );
+	    nType = SdWelcomeMaint( szTitle, szMsg, nType );
+	    Enable( BACKBUTTON );
+        nResult = NEXT;
+    else
+        // Hide the initial progress dialog as otherwise the user can
+        // click on it, and hide the MessageBox.
+        Disable( DIALOGCACHE );
+
+        // In RemoveOnly mode, set to remove.
+        nType = REMOVEALL;
+    endif;
+
+	// Show Uninstall Confirmation Dialog
+    if ( nType = REMOVEALL ) then
+		nResult = MessageBox( SdLoadString( IFX_MAINTUI_MSG ), MB_YESNO );
+		if (nResult != IDYES ) then
+            
+            if( REMOVEONLY ) then
+                // In REMOVEONLY mode, abort the setup.
+                abort;
+            else
+                // In non-REMOVEONLY mode, redisplay the previous dialog.
+			    goto Dlg_Start;
+            endif;
+
+		endif;
+	endif;
+
+
+Dlg_ObjDialogs:
+    nResult = ShowObjWizardPages( nResult );
+    if ( ( nResult = BACK ) && ( nType != MODIFY ) ) goto Dlg_Start;
+    //if ( ( nResult = BACK ) && ( nType = MODIFY ) ) goto Dlg_SdFeatureTree;
+
+	switch(nType)
+
+        case REMOVEALL:
+			
+			Enable(STATUSEX);
+			// Ensure that all previously installed features are removed.
+			FeatureRemoveAllInMediaAndLog ( );
+
+            // Added in 11.0 - Set appropriate StatusEx static text.
+            SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_MAINTUI_REMOVEALL ) );
+
+        case REPAIR:
+				
+			FeatureReinstall();
+           
+            // Added in 11.0 - Set appropriate StatusEx static text.
+            SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_MAINTUI_REPAIR ) );
+
+        case MODIFY:
+            
+            FeatureReinstall();
+            // Added in 11.0 - Set appropriate StatusEx static text.
+            SetStatusExStaticText( SdLoadString( IDS_IFX_STATUSEX_STATICTEXT_MAINTUI_MODIFY ) );
+
+    endswitch;
+ 
+end;
+
+//---------------------------------------------------------------------------
+// OnUpdateUIBefore
+//
+// Update UI Sequence - Before Move Data
+//
+// The OnUpdateUIBefore event is called when the setup is running in update
+// mode. By default this event displays UI that allows the end user to
+// update the application to the current version.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnUpdateUIBefore()
+	string szTitle, szMsg, szIgnore, szVersionInstalled, szVersionSupported, szVersionUpdate;
+	number nVersionInstalled;
+	number nIgnore, nId, nMediaFlags;
+	number nvResult;
+begin
+
+Dlg_SdWelcome:
+	szTitle = "Resume Upgrading DRE Installation";
+	szMsg   ="Click Next to Continue upgrading the DRE.";
+	Disable(BACKBUTTON);
+    nvResult = SdWelcome(szTitle, szMsg);
+	
+	Disable (DIALOGCACHE);
+	
+   szMsg = "Installer is Upgrading the DRE Installation.";
+    
+	SdSubstituteProductInfo(szMsg);
+    SetStatusExStaticText(szMsg);
+    
+    Enable(STATUSEX);
+    SetStatusWindow (0, ""); 
+    StatusUpdate (ON, 99); 
+
+
+    //Call FeatureReinstall to reinstall all the files
+    FeatureReinstall();
+    FeatureTransferData(MEDIA);
+
+end;
+
+//---------------------------------------------------------------------------
+// OnSQLServerInitialize
+//
+// The OnSQLServerInitialize event is called by OnFirstUIBefore to
+// establish any connections necessary for SQL Server support.
+//
+// This function will initialize the SQL Server runtime, and attempt to
+// make any necessary SQL Server connections, displaying a login dialog
+// for each one.
+//
+// Parameter nBtn indicates whether NEXT or BACK was the result of the 
+// previously displayed dialog.  It is for information purposes only.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function number OnSQLServerInitialize( nBtn )
+number nResult, nErrorCode, nErrorLine;
+number nCount;
+string szConnection;
+string szServer, szDB, szUser, szPassword;
+string szMessage;
+string szKey;
+LIST   listConnections;
+BOOL   bWinLogin;
+BOOL   bNext;
+NUMBER nvErrorCode;
+STRING svTechnology;
+begin
+
+    //First initialize SQL Server runtime
+    SQLRTInitialize2( );
+
+    //Get the names of all the necessary connections
+    listConnections = SQLRTGetConnections();
+    ListGetFirstString (listConnections, szConnection);
+
+    nCount = 0;
+
+    //determine if NEXT or BACK will be returned 
+    //if there are no connections to make
+    if( nBtn != BACK ) then
+        bNext = TRUE;
+    else
+        bNext = FALSE;
+		//start at end if going BACK
+		while (ISERR_SUCCESS = ListGetNextString( listConnections, szConnection ) );
+			nCount++;
+		endwhile;
+    endif;
+
+    // Login for each connection
+    while (nResult = ISERR_SUCCESS)
+
+        //Get Default values for connection
+        SQLRTGetConnectionInfo( szConnection, szServer, szDB, szUser, szPassword );
+        bWinLogin = SQLRTGetConnectionAuthentication( szConnection );
+        bWinLogin = FALSE;
+        
+        //Assign the DB Server Name if one is already available for pure upgrade or product upgrade but fresh installation           
+	    szServer   = g_szDBServer; 
+	    
+	    
+	    if(g_bUpgradeInstaller = TRUE || g_bPatchInstallation = TRUE) then
+           szDB = "master";
+	       Dlg_SQLConnection: 
+        
+						// Display login dialog (without connection name)
+						// COMMENT OUT TO SWAP DIALOGS
+						nResult = SQLServerSelectLogin2( szConnection, szServer, szUser, szPassword, bWinLogin, szDB, FALSE, FALSE );
+						g_bWinLoginAuthenticate = bWinLogin;
+						if(StrCompare(szServer,g_szDBServer) != 0) then
+							MessageBox("The Database Server Name cannot be changed for Upgrades.",WARNING);
+							goto  Dlg_SQLConnection;
+						endif;	           		
+	    endif;
+	    
+	    if(g_bDREDatabase = TRUE) then
+	    	szDB = "master";
+	    endif;  
+	    
+	    if(g_bFreshInstaller = TRUE) then
+	    
+			Dlg_SQLConnection1:
+	    
+				nResult = SQLServerSelectLogin2( szConnection,szServer,szUser,szPassword,bWinLogin,szDB,FALSE,g_bDRESite);
+				g_bWinLoginAuthenticate = bWinLogin;
+	       
+				if(g_bDRESite = TRUE && g_bDREDatabase = FALSE ) then
+		   		   if(szDB="")then
+						MessageBox("Database catalog name is empty, Please specify which database catalog should be used for connection.\n\n" +
+								   "Click the Browse button to select database catalog or database name available on the database server.",WARNING);
+						goto  Dlg_SQLConnection1;
+						
+				   endif;
+				endif;	
+	       
+	    endif;
+		
+		if( nResult = NEXT ) then
+			
+			
+            //store data in case we need it again
+            SQLRTPutConnectionInfo2( szConnection, szServer, szDB, szUser, szPassword );
+
+	        SQLRTPutConnectionAuthentication( szConnection, bWinLogin );
+
+            //try connection
+            nResult = SQLRTConnect( szConnection, szServer, bWinLogin, szUser, szPassword );
+            //nResult = SQLRTConnect2( szConnection, szServer, bWinLogin, szUser, szPassword, szDB);
+            //nResult = SQLRTConnectDB( szConnection, szDB, szServer, bWinLogin, szUser, szPassword );
+            //SQLRTTestConnection2( szConnection, szServer, szDB, szUser, szPassword, bWinLogin );
+            //SQLRTConnect2( szConnection, szServer, bWinLogin, szUser, szPassword, szDatabaseServer ); 
+
+            //if( szTemp != "0" && MODE != SILENTMODE) then
+			//		nResult = ListCurrentString(listConnections, szConnection);
+			
+			if( nResult < ISERR_SUCCESS && MODE != SILENTMODE ) then
+
+                // Get error message
+				//SQLRTGetErrorMessage( szMessage );
+				SQLRTGetLastError2( nvErrorCode, szMessage, svTechnology, szConnection, szServer, szDB ); 
+				//Sprintf(szMessage, SdLoadString( IDS_IFX_SQL_ERROR_LOGIN_FAILED ), szConnection, SdLoadString( ISCRIPT_E_UNKNOWN_ERROR_DESC ));
+				// Display error
+				MessageBox( szMessage, MB_OK );
+
+                //Show same login dialog again
+                nResult = ListCurrentString(listConnections, szConnection);
+					
+			elseif(MODE = SILENTMODE) then //WorkAround to solve the Silent Mode Issue for TestConnection Method
+			//Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                     
+	                                
+	                if( g_bDRESite=TRUE && g_bDREDatabase = FALSE && g_bFreshInstaller = TRUE) then
+	                	g_szDBServer =  szServer;
+	                	g_szSiriusDBName = szDB;  
+	                	
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+	                		g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword;  
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						  	No Specific Sirius User Name/Password would be used
+			  			 	 Master Login User/Password would be used for Sirius DB Scripts execution */
+			       			g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword;
+						endif;
+	                else
+	                	g_szDBServer      = szServer;
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+							g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword;  
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						  	No Specific Sirius User Name/Password would be used
+			  			  	Master Login User/Password would be used for Sirius DB Scripts execution */
+			       			g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword;     
+						endif;
+					endif;
+             else //SUCCESS
+                   //Move on to next connection
+	                nCount++;
+	                bNext = TRUE;
+	                nResult = ListGetNextString(listConnections, szConnection);
+	                if(g_bDRESite=TRUE && g_bDREDatabase = FALSE && g_bFreshInstaller = TRUE) then
+	                	g_szDBServer =  szServer;
+	                	g_szSiriusDBName = szDB;
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+	                		g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword;  
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						  	No Specific Sirius User Name/Password would be used
+			  			  	Master Login User/Password would be used for Sirius DB Scripts execution */
+			       			g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword;
+						endif;
+	                else
+	                	g_szDBServer      = szServer;
+	                	if(g_bWinLoginAuthenticate = FALSE) then
+							g_szMasterUser    =   szUser;
+							g_szMasterPassword =  szPassword; 
+							/*Added below 2 lines based on Bal's Remarks on May 22 2009 
+						 	 No Specific Sirius User Name/Password would be used
+			  			  	Master Login User/Password would be used for Sirius DB Scripts execution */
+				      		g_szSiriusUserName =  szUser;
+							g_szSiriusPassword =  szPassword; 
+						endif;
+					endif; 
+			 endif;			
+            
+         else
+            //BACK
+            nCount--;
+            bNext = FALSE;
+            nResult = ListSetIndex( listConnections, nCount );
+            ListCurrentString( listConnections, szConnection );
+
+        endif;
+
+    endwhile;
+
+    if( bNext ) then
+        return NEXT;
+    else
+        return BACK;
+    endif;
+
+end;
+
+//---------------------------------------------------------------------------
+// OnFirstUIAfter
+//
+// First Install UI Sequence - After Move Data
+//
+// The OnFirstUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in first install mode. By default
+// this event displays UI that informs the end user that the setup has been
+// completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnFirstUIAfter()
+    STRING szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    NUMBER bvOpt1, bvOpt2;
+begin
+	GetPureDBDetailFromRegistry();
+	UpdateDRESiteWebConfig();
+	UpdateDREServicesWebConfig();
+	UpdateDREServicesApplicationSettingsWebConfig();
+    
+    ShowObjWizardPages(NEXT);
+    
+    szTitle = "";
+    szMsg1 = ""; 
+    szMsg2 = "";
+    szOpt1 = "";
+    szOpt2 = "";
+	bvOpt1   = FALSE;
+    bvOpt2   = FALSE;    
+    
+    //{{IS_SCRIPT_TAG(Dlg_SdDinishEx)	
+    if ( BATCH_INSTALL ) then
+    	SdFinishReboot ( szTitle , szMsg1 , SYS_BOOTMACHINE , szMsg2 , 0 );
+    else
+	    SdFinish ( szTitle , szMsg1 , szMsg2 , szOpt1 , szOpt2 , bvOpt1 , bvOpt2 );
+	endif;
+    //}}IS_SCRIPT_TAG(Dlg_SdDinishEx)	
+end;
+
+//---------------------------------------------------------------------------
+// OnMaintUIAfter
+//
+// The OnMaintUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in maintenance mode. By default
+// this event displays UI that informs the end user that the maintenance setup
+// has been completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnMaintUIAfter()
+    STRING szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    NUMBER bOpt1, bOpt2;
+begin
+
+    Disable(STATUSEX);
+    
+    if( REMOVEALLMODE ) then
+        szTitle = SdLoadString(IFX_SDFINISH_REMOVE_TITLE);
+        szMsg1 = SdLoadString(IFX_SDFINISH_REMOVE_MSG1);
+    else
+        szTitle = SdLoadString(IFX_SDFINISH_MAINT_TITLE);    
+        szMsg1  = SdLoadString(IFX_SDFINISH_MAINT_MSG1);
+    endif;
+    
+    if( REMOVEALLMODE ) then
+		//deletes the registry file during uninstallation
+		DeleteRegFile();   
+		
+		ClearReadOnly(TARGETDIR);	
+		
+		if(DeleteDir(TARGETDIR, ALLCONTENTS) < 0) then
+			WriteToLogFile(UNINSTALL_ERRORLOG, "An error occured while removing installation directory:" + TARGETDIR + ". Please remove it manually");	
+		else
+			WriteToLogFile(UNINSTALL_LOG, "Successfully removed installation directory: " + TARGETDIR);	
+		endif;
+	endif;
+    
+  	bOpt1   = FALSE;
+    bOpt2   = FALSE;    
+
+    if ( BATCH_INSTALL ) then
+    	SdFinishReboot ( szTitle , szMsg1 , SYS_BOOTMACHINE , szMsg2 , 0 );
+    else    
+       	SdFinish ( szTitle , szMsg1 , szMsg2 , szOpt1 , szOpt2 , bOpt1 , bOpt2 );
+    endif;
+end;
+
+//---------------------------------------------------------------------------
+// OnUpdateUIAfter
+//
+// Update Mode UI Sequence - After Move Data
+//
+// The OnUpdateUIAfter event called by OnShowUI after the file transfer
+// of the setup when the setup is running in update mode. By default
+// this event displays UI that informs the end user that the maintenance setup
+// has been completed successfully.
+//
+// Note: This event will not be called automatically in a
+// program...endprogram style setup.
+//---------------------------------------------------------------------------
+function OnUpdateUIAfter()
+    string	szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    BOOL	bOpt1, bOpt2;
+begin
+	GetPureDBDetailFromRegistry();
+	UpdateDRESiteWebConfig();
+	UpdateDREServicesWebConfig();
+	UpdateDREServicesApplicationSettingsWebConfig();
+	
+    ShowObjWizardPages(NEXT);
+    
+	szTitle = "DRE Upgrade Installation Complete";
+    szMsg1 = "DRE Installation has been successfully upgraded. Click Finish to exit the Wizard"; 
+    szMsg2 = "Click Finish to exit DRE setup.";
+    
+    szOpt1 = "";
+    szOpt2 = "";
+	bOpt1   = FALSE;
+    bOpt2   = FALSE;    
+    
+    if ( BATCH_INSTALL ) then
+    	SdFinishReboot ( szTitle , szMsg1 , SYS_BOOTMACHINE , szMsg2 , 0 );
+    else    
+       	SdFinish ( szTitle , szMsg1 , szMsg2 , szOpt1 , szOpt2 , bOpt1 , bOpt2 );
+    endif;
+end;
+
+//---------------------------------------------------------------------------
+// OnEnd
+//
+// The OnEnd event is called at the end of the setup. This event is not
+// called if the setup is aborted.
+//---------------------------------------------------------------------------
+function OnEnd()
+begin
+end;
+
+//---------------------------------------------------------------------------
+// OnAbort
+//
+// The OnAbort is called when a setup is aborted via the abort keyword.
+//---------------------------------------------------------------------------
+function OnAbort()
+begin
+end;
+
+//---------------------------------------------------------------------------
+// OnCanceling
+//
+// The OnCanceling event is sent when the installation is cancelled, 
+// usually as result of end user clicking Cancel button of a dialog or
+// pressing Esc key. Calling Do(EXIT) will also trigger this event.
+//---------------------------------------------------------------------------
+function OnCanceling()
+    STRING szTitle, szMsg1, szMsg2, szOpt1, szOpt2;
+    NUMBER bvOpt1, bvOpt2;
+begin
+    if (IDYES = SprintfBox(MB_YESNO|MB_ICONEXCLAMATION|MB_DEFBUTTON2, SdLoadString(SD_STR_ONCANCELING_TITLE), SdLoadString(SD_STR_ONCANCELING_CONFIRM_MSG))) then
+        //Close the current dialog.
+        EndCurrentDialog();
+        //Display Finish dialog.
+        szTitle = "";    
+        szMsg1 = SdLoadString( SD_STR_ONCANCELING_FINISH_MSG1 );
+        szMsg2 = SdLoadString( SD_STR_ONCANCELING_FINISH_MSG2 );    
+        szOpt1 = "";
+        szOpt2 = "";
+        bvOpt1   = FALSE;
+        bvOpt2   = FALSE;
+        SdFinish ( szTitle, szMsg1, szMsg2 , szOpt1, szOpt2, bvOpt1, bvOpt2 );                       
+        
+        abort;
+    endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CreateLogFile                                                  //
+//                                                                           //
+// Purpose:   This function takes a text filename as an input parameter      //
+//			  and it creates a Installation Normal/Error Logs Uninstallation //
+//			  Normal/Error Logs Database Normal/Error Logs                   //
+///////////////////////////////////////////////////////////////////////////////
+
+function number CreateLogFile(szFileName)
+number nvResult,nvFileHandle; 
+string szPath;
+begin         
+szPath = WINDISK + "\\";
+OpenFileMode(FILE_MODE_APPEND); 
+
+
+nvResult = CreateFile(nvFileHandle,szPath,szFileName); 
+if(nvResult < 0) then
+	MessageBox("Log File "+szFileName +" Cannot be Created",INFORMATION);
+endif;
+
+return 1;
+end;        
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  CheckTypeofInstallation                                        //
+//                                                                           //
+// Purpose:   This function is check the type of installation in the         //
+//			  target machine as Fresh Installation or Upgrade Installation   //
+//			  or Product Upgrade/Fresh Installation	                         //
+///////////////////////////////////////////////////////////////////////////////
+
+function number CheckTypeofInstallation()
+number nvVersion,nvRootKey;
+string szPMRegPath;
+begin   
+nvVersion=VerProductCompareVersions(); 
+szPMRegPath = "SOFTWARE\\DRE";
+
+//Log Files Created and put in C:\\(or System drive where the OS is installed) for Installation Normal/Error  Conditions           	    
+CreateLogFile(INSTALL_LOG);  
+CreateLogFile(INSTALL_ERRORLOG);  
+
+// Compare version for Fresh/upgrade/Maintanance
+CompareVersion();
+switch (gInstallMode)
+case "Upgrade":
+             WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Installer");
+             g_bFreshInstaller  = FALSE;
+			 g_bUpgradeInstaller= TRUE;
+			 GetDRERegistry();
+			 onUpgradeUIBefore();
+			 UPDATEMODE = MAINTENANCE && ( nvVersion != VERSION_COMPARE_RESULT_SAME );
+case "Same":
+			 WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Product (Same version)");
+             g_bFreshInstaller  = FALSE;
+			 g_bUpgradeInstaller= TRUE;
+			 GetDRERegistry();
+			 onUpgradeUIBefore();
+			 UPDATEMODE = MAINTENANCE && ( nvVersion = VERSION_COMPARE_RESULT_SAME );
+case "Fresh":    
+			 WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Product (Same version)");
+             g_bFreshInstaller  = TRUE;
+			 g_bUpgradeInstaller= FALSE;
+case "Older":
+			 WriteToLogFile(INSTALL_LOG,"A later version of 'DRE' is already installed on this machine. The setup cannot continue.");
+			 MessageBox("A later version of 'DRE' is already installed on this machine. The setup cannot continue.", SEVERE);
+			 exit;
+endswitch; 
+/*
+switch (nvVersion)
+case VERSION_COMPARE_RESULT_NEWER:
+             WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Installer");
+             g_bFreshInstaller  = FALSE;
+			 g_bUpgradeInstaller= TRUE;
+			 GetDRERegistry();
+			 onUpgradeUIBefore();
+			
+		     
+case VERSION_COMPARE_RESULT_SAME:
+             WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Product (Same version)");
+             g_bFreshInstaller  = FALSE;
+			 g_bUpgradeInstaller= TRUE;
+			 GetDRERegistry();
+			 onUpgradeUIBefore();
+		                  
+case VERSION_COMPARE_RESULT_NOT_INSTALLED:    
+              WriteToLogFile(INSTALL_LOG,"Type of installation is Upgrade Product (Same version)");
+             g_bFreshInstaller  = TRUE;
+			 g_bUpgradeInstaller= FALSE;
+
+case VERSION_COMPARE_RESULT_OLDER:
+			 WriteToLogFile(INSTALL_LOG,"A later version of 'DRE' is already installed on this machine. The setup cannot continue.");
+			 MessageBox("A later version of 'DRE' is already installed on this machine. The setup cannot continue.", SEVERE);
+			 exit;
+  
+endswitch; 
+*/
+
+return 1;
+end;   
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                       //
+// Function:  CheckNET4version  								                                         //
+//                                                                                                       //
+// Purpose:   This function check for .NET Framework version 4.0                                         //
+//                                                                                                       //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+function CheckNET4version()
+STRING szKey,szVersion,szValue,szMsg;
+NUMBER nSize,nType;
+begin
+    
+    szKey="SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full";
+    RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    if(RegDBKeyExist(szKey)=1) then
+		szMsg = ".NET Framework 4.0 is Installed.";
+		WriteToLogFile(INSTALL_LOG,szMsg);
+	else
+		MessageBox("This computer does not have the correct version of the .NET Framework installed, the minimum supported version is 4.0. Please install this Framework and re-run the Installer.",SEVERE);
+		abort;
+	endif;
+
+    return 0;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  onUpgradeUIBefore                                              //
+//                                                                           //
+// Purpose:   This function is used to show up the UI dialogs that may       //
+//			  be required in case of upgrade installation or product         //       
+//			  upgrade/fresh installation                                     //
+///////////////////////////////////////////////////////////////////////////////
+
+function number onUpgradeUIBefore()   
+string szTitle,szMsg,szQuestion,szUser, szPassword;
+number nvResult,nvDefault,nvAskButtonRetValue;  
+HWND hMSI;  
+STRING szApplicationPortal,szAppPoolPortal,szPhysicalPathPortal;
+begin
+
+Dlg_UpgradeSdWelcome:
+		//This Dialog is used to show the Welcome Screen indicating the Start of Upgrade Installation
+	    szTitle = "DRE Installation";  
+	    szMsg   = "Welcome to the Upgrade Installation of DRE.";
+		Disable(BACKBUTTON);    
+	    nvResult = SdWelcome(szTitle,szMsg);  
+	   
+Dlg_AskInstallationType:
+	    szTitle    = "DRE Installation Type";
+	    szMsg      = "This specifies the type of installation as Application only or Application with Database";   
+	    
+	    g_bDRESite = TRUE;
+	    g_bDREServices = TRUE;
+	    g_bDREDatabase = TRUE;
+	   
+		nvResult    = AskOptions(NONEXCLUSIVE,"Select the type of Installation Required.","DRE Site",g_bDRESite,"DRE Services",g_bDREServices, "DRE Database", g_bDREDatabase); 
+	    
+	    //select features based on selection
+	    if(g_bDRESite=TRUE) then
+			FeatureSelectItem (MEDIA, "DRESite", TRUE);
+		else
+			FeatureSelectItem (MEDIA, "DRESite", FALSE);
+		endif;
+		
+		if(g_bDREServices=TRUE) then
+			FeatureSelectItem (MEDIA, "DREServices", TRUE);
+		else
+			FeatureSelectItem (MEDIA, "DREServices", FALSE);
+		endif;
+				
+	    
+	    if (nvResult = BACK) then
+	    	     goto Dlg_UpgradeSdWelcome;
+	    endif;
+	
+  
+		if(g_bDREDatabase = TRUE ) then 
+    		goto Dlg_TestConnectDBforUpgradeInstall;
+		
+		endif;  
+	
+Dlg_TestConnectDBforUpgradeInstall:	
+	   nvResult=OnSQLServerInitialize(NEXT);
+	   if(nvResult = BACK) then 
+			goto Dlg_AskInstallationType;
+	   endif;  
+	  
+	   // Method Call to do Pure Upgrade Installation of DB Scripts 
+	   //Create database normal/error log files 
+	   CreateLogFile(DATABASE_LOG);       
+	   CreateLogFile(DATABASE_ERRORLOG);
+	   
+	   SetFreshDBCompatibilityLevel();
+	   
+	   //Start the Pure Upgrade Installation DB Scripts Execution
+	   Disable( DIALOGCACHE );
+	   //StartUpgradeDBScriptsExecution(SRCDIR ^ "Scripts");
+	   Enable( DIALOGCACHE );
+	   
+	   BackupWebConfigFile();
+	
+	 
+Dlg_UpgradeDialogEnd:
+     //End of Upgrade Installation
+     
+ 
+     
+return 1;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdateDRESiteWebConfig  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for Portal                  //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdateDRESiteWebConfig()
+STRING  szSrcPath, szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+STRING szaddNameConnectionStringKey, szPureDBconnectionString,szDREDBconnectionString,strNodeName;
+STRING szworkingDirectory,szxsdExePath;
+STRING szCustomTask,szAssemblyPath;
+STRING szKey,szSQLiteDLLPath;
+begin
+    
+    SdShowMsg ( "Updating DRE Site web.config . . . please wait." , TRUE );
+    
+    szSrcPath= TARGETDIR ^ "Site";
+    
+    szworkingDirectory= szSrcPath ^ "TempUpload\\";
+    szxsdExePath= szSrcPath ^ "bin" ^ "xsd.exe";
+    
+    
+    //"Data Source=(local);Initial Catalog=DRE;Pooling=False;MultipleActiveResultSets=true;User Id=sirius;password=$1R1U5"
+	szPureDBconnectionString= "Data Source=" + g_PureDBServer + ";" + 
+						"Initial Catalog=" + g_PureDB + ";" + 
+						"Pooling=False;MultipleActiveResultSets=true" + ";" + 
+						"User Id=" + g_szSiriusUserName + ";" +
+						"password=" + g_szSiriusPassword ;
+						
+	WriteToLogFile(INSTALL_LOG,"Pure DB connectionstring=" + szPureDBconnectionString );
+						
+	szDREDBconnectionString= "Data Source=" + g_szDBServer + ";" + 
+						"Initial Catalog=" + g_szSiriusDBName + ";" + 
+						"Pooling=False;MultipleActiveResultSets=true" + ";" + 
+						"User Id=" + g_szSiriusUserName + ";" +
+						"password=" + g_szSiriusPassword ;
+						
+	WriteToLogFile(INSTALL_LOG,"DRE DB connectionstring=" + szDREDBconnectionString );					
+						
+	
+    LongPathToQuote(szSrcPath, TRUE); 
+    // icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szSrcPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	
+	LongPathToQuote(szSrcPath, FALSE); 
+	
+	
+	szFileName = szSrcPath ^ "web.config";
+    LongPathToQuote(szFileName, TRUE); 
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+	// Set the read-only flag OFF
+	SetFileInfo ( szSrcPath ^ "web.config", FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("*");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                
+                
+                 try
+                     szKey = oNode.attributes.getNamedItem("key").value;
+                     if szKey = "SQLiteDLLPath" then
+						szSQLiteDLLPath= szSrcPath ^ "bin\\System.Data.SQLite.dll";
+						oNode.attributes.getNamedItem("value").value = szSQLiteDLLPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szSQLiteDLLPath);
+                     endif;
+                    
+                catch
+				endcatch; 
+                
+                try
+                     szaddNameConnectionStringKey = oNode.attributes.getNamedItem("name").value;
+                     if szaddNameConnectionStringKey = "database" then
+                        oNode.attributes.getNamedItem("connectionString").value = szDREDBconnectionString;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, connectionString=" + szDREDBconnectionString);
+                     endif;
+                     
+                     if szaddNameConnectionStringKey = "s4i" then
+                        oNode.attributes.getNamedItem("connectionString").value = szPureDBconnectionString;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, connectionString=" + szPureDBconnectionString);
+                     endif;
+                catch
+				endcatch; 
+				 
+				try     
+                     strNodeName= oNode.nodeName;
+					 if(strNodeName= "xsdPublisher")then
+							oNode.attributes.getNamedItem("workingDirectory").value = szworkingDirectory;
+							WriteToLogFile(INSTALL_LOG,"Updating web.config, workingDirectory=" + szworkingDirectory);
+							
+							oNode.attributes.getNamedItem("xsdExePath").value = szxsdExePath;
+							WriteToLogFile(INSTALL_LOG,"Updating web.config, xsdExePath=" + szxsdExePath);
+                     
+                     endif;
+				 catch
+				 endcatch;
+				 
+				 try
+                     szCustomTask = oNode.attributes.getNamedItem("taskName").value;
+                     if szCustomTask = "PureInsAddOutput" then
+						szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddOutput.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     
+                     if szCustomTask = "PureInsAddEntity" then
+                        szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddEntity.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsClearEntity" then
+                        szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsClearEntity.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsAddDecline" then
+						szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddDecline.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsProperties" then
+                        szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsProperties.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsAddOutputCommission" then
+						 szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddOutputCommission.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsAddOutputPremiumBreakdown" then
+                        szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddOutputPremiumBreakdown.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsAddOutputReferrals" then
+                        szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddOutputReferrals.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                     
+                     if szCustomTask = "PureInsAddOutputReferralsAudit" then
+                        szAssemblyPath= szSrcPath ^ "bin\\RulesEngine.Website.PureInsAddOutputReferralsAudit.dll";
+                        oNode.attributes.getNamedItem("assembly").value = szAssemblyPath;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, assembly=" + szAssemblyPath);
+                     endif;
+                    
+                catch
+				endcatch; 
+			endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,WARNING);                         
+        return -1;
+    endif;
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    SdShowMsg ( "Updating DRE Site web.config . . . please wait." , FALSE );	
+   
+    return 0;
+end; 
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdateDREServicesWebConfig  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for Portal                  //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdateDREServicesWebConfig()
+STRING  szSrcPath, szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+STRING szaddNameConnectionStringKey, szPureDBconnectionString,szDREDBconnectionString,strNodeName;
+STRING szworkingDirectory,szxsdExePath;
+begin
+    
+    SdShowMsg ( "Updating DRE Services web.config . . . please wait." , TRUE );
+    
+    szSrcPath= TARGETDIR ^ "Services";
+    
+  
+    //"Data Source=(local);Initial Catalog=DRE;Pooling=False;MultipleActiveResultSets=true;User Id=sirius;password=$1R1U5"
+	szPureDBconnectionString= "Data Source=" + g_PureDBServer + ";" + 
+						"Initial Catalog=" + g_PureDB + ";" + 
+						"Pooling=False;MultipleActiveResultSets=true" + ";" + 
+						"User Id=" + g_szSiriusUserName + ";" +
+						"password=" + g_szSiriusPassword ;
+						
+	WriteToLogFile(INSTALL_LOG,"Pure DB connectionstring=" + szPureDBconnectionString );
+						
+	szDREDBconnectionString= "Data Source=" + g_szDBServer + ";" + 
+						"Initial Catalog=" + g_szSiriusDBName + ";" + 
+						"Pooling=False;MultipleActiveResultSets=true" + ";" + 
+						"User Id=" + g_szSiriusUserName + ";" +
+						"password=" + g_szSiriusPassword ;
+						
+	WriteToLogFile(INSTALL_LOG,"DRE DB connectionstring=" + szDREDBconnectionString );					
+						
+	
+    LongPathToQuote(szSrcPath, TRUE); 
+    // icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szSrcPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	Disable (LOGGING);
+
+	LongPathToQuote(szSrcPath, FALSE); 
+	
+	szFileName = szSrcPath ^ "web.config";
+    LongPathToQuote(szFileName, TRUE); 
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+	// Set the read-only flag OFF
+	SetFileInfo ( szSrcPath ^ "web.config", FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("*");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                
+                try
+                     szaddNameConnectionStringKey = oNode.attributes.getNamedItem("name").value;
+                     if szaddNameConnectionStringKey = "database" then
+                        oNode.attributes.getNamedItem("connectionString").value = szDREDBconnectionString;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, connectionString=" + szDREDBconnectionString);
+                     endif;
+                     
+                     if szaddNameConnectionStringKey = "s4i" then
+                        oNode.attributes.getNamedItem("connectionString").value = szPureDBconnectionString;
+                        WriteToLogFile(INSTALL_LOG,"Updating web.config, connectionString=" + szPureDBconnectionString);
+                     endif;
+                catch
+				endcatch; 
+			endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,WARNING);                         
+        return -1;
+    endif;
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    SdShowMsg ( "Updating DRE Services web.config . . . please wait." , FALSE );	
+ 
+    return 0;
+end; 
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  UpdateDREServicesWebConfig  	                                             //
+//				                                                                     //
+// Purpose:   This function edit/updates web.config file for Portal                  //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function UpdateDREServicesApplicationSettingsWebConfig()
+STRING  szSrcPath, szFileName,szTargetFile, szTargetPath, szAddKey,szPath;
+NUMBER	nResult,i,nvResult;  
+OBJECT  oDoc, oNodeList,oNode,oChildNode;
+STRING	szProgram,szCommand,szCommand1,szPermission;
+STRING szaddNameConnectionStringKey, szPureDBconnectionString,szDREDBconnectionString,strNodeName;
+STRING szworkingDirectory,szxsdExePath;
+STRING szRuleSetPath, szDebugPath;
+begin
+    
+    SdShowMsg ( "Updating DRE Services web.config . . . please wait." , TRUE );
+    
+    szSrcPath= TARGETDIR ^ "Services";
+    
+     
+    LongPathToQuote(szSrcPath, TRUE); 
+    // icacls C:\pure\rules /grant test:(OI)(CI)WR
+	szPermission="(OI)(CI)MWR";
+   	szCommand=	szSrcPath + " /grant " + g_szUserName + ":" + szPermission;
+   	WriteToLogFile(INSTALL_LOG,"Setting up permissions with command=" + szCommand );
+	nvResult = LaunchAppAndWait("icacls ",szCommand,LAAW_OPTION_WAIT | LAAW_OPTION_HIDDEN);
+	Disable (LOGGING);
+
+	LongPathToQuote(szSrcPath, FALSE); 
+	
+	szFileName = szSrcPath ^ "web.config";
+    LongPathToQuote(szFileName, TRUE); 
+	WriteToLogFile(INSTALL_LOG,"web.config path=" + szFileName); 
+	
+	if Is(FILE_EXISTS, szFileName) = TRUE then
+    else
+        MessageBox ( "Can't find web.config", INFORMATION );
+    endif;
+    // Set the read-only flag OFF
+	SetFileInfo ( szFileName, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+	// Set the read-only flag OFF
+	SetFileInfo ( szSrcPath ^ "web.config", FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+	
+    set oDoc = CreateObject("Msxml2.DOMDocument.6.0"); 
+    if (IsObject(oDoc) = FALSE) then
+        MessageBox(ERROR_XML_FILE_CREATION, 0);
+        return -1;     
+    endif;  
+    //False means that the download must be completed before the caller gets the control back
+    oDoc.async = FALSE;  
+    if oDoc.load(szFileName) then
+		Delay(15);
+		WriteToLogFile(INSTALL_LOG,"web.config file Loaded successfully");
+        set oNodeList = oDoc.getElementsByTagName("setting");
+        if (oNodeList.length > 0) then   
+            for i = 0 to (oNodeList.length - 1);            
+                set oNode = oNodeList.nextNode;
+                
+                try
+                     szaddNameConnectionStringKey = oNode.attributes.getNamedItem("name").value;
+                     if szaddNameConnectionStringKey = "RuleSetPath" then
+						szRuleSetPath= szSrcPath ^ "bin\\RuleSets\\";
+						oNode.childNodes(0).Text= szRuleSetPath;
+						WriteToLogFile(INSTALL_LOG,"Updating web.config, RuleSetPath=" + oNode.childNodes(0).Text);
+                     endif;
+                     
+                     if szaddNameConnectionStringKey = "DebugPath" then
+						szDebugPath= szSrcPath ^ "bin\\RuleSets\\Debug\\";
+						oNode.childNodes(0).Text=szDebugPath;
+						WriteToLogFile(INSTALL_LOG,"Updating web.config, DebugPath=" + oNode.childNodes(0).Text);
+                     endif;
+                catch
+				endcatch; 
+			endfor; 
+        else
+            MessageBox(ERROR_XML_FILE_STRUCTURE,SEVERE);
+            return -1;
+        endif;   
+    else
+        MessageBox(ERROR_XML_FILE_LOAD,WARNING);                         
+        return -1;
+    endif;
+    oDoc.save(szFileName);
+    set oDoc = NOTHING;
+    SdShowMsg ( "Updating DRE Services web.config . . . please wait." , FALSE );	
+ 
+    return 0;
+end; 
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  ModifyPortalApplicationSetting                                 //
+//                                                                           //
+// Purpose:   This function                                                  //
+///////////////////////////////////////////////////////////////////////////////
+/*function ModifyPortalApplicationSetting()
+STRING szProgram,szCommand,szCommand1,szAppPoolCommand,szAppPathCommand;
+NUMBER nvResult;
+begin
+	//Modify Application Physical Path
+	//%systemroot%\system32\inetsrv\APPCMD set app "Default Web Site/Pure.Portal1" /[path='/'].physicalPath:c:\application
+	szProgram = WINSYSDIR ^ "inetsrv\\appcmd.exe"; 
+    LongPathToQuote(szProgram, TRUE); 
+    szCommand = "set app ";
+    szCommand1 = "Default Web Site/" + g_szApplicationPortal;
+    LongPathToQuote(szCommand1, TRUE); 
+    LongPathToQuote(g_szPhysicalPathPortal, TRUE); 
+    szAppPathCommand = szCommand + szCommand1 + " /[path='/'].physicalPath:" + g_szPhysicalPathPortal;
+	WriteToLogFile(INSTALL_LOG,szAppPathCommand);
+	LaunchAppAndWait(szProgram,szAppPathCommand,WAIT);
+	//Modify Application Pool
+	//%systemroot%\system32\inetsrv\APPCMD set app "Default Web Site/Pure.Portal1" /applicationPool:PurePortalAppPool
+	szAppPoolCommand = szCommand + szCommand1 + " /applicationPool:" + g_szAppPoolPortal;
+	WriteToLogFile(INSTALL_LOG,szAppPoolCommand);
+	LaunchAppAndWait(szProgram,szAppPoolCommand,WAIT);
+	return 0;
+end;
+*/
+///////////////////////////////////////////////////////////////////////////////////////
+//                                                                                   //
+// Function:  CompareVersion  	                                                     //
+//				                                                                     //
+// Purpose:   This function                                                                       //
+//			                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////
+function CompareVersion()
+    NUMBER nResult,nPos, nLastPos, nLoop;
+	STRING svMajor,svMinor,svBuild,svRegMajor,svRegMinor,svRegBuild; 
+    NUMBER nMajor,nMinor,nBuild,nRegMajor,nRegMinor,nRegBuild; 
+    STRING	sProductVersionArray(3),sRegProductVersionArray(3), sTemp;
+    STRING szUninstallKey, szDisplayVersion;
+    NUMBER nSize,nType;
+        
+begin
+
+    // Read Product Version of Installer from ProductVersion property
+    g_ProcutVersion = IFX_PRODUCT_VERSION;
+	
+  	//Look for three values - Major, Minor,Build Number
+	nLastPos = 0;
+	for nLoop = 0 to 2  
+		nPos = StrFind ( g_ProcutVersion, "." );
+		if ( nPos <= 0 ) then 
+			nPos = StrLength ( g_ProcutVersion );
+		endif;
+		StrSub ( sTemp, g_ProcutVersion, 0, nPos );
+		sProductVersionArray ( nLoop ) = sTemp; 
+		StrSub ( g_ProcutVersion, g_ProcutVersion, nPos + 1, StrLength ( g_ProcutVersion ) );
+	endfor;
+	
+	svMajor =sProductVersionArray (0);  
+	StrToNum(nMajor,svMajor); 
+	svMinor =sProductVersionArray (1);
+  	StrToNum(nMinor,svMinor);
+  	svBuild =sProductVersionArray (2); 
+  	StrToNum(nBuild,svBuild);
+  
+    // Read Product Version from regsitry
+	szUninstallKey="SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{15F8BC19-DD4F-4825-8FDB-F8348F8B66E8}";
+    szDisplayVersion= "DisplayVersion"; 
+    
+    nSize= -1;
+    nType= REGDB_STRING;   
+    
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+    
+    if((RegDBKeyExist(szUninstallKey)=1)) then
+		RegDBGetKeyValueEx (szUninstallKey, szDisplayVersion, nType, g_InstalledVersion, nSize); 
+	else
+		// Not Installed, so it is Fresh Install
+		gInstallMode="Fresh";
+	endif;
+	
+	if(gInstallMode="Fresh") then
+		//
+	
+	else
+
+		//Look for three values - Major, Minor,Build Number
+		nLastPos = 0;
+		for nLoop = 0 to 2  
+			nPos = StrFind ( g_InstalledVersion, "." );
+			if ( nPos <= 0 ) then 
+				nPos = StrLength ( g_InstalledVersion );
+			endif;
+			StrSub ( sTemp, g_InstalledVersion, 0, nPos );
+			sRegProductVersionArray ( nLoop ) = sTemp; 
+			StrSub ( g_InstalledVersion, g_InstalledVersion, nPos + 1, StrLength ( g_InstalledVersion ) );
+		endfor;
+	
+		svRegMajor =sRegProductVersionArray (0);
+		StrToNum(nRegMajor,svRegMajor);
+		svRegMinor =sRegProductVersionArray (1);
+		StrToNum(nRegMinor,svRegMinor);
+		svRegBuild =sRegProductVersionArray (2); 
+		StrToNum(nRegBuild,svRegBuild);
+  	
+		// Compare the Installed Version and New version for each of the three values
+  	  	
+		if(nMajor < nRegMajor)then
+  	     	gInstallMode="Older"; 
+		else
+			if((nMajor = nRegMajor)&&(nMinor < nRegMinor))then 
+  			 		gInstallMode="Older"; 
+			else
+				if((nMajor = nRegMajor)&&(nMinor = nRegMinor)&&(nBuild < nRegBuild)) then
+  				 		gInstallMode="Older"; 
+				else
+					if((nMajor = nRegMajor)&&(nMinor = nRegMinor)&&(nBuild = nRegBuild)) then 
+  					 		gInstallMode="Same";
+							
+					else
+						gInstallMode="Upgrade";
+					endif;
+				endif;
+			endif;
+		endif;
+	endif;//if(gInstallMode="Fresh") then
+		
+   return 0; 
+    
+end;
+
+//---------------------------------------------------------------------------
+// OnSetUpdateMode
+//
+// OnSetUpdateMode is called directly by the framework to set the UPDATEMODE
+// InstallShield system variable appropriately to control which UI events
+// are called by OnShowUI.
+//
+// Note: This event is called for all setups.
+//---------------------------------------------------------------------------
+function OnSetUpdateMode()
+	number	nIgnore, nMediaFlags, nInstalledVersion, nUpdateVersion, nResult;
+	string	szVersion, szIgnore, szMsg;
+begin
+	
+	UPDATEMODE = FALSE; // Non-update mode by default.
+
+	// Added 11.5 - Don't set UPDATEMODE when running from Add/Remove
+	if( ADDREMOVE ) then
+		return ISERR_SUCCESS;
+	endif;
+
+	// Added 11.5 - Don't set UPDATEMODE when REMOVEONLY is specified
+	if( REMOVEONLY ) then
+		return ISERR_SUCCESS;
+	endif;
+
+	// Get the media flags.
+	MediaGetData( MEDIA, MEDIA_FIELD_MEDIA_FLAGS, nMediaFlags, szIgnore );
+
+	// TODO: If you are updating an application that was installed by a previous
+	// version of InstallShield, IFX_INSTALLED_VERSION will be empty, and
+	// VERSION_COMPARE_RESULT_NOT_INSTALLED will be returned by
+	// VerProductCompareVersions. Change the value of IFX_INSTALLED_VERSION (and
+	// IFX_INSTALLED_DISPLAY_VERSION) here based on application specific version
+	// information determined by the setup. Only do this if IFX_INSTALLED_VERSION
+	// is empty.
+	//if ( !StrLengthChars( IFX_INSTALLED_VERSION ) && MAINTENANCE ) then
+	//	IFX_INSTALLED_VERSION = "X.XX.XXX";
+	//	IFX_INSTALLED_DISPLAY_VERSION = IFX_INSTALLED_VERSION;
+	//endif;
+
+	// Verify that the installed version is valid.
+	if( !StrLengthChars( IFX_INSTALLED_VERSION ) && MAINTENANCE ) then
+		// If this error occurs, IFX_INSTALLED_VERSION needs to be set manually.
+		//szMsg = SdLoadString( IDS_IFX_ERROR_UPDATE_NO_INSTALLED_VERSION );
+		//MessageBox( szMsg, SEVERE );
+		//abort;
+	endif;
+
+	// Verify that the product version is valid.
+	if( !StrLengthChars( IFX_PRODUCT_VERSION ) ) then
+		// If this error occures, IFX_PRODUCT_VERSION was not initialized correctly.
+		//szMsg = SdLoadString( IDS_IFX_ERROR_UPDATE_NO_PRODUCT_VERSION );
+		//MessageBox( szMsg, SEVERE );
+		//abort;
+	endif;
+
+	// Do the version comparison.
+	nResult = VerProductCompareVersions();
+
+	// Make sure that valid data was returned by VerProductCompareVersions
+	if( nResult < ISERR_SUCCESS ) then
+		//szMsg = SdLoadString( IDS_IFX_ERROR_UPDATE_VERSION_COMPARE_FAILURE );
+		//MessageBox( szMsg, SEVERE );
+		//abort;
+	endif;
+
+	// Set update mode if this is a differential media or the product is already installed and the versions do not match.
+	UPDATEMODE = ( nMediaFlags & MEDIA_FLAG_FORMAT_DIFFERENTIAL || ( MAINTENANCE && ( nResult != VERSION_COMPARE_RESULT_SAME ) ) );
+
+end;
+
+////////////////////////////////////////////////////////////////////////
+//                                                                    //
+// Function:  CheckPrerequisites                                            //
+//                                                                    //
+// Purpose:                                                           //
+////////////////////////////////////////////////////////////////////////
+function CheckPrerequisites()
+STRING szInstalledMajorVersionVersion,szPureInstalledVersion,szPureCompatibleVersion,szPureFullInstalledVersion;
+NUMBER nMajorversion;
+begin
+	
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szPureInstalledVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Version");
+	szPureFullInstalledVersion = GetFromRegistry("SOFTWARE\\Pure\\PureInstallation\\Setup","Full Version");
+	
+	StrSub(szInstalledMajorVersionVersion,szPureInstalledVersion,0,1);
+	
+	StrToNum(nMajorversion,szInstalledMajorVersionVersion);
+	
+	if(nMajorversion >= 3)then
+		 WriteToLogFile(INSTALL_LOG,"Pure version 3.0 is  installed in the system");
+	else
+		 MessageBox("The current version of PURE Insurance " + szPureFullInstalledVersion + " is not compatible with DRE. You must be running PURE 3.0 or higher. \n\nPlease upgrade your PURE version then re-run the DRE installation.", SEVERE);
+		 abort;
+	endif;
+	
+	//g_PureCompatibleVersion 
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  SetFreshDBCompatibilityLevel  							     //
+//                                                                           //
+// Purpose:   This function is used to set the DB compatibility level        //
+//			  to SQLSERVER 2000 to newly created Sirius DB in SQLServer 2005 //
+///////////////////////////////////////////////////////////////////////////////
+
+function number SetFreshDBCompatibilityLevel()
+number nvResult;
+string szDBCompatScript;
+STRING szProductVersionSQL,svProductVersion,svMajorProductVersion;
+begin   
+
+	szProductVersionSQL="SELECT SERVERPROPERTY('ProductVersion') ProductVersion";
+	svProductVersion = ADODBConnectExecuteAndReturn(g_szDBServer,"master",g_szSiriusUserName,g_szSiriusPassword,szProductVersionSQL,"ProductVersion");  
+	
+	//MessageBox("Product version=" + svProductVersion ,INFORMATION);
+	StrSub(svMajorProductVersion,svProductVersion,0,2); 
+	//MessageBox("Major version=" + svMajorProductVersion ,INFORMATION);
+
+	if(svMajorProductVersion= "11") then
+		szDBCompatScript = "execute sp_dbcmptlevel '"+ g_szSiriusDBName +"',110";
+	endif;
+	
+	if(svMajorProductVersion= "10") then
+		szDBCompatScript = "execute sp_dbcmptlevel '"+ g_szSiriusDBName +"',100";
+	endif;
+	
+	nvResult = ADODBConnectAndExecute(g_szDBServer,g_szSiriusDBName,g_szSiriusUserName,g_szSiriusPassword,szDBCompatScript);
+	if(nvResult = 1) then
+		WriteToLogFile(INSTALL_LOG,g_szSiriusDBName +" Database Compatibility set to SQL Server 2008");
+	else
+		WriteToLogFile(INSTALL_ERRORLOG,g_szSiriusDBName +" Database Compatibility cannot to SQL Server 2008. Please perform this step manually.");
+	endif; 
+
+return 1;
+end;      
+
+///////////////////////////////////////////////////////////////////////////////
+//                                                                           //
+// Function:  BackupWebConfigFile  							                 //
+//                                                                           //
+// Purpose:   This function is used to take backup of DRE Site and           //
+//			   DRE Services web.config file                                  //
+///////////////////////////////////////////////////////////////////////////////
+function BackupWebConfigFile()
+STRING szDRESiteSrcFile,szDRESiteTargetFile,szDREServicesSrcFile,szDREServicesTargetFile;
+begin
+	
+	//DRE Site web.config file backup
+	szDRESiteSrcFile= TARGETDIR ^ "Site" ^ "web.config";
+	szDRESiteTargetFile= TARGETDIR ^ "Site" ^ "web.config.bak";
+
+	if Is(FILE_EXISTS, szDRESiteTargetFile) = TRUE then
+		  DeleteFile(szDRESiteTargetFile);
+	
+	endif;
+	
+	if Is(FILE_EXISTS, szDRESiteSrcFile) = TRUE then
+		CopyFile ( szDRESiteSrcFile, szDRESiteTargetFile ); 
+	endif;
+	
+	//DRE Services web.config file backup
+	szDREServicesSrcFile= TARGETDIR ^ "Services" ^ "web.config";
+	szDREServicesTargetFile= TARGETDIR ^ "Services" ^ "web.config.bak";
+	
+	if Is(FILE_EXISTS, szDREServicesTargetFile) = TRUE then
+		  DeleteFile(szDREServicesTargetFile);
+	
+	endif;
+	
+	if Is(FILE_EXISTS, szDREServicesSrcFile) = TRUE then
+		CopyFile ( szDREServicesSrcFile, szDREServicesTargetFile ); 
+	endif;
+	
+	
+	MessageBox("Please note during DRE upgrade, your DRE Site and Services web.config files will be replaced.\n\nBackup of current web.config files containing your settings has been created to " + szDRESiteTargetFile + " and " +  szDREServicesTargetFile + "." + "\n\nPlease update the new config files with your settings from the backup files." ,INFORMATION);
+	//"Please note during DRE upgrade, your DRE Site and Services web.config files will be replaced, Backup of current web.config files containing your settings has been created to <full file path and name>, You should update the new config files with your settings from the backup files”
+	return 0;
+
+end;

@@ -1,0 +1,57 @@
+﻿@model UserProfileViewModel
+@using Thinktecture.IdentityServer.Web.Areas.Admin.App_LocalResources.User
+@using Thinktecture.IdentityServer.Web.Utility
+
+@{
+    ViewBag.Title = string.Format(Profile_cshtml.Profile, Model.Username);
+}
+
+
+@if (Model.ProfileValues == null || Model.ProfileValues.Length == 0)
+{
+    <p>@Profile_cshtml.NoProfilePropertiesAvailable</p>
+}
+else
+{
+    using(Html.BeginForm())
+    {
+       
+        @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-heading">
+            <h1>@ViewBag.Title</h1>
+        </div>
+           <div class="card-body clearfix">
+               <div class="form-horizontal">
+                     @for (int i = 0; i < Model.ProfileValues.Length; i++)
+                        {
+                            var prop = Model.ProfileValues[i].Data;
+                            <div class="form-group form-group-sm">
+                                <label class="Col-lg-2 col-md-3 control-label" for="@prop.Name">@prop.Name</label>
+                                 @Html.Validator("profileValues["+i+"].value", Model.ProfileValues[i].Description)
+                                <input type="hidden" name="profileValues[@i].name" value="@prop.Name" />
+                                 <div class="Col-lg-8 col-md-8">
+                                @if (Model.ProfileValues[i].Type == ProfilePropertyViewModel.ProfilePropertyType.Boolean)
+                                {
+                                    var isChecked = Convert.ToBoolean(prop.Value);
+                                    <input type="checkbox" id="@prop.Name" checked="@isChecked" name="profileValues[@i].value" value="true" />
+                                    <input hidden type="checkbox" id="@prop.Name" checked name="profileValues[@i].value" value="false" />
+                                }
+                                else
+                                {
+                                    <input class="form-control" id="@prop.Name" name="profileValues[@i].value" value="@prop.Value" />
+                                }
+                               
+                               </div>
+                            </div>
+                        }
+               </div>
+           </div>
+        <div class="card-footer">
+             <button class="btn btn-sm btn-primary">@Profile_cshtml.Save</button>
+        </div>
+   </div>
+     @Html.ValidationSummary(Profile_cshtml.ErrorsUpdatingProfile)
+        
+    }
+}

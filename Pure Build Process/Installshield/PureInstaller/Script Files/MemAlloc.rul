@@ -1,0 +1,308 @@
+//===========================================================================
+//
+//  File Name:    memalloc.rul
+//
+//  
+//  Comments:     This rule file contains type definitions and prototype   
+//				  definitions for folders Sharing in a Windows Network System
+//===========================================================================
+#ifndef _MEMALLOC_H_
+#define _MEMALLOC_H_
+
+#include "ifx.h"
+
+#ifndef CP_ACP
+#define CP_ACP				0 /* default to ANSI code page */
+#endif
+
+#ifndef CP_OEMCP
+#define CP_OEMCP			1 /* default to ANSI code page */
+#endif
+
+#ifndef MB_PRECOMPOSED
+#define MB_PRECOMPOSED		0x00000001  // use precomposed chars
+#endif
+
+#define GMEM_DISCARDED		0x4000
+#define GMEM_LOCKCOUNT		0xFF
+
+#ifndef ERROR_NOT_LOCKED
+#define ERROR_NOT_LOCKED	158
+#endif
+
+#define GMEM_FIXED			0x0
+#define GMEM_MOVEABLE		0x2
+#define GMEM_ZEROINIT		0x40
+#define GMEM_MODIFY			0x80
+#define GMEM_DISCARDABLE    0x100
+#define GMEM_VALID_FLAGS	0x7F72
+#define GMEM_INVALID_HANDLE	0x8000
+#define GHND				GMEM_MOVEABLE | GMEM_ZEROINIT
+#define GPTR				GMEM_FIXED | GMEM_ZEROINIT
+
+#define SIZEOF_BYTE			1
+#define SIZEOF_CHAR			1
+#define SIZEOF_DOUBLE		8
+#define SIZEOF_INT			2
+#define SIZEOF_LONG			4
+#define SIZEOF_SHORT		2
+#define SIZEOF_WCHAR		2
+
+//prototype STDCALL LONG KERNEL32.lstrlenA(
+prototype STDCALL LONG Kernel32.lstrlenA(
+	BYVAL LONG		// lpstr
+);
+// Returns > 0 on success
+
+//prototype STDCALL LONG KERNEL32.lstrlenW(
+prototype STDCALL LONG Kernel32.lstrlenW(
+	BYVAL LONG		// lpstr
+);
+// Returns > 0 on success
+
+prototype STDCALL LONG KERNEL32.lstrcpynA(
+    BYVAL LONG,		// lpBuffer
+    BYVAL STRING, 	// lpString2
+    BYVAL LONG		// wMaxLength
+);
+// Returns > 0 on success
+
+prototype STDCALL LONG KERNEL32.lstrcpyA(
+	BYREF STRING,	// lpBuffer
+    BYVAL LONG 		// lpString2
+);
+
+prototype STDCALL INT KERNEL32.MultiByteToWideChar(
+    BYVAL INT,		// code page
+    BYVAL LONG,		// character-type options
+    BYVAL LONG,		// address of string to map
+    BYVAL INT,		// number of characters in string
+    BYVAL LONG,		// address of wide-character buffer
+    BYVAL INT 		// size of buffer
+);
+/* If the function succeeds, and cchWideChar is nonzero, the return value
+is the number of wide characters written to the buffer pointed to by
+lpWideCharStr.
+If the function succeeds, and cchWideChar is zero, the return value is the
+required size, in wide characters, for a buffer that can receive the
+translated string.
+If the function fails, the return value is zero. */
+
+prototype STDCALL INT KERNEL32.WideCharToMultiByte(
+    BYVAL INT,		// code page
+    BYVAL LONG,		// performance and mapping flags
+    BYVAL LONG,		// address of wide-character string
+    BYVAL INT,		// number of characters in string
+    BYVAL LONG,		// address of buffer for new string
+    BYVAL INT,		// size of buffer
+    BYVAL LONG,		// address of default for unmappable characters
+    BYVAL LONG		// address of flag set when default char. used
+);
+
+/* If the function succeeds, and cchMultiByte is nonzero, the return value
+is the number of bytes written to the buffer pointed to by lpMultiByteStr.
+If the function succeeds, and cchMultiByte is zero, the return value is the
+required size, in bytes, for a buffer that can receive the translated string.
+If the function fails, the return value is zero. */
+
+prototype STDCALL VOID KERNEL32.RtlMoveMemory(
+    BYVAL POINTER,	// lpdest
+    BYVAL POINTER,	// lpSrc
+    BYVAL LONG		// cbBytes
+);
+
+prototype STDCALL LONG KERNEL32.GlobalAlloc(
+	BYVAL LONG,		// wFlags
+    BYVAL LONG		// wByteSize
+);
+
+/* Allocates memory on the heap and returns handle of GMEM Object.
+If GMEM_MOVEABLE flag is specified the memorypointer must be locked
+with API GlobalLock before use.
+If GMEM_FIXED flag is specified the memory may be used directly.
+Returns NULL On Failure. */
+
+prototype STDCALL LONG KERNEL32.GlobalFlags(
+    BYVAL LONG		// hMem
+);
+/* Returns the Flags values of GMEM Object obtained with API GlobalAlloc.
+Returns GMEM_INVALID_HANDLE On Failure. */
+
+prototype STDCALL LONG KERNEL32.GlobalLock(
+    BYVAL LONG		// hMem
+);
+/* Locks specified GMEM Handle And returns a Pointer to the start address
+of the locked memory allocation.
+If memory is allocated with the GMEM_MOVEABLE flag the start address
+of the locked memory allocation will be returned.
+If memory is allocated with the GMEM_FIXED flag then
+the GMEM handle itself will be returned and the memory is not locked.
+Returns NULL On Failure. */
+
+prototype STDCALL LONG KERNEL32.GlobalReAlloc(
+    BYVAL LONG,		// hMem
+    BYVAL LONG,		// wBytesSize
+    BYVAL LONG		// wFlags
+);
+/* Reallocates size of GMEM object obtained with API GlobalAlloc
+and returns the GMEM object Handle.
+If GlobalReAlloc fails, the original memory is not freed,
+and the original handle and pointer are still valid.
+Returns NULL On Failure. */
+
+prototype STDCALL LONG KERNEL32.GlobalSize(
+	BYVAL LONG		// hMem
+);
+/* Retrieves the current size, in bytes, of the GMEM object obtained with
+API GlobalAlloc or GlobalReAlloc.
+Returns NULL On Failure. */
+
+prototype STDCALL LONG KERNEL32.GlobalUnlock(
+    BYVAL LONG		// hMem
+);
+/* If the memory object is still locked after decrementing the lock count,
+the return value is a nonzero value.
+If the function fails, the return value is zero.
+To get extended error information, call Err.LastDllError.
+If Err.LastDllError returns NO_ERROR, the memory object is unlocked.
+If the memory object is already unlocked,
+GlobalUnlock returns FALSE and Err.LastDllError reports ERROR_NOT_LOCKED.
+Memory objects allocated with the LMEM_FIXED flag
+always have a lock count of zero and cause the ERROR_NOT_LOCKED error. */
+
+prototype STDCALL LONG KERNEL32.GlobalFree(
+    BYVAL LONG		// hMem
+);
+/* Returns 0& On Success, hMem& On Failure */
+
+prototype LONG LpstrFromStr( BYVAL STRING, BYREF LONG );
+prototype LONG LpwstrFromStr( BYVAL STRING, BYREF LONG );
+prototype STRING StrFromLpstr( BYVAL LONG, BYREF LONG );
+prototype STRING StrFromLpwstr( BYVAL LONG, BYREF LONG );
+
+function LONG LpstrFromStr( sz_StringToCopy, lv_Error )
+	LONG lp_Str, l_StrLenA;
+begin;
+	lv_Error = 0;
+	lp_Str = 0;
+	l_StrLenA = StrLength( sz_StringToCopy );
+	lp_Str = GlobalAlloc( GPTR, l_StrLenA + 1 );
+	if( lp_Str > 0 ) then
+		if ( KERNEL32.lstrcpynA( lp_Str, sz_StringToCopy
+			, l_StrLenA + 1 ) == 0
+		) then
+			lv_Error = Err.LastDllError;
+			lp_Str = GlobalFree( lp_Str );
+			lp_Str = 0;
+		endif;
+	else
+		lv_Error = Err.LastDllError;
+	endif;
+	return lp_Str;
+end;
+
+function LONG LpwstrFromStr( sz_StringToCopy, lv_Error )
+	LONG lp_Str, lp_WStr;
+	INT n_StrLenA, n_StrLenW;
+begin;
+	lv_Error = 0;
+	lp_Str = 0;
+	lp_WStr = 0;
+	n_StrLenA = StrLength( sz_StringToCopy );
+	lp_Str = GlobalAlloc( GPTR, n_StrLenA + 1 );
+	if( lp_Str > 0 ) then
+		if ( KERNEL32.lstrcpynA( lp_Str, sz_StringToCopy
+			, n_StrLenA + 1 ) > 0
+		) then
+			lp_WStr = 0;
+			n_StrLenW = 0;
+			n_StrLenW = KERNEL32.MultiByteToWideChar( CP_ACP
+				, MB_PRECOMPOSED, lp_Str, n_StrLenA + 1
+				, lp_WStr, n_StrLenW );
+			if( n_StrLenW > 0 ) then
+				lp_WStr = GlobalAlloc( GPTR
+					, ( n_StrLenW * SIZEOF_WCHAR ));
+				if( lp_WStr > 0 ) then
+					n_StrLenW = KERNEL32.MultiByteToWideChar(
+						CP_ACP, MB_PRECOMPOSED, lp_Str
+						, n_StrLenA + 1, lp_WStr, n_StrLenW );
+					if( n_StrLenW == 0 ) then
+						lv_Error = Err.LastDllError;
+						lp_WStr = GlobalFree( lp_WStr );
+						lp_WStr = 0;
+					endif;
+				else
+					lv_Error = Err.LastDllError;
+				endif;
+			endif;
+		else
+			lv_Error = Err.LastDllError;
+		endif;
+		lp_Str = GlobalFree( lp_Str );
+	else
+		lv_Error = Err.LastDllError;
+	endif;
+	return lp_WStr;
+end;
+
+function STRING StrFromLpstr( lp_Str, lv_Error )
+	INT n_StrLenA;
+	STRING sz_Return, sz_Format;
+begin;
+	lv_Error = 0;
+	sz_Return = "";
+	n_StrLenA = Kernel32.lstrlenA( lp_Str );
+	if( n_StrLenA > 0 ) then
+		NumToStr (sz_Format, ( n_StrLenA + 1 ));
+		sz_Format = "%" + sz_Format + "c";
+		Sprintf( sz_Return, sz_Format, "\x00");
+		if( KERNEL32.lstrcpyA( sz_Return, lp_Str ) == 0 ) then
+			lv_Error = Err.LastDllError;
+			sz_Return = "";
+		endif;
+	else
+		lv_Error = Err.LastDllError;
+	endif;
+	return sz_Return;
+end;
+
+function STRING StrFromLpwstr( lp_WStr, lv_Error )
+	INT n_StrLenA, n_StrLenW;
+	STRING sz_Return, sz_Format;
+	LONG lp_Str;
+begin;
+	lv_Error = 0;
+	sz_Return = "";
+	n_StrLenW = Kernel32.lstrlenW( lp_WStr );
+	if( n_StrLenW > 0 ) then
+		lp_Str = 0;
+		n_StrLenA = KERNEL32.WideCharToMultiByte( CP_ACP, 0
+			, lp_WStr, n_StrLenW, lp_Str, 0, 0, 0 );
+		if( n_StrLenA > 0 ) then
+			lp_Str = KERNEL32.GlobalAlloc( GPTR, n_StrLenA + 1 );
+			if( lp_Str > 0 ) then
+				n_StrLenA = KERNEL32.WideCharToMultiByte( CP_ACP, 0
+				, lp_WStr, n_StrLenW, lp_Str, n_StrLenA, 0, 0 );
+				if( n_StrLenA > 0 ) then
+					NumToStr (sz_Format, ( n_StrLenA + 1 ));
+					sz_Format = "%" + sz_Format + "c";
+					Sprintf( sz_Return, sz_Format, "\x00");
+					if( KERNEL32.lstrcpyA( sz_Return, lp_Str ) == 0 ) then
+						lv_Error = Err.LastDllError;
+						sz_Return = "";
+					endif;
+				else
+					lv_Error = Err.LastDllError;
+				endif;
+				lp_Str = KERNEL32.GlobalFree( lp_Str );
+			else
+				lv_Error = Err.LastDllError;
+			endif;
+		endif;
+	else
+		lv_Error = Err.LastDllError;
+	endif;
+	return sz_Return;
+end;
+
+#endif // _MEMALLOC_H_

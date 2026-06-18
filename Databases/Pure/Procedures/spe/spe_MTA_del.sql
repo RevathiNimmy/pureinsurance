@@ -1,0 +1,14 @@
+SET QUOTED_IDENTIFIER OFF SET ANSI_NULLS OFF
+GO
+
+EXECUTE DDLDropProcedure 'spe_MTA_del'
+GO
+
+CREATE PROCEDURE spe_MTA_del
+    @mta_cnt int
+AS
+DELETE FROM MTA
+WHERE mta_cnt = @mta_cnt
+
+GO
+

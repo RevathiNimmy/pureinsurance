@@ -1,0 +1,48 @@
+Private Const oCHILD = "cVEHICLES"
+dim iCount, iVehCount
+Sub Start()
+'With Engine
+'.NewObject(oCHILD)
+'.Item(oCHILD).Item("Rate").Value = "10"
+
+'iCount = SafeCInt(.Count(oCHILD))
+'For iCount = 1 To iVehCount
+'.Item(oCHILD, iCount).Item("Rate").Value = "10"
+'End With
+
+
+
+   Dim vResult2
+   Dim arrParam
+   Dim bReturn 
+
+   bReturn = Extras.GetBODetails(arrParam)
+
+   Engine.item("cVEHICLES",Engine.Count("cVEHICLES")).item("ON_DATE").value= Extras.CoverStartDate
+
+   Call Extras.CallNamedStoredProcedure(CLng(4033), CStr("PolicyHeader"), vResult2) 'Callin SP
+
+   If IsArray(vResult2) Then
+     Engine.item("cVEHICLES",Engine.Count("cVEHICLES")).item("OFF_DATE").value= vResult2(2, 0) 'Expiry Date 
+   end if
+
+Engine.item("cVEHICLES",Engine.Count("cVEHICLES")).item("Update_Type").value="N" 
+
+
+
+
+End Sub
+
+
+
+
+
+
+
+
+Function SafeCInt(vIn)
+    SafeCInt = 0
+    On Error Resume Next
+    SafeCInt = CInt(vIn)
+    On Error GoTo 0
+End Function ''''safecint

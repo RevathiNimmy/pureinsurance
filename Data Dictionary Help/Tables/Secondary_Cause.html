@@ -1,0 +1,342 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Secondary_Cause</h1>
+<p>Secondary Cause - lookup table containing list of secondary cause information</p>
+<p>
+                Logical database: Claims<br>
+                Component team: Pure Claims<br>
+                Software module: Claims<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="secondary_cause_id">secondary_cause_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">secondary cause</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="primary_cause_id">primary_cause_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">primary cause</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>secondary_cause_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>primary_cause_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>secondary_cause_id</td>
+<td><a href="Claim.html">Claim</a></td>
+<td>Secondary_Cause_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>secondary_cause_id</td>
+<td><a href="Event_Claim.html">Event_Claim</a></td>
+<td>Secondary_Cause_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>secondary_cause_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>primary_cause_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>38635</td>
+<td>SINVEH</td>
+<td>Single Vehicle</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>38636</td>
+<td>BACK</td>
+<td>Backing</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>38637</td>
+<td>CHANGELANE</td>
+<td>Changing Lanes</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>38638</td>
+<td>INTERSECT</td>
+<td>Intersection</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>38639</td>
+<td>ROCENTER</td>
+<td>Right of Centre</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>38640</td>
+<td>MERGE</td>
+<td>Merging</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>38641</td>
+<td>PARKED</td>
+<td>Parked</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>38642</td>
+<td>REAREND</td>
+<td>Rear-end</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>38643</td>
+<td>RECOV</td>
+<td>Recovered stolen vehicle</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>4</td>
+</tr>
+<tr>
+<td>10</td>
+<td>38644</td>
+<td>UNREC</td>
+<td>Unrecovered stolen vehicle</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>4</td>
+</tr>
+<tr>
+<td>11</td>
+<td>38645</td>
+<td>VANDSTOL</td>
+<td>Vandalism and/or stolen component</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>4</td>
+</tr>
+<tr>
+<td>13</td>
+<td>38346</td>
+<td>HAIL</td>
+<td>Hail</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>5</td>
+</tr>
+<tr>
+<td>14</td>
+<td>38343</td>
+<td>WIND</td>
+<td>Wind</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>5</td>
+</tr>
+<tr>
+<td>15</td>
+<td>38646</td>
+<td>OTHWEAT</td>
+<td>Other weather (vehicle parked)</td>
+<td>1</td>
+<td>1990-01-01 00:00:00</td>
+<td>5</td>
+</tr>
+<tr>
+<td>16</td>
+<td>65337</td>
+<td>VEHDEF</td>
+<td>Accident caused by Vehicle defect / Tyre blowout</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>17</td>
+<td>65338</td>
+<td>CHGLANE</td>
+<td>Changing Lanes</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>18</td>
+<td>65339</td>
+<td>DEBRISVEH</td>
+<td>Damage by debris from vehicle/falling object</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>19</td>
+<td>65340</td>
+<td>WEIGHVEH</td>
+<td>Damage Caused by weight of Insured Vehicle</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+<tr>
+<td>20</td>
+<td>65341</td>
+<td>EARTHQUAKE</td>
+<td>Earthquake</td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

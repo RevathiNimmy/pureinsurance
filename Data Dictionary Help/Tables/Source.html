@@ -1,0 +1,977 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Source</h1>
+<p>In Pure there is no limit on the number of Sources that can be stored.</p>
+<p>
+                Logical database: Architecture<br>
+                Component team: Pure Architecture<br>
+                Software module: Architecture<br>
+                Lookup table<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="source_id">source_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">source</span></td>
+</tr>
+<tr>
+<td><a class="name" name="caption_id">caption_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="PMCaption.html#caption_id">PMCaption.caption_id</a> The caption ID of the associated text</td>
+</tr>
+<tr>
+<td><a class="name" name="code">code</a></td>
+<td>char(10)</td>
+<td>not null</td>
+<td>I</td>
+<td><span class="autodesc">code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="description">description</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>Description Field</td>
+</tr>
+<tr>
+<td><a class="name" name="parent_id">parent_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Source.html#source_id">Source.source_id</a> <span class="autodesc">parent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_deleted">is_deleted</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> Is this record marked as deleted?</td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="base_currency_id">base_currency_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Currency.html#currency_id">Currency.currency_id</a> <span class="autodesc">base currency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reg_no_1">reg_no_1</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reg no 1</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reg_no_2">reg_no_2</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reg no 2</span></td>
+</tr>
+<tr>
+<td><a class="name" name="address1">address1</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address1</td>
+</tr>
+<tr>
+<td><a class="name" name="address2">address2</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address2</td>
+</tr>
+<tr>
+<td><a class="name" name="address3">address3</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address3</td>
+</tr>
+<tr>
+<td><a class="name" name="address4">address4</a></td>
+<td>varchar(40)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>address4</td>
+</tr>
+<tr>
+<td><a class="name" name="postal_code">postal_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>postal code</td>
+</tr>
+<tr>
+<td><a class="name" name="country_id">country_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Country.html#country_id">Country.country_id</a> <span class="autodesc">country</span></td>
+</tr>
+<tr>
+<td><a class="name" name="phone_area_code">phone_area_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>phone area code</td>
+</tr>
+<tr>
+<td><a class="name" name="phone_number">phone_number</a></td>
+<td>varchar(15)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>phone number</td>
+</tr>
+<tr>
+<td><a class="name" name="phone_extension">phone_extension</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>phone extension</td>
+</tr>
+<tr>
+<td><a class="name" name="fax_area_code">fax_area_code</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>fax area code</td>
+</tr>
+<tr>
+<td><a class="name" name="fax_number">fax_number</a></td>
+<td>varchar(15)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>fax number</td>
+</tr>
+<tr>
+<td><a class="name" name="fax_extension">fax_extension</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>fax extension</td>
+</tr>
+<tr>
+<td><a class="name" name="email">email</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>email</td>
+</tr>
+<tr>
+<td><a class="name" name="vat_no">vat_no</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>vat no</td>
+</tr>
+<tr>
+<td><a class="name" name="sender_mailbox_id">sender_mailbox_id</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">sender mailbox</span></td>
+</tr>
+<tr>
+<td><a class="name" name="broker_abi_id">broker_abi_id</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">broker abi</span></td>
+</tr>
+<tr>
+<td><a class="name" name="user_licence_id">user_licence_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">user licence</span></td>
+</tr>
+<tr>
+<td><a class="name" name="pm_company_number">pm_company_number</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">pm company number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_indicator">default_indicator</a></td>
+<td>char(1)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="FSA_companyCategory_id">FSA_companyCategory_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="FSA_CompanyCategory.html#FSA_CompanyCategory_id">FSA_CompanyCategory.FSA_CompanyCategory_id</a> <span class="autodesc">FSA company Category</span></td>
+</tr>
+<tr>
+<td><a class="name" name="FSA_staffWording">FSA_staffWording</a></td>
+<td>text</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">FSA staff Wording</span></td>
+</tr>
+<tr>
+<td><a class="name" name="underwriting_branch_ind">underwriting_branch_ind</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>I</td>
+<td><span class="autodesc">underwriting branch ind</span></td>
+</tr>
+<tr>
+<td><a class="name" name="closed_allow_temp_mta">closed_allow_temp_mta</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">closed allow temp mta</span></td>
+</tr>
+<tr>
+<td><a class="name" name="closed_allow_perm_mta">closed_allow_perm_mta</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">closed allow perm mta</span></td>
+</tr>
+<tr>
+<td><a class="name" name="closed_allow_reports">closed_allow_reports</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">closed allow reports</span></td>
+</tr>
+<tr>
+<td><a class="name" name="closed_allow_claims">closed_allow_claims</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">closed allow claims</span></td>
+</tr>
+<tr>
+<td><a class="name" name="closed_allow_accounts">closed_allow_accounts</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">closed allow accounts</span></td>
+</tr>
+<tr>
+<td><a class="name" name="FSA_banktype_id">FSA_banktype_id</a></td>
+<td>smallint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">FSA banktype</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>source_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>country_id</td>
+<td><a href="Country.html">Country</a></td>
+<td>country_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>base_currency_id</td>
+<td><a href="Currency.html">Currency</a></td>
+<td>currency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>FSA_companyCategory_id</td>
+<td><a href="FSA_CompanyCategory.html">FSA_CompanyCategory</a></td>
+<td>FSA_CompanyCategory_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>caption_id</td>
+<td><a href="PMCaption.html">PMCaption</a></td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>parent_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>base_currency_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>caption_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>code</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>country_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>parent_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>underwriting_branch_ind</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Dependencies</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Dependent Table</td>
+<td>Dependent Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Account.html">Account</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="ACTNumber.html">ACTNumber</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="ACTNumber_Pool.html">ACTNumber_Pool</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Address.html">Address</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Allocation.html">Allocation</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="AuditSet.html">AuditSet</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Bank_Guarantee.html">Bank_Guarantee</a></td>
+<td>custody_branch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="BankAccount.html">BankAccount</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="BankAccount_Default.html">BankAccount_Default</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="BankAccount_Source.html">BankAccount_Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Batch.html">Batch</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Batch_Renewal_Job_Branches.html">Batch_Renewal_Job_Branches</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="BG_Branch_Link.html">BG_Branch_Link</a></td>
+<td>Source_Id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="CashList.html">CashList</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Claim_Address.html">Claim_Address</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Coi_Default.html">Coi_Default</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="CompanyCurrency.html">CompanyCurrency</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Contact.html">Contact</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Cover_Note_Book.html">Cover_Note_Book</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Credit_Control_Rule.html">Credit_Control_Rule</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="CurrencyRate.html">CurrencyRate</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Debtor_User_Groups.html">Debtor_User_Groups</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Defined_Risk_Data.html">Defined_Risk_Data</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="DOC_folder.html">DOC_folder</a></td>
+<td>ex_code</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Document.html">Document</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Document_Template.html">Document_Template</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Event_Insurance_File.html">Event_Insurance_File</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Event_Insurance_Folder.html">Event_Insurance_Folder</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Event_Party.html">Event_Party</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="GIS_Branch_Scheme.html">GIS_Branch_Scheme</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Hidden_Options.html">Hidden_Options</a></td>
+<td>branch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Insurance_File.html">Insurance_File</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Insurance_Folder.html">Insurance_Folder</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="InsurerPayment.html">InsurerPayment</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Ledger.html">Ledger</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Mapping.html">Mapping</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="MatchGroup.html">MatchGroup</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="MTA.html">MTA</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Non_Business_Days.html">Non_Business_Days</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Party.html">Party</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Party_Agent_Branch.html">Party_Agent_Branch</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Period.html">Period</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="PFSchemeSource.html">PFSchemeSource</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="PMB_Doc_Link.html">PMB_Doc_Link</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="PMMessage.html">PMMessage</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="PMSystem.html">PMSystem</a></td>
+<td>default_source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="PMUser_Source.html">PMUser_Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Renewal_Stats.html">Renewal_Stats</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="ReportHeader.html">ReportHeader</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Risk_By_Source.html">Risk_By_Source</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Risk_Folder.html">Risk_Folder</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Source.html">Source</a></td>
+<td>parent_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Source_Defaults.html">Source_Defaults</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Statement.html">Statement</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Stats_Folder.html">Stats_Folder</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Sub_Branch.html">Sub_Branch</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Summary_Stats_Agent.html">Summary_Stats_Agent</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Summary_Stats_Day.html">Summary_Stats_Day</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Summary_Stats_Holder.html">Summary_Stats_Holder</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Summary_Stats_Month.html">Summary_Stats_Month</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Summary_Stats_Premium.html">Summary_Stats_Premium</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="System_Options.html">System_Options</a></td>
+<td>branch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="TaxRate.html">TaxRate</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Text_File_Description.html">Text_File_Description</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="Transaction_Export_Folder.html">Transaction_Export_Folder</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>source_id</td>
+<td><a href="TransDetail.html">TransDetail</a></td>
+<td>company_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="transdetail_cache.html">transdetail_cache</a></td>
+<td>source_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Wording_Product_Link.html">Wording_Product_Link</a></td>
+<td>branch_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>source_id</td>
+<td><a href="Wording_Risk_Type_Link.html">Wording_Risk_Type_Link</a></td>
+<td>branch_id</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>source_id</td>
+<td>caption_id</td>
+<td>code</td>
+<td>description</td>
+<td>parent_id</td>
+<td>is_deleted</td>
+<td>effective_date</td>
+<td>base_currency_id</td>
+<td>reg_no_1</td>
+<td>reg_no_2</td>
+<td>address1</td>
+<td>address2</td>
+<td>address3</td>
+<td>address4</td>
+<td>postal_code</td>
+<td>country_id</td>
+<td>phone_area_code</td>
+<td>phone_number</td>
+<td>phone_extension</td>
+<td>fax_area_code</td>
+<td>fax_number</td>
+<td>fax_extension</td>
+<td>email</td>
+<td>vat_no</td>
+<td>sender_mailbox_id</td>
+<td>broker_abi_id</td>
+<td>user_licence_id</td>
+<td>pm_company_number</td>
+<td>default_indicator</td>
+<td>FSA_companyCategory_id</td>
+<td>FSA_staffWording</td>
+<td>underwriting_branch_ind</td>
+<td>closed_allow_temp_mta</td>
+<td>closed_allow_perm_mta</td>
+<td>closed_allow_reports</td>
+<td>closed_allow_claims</td>
+<td>closed_allow_accounts</td>
+<td>FSA_banktype_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>65383</td>
+<td>HeadOff</td>
+<td>57</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1990-01-01 00:00:00</td>
+<td>28</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>001 Test Street</td>
+<td>&nbsp;</td>
+<td>melbourne</td>
+<td>Victoria</td>
+<td>3000</td>
+<td>3</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

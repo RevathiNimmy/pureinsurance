@@ -1,0 +1,400 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>GIS_Lookup_Header</h1>
+<p>GIS Rating Rules/ Rule Lookup</p>
+<p>
+                Logical database: GIS<br>
+                Component team: Pure Architecture<br>
+                Software module: GIS<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurer_panel_member_key">insurer_panel_member_key</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">insurer panel member key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="scheme_number">scheme_number</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">scheme number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lookup_key">lookup_key</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lookup key</span></td>
+</tr>
+<tr>
+<td><a class="name" name="lookup_name">lookup_name</a></td>
+<td>varchar(50)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">lookup name</span></td>
+</tr>
+<tr>
+<td><a class="name" name="effective_date">effective_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>The date/time from which this record is valid</td>
+</tr>
+<tr>
+<td><a class="name" name="modified_date">modified_date</a></td>
+<td>datetime</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td>modified date</td>
+</tr>
+<tr>
+<td><a class="name" name="status">status</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">status</span></td>
+</tr>
+<tr>
+<td><a class="name" name="definition">definition</a></td>
+<td>varchar(250)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">definition</span></td>
+</tr>
+<tr>
+<td><a class="name" name="valid_constants">valid_constants</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">valid constants</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_value">default_value</a></td>
+<td>varchar(200)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="gis_data_model_id">gis_data_model_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="GIS_Data_Model.html#gis_data_model_id">GIS_Data_Model.gis_data_model_id</a> <span class="autodesc">gis data model</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FK(L)</td>
+<td>gis_data_model_id</td>
+<td><a href="GIS_Data_Model.html">GIS_Data_Model</a></td>
+<td>gis_data_model_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>gis_data_model_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>insurer_panel_member_key</td>
+<td>scheme_number</td>
+<td>lookup_key</td>
+<td>lookup_name</td>
+<td>effective_date</td>
+<td>modified_date</td>
+<td>status</td>
+<td>definition</td>
+<td>valid_constants</td>
+<td>default_value</td>
+<td>gis_data_model_id</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>MARSTATUS</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>Marital Status</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>DCTYPE</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC Type</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>DC1PD</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC1 PD</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>DC1CP</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC1 CP</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>DC1CL</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC1 CL</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+<td>DC2PD</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC2 PD</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>7</td>
+<td>DC2CP</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC2 CP</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>8</td>
+<td>DC2CL</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>DC2 CL</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>9</td>
+<td>CLAIMCLASS</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>Claim Class</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>10</td>
+<td>TENUREAAF</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>Tenure AAF</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>11</td>
+<td>TENURECMP</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>Tenure CMP</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>12</td>
+<td>AAFPD</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>AAF PD</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>13</td>
+<td>AAFCP</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>AAF CP</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>14</td>
+<td>AAFCL</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>AAF CL</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>15</td>
+<td>CMPPD</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>CMP PD</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>16</td>
+<td>CMPCP</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>CMP CP</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>17</td>
+<td>CMPCL</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>CMP CL</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>18</td>
+<td>SUSCLASS</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>Suspended Class</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>19</td>
+<td>SUSPOINTS</td>
+<td>1990-01-01 00:00:00</td>
+<td>1990-01-01 00:00:00</td>
+<td>1</td>
+<td>Suspended Points</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

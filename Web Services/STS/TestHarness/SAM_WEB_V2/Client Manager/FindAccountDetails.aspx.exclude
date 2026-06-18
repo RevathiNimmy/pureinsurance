@@ -1,0 +1,346 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="FindAccountDetails.aspx.vb" Inherits="Lookup_Screens_FindAccountDetails" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+<script language="javascript" type="text/javascript">
+// <!CDATA[
+
+
+
+function btnOk_onclick() {
+
+}
+
+// ]]>
+</script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:Label ID="Label1" runat="server" BorderStyle="Double" Font-Bold="True" Font-Italic="True"
+            ForeColor="#C000C0" Text="Account Details" Width="256px"></asp:Label>
+        <table width="100%">
+            <tr>
+                <td colspan="1" style="width: 528px; height: 41px">
+                    <asp:Menu ID="mnuGetAccountDetails" runat="server" BackColor="#F7F6F3" DynamicHorizontalOffset="2"
+                        Font-Names="Verdana" Font-Size="0.8em" ForeColor="#7C6F57" Orientation="Horizontal"
+                        StaticSubMenuIndent="10px">
+                        <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                        <DynamicHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                        <DynamicMenuStyle BackColor="#F7F6F3" />
+                        <StaticSelectedStyle BackColor="#5D7B9D" />
+                        <DynamicSelectedStyle BackColor="#5D7B9D" />
+                        <DynamicMenuItemStyle HorizontalPadding="5px" ItemSpacing="5px" VerticalPadding="2px" />
+                        <Items>
+                            <asp:MenuItem Text="1 - Account" Value="0"></asp:MenuItem>
+                            <asp:MenuItem Text="2 - Document" Value="1"></asp:MenuItem>
+                            <asp:MenuItem Text="3 - Amount" Value="2"></asp:MenuItem>
+                            <asp:MenuItem Text="4 - Reference" Value="3"></asp:MenuItem>
+                        </Items>
+                        <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                    </asp:Menu>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 528px">
+                    <asp:MultiView ID="mvGetAccountDetails" runat="server" ActiveViewIndex="0">
+                        <asp:View ID="vAccount" runat="server">
+                            <table style="width: 320px">
+                                <tr>
+                                    <td style="width: 99px">
+                                        Account Code</td>
+                                    <td style="width: 102px">
+                                        &nbsp;<asp:Label ID="lblAccountCode" runat="server"></asp:Label></td>
+                                    <td>
+                                        <asp:CheckBox ID="chkShowOutstanding" runat="server" Text="Only Show Outstanding Transactions" /></td>
+                                    <td rowspan="2" style="width: 161px" id="Amount Column" title="Amount Column">
+                                        &nbsp;
+                                            &nbsp;&nbsp;&nbsp; Amount Column<asp:RadioButtonList ID="RadioButtonList1" runat="server">                                        
+                                            <asp:ListItem Value="radTransactionCur" Selected="True">Transaction Currency</asp:ListItem>
+                                             <asp:ListItem Value="radosAccountcurrency">Accountcurrency (Pounds sterling)</asp:ListItem>
+
+                                        </asp:RadioButtonList>
+                                    &nbsp;
+                                </tr>
+                                <tr>
+                                    <td style="width: 99px; height: 20px">
+                                        Account Name:</td>
+                                    <td style="height: 20px; width: 102px;">
+                                        <asp:Label ID="lblAccountName" runat="server"></asp:Label></td>
+                                    <td style="height: 20px">
+                                        <asp:CheckBox ID="chkIncludeFutureTransactions" runat="server" Text="Include Future transactions in balance" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 99px">
+                                        Contact Name:</td>
+                                    <td style="width: 102px">
+                                        <asp:Label ID="lblContactName" runat="server"></asp:Label></td>
+                                    <td>
+                                        <asp:CheckBox ID="chkonlyfivehundred" runat="server" Text="Only show latest 500 transactions" /></td>
+                                    <td rowspan="2" style="width: 161px" id="Outstanding Column" title="Outstanding Column">
+                                        &nbsp;Outstanding Col
+                                        umn&nbsp;<br />
+                                        &nbsp;
+                                        <asp:RadioButtonList ID="RadioButtonList2" runat="server">
+                                         <asp:ListItem Value="radOsBaseCurrency" Selected="True">BaseCurrency</asp:ListItem>
+                                             <asp:ListItem Value="radosAccountcurrency">Accountcurrency (Pounds sterling)</asp:ListItem>
+                                        </asp:RadioButtonList>
+                                        
+                                </tr>
+                                <tr>
+                                    <td style="width: 99px">
+                                        Telephone No:</td>
+                                    <td style="width: 102px">
+                                        <asp:Label ID="lblTele1" runat="server" Width="59px"></asp:Label>
+                                        <asp:Label ID="lblTele2" runat="server"></asp:Label>
+                                        <asp:Label ID="lblTele3" runat="server"></asp:Label></td>
+                                    <td>
+                                        <asp:CheckBox ID="chkReverse" runat="server" Text="Reversed/Reversal Transactions" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 99px">
+                                        Reason:</td>
+                                    <td colspan="3">
+                                        <asp:Label ID="lblReason" runat="server"></asp:Label></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 99px">
+                                        Branch</td>
+                                    <td style="width: 102px">
+                                        <asp:DropDownList ID="ddlBranch" runat="server">
+                                        </asp:DropDownList></td>
+                                    <td>
+                                        Account Balance :</td>
+                                    <td style="width: 161px">
+                                        <asp:Label ID="lblAccountBalance" runat="server"></asp:Label></td>
+                                </tr>
+                            </table>
+                        </asp:View>
+                        <asp:View ID="vDocument" runat="server">
+                            <table id="tblAddress" runat="server" style="width: 376px">
+                                <tr>
+                                    <td style="width: 79px; height: 26px" align="right">
+                                        Doc. Ref. :</td>
+                                    <td style="width: 227px; height: 26px">
+                                        <asp:TextBox ID="txtDocRef" runat="server"></asp:TextBox></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 79px" align="right">
+                                        Doc. Group :</td>
+                                    <td style="width: 227px">
+                                        <asp:DropDownList ID="ddlDocGroup" runat="server">
+                                        </asp:DropDownList></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 79px" align="right">
+                                        Doc.
+                                        Type :</td>
+                                    <td style="width: 227px">
+                                        <asp:DropDownList ID="ddlDocType" runat="server">
+                                        </asp:DropDownList></td>
+                                </tr>
+                                <tr id="trDateOfBirth" runat="server">
+                                    <td style="width: 79px" align="right">
+                                        Period&nbsp; :</td>
+                                    <td style="width: 227px">
+                                        <asp:DropDownList ID="ddlPeriod" runat="server">
+                                        </asp:DropDownList></td>
+                                </tr>
+                                <tr id="Tr1" runat="server">
+                                    <td align="right" style="width: 79px">
+                                        From :
+                                    </td>
+                                    <td style="width: 227px">
+                                        <asp:TextBox ID="txtFrom" runat="server"></asp:TextBox></td>
+                                </tr>
+                                <tr id="Tr2" runat="server">
+                                    <td align="right" style="width: 79px">
+                                        To:</td>
+                                    <td style="width: 227px">
+                                        <asp:TextBox ID="txtTo" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                            </table>
+                        </asp:View>
+                        <asp:View ID="vAmount" runat="server"><table id="Table1" runat="server" style="width: 376px">
+                            <tr>
+                                <td style="width: 499px; height: 20px" align="right">
+                                    Currency. :</td>
+                                <td style="width: 227px; height: 20px">
+                                    <asp:DropDownList ID="ddlCurrency" runat="server">
+                                    </asp:DropDownList></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 499px; height: 22px;" align="right">
+                                    Transaction Currency Outstanding Balance :</td>
+                                <td style="width: 227px; height: 22px;">
+                                    <asp:Label ID="lblTCOB" runat="server"></asp:Label></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 499px" align="right">
+                                    Amount :</td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtAmount" runat="server" Width="80px"></asp:TextBox></td>
+                            </tr>
+                            <tr id="Tr3" runat="server">
+                                <td style="width: 499px" align="right">
+                                    Tolerance :</td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtTolerance" runat="server"></asp:TextBox></td>
+                            </tr>
+                        </table>
+                        </asp:View>
+                        <asp:View ID="vReference" runat="server"><table id="Table2" runat="server" style="width: 376px">
+                            <tr>
+                                <td style="width: 499px; height: 26px" align="right">
+                                    Policy No :</td>
+                                <td style="width: 227px; height: 26px">
+                                    <asp:TextBox ID="txtPolicyNo" runat="server" Width="80px"></asp:TextBox></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 499px; height: 22px;" align="right">
+                                    Operator
+                                        Name :</td>
+                                <td style="width: 227px; height: 22px;">
+                                    <asp:DropDownList ID="ddlOperatorName" runat="server">
+                                    </asp:DropDownList></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 499px" align="right">
+                                    Department :</td>
+                                <td style="width: 227px">
+                                    <asp:DropDownList ID="ddlDepartment" runat="server">
+                                    </asp:DropDownList></td>
+                            </tr>
+                            <tr id="Tr4" runat="server">
+                                <td style="width: 499px" align="right">
+                                    Purchase Invoice :</td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtPurchaseInvoice" runat="server" Width="80px"></asp:TextBox></td>
+                            </tr>
+                            <tr runat="server">
+                                <td align="right" style="width: 499px">
+                                    Purchase Order No:</td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtPurchaseOrderNo" runat="server" Width="80px"></asp:TextBox></td>
+                            </tr>
+                            <tr runat="server">
+                                <td align="right" style="width: 499px">
+                                    Media Ref.:</td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtMediaRef" runat="server" Width="80px"></asp:TextBox></td>
+                            </tr>
+                            <tr runat="server">
+                                <td align="right" style="width: 499px">
+                                    Alternate Reference :</td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtAlternateReference" runat="server" Width="80px"></asp:TextBox></td>
+                            </tr>
+                            <tr runat="server">
+                                <td align="right" style="width: 499px">
+                                    <asp:Button ID="btnInsuredAccount" runat="server" Text="Insured Account..." /></td>
+                                <td style="width: 227px">
+                                    <asp:TextBox ID="txtInsuredAccountCode" runat="server" Width="80px"></asp:TextBox>
+                                    <asp:Label ID="lblInsuredAccountName" runat="server"></asp:Label></td>
+                            </tr>
+                        </table>
+                        </asp:View>
+                    </asp:MultiView></td>
+            </tr>
+            <tr>
+                <td colspan="1" style="width: 528px">
+                    <hr />
+                    &nbsp;
+                    <asp:Button ID="btnFindParty" runat="server" Text="Find Party" Visible="False" />
+                    <asp:Button ID="btnFind" runat="server" Text="Find Now" />
+                    <asp:Button ID="btnViewAllocation" runat="server" Text="View Allocation" />
+                    <asp:Label ID="Label2" runat="server"></asp:Label>
+                    <asp:Panel ID="Panel1" runat="server" Height="300px" ScrollBars="Auto" Width="450px">
+                        &nbsp;<asp:Label ID="lblTransactions" runat="server" Font-Bold="True"></asp:Label>
+                        <asp:GridView ID="gvSearchResult"  runat="server" CellPadding="4" ForeColor="#333333"
+                            GridLines="None" Width="528px">
+                            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                            <RowStyle BackColor="#F7F6F3" Font-Size="Smaller" ForeColor="#333333" />
+                            <EditRowStyle BackColor="#999999" />
+                            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                            <Columns>
+                               <%--  <asp:CommandField ShowSelectButton="True" />
+                                 <asp:BoundField DataField="Account" />
+                               <asp:BoundField DataField="transDetailKey" />
+                                <asp:BoundField DataField="branchKey" />
+                                <asp:BoundField DataField="account" />
+                                <asp:BoundField DataField="docRef" />
+                                <asp:BoundField DataField="altRef" />
+                                <asp:BoundField DataField="effectiveDate" />
+                                <asp:BoundField DataField="transDate" />
+                                <asp:BoundField DataField="mediaType" />
+                                <asp:BoundField DataField="amount" />
+                                <asp:BoundField DataField="primarySettled" />
+                                <asp:BoundField DataField="outstandingAmount" />
+                                <asp:BoundField DataField="paidDate" />
+                                <asp:BoundField DataField="docTypeId" />
+                                <asp:BoundField DataField="reference" />
+                                <asp:BoundField DataField="operatorName" />
+                                <asp:BoundField DataField="period" />
+                                <asp:BoundField DataField="documentGroupId" />
+                                <asp:BoundField DataField="client" />
+                                <asp:BoundField DataField="clientCode" />
+                                <asp:BoundField DataField="mediaRef" />
+                                <asp:BoundField DataField="accountkey" />
+                                <asp:BoundField DataField="payeeName" />
+                                <asp:BoundField DataField="underwritingYear" />
+                                <asp:BoundField DataField="accountCode" />--%>
+                                <asp:CommandField ShowSelectButton="True" />
+                                <asp:BoundField DataField="Account" HeaderText="Account" />
+                                <asp:BoundField DataField="client" HeaderText="Client" />
+                                            <asp:BoundField DataField="reference" HeaderText="Reference" />
+                                            <asp:BoundField DataField="docRef" HeaderText="DocRef" />
+                                            <asp:BoundField DataField="altRef" HeaderText="AltRef" />
+                                            <asp:BoundField DataField="effectiveDate" HeaderText="EffectiveDate" />
+                                            <asp:BoundField DataField="transDate" HeaderText="TransDate" />
+                                            <asp:BoundField DataField="Account" HeaderText="Account" />
+                                            <asp:BoundField DataField="outstandingAmount" HeaderText="OutstandingAmount" />
+                                            <asp:BoundField DataField="clientCode" HeaderText="ClientCode" />
+                                            <asp:BoundField DataField="transDetailKey" HeaderText="TransDetailKey" />
+                                            <asp:BoundField DataField="branchKey" HeaderText="BranchKey" />
+                                            <asp:BoundField DataField="BGRef" HeaderText="BGRef" />
+                                            <asp:BoundField DataField="mediaType" HeaderText="MediaType" />
+                                            <asp:BoundField DataField="amount" HeaderText="Amount" />
+                                            <asp:BoundField DataField="primarySettled" HeaderText="PrimarySettled" />
+                                            <asp:BoundField DataField="paidDate" HeaderText="PaidDate" />
+                                            <asp:BoundField DataField="docTypeId" HeaderText="DocTypeId" />
+                                            <asp:BoundField DataField="operatorName" HeaderText="OperatorName" />
+                                            <asp:BoundField DataField="period" HeaderText="Period" />
+                                            <asp:BoundField DataField="documentGroupId" HeaderText="DocumentGroupId" />
+                                            <asp:BoundField DataField="mediaRef" HeaderText="MediaRef" />
+                                            <asp:BoundField DataField="accountkey" HeaderText="Accountkey" />
+                                            <asp:BoundField DataField="payeeName" HeaderText="PayeeName" />
+                                            <asp:BoundField DataField="underwritingYear" HeaderText="UnderwritingYear" />
+                                            <asp:BoundField DataField="accountOutStandingAmount" HeaderText="AccountOutStandingAmount" />
+                                            <asp:BoundField DataField="currencyAmount" HeaderText="CurrencyAmount" />
+                                            <asp:BoundField DataField="outStandingCurrencyAmount" HeaderText="OutStandingCurrencyAmount" />
+                                
+                            </Columns>
+                        </asp:GridView>
+                    </asp:Panel>
+                    <hr />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1" style="width: 528px">
+                    &nbsp;<asp:Button ID="Button1" runat="server" Text="Ok" />&nbsp;<asp:Button ID="Button2"
+                        runat="server" Text="Cancel" />
+                    <asp:TextBox ID="txtShortName" runat="server" Visible="True"></asp:TextBox></td>
+            </tr>
+        </table>
+    
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+//---------------------------------------------------------------------------
+// The Installed event is sent after the feature DTU
+// is installed.
+//---------------------------------------------------------------------------
+export prototype DTU_Installed();
+function DTU_Installed()
+STRING szFileName;
+begin
+		
+		if(g_bDTU=TRUE) then	
+			DeleteDTU2Files();
+			CopyDTUFiles();
+			RunPureScripts();
+			
+			
+			/*szFileName = gPureInstallLocation ^ "Application" ^ "WCFSecurityTokenFile.txt";
+	
+			if Is(FILE_EXISTS, szFileName) = TRUE then
+					ReadWCFSecurityTokenFile();
+					UpdateDTUWebConfig();
+			endif;*/
+			
+			//RunStagingScript();
+			
+		endif;	
+		
+		/*if(g_bDTU=TRUE || g_bCreateStagingDatabase=TRUE) then
+			RunStagingStructureScript();
+			RunStagingScript();
+		endif;*/
+		
+		/*if(g_bPureDatabase=TRUE) then
+			RunPureScripts();
+		endif;
+		
+		if(g_bStagingDatabase=TRUE) then
+			RunStagingScript();
+		endif;
+		*/
+		
+end;
+
+//---------------------------------------------------------------------------
+// The UnInstalled event is sent after the feature DTU
+// is uninstalled.
+//---------------------------------------------------------------------------
+export prototype DTU_UnInstalled();
+function DTU_UnInstalled()
+begin
+	
+	ClearReadOnly(TARGETDIR);	
+
+	if(DeleteDir(TARGETDIR, ALLCONTENTS) < 0) then
+    	WriteToLogFile(UNINSTALL_ERRORLOG, "An error occured while removing installation directory:" + TARGETDIR + ". Please remove it manually");	
+    else
+    	WriteToLogFile(UNINSTALL_LOG, "Successfully removed installation directory: " + TARGETDIR);	
+    endif;
+
+end;

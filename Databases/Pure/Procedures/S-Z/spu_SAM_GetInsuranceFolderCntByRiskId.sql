@@ -1,0 +1,16 @@
+
+EXECUTE DDLDropProcedure 'spu_SAM_GetInsuranceFolderCntByRiskId'
+GO
+
+CREATE PROCEDURE [dbo].[spu_SAM_GetInsuranceFolderCntByRiskId]
+
+@nRisk_Cnt int
+
+AS
+
+BEGIN
+
+	SELECT RF.INSURANCE_FOLDER_CNT FROM RISK R
+	LEFT JOIN RISK_FOLDER RF ON R.RISK_FOLDER_CNT=RF.RISK_FOLDER_CNT 
+	WHERE R.RISK_CNT=@nRisk_Cnt
+END

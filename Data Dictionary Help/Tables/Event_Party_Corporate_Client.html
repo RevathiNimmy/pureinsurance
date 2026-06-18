@@ -1,0 +1,231 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Event_Party_Corporate_Client</h1>
+<p>This Event Table serves as a history table for the Party_Corporate_Client table, each entry in the Party_Corporate_Client table will have a corresponding entry here. This ensures any changes to the original table are tracked.</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software modules: Events, Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Event_Log.html#event_cnt">Event_Log.event_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="company_reg">company_reg</a></td>
+<td>varchar(60)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">company reg</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trading_since_date">trading_since_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>trading since date</td>
+</tr>
+<tr>
+<td><a class="name" name="party_business_id">party_business_id</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">party business</span></td>
+</tr>
+<tr>
+<td><a class="name" name="location">location</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">location</span></td>
+</tr>
+<tr>
+<td><a class="name" name="no_of_offices">no_of_offices</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>no of offices</td>
+</tr>
+<tr>
+<td><a class="name" name="no_of_employees">no_of_employees</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>no of employees</td>
+</tr>
+<tr>
+<td><a class="name" name="financial_year">financial_year</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">financial year</span></td>
+</tr>
+<tr>
+<td><a class="name" name="trade_code">trade_code</a></td>
+<td>varchar(70)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">trade code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="wage_roll">wage_roll</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">wage roll</span></td>
+</tr>
+<tr>
+<td><a class="name" name="turnover">turnover</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td>turnover</td>
+</tr>
+<tr>
+<td><a class="name" name="vat_code">vat_code</a></td>
+<td>varchar(20)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">vat code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="seasonal_gift_id">seasonal_gift_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Seasonal_Gift.html#seasonal_gift_id">Seasonal_Gift.seasonal_gift_id</a> <span class="autodesc">seasonal gift</span></td>
+</tr>
+<tr>
+<td><a class="name" name="strength_code_id">strength_code_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Strength_Code.html#Strength_code_id">Strength_Code.Strength_code_id</a> <span class="autodesc">strength code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="SIC_code_id">SIC_code_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="SIC_Code.html#SIC_code_id">SIC_Code.SIC_code_id</a> <span class="autodesc">SIC code</span></td>
+</tr>
+<tr>
+<td><a class="name" name="previous_insurer_cnt">previous_insurer_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">previous insurer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="previous_broker_cnt">previous_broker_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">previous broker</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Event_Log.html">Event_Log</a></td>
+<td>event_cnt</td>
+<td>Linked to the event that this historical data is for</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>previous_broker_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>previous_insurer_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>seasonal_gift_id</td>
+<td><a href="Seasonal_Gift.html">Seasonal_Gift</a></td>
+<td>seasonal_gift_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>SIC_code_id</td>
+<td><a href="SIC_Code.html">SIC_Code</a></td>
+<td>SIC_code_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>strength_code_id</td>
+<td><a href="Strength_Code.html">Strength_Code</a></td>
+<td>Strength_code_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>seasonal_gift_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>SIC_code_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>strength_code_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

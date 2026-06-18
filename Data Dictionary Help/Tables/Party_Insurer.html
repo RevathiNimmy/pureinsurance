@@ -1,0 +1,437 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Party_Insurer</h1>
+<p>Holds extra data for Parties of type "IN" (Insurer). Normally used for Insurers (Broking) or Re-Insurers (Underwriting).</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure Core Back-Office<br>
+                Software module: Party<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK(L)</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="agency_number">agency_number</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">agency number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="binder_indicator">binder_indicator</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">binder indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="report_indicator">report_indicator</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">report indicator</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_reinsurer">is_reinsurer</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is reinsurer</span></td>
+</tr>
+<tr>
+<td><a class="name" name="reinsurance_type">reinsurance_type</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">reinsurance type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_reinsurance_debit_credit_no">is_reinsurance_debit_credit_no</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is reinsurance debit credit no</span></td>
+</tr>
+<tr>
+<td><a class="name" name="default_comm_rate">default_comm_rate</a></td>
+<td>float</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">default comm rate</span></td>
+</tr>
+<tr>
+<td><a class="name" name="method">method</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">method</span></td>
+</tr>
+<tr>
+<td><a class="name" name="icr">icr</a></td>
+<td>decimal(18, 0)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">icr</span></td>
+</tr>
+<tr>
+<td><a class="name" name="polaris_insurer_no">polaris_insurer_no</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">polaris insurer no</span></td>
+</tr>
+<tr>
+<td><a class="name" name="abi_1_edi_directory">abi_1_edi_directory</a></td>
+<td>varchar(6)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">abi 1 edi directory</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_method">payment_method</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment method</span></td>
+</tr>
+<tr>
+<td><a class="name" name="payment_frequency">payment_frequency</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">payment frequency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="bank_account">bank_account</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">bank account</span></td>
+</tr>
+<tr>
+<td><a class="name" name="fsa_registration_number">fsa_registration_number</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">fsa registration number</span></td>
+</tr>
+<tr>
+<td><a class="name" name="fsa_insurercreditrating_id">fsa_insurercreditrating_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">fsa insurercreditrating</span></td>
+</tr>
+<tr>
+<td><a class="name" name="fsa_insurerstatus_id">fsa_insurerstatus_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">fsa insurerstatus</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_retained">is_retained</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is retained</span></td>
+</tr>
+<tr>
+<td><a class="name" name="tax_group_id">tax_group_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">tax group</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_rating_agency_id">claims_rating_agency_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Claims_Rating_Agency.html#Claims_Rating_Agency_id">Claims_Rating_Agency.Claims_Rating_Agency_id</a> <span class="autodesc">claims rating agency</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_rating_grading">claims_rating_grading</a></td>
+<td>varchar(255)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims rating grading</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_rating_date">claims_rating_date</a></td>
+<td>datetime</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims rating date</span></td>
+</tr>
+<tr>
+<td><a class="name" name="claims_rating_description">claims_rating_description</a></td>
+<td>varchar(4000)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">claims rating description</span></td>
+</tr>
+<tr>
+<td><a class="name" name="terms_of_payment_id">terms_of_payment_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">terms of payment</span></td>
+</tr>
+<tr>
+<td><a class="name" name="domiciled_for_tax">domiciled_for_tax</a></td>
+<td>tinyint</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">domiciled for tax</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_transfer_agreement">risk_transfer_agreement</a></td>
+<td>bit</td>
+<td>null default 1</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">risk transfer agreement</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Brokerlink_Subaccount">Brokerlink_Subaccount</a></td>
+<td>integer</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Brokerlink Subaccount</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Brokerlink_UW_ID">Brokerlink_UW_ID</a></td>
+<td>varchar(10)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">Brokerlink UW</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_ri_broker">is_ri_broker</a></td>
+<td>tinyint</td>
+<td>not null default 0</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">is ri broker</span></td>
+</tr>
+<tr>
+<td><a class="name" name="Insurer_locking_type_id">Insurer_locking_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Insurer_Locking_Type.html#Insurer_locking_type_id">Insurer_Locking_Type.Insurer_locking_type_id</a> <span class="autodesc">Insurer locking type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="risk_transfer_editable">risk_transfer_editable</a></td>
+<td>bit</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">risk transfer editable</span></td>
+</tr>
+<tr>
+<td><a class="name" name="insurer_type_id">insurer_type_id</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Insurer_Type.html#insurer_Type_id">Insurer_Type.insurer_Type_id</a> <span class="autodesc">insurer type</span></td>
+</tr>
+<tr>
+<td><a class="name" name="BureauAccountParty">BureauAccountParty</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">Bureau Account Party</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>claims_rating_agency_id</td>
+<td><a href="Claims_Rating_Agency.html">Claims_Rating_Agency</a></td>
+<td>Claims_Rating_Agency_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>Insurer_locking_type_id</td>
+<td><a href="Insurer_Locking_Type.html">Insurer_Locking_Type</a></td>
+<td>Insurer_locking_type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurer_type_id</td>
+<td><a href="Insurer_Type.html">Insurer_Type</a></td>
+<td>insurer_Type_id</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>BureauAccountParty</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h2>Sample Data</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>party_cnt</td>
+<td>agency_number</td>
+<td>binder_indicator</td>
+<td>report_indicator</td>
+<td>is_reinsurer</td>
+<td>reinsurance_type</td>
+<td>is_reinsurance_debit_credit_no</td>
+<td>default_comm_rate</td>
+<td>method</td>
+<td>icr</td>
+<td>polaris_insurer_no</td>
+<td>abi_1_edi_directory</td>
+<td>payment_method</td>
+<td>payment_frequency</td>
+<td>bank_account</td>
+<td>fsa_registration_number</td>
+<td>fsa_insurercreditrating_id</td>
+<td>fsa_insurerstatus_id</td>
+<td>is_retained</td>
+<td>tax_group_id</td>
+<td>claims_rating_agency_id</td>
+<td>claims_rating_grading</td>
+<td>claims_rating_date</td>
+<td>claims_rating_description</td>
+<td>terms_of_payment_id</td>
+<td>domiciled_for_tax</td>
+<td>risk_transfer_agreement</td>
+<td>Brokerlink_Subaccount</td>
+<td>Brokerlink_UW_ID</td>
+<td>is_ri_broker</td>
+<td>Insurer_locking_type_id</td>
+<td>risk_transfer_editable</td>
+<td>insurer_type_id</td>
+<td>BureauAccountParty</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>9</td>
+<td>0</td>
+<td>0</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>&nbsp;</td>
+<td>0</td>
+<td>0</td>
+<td>False</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+<td>0</td>
+<td>1</td>
+<td>False</td>
+<td>3</td>
+<td><span class="nullvalue">&lt;null&gt;</span></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,249 @@
+Option Strict Off
+Option Explicit On
+Imports Artinsoft.VB6.Utils
+Imports Microsoft.VisualBasic
+Imports Microsoft.VisualBasic.Compatibility.VB6
+Imports System
+Imports System.Windows.Forms
+'developer guide no. 129
+Imports SharedFiles
+
+Friend NotInheritable Class General
+    Implements IDisposable
+    ' ***************************************************************** '
+    ' Class Name: General
+    '
+    ' Date: 17/02/1997
+    '
+    ' Description: General class to accompany the interface form.
+    '
+    ' Edit History:
+    ' ***************************************************************** '
+
+    ' Constant for the functions to identify
+    Private Const ACClass As String = "General"
+
+    ' Status members
+    Private m_sProcessStatus As New FixedLengthString(2)
+    Private m_sMapStatus As New FixedLengthString(2)
+    Private m_sStepStatus As New FixedLengthString(2)
+
+    ' Private instance of the interface form.
+    Private m_frmInterface As Object
+
+    ' Private instance of the business object.
+    Private m_oBusiness As Object
+
+    ' Stores the return value for the a
+    ' function call.
+    Private m_lReturn As Integer
+
+    ' ***************************************************************** '
+    ' Name: Initialise (Standard Method)
+    '
+    ' Description: Entry point for any initialisation code for this
+    '              object.
+    '
+    ' ***************************************************************** '
+    Public Function Initialise(ByRef frmInterface As Form, ByRef oBusiness As Object) As Integer
+
+        Dim result As Integer = 0
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Initialise the Status settings
+            m_sProcessStatus.Value = gPMConstants.PMNavStatusUnknown
+            m_sMapStatus.Value = gPMConstants.PMNavStatusUnknown
+            m_sStepStatus.Value = gPMConstants.PMNavStatusUnknown
+
+            ' Store the instance of the form into the member.
+            m_frmInterface = frmInterface
+
+            ' Store the instance of the business object
+            ' into the member.
+            m_oBusiness = oBusiness
+
+            Return result
+
+        Catch excep As System.Exception
+
+
+
+            ' Error Section.
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error.
+            iPMFunc.LogError(v_sClass:=ACClass, v_sMethod:="Initialise", r_lFunctionReturn:=result, excep:=excep)
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: Terminate (Standard Method)
+    '
+    ' Description: Entry point for any termination code for this
+    '              object.
+    '
+    ' ***************************************************************** '
+    Private disposedValue As Boolean
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+
+
+    Protected Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                m_oBusiness = Nothing
+                m_frmInterface = Nothing
+            End If
+        End If
+        Me.disposedValue = True
+    End Sub
+
+
+    ' ***************************************************************** '
+    ' Name: GetInterfaceDetails
+    '
+    ' Description: Gets the interface details and sets the appropriate
+    '              sytle.
+    '
+    ' ***************************************************************** '
+    Public Function GetInterfaceDetails() As Integer
+
+        Dim result As Integer = 0
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Get the interface details from the business object.
+
+            'NIIT - Replaced with the Migrated code 1144 
+            ' m_lReturn = m_frmInterface.GetBusiness()
+            m_lReturn = ReflectionHelper.Invoke(m_frmInterface, "GetBusiness", New Object() {})
+            ' Check for errors.
+            If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                ' Failed to get the details.
+                Return gPMConstants.PMEReturnCode.PMFalse
+            End If
+
+            ' Assign the details from the search data storage
+            ' to the interface.
+
+            m_lReturn = ReflectionHelper.Invoke(m_frmInterface, "DataToInterface", New Object() {})
+
+            ' Check for errors
+            If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                ' Failed to assign the details.
+                Return gPMConstants.PMEReturnCode.PMFalse
+            End If
+
+            m_lReturn = ReflectionHelper.Invoke(m_frmInterface, "DisplayLookupDetails", New Object() {})
+
+            Return result
+
+        Catch excep As System.Exception
+
+            ' Error Section.
+
+            result = gPMConstants.PMEReturnCode.PMError
+
+            ' Log Error.
+            iPMFunc.LogError(v_sClass:=ACClass, v_sMethod:="GetInterfaceDetails", r_lFunctionReturn:=result, excep:=excep)
+            Return result
+
+        End Try
+    End Function
+
+    ' ***************************************************************** '
+    ' Name: ProcessCommand
+    '
+    ' Description: Determines which action to take on the details
+    '              depending upon the task and interface state.
+    '
+    ' ***************************************************************** '
+    Public Function ProcessCommand() As Integer
+
+        Dim result As Integer = 0
+        Dim iMsgResult As DialogResult
+        Dim sMessage, sTitle As String
+
+        Try
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Check if form has been cancelled, if so, prompt
+            ' if you wish to lose details.
+
+            'NIIT - Replaced with the Migrated code 1144 
+            'If m_frmInterface.Status = gPMConstants.PMEReturnCode.PMCancel Then
+            If ReflectionHelper.GetMember(m_frmInterface, "Status") = gPMConstants.PMEReturnCode.PMCancel Then
+
+                ' Get string messages
+
+                sTitle = CStr(iPMFunc.GetResData(iLangID:=g_iLanguageID, lId:=ACCancelDetailsTitle, iDataType:=gPMConstants.PMEResourseFileDataType.PMResString, bResFile:=My.Resources.ResourceManager))
+
+                sMessage = CStr(iPMFunc.GetResData(iLangID:=g_iLanguageID, lId:=ACCancelDetails, iDataType:=gPMConstants.PMEResourseFileDataType.PMResString, bResFile:=My.Resources.ResourceManager))
+
+                iMsgResult = MessageBox.Show(sMessage, sTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
+
+                ' Check message result.
+                If iMsgResult = System.Windows.Forms.DialogResult.No Then
+                    ' Set return to false, meaning
+                    ' don't cancel.
+                    result = gPMConstants.PMEReturnCode.PMFalse
+                End If
+
+                ' its a cancel, so set STEPSTATUS to INCOMPLETE...
+
+
+            Else
+
+                ' Update the property member from the interface.
+
+                'm_lReturn = m_frmInterface.DataToProperties()
+                m_lReturn = ReflectionHelper.Invoke(m_frmInterface, "DataToProperties", New Object() {})
+
+                ' Check for errors.
+                If m_lReturn <> gPMConstants.PMEReturnCode.PMTrue Then
+                    ' Failed to update business.
+                    Return result
+                End If
+
+                ' At this point, check if there is a valid ID, if so = COMPLETE, if not = INCOMPLETE
+                '        If m_frmInterface.InsHolderCnt >= 0 Or Len(m_frmInterface.InsReference) > 0 Then
+                '            m_lReturn& = m_frmInterface.SetStatus(PMNavStatusComplete, PMNavStatusComplete, PMNavStatusComplete)
+                '        Else
+                '            m_lReturn& = m_frmInterface.SetStatus(PMNavStatusIncomplete, PMNavStatusIncomplete, PMNavStatusIncomplete)
+                '        End If
+            End If
+
+            Return result
+
+        Catch excep As System.Exception
+
+            ' Error Section.
+
+            result = gPMConstants.PMEReturnCode.PMTrue
+
+            ' Log Error.
+            iPMFunc.LogError(v_sClass:=ACClass, v_sMethod:="ProcessCommand", r_lFunctionReturn:=result, excep:=excep)
+            Return result
+
+        End Try
+    End Function
+
+    Public Sub New()
+        MyBase.New()
+
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        Dispose(False)
+    End Sub
+
+End Class

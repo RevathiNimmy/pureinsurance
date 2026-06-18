@@ -1,0 +1,175 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="..\Main.css" type="text/css">
+</head>
+<body>
+<h1>Coi_Value</h1>
+<p>Coinsurance - who gets what (Underwriting)</p>
+<p>
+                Logical database: BackOffice<br>
+                Component team: Pure For Underwriting<br>
+                Software module: Policy<br></p>
+<h2>Definition</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Name</td>
+<td>Data Type</td>
+<td>Defaults/Rules</td>
+<td>Constraints</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="name" name="insurance_file_cnt">insurance_file_cnt</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK, FK, I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Coi_Arrangement.html#insurance_file_cnt">Coi_Arrangement.insurance_file_cnt</a> <span class="autodesc">insurance file</span></td>
+</tr>
+<tr>
+<td><a class="name" name="coi_value_id">coi_value_id</a></td>
+<td>integer</td>
+<td>not null</td>
+<td>PK</td>
+<td><span class="autodesc">coi value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="party_cnt">party_cnt</a></td>
+<td>integer</td>
+<td>null</td>
+<td>FK(L), I</td>
+<td><span class="arrow">&#240;</span>&nbsp;<a href="Party.html#party_cnt">Party.party_cnt</a> <span class="autodesc">party</span></td>
+</tr>
+<tr>
+<td><a class="name" name="arrangement_ref">arrangement_ref</a></td>
+<td>varchar(30)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">arrangement ref</span></td>
+</tr>
+<tr>
+<td><a class="name" name="share_percent">share_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">share percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="share_premium">share_premium</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">share premium</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_percent">commission_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">commission percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="commission_value">commission_value</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">commission value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="surcharge_percent">surcharge_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">surcharge percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="surcharge_value">surcharge_value</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">surcharge value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_standard_surcharge">is_standard_surcharge</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is standard surcharge</span></td>
+</tr>
+<tr>
+<td><a class="name" name="premium_tax_recovery_percent">premium_tax_recovery_percent</a></td>
+<td>numeric(12, 8)</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">premium tax recovery percent</span></td>
+</tr>
+<tr>
+<td><a class="name" name="premium_tax_recovery_value">premium_tax_recovery_value</a></td>
+<td>numeric(19, 4)</td>
+<td>null</td>
+<td>&nbsp;</td>
+<td><span class="autodesc">premium tax recovery value</span></td>
+</tr>
+<tr>
+<td><a class="name" name="is_manual_premium_tax_rec">is_manual_premium_tax_rec</a></td>
+<td>tinyint</td>
+<td>not null</td>
+<td>&nbsp;</td>
+<td><a class="enumname" href="..\Enumerations\Boolean.html">Boolean</a> <span class="autodesc">is manual premium tax rec</span></td>
+</tr>
+</tbody>
+</table>
+<h2>Constraints</h2>
+<table border="1" cellpadding="2" cellspacing="0">
+<thead>
+<tr>
+<td>Type</td>
+<td>Column(s)</td>
+<td>Referenced Table</td>
+<td>Referenced Column(s)</td>
+<td>Description</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PK</td>
+<td>insurance_file_cnt, coi_value_id</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK</td>
+<td>insurance_file_cnt</td>
+<td><a href="Coi_Arrangement.html">Coi_Arrangement</a></td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>FK(L)</td>
+<td>party_cnt</td>
+<td><a href="Party.html">Party</a></td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>insurance_file_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>I</td>
+<td>party_cnt</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

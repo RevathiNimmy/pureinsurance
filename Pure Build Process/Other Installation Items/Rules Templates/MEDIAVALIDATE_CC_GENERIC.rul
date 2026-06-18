@@ -1,0 +1,72 @@
+' ---------------------------------------------------------------------------
+' SCRIPT NAME: 	MEDIAVALIDATE_CC_GENERIC
+' PURPOSE:		Validation of standard Credit Card Numbers
+' AUTHOR: 		Steve Watton
+' DATE: 		17 October 2002
+' RETURNS: 		oSharedStorage.vValid (True/False)
+' CHANGES:
+' ---------------------------------------------------------------------------
+
+Sub Start()
+	'Entry point for Script from bSIRMediaTypeValidation component
+	'oSharedStorage object is already available with two incoming properties
+	'.vReference = Bank Code and Account Number (as one string, seperated by a bar |) OR Credit Card Number
+	'.vAmount = Amount for rounding
+	'
+	' Two return properties need to be set once the script completes
+	'.vValid = True or False if .vReference is Valid.
+	'.vRoundedAmount = Rounded .vAmount
+
+	dim vCardNumber
+
+	vCardNumber = oSharedStorage.vReference
+
+	if trim(vCardNumber) <> "" then
+		oSharedStorage.vValid = ValidCard(vCardNumber)
+	else
+		oSharedStorage.vValid = False
+	end if
+
+	oSharedStorage.vRoundedAmount = oSharedStorage.vAmount
+End Sub
+
+Function ValidCard(CardNumber)
+	'This function uses the standard LUHN formula
+	'to validate any 13-20 digit credit card
+
+Dim intCount
+Dim intValue
+Dim intArr
+Dim intStart
+Dim intArrValue
+
+    ReDim intArr(Len(CardNumber))
+
+    For intCount = Len(CardNumber) - 1 To 1 Step -2
+        intValue = Mid(CardNumber, intCount, 1) * 2
+        intArr(intCount) = intValue
+    Next
+
+    intValue = 0
+    If Len(CardNumber) Mod 2 = 0 Then
+        intStart = 2
+    Else
+        intStart = 1
+    End If
+    For intCount = intStart To Len(CardNumber) Step 2
+        intValue = intValue + Mid(CardNumber, intCount, 1)
+        intArrValue = intArr(intCount - 1)
+        If intArrValue < 10 Then
+            intValue = intValue + intArrValue
+        Else
+            intValue = intValue + Left(intArrValue, 1) + Right(intArrValue, 1)
+        End If
+    Next
+
+    If intValue Mod 10 <> 0 Then
+        ValidCard = False
+    Else
+        ValidCard = True
+    End If        
+
+End Function

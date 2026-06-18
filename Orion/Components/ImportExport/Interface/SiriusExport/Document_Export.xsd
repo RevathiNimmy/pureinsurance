@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.siriusfs.com/SFI/Export/document_Export/20091101" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.siriusfs.com/SFI/Export/document_Export/20091101" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="EXPORT_HEADER">
+		<xs:annotation>
+			<xs:documentation>Sirius Export Header</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="document" />
+			</xs:sequence>
+			<xs:attribute name="interface_name" type="xs:string" use="required" fixed="DOCUMENT_EXPORT" />
+			<xs:attribute name="parameters_used" type="xs:string" />
+			<xs:attribute name="batch_id" type="xs:long" use="optional" />
+			<xs:attribute name="batch_reference" type="xs:string" use="optional" />
+			<xs:attribute name="date_exported" type="xs:dateTime" use="optional" />
+			<xs:attribute name="total_transactions" type="xs:long" />
+			<xs:attribute name="total_amount" type="xs:double" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="document">
+		<xs:annotation>
+			<xs:documentation>Sirius generated document</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+      <xs:sequence>
+            <xs:any minOccurs="0" processContents="lax"/>
+        </xs:sequence>
+      <xs:attribute name="document_key" type="xs:long" use="required" />
+			<xs:attribute name="document_description" type="xs:string" use="required" />
+			<xs:attribute name="document_type_code" type="xs:string" use="required" />
+			<xs:attribute name="document_type_description" type="xs:string" use="required" />
+			<xs:attribute name="date_created" type="xs:dateTime" use="required" />
+			<xs:attribute name="document_template_code" type="xs:string" use="optional" />
+			<xs:attribute name="file_path" type="xs:string" use="required" />
+			<xs:attribute name="insurance_ref" type="xs:string" use="optional" />
+			<xs:attribute name="insurance_folder_key" type="xs:string" use="optional" />
+			<xs:attribute name="party_code" type="xs:string" use="optional" />
+			<xs:attribute name="party_key" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

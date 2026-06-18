@@ -1,0 +1,3404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Internal Use (Sirius Financial Solutions Plc) -->
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by Richard Taylor (SSP) -->
+<xs:schema xmlns:msdt="http://microsoft.com/wsdl/types/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" xmlns="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" targetNamespace="http://www.siriusfs.com/SFI/SAM/BaseTypes/20060627" elementFormDefault="qualified">
+	<xs:include schemaLocation="EnumeratedListsBV1.xsd"/>
+	<xs:import namespace="http://microsoft.com/wsdl/types/" schemaLocation="simpletypes.xsd"/>
+	<xs:complexType name="ArrayOfSAMError">
+		<xs:sequence>
+			<xs:element name="SAMError" type="tns:SAMError" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseAddAddressRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseAddressType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddAddressResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="AddressKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddMtaQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="TypeOfMta" type="xs:string"/>
+					<xs:element name="MtaReason" type="xs:string"/>
+					<xs:element name="EffectiveDate" type="xs:dateTime"/>
+					<xs:element name="ExpiryDate" type="xs:dateTime"/>
+					<xs:element name="LapsedReasonCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="LapsedReasonDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="LapsedDate" type="xs:dateTime" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddMtaQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+					<xs:element name="QuoteExpiryDate" type="xs:dateTime"/>
+					<xs:element name="CanBeAddedToPfPlan" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddPartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="PersonalClient" type="BasePartyPCType"/>
+						<xs:element name="CorporateClient" type="BasePartyCCType"/>
+						<xs:element name="OtherParty" type="BasePartyOTHERType"/>
+					</xs:choice>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddPartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="Shortname" type="xs:string"/>
+					<xs:element name="PartyTimestamp" type="xs:base64Binary"/>
+					<xs:element name="ResolvedName" type="xs:string"/>
+					<xs:element name="XMLDataset" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseQuoteType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="ConsolidatedLeadAgentCommission" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ConsolidatedSubAgentCommission" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CoverNoteBookNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="CoverNoteSheetNumber" type="xs:int" minOccurs="0"/>
+					<xs:element name="LapsedReasonCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="LapsedReasonDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="LapsedDate" type="xs:dateTime" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="InsuranceFileRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="QuoteExpiryDate" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddReceiptRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Receipt" type="tns:BaseReceiptType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddReceiptResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRiskType">
+				<xs:sequence>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="ProductCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="RiskFolderKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseAddressType">
+		<xs:sequence>
+			<xs:element name="AddressTypeCode" type="AddressTypeType"/>
+			<xs:element name="AddressLine1" type="xs:string"/>
+			<xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine3" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine4" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string"/>
+			<xs:element name="PostCode" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseAddressWithContactsType">
+		<xs:complexContent>
+			<xs:extension base="BaseAddressType">
+				<xs:sequence>
+					<xs:element name="Contacts" type="BaseContactType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseBindQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="PaymentMethod" type="PaymentMethodType" minOccurs="0"/>
+					<xs:element name="SelectedInstalmentQuote" type="BaseSelectedInstalmentQuoteType" minOccurs="0"/>
+					<xs:element name="PayNowDetails" type="tns:BaseReceiptType" minOccurs="0"/>
+					<xs:element name="TransactionType" type="xs:string" minOccurs="0"/>
+					<xs:element name="PayTrueMonthlyPolicyMTAPremiumOnRenewal" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="AcceptRenewal" type="xs:boolean" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseBindQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="tns:BaseTransactResponseType">
+				<xs:sequence>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseBranchType" mixed="false">
+		<xs:sequence>
+			<xs:element name="BranchCode" type="xs:string"/>
+			<xs:element name="Description" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimPaymentItemResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimPaymentItemKey"/>
+			<xs:element name="SiriusClaimPaymentItemKey"/>
+			<xs:element name="ClaimRiArrangement" type="tns:BaseCDTClaimRiArrangementResponseType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimPaymentItemType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimPaymentItemKey" type="xs:int"/>
+			<xs:element name="ReserveTypeCode" type="xs:string"/>
+			<xs:element name="TaxGroupCode" type="xs:string"/>
+			<xs:element name="PaymentAmount" type="xs:decimal"/>
+			<xs:element name="ReverseExcess" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimPaymentResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimPaymentKey"/>
+			<xs:element name="SiriusClaimPaymentKey"/>
+			<xs:element name="ClaimPaymentItem" type="tns:BaseCDTClaimPaymentItemResponseType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimPaymentType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimPaymentKey" type="xs:int"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="PaymentPartyType" type="tns:ClaimPaymentPartyTypeType"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="ClaimPaymentItem" type="tns:BaseCDTClaimPaymentItemType" maxOccurs="unbounded"/>
+			<xs:element name="Payee" type="tns:BaseClaimPayeeType" minOccurs="0"/>
+			<xs:element name="ClaimReinsurance" type="tns:BaseCDTClaimReinsuranceType" minOccurs="0"/>
+			<xs:element name="TransactionDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimPerilResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimPerilKey" type="xs:int"/>
+			<xs:element name="SiriusClaimPerilKey" type="xs:int"/>
+			<xs:element name="Reserve" type="tns:BaseCDTReserveResponseType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Recovery" type="tns:BaseCDTRecoveryResponseType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimPayment" type="tns:BaseCDTClaimPaymentResponseType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimReceipt" type="tns:BaseCDTClaimReceiptResponseType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimPerilType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimPerilKey" type="xs:int"/>
+			<xs:element name="BaseClaimPerilKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="ClaimPayment" type="tns:BaseCDTClaimPaymentType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimReceipt" type="tns:BaseCDTClaimReceiptType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Reserve" type="tns:BaseCDTReserveType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Recovery" type="tns:BaseCDTRecoveryType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimRIArrangmentLineResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimRIArrangementLineKey"/>
+			<xs:element name="SiriusClaimRIArrangementLineKey"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimRIArrangmentLineType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimRIArrangementLineKey" type="xs:int"/>
+			<xs:element name="SAMStagingClaimRIArrangementKey" type="xs:int"/>
+			<xs:element name="Type" type="xs:string"/>
+			<xs:element name="TreatyCode" type="xs:string"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="Retained" type="xs:decimal"/>
+			<xs:element name="DefaultSharePercent" type="xs:decimal"/>
+			<xs:element name="ThisSharePercent" type="xs:decimal"/>
+			<xs:element name="AgreementCode" type="xs:string"/>
+			<xs:element name="Priority" type="xs:int"/>
+			<xs:element name="NumberOfLines" type="xs:int"/>
+			<xs:element name="LowerLimit" type="xs:decimal"/>
+			<xs:element name="LineLimit" type="xs:decimal"/>
+			<xs:element name="SumInsured" type="xs:decimal"/>
+			<xs:element name="Reserve" type="xs:decimal"/>
+			<xs:element name="Payment" type="xs:decimal"/>
+			<xs:element name="Salvage" type="xs:decimal"/>
+			<xs:element name="Recovery" type="xs:decimal"/>
+			<xs:element name="ThisReserve" type="xs:decimal"/>
+			<xs:element name="ThisPayment" type="xs:decimal"/>
+			<xs:element name="ThisSalvage" type="xs:decimal"/>
+			<xs:element name="ThisRecovery" type="xs:decimal"/>
+			<xs:element name="ParticipationPercent" type="xs:decimal"/>
+			<xs:element name="Grouping" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimReceiptItemResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimReceiptItemKey"/>
+			<xs:element name="SiriusClaimReceiptItemKey"/>
+			<xs:element name="ClaimRiArrangement" type="tns:BaseCDTClaimRiArrangementResponseType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimReceiptResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimReceiptKey"/>
+			<xs:element name="SiriusClaimReceiptKey"/>
+			<xs:element name="ClaimReceiptItem" type="tns:BaseCDTClaimReceiptItemResponseType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimReceiptType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimReceiptKey" type="xs:int"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="ReceiptPartyType" type="tns:ClaimReceiptPartyTypeType"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="ClaimReceiptItem" type="tns:BaseCDTReceiptItemType" maxOccurs="unbounded"/>
+			<xs:element name="Payee" type="tns:BaseClaimPayeeType" minOccurs="0"/>
+			<xs:element name="ClaimReinsurance" type="tns:BaseCDTClaimReinsuranceType" minOccurs="0"/>
+			<xs:element name="TransactionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="IsSalvageRecovery" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimReinsuranceType">
+		<xs:sequence>
+			<xs:element name="ClaimRIArrangement">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ClaimRIArrangmentLine" type="tns:BaseCDTClaimRIArrangmentLineType" maxOccurs="unbounded"/>
+						<xs:element name="SAMStagingClaimRIArrangementKey" type="xs:int"/>
+						<xs:element name="RIArrangementKey" type="xs:int"/>
+						<xs:element name="RIBandCode" type="xs:string"/>
+						<xs:element name="RIModelCode" type="xs:string"/>
+						<xs:element name="ClaimAllocationType" type="xs:int"/>
+						<xs:element name="SumInsured" type="xs:decimal"/>
+						<xs:element name="Reserve" type="xs:decimal"/>
+						<xs:element name="Payment" type="xs:decimal"/>
+						<xs:element name="Salvage" type="xs:decimal"/>
+						<xs:element name="Recovery" type="xs:decimal"/>
+						<xs:element name="ThisReserve" type="xs:decimal"/>
+						<xs:element name="ThisPayment" type="xs:decimal"/>
+						<xs:element name="ThisSalvage" type="xs:decimal"/>
+						<xs:element name="ThisRecovery" type="xs:decimal"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimKey" type="xs:int"/>
+			<xs:element name="SiriusClaimKey" type="xs:int"/>
+			<xs:element name="ClaimPeril" type="tns:BaseCDTClaimPerilResponseType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimRiArrangement" type="tns:BaseCDTClaimRiArrangementResponseType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimRiArrangementResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimRIArrangementKey"/>
+			<xs:element name="SiriusClaimRIArrangementKey"/>
+			<xs:element name="ClaimRIArrangmentLine" type="tns:BaseCDTClaimRIArrangmentLineResponseType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTClaimType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimKey" type="xs:int"/>
+			<xs:element name="SiriusInsuranceFileKey" type="xs:int"/>
+			<xs:element name="SiriusRiskKey" type="xs:int"/>
+			<xs:element name="Description" type="xs:string"/>
+			<xs:element name="ProgressStatusCode" type="xs:string"/>
+			<xs:element name="PrimaryCauseCode" type="xs:string"/>
+			<xs:element name="LossFromDate" type="xs:date"/>
+			<xs:element name="ReportedDate" type="xs:date"/>
+			<xs:element name="HandlerCode" type="xs:string"/>
+			<xs:element name="InfoOnly" type="xs:boolean"/>
+			<xs:element name="LikelyClaim" type="xs:boolean"/>
+			<xs:element name="SecondaryCauseCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CatastropheCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="LossToDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Location" type="xs:string" minOccurs="0"/>
+			<xs:element name="TownCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="ClaimVersionDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="CurrencyCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="UnderwritingYearCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="XMLDATASET" type="xs:string"/>
+			<xs:element name="ClaimPeril" type="tns:BaseCDTClaimPerilType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimReinsurance" type="tns:BaseCDTClaimReinsuranceType" minOccurs="0"/>
+			<xs:element name="ClaimNumber" type="xs:string"/>
+			<xs:element name="TransactionDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="VersionNo" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTReceiptItemType">
+		<xs:sequence>
+			<xs:element name="SAMStagingClaimReceiptItemKey" type="xs:int"/>
+			<xs:element name="RecoveryTypeCode" type="xs:string"/>
+			<xs:element name="TaxGroupCode" type="xs:string"/>
+			<xs:element name="ReceiptAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTRecoveryResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingRecoveryKey"/>
+			<xs:element name="SiriusRecoveryKey"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTRecoveryType">
+		<xs:sequence>
+			<xs:element name="SAMStagingRecoveryKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="RevisionAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Claim" type="BaseCDTClaimType" maxOccurs="unbounded"/>
+					<xs:element name="UseFullClaimVersioning" type="xs:boolean" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTReserveResponseType">
+		<xs:sequence>
+			<xs:element name="SAMStagingReserveKey"/>
+			<xs:element name="SiriusReserveKey"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTReserveType">
+		<xs:sequence>
+			<xs:element name="SAMStagingReserveKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="RevisionAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCDTResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Claim" type="BaseCDTClaimResponseType" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseChangePasswordRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Password" type="xs:string" minOccurs="0"/>
+					<xs:element name="NewPassword" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseChangePasswordResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimBuilderRiskType">
+		<xs:sequence>
+			<xs:element name="DataModelCode" type="xs:string"/>
+			<xs:element name="XMLDataSet" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimMTARequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="ScreenCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="RiskDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimMTAResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimMaintainRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Claim" type="tns:BaseClaimMaintainType"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimMaintainType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseClaimType">
+				<xs:sequence>
+					<xs:element name="BaseClaimKey" type="xs:int"/>
+					<xs:element name="ClaimPeril" type="tns:BaseClaimPerilMaintainType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="IgnoreWarnings" type="xs:boolean"/>
+					<xs:element name="ExternalHandler" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimOpenRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Claim" type="BaseClaimOpenType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimOpenType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseClaimType">
+				<xs:sequence>
+					<xs:element name="ClaimPeril" type="tns:BaseClaimPerilType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="CurrencyCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="UnderwritingYearCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="IgnoreWarnings" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPartyClientType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseClaimPartyType">
+				<xs:sequence>
+					<xs:element name="TaxRegistered" type="xs:boolean"/>
+					<xs:element name="TaxRegistrationNumber" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPartyInsurerType">
+		<xs:complexContent>
+			<xs:extension base="BaseClaimPartyType">
+				<xs:sequence>
+					<xs:element name="ContactName" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPartyType" mixed="false">
+		<xs:sequence>
+			<xs:element name="Address" type="BaseAddressType"/>
+			<xs:element name="PartyClaimNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="Contact" type="tns:BaseContactType" minOccurs="0" maxOccurs="5"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPayeeType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankName" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="MediaTypeCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="MediaReference" type="xs:string"/>
+			<xs:element name="TheirReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address" type="BaseAddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPaymentAdvancedTaxDetailsType">
+		<xs:sequence>
+			<xs:element name="InsuredDomiciled" type="xs:boolean"/>
+			<xs:element name="InsuredPercentage" type="xs:decimal"/>
+			<xs:element name="InsuranceTaxNumber" type="xs:string"/>
+			<xs:element name="PayeeDomiciled" type="xs:boolean"/>
+			<xs:element name="PayeePercentage" type="xs:decimal"/>
+			<xs:element name="PayeeTaxNumber" type="xs:string"/>
+			<xs:element name="SafeHarbourCode" type="xs:string"/>
+			<xs:element name="SafeHarbourPercentage" type="xs:decimal"/>
+			<xs:element name="IsTaxExempt" type="xs:boolean"/>
+			<xs:element name="IsWHTExempt" type="xs:boolean"/>
+			<xs:element name="IsSettlement" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPaymentItemType">
+		<xs:sequence>
+			<xs:element name="BaseReserveKey" type="xs:int"/>
+			<xs:element name="TaxGroupCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="PaymentAmount" type="xs:decimal"/>
+			<xs:element name="ReverseExcess" type="xs:boolean" default="false"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPaymentRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ClaimPayment" type="BaseClaimPaymentType"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPaymentTaxItemType">
+		<xs:sequence>
+			<xs:element name="ReserveType" type="xs:string"/>
+			<xs:element name="TaxGroupCode" type="xs:string"/>
+			<xs:element name="TaxBandCode" type="xs:string"/>
+			<xs:element name="Percentage" type="xs:decimal"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPaymentType">
+		<xs:sequence>
+			<xs:element name="BaseClaimKey" type="xs:int"/>
+			<xs:element name="BaseClaimPerilKey" type="xs:int"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="PaymentPartyType" type="ClaimPaymentPartyTypeType"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="ClaimVersionDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="AdvancedTaxDetails" type="BaseClaimPaymentAdvancedTaxDetailsType" minOccurs="0"/>
+			<xs:element name="ClaimPaymentItem" type="BaseClaimPaymentItemType" maxOccurs="unbounded"/>
+			<xs:element name="Payee" type="BaseClaimPayeeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPerilMaintainType">
+		<xs:annotation>
+			<xs:documentation>The BaseClaimPerilKey element  is optional purely in order to future proof the contract. In future versions when a BaseClaimPerilKey is specified an update will take place, where a BaseClaimPerilKey is not provided a new Claim Peril will be added. </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseClaimPerilType">
+				<xs:sequence>
+					<xs:element name="BaseClaimPerilKey" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPerilRecoveryReceiptType">
+		<xs:sequence>
+			<xs:element name="BaseRecoveryKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="TotalRecoveryAmount" type="xs:decimal"/>
+			<xs:element name="TotalReceiptAmount" type="xs:decimal"/>
+			<xs:element name="ThisReceiptINCLTaxAmount" type="xs:decimal"/>
+			<xs:element name="ThisReceiptTaxAmount" type="xs:decimal"/>
+			<xs:element name="ThisReceiptNetAmount" type="xs:decimal"/>
+			<xs:element name="BalanceAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPerilRecoveryType">
+		<xs:sequence>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="RevisionAmount" type="xs:decimal"/>
+      <!--Start-(Arul Stephen)-(Tech Spec WR34 - Claims Recovery Party Link.doc)-(7.1.1)-->
+      <xs:element name="RecoveryPartyTypeKey" type="xs:int" minOccurs="0"/>
+      <xs:element name="RecoveryPartyKey" type="xs:int" minOccurs="0"/>
+      <!--End-(Arul Stephen)-(Tech Spec WR34 - Claims Recovery Party Link.doc)-(7.1.1)-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPerilReservePaymentType">
+		<xs:sequence>
+			<xs:element name="BaseReserveKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="TotalReserve" type="xs:decimal"/>
+			<xs:element name="PaidToDate" type="xs:decimal"/>
+			<xs:element name="PaidToDateTax" type="xs:decimal"/>
+			<xs:element name="CurrentReserve" type="xs:decimal"/>
+			<xs:element name="ThisPaymentINCLTax" type="xs:decimal"/>
+			<xs:element name="ThisPaymentTax" type="xs:decimal"/>
+			<xs:element name="CostToClaim" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPerilReserveType">
+		<xs:sequence>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="RevisionAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimPerilType">
+		<xs:sequence>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="Description" type="xs:string" minOccurs="0"/>
+			<xs:element name="Reserve" type="tns:BaseClaimPerilReserveType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Recovery" type="tns:BaseClaimPerilRecoveryType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimReceiptAdvancedTaxDetailsType">
+		<xs:sequence>
+			<xs:element name="IsSettlement" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="IsTaxExempt" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="ReceivableTaxPercentage" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="InsuredDomiciled" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="InsuredPercentage" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="InsuredTaxNumber" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimReceiptItemType">
+		<xs:sequence>
+			<xs:element name="BaseRecoveryKey" type="xs:long"/>
+			<xs:element name="TaxGroupCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="ReceiptAmount" type="xs:decimal"/>
+      <!--Start-(Arul Stephen)-(Tech Spec WR34 - Claims Recovery Party Link.doc)-(7.1.2)-->
+      <xs:element name="RecoveryPartyTypeKey" type="xs:int" minOccurs="0"/>
+      <xs:element name="RecoveryPartyKey" type="xs:int" minOccurs="0"/>
+      <!--Start-(Arul Stephen)-(Tech Spec WR34 - Claims Recovery Party Link.doc)-(7.1.2)-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimReceiptRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ClaimReceipt" type="tns:BaseClaimReceiptType"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimReceiptTaxItemType">
+		<xs:sequence>
+			<xs:element name="RecoveryType" type="xs:string"/>
+			<xs:element name="TaxGroupCode" type="xs:string"/>
+			<xs:element name="TaxBandCode" type="xs:string"/>
+			<xs:element name="Percentage" type="xs:decimal"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimReceiptType">
+		<xs:sequence>
+			<xs:element name="BaseClaimKey" type="xs:long"/>
+			<xs:element name="BaseClaimPerilKey" type="xs:string"/>
+			<xs:element name="ReceiptPartyType" type="ClaimReceiptPartyTypeType"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="ClaimVersionDescription" type="xs:string" minOccurs="0"/>
+			<xs:element name="AdvancedTaxDetails" type="BaseClaimReceiptAdvancedTaxDetailsType" minOccurs="0"/>
+			<xs:element name="ReceiptItem" type="BaseClaimReceiptItemType" maxOccurs="unbounded"/>
+			<xs:element name="Payee" type="BaseClaimPayeeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="ClaimKey" type="xs:int"/>
+					<xs:element name="BaseClaimKey" type="xs:int"/>
+					<xs:element name="ClaimNumber" type="xs:string"/>
+					<xs:element name="Version" type="xs:int"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+					<xs:element name="Warnings" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Code" type="xs:int"/>
+								<xs:element name="Description" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClaimType">
+		<xs:sequence>
+			<xs:element name="Client" type="tns:BaseClaimPartyClientType" minOccurs="0"/>
+			<xs:element name="Insurer" type="BaseClaimPartyInsurerType" minOccurs="0"/>
+			<xs:element name="Description" type="xs:string"/>
+			<xs:element name="ProgressStatusCode" type="xs:string"/>
+			<xs:element name="PrimaryCauseCode" type="xs:string"/>
+			<xs:element name="LossFromDate" type="xs:dateTime"/>
+			<xs:element name="ReportedDate" type="xs:dateTime"/>
+			<xs:element name="HandlerCode" type="xs:string"/>
+			<xs:element name="InfoOnly" type="xs:boolean"/>
+			<xs:element name="LikelyClaim" type="xs:boolean"/>
+			<xs:element name="SecondaryCauseCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CatastropheCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="LossToDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="Location" type="xs:string" minOccurs="0"/>
+			<xs:element name="TownCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="UserDefFldACode" type="xs:string" minOccurs="0"/>
+			<xs:element name="UserDefFldBCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="UserDefFldCCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="UserDefFldDCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="UserDefFldECode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comments" type="xs:string" minOccurs="0"/>
+			<xs:element name="ClaimVersionDescription" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseClientDataImportRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="AgentKey" type="xs:int" minOccurs="0"/>
+					<xs:choice id="Insured">
+						<xs:element name="PersonalClient" type="BasePartyPCType"/>
+						<xs:element name="CorporateClient" type="BasePartyCCType"/>
+					</xs:choice>
+					<xs:element name="PolicyVersion" type="BaseQuoteRiskMsgType" maxOccurs="unbounded"/>
+					<xs:element name="AccountDocuments" type="BasePostDocumentRequestType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseClientDataImportResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="PolicyVersion" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="SAMStagingPolicyKey" type="xs:int"/>
+								<xs:element name="InsuranceFolderKey" type="xs:int"/>
+								<xs:element name="InsuranceFileKey" type="xs:int"/>
+								<xs:element name="Risks" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="SAMStagingRiskKey" type="xs:int"/>
+											<xs:element name="RiskFolderKey" type="xs:int"/>
+											<xs:element name="RiskKey" type="xs:int"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Claim" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="SAMStagingClaimKey" type="xs:int"/>
+											<xs:element name="ClaimKey" type="xs:int"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AccountsDocuments" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="DocumentRef" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseContactDetailType">
+		<xs:choice>
+			<xs:element name="EmailAddress" type="xs:string"/>
+			<xs:element name="Number" type="xs:string"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BaseContactType">
+		<xs:sequence>
+			<xs:element name="ContactTypeCode" type="ContactTypeType"/>
+			<xs:element name="ContactDetail" type="BaseContactDetailType"/>
+			<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseCreateEventRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="ClaimKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="EventText" type="xs:string"/>
+					<xs:element name="EventNote" type="xs:string" minOccurs="0"/>
+					<xs:element name="AttachedFile" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="Filename" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseCreateEventResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseCreateWmTaskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="TaskGroup" type="xs:string"/>
+					<xs:element name="Task" type="xs:string"/>
+					<xs:element name="DueDateTime" type="xs:dateTime"/>
+					<xs:element name="Client" type="xs:string"/>
+					<xs:element name="Description" type="xs:string"/>
+					<xs:element name="IsUrgent" type="xs:boolean"/>
+					<xs:element name="IsComplete" type="xs:boolean"/>
+					<xs:element name="AllocationUserGroup" type="xs:string"/>
+					<xs:element name="AllocationUser" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseCreateWmTaskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseCreditCardType">
+		<xs:sequence>
+			<xs:element name="Number" type="xs:string"/>
+			<xs:element name="ExpiryDate" type="xs:string"/>
+			<xs:element name="StartDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="NameOnCreditCard" type="xs:string" minOccurs="0"/>
+			<xs:element name="TypeCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Issue" type="xs:string" minOccurs="0"/>
+			<xs:element name="Pin" type="xs:string" minOccurs="0"/>
+			<xs:element name="CardHolder" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BaseSimpleAddressType">
+							<xs:sequence>
+								<xs:element name="Name" type="xs:string" minOccurs="0"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseDeleteRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseDeleteRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseDocumentType" mixed="false">
+		<xs:sequence>
+			<xs:element name="DocNum" type="xs:int"/>
+			<xs:element name="DocDescription" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseFeesType">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseFindClaimRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ClaimNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFileRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="ClientShortName" type="xs:string" minOccurs="0"/>
+					<xs:element name="LossDateFrom" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="LossDateTo" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="RiskIndex" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindClaimResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Claims" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="InsuranceFileKey" type="xs:int"/>
+											<xs:element name="ClaimKey" type="xs:int"/>
+											<xs:element name="ClaimDescription" type="xs:string"/>
+											<xs:element name="ClaimNumber" type="xs:string"/>
+											<xs:element name="InsuranceRef" type="xs:string"/>
+											<xs:element name="ClientShortName" type="xs:string"/>
+											<xs:element name="ProductDescription" type="xs:string"/>
+											<xs:element name="LossDateFrom" type="xs:dateTime"/>
+											<xs:element name="ClientName" type="xs:string"/>
+											<xs:element name="ClaimStatusID" type="xs:int"/>
+											<xs:element name="ClaimHandlerDescription" type="xs:string"/>
+											<xs:element name="InsurerClaimNumber" type="xs:string"/>
+											<xs:element name="ClientClaimNumber" type="xs:string"/>
+											<xs:element name="ClientTelephoneNumber" type="xs:string"/>
+											<xs:element name="ClientTelephoneNumberOffice" type="xs:string"/>
+											<xs:element name="PrimaryCauseDescription" type="xs:string"/>
+											<xs:element name="SecondaryCauseDescription" type="xs:string"/>
+											<xs:element name="ProgressStatusDescription" type="xs:string"/>
+											<xs:element name="Payments" type="xs:decimal"/>
+											<xs:element name="Reserve" type="xs:decimal"/>
+											<xs:element name="CurrencyISOCode" type="xs:string"/>
+											<xs:element name="IsDeleted" type="xs:boolean"/>
+											<xs:element name="IsAllowedClosedClaims" type="xs:boolean"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindControlSearchRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="FindControlKey" type="xs:int"/>
+					<xs:element name="SearchCriteria" type="tns:BaseSearchCriteriaType" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindControlSearchResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Matches">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:any id="Matches" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindInsuranceFileRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileRef" type="xs:string"/>
+					<xs:element name="SearchDate" type="xs:date"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindInsuranceFileResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindPartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyType" type="tns:PartyTypeType" minOccurs="0"/>
+					<xs:element name="Shortname" type="xs:string" minOccurs="0"/>
+					<xs:element name="AlternativeId" type="xs:string" minOccurs="0"/>
+					<xs:element name="Name" type="xs:string" minOccurs="0"/>
+					<xs:element name="Firstname" type="xs:string" minOccurs="0"/>
+					<xs:element name="AddressLine1" type="xs:string" minOccurs="0"/>
+					<xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+					<xs:element name="AddressLine3" type="xs:string" minOccurs="0"/>
+					<xs:element name="AddressLine4" type="xs:string" minOccurs="0"/>
+					<xs:element name="PostCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="TelephoneNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="DateOfBirth" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="PolicyRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="RiskIndex" type="xs:string" minOccurs="0"/>
+					<xs:element name="FileCode" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseFindPartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Parties" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PartyKey" type="xs:int"/>
+											<xs:element name="ShortName" type="xs:string"/>
+											<xs:element name="ResolvedName" type="xs:string"/>
+											<xs:element name="AddressLine1" type="xs:string" minOccurs="0"/>
+											<xs:element name="PostCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="ContactTelephoneNumber" type="xs:string" minOccurs="0"/>
+											<xs:element name="DateOfBirth" type="xs:dateTime" minOccurs="0"/>
+											<xs:element name="AgentKey" type="xs:int" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseForgottenPasswordRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Username" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseForgottenPasswordResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Mode" type="xs:int"/>
+					<xs:element name="ClaimKey" type="xs:int"/>
+					<xs:element name="TransactionType" type="xs:string"/>
+					<xs:element name="ParameterXML" type="xs:string" minOccurs="0"/>
+					<xs:element name="OutputAsHTML" type="xs:boolean"/>
+					<xs:element name="OutputAsPDF" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGenerateClaimsDocumentsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Mode" type="xs:int"/>
+					<xs:element name="ClaimKey" type="xs:int"/>
+					<xs:element name="TransactionType" type="xs:string"/>
+					<xs:element name="ParameterXML" type="xs:string" minOccurs="0"/>
+					<xs:element name="OutputAsHTML" type="xs:boolean"/>
+					<xs:element name="OutputAsPDF" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGenerateClaimsDocumentsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Documents" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="DocumentName" type="xs:string" minOccurs="0"/>
+											<xs:element name="DocumentDescription" type="xs:string" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGenerateDocumentRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="DocumentTemplateCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="Mode" type="xs:int"/>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="ParameterXML" type="xs:string" minOccurs="0"/>
+					<xs:element name="OutputAsHTML" type="xs:boolean"/>
+					<xs:element name="OutputAsPDF" type="xs:boolean"/>
+					<xs:element name="ClaimKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="SpoolDocumentOnly" type="xs:boolean" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGenerateDocumentResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="SpooledZipFile" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="MergedFilePath" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGenerateInviteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="OutputAsHTML" type="xs:boolean"/>
+					<xs:element name="OutputAsPDF" type="xs:boolean"/>
+					<xs:element name="SpoolDocumentOnly" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGenerateInviteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="SpooledZipFile" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="MergedFilePath" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetAccountBalanceRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetAccountBalanceResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="AccountBalance" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="SumAmount" type="xs:double"/>
+											<xs:element name="CurrencyCode" type="xs:string"/>
+											<xs:element name="FloatBalance" type="xs:double"/>
+											<xs:element name="Overdraft" type="xs:double"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetAddressRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="AddressKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetAddressResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Address" type="BaseAddressType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetAllPolicyVersionsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetAllPolicyVersionsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Policies" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="InsuranceFolderKey" type="xs:int"/>
+											<xs:element name="insuranceFileKey" type="xs:int"/>
+											<xs:element name="InsuranceHolderKey" type="xs:int"/>
+											<xs:element name="PolicyTypeCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="PolicyRef" type="xs:string"/>
+											<xs:element name="InsuranceFileTypeDesc" type="xs:string"/>
+											<xs:element name="ProductDesc" type="xs:string"/>
+											<xs:element name="RenewalDate" type="xs:dateTime"/>
+											<xs:element name="PartyShortName" type="xs:string"/>
+											<xs:element name="Premium" type="xs:double" minOccurs="0"/>
+											<xs:element name="InsuranceFileTypeCode" type="xs:string"/>
+											<xs:element name="InsuranceFileTypeKey" type="xs:int"/>
+											<xs:element name="CoverStartDate" type="xs:dateTime"/>
+											<xs:element name="ExpiryDate" type="xs:dateTime"/>
+											<xs:element name="QuoteExpiryDate" type="xs:dateTime" minOccurs="0"/>
+											<xs:element name="EventDesc" type="xs:string" minOccurs="0"/>
+											<xs:element name="TaxAmount" type="xs:double" minOccurs="0"/>
+											<xs:element name="GracePeriod" type="xs:int"/>
+											<xs:element name="ProductCode" type="xs:string"/>
+											<xs:element name="PolicyVersion" type="xs:int"/>
+											<xs:element name="PaymentMethod" type="xs:string" minOccurs="0"/>
+											<xs:element name="InstalmentPlanStatus" type="xs:string" minOccurs="0"/>
+											<xs:element name="PreviousVersionInstalmentPlanStatus" type="xs:string" minOccurs="0"/>
+											<xs:element name="AlternativeRef" type="xs:string"/>
+											<xs:element name="RenewalStatusTypeCode" type="xs:string"/>
+											<xs:element name="RenewalStatusTypeDescription" type="xs:string"/>
+											<xs:element name="LapsedReasonCode" type="xs:string"/>
+											<xs:element name="LapsedReasonDescription" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimDetailsRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ClaimKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimDetailsResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="ClaimDetails" type="tns:BaseGetClaimDetailsType"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimDetailsType">
+		<xs:sequence>
+			<xs:element name="ClaimDetails">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:BaseClaimType">
+							<xs:sequence>
+								<xs:element name="ClaimKey" type="xs:int"/>
+								<xs:element name="BaseClaimKey" type="xs:int"/>
+								<xs:element name="InsuranceFileKey" type="xs:int"/>
+								<xs:element name="RiskKey" type="xs:int"/>
+								<xs:element name="CurrencyCode" type="xs:string"/>
+								<xs:element name="UnderwritingYearCode" type="xs:string"/>
+								<xs:element name="GisScreenCode" type="xs:string"/>
+								<xs:element name="ClaimNumber" type="xs:string"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClaimPeril" type="tns:BaseGetClaimPerilDetailsType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimPaymentDetailsType">
+		<xs:sequence>
+			<xs:element name="BaseClaimPaymentKey" type="xs:int"/>
+			<xs:element name="PaymentDate" type="xs:date"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="PaymentPartyType" type="xs:string"/>
+			<xs:element name="PaymentAmount" type="xs:decimal"/>
+			<xs:element name="TaxAmount" type="xs:decimal"/>
+			<xs:element name="IsReferred" type="xs:boolean"/>
+			<xs:element name="AdvancedTaxDetails" type="tns:BaseClaimPaymentAdvancedTaxDetailsType" minOccurs="0"/>
+			<xs:element name="Payee" type="tns:BaseClaimPayeeType"/>
+			<xs:element name="ClaimPaymentItems" type="tns:BaseGetClaimPaymentItemDetailsType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimPaymentItemDetailsType">
+		<xs:sequence>
+			<xs:element name="BaseClaimPaymentItemKey" type="xs:int"/>
+			<xs:element name="BaseReserveKey" type="xs:int"/>
+			<xs:element name="BaseRecoveryKey" type="xs:int"/>
+			<xs:element name="PaymentAmount" type="xs:decimal"/>
+			<xs:element name="TaxAmount" type="xs:decimal"/>
+			<xs:element name="PaymentAdjustment" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimPaymentTaxGroupsRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="PaymentPartyType" type="tns:ClaimPaymentPartyTypeType"/>
+					<xs:element name="AdvancedTax" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="PayeeDomiciled" type="xs:boolean"/>
+								<xs:element name="PayeePercentage" type="xs:decimal"/>
+								<xs:element name="PayeeTaxNumber" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimPaymentTaxGroupsResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="TaxGroup" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Code" type="xs:string"/>
+											<xs:element name="Description" type="xs:string"/>
+											<xs:element name="IsWithholdingTax" type="xs:boolean"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimPaymentTaxesResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="TaxItems" type="tns:BaseClaimPaymentTaxItemType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Reserves" type="tns:BaseClaimPerilReservePaymentType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PaymentItems" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="tns:BaseClaimPaymentItemType">
+									<xs:sequence>
+										<xs:element name="TaxAmount" type="xs:decimal"/>
+										<xs:element name="PaymentAdjustment" type="xs:decimal"/>
+									</xs:sequence>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimPerilDetailsType">
+		<xs:sequence>
+			<xs:element name="ClaimPerilKey" type="xs:int"/>
+			<xs:element name="BaseClaimPerilKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="Description" type="xs:string"/>
+			<xs:element name="Comments" type="xs:string"/>
+			<xs:element name="SumInsured" type="xs:decimal"/>
+			<xs:element name="RIBand" type="xs:string"/>
+			<xs:element name="GisScreenCode" type="xs:string"/>
+			<xs:element name="Reserve" type="tns:BaseGetClaimReserveDetailsType" maxOccurs="unbounded"/>
+			<xs:element name="Recovery" type="tns:BaseGetClaimRecoveryDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimPayments" type="tns:BaseGetClaimPaymentDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ClaimReceipts" type="tns:BaseGetClaimReceiptDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimReceiptDetailsType">
+		<xs:sequence>
+			<xs:element name="BaseClaimReceiptKey" type="xs:int"/>
+			<xs:element name="ReceiptDate" type="xs:date"/>
+			<xs:element name="PartyKey" type="xs:int"/>
+			<xs:element name="ReceiptPartyType" type="xs:string"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="ReceiptAmount" type="xs:decimal"/>
+			<xs:element name="TaxAmount" type="xs:decimal"/>
+			<xs:element name="Payee" type="tns:BaseClaimPayeeType"/>
+			<xs:element name="AdvancedTax" type="tns:BaseClaimReceiptAdvancedTaxDetailsType"/>
+			<xs:element name="ReceiptItem" type="tns:BaseGetClaimReceiptItemDetailsType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimReceiptItemDetailsType">
+		<xs:sequence>
+			<xs:element name="BaseClaimReceiptItemKey" type="xs:int"/>
+			<xs:element name="BaseRecoveryKey" type="xs:int"/>
+			<xs:element name="BaseReserveKey" type="xs:int"/>
+			<xs:element name="ReceiptAmount" type="xs:decimal"/>
+			<xs:element name="TaxAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimReceiptTaxGroupsRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="TypeCode" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimReceiptTaxGroupsResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseGetClaimPaymentTaxGroupsResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimReceiptTaxesResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="TaxItems" type="tns:BaseClaimReceiptTaxItemType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Recoveries" type="tns:BaseClaimPerilRecoveryReceiptType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ReceiptItems" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="tns:BaseClaimReceiptItemType">
+									<xs:sequence>
+										<xs:element name="TaxAmount" type="xs:decimal"/>
+									</xs:sequence>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ReceiptToLossExchangeRate" type="xs:decimal"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimRecoveryDetailsType">
+		<xs:sequence>
+			<xs:element name="BaseRecoveryKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="InitialRecovery" type="xs:decimal"/>
+			<xs:element name="RevisedRecovery" type="xs:decimal"/>
+			<xs:element name="ReceiptedAmount" type="xs:decimal"/>
+			<xs:element name="ReceiptedTaxAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimReserveDetailsType">
+		<xs:sequence>
+			<xs:element name="BaseReserveKey" type="xs:int"/>
+			<xs:element name="TypeCode" type="xs:string"/>
+			<xs:element name="SumInsured" type="xs:decimal"/>
+			<xs:element name="InitialReserve" type="xs:decimal"/>
+			<xs:element name="RevisedReserve" type="xs:decimal"/>
+			<xs:element name="PaidAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimRiskLinksRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimRiskLinksResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="PerilType" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Code" type="xs:string"/>
+								<xs:element name="Description" type="xs:string"/>
+								<xs:element name="SumInsured" type="xs:decimal"/>
+								<xs:element name="ReserveType" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Code" type="xs:string"/>
+											<xs:element name="Description" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="RecoveryType" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Code" type="xs:string"/>
+											<xs:element name="Description" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="BaseClaimKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetClaimsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Claims" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="ClaimKey" type="xs:int"/>
+											<xs:element name="ClaimNumber" type="xs:string"/>
+											<xs:element name="PolicyNumber" type="xs:string"/>
+											<xs:element name="ClaimStatus" type="xs:string"/>
+											<xs:element name="Regarding" type="xs:string"/>
+											<xs:element name="Handler" type="xs:string"/>
+											<xs:element name="PrimaryCause" type="xs:string"/>
+											<xs:element name="LossDate" type="xs:dateTime"/>
+											<xs:element name="ReportedDate" type="xs:dateTime"/>
+											<xs:element name="Insurer" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetCurrenciesByBranchRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetCurrenciesByBranchResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Currencies" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="CurrencyCode" type="xs:string"/>
+											<xs:element name="Description" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetValidPrimaryCausesRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetValidPrimaryCausesResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="PrimaryCauses" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="code" type="xs:string"/>
+											<xs:element name="description" type="xs:string"/>
+											<xs:element name="primary_cause_id" type="xs:int"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDatasetDefinitionRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="DataModelCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDatasetDefinitionResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="XMLDatasetDefinition" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDatasetSchemaRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="DataModelCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDatasetSchemaResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="DatasetSchema" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDefaultDatasetRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ScreenCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDefaultDatasetResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDocumentListRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDocumentListResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Documents" type="BaseDocumentType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDocumentRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="DocNum" type="xs:int"/>
+					<xs:element name="Compress" type="xs:boolean"/>
+					<xs:element name="ConvertPdf" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetDocumentResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="PdfDocument" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetExistingInstalmentPlanPaymentDetailsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetExistingInstalmentPlanPaymentDetailsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="BankName" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankSortCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankAccountNo" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankAccountName" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankBranch" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankAddress" type="BaseAddressType" minOccurs="0"/>
+					<xs:element name="BankAreaCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankPhone" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankExtn" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankFaxCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankFax" type="xs:string" minOccurs="0"/>
+					<xs:element name="PFRF_ID" type="xs:int"/>
+					<xs:element name="CreditCard" type="tns:BaseCreditCardType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetHeaderAndSummariesByKeyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetHeaderAndSummariesByRefRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceRef" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetHeaderAndSummariesResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="CoverStartDate" type="xs:dateTime"/>
+					<xs:element name="CoverEndDate" type="xs:dateTime"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="ProductCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="InsuranceFileRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteExpiryDate" type="xs:dateTime"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="QuoteIsLocked" type="xs:boolean"/>
+					<xs:element name="Risks" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="RiskKey" type="xs:int"/>
+											<xs:element name="RiskFolderKey" type="xs:int"/>
+											<xs:element name="RiskTypeCode" type="xs:string"/>
+											<xs:element name="Description" type="xs:string" minOccurs="0"/>
+											<xs:element name="TotalSumInsured" type="xs:double" minOccurs="0"/>
+											<xs:element name="Premium" type="xs:double" minOccurs="0"/>
+											<xs:element name="StatusCode" type="xs:string" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="ConsolidatedLeadAgentCommission" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ConsolidatedSubAgentCommission" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CurrencyCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="ThisPremium" type="xs:double" minOccurs="0"/>
+					<xs:element name="AnnualPremium" type="xs:double" minOccurs="0"/>
+					<xs:element name="NetPremium" type="xs:double" minOccurs="0"/>
+					<xs:element name="TaxAmount" type="xs:double" minOccurs="0"/>
+					<xs:element name="PolicyLevelTaxesAndFees" type="BaseTaxesAndFeesType" minOccurs="0"/>
+					<xs:element name="AlternativeRef" type="xs:string"/>
+					<xs:element name="RenewalStatusTypeCode" type="xs:string"/>
+					<xs:element name="RenewalStatusTypeDescription" type="xs:string"/>
+					<xs:element name="LapsedReasonCode" type="xs:string"/>
+					<xs:element name="LapsedReasonDescription" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetHistoricalTransactionsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetHistoricalTransactionsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Transactions" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="DocumentKey" type="xs:int"/>
+											<xs:element name="TransactionDate" type="xs:dateTime"/>
+											<xs:element name="EffectiveDate" type="xs:dateTime"/>
+											<xs:element name="DocRef" type="xs:string"/>
+											<xs:element name="Reference" type="xs:string"/>
+											<xs:element name="Amount" type="xs:double"/>
+											<xs:element name="ISO" type="xs:string"/>
+											<xs:element name="PaidDate" type="xs:dateTime"/>
+											<xs:element name="Reason" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetInstalmentQuotesRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="QuoteDate" type="xs:dateTime"/>
+					<xs:element name="StartDate" type="xs:dateTime"/>
+					<xs:element name="EndDate" type="xs:dateTime"/>
+					<xs:element name="PreferredDate" type="xs:dateTime"/>
+					<xs:element name="MonthDay" type="xs:int"/>
+					<xs:element name="WeekDay" type="xs:int"/>
+					<xs:element name="AmountToFinance" type="xs:double"/>
+					<xs:element name="PaymentProtection" type="xs:boolean"/>
+					<xs:element name="OverrideRate" type="xs:double"/>
+					<xs:element name="OverrideInterestRate" type="xs:double"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetInstalmentQuotesResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Quotes" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="CompanyNo" type="xs:int"/>
+											<xs:element name="CompanyName" type="xs:string"/>
+											<xs:element name="SchemeNo" type="xs:int"/>
+											<xs:element name="SchemeVersion" type="xs:int"/>
+											<xs:element name="SchemeName" type="xs:string"/>
+											<xs:element name="FrequencyID" type="xs:int"/>
+											<xs:element name="FrequencyDescription" type="xs:string"/>
+											<xs:element name="MediaTypeID" type="xs:int"/>
+											<xs:element name="MediaTypeDescription" type="xs:string"/>
+											<xs:element name="ProductClass" type="xs:string"/>
+											<xs:element name="ProductCode" type="xs:string"/>
+											<xs:element name="TotalAmountInput" type="xs:double"/>
+											<xs:element name="InstalmentsToPay" type="xs:int"/>
+											<xs:element name="FirstInstalmentDate" type="xs:dateTime"/>
+											<xs:element name="NextInstalmentDate" type="xs:dateTime"/>
+											<xs:element name="LastInstalmentDate" type="xs:dateTime"/>
+											<xs:element name="FirstInstalmentAmount" type="xs:double"/>
+											<xs:element name="OtherInstalmentAmount" type="xs:double"/>
+											<xs:element name="TotalInstalmentsAmount" type="xs:double"/>
+											<xs:element name="AprRate" type="xs:double"/>
+											<xs:element name="InterestRate" type="xs:double"/>
+											<xs:element name="DaysDelay" type="xs:int"/>
+											<xs:element name="DepositAmount" type="xs:double"/>
+											<xs:element name="InterestAmount" type="xs:double"/>
+											<xs:element name="TaxAmount" type="xs:double"/>
+											<xs:element name="FinanceCharge" type="xs:double"/>
+											<xs:element name="ProtectionAmount" type="xs:double"/>
+											<xs:element name="OriginalOtherInstalmentAmount" type="xs:double"/>
+											<xs:element name="HighlightCell" type="xs:int"/>
+											<xs:element name="SchemeTypeCode" type="xs:string"/>
+											<xs:element name="MediaTypeValidation" type="xs:string"/>
+											<xs:element name="FrequencyPerYear" type="xs:int"/>
+											<xs:element name="PFRF_ID" type="xs:int"/>
+											<xs:element name="FrequencyPeriod" type="xs:string"/>
+											<xs:element name="FrequencyAmount" type="xs:double"/>
+											<xs:element name="OriginalAmount" type="xs:double"/>
+											<xs:element name="ClaimDebtID" type="xs:int"/>
+											<xs:element name="UserID" type="xs:string"/>
+											<xs:element name="AgentCnt" type="xs:int"/>
+											<xs:element name="AgentRef" type="xs:string"/>
+											<xs:element name="LastInstalmentAmount" type="xs:double"/>
+											<xs:element name="Username" type="xs:string"/>
+											<xs:element name="Password" type="xs:string"/>
+											<xs:element name="BrokerID" type="xs:string"/>
+											<xs:element name="BrokerURL" type="xs:string"/>
+											<xs:element name="Timeout" type="xs:int"/>
+											<xs:element name="ProviderCode" type="xs:string"/>
+											<xs:element name="Terms" type="xs:string"/>
+											<xs:element name="Ref" type="xs:string"/>
+											<xs:element name="OriginalRate" type="xs:double"/>
+											<xs:element name="RefundType" type="xs:int"/>
+											<xs:element name="MinMTA" type="xs:int"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetListRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ListType" type="STSListType"/>
+					<xs:element name="ListCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetListResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="List" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Key" type="xs:int"/>
+											<xs:element name="Description" type="xs:string"/>
+											<xs:element name="Code" type="xs:string"/>
+											<xs:element name="EffectiveDate" type="xs:dateTime"/>
+											<xs:element name="IsDeleted" type="xs:boolean"/>
+											<xs:element name="ParentKey" type="xs:int" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetOnlineClientListRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ChangedAfterDateTime" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetOnlineClientListResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Clients" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PartyKey" type="xs:int"/>
+											<xs:element name="EmailAddress" type="xs:string" minOccurs="0"/>
+											<xs:element name="OnlineAccess" type="xs:boolean"/>
+											<xs:element name="ResolvedName" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetOpenTransactionsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetOpenTransactionsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="Transactions" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="DocumentKey" type="xs:int"/>
+											<xs:element name="TransactionDate" type="xs:dateTime"/>
+											<xs:element name="EffectiveDate" type="xs:dateTime"/>
+											<xs:element name="DocRef" type="xs:string"/>
+											<xs:element name="Reference" type="xs:string"/>
+											<xs:element name="Amount" type="xs:double"/>
+											<xs:element name="ISO" type="xs:string"/>
+											<xs:element name="PaidDate" type="xs:dateTime"/>
+											<xs:element name="OSAmount" type="xs:double"/>
+											<xs:element name="Reason" type="xs:string"/>
+											<xs:element name="Balance" type="xs:double"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetOptionSettingRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="OptionType" type="OptionType"/>
+					<xs:element name="OptionNumber" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetOptionSettingResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="OptionValue" type="xs:string"/>
+					<xs:element name="UnderwritingType" type="xs:string" minOccurs="0"/>
+					<xs:element name="AccountType" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetPartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetPartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="PersoanlClient" type="BasePartyPCType"/>
+						<xs:element name="CorporateClient" type="BasePartyCCType"/>
+						<xs:element name="OtherParty" type="BasePartyOTHERType"/>
+					</xs:choice>
+					<xs:element name="PartyTimestamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetPartySummaryRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetPartySummaryResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="PersoanlClient" type="BasePartyPCType"/>
+						<xs:element name="CorporateClient" type="BasePartyCCType"/>
+					</xs:choice>
+					<xs:element name="Policies" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="InsuranceFileId" type="xs:int"/>
+											<xs:element name="BranchKey" type="xs:int"/>
+											<xs:element name="BranchCode" type="xs:string"/>
+											<xs:element name="InsuranceFileKey" type="xs:int"/>
+											<xs:element name="PolicyRef" type="xs:string"/>
+											<xs:element name="InsuranceFolderKey" type="xs:int"/>
+											<xs:element name="PolicyTypeId" type="xs:int" minOccurs="0"/>
+											<xs:element name="LeadInsurerKey" type="xs:int" minOccurs="0"/>
+											<xs:element name="DateIssued" type="xs:dateTime" minOccurs="0"/>
+											<xs:element name="CoverStartDate" type="xs:dateTime" minOccurs="0"/>
+											<xs:element name="ExpiryDate" type="xs:dateTime" minOccurs="0"/>
+											<xs:element name="RenewalDate" type="xs:dateTime" minOccurs="0"/>
+											<xs:element name="InsuredKey" type="xs:int" minOccurs="0"/>
+											<xs:element name="ProductKey" type="xs:int"/>
+											<xs:element name="LeadAgentKey" type="xs:int" minOccurs="0"/>
+											<xs:element name="ThisPremium" type="xs:double" minOccurs="0"/>
+											<xs:element name="AnnualPremium" type="xs:double" minOccurs="0"/>
+											<xs:element name="NetPremium" type="xs:double" minOccurs="0"/>
+											<xs:element name="TaxAmount" type="xs:double" minOccurs="0"/>
+											<xs:element name="GeminiPolicyStatus" type="xs:int" minOccurs="0"/>
+											<xs:element name="PartyShortname" type="xs:string"/>
+											<xs:element name="ProductCode" type="xs:string"/>
+											<xs:element name="ProductDesc" type="xs:string"/>
+											<xs:element name="InsuranceFileTypeCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="PolicyStatusCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="InsurerShortName" type="xs:string" minOccurs="0"/>
+											<xs:element name="AgentShortName" type="xs:string" minOccurs="0"/>
+											<xs:element name="PolicyTypeCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="PolicyTypeDesc" type="xs:string" minOccurs="0"/>
+											<xs:element name="CurrencyCode" type="xs:string" minOccurs="0"/>
+											<xs:element name="AlternativeRef" type="xs:string"/>
+											<xs:element name="RenewalStatusTypeCode" type="xs:string"/>
+											<xs:element name="RenewalStatusTypeDescription" type="xs:string"/>
+											<xs:element name="LapsedReasonCode" type="xs:string"/>
+											<xs:element name="LapsedReasonDescription" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PartyTimestamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetPoliciesInRenewalRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="AgentKey" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetPoliciesInRenewalResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Policies" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="PartyKey" type="xs:int"/>
+											<xs:element name="PartyName" type="xs:string"/>
+											<xs:element name="InsuranceFolderKey" type="xs:int"/>
+											<xs:element name="InsuranceFileKey" type="xs:int"/>
+											<xs:element name="InsuranceFileRef" type="xs:string"/>
+											<xs:element name="InsuranceFileStatusCode" type="xs:string"/>
+											<xs:element name="InsuranceFileStatusDescription" type="xs:string"/>
+											<xs:element name="InsuranceFileTypeCode" type="xs:string"/>
+											<xs:element name="InsuranceFileTypeDescription" type="xs:string"/>
+											<xs:element name="ProductCode" type="xs:string"/>
+											<xs:element name="RenewalPremium" type="xs:decimal"/>
+											<xs:element name="RenewalDate" type="xs:dateTime"/>
+											<xs:element name="RenewalStatusCode" type="xs:string"/>
+											<xs:element name="CoverStartDate" type="xs:dateTime"/>
+											<xs:element name="CoverEndDate" type="xs:dateTime"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetProductByAgentRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetProductByAgentResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Products" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="ProductKey" type="xs:int"/>
+											<xs:element name="ProductCode" type="xs:string"/>
+											<xs:element name="Description" type="xs:string"/>
+											<xs:element name="SchemeAgencyRef" type="xs:string" minOccurs="0"/>
+											<xs:element name="BlockNumber" type="xs:string" minOccurs="0"/>
+											<xs:element name="ConsolidatedLeadAgentCommission" type="xs:boolean"/>
+											<xs:element name="ConsolidatedSubAgentCommission" type="xs:boolean"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRatingDetailsRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRatingDetailsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="RatingDetails" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="RatingSectionType" type="xs:string"/>
+											<xs:element name="PolicySectionType" type="xs:string"/>
+											<xs:element name="RateType" type="xs:string"/>
+											<xs:element name="AnnualRate" type="xs:decimal"/>
+											<xs:element name="SumInsured" type="xs:decimal"/>
+											<xs:element name="ThisPremium" type="xs:decimal"/>
+											<xs:element name="AnnualPremium" type="xs:decimal"/>
+											<xs:element name="Country" type="xs:string"/>
+											<xs:element name="State" type="xs:string"/>
+											<xs:element name="RatingSectionId" type="xs:int"/>
+											<xs:element name="RatingSectionTypeId" type="xs:int"/>
+											<xs:element name="PolicySectionTypeId" type="xs:int"/>
+											<xs:element name="RateTypeId" type="xs:int"/>
+											<xs:element name="OriginalFlag" type="xs:int"/>
+											<xs:element name="CurrencyId" type="xs:int"/>
+											<xs:element name="CountryId" type="xs:int"/>
+											<xs:element name="StateId" type="xs:int"/>
+											<xs:element name="IsAmended" type="xs:int"/>
+											<xs:element name="CalculatedPremium" type="xs:decimal"/>
+											<xs:element name="OverrideReason" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRenewalStatusRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRenewalStatusResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence minOccurs="0">
+					<xs:element name="RenewalStatusTypeCode" type="xs:string"/>
+					<xs:element name="RenewalStatusTypeDescription" type="xs:string"/>
+					<xs:element name="RenewalStatusKey" type="xs:int"/>
+					<xs:element name="InsuranceHolderKey" type="xs:int"/>
+					<xs:element name="LeadAgentKey" type="xs:int"/>
+					<xs:element name="DateCreated" type="xs:dateTime"/>
+					<xs:element name="CriticalDate" type="xs:dateTime"/>
+					<xs:element name="IsInvitePrinted" type="xs:int"/>
+					<xs:element name="OriginalInsuranceFileKey" type="xs:int"/>
+					<xs:element name="DateInvitePrinted" type="xs:dateTime"/>
+					<xs:element name="RenewalExceptionNotes" type="xs:string"/>
+					<xs:element name="EmailSent" type="xs:string"/>
+					<xs:element name="EmailSentDate" type="xs:dateTime"/>
+					<xs:element name="ProductCode" type="xs:string"/>
+					<xs:element name="RenewalExceptionReasonCode" type="xs:string"/>
+					<xs:element name="RenewalExceptionReasonDescription" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRiskByProductRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ProductCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRiskByProductResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Risks" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence maxOccurs="unbounded">
+								<xs:element name="Row">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="RiskTypeKey" type="xs:int"/>
+											<xs:element name="RiskTypeCode" type="xs:string"/>
+											<xs:element name="Description" type="xs:string"/>
+											<xs:element name="ScreenKey" type="xs:int"/>
+											<xs:element name="DataModelCode" type="xs:string"/>
+											<xs:element name="ScreenCode" type="xs:string"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="PremiumDueNet" type="xs:decimal"/>
+					<xs:element name="PremiumDueTax" type="xs:decimal"/>
+					<xs:element name="PremiumDueGross" type="xs:decimal"/>
+					<xs:element name="TotalAnnualTax" type="xs:decimal"/>
+					<xs:element name="CommissionAmount" type="xs:decimal"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="PolicyLevelTax" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="PolicyLevelTaxesAndFees" type="BaseTaxesAndFeesType" minOccurs="0"/>
+					<xs:element name="RiskLevelTaxesAndFees" type="BaseTaxesAndFeesType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseGetUserDetailsRequestType" mixed="false"/>
+	<xs:complexType name="BaseGetUserDetailsResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="PasswordChangeDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="LastLogin" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="FullUsername" type="xs:string" minOccurs="0"/>
+					<xs:element name="EmailAddress" type="xs:string" minOccurs="0"/>
+					<xs:element name="PartyKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="PartyName" type="xs:string" minOccurs="0"/>
+					<xs:element name="PartyType" type="xs:string" minOccurs="0"/>
+					<xs:element name="SourceList" type="tns:BaseBranchType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ConsolidatedAgentCommission" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseInstalmentQuoteType" mixed="false">
+		<xs:sequence>
+			<xs:element name="CompanyNo" type="xs:int"/>
+			<xs:element name="CompanyName" type="xs:string"/>
+			<xs:element name="SchemeNo" type="xs:int"/>
+			<xs:element name="SchemeVersion" type="xs:int"/>
+			<xs:element name="SchemeName" type="xs:string"/>
+			<xs:element name="FrequencyID" type="xs:int"/>
+			<xs:element name="FrequencyDescription" type="xs:string"/>
+			<xs:element name="MediaTypeID" type="xs:int"/>
+			<xs:element name="MediaTypeDescription" type="xs:string"/>
+			<xs:element name="ProductClass" type="xs:string"/>
+			<xs:element name="ProductCode" type="xs:string"/>
+			<xs:element name="TotalAmountInput" type="xs:double"/>
+			<xs:element name="InstalmentsToPay" type="xs:int"/>
+			<xs:element name="FirstInstalmentDate" type="xs:dateTime"/>
+			<xs:element name="NextInstalmentDate" type="xs:dateTime"/>
+			<xs:element name="LastInstalmentDate" type="xs:dateTime"/>
+			<xs:element name="FirstInstalmentAmount" type="xs:double"/>
+			<xs:element name="OtherInstalmentAmount" type="xs:double"/>
+			<xs:element name="TotalInstalmentsAmount" type="xs:double"/>
+			<xs:element name="AprRate" type="xs:double"/>
+			<xs:element name="InterestRate" type="xs:double"/>
+			<xs:element name="DaysDelay" type="xs:int"/>
+			<xs:element name="DepositAmount" type="xs:double"/>
+			<xs:element name="InterestAmount" type="xs:double"/>
+			<xs:element name="TaxAmount" type="xs:double"/>
+			<xs:element name="FinanceCharge" type="xs:double"/>
+			<xs:element name="ProtectionAmount" type="xs:double"/>
+			<xs:element name="OriginalOtherInstalmentAmount" type="xs:double"/>
+			<xs:element name="HighlightCell" type="xs:int"/>
+			<xs:element name="SchemeTypeCode" type="xs:string"/>
+			<xs:element name="MediaTypeValidation" type="xs:string"/>
+			<xs:element name="FrequencyPerYear" type="xs:int"/>
+			<xs:element name="PFRF_ID" type="xs:int"/>
+			<xs:element name="FrequencyPeriod" type="xs:string"/>
+			<xs:element name="FrequencyAmount" type="xs:double"/>
+			<xs:element name="OriginalAmount" type="xs:double"/>
+			<xs:element name="ClaimDebtID" type="xs:int"/>
+			<xs:element name="UserID" type="xs:string"/>
+			<xs:element name="AgentCnt" type="xs:int"/>
+			<xs:element name="AgentRef" type="xs:string"/>
+			<xs:element name="LastInstalmentAmount" type="xs:double"/>
+			<xs:element name="Username" type="xs:string"/>
+			<xs:element name="Password" type="xs:string"/>
+			<xs:element name="BrokerID" type="xs:string"/>
+			<xs:element name="BrokerURL" type="xs:string"/>
+			<xs:element name="Timeout" type="xs:int"/>
+			<xs:element name="ProviderCode" type="xs:string"/>
+			<xs:element name="Terms" type="xs:string"/>
+			<xs:element name="Ref" type="xs:string"/>
+			<xs:element name="OriginalRate" type="xs:double"/>
+			<xs:element name="RefundType" type="xs:int"/>
+			<xs:element name="MinMTA" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseLapseRenewalRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="LapseReasonCode" type="xs:string"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseLapseRenewalResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseLogoffRequestType" mixed="false"/>
+	<xs:complexType name="BaseLogoffResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasePartyCCType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BasePartyType">
+				<xs:sequence>
+					<xs:element name="CompanyName" type="xs:string"/>
+					<xs:element name="BusinessCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="MainContact" type="xs:string" minOccurs="0"/>
+					<xs:element name="NumberOfOffices" type="xs:int" minOccurs="0"/>
+					<xs:element name="NumberOfEmployees" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasePartyOTHERType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BasePartyType">
+				<xs:sequence>
+					<xs:element name="Code" type="xs:string"/>
+					<xs:element name="Name" type="xs:string"/>
+					<xs:element name="TypeCode" type="xs:string"/>
+					<xs:element name="LicenseTypeCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="LicenseNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="DateOfBirth" type="xs:string" minOccurs="0"/>
+					<xs:element name="Gender" type="xs:string" minOccurs="0"/>
+					<xs:element name="DriverStatusCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="RegNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="Conviction" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="ConvictionKey" type="xs:int"/>
+								<xs:element name="TypeCode" type="xs:string"/>
+								<xs:element name="StatusCode" type="xs:string"/>
+								<xs:element name="Description" type="xs:string"/>
+								<xs:element name="Date" type="xs:date"/>
+								<xs:element name="FineAmount" type="xs:decimal" minOccurs="0"/>
+								<xs:element name="SentenceTypeCode" type="xs:string" minOccurs="0"/>
+								<xs:element name="SentenceDescription" type="xs:string" minOccurs="0"/>
+								<xs:element name="SentenceDuration" type="xs:decimal" minOccurs="0"/>
+								<xs:element name="SentenceDurationQualifier" type="xs:string" minOccurs="0"/>
+								<xs:element name="SentenceEffectiveDate" type="xs:date" minOccurs="0"/>
+								<xs:element name="AlcoholLevel" type="xs:decimal" minOccurs="0"/>
+								<xs:element name="AlcoholMeasurementMethod" type="xs:string" minOccurs="0"/>
+								<xs:element name="DrivingLicencePenaltyPoints" type="xs:decimal" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Accident" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AccidentKey" type="xs:int"/>
+								<xs:element name="Date" type="xs:date"/>
+								<xs:element name="Description" type="xs:string"/>
+								<xs:element name="IsAtFault" type="xs:boolean"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ActiveIndicator" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="AfterHoursIndicator" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="PriorityIndicator" type="xs:int" minOccurs="0"/>
+					<xs:element name="SupplierBusiness" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="BusinessCode" type="xs:string"/>
+								<xs:element name="SpecialityCode" type="xs:string" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasePartyPCType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BasePartyType">
+				<xs:sequence>
+					<xs:element name="Surname" type="xs:string"/>
+					<xs:element name="Forename" type="xs:string"/>
+					<xs:element name="DateOfBirth" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="Title" type="xs:string"/>
+					<xs:element name="MaritalStatusCode" type="MaritalStatusCodeType" minOccurs="0"/>
+					<xs:element name="GenderCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="Initials" type="xs:string"/>
+					<xs:element name="OccupationCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="EmployersBusinessCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="EmploymentStatusCode" type="EmploymentStatusCodeType" minOccurs="0"/>
+					<xs:element name="AlternativeId" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasePartyType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Addresses" type="BaseAddressWithContactsType" maxOccurs="unbounded"/>
+					<xs:element name="TPUserCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="TPIntroducer" type="xs:string" minOccurs="0"/>
+					<xs:element name="Contacts" type="BaseContactType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AccountExecutive" type="xs:string" minOccurs="0"/>
+					<xs:element name="Currency" type="xs:string" minOccurs="0"/>
+					<xs:element name="TaxNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="DomiciledForTax" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="TaxExempt" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="TaxPercentage" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="FileCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="XMLDataset" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasePostDocumentRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="DocumentType" type="DocumentTypeType"/>
+					<xs:element name="Transactions" type="BaseTransactionType" minOccurs="2" maxOccurs="unbounded"/>
+					<xs:element name="Comment" type="xs:string" minOccurs="0"/>
+					<xs:element name="DocumentTypeCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="DocumentReference" type="xs:string" minOccurs="0"/>
+					<xs:element name="SAMStagingPolicyKey" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BasePostDocumentResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="DocumentRef" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseQuoteRiskMsgType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseQuoteType">
+				<xs:sequence>
+					<xs:element name="PolicyVersion" type="xs:int"/>
+					<xs:element name="PolicyStatusCode" type="xs:string"/>
+					<xs:element name="FinanceCompanyNo" type="xs:int" minOccurs="0"/>
+					<xs:element name="FinanceSchemeNo" type="xs:int" minOccurs="0"/>
+					<xs:element name="FinanceSchemeVersion" type="xs:int" minOccurs="0"/>
+					<xs:element name="FinanceQuoteDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="FinanceStartDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="FinanceEndDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="FinancePreferredDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="DayOfWeekOrMonth" type="xs:int" minOccurs="0"/>
+					<xs:element name="AmountToFinance" type="xs:double" minOccurs="0"/>
+					<xs:element name="PaymentProtection" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="BankName" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankSortCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankAccountNo" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankAccountName" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankBranch" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankAddress" type="BaseAddressType" minOccurs="0"/>
+					<xs:element name="BankAreaCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankPhone" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankExtn" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankFaxCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="BankFax" type="xs:string" minOccurs="0"/>
+					<xs:element name="LapsedReasonCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="LapsedDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="LapsedReasonDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="InceptionDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="InceptionDateTPI" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="RenewalDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="AlternateReference" type="xs:string" minOccurs="0"/>
+					<xs:element name="OldPolicyNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="AccountExecutiveShortname" type="xs:string" minOccurs="0"/>
+					<xs:element name="AccountHandlerShortname" type="xs:string" minOccurs="0"/>
+					<xs:element name="PolicyVersionTypeCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="Risks" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="BaseRiskType">
+									<xs:sequence>
+										<xs:element name="SAMStagingRiskKey" type="xs:int"/>
+										<xs:element name="RatingSections" type="BaseRiskRatingSectionType" maxOccurs="unbounded"/>
+										<xs:element name="RIArrangement" type="BaseRiskRIArrangementType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Claim" minOccurs="0" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:extension base="BaseClaimOpenType">
+									<xs:sequence>
+										<xs:element name="SAMStagingClaimKey" type="xs:int"/>
+										<xs:element name="ClaimNumber" type="xs:string"/>
+									</xs:sequence>
+								</xs:extension>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="SAMStagingPolicyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseQuoteType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="CoverStartDate" type="xs:dateTime"/>
+					<xs:element name="CoverEndDate" type="xs:dateTime"/>
+					<xs:element name="ProductCode" type="xs:string"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuredName" type="xs:string" minOccurs="0"/>
+					<xs:element name="CurrencyCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="AgentKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="AnalysisCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="AlternativeRef" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseReceiptType">
+		<xs:sequence>
+			<xs:element name="BankAccountName" type="xs:string"/>
+			<xs:element name="CurrencyCode" type="xs:string"/>
+			<xs:element name="ReceiptTypeCode" type="xs:string"/>
+			<xs:element name="MediaTypeCode" type="xs:string"/>
+			<xs:element name="TransactionDate" type="xs:date"/>
+			<xs:element name="Amount" type="xs:double"/>
+			<xs:element name="CashListRef" type="xs:string" minOccurs="0"/>
+			<xs:element name="MediaTypeIssuerCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="MediaReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="OurReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="TheirReference" type="xs:string" minOccurs="0"/>
+			<xs:element name="ContactName" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address1" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address2" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address3" type="xs:string" minOccurs="0"/>
+			<xs:element name="Address4" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="ChequeName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ChequeDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="CCName" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCExpiryDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCStartDate" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCIssue" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCPin" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCAuthCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCManualAuthCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCTransactionCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CCCustomer" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseReplacePartyContactRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="Contacts" type="BaseContactType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PartyKey" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseReplacePartyContactResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRequestType" abstract="true">
+		<xs:sequence>
+			<xs:element name="BranchCode" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseResponseType" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="SAMMethodResponseData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRiskRIArrangementLineType" mixed="false">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string"/>
+			<xs:element name="TreatyCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="PartyKey" type="xs:int" minOccurs="0"/>
+			<xs:element name="Retained" type="xs:double" minOccurs="0"/>
+			<xs:element name="DefaultSharePercent" type="xs:double"/>
+			<xs:element name="ThisSharePercent" type="xs:double"/>
+			<xs:element name="PremiumPercent" type="xs:double"/>
+			<xs:element name="CommissionPercent" type="xs:double"/>
+			<xs:element name="AgreementCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Priority" type="xs:int"/>
+			<xs:element name="NumberOfLines" type="xs:int"/>
+			<xs:element name="LowerLimit" type="xs:double" minOccurs="0"/>
+			<xs:element name="LineLimit" type="xs:double"/>
+			<xs:element name="SumInsured" type="xs:double"/>
+			<xs:element name="PremiumValue" type="xs:double"/>
+			<xs:element name="CommissionValue" type="xs:double"/>
+			<xs:element name="PremiumTax" type="xs:double" minOccurs="0"/>
+			<xs:element name="CommissionTax" type="xs:double" minOccurs="0"/>
+			<xs:element name="ParticipationPercent" type="xs:double" minOccurs="0"/>
+			<xs:element name="Grouping" type="xs:int" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseRiskRIArrangementType" mixed="false">
+		<xs:sequence>
+			<xs:element name="RIBandCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="RIModelCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="SumInsured" type="xs:double"/>
+			<xs:element name="Premium" type="xs:double"/>
+			<xs:element name="OriginalFlag" type="xs:boolean"/>
+			<xs:element name="RIArrangementLine" type="BaseRiskRIArrangementLineType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseRiskRatingSectionType" mixed="false">
+		<xs:sequence>
+			<xs:element name="RatingSectionTypeCode" type="xs:string"/>
+			<xs:element name="SequenceNumber" type="xs:int"/>
+			<xs:element name="RateTypeCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="AnnualRate" type="xs:double"/>
+			<xs:element name="SumInsured" type="xs:double" minOccurs="0"/>
+			<xs:element name="AnnualPremium" type="xs:double" minOccurs="0"/>
+			<xs:element name="ThisPremium" type="xs:double" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="StateCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="OriginalFlag" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseRiskResultType" mixed="false">
+		<xs:sequence>
+			<xs:element name="RiskFolderID" type="xs:int"/>
+			<xs:element name="RiskID" type="xs:int"/>
+			<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+			<xs:element name="PremiumDueNet" type="xs:decimal"/>
+			<xs:element name="PremiumDueTax" type="xs:decimal"/>
+			<xs:element name="PremiumDueGross" type="xs:decimal"/>
+			<xs:element name="TotalAnnualTax" type="xs:decimal"/>
+			<xs:element name="CommissionAmount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseRiskType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="RiskTypeCode" type="xs:string"/>
+					<xs:element name="ScreenCode" type="xs:string"/>
+					<xs:element name="RiskDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="DataModelCode" type="xs:string"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="RunDefaultRules" type="xs:boolean"/>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunDefaultRulesAddRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ScreenCode" type="xs:string"/>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunDefaultRulesAddResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunDefaultRulesEditRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ClaimKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="ClaimPerilKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="ScreenCode" type="xs:string"/>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunDefaultRulesEditResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunValidationRulesRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="ClaimKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="ClaimPerilKey" type="xs:int" minOccurs="0"/>
+					<xs:element name="ScreenCode" type="xs:string"/>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunValidationRulesResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataset" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseSaveRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseSaveRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseSearchCriteriaType">
+		<xs:sequence>
+			<xs:element name="ObjectName" type="xs:string"/>
+			<xs:element name="PropertyName" type="xs:string"/>
+			<xs:element name="Value" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseSelectedInstalmentQuoteType" mixed="false">
+		<xs:sequence>
+			<xs:element name="SelectedSchemeNo" type="xs:int"/>
+			<xs:element name="SelectedSchemeVersion" type="xs:int"/>
+			<xs:element name="QuoteDate" type="xs:dateTime"/>
+			<xs:element name="StartDate" type="xs:dateTime"/>
+			<xs:element name="EndDate" type="xs:dateTime"/>
+			<xs:element name="PreferredDate" type="xs:dateTime"/>
+			<xs:element name="MonthDay" type="xs:int"/>
+			<xs:element name="WeekDay" type="xs:int"/>
+			<xs:element name="AmountToFinance" type="xs:double"/>
+			<xs:element name="PaymentProtection" type="xs:boolean"/>
+			<xs:element name="OverrideRate" type="xs:double"/>
+			<xs:element name="OverrideInterestRate" type="xs:double"/>
+			<xs:element name="AmountPaid" type="xs:double"/>
+			<xs:element name="BankName" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankSortCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankAccountNo" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankAccountName" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankBranch" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankAddress" type="BaseAddressType" minOccurs="0"/>
+			<xs:element name="BankAreaCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankPhone" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankExtn" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankFaxCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="BankFax" type="xs:string" minOccurs="0"/>
+			<xs:element name="PFRF_ID" type="xs:int"/>
+			<xs:element name="CreditCard" type="tns:BaseCreditCardType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseSimpleAddressType">
+		<xs:sequence>
+			<xs:element name="AddressLine1" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine2" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine3" type="xs:string" minOccurs="0"/>
+			<xs:element name="AddressLine4" type="xs:string" minOccurs="0"/>
+			<xs:element name="PostCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseTaxesAndFeesType">
+		<xs:sequence>
+			<xs:element name="Fees" type="BaseFeesType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Taxes" type="BaseTaxesType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseTaxesType">
+		<xs:sequence>
+			<xs:element name="Description" type="xs:string"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseTransactRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseTransactType">
+				<xs:sequence>
+					<xs:element name="Risks" type="BaseRiskType" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseTransactResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="Policy">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="PolicyRef" type="xs:string"/>
+								<xs:element name="PremiumDueNet" type="xs:decimal"/>
+								<xs:element name="PremiumDueTax" type="xs:decimal"/>
+								<xs:element name="PremiumDueGross" type="xs:decimal"/>
+								<xs:element name="TotalAnnualTax" type="xs:decimal"/>
+								<xs:element name="CommissionAmount" type="xs:decimal"/>
+								<xs:element name="PolicyLevelTaxesAndFees" type="BaseTaxesAndFeesType" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseTransactType" mixed="false">
+		<xs:sequence>
+			<xs:element name="QuoteRef" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseTransactionType">
+		<xs:sequence>
+			<xs:element name="AccountCode" type="xs:string"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+			<xs:element name="UnderwritingYearCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="Comment" type="xs:string" minOccurs="0"/>
+			<xs:element name="TransactionDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="PeriodID" type="xs:int" minOccurs="0"/>
+			<xs:element name="Username" type="xs:string" minOccurs="0"/>
+			<xs:element name="Reference" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateClaimRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseRequestType">
+				<xs:sequence>
+					<xs:element name="BaseClaimKey" type="xs:int"/>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateClaimRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="tns:BaseResponseType">
+				<xs:sequence>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdatePartyRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="PartyTimestamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:choice>
+						<xs:element name="PersonalClient" type="BasePartyPCType"/>
+						<xs:element name="CorporateClient" type="BasePartyCCType"/>
+						<xs:element name="OtherParty" type="BasePartyOTHERType"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdatePartyResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="PartyTimestamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdatePartyRiskRequestType">
+		<xs:complexContent>
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="PartyKey" type="xs:int"/>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdatePartyRiskResponseType">
+		<xs:complexContent>
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="XMLDataSet" type="xs:string"/>
+					<xs:element name="TimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateQuoteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="CoverStartDate" type="xs:dateTime"/>
+					<xs:element name="CoverEndDate" type="xs:dateTime"/>
+					<xs:element name="InsuredParties" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:any/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="CurrencyCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="AnalysisCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="ConsolidatedLeadAgentCommission" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="ConsolidatedSubAgentCommission" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="CoverNoteBookNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="CoverNoteSheetNumber" type="xs:int" minOccurs="0"/>
+					<xs:element name="AlternativeRef" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateQuoteResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateRenewalStatusRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RenewalStatusCode" type="xs:string"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateRenewalStatusResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateRiskRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="SubBranchCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="InsuranceFolderKey" type="xs:int"/>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="RiskKey" type="xs:int"/>
+					<xs:element name="ScreenCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="RiskDescription" type="xs:string" minOccurs="0"/>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="TransactionType" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseUpdateRiskResponseType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseResponseType">
+				<xs:sequence>
+					<xs:element name="PremiumDueNet" type="xs:decimal"/>
+					<xs:element name="PremiumDueTax" type="xs:decimal"/>
+					<xs:element name="PremiumDueGross" type="xs:decimal"/>
+					<xs:element name="TotalAnnualTax" type="xs:decimal"/>
+					<xs:element name="CommissionAmount" type="xs:decimal"/>
+					<xs:element name="XMLDataSet" type="xs:string" minOccurs="0"/>
+					<xs:element name="QuoteTimeStamp" type="xs:base64Binary" minOccurs="0"/>
+					<xs:element name="PolicyLevelTax" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="PolicyLevelFees" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="PolicyLevelTaxesAndFees" type="BaseTaxesAndFeesType" minOccurs="0"/>
+					<xs:element name="RiskLevelTaxesAndFees" type="BaseTaxesAndFeesType" minOccurs="0"/>
+					<xs:element name="ProRata" type="xs:int" minOccurs="0"/>
+					<xs:element name="ProRataRate" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="ProRataMessage" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SAMError" abstract="true"/>
+	<xs:complexType name="SAMErrorBusinessRule" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="tns:SAMError">
+				<xs:sequence>
+					<xs:element name="Code" type="xs:int"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="Detail" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SAMErrorFatal" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="SAMError">
+				<xs:sequence>
+					<xs:element name="Type" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SAMErrorInvalidData" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="tns:SAMError">
+				<xs:sequence>
+					<xs:element name="Code" type="xs:int"/>
+					<xs:element name="Reason" type="tns:SAMErrorCode"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+					<xs:element name="FieldName" type="xs:string" minOccurs="0"/>
+					<xs:element name="SuppliedValue" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SAMMethodResponseData">
+		<xs:sequence>
+			<xs:element name="Errors" type="tns:ArrayOfSAMError" minOccurs="0"/>
+			<xs:element name="HandlingInstanceID" type="msdt:guid"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BaseRunRenewalSelectionRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="BatchRenewalJobKey" type="xs:int"/>
+					<xs:element name="RecordsCount" type="xs:int"/>
+					<xs:element name="GUID" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunRenewalInviteRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="BatchRenewalJobKey" type="xs:int"/>
+					<xs:element name="RecordsCount" type="xs:int"/>
+					<xs:element name="GUID" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseRunRenewalAcceptRequestType" mixed="false">
+		<xs:complexContent mixed="false">
+			<xs:extension base="BaseRequestType">
+				<xs:sequence>
+					<xs:element name="InsuranceFileKey" type="xs:int"/>
+					<xs:element name="BatchRenewalJobKey" type="xs:int"/>
+					<xs:element name="RecordsCount" type="xs:int"/>
+					<xs:element name="GUID" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+  <!-- Start-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.1.1)-->
+  <xs:complexType name="BaseGetDefaultRiskClausesRequestType" mixed="false">
+    <xs:complexContent mixed="false">
+      <xs:extension base="BaseRequestType">
+        <xs:sequence>
+          <xs:element name="RiskTypeCode" type="xs:string"/>
+          <xs:element name="CurrentBranchCode" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- End-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.1.1)-->
+  <!-- Start-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.2.1)-->
+  <xs:complexType name="BaseGetDefaultRiskClausesResponseType" mixed="false">
+    <xs:complexContent mixed="false">
+      <xs:extension base="BaseResponseType">
+        <xs:sequence>
+          <xs:element name="Documents" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence maxOccurs="unbounded">
+                <xs:element name="Row">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="Code" type="xs:string"/>
+                      <xs:element name="Description" type="xs:string"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- End-(Arul Stephen)-(TechSpec WR6ClauseGrouping.doc)-(7.1.1.2.1)-->
+</xs:schema>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.aiasoftware.com/cloud/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.aiasoftware.com/cloud/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.aiasoftware.com/cloud/v1">
+      <xs:element name="ConvertWordToPDFV1Request">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="partner" type="tns:name" />
+            <xs:element name="customer" type="tns:name" />
+            <xs:element name="contracttypename" type="tns:name" />
+            <xs:element name="contracttypeversion" type="tns:version" />
+            <xs:element name="jobid" type="tns:jobid" />
+            <xs:element name="worddocument" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConvertWordToPDFV1Response">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="requestinfo">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="partner" type="tns:name" />
+                  <xs:element name="customer" type="tns:name" />
+                  <xs:element name="contracttypename" type="tns:name" />
+                  <xs:element name="contracttypeversion" type="tns:version" />
+                  <xs:element name="jobid" type="tns:jobid" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="result" type="xs:base64Binary" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AiaFaultV1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="errorcode" type="tns:errorcode" />
+            <xs:element name="message" type="tns:message" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="name">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="version">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^V[0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="jobid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="sessionid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[A-Za-z0-9\-]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ltburi">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^ltb:[/|\*].*$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="repositoryobjectname">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[^:?/&lt;&gt;*&quot;\\()]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="url">
+        <xs:restriction base="xs:anyURI" />
+      </xs:simpleType>
+      <xs:simpleType name="mimetype">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <xs:enumeration value="application/pdf" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="interactiveresult">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="document" />
+          <xs:enumeration value="session" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="message">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^.*$" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="errorcode">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="^[0-9]+$" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="ConvertWordToPDFV1RequestMsg">
+    <wsdl:part name="parameters" element="tns:ConvertWordToPDFV1Request" />
+  </wsdl:message>
+  <wsdl:message name="ConvertWordToPDFV1ResponseMsg">
+    <wsdl:part name="parameters" element="tns:ConvertWordToPDFV1Response" />
+  </wsdl:message>
+  <wsdl:message name="AiaFaultV1SoapFault">
+    <wsdl:part name="fault" element="tns:AiaFaultV1" />
+  </wsdl:message>
+  <wsdl:portType name="ITPInTheCloud">
+    <wsdl:operation name="ConvertWordToPDFV1">
+      <wsdl:input message="tns:ConvertWordToPDFV1RequestMsg" />
+      <wsdl:output message="tns:ConvertWordToPDFV1ResponseMsg" />
+      <wsdl:fault name="AiaFault" message="tns:AiaFaultV1SoapFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ITPInTheCloud" type="tns:ITPInTheCloud">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConvertWordToPDFV1">
+      <soap:operation soapAction="http://www.aiasoftware.com/cloud/v1/convertwordtopdf/v1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="AiaFault">
+        <soap:fault use="literal" name="AiaFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ITPCloudService">
+    <wsdl:documentation />
+    <wsdl:port name="ITPInTheCloud" binding="tns:ITPInTheCloud">
+      <soap:address location="http://lab2-pure-ccm.northeurope.cloudapp.azure.com:8081/ccm/wsdl" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

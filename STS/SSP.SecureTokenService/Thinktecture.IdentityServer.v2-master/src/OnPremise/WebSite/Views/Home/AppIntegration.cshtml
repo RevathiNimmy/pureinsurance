@@ -1,0 +1,32 @@
+﻿@using Thinktecture.IdentityServer.Web.App_LocalResources.Home
+@model Dictionary<string, string>
+
+@{
+    ViewBag.Title = AppIntegration_cshtml.ApplicationIntegration;
+}
+ <div class="container">
+      <div class="card m-t-lg">
+        <div class="card-heading">
+          <h1>@AppIntegration_cshtml.ApplicationIntegration</h1>
+        </div>
+        <div class="card-body clearfix">
+         <div class="grid-card table-responsive">
+        <table class="table table-striped m-b-none">
+          <tbody>
+               @foreach (var pair in Model)
+               {
+                    <tr>
+                      <th>
+                       @pair.Key
+                      </th>
+                      <td>@pair.Value</td>
+                   </tr> 
+               }
+          </tbody>
+        </table>
+      </div>
+        </div>
+      </div>
+   </div>
+
+

@@ -1,0 +1,47 @@
+' ---------------------------------------------------------------------------
+' SCRIPT NAME	: 	PAFWrapper
+' PURPOSE		:	To perform an address lookup to a 3rd party service provider. 
+' AUTHOR		: 	Prabodh Mishra
+' DATE			: 		04 Feb 2008
+' RETURNS		: 	oSharedStorage.vAddressArray 
+' ---------------------------------------------------------------------------
+
+' The following is provided as an example result structure.
+'**********************************************************
+Dim aAllLines(5, 1)
+
+aAllLines(0, 0) = "Address1"
+aAllLines(1, 0) = "Address2"
+aAllLines(2, 0) = "Address3"
+aAllLines(3, 0) = "Address4"
+aAllLines(4, 0) = "A00 0AA"
+aAllLines(5, 0) = "HeadOff"  
+
+aAllLines(0, 1) = "Address11"
+aAllLines(1, 1) = "Address21"
+aAllLines(2, 1) = "Address31"
+aAllLines(3, 1) = "Address41"
+aAllLines(4, 1) = "B00 0BB"
+aAllLines(5, 1) = "HeadOff"
+'**********************************************************
+
+Sub Start()
+	
+	' Entry point for Script from bPMAddressControl component
+	
+	' oSharedStorage object is already available with two incoming properties
+	' oSharedStorage.vPostCode = Postcode to search
+	' oSharedStorage.vAddressLine1 = Address Line1 to search
+	'
+	' Two return properties must be set once the script completes
+	'
+	' oSharedStorage.vValid must be set to True  
+	' oSharedStorage.vAddressArray = Return array
+	'
+	' This is just a template file for you to build your own localised validator
+	
+
+	oSharedStorage.vValid = True
+	oSharedStorage.vAddressArray = aAllLines
+	
+End Sub

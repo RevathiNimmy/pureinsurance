@@ -1,0 +1,79 @@
+<%@ Master Language="VB" CodeFile="home.master.vb" Inherits="Nexus.MasterPages_Demo_home" %>
+
+<%@ Register TagPrefix="CMS" Namespace="CMS.Library.Frontend" Assembly="CMS.Library" %>
+<%@ Register TagPrefix="Nexus" Namespace="Nexus" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>SSP - Pure Insurance</title>
+    <asp:ContentPlaceHolder ID="ScriptIncludes" runat="server">
+    </asp:ContentPlaceHolder>
+    <Nexus:Styles ID="Styles1" runat="server">        
+        <link href="%Theme/screen.css" rel="stylesheet" type="text/css" />
+        <!--<link href="%Theme/demo.css" rel="stylesheet" type="text/css" />-->
+        <link href="%Theme/External.css" rel="stylesheet" type="text/css" />
+        
+    </Nexus:Styles>
+    <script type="text/javascript" src="<%# ResolveClientUrl("~/js/jquery-1.11.1.js")%>"></script>
+    
+       
+
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager" runat="server" />
+    <div id="wrapper">
+        <div id="page" class="home-page">
+            <div id="account">
+            </div>
+            <div id="header">
+                <img id="Img1" src="~/App_Themes/External/images/ssp-logo.gif" alt="SSP" class="header-logo"
+                    runat="server" />
+                <ul id="global-nav" style="display: none">
+                    <li><a href="#">Make this my homepage</a></li>
+                    <li><a href="#">Site map</a></li>
+                    <li><a href="#">Bookmark</a></li>
+                    <li>
+                        <asp:HyperLink ID="hypTasks" runat="server" CssClass="thickbox">Tasks</asp:HyperLink></li>
+                </ul>
+                <div id="navigation-column">
+                    <asp:Panel ID="pnlCMSMenu" runat="server" Visible="true">
+                        <ul id="MainNav">
+                            <li class="active"><a href="index.html"><span>Home</span></a></li>
+                            <li><a href="blank.html"><span>About Us</span></a></li>
+                            <li><a href=""><span>Personal Lines</span></a></li>
+                            <li><a href=""><span>Business Lines</span></a></li>
+                            <li><a href=""><span>Specialist Products</span></a></li>
+                            <li class="last"><a href=""><span>Contact</span></a></li>
+                        </ul>
+                    </asp:Panel>
+                </div>
+            </div>
+            <asp:ContentPlaceHolder ID="cntLeftContent" runat="server" />
+            <asp:ContentPlaceHolder ID="cntProgressBar" runat="server" />
+            <div id="content">
+                <div id="nexus-container">
+                    <div class="home-cms">
+                        <asp:ContentPlaceHolder ID="cntMainBody" runat="server" />
+                    </div>
+                    <div class="home-login">
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+                <div class="footer-nav">
+                    <ul>
+                        <li><a id="A1" href="~/main.aspx?sitemap_id=43" runat="server">Terms &amp; Conditions</a></li>
+                        <li><a id="A2" href="~/main.aspx?sitemap_id=44" runat="server">Privacy &amp; Security
+                            Policy</a></li>
+                        <li><a id="A3" href="~/main.aspx?sitemap_id=45" runat="server">Accessibility</a></li>
+                    </ul>
+                    <p>
+                        &copy; Copyright SSP 2010</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>
