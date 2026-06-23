@@ -2086,12 +2086,12 @@ Namespace Nexus
                                     btnNext.Attributes.Add("onclick", "javascript:return PaymentConfirmation();")
                                 End If
 
-                                'in case of PayClaim - Show PaymentConfirmation Message at any stage of the claim builder page wherever user presses “Finish” button
+                                'in case of PayClaim - Show PaymentConfirmation Message at any stage of the claim builder page wherever user presses Â“FinishÂ” button
                                 If btnFinishClmBuilder IsNot Nothing Then
                                     btnFinishClmBuilder.Attributes.Add("onclick", "javascript:return FurtherPaymentsConfirmation();")
                                 End If
 
-                                ''in case of PayClaim -Show PaymentConfirmation Message at the last claim builder page in case of “Next Button”
+                                ''in case of PayClaim -Show PaymentConfirmation Message at the last claim builder page in case of Â“Next ButtonÂ”
                                 If String.IsNullOrEmpty(sNextPage) Or sNextPage = sParentTab Then
                                     If (Not iDepth > 1) Then
                                         If btnNextClmBuilder IsNot Nothing Then
@@ -2117,12 +2117,12 @@ Namespace Nexus
                                     btnFinish.Attributes.Add("onclick", "javascript:return ClaimCloseConfirmation();")
                                 End If
 
-                                'in case of PayClaim - Show CloseClaimConfirmation Message at any stage of the claim builder page wherever user presses “Finish” button
+                                'in case of PayClaim - Show CloseClaimConfirmation Message at any stage of the claim builder page wherever user presses Â“FinishÂ” button
                                 If btnFinishClmBuilder IsNot Nothing Then
                                     btnFinishClmBuilder.Attributes.Add("onclick", "javascript:return OnCliamBuilderClaimCloseConfirmation();")
                                 End If
 
-                                ''in case of PayClaim -Show CloseClaimConfirmation Message at the last claim builder page in case of “Next Button”
+                                ''in case of PayClaim -Show CloseClaimConfirmation Message at the last claim builder page in case of Â“Next ButtonÂ”
                                 If String.IsNullOrEmpty(sNextPage) Or sNextPage = sParentTab Then
                                     If (Not iDepth > 1) Then
                                         If btnNextClmBuilder IsNot Nothing Then
@@ -2162,12 +2162,12 @@ Namespace Nexus
                                 If btnFinish IsNot Nothing Then
                                     btnFinish.Attributes.Add("onclick", "javascript:return ClaimCloseConfirmation();")
                                 End If
-                                'in case of PayClaim - Show CloseClaimConfirmation Message at any stage of the claim builder page wherever user presses “Finish” button
+                                'in case of PayClaim - Show CloseClaimConfirmation Message at any stage of the claim builder page wherever user presses Â“FinishÂ” button
                                 If btnFinishClmBuilder IsNot Nothing Then
                                     btnFinishClmBuilder.Attributes.Add("onclick", "javascript:return OnCliamBuilderClaimCloseConfirmation();")
                                 End If
 
-                                ''in case of PayClaim -Show CloseClaimConfirmation Message at the last claim builder page in case of “Next Button”
+                                ''in case of PayClaim -Show CloseClaimConfirmation Message at the last claim builder page in case of Â“Next ButtonÂ”
                                 If String.IsNullOrEmpty(sNextPage) Or sNextPage = sParentTab Then
                                     If (Not iDepth > 1) Then
                                         If btnNextClmBuilder IsNot Nothing Then
@@ -2482,3 +2482,4 @@ Namespace Nexus
     End Class
 
 End Namespace
+#testingworkitemid
