@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Nexus")> 
 <Assembly: AssemblyCompany("SSP")> 
 <Assembly: AssemblyProduct("Nexus")> 
-<Assembly: AssemblyCopyright("Copyright © SSP 2009")> 
+<Assembly: AssemblyCopyright("Copyright Â© SSP 2009")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.2.0.0")> 
 <Assembly: AssemblyFileVersion("1.2.0.0")> 
+#codetestinggithub
